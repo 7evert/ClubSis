@@ -49,7 +49,7 @@ crashlytics-build.properties
 fabric.properties
 
 ### Intellij Patch ###
-*.iml
+# *.iml
 
 ### Java ###
 #*.class
