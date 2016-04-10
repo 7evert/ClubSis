@@ -1,4 +1,7 @@
 /**
  * Created by Sebastian on 09-Apr-16.
  */
-asdas
+
+ $(function(){
+     console.log("Entro al principal.js");
+ });
