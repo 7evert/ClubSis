@@ -22,9 +22,9 @@ html, body {
 }
 
 .menuPrincipal{
-    /*-fx-background-image: url('/img/Fondo/clubHD.png');
-    -fx-background-repeat: no-repeat;*/
-    background-image: url('/img/Fondo/clubHD.jpg');
+    background-image:url(Resources/Fondos/clubHD.jpg);
+    /*background-position:center;*/
+    /*    width:700px;*/
     height:800px;
 }
 
@@ -34,10 +34,10 @@ html, body {
 
 
 .navbar-default{
-    background-color: #0a7f29;
+    background-color: #8696A8;
     color: #fff;
-    border: #0a7f29;
-    box-shadow: 0 0 35px #010809;
+    border: #8696A8;
+    box-shadow: 0 0 50px #010809;
     margin-top: 40px;
     /*font-family: "Arial", Helvetica, sans-serif;*/
 }
@@ -45,24 +45,16 @@ html, body {
 .navbar-default .loginBanner{
     background-color: #fff;
     color: #fff;
-    border: #0a7f29;
-    box-shadow: 0 0 35px #010809;
+    border: #8696A8;
+    box-shadow: 0 0 50px #010809;
     margin-top: 40px;
     /*font-family: "Arial", Helvetica, sans-serif;*/
 }
 
 .navbar-default ul li{
-    background-color: #0a7f29;
+    background-color: #8696A8;
     color: #fff;
-    border-bottom: 1px solid #3A9853;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.navbar-default > .loginBannerMenu ul li{
-    background-color: #000;
-    color: #fff;
-    border-bottom: 1px solid #3A9853;
+    border-bottom: 1px solid #E6EAED;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -136,7 +128,6 @@ aside {
 
 footer {
     /*background-color:#16a085;*/
-    background-color: #000;
     color:#fff;
     /*font-family: "Times New Roman", Georgia, Serif;*/
     /*font-style: italic;*/
@@ -166,6 +157,9 @@ footer hr{
     height:300px;
 }
 
-.footer #footerPrincipal{
-    font-size: small;
-}
+/*A partir de aqui son las modificaciones del html del loginPrincipal salvo el color el navbar*/
+
+/* #usuario {
+	position: absolute;
+	bottom: 0;
+  }*/

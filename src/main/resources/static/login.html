@@ -5,16 +5,15 @@
     <title>ClubSis</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine">
-    <link rel="stylesheet" href="estilos.css">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="css/estiloLogin.css"/>
+    <div id="head"></div>
 </head>
 <body>
 <header>
     <div style="margin-top:4%" class="container">
         <div style="text-align:center" class="col-sm-12">
-            <a href="index.html"><img style="text-align:center" src="img/Logos/ClubSisIcon.png" title="ClubSis"></a>
+            <a href="index.html"><img style="text-align:center" src="img/Logos/ClubSis.png" title="ClubSis"></a>
             <!-- <p id="clubSis">ClubSis</p> -->
             <br/><br/>
         </div>
@@ -22,7 +21,7 @@
 </header>
 <div class="main">
     <div class="container">
-        <form action="loginPrincipal.html" method="post" accept-charset="utf-8" id="frmLogin" class="form-horizontal">
+        <div class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">Usuario</label>
                 <div class="col-sm-3">
@@ -39,8 +38,8 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-6 col-sm-4">
-                    <input type="submit" id="btnIngresar" value="Entrar" class="btn btn-primary">
-                    <input value="Cancelar" class="btn btn-primary">
+                    <button id="btnIngresar" class="btn btn-primary">Entrar</button>
+                    <button id="btnCancelar" class="btn btn-primary">Cancelar</button>
                 </div>
             </div>
             <div class="form-group">
@@ -49,16 +48,25 @@
                         su contraseña?</a>
                 </div>
             </div>
-        </form>
+        </div>
+
     </div>
 </div>
-<script src="js/jquery-1.12.2.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
 <script type="text/javascript">
     $("#btnIngresar").click(function () {
-        console.log("hola");
         var href = ($(this).attr('href'));
-        window.location = "loginPrincipal.html";
+        if($("#user").val()!="admin" && $("#password").val()!="admin")
+            window.location = "loginUsuario.html";
+        else
+            window.location="index.html"
+        return true;
+    })
+    $("#btnCancelar").click(function () {
+        var href = ($(this).attr('href'));
+        window.location = "index.html";
         return true;
     })
 </script>
