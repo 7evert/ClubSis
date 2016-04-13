@@ -17,54 +17,62 @@
                     <div class="page-header">
                         <h3 class="text-center">Registro de invitados </h3>
                     </div>
-                    <form class="form-horizontal">
+                    <div class="row">
+                    <div>
+                    <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
                         <div class="form-group">
                             <label class="col-xs-5 control-label">Nombre del Invitado:</label>
-                            <div class="col-xs-3">
+                            <div class="col-xs-7">
                                 <input type="text" name="nombre" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">DNI:</label>
-                            <div class="col-xs-3">
+                            <div class="col-xs-7">
                                 <input type="text" name="dni" maxlength="15" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-5" >Tiempo de Inicio:</label>
-                            <div class="col-xs-3 date">
+                            <div class="col-xs-7 date">
                                 <div class="input-group input-append date">
-                                    <input id="date-picker-1" type="text" class="date-picker form-control col-xs-6" />
-                                    <label for="date-picker-1" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                    <input id="date-picker-TiempoInicio" type="text" class="date-picker form-control col-xs-6" />
+                                    <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-5">Tiempo de Fin:</label>
-                            <div class="col-xs-3 date">
+                            <div class="col-xs-7 date">
                                 <div class="input-group input-append date">
-                                    <input id="date-picker-2" type="text" class="date-picker form-control col-xs-6" />
-                                    <label for="date-picker-2" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                    <input id="date-picker-TiempoFin" type="text" class="date-picker form-control col-xs-6" />
+                                    <label for="date-picker-TiempoFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">Confirmar contraseña</label>
-                            <div class="col-xs-3">
+                            <div class="col-xs-7">
                                 <input type="password" name="clave" maxlength="15" autofocus="autofocus" tabindex="2" placeholder="Password" class="form-control validate[required]"/>
                             </div>
                         </div>
                         <div class="col-xs-offset-5 col-xs-9">
-                            <input type="submit" class="btn btn-primary" value="Enviar Solicitud">
+                            <input type="submit" class="btn btn-primary" value="Añadir">
                             <input type="reset" class="btn btn-default" value="Limpiar">
                         </div>
                         </form>
+                        </div>
+                    <div class="col-sm-offset-1 col-sm-5" align="center">
+                        <h4>Lista de invitados:</h4>
+                        <div style="height:190px;width:400px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
