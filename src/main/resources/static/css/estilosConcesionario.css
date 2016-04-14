@@ -1,3 +1,137 @@
+/*header {
+	background-color:#fff;
+	color:#000;
+}*/
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -4em;
+}
+
+.footer, .push {
+    height: 4em;
+}
+
+.menuPrincipal{
+    background-image: url('/img/Fondo/clubHD.jpg');
+    /*background-position:center;*/
+    /*    width:700px;*/
+    min-height:500px;
+    height:auto;
+    box-shadow: 0 0 70px #fff;
+
+}
+
+.principal{
+    background: #000;
+}
+
+
+.navbar-default{
+    background-color: #0a7f29;
+    color: #fff;
+    border: #0a7f29;
+    box-shadow: 0 0 35px #010809;
+    margin-top: 40px;
+    /*font-family: "Arial", Helvetica, sans-serif;*/
+}
+
+.navbar-default ul li{
+    background-color: #0a7f29;
+    color: #fff;
+    border-bottom: 1px solid #3A9853;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.navbar-default .navbar-nav>li>a{
+    color: #fff;
+}
+
+.navbar-default ul > li:hover{
+    background-color: #E7E7E7;
+    color: #fff;
+}
+
+.navbar-nav #loginIcon{
+    width: 25px;
+}
+
+.navbar-nav #loginMenu{
+    padding: 12.5px 15px;
+}
+
+.dropdown-menu{
+    padding: 0px 0;
+}
+
+.dropdown-menu li > a{
+    color: #fff;
+}
+
+.main {
+    padding: 30px 10px;
+    background-color:#fff;
+    color:#000;
+    box-shadow: 0 0 30px #6b6b6b;
+}
+
+.main input:focus{
+    background-color: #fff877;
+}
+
+.btn-primary{
+    background-color: #00a0ac;
+    width: 80px;
+}
+
+.olvidoContrasena{
+    margin-left: 15px;
+}
+
+.correoLogin{
+    width: 100%;
+}
+
+.container .col-sm-12 #clubSis{
+    font-family: 'Tangerine', serif;
+    font-size: 35px;
+    text-shadow: 4px 4px 4px #aaa;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+}
+
+.color1 {
+    background-color: #34495e;
+    color:#fff;
+}
+
+aside {
+    background-color:#c0392b;
+    color:#fff;
+}
+
+footer {
+    /*background-color:#16a085;*/
+    color:#fff;
+    /*font-family: "Times New Roman", Georgia, Serif;*/
+    /*font-style: italic;*/
+}
+
+#tiempo{
+    color: #000;
+    margin-top: 40px
+}
+
 #form1{
     background-color: transparent;
     position: relative;
