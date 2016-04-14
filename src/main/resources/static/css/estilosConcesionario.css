@@ -1,0 +1,9 @@
+#form1{
+    background-color: transparent;
+    position: relative;
+    /*bottom: 150px;*/
+}
+
+#form1 fieldset{
+    background-color: #fff;
+}
