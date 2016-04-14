@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div id="contenedor1" class="container">
+    <!----------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------->
+
+    <div id="wrap" style="width:60%; position:relative; left:20%">
+        <div class="main"  style="width:100%;">
+            <div class="container"  style="width:100%;">
+                <div class="page-header">
+                    <h1>Registrar Concesión</h1>
+                </div>
+                <form action="" method="post" accept-charset="utf-8" id="frmLogin" class="form-horizontal">
+                    <input type="hidden" name="csrf_test_name" value="86fe4540ad786a3bab4df22187234adc" />
+                </form>
+            </div>
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-3">Nombre:</label>
+                    <div class="col-xs-6">
+                        <input type="curso" disabled="disabled" class="form-control" id="inputCurso" placeholder="Almendariz">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-3">RUC:</label>
+                    <div class="col-xs-6">
+                        <input type="text" disabled="disabled" class="form-control" placeholder="231371610001">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3">Servicios:</label>
+                    <div class="col-xs-6">
+                        <input type="text"  class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3" >Atención:</label>
+                    <div class="col-xs-6">
+                        <input type="tel"  class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3" >Administrador:</label>
+                    <div class="col-xs-6">
+                        <input type="tel"  class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3" >Teléfonos:</label>
+                    <div class="col-xs-6">
+                        <input type="tel"  class="form-control" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-3" >Fecha Inicio:</label>
+                    <div class="col-xs-6">
+
+                        <div class="input-group">
+                            <input id="date-picker-Inicio" type="text" class="date-picker form-control" />
+                            <label for="date-picker-Inicio"  class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-xs-3" >Fecha Fin:</label>
+                    <div class="col-xs-6">
+
+                        <div class="input-group">
+                            <input id="date-picker-Fin" type="text" class="date-picker form-control" />
+                            <label for="date-picker-Fin"  class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                </tr>
+                <tr style="height:5px">
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-5">
+                        <input type="submit" tabindex="3" value="Agregar" class="btn btn-primary"/>
+
+                        <input type="submit" tabindex="3" value="Cancelar" class="btn btn-primary"/>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</td>
+</tr>
+</table></div>
+<br />
+</fieldset>
+</form>
+<br>
+</div>
+<br />
+</div>
+
+
+
+
+
+</div>
+</header>
+
+
+
+
+
+
+</div>
+<br />
+<br />
+<br />
+
+<!-----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------->
+</div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+<script type="text/javascript">
+    function Muestrame(indAMostrar){
+        $("#BungTipo"+indActualBungalow).switchClass( "show" ,"hide", 200);
+        $("#BungTipo"+indAMostrar).switchClass( "hide", "show", 400);
+        indActualBungalow=indAMostrar;
+    }
+
+</script>
+</body>
+</html>
