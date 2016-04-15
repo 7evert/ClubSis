@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <h2>Registrar Concesión</h2>
+    <hr>
+    <div class="row">
+        <div>
+            <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
+                <!--<form class="form-horizontal col-sm-5 col-sm-offset-1" role="form" style="background-color:whitesmoke">-->
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="Sede">Sede:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="Sede" placeholder="Sede">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="event">Tipo de evento:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="event" placeholder="Tipo de Evento">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="dia">Dia</label>
+                    <div class="col-xs-7 date">
+                        <div class="input-group input-append date">
+                            <input id="dia" type="text" class="date-picker form-control col-xs-6"/>
+                            <label for="date-picker-dia" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Hora Inicio</label>
+                    <div class="col-xs-7 date">
+                        <div class="input-group input-append date">
+                            <input id="horaFin" type="text" class="date-picker form-control col-xs-6"/>
+                            <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <!--<div class="input-group bootstrap-timepicker timepicker">-->
+                        <!--<input id="timepicker1" type="text" class="form-control input-small">-->
+                        <!--<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>-->
+                    <!--</div>-->
+
+                    <!--<script type="text/javascript">-->
+                        <!--$('#timepicker1').timepicker();-->
+                    <!--</script>-->
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Hora Fin</label>
+                    <div class="col-xs-7 date">
+                        <div class="input-group input-append date">
+                            <input id="horaFin" type="text" class="date-picker form-control col-xs-6"/>
+                            <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="servicious">Lista de Servicios:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" id="servicious">
+                            <option value="one">Servicio 1</option>
+                            <option value="two">Servicio 2</option>
+                            <option value="three">Servicio 3</option>
+                            <option value="four">Servicio 4</option>
+                            <option value="five">Servicio 5</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="radio">Invitar personas</label>
+                    <div class="col-sm-5" id="radio">
+                        <label class="radio-inline"><input type="radio" name="optradio">Si</label>
+                        <label class="radio-inline"><input type="radio" name="optradio">No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-6 col-sm-7">
+                        <button type="participar" class="btn btn-info">Participar</button>
+
+                        <button type="cancelar" class="btn btn-info">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-5" align="center">
+            <h1>Ano nuevo 2016</h1>
+            <img src="img/Eventos/newYear.jpg" class="img-responsive img-circle" alt="Cinque Terre" width="300"
+                 height="300">
+            <br>
+            <p class="text-info">El Ano nuevo es la celebracion del incio del ano<br>
+                siguiente en el calendano en funcion del tipio el celanderai <br>
+                test test test test test test test test test test test test test <br>
+                test test test test test test test test test test test test test test test </p>
+        </div>
+    </div>
+</div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+    $('.date-picker').datepicker({
+        format: 'dd/MM/yyyy',
+        language: 'es-PE'
+    });
+</script>
+</body>
+</html>
