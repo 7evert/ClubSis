@@ -1,0 +1,20 @@
+/**Estructura para la lista de Bungalows**/
+.list-group li {
+    list-style: none;
+}
+.panel-info, .panel-rating, .panel-more1 {
+    float: left;
+    margin: 0 10px;
+}
+.panel-heading{
+    height:60px;
+}
+.titulo{font-size: 28pt;color:white;font-style: normal;}
+.imagenBungalow img{
+    width:175px;
+}
+#botonMostrarMas{border:0px;border-radius: 0;}
+#botonMostrarMas h1{
+    text-align: center;
+}
+.panel-info p,.panel-info h2,.panel-info h3{text-align: center;}
