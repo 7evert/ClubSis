@@ -128,7 +128,7 @@ function retornaBotonMostrarMas(){
         href:'#',
         id:'botonMostrarMas',
         class: 'list-group-item'
-    }).append($("<h1></h1>").html("Mostrar Mas"));
+    }).append($("<h4></h4>").html("<strong>Mostrar Mas</strong>"));
     b.on('click', function() {
         mostrarNext5();
         event.preventDefault();

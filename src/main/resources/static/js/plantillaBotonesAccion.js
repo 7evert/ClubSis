@@ -21,15 +21,24 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
     /*------------------append el div <div class="social-box rght-box">---- -*/
     var divBotones=$('<div>').attr({
-        class: 'social-box rght-box botonesAcciones'
+        class: 'social-box botonesAcciones'
     }).appendTo(".panel-body");
 
     /*-----------------<label class="accionLista"><label>Modificar</label></label>&nbsp; */
-    for(var i=0;i<divBotones.length;i++)
+    /****** <div class="col-sm-offset-4 col-sm-5">
+     <input type="submit" tabindex="3" value="Registrar" class="btn btn-primary"/>
+
+     <input type="submit" tabindex="3" value="Cancelar" class="btn btn-primary"/>
+     </div>
+*/
+     for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
-            var b = $('<lab>').attr({
-                class: 'accionLista',
-            }).append('<label>' + accionesXElemento[tipoUsuario][j] + '</label>').appendTo(divBotones[i]);
+            var b = $('<input>').attr({
+                type: 'submit',
+                tabindex:"3",
+                value:accionesXElemento[tipoUsuario][j],
+                class:"btn-primary rght-box accionLista"
+            }).appendTo(divBotones[i]);
             b[0].onclick=funciones[j];
         }
 }

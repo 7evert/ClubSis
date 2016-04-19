@@ -1,10 +1,28 @@
 /*estilo botones de acciones**/
-.accionLista{display:block;float:right;height:50px;
-    width: auto;padding-left: 1px;padding-right: 15px;}
-#botonMostrarMas,#accionAgregar input,.accionLista label{background-color: #ddd; border: solid #cccccc 1px;border-radius: 10%;}
-.social-box{float:none;position:absolute;right:0;bottom:0;width:400px;padding-bottom:20px}
-.social-box{padding:3px}
-.rght-box{float:right;width:100%;padding-right:10px}
-.social-box h1{margin:30px 0px 50px 0}
-.rght-box h1{float:right;margin:120px 0px 50px 0}
-#accionAgregar input{color:#000000;}
+.accionLista{
+    display:block;float:right;height:50px;
+    width: auto;padding-left: 1px;padding-right: 15px;
+}
+#botonMostrarMas/*,#accionAgregar input,.accionLista label*/{
+    background-color: #ddd; border: solid #cccccc 1px;border-radius: 1%;
+}
+
+.social-box{
+    float: none;
+    position: absolute;
+    right: 40px;
+    bottom: 0;
+    width: 130px;
+    padding-bottom: 60px;
+}
+.rght-box{
+    float: right;
+    width: 100%;
+    padding-right: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.btn-primary{
+    background-color: #00a0ac;
+}
