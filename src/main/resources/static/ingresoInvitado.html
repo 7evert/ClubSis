@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <!--<link rel='stylesheet' href='webjars/'/>-->
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .contenedor {
+        / / position: relative;
+            height: 14rem;
+            /*border: 1px solid;*/
+        }
+
+        .jumbotron {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #fff;
+            color: #00a0ac;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 45px;
+            /*border: 0px dashed deeppink;*/
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+
+        .btn-primary{
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <h3>INGRESO DE INVITADO</h3>
+    <hr>
+    <h4>DATOS DEL INVITADO</h4>
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="tipoDocumento" class="col-md-6 control-label">Tipo de Documento<span
+                            class="obligatorio">*</span></label>
+                    <div class="col-md-6">
+                        <select class="form-control" id="tipoDocumento">
+                            <option value="-1">Elegir</option>
+                            <option value="1">DNI</option>
+                            <option value="2">Pasaporte</option>
+                            <option value="3">Carnet de extranjería</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nroDocumento" class="col-md-6 control-label">N° de Documento<span
+                            class="obligatorio">*</span></label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="nroDocumento" placeholder="Número de Documento">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nombres" class="col-md-6 control-label">Nombres</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="nombres" placeholder="Nombres del invitado">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nroDocumento" class="col-md-6 control-label">Apellido Paterno</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="apPaterno"
+                               placeholder="Apellido Paterno del invitado">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nroDocumento" class="col-md-6 control-label">Apellido Materno</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="apMaterno"
+                               placeholder="Apellido Materno del invitado">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="obligatorio" style="margin-left: 340px;">(*) Estos campos son obligatorios</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <a class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                        <a class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor col-xs-12 col-sm-6 col-lg-6" style="height: 250px; width: 550px;">
+                <!--<p class="jumbotron" id="mensaje">¡Ingreso válido!</p>-->
+                <p class="jumbotron" id="mensaje"></p>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script>
+    $("#btnLimpiar").click(function () {
+        Notificaciones.showProcesando();
+        Notificaciones.hideAll();
+        $("input").val('');
+        $("select").val(-1);
+        $("#mensaje").text('');
+    });
+
+    $("#btnBuscar").click(function () {
+        if (!validarDatos()) {
+            Notificaciones.showProcesando();
+            Notificaciones.hideAll();
+            if ($("#nroDocumento").val() == '111') {
+                $("#nombres").val('Luis Alberto');
+                $("#apPaterno").val('Loo');
+                $("#apMaterno").val('Campos');
+                $("#mensaje").text('¡Ingreso válido!');
+            } else {
+                $("#nombres").val('No se encontró');
+                $("#apPaterno").val('No se encontró');
+                $("#apMaterno").val('No se encontró');
+                $("#mensaje").text('¡Ingreso NO válido!');
+            }
+        }
+    });
+
+    $("#tipoDocumento").click(function () {
+        $("#tipoDocumento").css("border-color", "#ccc");
+    });
+
+    $("#nroDocumento").click(function () {
+        $("#nroDocumento").css("border-color", "#ccc");
+    });
+
+    function validarDatos() {
+        var tipoDocumento = $("#tipoDocumento").val();
+        var nroDocumento = $("#nroDocumento").val();
+
+        if (tipoDocumento == -1) {
+            Notificaciones.showError('Tipo de documento requerido');
+            $("#tipoDocumento").css("border-color", "red");
+            return true;
+        } else if (!nroDocumento) {
+            Notificaciones.showError('Numero de documento requerido');
+            $("#nroDocumento").css("border-color", "red");
+            return true;
+        }
+        return false;
+    }
+</script>
+</body>
+</html>
