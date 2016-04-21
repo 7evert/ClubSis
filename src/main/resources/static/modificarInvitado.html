@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <div class="container">
+        <h2>Modificar Invitado</h2>
+        <hr>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-xs-4">ID Invitado</label>
+                <div class="col-xs-5">
+                    <input type="text" disabled="disabled" class="form-control" placeholder="ID-invitado">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Código socio</label>
+                <div class="col-xs-5">
+                    <input type="text" disabled="disabled" class="form-control" placeholder="Codigo-Socio">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Nombre</label>
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" id="inputNombres" placeholder="Nombre">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Apellido Paterno</label>
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" id="inputApellidoPaterno" placeholder="Apellido Paterno">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Apellido Materno</label>
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" id="inputApellidoMaterno" placeholder="Apellido Materno">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">DNI</label>
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" id="inputDNI" placeholder="DNI">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4" >Fecha Inicio</label>
+                <div class="col-xs-2 date">
+                    <div class="input-group input-append date">
+                        <input id="date-picker-FechaInicio" type="text" class="date-picker form-control col-xs-6" />
+                        <label for="date-picker-FechaInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                        </label>
+                    </div>
+                </div>
+                <label class="control-label col-xs-1">Fecha Fin</label>
+                <div class="col-xs-2 date">
+                    <div class="input-group input-append date">
+                        <input id="date-picker-FechaFin" type="text" class="date-picker form-control col-xs-6" />
+                        <label for="date-picker-FechaFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="col-xs-offset-7 col-xs-8">
+                    <input type="submit" class="btn btn-primary" value="Modificar">
+                    <input type="submit" class="btn btn-primary" value="Cancelar">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script>
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
