@@ -17,7 +17,8 @@
 #botonMostrarMas h4{
     text-align: center;
 }
-.panel-info h1,.panel-info p,.panel-info h2,.panel-info h3{text-align: center;}
+.panel-info h1,.panel-info p,.panel-info h2,.panel-info h3,.panel-info h4,.panel-info h5{text-align: center;}
 .panel-info{
-    width:250px;
+    width:350px;
+    height:220px;
 }

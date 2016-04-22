@@ -15,7 +15,7 @@ var imagenBungalow=["img/Bungalows/TipoBungalows/1_Lorena.png",
     "img/Bungalows/TipoBungalows/5_KingCharles.png"];
 var tituloBongalow=["Bungalow Lorena","Bungalow Club","Bungalow Class","Bungalow King","Bungalow King Charles",
     "Bungalow Lorena","Bungalow Club","Bungalow Class","Bungalow King","Bungalow King Charles"];
-var sedesBungalows=[[],[],[],[],[],[],[],[],[],[]];
+var sedesBungalows=[["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"]];
 var capacidadBungalow=[6,8,12,16,20,6,8,12,16,20];
 var precioBungalow=[80.00,100.00,120.00,140.00,160.00,80.00,100.00,120.00,140.00,160.00];
 var caracteristicasBungalows=[
