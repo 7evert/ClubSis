@@ -11,12 +11,12 @@ var accionAgregar=[["Agregar"],//usuario:SuperAdministrador
     [],//usuario:Administradio
     []];//usuario:Socio
 var actualUsuario;
-function reservar(){alert("Reservar");}
-function anular(){alert("Anular");}
-function modificar(){alert("Modificar");}
+function reservar(){alert("Reservar");event.preventDefault();}
+function anular(){alert("Anular");event.preventDefault();}
+function modificar(){alert("Modificar");event.preventDefault();}
 
 
-function agregar(){alert("Agregar");}
+function agregar(){alert("Agregar");event.preventDefault();}
 var funciones=[reservar,anular,modificar];
 function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     var nroAcciones=accionesXElemento[tipoUsuario].length;
@@ -74,10 +74,4 @@ function mostrarNext5(){
     }
     if(elementos.hasClass("hidden")==false)
         $("#botonMostrarMas").addClass("hidden");
-}
-function llenarListaBungalows(){
-    var nroElementos=tituloBongalow.length;
-    for(var i=0;i<nroElementos;i++)
-        retornaElementoLista(i).appendTo("#listaBungalows");
-    retornaBotonMostrarMas().appendTo("#listaBungalows");
 }

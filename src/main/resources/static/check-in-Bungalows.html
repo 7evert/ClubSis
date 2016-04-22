@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis-Mantenimiento Bungalows</title>
+    <title>ClubSis-Check-in Bungalows</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -34,7 +34,7 @@
             <span class="col-xs-9 titulo">Check-in Bungalows</span>
         </div>
         <div id="listaBungalows" class="list-group list-group-flush">
-            <!--
+<!--
             <a href="#" class="list-group-item">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -131,11 +131,30 @@
             style: "padding-left: 2em;"
         });
         var b=new Array();
-        b[0]=retornaDivPagoInv(i);
-        b[1]=FechasInOut(i);
+        b[0]=labelnvitados();
+        b[1]=retornaDivPagoInv(i);
+        b[2]=FechasInOut(i);
         for(var j=0;j<b.length;j++)
             caracteristicas.append(b[j]);
         return caracteristicas;
+    }
+
+    /*
+     <div class="col-xs-7">
+     <input type="text" name="nombre" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
+     class="form-control validate[required]">
+     </div>
+    * */
+    function labelnvitados(i){
+        var label=$('<div></div>');
+        var input=$('<input>').attr({
+            type:'text',name:'nombre',maxlength:"30",
+            autofocus:"autofocus",tabindex:'1',
+            autocomplete:'off',placeholder:'',
+            class:'form-control validate[required] invisible labelInv'
+        });
+        label.append(input);
+        return label;
     }
 
     function retornaDivPagoInv(i){
@@ -189,8 +208,19 @@
             ["Check-in","Anular","Modificar"],
             []];//usuario:Administradio
 
-        function checkIn(){alert("Check-In");}
-        function modificar(){alert("Modificar");}
+        function checkIn(){
+            if($($('.labelInv')[0]).hasClass('invisible')) {
+                $('.labelInv').removeClass('invisible');
+                $('.labelInv').addClass('visible');
+            }
+            else{
+                $('.labelInv').removeClass('visible');
+                $('.labelInv').addClass('invisible');
+            }
+            alert("Check-In");
+            event.preventDefault();
+        }
+        function modificar(){alert("Modificar");event.preventDefault();}
         funciones=[checkIn,anular,modificar];
 
         cambiarDeUsuario(administrador);
