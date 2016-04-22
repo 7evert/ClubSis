@@ -4,9 +4,9 @@
 /*****************++PLANTILLA DE LOS BOTONES******************************/
 var superAdministrador=0,administrador=1,socio=2;
 var accionesXElemento=[
-    ["Anadir","Modificar","Eliminar"],//usuario:SuperAdministrador
-    ["Anadir","Modificar","Eliminar"],//usuario:Administradio
-    ["Anadir","Modificar","Eliminar"]];//usuario:Socio
+    ["Modificar","Eliminar"],//usuario:SuperAdministrador
+    ["Modificar","Eliminar"],//usuario:Administradio
+    ["Modificar","Eliminar"]];//usuario:Socio
 var accionAgregar=[["Agregar"],//usuario:SuperAdministrador
     [],//usuario:Administradio
     []];//usuario:Socio
@@ -19,7 +19,7 @@ function add(){alert("Anadir");}
 
 function agregar(){alert("Agregar");}
 
-var funciones=[add,modificar,add];
+var funciones=[add,modificar,remove];
 function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     var nroAcciones=accionesXElemento[tipoUsuario].length;
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
