@@ -100,14 +100,13 @@
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
             { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 75},
-            { label: 'Numero', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Codigo Socio', name: 'CustomerID', align: 'center', width: 150 },
+            { label: 'Codigo Socio', name: 'OrderID', align: 'center', width: 150 },
             { label: 'Servicio', name: 'CustomerID', align: 'center', width: 300 },
             { label: 'Monto', name: 'Freight', align: 'center', width: 150 },
             { label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
-        height: 280,
+        height: 220,
         rowNum: 10,
         pager: "#jqGridPager"
 
@@ -117,8 +116,7 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-
-        acciones = '<a href="javascript:void(0)" class="radio btn" type="checkbox" value=""></a>'
+        acciones = '<input type="checkbox" value="">'
         return acciones;
     }
 </script>

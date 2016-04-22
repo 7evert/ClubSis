@@ -9,35 +9,54 @@
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
-    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <style type="text/css">
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        #addFamilyButton{
+            margin-right:20px;
+        }
+    </style>
 </head>
 <body>
 <div id="headerUsuario"></div>
-<div class="container panel panel-primary">
-    <h2>Registrar Opinion</h2>
+<div class="container panel">
+    <h3>REGISTRO DE OPINIÓN</h3>
     <hr>
+    <h4>DATOS DE OPINIÓN</h4>
     <div class="row">
         <div>
             <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
                 <!--<form class="form-horizontal col-sm-5 col-sm-offset-1" role="form" style="background-color:whitesmoke">-->
                 <div class="form-group">
-                    <label class="control-label col-xs-4" for="titulo">Titulo:</label>
+                    <label class="control-label col-xs-4" for="titulo">Titulo</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="titulo" placeholder="Short Title">
+                        <input type="text" class="form-control" id="titulo" placeholder="Titulo">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-4" for="opinia">Opinia:</label>
+                    <label class="control-label col-xs-4" for="opinia">Opinión</label>
                     <div class="col-sm-7">
-                        <textarea rows="5" class="form-control" id="opinia" placeholder="Opinia"></textarea>
+                        <textarea rows="5" class="form-control" id="opinia" placeholder="Detalle de su opinión"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-4" for="postulante">Lista de Postulantes:</label>
+                    <label class="control-label col-xs-4" for="postulante">Lista de Postulante</label>
                     <div class="col-sm-7">
                         <select class="form-control" id="Postulante">
                             <option value="one">Postulante 1</option>
@@ -50,7 +69,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-4" for="radio">Contact Partner</label>
+                    <label class="control-label col-xs-4" for="radio">Contacto familiar</label>
                     <div class="col-sm-5" id="radio">
                         <label class="radio-inline"><input type="radio" name="optradio">Si</label>
                         <label class="radio-inline"><input type="radio" name="optradio">No</label>
@@ -58,10 +77,10 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-5 col-sm-5">
-                        <button type="participar" class="btn btn-info">Cancelar</button>
+                    <div class="col-sm-offset-6 col-sm-7">
+                        <button type="participar" class="btn btn-primary">Cancelar</button>
 
-                        <button type="cancelar" class="btn btn-info">Submit</button>
+                        <button type="cancelar" class="btn btn-primary">Agregar</button>
                     </div>
                 </div>
             </form>
@@ -70,4 +89,5 @@
 </div>
     </div>
 </body>
+<script src="js/principal.js"></script>
 </html>
