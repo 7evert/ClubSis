@@ -4,20 +4,20 @@
 /*****************++PLANTILLA DE LOS BOTONES******************************/
 var superAdministrador=0,administrador=1,socio=2;
 var accionesXElemento=[
-    ["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-    ["Reservar","Anular","Modificar"],//usuario:Administradio
-    ["Reservar","Anular"]];//usuario:Socio
+    ["Modificar","Delete"],//usuario:SuperAdministrador
+    ["Modificar","Delete"],//usuario:Administradio
+    ["Modificar","Delete"]];//usuario:Socio
 var accionAgregar=[["Agregar"],//usuario:SuperAdministrador
     [],//usuario:Administradio
     []];//usuario:Socio
 var actualUsuario;
-function reservar(){alert("Reservar");}
-function anular(){alert("Anular");}
+
+function remove(){alert("delete");}
 function modificar(){alert("Modificar");}
 
 
 function agregar(){alert("Agregar");}
-var funciones=[reservar,anular,modificar];
+var funciones=[modificar,remove];
 function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     var nroAcciones=accionesXElemento[tipoUsuario].length;
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
