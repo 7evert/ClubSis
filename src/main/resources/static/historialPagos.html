@@ -59,7 +59,7 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <h3>HISTORIAL DE PAGOS</h3>
     <hr>
-    <h4>ESTADO DE DEUDAS</h4>
+    <h4>BOLETAS DE PAGOS</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -67,9 +67,7 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Pago|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Pago |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Pago
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Pago
         </div>
     </form>
 </div>
@@ -91,12 +89,11 @@
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
             { label: 'idCuota', name: 'idCuota', key: true, hidden: true, width: 75},
-            { label: 'ID Pago', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Valor', name: 'Freight', align: 'center', width: 150 },
+            { label: 'Número', name: 'OrderID', align: 'center', width: 150 },
+            { label: 'Importe', name: 'Freight', align: 'center', width: 150 },
             { label: 'Estado', name: 'CustomerID', align: 'center', width: 150 },
             { label:'Fecha Vencimiento', name: 'OrderDate', align: 'center', width: 100 },
-            { label: 'Numero', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Tipo', name: 'CustomerID', align: 'center', width: 150 },
+            { label:'Fecha Pago', name: 'OrderDate', align: 'center', width: 100 },
             { label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -110,9 +107,7 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Pago"><img src="img/Iconos/ver.png" class="icono"></a>'+
-                '<a href="javascript:void(0)    " class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Pago"><img src="img/Iconos/modificar.png" class="icono"></a>'+
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Pago"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Pago"><img src="img/Iconos/ver.png" class="icono"></a>';
         return acciones;
     }
 </script>
