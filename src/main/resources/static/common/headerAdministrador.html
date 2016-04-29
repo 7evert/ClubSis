@@ -1,0 +1,80 @@
+<div class="loginPrincipal">
+    <div class="loginPrincipal">
+        <header>
+            <div class="container wrapper">
+                <br/>
+                <div class="row" style="position: inherit; bottom: 0;">
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-2"><a href="index.html"><img
+                            style="text-align:center" src="img/Logos/ClubSis.png" title="ClubSis"></a></div>
+                    <div id="usuario" class="text-right"><b><label style="margin-top:90px;margin-right:20px">¡Bienvenido! L12EJ, miembro de tipo Vitalicio</label></b></div>
+                </div>
+                <br>
+                <nav class="navbar navbar-default loginBannerMenu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" id="clubSis-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">DATOS PERSONALES<span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu" id="clubSis-menu">
+                                <li><a href="#">Mi cuenta</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">CLUB<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Sedes</a></li>
+                                <li><a href="#">Roles</a></li>
+                                <li><a href="#">Usuarios</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">MEMBRESÍA<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Tipos socios</a></li>
+                                <li><a href="#">Socios</a></li>
+                                <li><a href="#">Ofertas</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">SERVICIOS<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Bungalows</a></li>
+                                <li><a href="#">Instalaciones</a></li>
+                                <li><a href="#">Eventos</a></li>
+                                <li><a href="#">Talleres</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">MERCHANDIZING<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Productos</a></li>
+                                <li><a href="#">Proveedores</a></li>
+                                <li><a href="#">Orden de compra</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">CONCESIONARIOS</a></li>
+                        <li><a href="index.html">CERRAR SESION</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".dropdown").hover(
+                function() {
+                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("5000");
+                    $(this).toggleClass('open');
+                },
+                function() {
+                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("5000");
+                    $(this).toggleClass('open');
+                }
+        );
+    });
+</script>
