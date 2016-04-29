@@ -23,7 +23,7 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
     /*------------------append el div <div class="social-box rght-box">---- -*/
     var divBotones=$('<div>').attr({
-        class: 'social-box botonesAcciones'
+        class: 'panel-more1 social-box botonesAcciones'
     }).appendTo(".panel-body");
 
     /*-----------------<label class="accionLista"><label>Modificar</label></label>&nbsp; */
@@ -35,12 +35,12 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
 */
      for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
-            var b = $('<input>').attr({
-                type: 'submit',
+            var b = $('<button>').attr({
+                /*type: 'submit',*/
                 tabindex:"3",
                 value:accionesXElemento[tipoUsuario][j],
-                class:"btn-primary rght-box accionLista"
-            }).appendTo(divBotones[i]);
+                class:"btn btn-primary rght-box accionLista"
+            }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
             b[0].onclick=funciones[j];
         }
 }
@@ -49,7 +49,7 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
         var b=$('<span>').attr({
             class: 'pull-right',
             id:'accionAgregar'
-        }).append('<input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>').appendTo("#topMostrar");
+        }).append('<input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary rght-box accionLista"/>').appendTo("#topMostrar");
         b[0].onclick=agregar();
     }
 }
