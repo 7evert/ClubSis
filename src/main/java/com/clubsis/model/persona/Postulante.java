@@ -7,6 +7,22 @@ import java.util.List;
  * Created by Juan Tenorio on 29/4/2016.
  */
 public class Postulante {
-    List<String> observaciones;
-    Date fechaPostulacion;
+    private List<String> observaciones;
+    private Date fechaPostulacion;
+
+    public List<String> getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(List<String> observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public Date getFechaPostulacion() {
+        return fechaPostulacion;
+    }
+
+    public void setFechaPostulacion(Date fechaPostulacion) {
+        this.fechaPostulacion = fechaPostulacion;
+    }
 }
