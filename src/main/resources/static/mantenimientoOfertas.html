@@ -93,12 +93,22 @@
          *un #top-mostrar para el  boton agregar(unico x pagina)
          *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/
-        accionesXElemento=[
-            ["Registrar","Eliminar","Modificar"],//usuario:SuperAdministrador
-            ["Registrar","Eliminar","Modificar"],//usuario:Administradio
-            ["Registrar","Eliminar"]];//usuario:Socio
+        var accionesXElemento=[
+            /*ver,editar,eliminar,reservar,registrar*/
+            //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
+            ["Ver","Editar","Eliminar","Registrar"],//ADIMINISTRADOR
+            //["Reservar","Anular","Modificar"],//usuario:Administradio
+            ["Ver","Registrar"]];//usuario:Socio
 
-        cambiarDeUsuario(administrador);
+        function Ver(){event.preventDefault();}
+        function Editar(){event.preventDefault();}
+        function Eliminar(){event.preventDefault();}
+        function Registrar(){/*location.href="reservaInstalacion.html"*/;event.preventDefault();}
+
+        function Agregar(){/*location.href="reservaInstalacion.html";*/event.preventDefault();}
+        var funciones=[Ver,Editar,Eliminar,Registrar];
+
+        cambiarDeUsuario(administrador,Agregar,funciones);
 
         /***Para mostrar la lista de  5 en 5************/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/

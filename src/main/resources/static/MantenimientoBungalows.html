@@ -112,7 +112,17 @@
          *un #top-mostrar para el  boton agregar(unico x pagina)
          *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/
-        cambiarDeUsuario(administrador);
+
+        function Ver(){location.href="reservaBungalows.html";event.preventDefault();}
+        function Editar(){location.href="reservaBungalows.html";event.preventDefault();}
+        function Eliminar(){location.href="reservaBungalows.html";event.preventDefault();}
+        function Reservar(){location.href="reservaBungalows.html";event.preventDefault();}
+
+        function Agregar(){location.href="reservaInstalacion.html";event.preventDefault();}
+        var funciones=[Ver,Editar,Eliminar,Reservar];
+
+
+        cambiarDeUsuario(administrador,Agregar,funciones);
 
         /***Para mostrar la lista de  5 en 5************/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/

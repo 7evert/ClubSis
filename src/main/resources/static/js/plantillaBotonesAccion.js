@@ -4,20 +4,25 @@
 /*****************++PLANTILLA DE LOS BOTONES******************************/
 var superAdministrador=0,administrador=1,socio=2;
 var accionesXElemento=[
-    ["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-    ["Reservar","Anular","Modificar"],//usuario:Administradio
-    ["Reservar","Anular"]];//usuario:Socio
-var accionAgregar=[["Agregar"],//usuario:SuperAdministrador
-    [],//usuario:Administradio
+    /*ver,editar,eliminar,reservar,registrar*/
+    //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
+    ["Ver","Editar","Eliminar","Reservar"],//ADIMINISTRADOR
+    //["Reservar","Anular","Modificar"],//usuario:Administradio
+    ["Ver","Reservar"]];//usuario:Socio
+var accionAgregar=[["Agregar"],//usuario:ADMINISTRADOR
     []];//usuario:Socio
 var actualUsuario;
-function reservar(){alert("Reservar");event.preventDefault();}
-function anular(){alert("Anular");event.preventDefault();}
-function modificar(){alert("Modificar");event.preventDefault();}
+/*
+function Ver(){alert("Ver");event.preventDefault();}
+function Editar(){alert("Editar");event.preventDefault();}
+function Eliminar(){alert("Elimianr");event.preventDefault();}
+function Reservar(){alert("Reservar");event.preventDefault();}
 
 
-function agregar(){alert("Agregar");event.preventDefault();}
-var funciones=[reservar,anular,modificar];
+
+
+function Agregar(){alert("Agregar");event.preventDefault();}
+var funciones=[Ver,Editar,Eliminar,Reservar];*/
 function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     var nroAcciones=accionesXElemento[tipoUsuario].length;
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
@@ -57,11 +62,11 @@ function eliminarBotones(){
     $("#accionAgregar").remove();
     $(".botonesAcciones").remove();
 }
-function cambiarDeUsuario(nuevoUsuario){
+function cambiarDeUsuario(nuevoUsuario,Agregar,funciones){
     if(nuevoUsuario==actualUsuario)return;
     actualUsuario=nuevoUsuario;
     eliminarBotones();
-    agregarBotonAgregar(accionAgregar,agregar,nuevoUsuario);
+    agregarBotonAgregar(accionAgregar,Agregar,nuevoUsuario);
     agregarBotonesAListas(accionesXElemento,funciones,nuevoUsuario);
 }
 

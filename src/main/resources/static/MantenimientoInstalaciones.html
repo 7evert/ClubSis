@@ -18,21 +18,105 @@
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
     <div>
         <div class="form-group"><!--filtrado-->
-            <label class="control-label col-xs-3">Filtrado:</label>
+            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE INSTALACIONES
+            <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
+            </h4>
+
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="tipo" class="col-md-4 control-label">Sede</label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="sede">
+                                    <option>Elegir</option>
+                                    <option>Chosica</option>
+                                    <option>Namekusein</option>
+                                    <option>Planeta del gran Kaiosama</option>
+                                    <option>Planeta Tierra</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="tipo" class="col-md-4 control-label">Estado</label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="tipo">
+                                    <option>Libre</option>
+                                    <option>Reservado</option>
+                                    <option>En Mantenimiento</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de Instalacion">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Instalacion">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Apartir de</label>
+                            <div class="input-group input-append date col-md-8">
+                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <!--<label for="stock" class="col-md-4 control-label">Apartir de</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
+                            </div>
+                            -->
+                            <label class="control-label col-md-4">Antes de</label>
+                            <div class="input-group input-append date col-md-8">
+                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                </label>
+                            </div>
+                            <!--<label for="stock" class="col-md-2 control-label">Antes de</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-lg-7">
+                    </div>
+                    <div class="col-sm-5 col-lg-5">
+                        <div class="form-group" style="margin-left: 60px;">
+                            <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary">Nuevo Producto</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+<!--            <label class="control-label col-xs-3">Filtrado:</label>
             <div class="col-xs-6">
                 <input type="Sede" class="form-control" id="inputCurso" placeholder="Almendariz">
             </div>
-            <input type="submit" tabindex="3" value="Buscar" class="btn btn-primary"/>
+            <input type="submit" tabindex="3" value="Buscar" class="btn btn-primary"/>-->
         </div>
     </div>
 
     <div class="panel panel-primary"><!--listas-->
-        <div><!--esto solo es para verificar que funciona, luego se borrara-->
-            <button onclick="cambiarDeUsuario(2)">Como Socio</button>
-            <button onclick="cambiarDeUsuario(0)">Como Super Administrador</button>
-            <button onclick="cambiarDeUsuario(1)">Como Administrador</button>
-            <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span>
-        </div>
         <div id="topMostrar" class="panel-heading">
             <span class="col-xs-9 titulo">Instalaciones</span>
             <!--<span class="pull-right" id="accionAgregar">
@@ -92,11 +176,17 @@
         </div>
     </div>
 </div>
+<div class="pull-right"><!--esto solo es para verificar que funciona, luego se borrara-->
+    <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span><BR>
+    <button onclick="cambiarDeUsuario(2)" class="btn btn-primary pull-right">Como Socio</button>
+    <button onclick="cambiarDeUsuario(0)" class="btn btn-primary pull-right">Como Super Administrador</button>
+    <button onclick="cambiarDeUsuario(1)" class="btn btn-primary pull-right">Como Administrador</button>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
-<script type="text/javascript" src="js/buttonsInstalaciones.js"></script>
+<script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
     window.onload=function(){
@@ -112,7 +202,17 @@
          *un #top-mostrar para el  boton agregar(unico x pagina)
          *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/
-        cambiarDeUsuario(administrador);
+
+        function Ver(){location.href="reservaInstalacion.html";event.preventDefault();}
+        function Editar(){location.href="reservaInstalacion.html";event.preventDefault();}
+        function Eliminar(){location.href="reservaInstalacion.html";event.preventDefault();}
+        function Reservar(){location.href="reservaInstalacion.html";event.preventDefault();}
+
+        function Agregar(){location.href="reservaInstalacion.html";event.preventDefault();}
+        var funciones=[Ver,Editar,Eliminar,Reservar];
+
+
+        cambiarDeUsuario(administrador,Agregar,funciones);
 
         /***Para mostrar la lista de  5 en 5************/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/
