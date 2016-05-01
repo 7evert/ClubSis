@@ -20,19 +20,19 @@ public class Bungalow {
 
     private String caracteristicas;
 
-    //@ManyToOne(fetch = FetchType.EAGER)
-    //@JoinColumn(name="tipoBungalow")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_tipo_bungalow")
     private TipoBungalow tipoBungalow;
 
     protected Bungalow() {
     }
 
-    public Bungalow(String caracteristicas, Double precio, Integer capacidad, Integer estado, Integer idBungalow) {
-        this.caracteristicas = caracteristicas;
-        this.precio = precio;
+    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, TipoBungalow tipoBungalow) {
         this.capacidad = capacidad;
         this.estado = estado;
-        this.idBungalow = idBungalow;
+        this.precio = precio;
+        this.caracteristicas = caracteristicas;
+        this.tipoBungalow = tipoBungalow;
     }
 
     public Integer getIdBungalow() {

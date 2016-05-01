@@ -1,9 +1,19 @@
 package com.clubsis.model.bungalow;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class TipoBungalow {
+    @Id
+    @GeneratedValue
+    @Column(name = "id_tipo_bungalow")
     private Integer idTipoBungalow;
     private String descripcion;
     private String caracteristicas;
@@ -11,8 +21,7 @@ public class TipoBungalow {
     protected TipoBungalow(){
     }
 
-    public TipoBungalow(Integer idTipoBungalow, String descripcion, String caracteristicas) {
-        this.idTipoBungalow = idTipoBungalow;
+    public TipoBungalow(String descripcion, String caracteristicas) {
         this.descripcion = descripcion;
         this.caracteristicas = caracteristicas;
     }
