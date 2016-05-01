@@ -1,14 +1,28 @@
 package com.clubsis.model.bungalow;
 
+import javax.persistence.*;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Bungalow {
+
+    @Id
+    @GeneratedValue
     private Integer idBungalow;
+
     private Integer capacidad;
+
     private Integer estado;
+
     private Double precio;
+
     private String caracteristicas;
+
+    //@ManyToOne(fetch = FetchType.EAGER)
+    //@JoinColumn(name="tipoBungalow")
+    private TipoBungalow tipoBungalow;
 
     protected Bungalow() {
     }
@@ -59,5 +73,13 @@ public class Bungalow {
 
     public void setCaracteristicas(String caracteristicas) {
         this.caracteristicas = caracteristicas;
+    }
+
+    public TipoBungalow getTipoBungalow() {
+        return tipoBungalow;
+    }
+
+    public void setTipoBungalow(TipoBungalow tipoBungalow) {
+        this.tipoBungalow = tipoBungalow;
     }
 }
