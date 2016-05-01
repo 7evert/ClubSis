@@ -13,6 +13,18 @@ public class Cuota {
     private Date fechaPago;
     private String tipo;
 
+    protected Cuota() {
+    }
+
+    public Cuota(Integer idCuota, Date fechaVencimiento, String estado, Integer numero, Date fechaPago, String tipo) {
+        this.idCuota = idCuota;
+        this.fechaVencimiento = fechaVencimiento;
+        this.estado = estado;
+        this.numero = numero;
+        this.fechaPago = fechaPago;
+        this.tipo = tipo;
+    }
+
     public Integer getIdCuota() {
         return idCuota;
     }

@@ -15,6 +15,20 @@ public class Evento {
     private Date fechaInicioInscripcion;
     private Date fechaFinInscripcion;
 
+    protected Evento() {
+    }
+
+    public Evento(Integer idEvento, Date fechaInicio, String descripcion, Date fechaFin, Integer estado, Date fechaInicioInscripcion, String reglamento, Date fechaFinInscripcion) {
+        this.idEvento = idEvento;
+        this.fechaInicio = fechaInicio;
+        this.descripcion = descripcion;
+        this.fechaFin = fechaFin;
+        this.estado = estado;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
+        this.reglamento = reglamento;
+        this.fechaFinInscripcion = fechaFinInscripcion;
+    }
+
     public Integer getIdEvento() {
         return idEvento;
     }

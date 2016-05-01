@@ -17,6 +17,22 @@ public class Persona {
     private String telefono;
     private Boolean esTitular;
 
+    protected Persona() {
+    }
+
+    public Persona(Integer idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, String telefono, Boolean esTitular) {
+        this.idPersona = idPersona;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.correoElectronico = correoElectronico;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.esTitular = esTitular;
+    }
+
     public Integer getIdPersona() {
         return idPersona;
     }

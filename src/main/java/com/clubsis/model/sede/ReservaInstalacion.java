@@ -10,6 +10,15 @@ public class ReservaInstalacion {
     private Date fechaReserva;
     private String estado;
 
+    protected ReservaInstalacion() {
+    }
+
+    public ReservaInstalacion(String estado, Integer idReserva, Date fechaReserva) {
+        this.estado = estado;
+        this.idReserva = idReserva;
+        this.fechaReserva = fechaReserva;
+    }
+
     public Integer getIdReserva() {
         return idReserva;
     }

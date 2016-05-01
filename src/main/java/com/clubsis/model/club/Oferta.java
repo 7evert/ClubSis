@@ -15,6 +15,20 @@ public class Oferta {
     private Date fechaFin;
     private String estado;
 
+    protected Oferta() {
+    }
+
+    public Oferta(Integer idOferta, String nombreOferta, String descripcion, String tipoPagoAplicable, Double porcentajeDescueto, Date fechaInicio, Date fechaFin, String estado) {
+        this.idOferta = idOferta;
+        this.nombreOferta = nombreOferta;
+        this.descripcion = descripcion;
+        this.tipoPagoAplicable = tipoPagoAplicable;
+        this.porcentajeDescueto = porcentajeDescueto;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.estado = estado;
+    }
+
     public Integer getIdOferta() {
         return idOferta;
     }

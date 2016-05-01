@@ -12,6 +12,19 @@ public class Empresa {
     private String celularContacto;
     private String correoElectronico;
 
+    protected Empresa() {
+    }
+
+    public Empresa(Integer idEmpresa, String razonSocial, String ruc, String representante, String telefono, String correoElectronico, String celularContacto) {
+        this.idEmpresa = idEmpresa;
+        this.razonSocial = razonSocial;
+        this.ruc = ruc;
+        this.representante = representante;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.celularContacto = celularContacto;
+    }
+
     public Integer getIdEmpresa() {
         return idEmpresa;
     }

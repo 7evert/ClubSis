@@ -8,6 +8,15 @@ public class Horario {
     private String dia;
     private Integer hora;
 
+    protected Horario() {
+    }
+
+    public Horario(Integer idHorario, Integer hora, String dia) {
+        this.idHorario = idHorario;
+        this.hora = hora;
+        this.dia = dia;
+    }
+
     public Integer getIdHorario() {
         return idHorario;
     }

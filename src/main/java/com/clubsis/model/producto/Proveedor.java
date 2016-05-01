@@ -7,6 +7,14 @@ public class Proveedor {
     private Integer idProveedor;
     private String descripcion;
 
+    protected Proveedor() {
+    }
+
+    public Proveedor(Integer idProveedor, String descripcion) {
+        this.idProveedor = idProveedor;
+        this.descripcion = descripcion;
+    }
+
     public Integer getIdProveedor() {
         return idProveedor;
     }

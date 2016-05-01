@@ -7,6 +7,14 @@ public class Producto {
     private Integer idProducto;
     private String descripcion;
 
+    protected Producto() {
+    }
+
+    public Producto(Integer idProducto, String descripcion) {
+        this.idProducto = idProducto;
+        this.descripcion = descripcion;
+    }
+
     public Integer getIdProducto() {
         return idProducto;
     }

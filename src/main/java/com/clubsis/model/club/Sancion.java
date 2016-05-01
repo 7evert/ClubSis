@@ -13,6 +13,18 @@ public class Sancion {
     private Date fechaPago;
     private String estado;
 
+    protected Sancion() {
+    }
+
+    public Sancion(Integer idSancion, String nombre, Double costo, String descripcion, Date fechaPago, String estado) {
+        this.idSancion = idSancion;
+        this.nombre = nombre;
+        this.costo = costo;
+        this.descripcion = descripcion;
+        this.fechaPago = fechaPago;
+        this.estado = estado;
+    }
+
     public Integer getIdSancion() {
         return idSancion;
     }

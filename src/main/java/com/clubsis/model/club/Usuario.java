@@ -7,6 +7,14 @@ public class Usuario {
     private Integer idUsuario;
     private String contraseña;
 
+    protected Usuario() {
+    }
+
+    public Usuario(Integer idUsuario, String contraseña) {
+        this.idUsuario = idUsuario;
+        this.contraseña = contraseña;
+    }
+
     public Integer getIdUsuario() {
         return idUsuario;
     }

@@ -10,6 +10,15 @@ public class Invitado {
     private Date fechaVisita;
     private Boolean esExoneradoPago;
 
+    protected Invitado() {
+    }
+
+    public Invitado(Integer idInvitado, Date fechaVisita, Boolean esExoneradoPago) {
+        this.idInvitado = idInvitado;
+        this.fechaVisita = fechaVisita;
+        this.esExoneradoPago = esExoneradoPago;
+    }
+
     public Integer getIdInvitado() {
         return idInvitado;
     }

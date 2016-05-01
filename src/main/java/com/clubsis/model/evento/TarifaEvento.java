@@ -8,6 +8,15 @@ public class TarifaEvento {
     private String descripcion;
     private Double precio;
 
+    protected TarifaEvento() {
+    }
+
+    public TarifaEvento(Integer idTarifa, String descripcion, Double precio) {
+        this.idTarifa = idTarifa;
+        this.descripcion = descripcion;
+        this.precio = precio;
+    }
+
     public Integer getIdTarifa() {
         return idTarifa;
     }

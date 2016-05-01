@@ -11,6 +11,16 @@ public class Socio {
     private Integer estado;
     private Integer codigoCarnet;
 
+    protected Socio() {
+    }
+
+    public Socio(Integer idSocio, Date fechaInscripcion, Integer estado, Integer codigoCarnet) {
+        this.idSocio = idSocio;
+        this.fechaInscripcion = fechaInscripcion;
+        this.estado = estado;
+        this.codigoCarnet = codigoCarnet;
+    }
+
     public Integer getIdSocio() {
         return idSocio;
     }

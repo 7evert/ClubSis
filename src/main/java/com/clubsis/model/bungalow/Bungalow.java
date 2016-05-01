@@ -10,6 +10,17 @@ public class Bungalow {
     private Double precio;
     private String caracteristicas;
 
+    protected Bungalow() {
+    }
+
+    public Bungalow(String caracteristicas, Double precio, Integer capacidad, Integer estado, Integer idBungalow) {
+        this.caracteristicas = caracteristicas;
+        this.precio = precio;
+        this.capacidad = capacidad;
+        this.estado = estado;
+        this.idBungalow = idBungalow;
+    }
+
     public Integer getIdBungalow() {
         return idBungalow;
     }

@@ -9,6 +9,14 @@ public class ReservaBungalow {
     private Integer idReserva;
     private Date fechaReserva;
 
+    public ReservaBungalow(Integer idReserva, Date fechaReserva) {
+        this.idReserva = idReserva;
+        this.fechaReserva = fechaReserva;
+    }
+
+    protected ReservaBungalow() {
+    }
+
     public Integer getIdReserva() {
         return idReserva;
     }

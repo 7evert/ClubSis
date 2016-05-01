@@ -10,6 +10,15 @@ public class RegistroClase {
     private Date fechaRegistro;
     private String estado;
 
+    protected RegistroClase() {
+    }
+
+    public RegistroClase(Integer idPersona, Date fechaRegistro, String estado) {
+        this.idPersona = idPersona;
+        this.fechaRegistro = fechaRegistro;
+        this.estado = estado;
+    }
+
     public Integer getIdPersona() {
         return idPersona;
     }

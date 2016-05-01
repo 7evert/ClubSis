@@ -10,6 +10,14 @@ public class Postulante {
     private List<String> observaciones;
     private Date fechaPostulacion;
 
+    protected Postulante() {
+    }
+
+    public Postulante(List<String> observaciones, Date fechaPostulacion) {
+        this.observaciones = observaciones;
+        this.fechaPostulacion = fechaPostulacion;
+    }
+
     public List<String> getObservaciones() {
         return observaciones;
     }

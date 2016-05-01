@@ -12,6 +12,16 @@ public class Club {
     private List<Sorteo> sorteos;
     private List<Sancion> sanciones;
 
+    protected Club() {
+    }
+
+    public Club(String nombreClub, Image logo, List<Sorteo> sorteos, List<Sancion> sanciones) {
+        this.nombreClub = nombreClub;
+        this.logo = logo;
+        this.sorteos = sorteos;
+        this.sanciones = sanciones;
+    }
+
     public String getNombreClub() {
         return nombreClub;
     }

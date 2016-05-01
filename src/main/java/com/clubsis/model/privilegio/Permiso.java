@@ -7,6 +7,14 @@ public class Permiso {
     private Integer idPermiso;
     private String descripcion;
 
+    protected Permiso() {
+    }
+
+    public Permiso(Integer idPermiso, String descripcion) {
+        this.idPermiso = idPermiso;
+        this.descripcion = descripcion;
+    }
+
     public Integer getIdPermiso() {
         return idPermiso;
     }

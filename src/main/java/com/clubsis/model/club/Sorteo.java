@@ -13,6 +13,16 @@ public class Sorteo {
     private Date fechaFin;
     private Socio ganador;
 
+    protected Sorteo() {
+    }
+
+    public Sorteo(Integer idSocio, Date fechaInicio, Date fechaFin, Socio ganador) {
+        this.idSocio = idSocio;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.ganador = ganador;
+    }
+
     public Integer getIdSocio() {
         return idSocio;
     }

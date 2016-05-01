@@ -12,6 +12,19 @@ public class Clase {
     private Integer capacidad;
     private String profesor;
 
+    protected Clase() {
+    }
+
+    public Clase(Integer idClase, Integer nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor) {
+        this.idClase = idClase;
+        this.nivel = nivel;
+        this.rangoEdad = rangoEdad;
+        this.precioCiclo = precioCiclo;
+        this.precioMes = precioMes;
+        this.capacidad = capacidad;
+        this.profesor = profesor;
+    }
+
     public Integer getIdClase() {
         return idClase;
     }

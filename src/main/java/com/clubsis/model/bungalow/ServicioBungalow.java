@@ -8,6 +8,15 @@ public class ServicioBungalow {
     private String descripcion;
     private Double precio;
 
+    protected ServicioBungalow(){
+    }
+
+    public ServicioBungalow(Integer idServicioBungalow, String descripcion, Double precio) {
+        this.idServicioBungalow = idServicioBungalow;
+        this.descripcion = descripcion;
+        this.precio = precio;
+    }
+
     public Integer getIdServicioBungalow() {
         return idServicioBungalow;
     }

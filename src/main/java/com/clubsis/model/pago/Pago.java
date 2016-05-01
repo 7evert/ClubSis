@@ -9,6 +9,16 @@ public class Pago {
     private Double mora;
     private String valoracion;
 
+    protected Pago() {
+    }
+
+    public Pago(Integer idPago, Integer cuotas, Double mora, String valoracion) {
+        this.idPago = idPago;
+        this.cuotas = cuotas;
+        this.mora = mora;
+        this.valoracion = valoracion;
+    }
+
     public Integer getIdPago() {
         return idPago;
     }

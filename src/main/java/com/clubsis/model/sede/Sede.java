@@ -8,6 +8,15 @@ public class Sede {
     private String descripcion;
     private String direccion;
 
+    protected Sede() {
+    }
+
+    public Sede(Integer idSede, String descripcion, String direccion) {
+        this.idSede = idSede;
+        this.descripcion = descripcion;
+        this.direccion = direccion;
+    }
+
     public Integer getIdSede() {
         return idSede;
     }

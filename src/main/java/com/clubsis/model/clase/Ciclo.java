@@ -11,6 +11,16 @@ public class Ciclo {
     private Date fechaInicio;
     private Date fechaFin;
 
+    protected Ciclo() {
+    }
+
+    public Ciclo(Integer idCiclo, String descripcion, Date fechaInicio, Date fechaFin) {
+        this.idCiclo = idCiclo;
+        this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+    }
+
     public Integer getIdCiclo() {
         return idCiclo;
     }

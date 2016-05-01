@@ -8,6 +8,15 @@ public class Concesion {
     private String razonSocial;
     private String ruc;
 
+    protected Concesion() {
+    }
+
+    public Concesion(Integer idConcesion, String razonSocial, String ruc) {
+        this.idConcesion = idConcesion;
+        this.razonSocial = razonSocial;
+        this.ruc = ruc;
+    }
+
     public Integer getIdConcesion() {
         return idConcesion;
     }

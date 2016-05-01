@@ -7,6 +7,14 @@ public class Rol {
     private Integer idRol;
     private String descripcion;
 
+    protected Rol() {
+    }
+
+    public Rol(Integer idRol, String descripcion) {
+        this.idRol = idRol;
+        this.descripcion = descripcion;
+    }
+
     public Integer getIdRol() {
         return idRol;
     }

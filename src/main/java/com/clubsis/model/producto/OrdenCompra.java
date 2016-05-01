@@ -6,6 +6,13 @@ package com.clubsis.model.producto;
 public class OrdenCompra {
     private Integer idOrdenCompra;
 
+    protected OrdenCompra() {
+    }
+
+    public OrdenCompra(Integer idOrdenCompra) {
+        this.idOrdenCompra = idOrdenCompra;
+    }
+
     public Integer getIdOrdenCompra() {
         return idOrdenCompra;
     }

@@ -13,6 +13,18 @@ public class PagoMembresia {
     private Date fechaPago;
     private Date fechaAnulacion;
 
+    protected PagoMembresia() {
+    }
+
+    public PagoMembresia(Integer idPagoMembresia, Date fechaVencimiento, Double montoPago, String estado, Date fechaPago, Date fechaAnulacion) {
+        this.idPagoMembresia = idPagoMembresia;
+        this.fechaVencimiento = fechaVencimiento;
+        this.montoPago = montoPago;
+        this.estado = estado;
+        this.fechaPago = fechaPago;
+        this.fechaAnulacion = fechaAnulacion;
+    }
+
     public Integer getIdPagoMembresia() {
         return idPagoMembresia;
     }

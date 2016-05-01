@@ -8,6 +8,15 @@ public class TipoBungalow {
     private String descripcion;
     private String caracteristicas;
 
+    protected TipoBungalow(){
+    }
+
+    public TipoBungalow(Integer idTipoBungalow, String descripcion, String caracteristicas) {
+        this.idTipoBungalow = idTipoBungalow;
+        this.descripcion = descripcion;
+        this.caracteristicas = caracteristicas;
+    }
+
     public Integer getIdTipoBungalow() {
         return idTipoBungalow;
     }

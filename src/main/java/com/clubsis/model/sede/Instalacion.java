@@ -11,6 +11,18 @@ public class Instalacion {
     private Double precioReserva;
     private Integer estado;
 
+    protected Instalacion() {
+    }
+
+    public Instalacion(Integer idInstalacion, String referencia, String descripcion, Integer capacidad, Double precioReserva, Integer estado) {
+        this.idInstalacion = idInstalacion;
+        this.referencia = referencia;
+        this.descripcion = descripcion;
+        this.capacidad = capacidad;
+        this.precioReserva = precioReserva;
+        this.estado = estado;
+    }
+
     public Integer getIdInstalacion() {
         return idInstalacion;
     }
