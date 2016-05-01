@@ -55,7 +55,7 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
             class: 'pull-right',
             id:'accionAgregar'
         }).append('<input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary rght-box accionLista"/>').appendTo("#topMostrar");
-        b[0].onclick=agregar();
+        b[0].onclick=agregar;
     }
 }
 function eliminarBotones(){

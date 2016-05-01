@@ -10,6 +10,17 @@
             <title>Title</title>
             <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
             <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
+            <script type="text/javascript">
+
+                function Ver(){location.href="reservaInstalacion.html";event.preventDefault();}
+                function Editar(){location.href="reservaInstalacion.html";event.preventDefault();}
+                function Eliminar(){location.href="reservaInstalacion.html";event.preventDefault();}
+                function Reservar(){location.href="reservaInstalacion.html";event.preventDefault();}
+
+                function Agregar(){location.href="reservaInstalacion.html";event.preventDefault();}
+                var funciones=[Ver,Editar,Eliminar,Reservar];
+
+            </script>
         </head>
 <body>
 <div id="headerUsuario"></div>
@@ -103,7 +114,7 @@
                         <div class="form-group" style="margin-left: 60px;">
                             <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
                             <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
-                            <a href="javascript:void(0)" class="btn btn-primary">Nuevo Producto</a>
+                            <!--<a href="javascript:void(0)" class="btn btn-primary">Nuevo Producto</a>-->
                         </div>
                     </div>
                 </div>
@@ -177,18 +188,20 @@
     </div>
 </div>
 <div class="pull-right"><!--esto solo es para verificar que funciona, luego se borrara-->
-    <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span><BR>
-    <button onclick="cambiarDeUsuario(2)" class="btn btn-primary pull-right">Como Socio</button>
-    <button onclick="cambiarDeUsuario(0)" class="btn btn-primary pull-right">Como Super Administrador</button>
-    <button onclick="cambiarDeUsuario(1)" class="btn btn-primary pull-right">Como Administrador</button>
+    <button onclick="cambiarDeUsuario(1,Agregar,funciones)" class="btn btn-primary pull-right">Como Socio</button>
+    <button onclick="cambiarDeUsuario(0,Agregar,funciones)" class="btn btn-primary pull-right">Como Administrador</button><br>
+    <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
 <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
+    $(".date-picker").datepicker();
     window.onload=function(){
         /*todos los elementos de la lista esta incluidos dinamicamente*/
         /*si desean cambiaar entren al codigo js/generarElementoBungalow.js **/
@@ -202,15 +215,6 @@
          *un #top-mostrar para el  boton agregar(unico x pagina)
          *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/
-
-        function Ver(){location.href="reservaInstalacion.html";event.preventDefault();}
-        function Editar(){location.href="reservaInstalacion.html";event.preventDefault();}
-        function Eliminar(){location.href="reservaInstalacion.html";event.preventDefault();}
-        function Reservar(){location.href="reservaInstalacion.html";event.preventDefault();}
-
-        function Agregar(){location.href="reservaInstalacion.html";event.preventDefault();}
-        var funciones=[Ver,Editar,Eliminar,Reservar];
-
 
         cambiarDeUsuario(administrador,Agregar,funciones);
 
