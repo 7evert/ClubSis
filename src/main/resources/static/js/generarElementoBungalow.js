@@ -15,7 +15,7 @@ var imagenBungalow=["img/Bungalows/TipoBungalows/1_Lorena.png",
     "img/Bungalows/TipoBungalows/5_KingCharles.png"];
 var tituloBongalow=["Bungalow Lorena","Bungalow Club","Bungalow Class","Bungalow King","Bungalow King Charles",
     "Bungalow Lorena","Bungalow Club","Bungalow Class","Bungalow King","Bungalow King Charles"];
-var sedesBungalows=[["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"]];
+var sedesBungalows=[["Chorrillos"],["Playa"],["Chorrillos"],["Chosica"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"]];
 var capacidadBungalow=[6,8,12,16,20,6,8,12,16,20];
 var precioBungalow=[80.00,100.00,120.00,140.00,160.00,80.00,100.00,120.00,140.00,160.00];
 var caracteristicasBungalows=[
@@ -75,6 +75,7 @@ function retornaPanelInfo(i){
     b[2]=retornaSedes(sedesBungalows[i]);
     b[3]=$('<h3></h3>').html('Capacidad');
     b[4]=retornaCapacidad(capacidadBungalow[i]);
+    b[5]=$('<h3></h3>').html('Estado: Disponible');
     for(var j=0;j<b.length;j++)
         panelInfo.append(b[j]);
     return panelInfo;

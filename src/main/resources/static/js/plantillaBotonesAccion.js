@@ -2,14 +2,14 @@
  * Created by RnzPol on 18/04/2016.
  */
 /*****************++PLANTILLA DE LOS BOTONES******************************/
-var superAdministrador=0,administrador=1,socio=2;
+var administrador=0,socio=1;
 var accionesXElemento=[
     /*ver,editar,eliminar,reservar,registrar*/
     //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-    ["Ver","Editar","Eliminar","Reservar"],//ADIMINISTRADOR
+    ["Ver","Reservar","Editar","Eliminar"],//ADIMINISTRADOR
     //["Reservar","Anular","Modificar"],//usuario:Administradio
     ["Ver","Reservar"]];//usuario:Socio
-var accionAgregar=[["Agregar"],//usuario:ADMINISTRADOR
+var accionAgregar=[["Registrar"],//usuario:ADMINISTRADOR
     []];//usuario:Socio
 var actualUsuario;
 /*
@@ -54,7 +54,7 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
         var b=$('<span>').attr({
             class: 'pull-right',
             id:'accionAgregar'
-        }).append('<input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary rght-box accionLista"/>').appendTo("#topMostrar");
+        }).append('<input type="submit" tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista"/>').appendTo("#topMostrar");
         b[0].onclick=agregar;
     }
 }

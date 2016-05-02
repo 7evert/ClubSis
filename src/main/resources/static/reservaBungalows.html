@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>Reserva Bungalows</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -34,6 +34,7 @@
         <h2>Reserva de Bungalows</h2>
         <hr>
         <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
+            <div style="height:10%;visibility: hidden;font-size: 20px;">A</div>
             <div id="escogerSedeBungalows" class="form-group">
                 <label class="control-label col-xs-4">Escoger Sede</label>
                 <select class="form-control col-xs-3" style="margin-top:3px; width:360px">
@@ -42,11 +43,12 @@
                     <option value="3">Jesus Maria</option>
                 </select>
             </div>
+            <!--
             <div id="cantBung" class="form-group">
                 <label class="control-label col-xs-4">Escoger Bungalows</label>
                 <label class="control-label col-xs-7 pull-right">
                     <span class="col-xs-8 invisible">_</span>
-                    <!--<input type="submit" class="col-xs-4 btn btn-primary" value="Detalles>>">-->
+                    <!--<input type="submit" class="col-xs-4 btn btn-primary" value="Detalles>>">- ->
 
                     <br/>
                 </label>
@@ -111,6 +113,7 @@
                     </tr>
                 </table>
             </div>
+    -->
 
             <div id="elegirEstadia" class="form-group">
                 <label class="control-label col-xs-4">Día de Entrada</label>
@@ -130,10 +133,10 @@
 
             </div>
             <div class="form-group">
-                <div class="col-xs-offset-7 col-xs-11">
-                    <input type="" class="btn btn-primary" value="Reservar" style="width:22%">
-                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%">
-
+                <div class="col-xs-offset-4 col-xs-10">
+                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='BungalowInformacion.html';">
+                    <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="alert('Tu reserva fue exitosa');location.href='loginUsuario.html';">
+                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
                 </div>
             </div>
         </form>
