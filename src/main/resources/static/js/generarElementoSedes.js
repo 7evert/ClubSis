@@ -17,8 +17,8 @@ var imagenSedes=[
 
 
 ];
-var tituloBongalow=["sede Lima","sede Tarapoto","sede MacchuPicchu","sede Cusco","sede Atlantis",
-    "sede Catolica","sede Causa","sede Isquierda","sede Los Olivos","sede MiraFlorres"];
+var tituloBongalow=["Sede Lima","Sede Tarapoto","Sede MacchuPicchu","Sede Cusco","Sede Atlantis",
+    "Sede Catolica","Sede Causa","Sede Isquierda","Sede Los Olivos","Sede MiraFlorres"];
 var sedesBungalows=[[],[],[],[],[],[],[],[],[],[]];
 var telephoneNumbers=[90021906,1204021408,190212,90129016,90129020,9021806,8080128,128080,80016,2808000];
 var precioBungalow=[80.00,100.00,120.00,140.00,160.00,80.00,100.00,120.00,140.00,160.00];

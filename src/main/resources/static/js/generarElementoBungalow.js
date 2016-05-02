@@ -13,8 +13,8 @@ var imagenBungalow=["img/Bungalows/TipoBungalows/1_Lorena.png",
     "img/Bungalows/TipoBungalows/3_Class.png",
     "img/Bungalows/TipoBungalows/4_king.png",
     "img/Bungalows/TipoBungalows/5_KingCharles.png"];
-var tituloBongalow=["bungalow Lorena","bungalow club","bungalow Class","bungalow King","bungalow King Charles",
-    "bungalow Lorena","bungalow club","bungalow Class","bungalow King","bungalow King Charles"];
+var tituloBongalow=["Bungalow Lorena","Bungalow club","Bungalow Class","Bungalow King","Bungalow King Charles",
+    "Bungalow Lorena","Bungalow club","Bungalow Class","Bungalow King","Bungalow King Charles"];
 var sedesBungalows=[["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"]];
 var capacidadBungalow=[6,8,12,16,20,6,8,12,16,20];
 var precioBungalow=[80.00,100.00,120.00,140.00,160.00,80.00,100.00,120.00,140.00,160.00];
@@ -93,7 +93,7 @@ function retornaSedes(sedes){
     }
 }
 function retornaCapacidad(capacidad){
-    var cadena=(capacidad>1)?" Personas":" persona";
+    var cadena=(capacidad>1)?" Personas":" Persona";
     return $('<h2></h2>').html(capacidad+cadena);
 }
 
