@@ -1,14 +1,19 @@
 package com.clubsis.model.pago;
 
+import javax.persistence.*;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Pago {
+    @Id
+    @GeneratedValue
+    @Column(name = "id_pago")
     private Integer idPago;
     private Integer cuotas;
     private Double mora;
     private String valoracion;
-
     protected Pago() {
     }
 

@@ -1,9 +1,15 @@
 package com.clubsis.model.sede;
+import javax.persistence.*;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class Instalacion {
+    @Id
+    @GeneratedValue
+    @Column(name="id_instalacion")
     private Integer idInstalacion;
     private String descripcion;
     private String referencia;

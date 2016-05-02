@@ -1,11 +1,14 @@
 package com.clubsis.model.club;
 
 import java.util.Date;
-
+import javax.persistence.*;
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Oferta {
+    @Id
+    @GeneratedValue
     private Integer idOferta;
     private String nombreOferta;
     private String descripcion;
@@ -14,7 +17,9 @@ public class Oferta {
     private Date fechaInicio;
     private Date fechaFin;
     private String estado;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_club")
+    Club club;
     protected Oferta() {
     }
 

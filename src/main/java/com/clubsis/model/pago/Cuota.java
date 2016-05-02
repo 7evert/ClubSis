@@ -1,18 +1,25 @@
 package com.clubsis.model.pago;
 
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class Cuota {
+    @Id
+    @GeneratedValue
     private Integer idCuota;
     private String estado;
     private Date fechaVencimiento;
     private Integer numero;
     private Date fechaPago;
     private String tipo;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_pago")
+    private Pago pago;
     protected Cuota() {
     }
 

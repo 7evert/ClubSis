@@ -1,11 +1,16 @@
 package com.clubsis.model.persona;
 
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Persona {
+    @Id
+    @GeneratedValue
+    @Column(name="id_persona")
     private Integer idPersona;
     private String nombre;
     private String apellidoPaterno;
@@ -16,21 +21,23 @@ public class Persona {
     private Integer dni;
     private String telefono;
     private Boolean esTitular;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_socio")
+    private Socio socio;
     protected Persona() {
     }
 
     public Persona(Integer idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, String telefono, Boolean esTitular) {
         this.idPersona = idPersona;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.fechaNacimiento = fechaNacimiento;
-        this.direccion = direccion;
-        this.correoElectronico = correoElectronico;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.esTitular = esTitular;
+    this.nombre = nombre;
+    this.apellidoPaterno = apellidoPaterno;
+    this.apellidoMaterno = apellidoMaterno;
+    this.fechaNacimiento = fechaNacimiento;
+    this.direccion = direccion;
+    this.correoElectronico = correoElectronico;
+    this.dni = dni;
+    this.telefono = telefono;
+    this.esTitular = esTitular;
     }
 
     public Integer getIdPersona() {

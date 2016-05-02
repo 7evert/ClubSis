@@ -1,9 +1,15 @@
 package com.clubsis.model.club;
 
+import javax.persistence.*;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Usuario {
+    @Id
+    @GeneratedValue
+    @Column(name="id_usuario")
     private Integer idUsuario;
     private String contraseña;
 

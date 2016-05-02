@@ -1,25 +1,26 @@
 package com.clubsis.model.club;
 
-import java.awt.*;
-import java.util.List;
+
+import javax.persistence.*;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Club {
+    @Id
+    @GeneratedValue
+    @Column(name="id_club")
+    private Integer idClub;
     private String nombreClub;
-    private Image logo;
-    private List<Sorteo> sorteos;
-    private List<Sancion> sanciones;
+    //private Image Logo
 
     protected Club() {
     }
 
-    public Club(String nombreClub, Image logo, List<Sorteo> sorteos, List<Sancion> sanciones) {
+    public Club(String nombreClub) {
         this.nombreClub = nombreClub;
-        this.logo = logo;
-        this.sorteos = sorteos;
-        this.sanciones = sanciones;
+        //this.logo = logo;
     }
 
     public String getNombreClub() {
@@ -30,27 +31,11 @@ public class Club {
         this.nombreClub = nombreClub;
     }
 
-    public Image getLogo() {
+    /*public Image getLogo() {
         return logo;
-    }
+    }*/
 
-    public void setLogo(Image logo) {
+    /*public void setLogo(Image logo) {
         this.logo = logo;
-    }
-
-    public List<Sorteo> getSorteos() {
-        return sorteos;
-    }
-
-    public void setSorteos(List<Sorteo> sorteos) {
-        this.sorteos = sorteos;
-    }
-
-    public List<Sancion> getSanciones() {
-        return sanciones;
-    }
-
-    public void setSanciones(List<Sancion> sanciones) {
-        this.sanciones = sanciones;
-    }
+    }*/
 }

@@ -3,11 +3,11 @@
  */
 
 /************SCRIPT PARA LLENAR LOS DATOS DINAMICAMENTE*******************/
-var titulOferta = ["2 Bungalows King x 1","Descuento Bungalow Class","1 Bungalow Gratis","3 Botellas de Vino","4 Cajas de Cerveza","1 Pollo Entero"]
+var titulOferta = ["2 Bungalows King x 1","Descuento bungalow Class","1 bungalow Gratis","3 Botellas de Vino","4 Cajas de Cerveza","1 Pollo Entero"]
 var idOferta =["1234","1432","9752","6654","9182","0126"];
 var descripcionOferta =["Esta oferta,te permite poder alquilar 2 Bungalows por el precio de 1, sin cargos extras.",
-    "Esta oferta,te permite alquilar 1 Bungalow con descuento generoso.",
-    "Esta oferta,te permite poder alquilar 1 Bungalow Sin costo",
+    "Esta oferta,te permite alquilar 1 bungalow con descuento generoso.",
+    "Esta oferta,te permite poder alquilar 1 bungalow Sin costo",
     "Si ganas te regalaremos3 botellas de vino",
     "Si ganas te regalaremos 4 Cajas ed Cerveza",
     "Si ganas te regalaremos 1 Pollo entero para que comas con tu familia"];

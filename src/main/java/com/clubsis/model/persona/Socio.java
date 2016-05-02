@@ -1,16 +1,25 @@
 package com.clubsis.model.persona;
 
+import com.clubsis.model.club.Usuario;
+
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Socio {
+    @Id
+    @GeneratedValue
+    @Column(name = "id_socio")
     private Integer idSocio;
     private Date fechaInscripcion;
     private Integer estado;
     private Integer codigoCarnet;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_usuario")
+    Usuario usuario;
     protected Socio() {
     }
 

@@ -1,34 +1,43 @@
 package com.clubsis.model.club;
 
-import com.clubsis.model.persona.Socio;
-
+import com.clubsis.model.bungalow.Bungalow;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Sorteo {
-    private Integer idSocio;
+    @Id
+    @GeneratedValue
+    private Integer idSorteo;
     private Date fechaInicio;
     private Date fechaFin;
-    private Socio ganador;
+    private Integer ganador;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="id_bungalow")
+    Bungalow bungalow;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_club")
+    Club club;
 
     protected Sorteo() {
     }
 
-    public Sorteo(Integer idSocio, Date fechaInicio, Date fechaFin, Socio ganador) {
-        this.idSocio = idSocio;
+    public Sorteo(Integer idSorteo, Date fechaInicio, Date fechaFin) {
+        this.idSorteo= idSorteo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.ganador = ganador;
     }
 
-    public Integer getIdSocio() {
-        return idSocio;
+    public Integer getIdSorteo() {
+        return idSorteo;
     }
 
-    public void setIdSocio(Integer idSocio) {
-        this.idSocio = idSocio;
+    public void setIdSorteo(Integer idSorteo) {
+        this.idSorteo = idSorteo;
     }
 
     public Date getFechaInicio() {
@@ -45,13 +54,5 @@ public class Sorteo {
 
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public Socio getGanador() {
-        return ganador;
-    }
-
-    public void setGanador(Socio ganador) {
-        this.ganador = ganador;
     }
 }

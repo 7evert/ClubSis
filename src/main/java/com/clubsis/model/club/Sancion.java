@@ -1,17 +1,24 @@
 package com.clubsis.model.club;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Rodrigo López on 30/04/2016.
  */
+@Entity
 public class Sancion {
+    @Id
+    @GeneratedValue
     private Integer idSancion;
     private String nombre;
     private Double costo;
     private String descripcion;
     private Date fechaPago;
     private String estado;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_club")
+    Club club;
 
     protected Sancion() {
     }
