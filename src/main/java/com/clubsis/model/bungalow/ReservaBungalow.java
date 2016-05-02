@@ -18,6 +18,10 @@ public class ReservaBungalow {
     //private ServicioBungalow servicioBungalow;
     private Set<ServicioBungalow> serviciosBungalows;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_bungalow")
+    private Bungalow bungalow;
+
     public ReservaBungalow(Date fechaReserva, Set<ServicioBungalow> serviciosBungalows) {
         this.fechaReserva = fechaReserva;
         this.serviciosBungalows = serviciosBungalows;
@@ -48,5 +52,13 @@ public class ReservaBungalow {
 
     public void setServiciosBungalows(Set<ServicioBungalow> serviciosBungalows) {
         this.serviciosBungalows = serviciosBungalows;
+    }
+
+    public Bungalow getBungalow() {
+        return bungalow;
+    }
+
+    public void setBungalow(Bungalow bungalow) {
+        this.bungalow = bungalow;
     }
 }

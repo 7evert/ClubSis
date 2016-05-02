@@ -10,6 +10,7 @@ public class Bungalow {
 
     @Id
     @GeneratedValue
+    @Column(name="id_bungalow")
     private Integer idBungalow;
 
     private Integer capacidad;
@@ -23,6 +24,9 @@ public class Bungalow {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_tipo_bungalow")
     private TipoBungalow tipoBungalow;
+
+
+
 
     protected Bungalow() {
     }
