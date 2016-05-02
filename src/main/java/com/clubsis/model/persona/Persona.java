@@ -119,4 +119,8 @@ public class Persona {
     public void setEsTitular(Boolean esTitular) {
         this.esTitular = esTitular;
     }
+
+    public Socio getSocio() { return socio; }
+
+    public void setSocio(Socio socio) { this.socio = socio; }
 }

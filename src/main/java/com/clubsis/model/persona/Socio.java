@@ -19,7 +19,7 @@ public class Socio {
     private Integer codigoCarnet;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_usuario")
-    Usuario usuario;
+    private Usuario usuario;
     protected Socio() {
     }
 
@@ -61,4 +61,8 @@ public class Socio {
     public void setCodigoCarnet(Integer codigoCarnet) {
         this.codigoCarnet = codigoCarnet;
     }
+
+    public Usuario getUsuario() { return usuario; }
+
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 }

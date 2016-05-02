@@ -17,11 +17,11 @@ public class ReservaInstalacion {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_instalacion")
-    Instalacion instalacion;
+    private Instalacion instalacion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_persona")
-    Persona persona;
+    private Persona persona;
     protected ReservaInstalacion() {
     }
 
@@ -54,4 +54,12 @@ public class ReservaInstalacion {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public Instalacion getInstalacion() { return instalacion;  }
+
+    public void setInstalacion(Instalacion instalacion) { this.instalacion = instalacion; }
+
+    public Persona getPersona() { return persona; }
+
+    public void setPersona(Persona persona) { this.persona = persona; }
 }

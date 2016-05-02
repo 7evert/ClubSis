@@ -79,4 +79,8 @@ public class Cuota {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public Pago getPago() { return pago; }
+
+    public void setPago(Pago pago) { this.pago = pago; }
 }

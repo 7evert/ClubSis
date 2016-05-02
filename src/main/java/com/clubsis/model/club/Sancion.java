@@ -18,7 +18,7 @@ public class Sancion {
     private String estado;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_club")
-    Club club;
+    private Club club;
 
     protected Sancion() {
     }
@@ -79,4 +79,8 @@ public class Sancion {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public Club getClub() { return club; }
+
+    public void setClub(Club club) { this.club = club; }
 }

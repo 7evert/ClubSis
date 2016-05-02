@@ -17,11 +17,11 @@ public class Sorteo {
     private Integer ganador;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="id_bungalow")
-    Bungalow bungalow;
+    private Bungalow bungalow;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_club")
-    Club club;
+    private Club club;
 
     protected Sorteo() {
     }
@@ -55,4 +55,12 @@ public class Sorteo {
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    public Bungalow getBungalow() { return bungalow; }
+
+    public void setBungalow(Bungalow bungalow) { this.bungalow = bungalow; }
+
+    public Club getClub() { return club; }
+
+    public void setClub(Club club) { this.club = club; }
 }
