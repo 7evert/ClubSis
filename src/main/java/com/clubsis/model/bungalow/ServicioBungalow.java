@@ -7,6 +7,10 @@ import java.util.Set;
  * Created by Juan Tenorio on 29/4/2016.
  */
 
+/**
+ * Slsvcn: esta clase NO es un servicio en el sentido de arquitectura de software.
+ */
+
 @Entity
 public class ServicioBungalow {
     @Id
