@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation"><a href="miCuenta.html">Cuenta</a></li>
+        <li role="presentation"><a href="#">Perfil</a></li>
+        <li role="presentation" class="active"><a href="miCuenta_cambiarClave.html">Cambiar clave</a></li>
+        <li role="presentation"><a href="miCuenta_familiares.html">Familiares asociados</a></li>
+    </ul>
+    <hr>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-xs-3">Contraseña Actual</label>
+            <div class="col-xs-5">
+                <input type="password" id="claveActual" name="clave" maxlength="15" autofocus="autofocus" tabindex="2" placeholder="Password" class="form-control validate[required]"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3">Nueva Contraseña</label>
+            <div class="col-xs-5">
+                <input type="password" id="claveNueva" name="clave" maxlength="15" autofocus="autofocus" tabindex="2" placeholder="Password" class="form-control validate[required]"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3">Confirmar Nueva Contraseña</label>
+            <div class="col-xs-5">
+                <input type="password" id="claveNuevaConf" name="clave" maxlength="15" autofocus="autofocus" tabindex="2" placeholder="Password" class="form-control validate[required]"/>
+            </div>
+        </div>
+        <div class="col-sm-3 col-lg-3">
+        </div>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 60px;">
+                <a href="javascript:void(0)" class="btn btn-primary">Guardar</a>
+                <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+</body>
+</html>

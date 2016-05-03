@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a href="miCuenta.html">Cuenta</a></li>
+        <li role="presentation"><a href="#">Perfil</a></li>
+        <li role="presentation"><a href="miCuenta_cambiarClave.html">Cambiar clave</a></li>
+        <li role="presentation"><a href="miCuenta_familiares.html">Familiares asociados</a></li>
+    </ul>
+    <hr>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-xs-3">Nombre</label>
+            <div class="col-xs-5">
+                <input class="form-control" disabled placeholder="Almendariz">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3">Apellido Paterno</label>
+            <div class="col-xs-5">
+                <input class="form-control" disabled placeholder="Almendariz">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3">Apellido Materno</label>
+            <div class="col-xs-5">
+                <input class="form-control" disabled  placeholder="Almendariz">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3">Correo Electrónico</label>
+            <div class="col-xs-5">
+                <input type="text"  class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3" >Pais</label>
+            <div class="col-xs-5">
+                <select id="pais" name="pais" class="form-control">
+                    <option value="">Pa&iacute;s</option>
+                    <option value="" disabled='disabled'> ------------ </option>
+                    <option value="AR">Argentina</option>
+                    <option value="AU">Australia</option>
+                    <option value="BR">Brasil</option>
+                    <option value="CA">Canadá</option>
+                    <option value="CL">Chile</option>
+                    <option value="CO">Colombia</option>
+                    <option value="FR">Francia</option>
+                    <option value="HK">Hong Kong</option>
+                    <option value="IN">India</option>
+                    <option value="IE">Irlanda</option>
+                    <option value="JP">Japón</option>
+                    <option value="MX">México</option>
+                    <option value="NL">Países Bajos</option>
+                    <option value="ZA">Sudáfrica</option>
+                    <option value="ES">España</option>
+                    <option value="GB">Reino Unido</option>
+                    <option value="US">Estados Unidos</option>
+                    <option value="" disabled='disabled'> ------------ </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3" >Región</label>
+            <div class="col-xs-5">
+                <select id="provincia" name="provincia" class="form-control">
+                    <option value="">Región</option>
+                    <option value="1">Amazonas</option>
+                    <option value="2">Ancash</option>
+                    <option value="3">Apurímac</option>
+                    <option value="4">Arequipa</option>
+                    <option value="5">Ayacucho</option>
+                    <option value="6">Cajamarca</option>
+                    <option value="8">Cusco</option>
+                    <option value="9">Huancavelica</option>
+                    <option value="10">Huánuco</option>
+                    <option value="11">Ica</option>
+                    <option value="12">Junín</option>
+                    <option value="13">La Libertad</option>
+                    <option value="14">Lambayeque</option>
+                    <option value="15" selected="selected">Lima</option>
+                    <option value="16">Loreto</option>
+                    <option value="17">Madre de Dios</option>
+                    <option value="18">Moquegua</option>
+                    <option value="19">Pasco</option>
+                    <option value="20">Piura</option>
+                    <option value="7">Provincia Constitucional del Callao</option>
+                    <option value="15" selected="selected">Provincia de Lima</option>
+                    <option value="21">Puno</option>
+                    <option value="22">San Martín</option>
+                    <option value="23">Tacna</option>
+                    <option value="24">Tumbes</option>
+                    <option value="25">Ucayali</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3" >Fecha de Nacimiento</label>
+            <div class="col-xs-5 date">
+                <div class="input-group input-append date">
+                    <input id="date-picker-TiempoInicio" type="text" class="date-picker form-control col-xs-5" />
+                    <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3" >Sexo</label>
+            <div class="col-xs-5">
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="sexoMasculini" value="option1"> Masculino
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="sexoFemenino" value="option2"> Femenino
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3 col-lg-3">
+        </div>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 60px;">
+                <a href="javascript:void(0)" class="btn btn-primary">Guardar</a>
+                <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
