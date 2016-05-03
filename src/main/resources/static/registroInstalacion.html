@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Bungalow Registro</title>
+    <title>Instalacion Registro</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -23,17 +23,17 @@
 <div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------------------->
-    <h2>Registro Bungalow</h2>
+    ------------------------------------------------------------------------- -------------------------------->
+    <h2>Registro Instalacion</h2>
     <hr>
-    <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
-        <div id="nombreBungalow" class="form-group">
-            <label class="control-label col-xs-4">Nombre Bungalow</label>
+    <form id="formReservaInstalacions" class="form-horizontal mitadDerecha">
+        <div id="nombreInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Nombre Instalacion</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+                <input type="text" class="form-control col-xs-8" placeholder="Campo 2 tenis,campo 3 de voley, o etc ..."/>
             </div>
         </div>
-        <div id="escogerSedeBungalows" class="form-group">
+        <div id="escogerSedeInstalacions" class="form-group">
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8">
@@ -43,38 +43,35 @@
                 </select>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Estado</label>
-            <div class="col-xs-8">
-                <select class="form-control col-xs-8" id="estado">
-                    <option>Libre</option>
-                    <option>Reservado</option>
-                    <option>En Mantenimiento</option>
-                </select>
-            </div>
-        </div>
-        <div id="precioBungalow" class="form-group">
-            <label class="control-label col-xs-4">Precio Bungalow</label>
+
+        <div id="precioInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Precio Reserva</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+                <input type="text" class="form-control col-xs-8" placeholder="S/. (Solo Numeros)"/>
             </div>
         </div>
-        <div id="capacidadBungalow" class="form-group">
+        <div id="capacidadInstalacion" class="form-group">
             <label class="control-label col-xs-4">Capacidad</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+                <input type="text" class="form-control col-xs-8" placeholder="personas"/>
             </div>
         </div>
-        <div id="CaracteristicasBungalow" class="form-group">
+        <div id="referenciaInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Referencia</label>
+            <div class="input-group col-xs-8">
+                <input type="text" class="form-control col-xs-8" placeholder="Lugar donde queda"/>
+            </div>
+        </div>
+        <div id="CaracteristicasInstalacion" class="form-group">
             <label class="control-label col-xs-4">Caracteristicas</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+                <input type="text" class="form-control col-xs-8" placeholder="caracteristicas separadas por '-'"/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input type="" class="btn btn-primary" value="Registrar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
+                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
             </div>
         </div>
     </form>

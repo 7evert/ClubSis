@@ -60,25 +60,82 @@
     <h2>Registro de Pago</h2>
     <hr>
     <form class="form-horizontal">
+        <h4>FILTRO DE BÚSQUEDA</h4>
         <div class="row">
-            <div class="form-group">
-                <label class="control-label col-xs-3">Código socio</label>
-                <div class="col-xs-3">
-                    <input type="text" class="form-control" id="inputCodSocio" placeholder="Código">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="codigo" class="col-md-4 control-label">Código</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="codigo" placeholder="Codigo del Socio">
+                    </div>
                 </div>
-                <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                <a href="javascript:void(0)" class="btn btn-primary">Consultar deuda</a>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del Socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="appPaterno" class="col-md-4 control-label">Apellido Paterno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="appPaterno" placeholder="Apellido Paterno del Socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="appMaterno" class="col-md-4 control-label">Apellido Materno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="appMaterno" placeholder="Apellido Materno del Socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="dni" class="col-md-4 control-label">DNI</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="dni" placeholder="DNI del Socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="correo" class="col-md-4 control-label">Correo</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="correo" placeholder="Correo del Socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 60px;">
+                    <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                </div>
             </div>
         </div>
-        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <h4>RESULTADOS DE BÚSQUEDA</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
         </div>
         <br>
-        <div class="form-group">
-            <a href="javascript:void(0)" class="btn btn-primary">Grabar</a>
-            <a href="javascript:void(0)" class="btn btn-primary">Cancelar</a>
+        <h4>LISTADO DE CUOTAS</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid1"></table>
+        </div>
+        <hr>
+        <div class="col-sm-7 col-lg-7">
+        </div>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 60px;">
+                <a href="javascript:void(0)" class="btn btn-primary">Grabar</a>
+                <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
         </div>
     </form>
 </div>
@@ -101,8 +158,9 @@
         colModel: [
             { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 75},
             { label: 'Codigo Socio', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Servicio', name: 'CustomerID', align: 'center', width: 300 },
+            { label: 'Nombre del Servicio', name: 'ShipName', align: 'center', width: 300 },
             { label: 'Monto', name: 'Freight', align: 'center', width: 150 },
+            { label: 'Fecha de vencimiento', name: 'OrderDate', align: 'center', width: 150 },
             { label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -113,6 +171,37 @@
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+        acciones = '<input type="checkbox" value="">'
+        return acciones;
+    }
+
+    $("#jqGrid1").jqGrid({
+        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+        mtype: "GET",
+        styleUI : 'Bootstrap',
+        datatype: "jsonp",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+        colModel: [
+            { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 75},
+            { label: 'Número de cuota', name: 'OrderID', align: 'center', width: 150 },
+            { label: 'Nombre del Servicio', name: 'ShipName', align: 'center', width: 300 },
+            { label: 'Monto', name: 'Freight', align: 'center', width: 150 },
+            { label: 'Fecha de vencimiento', name: 'OrderDate', align: 'center', width: 150 },
+            { label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+        ],
+        viewrecords: true,
+        height: 220,
+        rowNum: 10,
+        pager: "#jqGridPager"
+
+    });
+
+    $('#jqGrid1').jqGrid('setGridWidth', '900');
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
