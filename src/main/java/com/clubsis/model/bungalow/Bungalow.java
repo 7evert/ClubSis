@@ -25,7 +25,7 @@ public class Bungalow {
     @JoinColumn(name="id_tipo_bungalow")
     private TipoBungalow tipoBungalow;
 
-
+    // TODO: poner atributo Sede
 
 
     protected Bungalow() {
