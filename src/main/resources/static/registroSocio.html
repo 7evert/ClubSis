@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <!--<link rel="stylesheet" href="webjars/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>-->
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        #tip7-title {
+            text-align: left;
+        }
+
+        #tip7-title b {
+            display: block;
+            margin-right: 80px;
+        }
+
+        #tip7-title span {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            REGISTRO DEL SOCIO
+            <!--<a href="registroSocio.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 570px;">Añadir-->
+            <!--Socio</a>-->
+        </h3>
+    </div>
+    <hr>
+    <h4>DATOS DEL SOCIOS</h4>
+
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="tipoSocio">
+                            <option>Elegir</option>
+                            <option>Normal</option>
+                            <option>Vitalicio</option>
+                            <option>Eterno</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="estado" class="col-md-4 control-label">Estado</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="estado">
+                            <option>Elegir</option>
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                            <option>Sancionado</option>
+                            <option>Expulsado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="tipoDocumento">
+                            <option>Elegir</option>
+                            <option>DNI</option>
+                            <option>Pasaporte</option>
+                            <option>Extranjería</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nroDocumento" class="col-md-4 control-label">N° de documento</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nroDocumento" placeholder="DNI del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="usuario" class="col-md-4 control-label">ID Usuario</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="usuario" placeholder="Nombre usuario del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="password" class="col-md-4 control-label">Contraseña</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="password"
+                               placeholder="Contaseña de usuario del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombres</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombres del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido paterno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="apellidoPaterno"
+                               placeholder="Apellido parteno del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido materno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="apellidoMaterno"
+                               placeholder="Apellido materno del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Fecha nacimiento</label>
+                    <div class="col-md-8 date">
+                        <div class="input-group input-append date">
+                            <input id="date-picker-TiempoFin" type="text" class="date-picker form-control col-xs-6"
+                                   placeholder="dd/mm/aaaa">
+                            <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="telefono" class="col-md-4 control-label">Teléfono</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="telefono" placeholder="Telefono del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="correo" class="col-md-4 control-label">Correo</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="correo" placeholder="Correo electrónico del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="direccion" class="col-md-4 control-label">Dirección</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="direccion"
+                               placeholder="Dirección de vivienda del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div id="radios" class="form-group">
+                    <label class="col-md-4 control-label">¿Es titular?</label>
+                    <div class="radio col-md-3">
+                        <label><input type="radio" name="titular" id="titularSi" value="Si">Si</label>
+                    </div>
+                    <div class="radio col-md-3">
+                        <label><input type="radio" name="titular" id="titularNo" value="No">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-12">
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 80px;">
+                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Añadir Socio</a>
+                </div>
+            </div>
+        </div>
+        <a class="fancybox btn btn-primary prueba" rel="group" href="img/Eventos/newYear.jpg">Fancybox</a>
+        <!--<h4>RESULTADOS DE BUSQUEDA</h4>-->
+        <!--<div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">-->
+        <!--<table id="jqGrid"></table>-->
+        <!--<div id="jqGridPager"></div>-->
+        <!--</div>-->
+        <!--<br>-->
+        <!--<div class="leyenda">-->
+        <!--<span>Leyenda: </span>-->
+        <!--<span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Socio|-->
+        <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio-->
+        <!--|-->
+        <!--<span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Socio-->
+        <!--</div>-->
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<!-- Add mousewheel plugin (this is optional) -->
+<!--<script type="text/javascript" src="webjars/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>-->
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<!--<script type="text/javascript" src="webjars/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>-->
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+
+    $(".date-picker").datepicker();
+
+    $("#jqGrid").jqGrid({
+        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "jsonp",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+        colModel: [
+            {label: 'idSocio', name: 'idSocio', key: true, hidden: true, width: 75},
+            {label: 'N°', name: 'OrderID', align: 'center', width: 40},
+            {label: 'N° de Documento', name: 'OrderID', align: 'center', width: 150},
+            {label: 'Tipo de Documetno', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Nombres', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Apellido Paterno', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Apellido Materno', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Tipo de Socio', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+        ],
+        viewrecords: true,
+        height: 400,
+        rowNum: 20,
+        pager: "#jqGridPager"
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idSocio'] + '" title="Ver Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        return acciones;
+    }
+
+    function formatTitle(title, currentArray, currentIndex, currentOpts) {
+        return '<div id="tip7-title"><span><a href="javascript:;" onclick="$.fancybox.close();"><img src="/data/closelabel.gif" /></a></span>' + (title && title.length ? '<b>' + title + '</b>' : '' ) + 'Image ' + (currentIndex + 1) + ' of ' + currentArray.length + '</div>';
+    }
+
+    $(document).ready(function () {
+        $(".fancybox").fancybox();
+    });
+
+    $('#radios input').on('change', function () {
+        var opcion = $('input[name=titular]:checked', '#radios').val();
+        if (opcion == 'Si') {
+            $.fancybox(
+                    '<h4>¿DESEA AGREGAR MIEMBROS FAMILIARES?</h4>' +
+                    '<hr>' +
+                    '<form class="form-inline" role="form">' +
+                        '<div class="form-group"><label style="width:200px;";>ID del miembro familiar</label>' +
+                        '<input type="text" class="form-control" id="nroDocumento" placeholder="Codigo">' +
+                        '<label style="margin-left:40px;width:100px;">Contraseña</label>' +
+                        '<input type="text" class="form-control" id="nroDocumento" placeholder="Codigo"></div>'+
+                    '</form>' +
+                    '<br>' +
+                    '<form class="form-inline" role="form">' +
+                        '<div><label style="width:200px;">Contraseña</label>' +
+                        '<input type="text" class="form-control" id="nroDocumento" placeholder="Codigo"></div>'+
+                    '</form>' +
+                    '<br>' +
+                    '<div class="form-group" style="margin-left: 80px;">' +
+                    '<a href="javascript:void(0)" class="btn btn-primary" id="btnCancelarTitular">Cancelar</a>'+
+                    '<a href="javascript:void(0)" class="btn btn-primary" id="btnAceptarTitular" style="margin-left: 10px";>Añadir</a>' +
+                    '</div></div>',
+                    {
+                        'autoDimensions': false,
+                        'autoSize': false,
+                        'width': 800,
+                        'height': 'auto',
+                        'transitionIn': 'none',
+                        'transitionOut': 'none'
+                    }
+            );
+        } else {
+            $.fancybox(
+                    '<h4>DATOS DEL TITULAR</h4>' +
+                    '<hr>' +
+                    '<div><label>Codigo del socio titular</label>' +
+                    '<input type="text" class="form-control" id="nroDocumento" placeholder="Codigo"></div>' +
+                    '<br>' +
+                    '<div><label>Contraseña</label>' +
+                    '<input type="text" class="form-control" id="nroDocumento" placeholder="Codigo"></div>'+
+                    '<br>' +
+                    '<div class="form-group" style="margin-left: 80px;">' +
+                    '<a href="javascript:void(0)" class="btn btn-primary" id="btnCancelarTitular">Cancelar</a>'+
+                    '<a href="javascript:void(0)" class="btn btn-primary" id="btnAceptarTitular" style="margin-left: 10px";>Aceptar</a>' +
+                    '</div></div>',
+                    {
+                        'autoDimensions': false,
+                        'autoSize': false,
+                        'width': 250,
+                        'height': 'auto',
+                        'transitionIn': 'none',
+                        'transitionOut': 'none'
+                    }
+            );
+        }
+        $( "#btnCancelarTitular" ).click(function() {
+            parent.$.fancybox.close();
+        });
+    });
+
+</script>
+</body>
+</html>

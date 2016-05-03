@@ -57,88 +57,107 @@
 <body>
 <div id="headerUsuario"></div>
 <div class="container">
-
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE PRODUCTOS
-            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir Producto</a>
+            ADMINISTRACIÓN DE SOCIOS
+            <a href="registroSocio.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 570px;">Añadir
+                Socio</a>
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE PRODUCTO</h4>
+    <h4>CONSULTA DE SOCIOS</h4>
 
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Sede</label>
+                    <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="sede">
+                        <select class="form-control" id="tipoSocio">
                             <option>Elegir</option>
-                            <option>Chosica</option>
-                            <option>Namekusein</option>
-                            <option>Planeta del gran Kaiosama</option>
-                            <option>Planeta Tierra</option>
+                            <option>Normal</option>
+                            <option>Vitalicio</option>
+                            <option>Eterno</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
+                    <label for="estado" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipo">
+                        <select class="form-control" id="estado">
                             <option>Elegir</option>
-                            <option>Aseo personal</option>
-                            <option>Electrodoméstico</option>
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                            <option>Sancionado</option>
+                            <option>Expulsado</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="proveedor" class="col-md-4 control-label">Proveedor</label>
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="proveedor">
+                        <select class="form-control" id="tipoDocumento">
                             <option>Elegir</option>
-                            <option>Gloria</option>
-                            <option>Coca-Cola</option>
-                            <option>Backus</option>
+                            <option>DNI</option>
+                            <option>Pasaporte</option>
+                            <option>Extranjería</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="nroDocumento" class="col-md-4 control-label">N° de documento</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
+                        <input type="text" class="form-control" id="nroDocumento" placeholder="DNI del socio">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombres</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombres del socio">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
-                    </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido paterno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="apellidoPaterno"
+                               placeholder="Apellido parteno del socio">
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido materno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="apellidoMaterno"
+                               placeholder="Apellido materno del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="titular" class="col-md-4 control-label">¿Es titular?</label>
+                    <div class="radio col-md-3">
+                        <label><input type="radio" name="optradio">Si</label>
+                    </div>
+                    <div class="radio col-md-3">
+                        <label><input type="radio" name="optradio">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-12">
             </div>
             <div class="col-sm-7 col-lg-7">
             </div>
@@ -158,10 +177,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Socio|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Socio
         </div>
     </form>
 </div>
@@ -185,15 +204,14 @@
         emptyrecords: 'No se encontraron resultados',
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
-            {label: 'idProducto', name: 'idProducto', key: true, hidden: true, width: 75},
+            {label: 'idSocio', name: 'idSocio', key: true, hidden: true, width: 75},
             {label: 'N°', name: 'OrderID', align: 'center', width: 40},
-            {label: 'Producto', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Tipo de Producto', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Proveedor', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Sede', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},
+            {label: 'N° de Documento', name: 'OrderID', align: 'center', width: 150},
+            {label: 'Tipo de Documetno', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Nombres', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Apellido Paterno', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Apellido Materno', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Tipo de Socio', name: 'CustomerID', align: 'center', width: 150},
             {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -207,9 +225,9 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idSocio'] + '" title="Ver Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>

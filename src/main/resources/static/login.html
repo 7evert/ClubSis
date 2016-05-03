@@ -58,10 +58,12 @@
 <script type="text/javascript">
     $("#btnIngresar").click(function () {
         var href = ($(this).attr('href'));
-        if($("#user").val()!="admin" && $("#password").val()!="admin")
+        if($("#user").val()=="admin" && $("#password").val()=="admin")
+            window.location = "loginAdministrador.html";
+        else if($("#user").val()=="user" && $("#password").val()=="user")
             window.location = "loginUsuario.html";
         else
-            window.location="index.html"
+            alert("No existe el usuario/contraseña equivocado");
         return true;
     })
     $("#btnCancelar").click(function () {
