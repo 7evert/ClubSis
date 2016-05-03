@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Reserva Bungalows</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script type="text/javascript">
+        var indActualBungalow=2;
+        var claseOculta="hide";
+        var claseVisible="show"
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <title>Title</title>
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <div id="ReservaBungalows" class="container">
+        <h2>Reserva de Eventos</h2>
+        <hr>
+        <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
+            <div style="height:10%;visibility: hidden;font-size: 20px;">A</div>
+            <div id="escogerSedeBungalows" class="form-group">
+                <label class="control-label col-xs-4">Escoger Event</label>
+                <select class="form-control col-xs-3" style="margin-top:3px; width:360px">
+                    <option value="1">Nuevos Anos</option>
+                </select>
+            </div>
+            <!--
+            <div id="cantBung" class="form-group">
+                <label class="control-label col-xs-4">Escoger Bungalows</label>
+                <label class="control-label col-xs-7 pull-right">
+                    <span class="col-xs-8 invisible">_</span>
+                    <!--<input type="submit" class="col-xs-4 btn btn-primary" value="Detalles>>">- ->
+
+                    <br/>
+                </label>
+                <br>
+                <br/>
+                <table class="col-xs-11">
+                    <tr>
+                        <td class="pull-right">Tipos</td>
+                        <td class="col-xs-1 invisible">_</td>
+                        <td class="iconoPeqe1"><a href="#" onclick="Muestrame(1);"><img src="img/Bungalows/simple.jpg"></a></td>
+                        <td class="iconoPeqe1"><a href="#" onclick="Muestrame(2);"><img src="img/Bungalows/double.jpg"></a></td>
+                        <td class="iconoPeqe1"><a href="#" onclick="Muestrame(3);"><img src="img/Bungalows/platinium.png"></a></td>
+                    </tr>
+                    <tr>
+                        <td class="pull-right">Cantidad</td>
+                        <td class="col-xs-1 invisible">_</td>
+                        <td>
+                            <select>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    -->
+
+            <div id="elegirEstadia" class="form-group">
+                <label class="control-label col-xs-4">Día de Entrada</label>
+                <div class="input-group input-append date">
+                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+
+                <br>
+                <label class="control-label col-xs-4">Dia de Salida</label>
+                <div class="input-group input-append date">
+                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-10">
+                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='EventInformacion.html';">
+                    <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="alert('Tu reserva fue exitosa');location.href='loginUsuario.html';">
+                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoEventos.html';">
+                </div>
+            </div>
+        </form>
+        <div id="detallesBungalows" class="mitadDerecha">
+            <div id="BungTipo1" class="hide">
+                <div class="mitadDerecha">
+                    <img class="imgBungalow" src="img/Eventos/newYear.jpg">
+                </div>
+                <div class="detallesTipoBungalows mitadDerecha">
+                    <div><h3>Nuevos Anos 2017</h3></div>
+                    <div><h4>Precio: S/80.000</h4></div>
+                    <div><h4>Capacidad: 6000 Personas</h4></div>
+                    <ul>
+                        <span>Prices:</span>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div></div>
+        </div>
+    </div>
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+<script type="text/javascript">
+    function Muestrame(indAMostrar){
+        $("#BungTipo"+indActualBungalow).switchClass( "show" ,"hide", 200);
+        $("#BungTipo"+indAMostrar).switchClass( "hide", "show", 400);
+        indActualBungalow=indAMostrar;
+    }
+</script>
+
+</body>
+</html>
