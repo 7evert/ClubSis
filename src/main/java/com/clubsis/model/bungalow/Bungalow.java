@@ -15,7 +15,7 @@ public class Bungalow {
 
     private Integer capacidad;
 
-    private Integer estado;
+    private Integer estado; //libre, en mantenimiento, ocupado, no irá en el formulario
 
     private Double precio;
 
@@ -25,7 +25,7 @@ public class Bungalow {
     @JoinColumn(name="id_tipo_bungalow")
     private TipoBungalow tipoBungalow;
 
-    // TODO: poner atributos Sede y nombre
+    // TODO: poner atributos Sede y nombre (string) y ubicación (dirección) dentro de la sede (string), nivel (piso)
 
 
     protected Bungalow() {
