@@ -1,5 +1,11 @@
 package com.clubsis.model.sede;
 
+import com.clubsis.model.bungalow.Bungalow;
+
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Juan Tenorio on 12/4/2016.
  */
@@ -7,6 +13,9 @@ public class Sede {
     private Integer idSede;
     private String descripcion;
     private String direccion;
+
+    @OneToMany(mappedBy = "sede")
+    private Set<Bungalow> bungalows = new HashSet<>();
 
     protected Sede() {
     }

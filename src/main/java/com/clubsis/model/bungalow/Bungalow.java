@@ -1,5 +1,7 @@
 package com.clubsis.model.bungalow;
 
+import com.clubsis.model.sede.Sede;
+
 import javax.persistence.*;
 
 /**
@@ -12,31 +14,59 @@ public class Bungalow {
     @GeneratedValue
     @Column(name="id_bungalow")
     private Integer idBungalow;
-
     private Integer capacidad;
-
     private Integer estado; //libre, en mantenimiento, ocupado, no irá en el formulario
-
     private Double precio;
-
     private String caracteristicas;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_tipo_bungalow")
     private TipoBungalow tipoBungalow;
 
-    // TODO: poner atributos Sede, ubicación (dirección) dentro de la sede (string), nivel (piso)
+    @ManyToOne
+    private Sede sede;
+    private String ubicacionEnSede;
+    private Integer piso;
 
+    @OneToOne
+    private ReservaBungalow reservaBungalow;
 
-    protected Bungalow() {
+    public Sede getSede() {
+        return sede;
     }
 
-    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, TipoBungalow tipoBungalow) {
+    public void setSede(Sede sede) {
+        this.sede = sede;
+    }
+
+    public String getUbicacionEnSede() {
+        return ubicacionEnSede;
+    }
+
+    public void setUbicacionEnSede(String ubicacionEnSede) {
+        this.ubicacionEnSede = ubicacionEnSede;
+    }
+
+    public Integer getPiso() {
+        return piso;
+    }
+
+    public void setPiso(Integer piso) {
+        this.piso = piso;
+    }
+
+    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, TipoBungalow tipoBungalow, Sede sede, String ubicacionEnSede, Integer piso) {
         this.capacidad = capacidad;
         this.estado = estado;
         this.precio = precio;
         this.caracteristicas = caracteristicas;
         this.tipoBungalow = tipoBungalow;
+        this.sede = sede;
+        this.ubicacionEnSede = ubicacionEnSede;
+        this.piso = piso;
+    }
+
+    protected Bungalow() {
     }
 
     public Integer getIdBungalow() {

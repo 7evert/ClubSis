@@ -13,20 +13,19 @@ public class ReservaBungalow {
     @GeneratedValue
     private Integer idReserva;
     private Date fechaReserva;
-
-    // TODO: falta fecha final
+    private Date fechaFinal;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    //private ServicioBungalow servicioBungalow;
-    private Set<ServicioBungalow> serviciosBungalows;
+    private Set<ServicioBungalow> serviciosBungalows; // por ahora no hay
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_bungalow")
+    @OneToOne
     private Bungalow bungalow;
 
-    public ReservaBungalow(Date fechaReserva, Set<ServicioBungalow> serviciosBungalows) {
+    public ReservaBungalow(Date fechaReserva, Date fechaFinal, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow) {
         this.fechaReserva = fechaReserva;
+        this.fechaFinal = fechaFinal;
         this.serviciosBungalows = serviciosBungalows;
+        this.bungalow = bungalow;
     }
 
     protected ReservaBungalow() {
@@ -62,5 +61,13 @@ public class ReservaBungalow {
 
     public void setBungalow(Bungalow bungalow) {
         this.bungalow = bungalow;
+    }
+
+    public Date getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public void setFechaFinal(Date fechaFinal) {
+        this.fechaFinal = fechaFinal;
     }
 }
