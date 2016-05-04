@@ -7,13 +7,12 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
-    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript">
         /* datos generales */
-        function Ver(){location.href="BungalowInformacion.html.html";event.preventDefault();}
+        function Ver(){location.href="BungalowInformacion.html";event.preventDefault();}
         function Editar(){location.href="edicionBungalow.html";event.preventDefault();}
         function Eliminar(){location.href="loginUsuario.html";event.preventDefault();}
         function Reservar(){location.href="reservaBungalows.html";event.preventDefault();}
@@ -63,9 +62,15 @@
                     </div>
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                            <label for="nombre" class="control-label col-md-4">Tipo Bungalow</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de Bungalow">
+                                <select class="form-control col-xs-8">
+                                    <option value="1">Bungalow Lorena</option>
+                                    <option value="2">Bungalow Club</option>
+                                    <option value="3">Bungalow Class</option>
+                                    <option value="4">Bungalow King</option>
+                                    <option value="5">Bungalow King Charles</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -82,8 +87,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-4">Apartir de</label>
                             <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
                         </div>
@@ -93,8 +98,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-4">Antes de</label>
                             <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
                         </div>
@@ -191,6 +196,12 @@
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
     $(".date-picker").datepicker();
+/*
+    $("#date-picker-DiaEntrada").datepicker("setDate", new Date());
+    var diaEntrada1=new Date();
+    diaEntrada1.setDate(diaEntrada1.getDate()+1);
+    $("#date-picker-DiaSalida").datepicker("setDate", diaEntrada1);
+*/
     window.onload=function(){
         /*todos los elementos de la lista esta incluidos dinamicamente*/
         /*si desean cambiaar entren al codigo js/generarElementoBungalow.js **/

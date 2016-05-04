@@ -13,16 +13,16 @@ var accionAgregar=[["Registrar"],//usuario:ADMINISTRADOR
     []];//usuario:Socio
 var actualUsuario;
 /*
-function Ver(){alert("Ver");event.preventDefault();}
-function Editar(){alert("Editar");event.preventDefault();}
-function Eliminar(){alert("Elimianr");event.preventDefault();}
-function Reservar(){alert("Reservar");event.preventDefault();}
+ function Ver(){alert("Ver");event.preventDefault();}
+ function Editar(){alert("Editar");event.preventDefault();}
+ function Eliminar(){alert("Elimianr");event.preventDefault();}
+ function Reservar(){alert("Reservar");event.preventDefault();}
 
 
 
 
-function Agregar(){alert("Agregar");event.preventDefault();}
-var funciones=[Ver,Editar,Eliminar,Reservar];*/
+ function Agregar(){alert("Agregar");event.preventDefault();}
+ var funciones=[Ver,Editar,Eliminar,Reservar];*/
 function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     var nroAcciones=accionesXElemento[tipoUsuario].length;
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
@@ -37,8 +37,8 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
 
      <input type="submit" tabindex="3" value="Cancelar" class="btn btn-primary"/>
      </div>
-*/
-     for(var i=0;i<divBotones.length;i++)
+     */
+    for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
             var b = $('<button>').attr({
                 /*type: 'submit',*/
@@ -53,8 +53,9 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
     if(accionAgregar[tipoUsuario].length!=0){
         var b=$('<span>').attr({
             class: 'pull-right',
-            id:'accionAgregar'
-        }).append('<input type="submit" tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista"/>').appendTo("#topMostrar");
+            id:'accionAgregar',
+            style:'width:108px;'
+        }).append('<input tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista" style="width:108px;">').appendTo("#topMostrar");
         b[0].onclick=agregar;
     }
 }

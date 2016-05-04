@@ -160,7 +160,7 @@
                     <img class="imgBungalow" src="img/Bungalows/TipoBungalows/2_Club.png">
                 </div>
                 <div class="detallesTipoBungalows mitadDerecha">
-                    <div><h3>Bungalow Club</h3></div>
+                    <div><h3>Bungalow Club 3</h3></div>
                     <div><h4>Precio: S/100.00</h4></div>
                     <div><h4>Capacidad: 8 Personas</h4></div>
                     <ul>
@@ -243,6 +243,9 @@
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
+    $("#date-picker-DiaEntrada").datepicker("setDate", new Date());
+    var diaEntrada=new Date();diaEntrada.setDate(diaEntrada.getDate()+1);
+    $("#date-picker-DiaSalida").datepicker("setDate", diaEntrada);
 </script>
 <script type="text/javascript">
     function Muestrame(indAMostrar){
