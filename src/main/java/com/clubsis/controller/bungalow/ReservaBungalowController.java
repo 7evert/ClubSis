@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping("/api/reservasbungalow")
 public class ReservaBungalowController {
     @Autowired
     private ServicioReservas servicioReservas;
