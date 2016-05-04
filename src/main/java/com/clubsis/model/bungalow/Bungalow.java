@@ -25,7 +25,7 @@ public class Bungalow {
     @JoinColumn(name="id_tipo_bungalow")
     private TipoBungalow tipoBungalow;
 
-    // TODO: poner atributos Sede y nombre (string) y ubicación (dirección) dentro de la sede (string), nivel (piso)
+    // TODO: poner atributos Sede, ubicación (dirección) dentro de la sede (string), nivel (piso)
 
 
     protected Bungalow() {

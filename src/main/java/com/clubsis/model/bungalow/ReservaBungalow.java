@@ -14,6 +14,8 @@ public class ReservaBungalow {
     private Integer idReserva;
     private Date fechaReserva;
 
+    // TODO: falta fecha final
+
     @ManyToMany(fetch = FetchType.EAGER)
     //private ServicioBungalow servicioBungalow;
     private Set<ServicioBungalow> serviciosBungalows;
