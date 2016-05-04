@@ -4,46 +4,45 @@
 
 /************SCRIPT PARA LLENAR LOS DATOS DINAMICAMENTE*******************/
 var imagenSedes=[
-    "img/Sedes/sedeA.jpg",
-    "img/Sedes/sedeB.jpg",
-    "img/Sedes/sedeC.jpg",
-    "img/Sedes/sedeA.jpg",
-    "img/Sedes/sedeB.jpg",
-    "img/Sedes/sedeC.jpg",
-    "img/Sedes/sedeA.jpg",
-    "img/Sedes/sedeB.jpg",
-    "img/Sedes/sedeC.jpg",
-    "img/Sedes/sedeA.jpg"
-
-
+    "/img/Instalaciones/campoFutbolSintectico.jpg",
+    "/img/Instalaciones/campoBasketball.jpg",
+    "/img/Instalaciones/campogolf.jpg",
+    "/img/Instalaciones/campoLosaVoleyball.jpg",
+    "/img/Instalaciones/campoLosaFulbito.jpg",
+    "/img/Instalaciones/mesabillar.jpg",
+    "/img/Instalaciones/campoBasketball.jpg",
+    "/img/Instalaciones/campogolf.jpg",
+    "/img/Instalaciones/campoLosaVoleyball.jpg",
+    "/img/Instalaciones/campoLosaFulbito.jpg"
 ];
-var tituloBongalow=["Instalacion Lima","Instalacion Tarapoto","Instalacion MacchuPicchu","Instalacion Cusco","Instalacion Atlantis",
-    "Instalacion Catolica","Instalacion Causa","Instalacion Isquierda","Instalacion Los Olivos","Instalacion MiraFlorres"];
-var sedesBungalows=[[],[],[],[],[],[],[],[],[],[]];
-var telephoneNumbers=[90021906,1204021408,190212,90129016,90129020,9021806,8080128,128080,80016,2808000];
+var tituloBongalow=["Campo de 1 Fultbol Sintetico","Campo 2 de Basketball","Campo 1 de Golf","Campo 3 de Voley",
+    "Campo 2 de Fulbito","Mesa 1 de Billar","Campo 3 de Basketball","Campo 2 de Golf","Campo 1 de Voley",
+    "Campo 4 de Fulbito"];
+var sedesBungalows=[["Chorrillos"],["Playa"],["Chorrillos"],["Chosica"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"],["Chorrillos"]];
 var precioBungalow=[80.00,100.00,120.00,140.00,160.00,80.00,100.00,120.00,140.00,160.00];
-var caracteristicasSedes=[
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"],
-    ["150 Members ","email@sede.com","<br>","Contact Person: Senor Rodriguez"]]
-var sedesAdresses=[
-    "Adress 123 Lima",
-    "Adress 456 Lima",
-    "Adress 789 Lima",
-    "Adress 101112 Lima",
-    "Adress 131415 Lima",
-    "Adress 161718 Lima",
-    "Adress 192021 Lima",
-    "Adress 2222324 Lima",
-    "Adress 252627 Lima",
-    "Adress 282930 Lima",
+var capacidad=[14,10,12,14,16,8,10,12,14,16];
+var disponibilidad=[
+    ["Martes 6:00 pm - 10:00 pm","Sabado 8:00 am - 10:00 am","Viernes 8:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"],
+    ["Miercoles 8:00 am - 10:00 am"],
+    ["Martes 6:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"],
+    ["Martes 6:00 pm - 10:00 pm","Jueves 8:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"],
+    ["Viernes 8:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"],
+    ["Domingo 9:00 am - 4:00 pm"],
+    ["Viernes 8:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"],
+    ["Lunes 6:00 pm - 10:00 pm","Domingo 8:00 am - 10:00 am","Viernes 8:00 pm - 10:00 pm","Sabado 9:00 am - 4:00 pm"],
+    ["Martes 6:00 pm - 10:00 pm","Sabado 8:00 am - 10:00 am","Viernes 8:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"],
+    ["Martes 6:00 pm - 10:00 pm","Sabado 8:00 am - 10:00 am","Viernes 8:00 pm - 10:00 pm","Domingo 9:00 am - 4:00 pm"]]
+var referencia=[
+    "Al costado del Aparcamiento",
+    "En frente a la piscina",
+    "Cerca a los bugnalows",
+    "Al costado del Aparcamiento",
+    "En frente a la piscina",
+    "Cerca a los bugnalows",
+    "Al costado del Aparcamiento",
+    "En frente a la piscina",
+    "Cerca a los bugnalows",
+    "Al costado del Aparcamiento"
 ]
 
 function retornaElementoLista(i){
@@ -76,7 +75,8 @@ function retornaImagenProveeder(i){
     return $('<div></div>').attr({
         class: 'panel-more1 imagenBungalow',
     }).append($('<img />').attr({
-        src:imagenSedes[i]
+        src:imagenSedes[i],
+        style:"height:150px;position:relative;top:50px;"
     }));
 }
 
@@ -89,8 +89,8 @@ function retornaPanelInfo(i){
     b[0]=retornaTitulo(tituloBongalow[i]);
     b[1]==$('<p></p>');
     b[2]=retornaSedes(sedesBungalows[i]);
-    b[3]=$('<h4></h4>').html('Adress: ' + sedesAdresses[i]);
-    b[4]=retornaTelephone(telephoneNumbers[i]);
+    b[3]=$('<h3></h3>').html('Referencia: ' + referencia[i]);
+
     for(var j=0;j<b.length;j++)
         panelInfo.append(b[j]);
     return panelInfo;
@@ -99,7 +99,7 @@ function retornaTitulo(t){
     return $('<h1></h1>').append($("<strong></strong>").html(t));
 }
 function retornaSedes(sedes){
-    if(sedes.length==0)return $('<p></p>').html("ID");
+    if(sedes.length==0)return $('<p></p>').html("No disponible");
     else {
         var parrafo=$('<p></p>');
         for(var i=0;i<sedes.length;i++){
@@ -108,11 +108,6 @@ function retornaSedes(sedes){
         return parrafo;
     }
 }
-function retornaTelephone(telephoneNumbers){
-
-    return $('<h2></h2>').html("Telefon: " + telephoneNumbers);
-}
-
 
 function retornCaracteristicas(i){
     var caracteristicas=$('<div></div>').attr({
@@ -120,20 +115,21 @@ function retornCaracteristicas(i){
         style: "padding-left: 2em;"
     });
     var b=new Array();
-    //b[0]=$("<h1></h1>").html("Precio: S/. "+precioBungalow[i]);
-    b[1]=retornaMasCaracteristicas(i);
+    b[0]=$("<h1></h1>").html("Precio: S/. "+precioBungalow[i]);
+    b[1]=$("<h2></h2>").html("Capacidad: "+capacidad[i]+" personas");
+    b[2]=disponibilidadInstalacion(i);
     for(var j=0;j<b.length;j++)
         caracteristicas.append(b[j]);
     return caracteristicas;
 }
 
-function retornaMasCaracteristicas(index){
+function disponibilidadInstalacion(index){
     var masCaracteristicas=$('<div class="col-sm-offset-3 col-sm-12"></div>');
     var b=new Array();
-    b[0]=$("<h2></h2>").html("\tDetails:");
+    b[0]=$("<h2></h2>").html("\tDisponibilidad:");
     b[1]=$("<ul></ul>");
-    for(var i=0;i<caracteristicasSedes[index].length;i++)
-        b[1].append($("<li></li>").append($("<span></span>").html(caracteristicasSedes[index][i])));
+    for(var i=0;i<disponibilidad[index].length;i++)
+        b[1].append($("<li></li>").append($("<span></span>").html(disponibilidad[index][i])));
     for(var i=0;i<b.length;i++)
         masCaracteristicas.append(b[i]);
     return masCaracteristicas;
@@ -150,4 +146,11 @@ function retornaBotonMostrarMas(){
         event.preventDefault();
     });
     return b;
+}
+
+function llenarListaBungalows(){
+    var nroElementos=tituloBongalow.length;
+    for(var i=0;i<nroElementos;i++)
+        retornaElementoLista(i).appendTo("#listaBungalows");
+    retornaBotonMostrarMas().appendTo("#listaBungalows");
 }

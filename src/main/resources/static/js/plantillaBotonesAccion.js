@@ -2,28 +2,33 @@
  * Created by RnzPol on 18/04/2016.
  */
 /*****************++PLANTILLA DE LOS BOTONES******************************/
-var superAdministrador=0,administrador=1,socio=2;
+var administrador=0,socio=1;
 var accionesXElemento=[
-    ["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-    ["Reservar","Anular","Modificar"],//usuario:Administradio
-    ["Reservar","Anular"]];//usuario:Socio
-var accionAgregar=[["Agregar"],//usuario:SuperAdministrador
-    [],//usuario:Administradio
+    /*ver,editar,eliminar,reservar,registrar*/
+    //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
+    ["Ver","Reservar","Editar","Eliminar"],//ADIMINISTRADOR
+    //["Reservar","Anular","Modificar"],//usuario:Administradio
+    ["Ver","Reservar"]];//usuario:Socio
+var accionAgregar=[["Registrar"],//usuario:ADMINISTRADOR
     []];//usuario:Socio
 var actualUsuario;
-function reservar(){alert("Reservar");event.preventDefault();}
-function anular(){alert("Anular");event.preventDefault();}
-function modificar(){alert("Modificar");event.preventDefault();}
+/*
+ function Ver(){alert("Ver");event.preventDefault();}
+ function Editar(){alert("Editar");event.preventDefault();}
+ function Eliminar(){alert("Elimianr");event.preventDefault();}
+ function Reservar(){alert("Reservar");event.preventDefault();}
 
 
-function agregar(){alert("Agregar");event.preventDefault();}
-var funciones=[reservar,anular,modificar];
+
+
+ function Agregar(){alert("Agregar");event.preventDefault();}
+ var funciones=[Ver,Editar,Eliminar,Reservar];*/
 function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     var nroAcciones=accionesXElemento[tipoUsuario].length;
     /*var divBotones=$('<div>').attr({class: 'social-box rght-box'}).appendTo($(".panel-body")[1]);*/
     /*------------------append el div <div class="social-box rght-box">---- -*/
     var divBotones=$('<div>').attr({
-        class: 'social-box botonesAcciones'
+        class: 'panel-more1 social-box botonesAcciones'
     }).appendTo(".panel-body");
 
     /*-----------------<label class="accionLista"><label>Modificar</label></label>&nbsp; */
@@ -32,15 +37,15 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
 
      <input type="submit" tabindex="3" value="Cancelar" class="btn btn-primary"/>
      </div>
-*/
-     for(var i=0;i<divBotones.length;i++)
+     */
+    for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
-            var b = $('<input>').attr({
-                type: 'submit',
+            var b = $('<button>').attr({
+                /*type: 'submit',*/
                 tabindex:"3",
                 value:accionesXElemento[tipoUsuario][j],
-                class:"btn-primary rght-box accionLista"
-            }).appendTo(divBotones[i]);
+                class:"btn btn-primary rght-box accionLista"
+            }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
             b[0].onclick=funciones[j];
         }
 }
@@ -48,20 +53,21 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
     if(accionAgregar[tipoUsuario].length!=0){
         var b=$('<span>').attr({
             class: 'pull-right',
-            id:'accionAgregar'
-        }).append('<input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>').appendTo("#topMostrar");
-        b[0].onclick=agregar();
+            id:'accionAgregar',
+            style:'width:108px;'
+        }).append('<input tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista" style="width:108px;">').appendTo("#topMostrar");
+        b[0].onclick=agregar;
     }
 }
 function eliminarBotones(){
     $("#accionAgregar").remove();
     $(".botonesAcciones").remove();
 }
-function cambiarDeUsuario(nuevoUsuario){
+function cambiarDeUsuario(nuevoUsuario,Agregar,funciones){
     if(nuevoUsuario==actualUsuario)return;
     actualUsuario=nuevoUsuario;
     eliminarBotones();
-    agregarBotonAgregar(accionAgregar,agregar,nuevoUsuario);
+    agregarBotonAgregar(accionAgregar,Agregar,nuevoUsuario);
     agregarBotonesAListas(accionesXElemento,funciones,nuevoUsuario);
 }
 

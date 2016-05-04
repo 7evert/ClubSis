@@ -7,6 +7,37 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+            background: #008D34;
+        }
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+        .ui-jqgrid-resize-ltr{
+            background-color: #008D34;
+        }
+        .btn-warning{
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono{
+            width: 19px;
+        }
+
+
+        hr{
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div id="headerUsuario"></div>
@@ -26,13 +57,22 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">DNI</label>
+                            <label class="col-xs-5 control-label">Tipo de Documento</label>
+                            <div class="col-xs-7">
+                                <select class="form-control" id="tipoDocumento">
+                                    <option>DNI</option>
+                                    <option>Carnet de extranjería</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-5 control-label">N° de Documento</label>
                             <div class="col-xs-7">
                                 <input type="text" name="dni" maxlength="15" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-5" >Tiempo de Inicio</label>
+                            <label class="control-label col-xs-5" >Fecha de Inicio</label>
                             <div class="col-xs-7 date">
                                 <div class="input-group input-append date">
                                     <input id="date-picker-TiempoInicio" type="text" class="date-picker form-control col-xs-6" />
@@ -42,7 +82,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-5">Tiempo de Fin</label>
+                            <label class="control-label col-xs-5">Fecha de Fin</label>
                             <div class="col-xs-7 date">
                                 <div class="input-group input-append date">
                                     <input id="date-picker-TiempoFin" type="text" class="date-picker form-control col-xs-6" />
@@ -63,10 +103,11 @@
                         </div>
                         </form>
                         </div>
-                    <div class="col-sm-offset-1 col-sm-5" align="center">
+                    <div class="col-sm-offset-1 col-sm-5" align="left">
                         <h4>Lista de invitados:</h4>
-                        <div style="height:190px;width:400px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-                            José Chunga
+                        <div class="rowchangeg" style="width: 400px; margin-left: auto; margin-right: auto;">
+                            <table id="jqGrid"></table>
+                            <div id="jqGridPager"></div>
                         </div>
                     </div>
                     </div>
@@ -74,10 +115,47 @@
             </div>
         </div>
     </div>
+    <div id="footer"></div>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
     <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
     <script src="js/principal.js"></script>
+    <script type="text/javascript">
+
+        $("#jqGrid").jqGrid({
+            url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+            mtype: "GET",
+            styleUI : 'Bootstrap',
+            datatype: "jsonp",
+            gridview: true,
+            emptyrecords: 'No se encontraron resultados',
+            //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+            colModel: [
+                { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
+                { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
+                { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
+                { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
+                { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
+            ],
+            viewrecords: true,
+            height: 196,
+            rowNum: 7,
+            pager: "#jqGridPager"
+        });
+
+        $('#jqGrid').jqGrid('setGridWidth', '400');
+
+        function acciones(cellValue, options, rowdata, action) {
+            var acciones = '';
+
+            acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"></a>'+
+                    '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"></a>'+
+                    '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+            return acciones;
+        }
+    </script>
     <script type="text/javascript">
         $(".date-picker").datepicker();
     </script>

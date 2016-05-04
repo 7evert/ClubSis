@@ -2,23 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis-Mantenimiento Bungalows</title>
+    <title>ClubSis-Mantenimiento Eventos</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript">
         /* datos generales */
-        function Ver(){location.href="BungalowInformacion.html";event.preventDefault();}
-        function Editar(){location.href="edicionBungalow.html";event.preventDefault();}
+        function Ver(){location.href="EventInformacion.html";event.preventDefault();}
+        function Editar(){location.href="edicionEventos.html";event.preventDefault();}
         function Eliminar(){location.href="loginUsuario.html";event.preventDefault();}
-        function Reservar(){location.href="reservaBungalows.html";event.preventDefault();}
+        function Reservar(){location.href="reservaEventos.html";event.preventDefault();}
 
-        function Agregar(){location.href="registroBungalow.html";event.preventDefault();}
-        var funciones=[Ver,Reservar,Editar,Eliminar];
+        function Agregar(){location.href="registrarEvento.html";event.preventDefault();}
+        var funciones=[Ver,Editar,Eliminar,Reservar];
     </script>
 </head>
 <body>
@@ -28,7 +29,7 @@
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
     <div>
         <div class="form-group"><!--filtrado-->
-            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE BUNGALOWS
+            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE Eventos
                 <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
             </h4>
 
@@ -36,23 +37,20 @@
                 <div class="row">
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="tipo" class="col-md-4 control-label">Sede</label>
+                            <label for="tipo" class="col-md-4 control-label">Event</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="sede">
-                                    <option>Elegir</option>
-                                    <option>Chosica</option>
-                                    <option>Namekusein</option>
-                                    <option>Planeta del gran Kaiosama</option>
-                                    <option>Planeta Tierra</option>
+                                    <option>Nuevos Anos</option>
+
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="estado" class="col-md-4 control-label">Estado</label>
+                            <label for="tipo" class="col-md-4 control-label">Estado</label>
                             <div class="col-md-8">
-                                <select class="form-control" id="estado">
+                                <select class="form-control" id="tipo">
                                     <option>Libre</option>
                                     <option>Reservado</option>
                                     <option>En Mantenimiento</option>
@@ -62,15 +60,9 @@
                     </div>
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-4">Tipo Bungalow</label>
+                            <label for="nombre" class="col-md-4 control-label">Nombre</label>
                             <div class="col-md-8">
-                                <select class="form-control col-xs-8">
-                                    <option value="1">Bungalow Lorena</option>
-                                    <option value="2">Bungalow Club</option>
-                                    <option value="3">Bungalow Class</option>
-                                    <option value="4">Bungalow King</option>
-                                    <option value="5">Bungalow King Charles</option>
-                                </select>
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de Evento">
                             </div>
                         </div>
                     </div>
@@ -78,7 +70,7 @@
                         <div class="form-group">
                             <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Bungalow">
+                                <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Evento">
                             </div>
                         </div>
                     </div>
@@ -87,8 +79,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-4">Apartir de</label>
                             <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
                         </div>
@@ -98,8 +90,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-4">Antes de</label>
                             <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
                         </div>
@@ -121,7 +113,7 @@
 
     <div class="panel panel-primary"><!--listas-->
         <div id="topMostrar" class="panel-heading">
-            <span class="col-xs-9 titulo">Bungalows</span>
+            <span class="col-xs-9 titulo">Eventos</span>
             <!--<span class="pull-right" id="accionAgregar">
                 <input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>
             </span><br>-->
@@ -187,6 +179,7 @@
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
@@ -196,12 +189,6 @@
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
     $(".date-picker").datepicker();
-/*
-    $("#date-picker-DiaEntrada").datepicker("setDate", new Date());
-    var diaEntrada1=new Date();
-    diaEntrada1.setDate(diaEntrada1.getDate()+1);
-    $("#date-picker-DiaSalida").datepicker("setDate", diaEntrada1);
-*/
     window.onload=function(){
         /*todos los elementos de la lista esta incluidos dinamicamente*/
         /*si desean cambiaar entren al codigo js/generarElementoBungalow.js **/

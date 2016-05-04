@@ -11,6 +11,7 @@ $(function(){
     $("#head").load("common/head.html");
     $("#headerPrincipal").load("common/headerPrincipal.html");
     $("#headerUsuario").load("common/headerUsuario.html");
+    $("#headerAdministrador").load("common/headerAdministrador.html");
     $("#footer").load("common/footer.html");
 });
 

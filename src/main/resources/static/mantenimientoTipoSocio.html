@@ -63,82 +63,60 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE PRODUCTOS
-            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir Producto</a>
+            ADMINISTRACIÓN DE TIPO DE SOCIOS
+            <a href="img/Error/construccion.jpg" class="fancybox btn btn-primary" rel="group" id="btnRegistrar" style="margin-left: 410px;">Añadir
+                Tipo de Socio</a>
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE PRODUCTO</h4>
+    <h4>CONSULTA DE TIPO DE SOCIOS</h4>
 
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Sede</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="sede">
-                            <option>Elegir</option>
-                            <option>Chosica</option>
-                            <option>Namekusein</option>
-                            <option>Planeta del gran Kaiosama</option>
-                            <option>Planeta Tierra</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="tipo">
-                            <option>Elegir</option>
-                            <option>Aseo personal</option>
-                            <option>Electrodoméstico</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="proveedor" class="col-md-4 control-label">Proveedor</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="proveedor">
-                            <option>Elegir</option>
-                            <option>Gloria</option>
-                            <option>Coca-Cola</option>
-                            <option>Backus</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
+                    <label for="nombre" class="col-md-6 control-label">Nombre</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo de socio">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave tipo de socio">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
+                    <label for="costoMinimo" class="col-md-6 control-label">Costo de membresía</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="costoMinimo" placeholder="Costo mínimo" style="width: 150px;">
                     </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
-                    </div>
+                    <p for="soles" class="col-md-2 control-label">soles</p>
                 </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="costoInicial" class="col-md-4 control-label">Costo Inicial</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="costoInicial" placeholder="Costo inicial" style="width: 150px;">
+                    </div>
+                    <p for="soles" class="col-md-2 control-label">soles</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="cantidadInvitados" class="col-md-6 control-label">N° de invitados</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="cantidadInvitados" placeholder="Cantidad mínima" style="width: 150px;">
+                    </div>
+                    <p for="soles" class="col-md-2 control-label">personas</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-12">
             </div>
             <div class="col-sm-7 col-lg-7">
             </div>
@@ -158,10 +136,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
+            <span class=""><img src="img/Iconos/ver.png" class="icono"></span> Ver Tipo de Socio|
+            <span class=""><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Tipo de Socio
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class=""><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Tipo de Socio
         </div>
     </form>
 </div>
@@ -187,15 +165,12 @@
         emptyrecords: 'No se encontraron resultados',
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
-            {label: 'idProducto', name: 'idProducto', key: true, hidden: true, width: 75},
+            {label: 'idTipoSocio', name: 'idTipoSocio', key: true, hidden: true, width: 75},
             {label: 'N°', name: 'OrderID', align: 'center', width: 40},
-            {label: 'Producto', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Tipo de Producto', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Proveedor', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Sede', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},
+            {label: 'Tipo de Socio', name: 'CustomerID', align: 'center', width: 150},
+            {label: 'Costo de Membresía', name: 'OrderID', align: 'center', width: 150},
+            {label: 'Costo Inicial', name: 'OrderID', align: 'center', width: 150},
+            {label: 'N° de invitados máximo', name: 'OrderID', align: 'center', width: 150},
             {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -209,9 +184,9 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idTipoSocio-ver="' + rowdata['idTipoSocio'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idTipoSocio-modificar="' + rowdata['idTipoSocio'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idTipoSocio-eliminar="' + rowdata['idTipoSocio'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>

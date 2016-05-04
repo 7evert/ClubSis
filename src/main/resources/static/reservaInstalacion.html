@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>Reserva Instalacion</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -18,25 +18,27 @@
     <hr>
     <div class="form-group">
     <div class="row">
-        <div class="col-sm-offset-1 col-sm-3" align="center">
-            <h3>Campo de futbol 1</h3>
-            <img src="/img/Iconos/futbol1.jpg" class="img-responsive col-sm-offset-1" width="450" height="450">
-        </div>
         <div class="col-xs-offset-1 col-xs-3" align="center">
                 <div id="fechaInicio" class="date-picker">Fecha Inicio</div>
         </div>
         <div class="col-xs-offset-0 col-xs-3" align="center">
             <div id="fechaFin" class="date-picker">Fecha Fin</div>
         </div>
+        <div class="col-sm-offset-1 col-sm-3" align="center">
+            <h3>Campo de futbol 1</h3>
+            <img src="/img/Instalaciones/campoFutbolSintectico.jpg" class="img-responsive col-sm-offset-1">
+        </div>
     </div>
             </div>
     <div class="form-group">
-        <div class="col-xs-offset-2 col-xs-9" align="center">
-            <input type="submit" class="btn btn-primary" value="Reservar">
-            <input type="reset" class="btn btn-default" value="Cancelar">
+        <div class="col-xs-offset-1 col-xs-7" align="center">
+            <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='InstalacionInformacion.html';">
+            <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="alert('Tu reserva fue exitosa');location.href='loginUsuario.html';">
+            <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
         </div>
     </div>
 </div>
+<div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>

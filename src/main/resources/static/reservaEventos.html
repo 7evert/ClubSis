@@ -23,6 +23,7 @@
         var claseVisible="show"
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <title>Title</title>
 </head>
 <body>
 <div id="headerUsuario"></div>
@@ -30,13 +31,15 @@
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
     <div id="ReservaBungalows" class="container">
-        <h2>Reserva de Bungalows</h2>
+        <h2>Reserva de Eventos</h2>
         <hr>
         <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
             <div style="height:10%;visibility: hidden;font-size: 20px;">A</div>
             <div id="escogerSedeBungalows" class="form-group">
-                <label class="control-label col-xs-4">Sede</label>
-                <label>Chorrillos</label>
+                <label class="control-label col-xs-4">Escoger Event</label>
+                <select class="form-control col-xs-3" style="margin-top:3px; width:360px">
+                    <option value="1">Nuevos Anos</option>
+                </select>
             </div>
             <!--
             <div id="cantBung" class="form-group">
@@ -129,107 +132,33 @@
             </div>
             <div class="form-group">
                 <div class="col-xs-offset-4 col-xs-10">
-                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='BungalowInformacion.html';">
+                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='EventInformacion.html';">
                     <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="alert('Tu reserva fue exitosa');location.href='loginUsuario.html';">
-                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
+                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoEventos.html';">
                 </div>
             </div>
         </form>
         <div id="detallesBungalows" class="mitadDerecha">
             <div id="BungTipo1" class="hide">
                 <div class="mitadDerecha">
-                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/1_Lorena.png">
+                    <img class="imgBungalow" src="img/Eventos/newYear.jpg">
                 </div>
                 <div class="detallesTipoBungalows mitadDerecha">
-                    <div><h3>Bungalow Lorena</h3></div>
-                    <div><h4>Precio: S/80.00</h4></div>
-                    <div><h4>Capacidad: 6 Personas</h4></div>
+                    <div><h3>Nuevos Anos 2017</h3></div>
+                    <div><h4>Precio: S/80.000</h4></div>
+                    <div><h4>Capacidad: 6000 Personas</h4></div>
                     <ul>
-                        <span>Incluye:</span>
-                        <li><span>1 Habitacion Personal</span></li>
-                        <li><span>2 Camarotes</span></li>
-                        <li><span>1 Cocina</span></li>
-                        <li><span>1 Sala</span></li>
-                        <li><span>1 Baño</span></li>
+                        <span>Prices:</span>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
+                        <li><span>...</span></li>
                     </ul>
                 </div>
             </div>
 
-            <div id="BungTipo2" class="show">
-                <div class="mitadDerecha">
-                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/2_Club.png">
-                </div>
-                <div class="detallesTipoBungalows mitadDerecha">
-                    <div><h3>Bungalow Club 3</h3></div>
-                    <div><h4>Precio: S/100.00</h4></div>
-                    <div><h4>Capacidad: 8 Personas</h4></div>
-                    <ul>
-                        <span>Incluye:</span>
-                        <li><span>1 Habitacion Personal</span></li>
-                        <li><span>3 Camarotes</span></li>
-                        <li><span>1 Cocina</span></li>
-                        <li><span>1 Sala</span></li>
-                        <li><span>2 Baños</span></li>
-                    </ul>
-                </div>
-            </div>
 
-            <div id="BungTipo3" class="hide">
-                <div class="mitadDerecha">
-                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/3_Class.png">
-                </div>
-                <div class="detallesTipoBungalows mitadDerecha">
-                    <div><h3>Bungalow Class</h3></div>
-                    <div><h4>Precio: S/120.00</h4></div>
-                    <div><h4>Capacidad: 12 Personas</h4></div>
-                    <ul>
-                        <span>Incluye:</span>
-                        <li><span>2 Habitaciones Personales</span></li>
-                        <li><span>4 Camarotes</span></li>
-                        <li><span>1 Cocina</span></li>
-                        <li><span>1 Sala</span></li>
-                        <li><span>2 Baños</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="BungTipo4" class="hide">
-                <div class="mitadDerecha">
-                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/4_King.png">
-                </div>
-                <div class="detallesTipoBungalows mitadDerecha">
-                    <div><h3>Bungalow King</h3></div>
-                    <div><h4>Precio: S/140.00</h4></div>
-                    <div><h4>Capacidad: 16 Personas</h4></div>
-                    <ul>
-                        <span>Incluye:</span>
-                        <li><span>3 Habitaciones Personales</span></li>
-                        <li><span>5 Camarotes</span></li>
-                        <li><span>1 Cocina</span></li>
-                        <li><span>2 Salas</span></li>
-                        <li><span>2 Baños</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="BungTipo5" class="hide">
-                <div class="mitadDerecha">
-                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/5_KingCharles.png">
-                </div>
-                <div class="detallesTipoBungalows mitadDerecha">
-                    <div><h3>Bungalow King Charles</h3></div>
-                    <div><h4>Precio: S/160.00</h4></div>
-                    <div><h4>Capacidad: 20 Personas</h4></div>
-                    <ul>
-                        <span>Incluye:</span>
-                        <li><span>5 Habitaciones Personales</span></li>
-                        <li><span>6 Camarotes</span></li>
-                        <li><span>2 Cocinas</span></li>
-                        <li><span>2 Salas</span></li>
-                        <li><span>2 Baños</span></li>
-                    </ul>
-                </div>
-            </div>
             <div></div>
         </div>
     </div>
@@ -243,9 +172,6 @@
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
-    $("#date-picker-DiaEntrada").datepicker("setDate", new Date());
-    var diaEntrada=new Date();diaEntrada.setDate(diaEntrada.getDate()+1);
-    $("#date-picker-DiaSalida").datepicker("setDate", diaEntrada);
 </script>
 <script type="text/javascript">
     function Muestrame(indAMostrar){

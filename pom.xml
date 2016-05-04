@@ -19,7 +19,7 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEnccoding>UTF-8</project.build.sourceEnccoding>
 		<java.version>1.8</java.version>
 	</properties>
 
@@ -93,6 +93,12 @@
 			<groupId>org.webjars.bower</groupId>
 			<artifactId>noty</artifactId>
 			<version>2.3.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>fancybox</artifactId>
+			<version>2.1.5</version>
 		</dependency>
 	</dependencies>
 	

@@ -8,23 +8,24 @@
 }
 
 .social-box{
-    float: none;
+    /*float: none;
     position: absolute;
     right: 40px;
-    bottom: 0;
-    width: 130px;
-    padding-bottom: 60px;
+    bottom: 0;*/
+    width: 100%;
+    /*padding-bottom: 60px;*/
 }
 .rght-box{
     float: right;
-    width: 100%;
+    min-width: 10%;
     padding-right: 10px;
-    margin-bottom: 15px;
+    margin-left: 10px;
     border: 1px solid transparent;
     border-radius: 4px;
+    height:40px;
 }
 .btn-primary{
-    background-color: #00a0ac;
+    /*background-color: #00a0ac;
     font-size: 15pt;
-    font-weight:bold;
+    font-weight:bold;*/
 }

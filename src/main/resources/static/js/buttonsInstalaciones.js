@@ -77,9 +77,3 @@ function mostrarNext5(){
     if(elementos.hasClass("hidden")==false)
         $("#botonMostrarMas").addClass("hidden");
 }
-function llenarListaBungalows(){
-    var nroElementos=tituloBongalow.length;
-    for(var i=0;i<nroElementos;i++)
-        retornaElementoLista(i).appendTo("#listaBungalows");
-    retornaBotonMostrarMas().appendTo("#listaBungalows");
-}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Bungalow Registro</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <h2>Registro Bungalow</h2>
+    <hr>
+    <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
+        <div id="nombreBungalow" class="form-group">
+            <label class="control-label col-xs-4">Tipo Bungalow</label>
+            <div class="col-xs-4">
+                <select class="form-control col-xs-4">
+                    <option value="1">Bungalow Lorena</option>
+                    <option value="2">Bungalow Club</option>
+                    <option value="3">Bungalow Class</option>
+                    <option value="4">Bungalow King</option>
+                    <option value="5">Bungalow King Charles</option>
+                </select>
+            </div>
+            <label class="control-label col-xs-2">Nro.</label>
+            <div class="input-group col-xs-2">
+                <input type="text" class="form-control col-xs-2" placeholder="9999"/>
+            </div>
+        </div>
+        <div id="escogerSedeBungalows" class="form-group">
+            <label class="control-label col-xs-4">Escoger Sede</label>
+            <div class="col-xs-8">
+                <select class="form-control col-xs-8">
+                    <option value="1">Chorrillos</option>
+                    <option value="2">Santa Anita</option>
+                    <option value="3">Jesus Maria</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-4">Estado</label>
+            <div class="col-xs-8">
+                <select class="form-control col-xs-8" id="estado">
+                    <option>Libre</option>
+                    <option>Reservado</option>
+                    <option>En Mantenimiento</option>
+                </select>
+            </div>
+        </div>
+        <div id="precioBungalow" class="form-group">
+            <label class="control-label col-xs-4">Precio Bungalow</label>
+            <div class="input-group col-xs-8">
+                <input type="text" class="form-control col-xs-8" />
+            </div>
+        </div>
+        <div id="capacidadBungalow" class="form-group">
+            <label class="control-label col-xs-4">Capacidad</label>
+            <div class="input-group col-xs-8">
+                <input type="text" class="form-control col-xs-8" />
+            </div>
+        </div>
+        <div id="CaracteristicasBungalow" class="form-group">
+            <label class="control-label col-xs-4">Caracteristicas</label>
+            <div class="input-group col-xs-8">
+                <input type="text" class="form-control col-xs-8" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-10">
+                <input type="" class="btn btn-primary" value="Registrar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
+                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
+            </div>
+        </div>
+    </form>
+    <div id="detallesBungalows" class="mitadDerecha">
+        <div id="BungTipo2" class="show">
+            <img class="imgBungalow" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="img/Bungalows/draganddrop.jpg">
+        </div>
+        <div></div>
+    </div>
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
