@@ -29,7 +29,7 @@ public class Bungalow {
     private Integer piso;
 
     @OneToOne
-    private ReservaBungalow reservaBungalow;
+    private ReservaBungalow reservaBungalow; // EN EL FUTURO CAMBIAR DE UNO A MUCHOS PORQUE SE NECESITARÁ PARA LA SANCIÓN
 
     public Sede getSede() {
         return sede;

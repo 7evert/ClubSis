@@ -2,6 +2,9 @@ package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.Bungalow;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,9 +12,14 @@ import java.util.Set;
 /**
  * Created by Juan Tenorio on 12/4/2016.
  */
+
+@Entity
 public class Sede {
+
+    @Id
+    @GeneratedValue
     private Integer idSede;
-    private String descripcion;
+    private String nombre;
     private String direccion;
 
     @OneToMany(mappedBy = "sede")
@@ -20,10 +28,10 @@ public class Sede {
     protected Sede() {
     }
 
-    public Sede(Integer idSede, String descripcion, String direccion) {
-        this.idSede = idSede;
-        this.descripcion = descripcion;
+    public Sede(String nombre, String direccion, Set<Bungalow> bungalows) {
+        this.nombre = nombre;
         this.direccion = direccion;
+        this.bungalows = bungalows;
     }
 
     public Integer getIdSede() {
@@ -34,12 +42,12 @@ public class Sede {
         this.idSede = idSede;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDireccion() {
@@ -48,5 +56,13 @@ public class Sede {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public Set<Bungalow> getBungalows() {
+        return bungalows;
+    }
+
+    public void setBungalows(Set<Bungalow> bungalows) {
+        this.bungalows = bungalows;
     }
 }
