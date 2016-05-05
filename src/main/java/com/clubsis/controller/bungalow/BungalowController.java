@@ -20,8 +20,7 @@ public class BungalowController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Bungalow> list() {
-        // TODO: retornar todos los bungalows (llamar a un solo método del servicio que haga esto)
-        return null;
+        return servicioReservas.mostrarBungalows();
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -32,8 +31,7 @@ public class BungalowController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Bungalow create(@RequestBody Bungalow bungalow) {
-        // TODO: crear un bungalow (llamar a un solo método del servicio que haga esto)
-        return null;
+        return servicioReservas.crearBungalow(bungalow);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)

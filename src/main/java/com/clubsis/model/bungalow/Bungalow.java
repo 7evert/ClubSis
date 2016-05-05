@@ -19,17 +19,19 @@ public class Bungalow {
     private Double precio;
     private String caracteristicas;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_tipo_bungalow")
-    private TipoBungalow tipoBungalow;
+    // El cascade sirve para que se pueda pasar por JSON un objeto de tipo TipoBungalow
+    // y que se cree también adicionalmente al Bungalow en la base de datos.
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private TipoBungalow tipoBungalow; // necesario (composición)
 
     @ManyToOne
-    private Sede sede;
+    private Sede sede; // necesaria (composición)
     private String ubicacionEnSede;
     private Integer piso;
 
     @OneToOne
     private ReservaBungalow reservaBungalow; // EN EL FUTURO CAMBIAR DE UNO A MUCHOS PORQUE SE NECESITARÁ PARA LA SANCIÓN
+    // no necesaria (se puede crear Bungalow con ReservaBungalow = null)
 
     public Sede getSede() {
         return sede;

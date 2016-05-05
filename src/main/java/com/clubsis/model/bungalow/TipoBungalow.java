@@ -1,9 +1,7 @@
 package com.clubsis.model.bungalow;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -13,10 +11,13 @@ import javax.persistence.Id;
 public class TipoBungalow {
     @Id
     @GeneratedValue
-    @Column(name = "id_tipo_bungalow")
     private Integer idTipoBungalow;
     private String descripcion;
     private String caracteristicas;
+
+    @OneToMany(mappedBy = "tipoBungalow")
+    private Set<Bungalow> bungalows;
+
 
     protected TipoBungalow(){
     }
