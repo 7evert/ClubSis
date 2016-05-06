@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>ClubSis-Mantenimiento Bungalows</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
+    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
+    <script type="text/javascript">
+        var DATABUNGALOWS;
+        /* datos generales */
+        function getID(target){
+            var id=target.parentElement.parentElement.parentElement.parentElement.getAttribute("ID");
+            return id.replace(/\D/g,'');
+        }
+        function Ver(e){
+            e.preventDefault();
+            location.href="BungalowInformacion.html?id="+getID(e.target);
+        }
+        function Editar(e){location.href="edicionBungalow.html?id="+getID(e.target);event.preventDefault();}
+        function Eliminar(e){location.href="loginUsuario.html?id="+getID(e.target);event.preventDefault();}
+        function Reservar(e){location.href="reservaBungalows1.html?id="+getID(e.target);event.preventDefault();}
+
+        function Agregar(e){location.href="registroBungalow.html";event.preventDefault();}
+        var funciones=[Ver,Reservar,Editar,Eliminar];
+
+        //json HARDCODEADO
+        //la misma data esta en reservaBungalows1.html
+        var dataJSON=[
+            {id:"0",imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"6",sede:"Chorrillos",capacidad:"6",precio:"80.00",
+                caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
+            {id:"1",imgsrc:"img/Bungalows/TipoBungalows/2_Club.png",tipoBungalow:"Bungalow Club",NroBungalow:"20",sede:"Playa",capacidad:"8",precio:"100.00",
+                caracteristicas:["1 Habitacion Personal","3 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"2",imgsrc:"img/Bungalows/TipoBungalows/3_Class.png",tipoBungalow:"Bungalow Class",NroBungalow:"2",sede:"Chosica",capacidad:"12",precio:"120.00",
+                caracteristicas:["2 Habitaciones Personales","4 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"3",imgsrc:"img/Bungalows/TipoBungalows/4_king.png",tipoBungalow:"Bungalow King",NroBungalow:"6",sede:"Chosica",capacidad:"16",precio:"140.00",
+                caracteristicas:["3 Habitaciones Personales","5 Camarotes","1 Cocina","2 Salas","2 Baños"]},
+            {id:"4",imgsrc:"img/Bungalows/TipoBungalows/5_KingCharles.png",tipoBungalow:"Bungalow King Charles",NroBungalow:"7",sede:"Chorrillos",capacidad:"20",precio:"160.00",
+                caracteristicas:["5 Habitaciones Personales","6 Camarotes","2 Cocinas","2 Salas","2 Baños"]},
+            {id:"5",imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"8",sede:"Chorrillos",capacidad:"6",precio:"80.00",
+                caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
+            {id:"6",imgsrc:"img/Bungalows/TipoBungalows/2_Club.png",tipoBungalow:"Bungalow Club",NroBungalow:"1",sede:"Chosica",capacidad:"8",precio:"100.00",
+                caracteristicas:["1 Habitacion Personal","3 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"7",imgsrc:"img/Bungalows/TipoBungalows/3_Class.png",tipoBungalow:"Bungalow Class",NroBungalow:"32",sede:"Chorrillos",capacidad:"12",precio:"120.00",
+                caracteristicas:["2 Habitaciones Personales","4 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"8",imgsrc:"img/Bungalows/TipoBungalows/4_king.png",tipoBungalow:"Bungalow King",NroBungalow:"12",sede:"Chosica",capacidad:"16",precio:"140.00",
+                caracteristicas:["3 Habitaciones Personales","5 Camarotes","1 Cocina","2 Salas","2 Baños"]},
+            {id:"9",imgsrc:"img/Bungalows/TipoBungalows/5_KingCharles.png",tipoBungalow:"Bungalow King Charles",NroBungalow:"41",sede:"Chorrillos",capacidad:"20",precio:"160.00",
+                caracteristicas:["5 Habitaciones Personales","6 Camarotes","2 Cocinas","2 Salas","2 Baños"]}
+        ];
+
+    </script>
+    <script type="text/javascript">
+        //app script
+        var app = angular.module('app', []);
+    </script>
+    <script type="text/javascript">
+        app.controller('BungalowsController', function ($scope, $http) {
+            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
+                //DATABUNGALOWS=data;//eso deberia ser pero como no tengo link
+                //lo pongo harcodeado que esta en la linea 34
+
+                DATABUNGALOWS=dataJSON;
+                llenarListaBungalows1(DATABUNGALOWS);
+                cambiarDeUsuario(administrador,Agregar,funciones);
+                mostrarNext5();
+            })
+        });
+    </script>
+</head>
+<body ng-controller="BungalowsController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--example link: http://www.trivago.pe/?iPathId=86439&iGeoDistanceItem=0&aDateRange[arr]=2016-05-08&aDateRange[dep]=2016-05-09&iRoomType=7&cpt=8643903&iViewType=0&bIsSeoPage=false&bIsSitemap=false    -->
+    <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
+    <div>
+        <div class="form-group"><!--filtrado-->
+            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE BUNGALOWS
+                <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
+            </h4>
+
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="tipo" class="col-md-4 control-label">Sede</label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="sede">
+                                    <option>Elegir</option>
+                                    <option>Chosica</option>
+                                    <option>Namekusein</option>
+                                    <option>Planeta del gran Kaiosama</option>
+                                    <option>Planeta Tierra</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="estado" class="col-md-4 control-label">Estado</label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="estado">
+                                    <option>Libre</option>
+                                    <option>Reservado</option>
+                                    <option>En Mantenimiento</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-4">Tipo Bungalow</label>
+                            <div class="col-md-8">
+                                <select class="form-control col-xs-8">
+                                    <option value="1">Bungalow Lorena</option>
+                                    <option value="2">Bungalow Club</option>
+                                    <option value="3">Bungalow Class</option>
+                                    <option value="4">Bungalow King</option>
+                                    <option value="5">Bungalow King Charles</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Bungalow">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Apartir de</label>
+                            <div class="input-group input-append date col-md-8">
+                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Antes de</label>
+                            <div class="input-group input-append date col-md-8">
+                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-lg-7">
+                    </div>
+                    <div class="col-sm-5 col-lg-5">
+                        <div class="form-group" style="margin-left: 60px;">
+                            <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                            <!--Opcional-->
+                            <!--<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>-->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-primary"><!--listas-->
+        <div id="topMostrar" class="panel-heading">
+            <span class="col-xs-9 titulo">Bungalows</span>
+            <!--<span class="pull-right" id="accionAgregar">
+                <input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>
+            </span><br>-->
+        </div>
+        <div id="listaBungalows" class="list-group list-group-flush">
+        </div>
+    </div>
+</div>
+<div class="pull-right"><!--esto solo es para verificar que funciona, luego se borrara-->
+    <button onclick="cambiarDeUsuario(1,Agregar,funciones)" class="btn btn-primary pull-right">Como Socio</button>
+    <button onclick="cambiarDeUsuario(0,Agregar,funciones)" class="btn btn-primary pull-right">Como Administrador</button><br>
+    <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript" src="js/generarElementoBungalow.js"></script>
+<script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+<script type="text/javascript">
+    /*******************LEAN LOS COMENTARIOS ************************/
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
+
