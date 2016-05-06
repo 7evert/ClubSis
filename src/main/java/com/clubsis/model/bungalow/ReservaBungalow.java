@@ -18,7 +18,7 @@ public class ReservaBungalow {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<ServicioBungalow> serviciosBungalows; // por ahora no hay
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Bungalow bungalow;
 
     public ReservaBungalow(Date fechaReserva, Date fechaFinal, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow) {

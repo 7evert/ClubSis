@@ -3,9 +3,11 @@ package com.clubsis.service;
 import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.bungalow.ReservaBungalow;
 import com.clubsis.model.bungalow.TipoBungalow;
+import com.clubsis.model.sede.Sede;
 import com.clubsis.repository.bungalow.BungalowRepository;
 import com.clubsis.repository.bungalow.ReservaBungalowRepository;
 import com.clubsis.repository.bungalow.TipoBungalowRepository;
+import com.clubsis.repository.sede.SedeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class ServicioReservas {
 
     @Autowired
     private TipoBungalowRepository tipoBungalowRepository;
+
+    @Autowired
+    private SedeRepository sedeRepository;
 
     @Autowired
     private ReservaBungalowRepository reservaBungalowRepository;
@@ -56,5 +61,16 @@ public class ServicioReservas {
 
     public ReservaBungalow crearReservaBungalow(ReservaBungalow reservaBungalow) {
         return reservaBungalowRepository.saveAndFlush(reservaBungalow);
+    }
+
+
+
+
+    public List<Sede> mostrarSedes() {
+        return sedeRepository.findAll();
+    }
+
+    public Sede crearSede(Sede sede) {
+        return sedeRepository.saveAndFlush(sede);
     }
 }

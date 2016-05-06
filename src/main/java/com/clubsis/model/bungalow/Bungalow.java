@@ -29,16 +29,11 @@ public class Bungalow {
 
 
 
-
-
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_sede")
     private Sede sede; // necesaria (composición)
     private String ubicacionEnSede;
     private Integer piso;
-
-    @OneToMany(mappedBy = "bungalow", cascade = CascadeType.ALL)
-    private Set<ReservaBungalow> reservaBungalowSet; // EN EL FUTURO CAMBIAR DE UNO A MUCHOS PORQUE SE NECESITARÁ PARA LA SANCIÓN
-    // no necesaria (se puede crear Bungalow con ReservaBungalow = null)
 
     public Sede getSede() {
         return sede;
@@ -52,7 +47,7 @@ public class Bungalow {
         return ubicacionEnSede;
     }
 
-    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, TipoBungalow tipoBungalow, Sede sede, String ubicacionEnSede, Integer piso, Set<ReservaBungalow> reservaBungalowSet) {
+    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, TipoBungalow tipoBungalow, Sede sede, String ubicacionEnSede, Integer piso) {
         this.capacidad = capacidad;
         this.estado = estado;
         this.precio = precio;
@@ -61,7 +56,6 @@ public class Bungalow {
         this.sede = sede;
         this.ubicacionEnSede = ubicacionEnSede;
         this.piso = piso;
-        this.reservaBungalowSet = reservaBungalowSet;
     }
 
     public void setUbicacionEnSede(String ubicacionEnSede) {
@@ -125,13 +119,5 @@ public class Bungalow {
 
     public void setTipoBungalow(TipoBungalow tipoBungalow) {
         this.tipoBungalow = tipoBungalow;
-    }
-
-    public Set<ReservaBungalow> getReservaBungalowSet() {
-        return reservaBungalowSet;
-    }
-
-    public void setReservaBungalowSet(Set<ReservaBungalow> reservaBungalowSet) {
-        this.reservaBungalowSet = reservaBungalowSet;
     }
 }

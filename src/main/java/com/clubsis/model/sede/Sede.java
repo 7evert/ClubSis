@@ -2,10 +2,7 @@ package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.Bungalow;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,20 +15,17 @@ public class Sede {
 
     @Id
     @GeneratedValue
+    @Column(name = "id_sede")
     private Integer id;
     private String nombre;
     private String direccion;
 
-    @OneToMany(mappedBy = "sede")
-    private Set<Bungalow> bungalows = new HashSet<>();
-
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, Set<Bungalow> bungalows) {
+    public Sede(String nombre, String direccion) {
         this.nombre = nombre;
         this.direccion = direccion;
-        this.bungalows = bungalows;
     }
 
     public Integer getId() {
@@ -58,11 +52,4 @@ public class Sede {
         this.direccion = direccion;
     }
 
-    public Set<Bungalow> getBungalows() {
-        return bungalows;
-    }
-
-    public void setBungalows(Set<Bungalow> bungalows) {
-        this.bungalows = bungalows;
-    }
 }

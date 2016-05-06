@@ -1,5 +1,9 @@
 package com.clubsis.model.sede;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.

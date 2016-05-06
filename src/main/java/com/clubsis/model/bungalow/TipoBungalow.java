@@ -13,7 +13,7 @@ public class TipoBungalow {
     @GeneratedValue
     @Column(name = "id_TipoBungalow")
     private Integer id;
-    private String descripcion;
+    private String nombre;
     private String caracteristicas;
 
 
@@ -29,8 +29,8 @@ public class TipoBungalow {
     // No olvidar poner TODOS los atributos en el constructor y con sus getters y setters
 
 
-    public TipoBungalow(String descripcion, String caracteristicas) {
-        this.descripcion = descripcion;
+    public TipoBungalow(String nombre, String caracteristicas) {
+        this.nombre = nombre;
         this.caracteristicas = caracteristicas;
     }
 
@@ -42,12 +42,12 @@ public class TipoBungalow {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getCaracteristicas() {
