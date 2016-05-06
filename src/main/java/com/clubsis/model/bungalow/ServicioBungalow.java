@@ -15,7 +15,7 @@ import java.util.Set;
 public class ServicioBungalow {
     @Id
     @GeneratedValue
-    private Integer idServicioBungalow;
+    private Integer id;
     private String descripcion;
     private Double precio;
 
@@ -31,12 +31,12 @@ public class ServicioBungalow {
         this.reservasBungalows = reservasBungalows;
     }
 
-    public Integer getIdServicioBungalow() {
-        return idServicioBungalow;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdServicioBungalow(Integer idServicioBungalow) {
-        this.idServicioBungalow = idServicioBungalow;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {

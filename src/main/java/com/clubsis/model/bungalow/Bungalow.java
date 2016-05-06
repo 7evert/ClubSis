@@ -13,23 +13,30 @@ public class Bungalow {
 
     @Id
     @GeneratedValue
-    private Integer idBungalow;
+    private Integer id;
     private Integer capacidad;
     private Integer estado; //libre, en mantenimiento, ocupado, no irá en el formulario
     private Double precio;
     private String caracteristicas;
 
+
+
     // El cascade sirve para que se pueda pasar por JSON un objeto de tipo TipoBungalow
     // y que se cree también adicionalmente al Bungalow en la base de datos.
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_TipoBungalow")
     private TipoBungalow tipoBungalow; // necesario (composición)
+
+
+
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Sede sede; // necesaria (composición)
     private String ubicacionEnSede;
     private Integer piso;
 
-    @OneToMany(mappedBy = "bungalow")
+    @OneToMany(mappedBy = "bungalow", cascade = CascadeType.ALL)
     private Set<ReservaBungalow> reservaBungalowSet; // EN EL FUTURO CAMBIAR DE UNO A MUCHOS PORQUE SE NECESITARÁ PARA LA SANCIÓN
     // no necesaria (se puede crear Bungalow con ReservaBungalow = null)
 
@@ -72,12 +79,12 @@ public class Bungalow {
     protected Bungalow() {
     }
 
-    public Integer getIdBungalow() {
-        return idBungalow;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdBungalow(Integer idBungalow) {
-        this.idBungalow = idBungalow;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getCapacidad() {

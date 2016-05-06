@@ -18,7 +18,7 @@ public class Sede {
 
     @Id
     @GeneratedValue
-    private Integer idSede;
+    private Integer id;
     private String nombre;
     private String direccion;
 
@@ -34,12 +34,12 @@ public class Sede {
         this.bungalows = bungalows;
     }
 
-    public Integer getIdSede() {
-        return idSede;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdSede(Integer idSede) {
-        this.idSede = idSede;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {

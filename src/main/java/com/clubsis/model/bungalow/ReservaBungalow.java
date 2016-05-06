@@ -11,7 +11,7 @@ import java.util.Set;
 public class ReservaBungalow {
     @Id
     @GeneratedValue
-    private Integer idReserva;
+    private Integer id;
     private Date fechaReserva;
     private Date fechaFinal;
 
@@ -31,12 +31,12 @@ public class ReservaBungalow {
     protected ReservaBungalow() {
     }
 
-    public Integer getIdReserva() {
-        return idReserva;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdReserva(Integer idReserva) {
-        this.idReserva = idReserva;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFechaReserva() {

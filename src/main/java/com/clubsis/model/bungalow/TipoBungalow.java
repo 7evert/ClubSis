@@ -11,12 +11,16 @@ import java.util.Set;
 public class TipoBungalow {
     @Id
     @GeneratedValue
-    private Integer idTipoBungalow;
+    @Column(name = "id_TipoBungalow")
+    private Integer id;
     private String descripcion;
     private String caracteristicas;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoBungalow")
-    private Set<Bungalow> bungalows;
+
+
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoBungalow", orphanRemoval = true)
+//    private Set<Bungalow> bungalows;
 
 
     protected TipoBungalow(){
@@ -24,26 +28,18 @@ public class TipoBungalow {
 
     // No olvidar poner TODOS los atributos en el constructor y con sus getters y setters
 
-    public Set<Bungalow> getBungalows() {
-        return bungalows;
-    }
 
-    public void setBungalows(Set<Bungalow> bungalows) {
-        this.bungalows = bungalows;
-    }
-
-    public TipoBungalow(String descripcion, String caracteristicas, Set<Bungalow> bungalows) {
+    public TipoBungalow(String descripcion, String caracteristicas) {
         this.descripcion = descripcion;
         this.caracteristicas = caracteristicas;
-        this.bungalows = bungalows;
     }
 
-    public Integer getIdTipoBungalow() {
-        return idTipoBungalow;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdTipoBungalow(Integer idTipoBungalow) {
-        this.idTipoBungalow = idTipoBungalow;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
