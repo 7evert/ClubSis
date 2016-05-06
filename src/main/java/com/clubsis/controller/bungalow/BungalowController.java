@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/bungalows/")
+@RequestMapping("/api/bungalows")
 public class BungalowController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class BungalowController {
         return servicioReservas.mostrarBungalows();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Bungalow get(@PathVariable Integer id) {
         // TODO: retornar un bungalow (llamar a un solo método del servicio que haga esto)
         return null;
@@ -34,13 +34,12 @@ public class BungalowController {
         return servicioReservas.crearBungalow(bungalow);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Bungalow update(@PathVariable Integer id, @RequestBody Bungalow bungalow) {
-        // TODO: actualizar un bungalow (llamar a un solo método del servicio que haga esto)
-        return null;
+        return servicioReservas.actualizarBungalow(id, bungalow);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Bungalow delete(@PathVariable Integer id) {
         // TODO: eliminar un bungalow (llamar a un solo método del servicio que haga esto)
         return null;

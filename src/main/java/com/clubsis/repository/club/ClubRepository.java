@@ -5,5 +5,5 @@ import com.clubsis.model.club.Club;
 /**
  * Created by Juan Tenorio on 1/5/2016.
  */
-public interface ClubRepository extends JpaRepository<Club, Long>  {
+public interface ClubRepository extends JpaRepository<Club, Integer>  {
 }

@@ -5,6 +5,6 @@ import com.clubsis.model.pago.Cuota;
 /**
  * Created by Juan Tenorio on 1/5/2016.
  */
-public interface CuotaRepository extends JpaRepository<Cuota, Long> {
+public interface CuotaRepository extends JpaRepository<Cuota, Integer> {
 
 }

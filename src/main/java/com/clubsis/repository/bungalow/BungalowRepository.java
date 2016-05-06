@@ -7,6 +7,6 @@ import com.clubsis.model.bungalow.Bungalow;
  * Created by Juan Tenorio on 1/5/2016.
  */
 
-public interface BungalowRepository extends JpaRepository<Bungalow, Long> {
+public interface BungalowRepository extends JpaRepository<Bungalow, Integer> {
 
 }

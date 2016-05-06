@@ -5,5 +5,5 @@ import com.clubsis.model.club.Usuario;
 /**
  * Created by Juan Tenorio on 1/5/2016.
  */
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 }

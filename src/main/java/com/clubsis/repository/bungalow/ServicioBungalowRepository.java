@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Created by Juan Tenorio on 1/5/2016.
  */
 
-public interface ServicioBungalowRepository extends JpaRepository<ServicioBungalow, Long> {
+public interface ServicioBungalowRepository extends JpaRepository<ServicioBungalow, Integer> {
 
 }

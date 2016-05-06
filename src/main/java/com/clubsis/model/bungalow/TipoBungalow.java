@@ -15,16 +15,27 @@ public class TipoBungalow {
     private String descripcion;
     private String caracteristicas;
 
-    @OneToMany(mappedBy = "tipoBungalow")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoBungalow")
     private Set<Bungalow> bungalows;
 
 
     protected TipoBungalow(){
     }
 
-    public TipoBungalow(String descripcion, String caracteristicas) {
+    // No olvidar poner TODOS los atributos en el constructor y con sus getters y setters
+
+    public Set<Bungalow> getBungalows() {
+        return bungalows;
+    }
+
+    public void setBungalows(Set<Bungalow> bungalows) {
+        this.bungalows = bungalows;
+    }
+
+    public TipoBungalow(String descripcion, String caracteristicas, Set<Bungalow> bungalows) {
         this.descripcion = descripcion;
         this.caracteristicas = caracteristicas;
+        this.bungalows = bungalows;
     }
 
     public Integer getIdTipoBungalow() {

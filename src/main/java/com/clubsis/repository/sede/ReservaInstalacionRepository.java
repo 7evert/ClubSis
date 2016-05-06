@@ -6,5 +6,5 @@ import com.clubsis.model.sede.ReservaInstalacion;
 /**
  * Created by Juan Tenorio on 1/5/2016.
  */
-public interface ReservaInstalacionRepository extends JpaRepository<ReservaInstalacion, Long> {
+public interface ReservaInstalacionRepository extends JpaRepository<ReservaInstalacion, Integer> {
 }

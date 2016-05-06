@@ -5,5 +5,5 @@ import com.clubsis.model.sede.Instalacion;
 /**
  * Created by Juan Tenorio on 1/5/2016.
  */
-public interface InstalacionRepository extends JpaRepository<Instalacion, Long>{
+public interface InstalacionRepository extends JpaRepository<Instalacion, Integer>{
 }

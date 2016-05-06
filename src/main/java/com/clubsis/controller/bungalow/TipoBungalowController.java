@@ -19,8 +19,7 @@ public class TipoBungalowController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<TipoBungalow> list() {
-        // TODO: retornar todos los tipos de bungalows (llamar a un solo método del servicio que haga esto)
-        return null;
+        return servicioReservas.mostrarTiposBungalow();
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -30,13 +29,12 @@ public class TipoBungalowController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public TipoBungalow create(@RequestBody TipoBungalow bungalow) {
-        // TODO: crear un tipo de bungalow (llamar a un solo método del servicio que haga esto)
-        return null;
+    public TipoBungalow create(@RequestBody TipoBungalow tipoBungalow) {
+        return servicioReservas.crearTipoBungalow(tipoBungalow);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public TipoBungalow update(@PathVariable Integer id, @RequestBody TipoBungalow bungalow) {
+    public TipoBungalow update(@PathVariable Integer id, @RequestBody TipoBungalow tipoBungalow) {
         // TODO: actualizar un tipo de bungalow (llamar a un solo método del servicio que haga esto)
         return null;
     }

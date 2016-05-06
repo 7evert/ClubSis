@@ -1,7 +1,12 @@
 package com.clubsis.service;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.bungalow.ReservaBungalow;
+import com.clubsis.model.bungalow.TipoBungalow;
 import com.clubsis.repository.bungalow.BungalowRepository;
+import com.clubsis.repository.bungalow.ReservaBungalowRepository;
+import com.clubsis.repository.bungalow.TipoBungalowRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +22,12 @@ public class ServicioReservas {
     @Autowired
     private BungalowRepository bungalowRepository;
 
+    @Autowired
+    private TipoBungalowRepository tipoBungalowRepository;
+
+    @Autowired
+    private ReservaBungalowRepository reservaBungalowRepository;
+
     public List<Bungalow> mostrarBungalows() {
         return bungalowRepository.findAll();
     }
@@ -25,4 +36,25 @@ public class ServicioReservas {
         return bungalowRepository.saveAndFlush(bungalow);
     }
 
+    public Bungalow actualizarBungalow(Integer id, Bungalow bungalow) {
+        Bungalow bungalowExistente = bungalowRepository.findOne(id);
+        BeanUtils.copyProperties(bungalow, bungalowExistente);
+        return bungalowRepository.saveAndFlush(bungalowExistente);
+    }
+
+    public List<TipoBungalow> mostrarTiposBungalow() {
+        return tipoBungalowRepository.findAll();
+    }
+
+    public TipoBungalow crearTipoBungalow(TipoBungalow tipoBungalow) {
+        return tipoBungalowRepository.saveAndFlush(tipoBungalow);
+    }
+
+    public List<ReservaBungalow> mostrarReservasBungalow() {
+        return reservaBungalowRepository.findAll();
+    }
+
+    public ReservaBungalow crearReservaBungalow(ReservaBungalow reservaBungalow) {
+        return reservaBungalowRepository.saveAndFlush(reservaBungalow);
+    }
 }
