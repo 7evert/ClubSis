@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Reserva Bungalows</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script type="text/javascript">
+        //la misma data esta en mantenimientosBungalows1.html
+        var dataJSON=[
+            {id:"0",imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"6",sede:"Chorrillos",capacidad:"6",precio:"80.00",
+                caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
+            {id:"1",imgsrc:"img/Bungalows/TipoBungalows/2_Club.png",tipoBungalow:"Bungalow Club",NroBungalow:"20",sede:"Playa",capacidad:"8",precio:"100.00",
+                caracteristicas:["1 Habitacion Personal","3 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"2",imgsrc:"img/Bungalows/TipoBungalows/3_Class.png",tipoBungalow:"Bungalow Class",NroBungalow:"2",sede:"Chosica",capacidad:"12",precio:"120.00",
+                caracteristicas:["2 Habitaciones Personales","4 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"3",imgsrc:"img/Bungalows/TipoBungalows/4_king.png",tipoBungalow:"Bungalow King",NroBungalow:"6",sede:"Chosica",capacidad:"16",precio:"140.00",
+                caracteristicas:["3 Habitaciones Personales","5 Camarotes","1 Cocina","2 Salas","2 Baños"]},
+            {id:"4",imgsrc:"img/Bungalows/TipoBungalows/5_KingCharles.png",tipoBungalow:"Bungalow King Charles",NroBungalow:"7",sede:"Chorrillos",capacidad:"20",precio:"160.00",
+                caracteristicas:["5 Habitaciones Personales","6 Camarotes","2 Cocinas","2 Salas","2 Baños"]},
+            {id:"5",imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"8",sede:"Chorrillos",capacidad:"6",precio:"80.00",
+                caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
+            {id:"6",imgsrc:"img/Bungalows/TipoBungalows/2_Club.png",tipoBungalow:"Bungalow Club",NroBungalow:"1",sede:"Chosica",capacidad:"8",precio:"100.00",
+                caracteristicas:["1 Habitacion Personal","3 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"7",imgsrc:"img/Bungalows/TipoBungalows/3_Class.png",tipoBungalow:"Bungalow Class",NroBungalow:"32",sede:"Chorrillos",capacidad:"12",precio:"120.00",
+                caracteristicas:["2 Habitaciones Personales","4 Camarotes","1 Cocina","1 Sala","2 Baños"]},
+            {id:"8",imgsrc:"img/Bungalows/TipoBungalows/4_king.png",tipoBungalow:"Bungalow King",NroBungalow:"12",sede:"Chosica",capacidad:"16",precio:"140.00",
+                caracteristicas:["3 Habitaciones Personales","5 Camarotes","1 Cocina","2 Salas","2 Baños"]},
+            {id:"9",imgsrc:"img/Bungalows/TipoBungalows/5_KingCharles.png",tipoBungalow:"Bungalow King Charles",NroBungalow:"41",sede:"Chorrillos",capacidad:"20",precio:"160.00",
+                caracteristicas:["5 Habitaciones Personales","6 Camarotes","2 Cocinas","2 Salas","2 Baños"]}
+        ];
+    </script>
+    <script type="text/javascript">
+        var indActualBungalow=2;
+        var claseOculta="hide";
+        var claseVisible="show"
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+</head>
+<body>
+<div id="headerUsuario"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <div id="ReservaBungalows" class="container">
+        <h2>Reserva de Bungalow</h2>
+        <hr>
+        <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
+            <div class="form-group">
+                <label class="control-label col-xs-4">Nombre</label>
+                <label id="NombreBungalow" style="height:10%;font-size: 20px;"></label>
+            </div>
+            <div id="escogerSedeBungalows" class="form-group">
+                <label class="control-label col-xs-4">Sede</label>
+                <label>Chorrillos</label>
+            </div>
+            <div id="elegirEstadia" class="form-group">
+                <label class="control-label col-xs-4">Día de Entrada</label>
+                <div class="input-group input-append date">
+                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+
+                <br>
+                <label class="control-label col-xs-4">Dia de Salida</label>
+                <div class="input-group input-append date">
+                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-10">
+                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='BungalowInformacion.html';">
+                    <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="alert('Tu reserva fue exitosa');location.href='loginUsuario.html';">
+                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
+                </div>
+            </div>
+        </form>
+
+        <div id="detallesBungalows" class="mitadDerecha">
+            <div class="show">
+                <div id="imgBungalow" class="mitadDerecha">
+                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/2_Club.png">
+                </div>
+                <div id="detallesBungalow" class="detallesTipoBungalows mitadDerecha">
+                    <div><h3>Bungalow Club 3</h3></div>
+                    <div><h4>Precio: S/100.00</h4></div>
+                    <div><h4>Capacidad: 8 Personas</h4></div>
+                    <ul>
+                        <span>Incluye:</span>
+                        <li><span>1 Habitacion Personal</span></li>
+                        <li><span>3 Camarotes</span></li>
+                        <li><span>1 Cocina</span></li>
+                        <li><span>1 Sala</span></li>
+                        <li><span>2 Baños</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+    $("#date-picker-DiaEntrada").datepicker("setDate", new Date());
+    var diaEntrada=new Date();diaEntrada.setDate(diaEntrada.getDate()+1);
+    $("#date-picker-DiaSalida").datepicker("setDate", diaEntrada);
+</script>
+<script type="text/javascript">
+    function getID() {
+        var href = this.location.href;
+        return href.match(/\?id\=(\d+)/)[1];
+    }
+    function completarNombreBungalow(nombreBungalow){
+        $("#NombreBungalow").html(nombreBungalow);
+    }
+    function completarSede(sede){
+        $($("#escogerSedeBungalows").find($("label"))[1]).html(sede);
+    }
+    window.onload=function(){
+        databungalow=dataJSON[getID()];
+        if(!databungalow){
+            alert("Bungalow No Disponible");
+            location.href="MantenimientoBungalows1.html";
+        }
+        completarNombreBungalow(databungalow.tipoBungalow+" "+databungalow.NroBungalow);
+        completarSede(databungalow.sede);
+        completarImagen(databungalow.imgsrc);
+        completarDetalles(databungalow.tipoBungalow,databungalow.precio,databungalow.capacidad)
+        completarCaracteristicas(databungalow.caracteristicas);
+    }
+    function completarImagen(imgsrc){
+        $("#imgBungalow").find($("img"))[0].src=imgsrc;
+    }
+    function completarDetalles(tipoBungalow,precio,capacidad){
+        var divs=$("#detallesBungalow").find($("div"));
+        $(divs[0]).find($("h3")).html(tipoBungalow);
+        $(divs[1]).find($("h4")).html("Precio: S/."+precio);
+        $(divs[2]).find($("h4")).html("Capacidad: "+capacidad+" Personas");
+    }
+    function completarCaracteristicas(caracteristicas){
+        var lista=$("#detallesBungalow").find($("ul"));
+        var elemlista=lista.find($("li"));
+        for(i in elemlista){
+            $(elemlista[i]).html(caracteristicas[i])
+        }
+    }
+</script>
+
+</body>
+</html>

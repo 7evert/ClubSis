@@ -142,3 +142,102 @@ function llenarListaBungalows(){
         retornaElementoLista(i).appendTo("#listaBungalows");
     retornaBotonMostrarMas().appendTo("#listaBungalows");
 }
+/*******************************************************************************+ */
+function retornaElementoLista1(databungalow){
+    return $('<a></a>').attr({
+        href:'#',
+        class: 'list-group-item hidden',
+        id:databungalow.id
+    }).append(retornaPanel1(databungalow));
+}
+
+function retornaPanel1(databungalow){
+    return $('<div></div>').attr({
+        class: 'panel panel-default',
+    }).append(retornaPanelBody2(databungalow));
+}
+
+function retornaPanelBody2(databungalow){
+    var panel = $('<div></div>').attr({
+        class: 'panel-body',
+    });
+    var b=new Array();
+    b[0]=retornaImagenBungalow1(databungalow.imgsrc);
+    b[1]=retornaPanelInfo1(databungalow.tipoBungalow,databungalow.NroBungalow,databungalow.sede,databungalow.capacidad);
+    b[2]=retornCaracteristicas1(databungalow.precio,databungalow.caracteristicas);
+    for(var j=0;j<b.length;j++)
+        panel.append(b[j]);
+    return panel;
+}
+
+function retornaImagenBungalow1(imgsrc){
+    return $('<div></div>').attr({
+        class: 'panel-more1 imagenBungalow',
+    }).append($('<img />').attr({
+        src:imgsrc
+    }));
+}
+
+function retornaPanelInfo1(tituloBongalow,NroBungalow,sede,capacidad){
+    var panelInfo=$('<div></div>').attr({
+        class: 'panel-info',
+        style: "padding-left: 2em;"
+    });
+    var b=new Array();
+    b[0]=retornaTitulo1(tituloBongalow+" "+NroBungalow);
+    b[1]==$('<p></p>');
+    b[2]=retornaSedes1(sede);
+    b[3]=$('<h3></h3>').html('Capacidad');
+    b[4]=retornaCapacidad1(capacidad);
+    b[5]=$('<h3></h3>').html('Estado: Disponible');
+    for(var j=0;j<b.length;j++)
+        panelInfo.append(b[j]);
+    return panelInfo;
+}
+function retornaTitulo1(t){
+    return $('<h1></h1>').append($("<strong></strong>").html(t));
+}
+function retornaSedes1(sede){
+    if(sede.length==0)return $('<p></p>').html("No Sedes Disponibles");
+    else {
+        var parrafo=$('<p></p>');
+        parrafo.append($("<span></span>").attr({class:"bg-info"}).html(sede));
+        return parrafo;
+    }
+}
+function retornaCapacidad1(capacidad){
+    var cadena=(capacidad>1)?" Personas":" Persona";
+    return $('<h2></h2>').html(capacidad+cadena);
+}
+
+function retornCaracteristicas1(precio,caracteristicasBungalow){
+    var caracteristicas=$('<div></div>').attr({
+        class: 'panel-more1',
+        style: "padding-left: 2em;"
+    });
+    var b=new Array();
+    b[0]=$("<h1></h1>").html("Precio: S/. "+precio);
+    b[1]=retornaMasCaracteristicas1(caracteristicasBungalow);
+    for(var j=0;j<b.length;j++)
+        caracteristicas.append(b[j]);
+    return caracteristicas;
+}
+
+function retornaMasCaracteristicas1(caracteristicas){
+    var masCaracteristicas=$('<div></div>');
+    var b=new Array();
+    b[0]=$("<h2></h2>").html("Caracteristicas:");
+    b[1]=$("<ul></ul>");
+    for(var i=0;i<caracteristicas.length;i++)
+        b[1].append($("<li></li>").append($("<span></span>").html(caracteristicas[i])));
+    for(var i=0;i<b.length;i++)
+        masCaracteristicas.append(b[i]);
+    return masCaracteristicas;
+}
+//    {imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"6",sede:"Chorrillos",capacidad:"6",precio:"80.00",
+//caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
+function llenarListaBungalows1(DATABUNGALOWS){
+    for(var x in DATABUNGALOWS)
+        retornaElementoLista1(DATABUNGALOWS[x]).appendTo("#listaBungalows");
+    retornaBotonMostrarMas().appendTo("#listaBungalows");
+}
