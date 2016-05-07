@@ -162,8 +162,14 @@ function retornaPanelBody2(databungalow){
         class: 'panel-body',
     });
     var b=new Array();
-    b[0]=retornaImagenBungalow1(databungalow.imgsrc);
-    b[1]=retornaPanelInfo1(databungalow.tipoBungalow,databungalow.NroBungalow,databungalow.sede,databungalow.capacidad);
+    var imgsrcBung=["img/Bungalows/TipoBungalows/1_Lorena.png",
+        "img/Bungalows/TipoBungalows/2_Club.png",
+        "img/Bungalows/TipoBungalows/3_Class.png",
+        "img/Bungalows/TipoBungalows/4_king.png",
+        "img/Bungalows/TipoBungalows/5_KingCharles.png"];
+
+    b[0]=retornaImagenBungalow1(imgsrcBung[databungalow.tipoBungalow.id-1]);
+    b[1]=retornaPanelInfo1(databungalow.tipoBungalow.nombre,databungalow.id,databungalow.sede,databungalow.capacidad,databungalow.estado);
     b[2]=retornCaracteristicas1(databungalow.precio,databungalow.caracteristicas);
     for(var j=0;j<b.length;j++)
         panel.append(b[j]);
@@ -178,7 +184,7 @@ function retornaImagenBungalow1(imgsrc){
     }));
 }
 
-function retornaPanelInfo1(tituloBongalow,NroBungalow,sede,capacidad){
+function retornaPanelInfo1(tituloBongalow,NroBungalow,sede,capacidad,estado){
     var panelInfo=$('<div></div>').attr({
         class: 'panel-info',
         style: "padding-left: 2em;"
@@ -186,10 +192,10 @@ function retornaPanelInfo1(tituloBongalow,NroBungalow,sede,capacidad){
     var b=new Array();
     b[0]=retornaTitulo1(tituloBongalow+" "+NroBungalow);
     b[1]==$('<p></p>');
-    b[2]=retornaSedes1(sede);
+    b[2]=retornaSedes1(sede.nombre);
     b[3]=$('<h3></h3>').html('Capacidad');
     b[4]=retornaCapacidad1(capacidad);
-    b[5]=$('<h3></h3>').html('Estado: Disponible');
+    b[5]=$('<h3></h3>').html('Estado: '+(estado==0)?'Disponible':'No Disponible');
     for(var j=0;j<b.length;j++)
         panelInfo.append(b[j]);
     return panelInfo;
@@ -228,6 +234,7 @@ function retornaMasCaracteristicas1(caracteristicas){
     var b=new Array();
     b[0]=$("<h2></h2>").html("Caracteristicas:");
     b[1]=$("<ul></ul>");
+    caracteristicas=caracteristicas.split(";");
     for(var i=0;i<caracteristicas.length;i++)
         b[1].append($("<li></li>").append($("<span></span>").html(caracteristicas[i])));
     for(var i=0;i<b.length;i++)
