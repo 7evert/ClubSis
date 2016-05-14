@@ -14,6 +14,7 @@ public class ReservaBungalow {
     private Integer id;
     private Date fechaReserva;
     private Date fechaFinal;
+    private EstadoReservaBungalow estado;
 
     @ManyToMany
     private Set<ServicioBungalow> serviciosBungalows; // por ahora no hay
@@ -21,14 +22,15 @@ public class ReservaBungalow {
     @OneToOne
     private Bungalow bungalow;
 
-    public ReservaBungalow(Date fechaReserva, Date fechaFinal, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow) {
-        this.fechaReserva = fechaReserva;
-        this.fechaFinal = fechaFinal;
-        this.serviciosBungalows = serviciosBungalows;
-        this.bungalow = bungalow;
+    protected ReservaBungalow() {
     }
 
-    protected ReservaBungalow() {
+    public ReservaBungalow(Date fechaReserva, Date fechaFinal, EstadoReservaBungalow estado, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow) {
+        this.fechaReserva = fechaReserva;
+        this.fechaFinal = fechaFinal;
+        this.estado = estado;
+        this.serviciosBungalows = serviciosBungalows;
+        this.bungalow = bungalow;
     }
 
     public Integer getId() {
@@ -69,5 +71,13 @@ public class ReservaBungalow {
 
     public void setFechaFinal(Date fechaFinal) {
         this.fechaFinal = fechaFinal;
+    }
+
+    public EstadoReservaBungalow getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoReservaBungalow estado) {
+        this.estado = estado;
     }
 }

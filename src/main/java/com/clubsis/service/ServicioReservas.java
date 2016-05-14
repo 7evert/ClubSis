@@ -43,6 +43,10 @@ public class ServicioReservas {
         return bungalowRepository.saveAndFlush(bungalow);
     }
 
+    public Bungalow buscarBungalow(Integer id) {
+        return bungalowRepository.findOne(id);
+    }
+
     public Bungalow actualizarBungalow(Integer id, Bungalow bungalow) {
         Bungalow bungalowExistente = bungalowRepository.findOne(id);
         BeanUtils.copyProperties(bungalow, bungalowExistente);

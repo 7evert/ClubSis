@@ -1,6 +1,7 @@
 package com.clubsis.model.bungalow;
 
 import com.clubsis.model.sede.Sede;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,7 +16,7 @@ public class Bungalow {
     @GeneratedValue
     private Integer id;
     private Integer capacidad;
-    private Integer estado; //libre, en mantenimiento, ocupado, no irá en el formulario
+    private EstadoBungalow estado; //libre, en mantenimiento, ocupado, no irá en el formulario
     private Double precio;
     private String caracteristicas;
     private String ubicacionEnSede;
@@ -27,10 +28,15 @@ public class Bungalow {
     @ManyToOne
     private Sede sede; // necesaria (composición)
 
+    @OneToMany(mappedBy = "bungalow")
+    @JsonIgnore
+    private Set<ReservaBungalow> reservaBungalowSet;
+
+
     protected Bungalow() {
     }
 
-    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, String ubicacionEnSede, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
+    public Bungalow(Integer capacidad, EstadoBungalow estado, Double precio, String caracteristicas, String ubicacionEnSede, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
         this.capacidad = capacidad;
         this.estado = estado;
         this.precio = precio;
@@ -57,11 +63,11 @@ public class Bungalow {
         this.capacidad = capacidad;
     }
 
-    public Integer getEstado() {
+    public EstadoBungalow getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(EstadoBungalow estado) {
         this.estado = estado;
     }
 

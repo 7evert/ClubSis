@@ -25,8 +25,7 @@ public class BungalowController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Bungalow get(@PathVariable Integer id) {
-        // TODO: retornar un bungalow (llamar a un solo método del servicio que haga esto)
-        return null;
+        return servicioReservas.buscarBungalow(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -37,12 +36,6 @@ public class BungalowController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Bungalow update(@PathVariable Integer id, @RequestBody Bungalow bungalow) {
         return servicioReservas.actualizarBungalow(id, bungalow);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Bungalow delete(@PathVariable Integer id) {
-        // TODO: eliminar un bungalow (llamar a un solo método del servicio que haga esto)
-        return null;
     }
 
 }
