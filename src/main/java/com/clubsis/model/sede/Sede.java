@@ -1,6 +1,7 @@
 package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,17 +16,21 @@ public class Sede {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_sede")
     private Integer id;
     private String nombre;
     private String direccion;
 
+    @OneToMany(mappedBy = "sede")
+    @JsonIgnore
+    private Set<Bungalow> bungalows;
+
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion) {
+    public Sede(String nombre, String direccion, Set<Bungalow> bungalows) {
         this.nombre = nombre;
         this.direccion = direccion;
+        this.bungalows = bungalows;
     }
 
     public Integer getId() {
@@ -52,4 +57,11 @@ public class Sede {
         this.direccion = direccion;
     }
 
+    public Set<Bungalow> getBungalows() {
+        return bungalows;
+    }
+
+    public void setBungalows(Set<Bungalow> bungalows) {
+        this.bungalows = bungalows;
+    }
 }

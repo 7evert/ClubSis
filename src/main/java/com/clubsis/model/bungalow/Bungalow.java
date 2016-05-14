@@ -18,59 +18,27 @@ public class Bungalow {
     private Integer estado; //libre, en mantenimiento, ocupado, no irá en el formulario
     private Double precio;
     private String caracteristicas;
-
-
-
-    // El cascade sirve para que se pueda pasar por JSON un objeto de tipo TipoBungalow
-    // y que se cree también adicionalmente al Bungalow en la base de datos.
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_TipoBungalow")
-    private TipoBungalow tipoBungalow; // necesario (composición)
-
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_sede")
-    private Sede sede; // necesaria (composición)
     private String ubicacionEnSede;
     private Integer piso;
 
-    public Sede getSede() {
-        return sede;
+    @ManyToOne
+    private TipoBungalow tipoBungalow; // necesario (composición)
+
+    @ManyToOne
+    private Sede sede; // necesaria (composición)
+
+    protected Bungalow() {
     }
 
-    public void setSede(Sede sede) {
-        this.sede = sede;
-    }
-
-    public String getUbicacionEnSede() {
-        return ubicacionEnSede;
-    }
-
-    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, TipoBungalow tipoBungalow, Sede sede, String ubicacionEnSede, Integer piso) {
+    public Bungalow(Integer capacidad, Integer estado, Double precio, String caracteristicas, String ubicacionEnSede, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
         this.capacidad = capacidad;
         this.estado = estado;
         this.precio = precio;
         this.caracteristicas = caracteristicas;
+        this.ubicacionEnSede = ubicacionEnSede;
+        this.piso = piso;
         this.tipoBungalow = tipoBungalow;
         this.sede = sede;
-        this.ubicacionEnSede = ubicacionEnSede;
-        this.piso = piso;
-    }
-
-    public void setUbicacionEnSede(String ubicacionEnSede) {
-        this.ubicacionEnSede = ubicacionEnSede;
-    }
-
-    public Integer getPiso() {
-        return piso;
-    }
-
-    public void setPiso(Integer piso) {
-        this.piso = piso;
-    }
-
-    protected Bungalow() {
     }
 
     public Integer getId() {
@@ -113,11 +81,35 @@ public class Bungalow {
         this.caracteristicas = caracteristicas;
     }
 
+    public String getUbicacionEnSede() {
+        return ubicacionEnSede;
+    }
+
+    public void setUbicacionEnSede(String ubicacionEnSede) {
+        this.ubicacionEnSede = ubicacionEnSede;
+    }
+
+    public Integer getPiso() {
+        return piso;
+    }
+
+    public void setPiso(Integer piso) {
+        this.piso = piso;
+    }
+
     public TipoBungalow getTipoBungalow() {
         return tipoBungalow;
     }
 
     public void setTipoBungalow(TipoBungalow tipoBungalow) {
         this.tipoBungalow = tipoBungalow;
+    }
+
+    public Sede getSede() {
+        return sede;
+    }
+
+    public void setSede(Sede sede) {
+        this.sede = sede;
     }
 }

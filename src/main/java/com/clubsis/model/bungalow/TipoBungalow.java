@@ -1,5 +1,7 @@
 package com.clubsis.model.bungalow;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,29 +11,24 @@ import java.util.Set;
 
 @Entity
 public class TipoBungalow {
+
     @Id
     @GeneratedValue
-    @Column(name = "id_TipoBungalow")
     private Integer id;
     private String nombre;
     private String caracteristicas;
 
-
-
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoBungalow", orphanRemoval = true)
-//    private Set<Bungalow> bungalows;
-
+    @OneToMany(mappedBy = "tipoBungalow")
+    @JsonIgnore
+    private Set<Bungalow> bungalows;
 
     protected TipoBungalow(){
     }
 
-    // No olvidar poner TODOS los atributos en el constructor y con sus getters y setters
-
-
-    public TipoBungalow(String nombre, String caracteristicas) {
+    public TipoBungalow(String nombre, String caracteristicas, Set<Bungalow> bungalows) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
+        this.bungalows = bungalows;
     }
 
     public Integer getId() {
@@ -56,5 +53,13 @@ public class TipoBungalow {
 
     public void setCaracteristicas(String caracteristicas) {
         this.caracteristicas = caracteristicas;
+    }
+
+    public Set<Bungalow> getBungalows() {
+        return bungalows;
+    }
+
+    public void setBungalows(Set<Bungalow> bungalows) {
+        this.bungalows = bungalows;
     }
 }

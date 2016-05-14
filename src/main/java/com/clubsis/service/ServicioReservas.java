@@ -33,6 +33,8 @@ public class ServicioReservas {
     @Autowired
     private ReservaBungalowRepository reservaBungalowRepository;
 
+    // Bungalow
+
     public List<Bungalow> mostrarBungalows() {
         return bungalowRepository.findAll();
     }
@@ -47,6 +49,8 @@ public class ServicioReservas {
         return bungalowRepository.saveAndFlush(bungalowExistente);
     }
 
+    // TipoBungalow
+
     public List<TipoBungalow> mostrarTiposBungalow() {
         return tipoBungalowRepository.findAll();
     }
@@ -54,6 +58,8 @@ public class ServicioReservas {
     public TipoBungalow crearTipoBungalow(TipoBungalow tipoBungalow) {
         return tipoBungalowRepository.saveAndFlush(tipoBungalow);
     }
+
+    // ReservaBungalow
 
     public List<ReservaBungalow> mostrarReservasBungalow() {
         return reservaBungalowRepository.findAll();
@@ -63,8 +69,7 @@ public class ServicioReservas {
         return reservaBungalowRepository.saveAndFlush(reservaBungalow);
     }
 
-
-
+    // Sede
 
     public List<Sede> mostrarSedes() {
         return sedeRepository.findAll();
