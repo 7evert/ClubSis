@@ -38,4 +38,5 @@ public class BungalowController {
         return servicioReservas.actualizarBungalow(id, bungalow);
     }
 
+    // TODO: crear un método (o controlador entero?) para las reservas de un bungalow
 }

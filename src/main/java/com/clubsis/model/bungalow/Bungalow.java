@@ -30,7 +30,7 @@ public class Bungalow {
 
     @OneToMany(mappedBy = "bungalow")
     @JsonIgnore
-    private Set<ReservaBungalow> reservaBungalowSet;
+    private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
 
 
     protected Bungalow() {

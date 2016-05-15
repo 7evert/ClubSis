@@ -19,7 +19,8 @@ public class ReservaBungalow {
     @ManyToMany
     private Set<ServicioBungalow> serviciosBungalows; // por ahora no hay
 
-    @OneToOne
+    // En este caso, la relación en el UML es 0..* a 1, este bungalow siempre debe existir, no puede ser nulo
+    @ManyToOne
     private Bungalow bungalow;
 
     protected ReservaBungalow() {
