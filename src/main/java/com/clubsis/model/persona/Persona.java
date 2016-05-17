@@ -2,6 +2,8 @@ package com.clubsis.model.persona;
 
 import java.util.Date;
 import javax.persistence.*;
+import com.clubsis.model.evento.Evento;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -21,9 +23,14 @@ public class Persona {
     private Integer dni;
     private String telefono;
     private Boolean esTitular;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_socio")
     private Socio socio;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
+    private Set<Evento> eventos;
+
     protected Persona() {
     }
 

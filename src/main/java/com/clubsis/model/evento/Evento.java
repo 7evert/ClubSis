@@ -1,11 +1,19 @@
 package com.clubsis.model.evento;
 
+import com.clubsis.model.persona.*;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
+
 public class Evento {
+    @Id
+    @GeneratedValue
     private Integer idEvento;
     private String descripcion;
     private Date fechaInicio;
@@ -14,6 +22,15 @@ public class Evento {
     private String reglamento;
     private Date fechaInicioInscripcion;
     private Date fechaFinInscripcion;
+
+    @ManyToMany
+    private Set<TarifaEvento> tarifaEventos; // por ahora no hay
+
+    @ManyToMany
+    private Set<Persona> personas;
+
+    @ManyToMany
+    private Set<Empresa> empresas;
 
     protected Evento() {
     }

@@ -1,12 +1,22 @@
 package com.clubsis.model.evento;
 
+import javax.persistence.*;
+import java.util.Set;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class TarifaEvento {
+
+    @Id
+    @GeneratedValue
     private Integer idTarifa;
     private String descripcion;
     private Double precio;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="tarifaEventos")
+    private Set<Evento> eventos;
 
     protected TarifaEvento() {
     }

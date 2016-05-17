@@ -1,9 +1,17 @@
 package com.clubsis.model.persona;
 
+import com.clubsis.model.evento.Evento;
+
+import javax.persistence.*;
+import java.util.Set;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Empresa {
+    @Id
+    @GeneratedValue
     private Integer idEmpresa;
     private String razonSocial;
     private String ruc;
@@ -11,6 +19,10 @@ public class Empresa {
     private String telefono;
     private String celularContacto;
     private String correoElectronico;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="empresas")
+    private Set<Evento> eventos;
+
 
     protected Empresa() {
     }
