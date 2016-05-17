@@ -37,6 +37,6 @@ public class BungalowController {
     public Bungalow update(@PathVariable Integer id, @RequestBody Bungalow bungalow) {
         return servicioReservas.actualizarBungalow(id, bungalow);
     }
-
+    //PPRUEBAS THE BLITZ
     // TODO: crear un método (o controlador entero?) para las reservas de un bungalow
 }
