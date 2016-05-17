@@ -38,5 +38,6 @@ public class BungalowController {
         return servicioReservas.actualizarBungalow(id, bungalow);
     }
     //PPRUEBAS THE BLITZ
+    //The blitz es mi pastor
     // TODO: crear un método (o controlador entero?) para las reservas de un bungalow
 }
