@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Juan Tenorio on 17/5/2016.
  */
 @RestController
-@RequestMapping("/api/tarifaevento")
+@RequestMapping("/api/tarifaeventos")
 public class TarifaEventoController {
 
     @Autowired
