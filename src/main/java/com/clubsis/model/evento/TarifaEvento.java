@@ -14,6 +14,7 @@ public class TarifaEvento {
     private Integer idTarifa;
     private String descripcion;
     private Double precio;
+    private String nombre;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="tarifaEventos")
     private Set<Evento> eventos;
@@ -49,5 +50,17 @@ public class TarifaEvento {
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEvento( Evento evento){
+        eventos.add(evento);
     }
 }
