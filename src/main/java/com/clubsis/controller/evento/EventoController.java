@@ -25,13 +25,14 @@ public class EventoController {
         return servicioEvento.buscarEvento(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    /*@RequestMapping(method = RequestMethod.POST)
     public Evento create(@RequestBody Evento evento) {
         return servicioEvento.crearEvento(evento);
-    }
+    }*/
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Evento update(@PathVariable Integer id, @RequestBody Evento evento) {
         return servicioEvento.actualizarEvento(id, evento);
     }
+
 }
