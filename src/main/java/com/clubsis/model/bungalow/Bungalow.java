@@ -15,7 +15,6 @@ public class Bungalow {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer capacidad;
     private EstadoBungalow estado; //libre, en mantenimiento, ocupado, no irá en el formulario
     private Double precio;
     private String caracteristicas;
@@ -36,8 +35,7 @@ public class Bungalow {
     protected Bungalow() {
     }
 
-    public Bungalow(Integer capacidad, EstadoBungalow estado, Double precio, String caracteristicas, String ubicacionEnSede, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
-        this.capacidad = capacidad;
+    public Bungalow(EstadoBungalow estado, Double precio, String caracteristicas, String ubicacionEnSede, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
         this.estado = estado;
         this.precio = precio;
         this.caracteristicas = caracteristicas;
@@ -53,14 +51,6 @@ public class Bungalow {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getCapacidad() {
-        return capacidad;
-    }
-
-    public void setCapacidad(Integer capacidad) {
-        this.capacidad = capacidad;
     }
 
     public EstadoBungalow getEstado() {

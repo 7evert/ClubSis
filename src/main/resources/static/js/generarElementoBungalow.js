@@ -94,7 +94,7 @@ function retornaSedes(sedes){
     }
 }
 function retornaCapacidad(capacidad){
-    var cadena=(capacidad>1)?" Personas":" Persona";
+    var cadena=(capacidad>1)?" Personas":" persona";
     return $('<h2></h2>').html(capacidad+cadena);
 }
 
@@ -212,7 +212,7 @@ function retornaSedes1(sede){
     }
 }
 function retornaCapacidad1(capacidad){
-    var cadena=(capacidad>1)?" Personas":" Persona";
+    var cadena=(capacidad>1)?" Personas":" persona";
     return $('<h2></h2>').html(capacidad+cadena);
 }
 
