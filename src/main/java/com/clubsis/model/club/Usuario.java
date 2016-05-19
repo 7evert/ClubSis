@@ -16,6 +16,7 @@ public class Usuario {
     @Column(name="id_usuario")
     private Integer idUsuario;
     private String contraseña;
+    private Integer dni;
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Persona> personas; // no se que nombre ponerle
@@ -23,9 +24,10 @@ public class Usuario {
     protected Usuario() {
     }
 
-    public Usuario(Integer idUsuario, String contraseña) {
-        this.idUsuario = idUsuario;
+    public Usuario(Integer dni, String contraseña, Set<Persona> personas) {
+        this.dni = dni;
         this.contraseña = contraseña;
+        this.personas = personas;
     }
 
     public Integer getIdUsuario() {
@@ -42,5 +44,13 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public Integer getDni() {
+        return dni;
+    }
+
+    public void setDni(Integer dni) {
+        this.dni = dni;
     }
 }
