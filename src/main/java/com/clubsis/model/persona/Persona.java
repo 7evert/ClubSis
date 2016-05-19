@@ -2,6 +2,8 @@ package com.clubsis.model.persona;
 
 import java.util.Date;
 import javax.persistence.*;
+
+import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
 import java.util.Set;
 
@@ -27,6 +29,10 @@ public class Persona {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_socio")
     private Socio socio;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_usuario")
+    private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<Evento> eventos;
@@ -130,4 +136,12 @@ public class Persona {
     public Socio getSocio() { return socio; }
 
     public void setSocio(Socio socio) { this.socio = socio; }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

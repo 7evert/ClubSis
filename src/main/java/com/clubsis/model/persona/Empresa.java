@@ -1,6 +1,8 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.sede.ReservaInstalacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -23,6 +25,9 @@ public class Empresa {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="empresas")
     private Set<Evento> eventos;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<ReservaInstalacion> reservasInstalacion;
 
     protected Empresa() {
     }

@@ -1,6 +1,10 @@
 package com.clubsis.model.club;
 
+import com.clubsis.model.persona.Persona;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -12,6 +16,9 @@ public class Usuario {
     @Column(name="id_usuario")
     private Integer idUsuario;
     private String contraseña;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Persona> personas; // no se que nombre ponerle
 
     protected Usuario() {
     }
