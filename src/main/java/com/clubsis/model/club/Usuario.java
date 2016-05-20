@@ -1,6 +1,10 @@
 package com.clubsis.model.club;
 
+import com.clubsis.model.persona.Persona;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -12,13 +16,18 @@ public class Usuario {
     @Column(name="id_usuario")
     private Integer idUsuario;
     private String contraseña;
+    private Integer dni;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Persona> personas; // no se que nombre ponerle
 
     protected Usuario() {
     }
 
-    public Usuario(Integer idUsuario, String contraseña) {
-        this.idUsuario = idUsuario;
+    public Usuario(Integer dni, String contraseña, Set<Persona> personas) {
+        this.dni = dni;
         this.contraseña = contraseña;
+        this.personas = personas;
     }
 
     public Integer getIdUsuario() {
@@ -35,5 +44,13 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public Integer getDni() {
+        return dni;
+    }
+
+    public void setDni(Integer dni) {
+        this.dni = dni;
     }
 }

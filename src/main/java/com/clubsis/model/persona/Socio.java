@@ -1,9 +1,11 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.club.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -17,9 +19,18 @@ public class Socio {
     private Date fechaInscripcion;
     private Integer estado;
     private Integer codigoCarnet;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_usuario")
-    private Usuario usuario;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Invitado> Invitados;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Persona> personas;
+
+    @ManyToMany
+    private Set<Postulante> postulantes;
+
     protected Socio() {
     }
 
@@ -62,7 +73,4 @@ public class Socio {
         this.codigoCarnet = codigoCarnet;
     }
 
-    public Usuario getUsuario() { return usuario; }
-
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 }

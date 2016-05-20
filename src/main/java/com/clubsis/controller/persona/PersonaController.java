@@ -1,6 +1,6 @@
 package com.clubsis.controller.persona;
 
-import com.clubsis.service.ServicioPersonas;
+import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/personas")
 public class PersonaController {
     @Autowired
-    private ServicioPersonas servicioPersona;
+    private ServicioMembresias servicioMembresias;
 }

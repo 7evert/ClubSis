@@ -1,8 +1,11 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.sede.ReservaInstalacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,9 +13,10 @@ import java.util.Set;
  */
 @Entity
 public class Empresa {
+
     @Id
     @GeneratedValue
-    private Integer idEmpresa;
+    private Integer id;
     private String razonSocial;
     private String ruc;
     private String representante;
@@ -20,76 +24,24 @@ public class Empresa {
     private String celularContacto;
     private String correoElectronico;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="empresas")
+    @ManyToMany(mappedBy ="empresas")
     private Set<Evento> eventos;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
 
     protected Empresa() {
     }
 
-    public Empresa(Integer idEmpresa, String razonSocial, String ruc, String representante, String telefono, String correoElectronico, String celularContacto) {
-        this.idEmpresa = idEmpresa;
+    public Empresa(String razonSocial, String ruc, String representante, String celularContacto, String telefono, String correoElectronico, Set<Evento> eventos, Set<ReservaInstalacion> reservasInstalacion) {
         this.razonSocial = razonSocial;
         this.ruc = ruc;
         this.representante = representante;
+        this.celularContacto = celularContacto;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.celularContacto = celularContacto;
-    }
-
-    public Integer getIdEmpresa() {
-        return idEmpresa;
-    }
-
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
-    }
-
-    public String getRazonSocial() {
-        return razonSocial;
-    }
-
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
-    }
-
-    public String getRuc() {
-        return ruc;
-    }
-
-    public void setRuc(String ruc) {
-        this.ruc = ruc;
-    }
-
-    public String getRepresentante() {
-        return representante;
-    }
-
-    public void setRepresentante(String representante) {
-        this.representante = representante;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getCelularContacto() {
-        return celularContacto;
-    }
-
-    public void setCelularContacto(String celularContacto) {
-        this.celularContacto = celularContacto;
-    }
-
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+        this.eventos = eventos;
+        this.reservasInstalacion = reservasInstalacion;
     }
 }
