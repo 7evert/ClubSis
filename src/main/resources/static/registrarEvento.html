@@ -44,7 +44,7 @@
                     "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
                     "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
                     "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                    "tarifas": $("#tarifas").val(),
+                    "tarifaEventos": [{id:$("#tarifas").val()}],
                     "reglamento": $("#reglamento").val(),
                     "estado": $("#estado").val(),
                     "descripcion": $("#descripcion").val(),
@@ -52,6 +52,13 @@
                     "isPublico":$("#isPublico").val()
                 };
                 dataJSON=data;
+                console.log(JSON.stringify(dataJSON));
+                /*
+                 {"url":"img/Eventos/newYear.jpg","nombre":"nOMBRE","sede":{"id":"2"},
+                 "fechaInicio":1462251600000,"fechaFin":1464325200000,"fechaInicioInscripcion":1463806800000,
+                 "fechaFinInscripcion":1462165200000,"tarifaEventos":[{"id":"1"}],"reglamento":"ASDD",
+                 "estado":"1","descripcion":"asdadslajds","isGratuito":"1","isPublico":"0"}
+                * */
                 $http.post("/api/reservasbungalow", data).success(function (data2, status) {
                     alert("Tu registro de Evento "+ data2.id+" fue hecha exitosamente.");
                     //location.href = "MantenimientoEventos.html"
@@ -80,9 +87,9 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
+                    <option value="0">Chorrillos</option>
+                    <option value="1">Santa Anita</option>
+                    <option value="2">Jesus Maria</option>
                 </select>
             </div>
         </div>
@@ -158,7 +165,7 @@
         <div id="Descripcion1" class="form-group">
             <label class="control-label col-xs-4">Descripcion</label>
             <div class="input-group col-xs-8">
-                <input id="descripcion" type="text" class="form-control col-xs-8" value="....describir el evento"/>
+                <input id="descripcion" type="text" class="form-control col-xs-8" placeholder="describir el evento"/>
             </div>
         </div>
         <div class="form-group">
