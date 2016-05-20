@@ -14,6 +14,13 @@
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
     <script type="text/javascript">
+        Date.prototype.ddmmyyyy = function() {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = this.getDate().toString();
+            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+        };
+
         function cambiarDeUsuario(accionesXElemento,nuevoUsuario,Agregar,funciones){
             if(nuevoUsuario==actualUsuario)return;
             actualUsuario=nuevoUsuario;
@@ -51,15 +58,9 @@
             []];//usuario:Socio
 
         var dataJSON=[
-            {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-            {id:"1",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-            {id:"2",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"}
+            {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+            {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+            {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
         ];
 
     </script>
@@ -69,10 +70,9 @@
     </script>
     <script type="text/javascript">
         app.controller('EventosController', function ($scope, $http) {
-            $http.get('api/tarifaeventos').success(function (data) {
+            $http.get('http://shopname.myshopify.com/products.json').success(function (data) {
+                //    api/tarifaeventos
                 //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
-                //lo pongo harcodeado que esta en la linea 34
-                alert(data);
                 DATAEVENTOS=dataJSON;
                 llenarListaBungalows1(DATAEVENTOS);
                 cambiarDeUsuario(accionesXElemento,administrador,Agregar,funciones);
@@ -267,10 +267,10 @@
             class: 'panel-body',
         });
         var b=new Array();
-        b[0]=retornaImagenBungalow1(databungalow.imgsrc);
-        b[1]=retornaPanelInfo1(databungalow.id,databungalow.nombre,databungalow.sede,databungalow.empresa);
-        b[2]=retornCaracteristicas1(databungalow.fechaInicio,databungalow.fechaFin,databungalow.inicioInscripciones,
-                databungalow.finInscipciones,databungalow.precios);
+        b[0]=retornaImagenBungalow1(databungalow.url);
+        b[1]=retornaPanelInfo1(databungalow.id,databungalow.nombre,databungalow.sede,databungalow.isGratuito,databungalow.isPublico);
+        b[2]=retornCaracteristicas1(databungalow.fechaInicio,databungalow.fechaFin,databungalow.fechaInicioInscripcion,
+                databungalow.fechaFinInscripcion,databungalow.tarifas);
         for(var j=0;j<b.length;j++)
             panel.append(b[j]);
         return panel;
@@ -284,7 +284,7 @@
         }));
     }
 
-    function retornaPanelInfo1(id,nombre,sede,empresa){
+    function retornaPanelInfo1(id,nombre,sede,isGratuito,isPublico){
         var panelInfo=$('<div></div>').attr({
             class: 'panel-info',
             style: "padding-left: 2em;"
@@ -292,8 +292,8 @@
         var b=new Array();
         b[0]=retornaTitulo1(nombre);
         b[1]=$('<p></p>').html("Evento "+id);
-        b[2]=retornaSedes1(sede);
-        b[3]=$('<h3></h3>').html('Empresa '+empresa);
+        b[2]=retornaSedes1(sede.nombre);
+        b[3]=$('<h3></h3>').html((isPublico)?"Publico":"Privado"+(isGratuito)?" y Gratuito":"");
         for(var j=0;j<b.length;j++)
             panelInfo.append(b[j]);
         return panelInfo;
@@ -327,10 +327,10 @@
     function retornaMasCaracteristicas1(fechaInicio,fechaFin,inicioInscripciones,finInscipciones){
         var div=$('<div></div>');
         var b=new Array();
-        b[0]=$("<h4></h4>").html("Inicio de Inscripciones: "+inicioInscripciones);
-        b[1]=$("<h4></h4>").html("Fin de Inscripciones: "+finInscipciones);
-        b[2]=$("<h4></h4>").html("Fecha Inicio: "+fechaInicio);
-        b[3]=$("<h4></h4>").html("Fecha Fin: "+fechaFin);
+        b[0]=$("<h4></h4>").html("Inicio de Inscripciones: "+new Date(inicioInscripciones).ddmmyyyy());
+        b[1]=$("<h4></h4>").html("Fin de Inscripciones: "+new Date(finInscipciones).ddmmyyyy());
+        b[2]=$("<h4></h4>").html("Fecha Inicio: "+new Date(fechaInicio).ddmmyyyy());
+        b[3]=$("<h4></h4>").html("Fecha Fin: "+new Date(fechaFin).ddmmyyyy());
         for(var j=0;j<b.length;j++)
             div.append(b[j]);
         return div;
@@ -338,9 +338,8 @@
 
     function retornaPrecios(precios) {
         var str="";
-        for(var x in precios) {
-            str += (x + ": S/" + precios[x] + " - ");
-        }
+        for(var i=0;i<precios.length;i++)
+                str += (precios[i].nombre + ": S/" + precios[i].precio.toFixed(2) + " - ");
         str = str.substring(0,str.length-2);
         return $("<h3></h3>").html(str);
     }
