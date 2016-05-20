@@ -5,6 +5,9 @@ import javax.persistence.*;
 
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 /**
@@ -14,16 +17,16 @@ import java.util.Set;
 public class Persona {
     @Id
     @GeneratedValue
-    @Column(name="id_persona")
     private Integer id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaNacimiento;
     private String direccion;
-    private String correoElectronico;
+    private String correo;
     private Integer dni;
-    private String telefono;
+    private Integer telefono;
     private Boolean esTitular;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -34,34 +37,24 @@ public class Persona {
     @JoinColumn(name="id_usuario")
     private Usuario usuario;
 
-    @ManyToMany(mappedBy ="personas")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<Evento> eventos;
 
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, String telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<Evento> eventos) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.fechaNacimiento = fechaNacimiento;
-        this.direccion = direccion;
-        this.correoElectronico = correoElectronico;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.esTitular = esTitular;
-        this.socio = socio;
-        this.usuario = usuario;
-        this.eventos = eventos;
+    public Persona( String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular) {
+    this.nombre = nombre;
+    this.apellidoPaterno = apellidoPaterno;
+    this.apellidoMaterno = apellidoMaterno;
+    this.fechaNacimiento = fechaNacimiento;
+    this.direccion = direccion;
+    this.correo = correo;
+    this.dni = dni;
+    this.telefono = telefono;
+    this.esTitular = esTitular;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -103,12 +96,12 @@ public class Persona {
         this.direccion = direccion;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public Integer getDni() {
@@ -119,11 +112,11 @@ public class Persona {
         this.dni = dni;
     }
 
-    public String getTelefono() {
+    public Integer getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(Integer telefono) {
         this.telefono = telefono;
     }
 
@@ -135,13 +128,9 @@ public class Persona {
         this.esTitular = esTitular;
     }
 
-    public Socio getSocio() {
-        return socio;
-    }
+    public Socio getSocio() { return socio; }
 
-    public void setSocio(Socio socio) {
-        this.socio = socio;
-    }
+    public void setSocio(Socio socio) { this.socio = socio; }
 
     public Usuario getUsuario() {
         return usuario;
@@ -149,6 +138,14 @@ public class Persona {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Set<Evento> getEventos() {

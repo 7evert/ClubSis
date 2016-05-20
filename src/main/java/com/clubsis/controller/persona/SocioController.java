@@ -1,6 +1,6 @@
 package com.clubsis.controller.persona;
 
-import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
 import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,26 +11,27 @@ import java.util.List;
  * Created by Blitz on 20/05/2016.
  */
 @RestController
-@RequestMapping("/api/personas")
-public class PersonaController {
+@RequestMapping("/api/socios")
+public class SocioController {
     @Autowired
     private ServicioMembresias servicioMembresias;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Persona> list() {return servicioMembresias.mostrarPersonas();}
+    public List<Socio> list() {
+        return servicioMembresias.mostrarSocios();
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Persona get(@PathVariable Integer id) {
-        return servicioMembresias.buscarPersona(id);
+    public Socio get(@PathVariable Integer id) {
+        return servicioMembresias.buscarSocio(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Persona create(@RequestBody Persona persona){
-        return servicioMembresias.crearPersona(persona);
+    public Socio create(@RequestBody Socio socio) {
+        return servicioMembresias.crearSocio(socio);
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Persona update(@PathVariable Integer id, @RequestBody Persona persona){
-        return servicioMembresias.actualizarPersona(id,persona);
+    public Socio update(@PathVariable Integer id, @RequestBody Socio socio){
+        return servicioMembresias.actualizarSocio(id,socio);
     }
 }
-
