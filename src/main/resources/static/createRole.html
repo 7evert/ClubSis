@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>ClubSis-Create a Role</title>
+            <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+            <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
+            <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+            <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+
+            <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+            <title>Title</title>
+            <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
+            <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
+
+        </head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container">
+    <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">
+        Create a Role
+    </h4>
+    <hr>
+    <div class="row">
+        <form class="form-horizontal col-sm-8" role="form">
+            <div class="form-group">
+                <label class="control-label col-xs-4" for="rolNombre">Nombre</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" disabled id="rolNombre"  disabled placeholder="Nombre del Rol">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-4" for="eventType">Tipo de evento</label>
+                <div class="col-sm-4">
+                    <select class="form-control col-sm-4"  disabled id="EventType">
+                        <option value="activity" class="col-sm-4">Activity</option>
+                        <option value="publicevent" class="col-sm-4">Public Events</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion" class="control-label col-sm-4">Descripcion</label>
+                <div class="col-sm-5">
+                    <textarea class="form-control col-sm-5" rows="3" disabled id="descripcion"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-6 col-sm-7">
+                    <button type="participar" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                        Agregar Members</button>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-6 col-sm-7">
+                    <button type="participar" class="btn btn-info"
+                            onclick="location.href='loginUsario.html'" >Agregar Rol</button>
+
+                    <button type="cancelar" class="btn btn-info" onclick="location.href='MantenimientoEventos.html'">Cancelar</button>
+                </div>
+            </div>
+        </form>
+
+        <script type="text/javascript">
+
+            $("#jqGrid").jqGrid({
+                url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+                mtype: "GET",
+                styleUI: 'Bootstrap',
+                datatype: "jsonp",
+                gridview: true,
+                emptyrecords: 'No se encontraron resultados',
+                //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                colModel: [
+                    {label: 'Tipo Documento', name: 'tipodocumento', key: true, hidden: true, width: 75},
+                    {label: 'N de documento°', name: 'documentID', align: 'center', width: 40},
+                    {label: 'Nombres', name: 'fullname', align: 'center', width: 150},
+                    {label: 'Apellido Paterno', name: 'CustomerID', align: 'center', width: 150},
+                    {label: 'Proveedor', name: 'CustomerID', align: 'center', width: 150},
+                    {label: 'Sede', name: 'CustomerID', align: 'center', width: 150},
+                    {label: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},
+                    {label: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},
+                    {label: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},
+                    {label: 'Acciones', name: 'acciones', width: 150, align: 'center'},
+                ],
+                viewrecords: true,
+                height: 400,
+                rowNum: 20,
+                pager: "#jqGridPager"
+            });
+
+            $('#jqGrid').jqGrid('setGridWidth', '900');
+
+        </script>
+    </div>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+    $('.date-picker').datepicker({
+        format: 'dd/MM/yyyy',
+        language: 'es-PE'
+    });
+
+    var addMoreMember =
+        var memberCount = 0
+        $("<div class='form-group'> <label class='control-label col-xs-4' for='"+ memberCount +"'>User ID</label>" +
+                " <div class='col-sm-7'> <input type='text' class='form-control' id='" + memberCount + "placeholder='ID de Usario'>"
+              +  " </div> </div>").prependTo("#memberButton");
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Agregar Members</h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- FORM -->
+                <form class="form-horizontal" role="form" id="modalForm">
+                    <div class="form-group">
+                        <label class="control-label col-xs-4" for="userid">User ID</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="userid" placeholder="ID de Usario">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <button type="button" class="btn btn-primary" id="memberButton"
+                            onclick="addMoreMember">Add more Member</button>
+
+                        </div>
+                    </div>
+                </form>
+
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Agregar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+</title>
+</head>
+<body>
+
+</body>
+</html>

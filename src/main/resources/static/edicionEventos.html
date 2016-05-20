@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Bungalow Edicion</title>
+    <title>Edicion Eventos</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
@@ -18,27 +19,239 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <script type="text/javascript">
+        var dataJSON = [
+            {
+                id: 0,
+                descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
+                isGratuito: 0,
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
+            },
+            {
+                id: 1,
+                descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
+                isGratuito: 0,
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
+            },
+
+            {
+                id: 2,
+                descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
+                isGratuito: 0,
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
+            }
+        ];
+    </script>
+    <script type="text/javascript">
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+        function completaridEvento(id) {
+            $("#idEvento").html("Edicion de Evento " + id);
+        }
+        function completarNombre(nombre) {
+            $("#nombre").attr({value: nombre});
+        }
+        function completarFechas(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
+            $("#date-picker-DiaEntrada").datepicker("setDate", new Date(fechaInicio));
+            $("#date-picker-DiaSalida").datepicker("setDate", new Date(fechaFin));
+            $("#date-picker-InicioInscripcion").datepicker("setDate", new Date(inicioInscripciones));
+            $("#date-picker-FinInscripcion").datepicker("setDate", new Date(finInscipciones));
+        }
+        function completarTarifas(precios) {
+            //$("#tarifas").attr({value:strtarifas});
+        }
+        function completarRegYDescripcion(reglamento, descripcion) {
+            $("#reglamento").attr({value: reglamento});
+            $("#descripcion").attr({value: descripcion});
+        }
+
+        function completarImagen(imgsrcEvent) {
+            $("#imagenEvent")[0].src = imgsrcEvent;
+        }
+        function seleccionarEstado(estado) {
+            $("#estado").val(estado);
+        }
+        function seleccionarSede(sede) {
+            $("#sede").val(sede.id);
+        }
+
+        function seleccionarGratuitoyPublico(isGratuito, isPublico) {
+            $("#isGratuito").val(isGratuito);
+            $("#isPublico").val(isPublico);
+        }
+    </script>
+
+    <script type="text/javascript">
+        //app script
+        var app2 = angular.module('app2', []);
+    </script>
+    <script type="text/javascript">
+        var dataeventos, dataevento;
+        app2.controller('EdicionEventoController', function ($scope, $http) {
+            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
+                //dataeventos = data;//eso deberia ser pero como no tengo link
+                //lo pongo harcodeado que esta en la linea 34
+                dataeventos = dataJSON;
+                dataevento = $.grep(dataeventos, function (e) {
+                    return e.id == getID();
+                })[0];
+                //dataeventos=dataJSON;
+                if (!dataevento) {
+                    alert("Bungalow No Disponible");
+                    location.href = "MantenimientoEventos.html";
+                }
+                /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
+                 fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
+                 precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},*/
+                completaridEvento(dataevento.id);
+                completarNombre(dataevento.nombre);
+                completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
+                completarTarifas(dataevento.tarifaEventos);
+                completarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                completarImagen(dataevento.url);
+                seleccionarEstado(dataevento.estado);
+                seleccionarSede(dataevento.sede);
+                seleccionarGratuitoyPublico(dataevento.isGratuito, dataevento.isPublico)
+
+                $("#Guardar").click(function () {
+                    var cadTar = $("#tarifas").val().split(/[:;]/);
+                    var tarifas = {};
+                    for (var i = 0; i < cadTar.length; i += 2)
+                        if (cadTar[i] != "")tarifas[cadTar[i]] = cadTar[i + 1];
+                    var data = {
+                        "id": dataevento.id,
+                        "url": "img/Eventos/newYear.jpg",
+                        "nombre": $("#nombre").val(),
+                        "sede": {"id": $("#sede").val()},//debeser id de sede
+                        "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
+                        "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
+                        "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
+                        "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
+                        "tarifaEventos": [{id:$("#tarifas").val()}],
+                        "reglamento": $("#reglamento").val(),
+                        "estado": $("#estado").val(),
+                        "descripcion": $("#descripcion").val(),
+                        "isGratuito": $("#isGratuito").val(),
+                        "isPublico": $("#isPublico").val()
+                    };
+                    console.log(JSON.stringify(data));
+                    $http.post("/api/reservasbungalow", data).success(function (data2, status) {
+                        alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es " + data2.id);
+                        //location.href = "MantenimientoEventos.html"
+                    });
+                });
+                $("#Cancelar").click(function () {
+                    alert("Cancelar");
+                    location.href = "EventInformacion.html?id="+getID();
+                });
+            });
+        });
+
+    </script>
+
 </head>
-<body>
+<body ng-controller="EdicionEventoController">
 <div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Edicion Eventos</h2>
+    <h2 id="idEvento">Edicion Evento</h2>
     <hr>
     <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
         <div id="nombreBungalow" class="form-group">
             <label class="control-label col-xs-4">Nombre Evento</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" value="Bungalow Lorena 6" />
+                <input id="nombre" type="text" class="form-control col-xs-8" value="Feliz Año 2016"/>
             </div>
         </div>
         <div id="escogerSedeBungalows" class="form-group">
-            <label class="control-label col-xs-4">Escoger Evento</label>
+            <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
-                <select class="form-control col-xs-8">
-                    <option value="1">Nuevo Ano 2017</option>
-
+                <select class="form-control col-xs-8" id="sede">
+                    <option value="0">Chorrillos</option>
+                    <option value="1">Santa Anita</option>
+                    <option value="2">Jesus Maria</option>
                 </select>
             </div>
         </div>
@@ -46,41 +259,103 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option>Libre</option>
-                    <option>Reservado</option>
-                    <option>En Mantenimiento</option>
+                    <option value="En espera">En espera</option>
+                    <option value="1">Reservado</option>
+                    <option value="2">En Mantenimiento</option>
                 </select>
             </div>
         </div>
-        <div id="precioBungalow" class="form-group">
-            <label class="control-label col-xs-4">Precio Evento</label>
-            <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8"  placeholder="S/" value="100.00"/>
+        <div class="col-sm-12 col-lg-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">Inicio</label>
+                <div class="input-group input-append date col-md-8">
+                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
             </div>
         </div>
-        <div id="capacidadBungalow" class="form-group">
-            <label class="control-label col-xs-4">Capacidad</label>
-            <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" placeholder="Solo Numeros" value="8"/>
+        <div class="col-sm-12 col-lg-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">Fin</label>
+                <div class="input-group input-append date col-md-8">
+                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
             </div>
         </div>
-        <div id="CaracteristicasBungalow" class="form-group">
-            <label class="control-label col-xs-4">Caracteristicas</label>
+        <div class="col-sm-12 col-lg-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">Inicio de Inscripcion</label>
+                <div class="input-group input-append date col-md-8">
+                    <input id="date-picker-InicioInscripcion" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">Fin de Inscripcion</label>
+                <div class="input-group input-append date col-md-8">
+                    <input id="date-picker-FinInscripcion" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="tarifaEvento" class="form-group">
+            <label class="control-label col-xs-4">Tarifas de Evento</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" value="TO EDIT "/>
+                <select class="form-control col-xs-8" id="tarifas">
+                    <option value="0">No</option>
+                    <option value="1">Si</option>
+                </select>
+            </div>
+        </div>
+        <div id="Reglamento1" class="form-group">
+            <label class="control-label col-xs-4">Reglamento</label>
+            <div class="input-group col-xs-8">
+                <input id="reglamento" type="text" class="form-control col-xs-8" placeholder="" value=""/>
+            </div>
+        </div>
+        <div id="Descripcion1" class="form-group">
+            <label class="control-label col-xs-4">Descripcion</label>
+            <div class="input-group col-xs-8">
+                <input id="descripcion" type="text" class="form-control col-xs-8" placeholder="describir el evento"/>
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-xs-4">Gratuito</label>
+            <select class="col-xs-2" id="isGratuito">
+                <option value="0">No</option>
+                <option value="1">Si</option>
+            </select>
+            <label class="control-label col-xs-3">Publico</label>
+            <select class="col-xs-2" id="isPublico">
+                <option value="0">No</option>
+                <option value="1">Si</option>
+            </select>
+        </div>
+        <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" value="Mantener" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
-                <input type="" class="btn btn-primary" value="Guardar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='BungalowInformacion.html';">
+                <input type="" class="btn btn-primary" value="Mantener" style="width:22%"
+                       onclick="location.href='MantenimientoEventos.html';">
+                <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%">
+                <input id="Cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%">
             </div>
         </div>
     </form>
     <div id="detallesBungalows" class="mitadDerecha">
         <div id="BungTipo2" class="show">
-            <img class="imgBungalow" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="img/Eventos/newYear.jpg">
+            <img id="imagenEvent" class="imgBungalow"
+                 style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
+                 src="img/Eventos/newYear.jpg">
         </div>
         <div></div>
     </div>
