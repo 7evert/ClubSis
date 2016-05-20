@@ -11,6 +11,7 @@
 
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
     <link rel="stylesheet" type="text/css" media="screen"
           href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
@@ -20,13 +21,13 @@
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
 </head>
 <body>
-<div id="headerUsuario"></div>
+<div id="headerAdministrador"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
     <h2>Registrar Proveedor</h2>
     <hr>
-    <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
+    <form id="formRegistrarProveedores" class="form-horizontal mitadDerecha">
 
 
 
@@ -34,31 +35,32 @@
         <div id="NombreProveedor" class="form-group">
             <label class="control-label col-xs-4">Nombre Proveedor</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" placeholder="Nombre Proveedor" value="Escriba el nombre..."/>
+                <input type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..."/>
             </div>
         </div>
         <div id="Descripción" class="form-group">
             <label class="control-label col-xs-4">Descripción</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" value="Describa aquí el proveedor..."/>
+                <textarea name="Descripción" rows="5" class="form-control col-xs-8" placeholder="Describa aquí el proveedor..."/></textarea>
             </div>
         </div>
         <div id="numContacto" class="form-group">
             <label class="control-label col-xs-4"># Contacto</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" value="Ingrese # de contacto..."/>
+                <input type="text" class="form-control col-xs-8" placeholder="Ingrese # de contacto..."/>
             </div>
         </div>
         <div id="Direccion" class="form-group">
             <label class="control-label col-xs-4">Direccion</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" value="Ingrese una direccion..."/>
+                <input type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..."/>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" value="Guardar" style="width:22%" onclick="alert('Se agregó exitosamente');location.href='administrarProveedores.html';">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href= 'administrarProveedores.html';">
+            <div class="col-xs-offset-4 col-xs-8">
+                <input type="button" value="Guardar" class="btn btn-primary" style="width:25%" onclick="alert('Se agregó exitosamente');location.href='administrarProveedores.html';"/>
+                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores.html';"/>
+                <!input type="submit" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores.html';"/>
             </div>
         </div>
     </form>
