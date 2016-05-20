@@ -16,7 +16,7 @@ public class OrdenCompra {
 
     @Id
     @GeneratedValue
-    private Integer idOrdenCompra;
+    private Integer id;
     private EstadoOrdenCompra estado;
     private Date fechaSolicitud;
     private Date fechaCancelación;
@@ -34,21 +34,16 @@ public class OrdenCompra {
     protected OrdenCompra() {
     }
 
-    public OrdenCompra(Integer idOrdenCompra, EstadoOrdenCompra estado, Date fechaSolicitud, Date fechaCancelación, Double montoTotal) {
-        this.idOrdenCompra = idOrdenCompra;
+    public OrdenCompra(EstadoOrdenCompra estado, Date fechaSolicitud, Double montoTotal, Date fechaCancelación, Proveedor proveedor, Set<Producto> productos, Sede sede) {
         this.estado = estado;
         this.fechaSolicitud = fechaSolicitud;
-        this.fechaCancelación = fechaCancelación;
         this.montoTotal = montoTotal;
+        this.fechaCancelación = fechaCancelación;
+        this.proveedor = proveedor;
+        this.productos = productos;
+        this.sede = sede;
     }
 
-    public Integer getIdOrdenCompra() {
-        return idOrdenCompra;
-    }
-
-    public void setIdOrdenCompra(Integer idOrdenCompra) {
-        this.idOrdenCompra = idOrdenCompra;
-    }
 
     public EstadoOrdenCompra getEstado() {
         return estado;
@@ -82,13 +77,6 @@ public class OrdenCompra {
         this.montoTotal = montoTotal;
     }
 
-   /* public Proveedor getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
-    }*/
 
     public Sede getSede() {
         return sede;
@@ -96,5 +84,29 @@ public class OrdenCompra {
 
     public void setSede(Sede sede) {
         this.sede = sede;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public Set<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Set<Producto> productos) {
+        this.productos = productos;
     }
 }

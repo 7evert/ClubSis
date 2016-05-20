@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Vivian on 20/05/2016.
  */
 @RestController
-@RequestMapping("/api/ordenCompra")
+@RequestMapping("/api/ordenesCompra")
 public class OrdenCompraController {
     @Autowired
     private ServicioProducto servicioProducto;

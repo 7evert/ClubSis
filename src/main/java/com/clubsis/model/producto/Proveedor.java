@@ -16,45 +16,35 @@ public class Proveedor {
 
     @Id
     @GeneratedValue
-    private Integer idProveedor;
+    private Integer id;
     private String nombre;
     private String descripcion;
     private String numContacto;
     private String direccion;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedor")
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
+    @JsonIgnore
     private Set<Producto> productos;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "proveedor")
+    @JsonIgnore
     private Set<OrdenCompra> ordenes;
 
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
+    @JsonIgnore
     private Set<Sede> sedes;
 
     protected Proveedor() {
     }
 
-    public Proveedor(String nombre, String descripcion, String numContacto, String direccion) {
+    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numContacto = numContacto;
         this.direccion = direccion;
-    }
-
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.productos = productos;
+        this.ordenes = ordenes;
+        this.sedes = sedes;
     }
 
     public String getNombre() {
@@ -63,6 +53,14 @@ public class Proveedor {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getNumContacto() {
@@ -79,5 +77,37 @@ public class Proveedor {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public Set<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Set<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public Set<OrdenCompra> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(Set<OrdenCompra> ordenes) {
+        this.ordenes = ordenes;
+    }
+
+    public Set<Sede> getSedes() {
+        return sedes;
+    }
+
+    public void setSedes(Set<Sede> sedes) {
+        this.sedes = sedes;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

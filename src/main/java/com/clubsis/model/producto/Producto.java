@@ -13,13 +13,13 @@ public class Producto {
 
     @Id
     @GeneratedValue
-    private Integer idProducto;
+    private Integer id;
     private String descripcion;
     private String nombre;
     private Double precioVentaUnitario;
 
     @ManyToMany
-    private Set<Proveedor> proveedor;
+    private Set<Proveedor> proveedores;
 
     @ManyToMany
     private Set<OrdenCompra> ordenes;
@@ -27,20 +27,14 @@ public class Producto {
     protected Producto() {
     }
 
-    public Producto(Integer idProducto, String descripcion, String nombre, Double precioVentaUnitario) {
-        this.idProducto = idProducto;
+    public Producto(String descripcion, Double precioVentaUnitario, String nombre, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
         this.descripcion = descripcion;
-        this.nombre = nombre;
         this.precioVentaUnitario = precioVentaUnitario;
+        this.nombre = nombre;
+        this.proveedores = proveedores;
+        this.ordenes = ordenes;
     }
 
-    public Integer getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
-    }
 
     public String getDescripcion() {
         return descripcion;
@@ -66,12 +60,28 @@ public class Producto {
         this.precioVentaUnitario = precioVentaUnitario;
     }
 
-    /*public Proveedor getProveedor() {
-        return proveedor;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
+    public void setId(Integer id) {
+        this.id = id;
     }
-*/
+
+    public Set<Proveedor> getProveedores() {
+        return proveedores;
+    }
+
+    public void setProveedores(Set<Proveedor> proveedores) {
+        this.proveedores = proveedores;
+    }
+
+    public Set<OrdenCompra> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(Set<OrdenCompra> ordenes) {
+        this.ordenes = ordenes;
+    }
+
 }
