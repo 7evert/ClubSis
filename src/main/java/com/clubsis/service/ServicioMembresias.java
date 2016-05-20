@@ -105,7 +105,7 @@ public class ServicioMembresias {
 
     public Socio socioMembresia(Postulante postulanteExistente){
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),1,postulanteExistente.getIdPostulante());
+                postulanteExistente.getFechaPostulacion(),1,postulanteExistente.getId());
         return nuevoSocio;
     }
 

@@ -24,11 +24,12 @@ public class Usuario {
     protected Usuario() {
     }
 
-    public Usuario(Integer dni, String contraseña, Set<Persona> personas) {
-        this.dni = dni;
+    public Usuario(String contraseña, Integer dni, Set<Persona> personas) {
         this.contraseña = contraseña;
+        this.dni = dni;
         this.personas = personas;
     }
+
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -52,5 +53,13 @@ public class Usuario {
 
     public void setDni(Integer dni) {
         this.dni = dni;
+    }
+
+    public Set<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Set<Persona> personas) {
+        this.personas = personas;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 public class Invitado {
     @Id
     @GeneratedValue
-    private Integer idInvitado;
+    private Integer id;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private Date fechaVisita;
@@ -37,13 +37,7 @@ public class Invitado {
         this.nombres = nombres;
     }
 
-    public Integer getIdInvitado() {
-        return idInvitado;
-    }
 
-    public void setIdInvitado(Integer idInvitado) {
-        this.idInvitado = idInvitado;
-    }
 
     public Date getFechaVisita() {
         return fechaVisita;
@@ -107,5 +101,21 @@ public class Invitado {
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }

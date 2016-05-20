@@ -14,7 +14,7 @@ import java.util.Set;
 public class Empresa {
     @Id
     @GeneratedValue
-    private Integer idEmpresa;
+    private Integer id;
     private String razonSocial;
     private String ruc;
     private String representante;
@@ -41,13 +41,7 @@ public class Empresa {
         this.celularContacto = celularContacto;
     }
 
-    public Integer getIdEmpresa() {
-        return idEmpresa;
-    }
 
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
-    }
 
     public String getRazonSocial() {
         return razonSocial;
@@ -95,5 +89,29 @@ public class Empresa {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
+    public Set<ReservaInstalacion> getReservasInstalacion() {
+        return reservasInstalacion;
+    }
+
+    public void setReservasInstalacion(Set<ReservaInstalacion> reservasInstalacion) {
+        this.reservasInstalacion = reservasInstalacion;
     }
 }

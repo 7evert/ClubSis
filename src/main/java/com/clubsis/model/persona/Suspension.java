@@ -10,8 +10,7 @@ import java.util.Date;
 public class Suspension {
     @Id
     @GeneratedValue
-    @Column(name = "id_suspension")
-    private Integer idSuspension;
+    private Integer id;
     private EstadoSuspension estado;
     private Date fechaSolicitud;
     private Date fechaRespuesta;
@@ -34,13 +33,7 @@ public class Suspension {
         this.setFechaRespuesta(fechaRespuesta);
     }
 
-    public Integer getIdSuspension() {
-        return idSuspension;
-    }
 
-    public void setIdSuspension(Integer idSuspension) {
-        this.idSuspension = idSuspension;
-    }
 
     public EstadoSuspension getEstado() {
         return estado;
@@ -88,5 +81,13 @@ public class Suspension {
 
     public void setSocio(Socio socio) {
         this.socio = socio;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

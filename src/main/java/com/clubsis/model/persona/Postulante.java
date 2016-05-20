@@ -1,9 +1,8 @@
 package com.clubsis.model.persona;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -14,12 +13,13 @@ import java.util.Set;
 public class Postulante {
     @Id
     @GeneratedValue
-    private Integer idPostulante;
+    private Integer id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String tipoDocumento;
     private Integer numeroDocumento;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaNacimiento;
     private String estadoCivil;
     private Integer numeroHijos;
@@ -31,12 +31,13 @@ public class Postulante {
     private Double ingresosMensuales;
     private String nombreEmpresa;
     private String correo;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaPostulacion;
     private Boolean esAprobado;
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
     //private Set<String> observaciones; CAMBIAR LA RELACION MANY TO MANY Y PONERLO EN TABLA CRUZADA
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="postulantes")
     private Set<Socio> socios;
 
     protected Postulante() {
@@ -65,13 +66,7 @@ public class Postulante {
         this.esPeriodoObjeciones = esPeriodoObjeciones;
     }
 
-    public Integer getIdPostulante() {
-        return idPostulante;
-    }
 
-    public void setIdPostulante(Integer idPostulante) {
-        this.idPostulante = idPostulante;
-    }
 
     public String getNombre() {
         return nombre;
@@ -239,5 +234,13 @@ public class Postulante {
 
     public void setEsPeriodoObjeciones(Boolean esPeriodoObjeciones) {
         this.esPeriodoObjeciones = esPeriodoObjeciones;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

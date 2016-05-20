@@ -14,8 +14,7 @@ import java.util.Set;
 public class Socio {
     @Id
     @GeneratedValue
-    @Column(name = "id_socio")
-    private Integer idSocio;
+    private Integer id;
     private Date fechaInscripcion;
     private Integer estado;
     //@Column(columnDefinition = "integer auto_increment")
@@ -29,7 +28,7 @@ public class Socio {
     @JsonIgnore
     private Set<Persona> personas;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Postulante> postulantes;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -46,13 +45,7 @@ public class Socio {
         this.codigoCarnet = codigoCarnet;
     }
 
-    public Integer getIdSocio() {
-        return idSocio;
-    }
 
-    public void setIdSocio(Integer idSocio) {
-        this.idSocio = idSocio;
-    }
 
     public Date getFechaInscripcion() {
         return fechaInscripcion;
@@ -78,4 +71,43 @@ public class Socio {
         this.codigoCarnet = codigoCarnet;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Invitado> getInvitados() {
+        return Invitados;
+    }
+
+    public void setInvitados(Set<Invitado> invitados) {
+        Invitados = invitados;
+    }
+
+    public Set<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Set<Persona> personas) {
+        this.personas = personas;
+    }
+
+    public Set<Postulante> getPostulantes() {
+        return postulantes;
+    }
+
+    public void setPostulantes(Set<Postulante> postulantes) {
+        this.postulantes = postulantes;
+    }
+
+    public Set<Suspension> getSuspension() {
+        return suspension;
+    }
+
+    public void setSuspension(Set<Suspension> suspension) {
+        this.suspension = suspension;
+    }
 }

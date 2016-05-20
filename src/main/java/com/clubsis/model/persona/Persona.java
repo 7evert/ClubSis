@@ -14,8 +14,7 @@ import java.util.Set;
 public class Persona {
     @Id
     @GeneratedValue
-    @Column(name="id_persona")
-    private Integer idPersona;
+    private Integer id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -52,13 +51,6 @@ public class Persona {
     this.esTitular = esTitular;
     }
 
-    public Integer getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
-    }
 
     public String getNombre() {
         return nombre;
@@ -142,5 +134,21 @@ public class Persona {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
     }
 }
