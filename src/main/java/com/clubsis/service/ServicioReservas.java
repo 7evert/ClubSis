@@ -29,9 +29,6 @@ public class ServicioReservas {
     private TipoBungalowRepository tipoBungalowRepository;
 
     @Autowired
-    private SedeRepository sedeRepository;
-
-    @Autowired
     private ReservaBungalowRepository reservaBungalowRepository;
 
     // Bungalow
@@ -74,13 +71,5 @@ public class ServicioReservas {
         return reservaBungalowRepository.saveAndFlush(reservaBungalow);
     }
 
-    // Sede
 
-    public List<Sede> mostrarSedes() {
-        return sedeRepository.findAll();
-    }
-
-    public Sede crearSede(Sede sede) {
-        return sedeRepository.saveAndFlush(sede);
-    }
 }
