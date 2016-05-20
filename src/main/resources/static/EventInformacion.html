@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
+
     <title>Bungalow Informacion</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
@@ -18,39 +20,132 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <script type="text/javascript">
+        //igual que en MantenimientoEventos.html
+        var dataJSON=[
+            {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+            {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+            {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
+        ];
+
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+
+        function mostraridEvento(id){
+            $("#idEvento").html("Evento Numero "+id);
+        }
+        function mostrarNombre(nombre){
+            $("#nombre").html(nombre);
+        }
+
+        Date.prototype.ddmmyyyy = function() {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = this.getDate().toString();
+            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+        };
+
+        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
+            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
+            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
+            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
+            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
+        }
+        function mostrarTarifas(tarifas){
+            var b=new Array();
+            var tarifasul=$("#tarifas");
+            for(var i=0;i<tarifas.length;i++)
+                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
+            for(var j=0;j<b.length;j++)
+                tarifasul.append(b[j]);
+        }
+        function mostrarRegYDescripcion(reglamento, descripcion){
+            $("#reglamento").html("Reglamento: "+reglamento);
+            $("#descripcion").html("Descripcion: <br>"+descripcion);
+        }
+        function mostrarImagen(url){
+            $("#imgEvento").attr({src:url});
+        }
+        function mostrarEstGratYPub(estado,isGratuito,isPublico){
+            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
+        }
+        function mostrarSede(sede){
+            $("#sede").html(sede.nombre);
+        }
+    </script>
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+    </script>
+    <script type="text/javascript">
+        var dataeventos, dataevento;
+        app2.controller('InformacionEventoController', function ($scope, $http) {
+            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
+                //dataeventos = data;//eso deberia ser pero como no tengo link
+                //lo pongo harcodeado que esta en la linea 34
+                dataeventos=dataJSON;
+                dataevento = $.grep(dataeventos, function (e) {
+                    return e.id == getID();
+                })[0];
+                if (!dataevento) {
+                    alert("Evento No Disponible");
+                    location.href = "MantenimientoEventos.html";
+                }
+                mostraridEvento(dataevento.id);
+                mostrarNombre(dataevento.nombre);
+                mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
+                mostrarTarifas(dataevento.tarifas);
+                mostrarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                mostrarImagen(dataevento.url);
+                mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
+                mostrarSede(dataevento.sede);
+
+                $("#Participar").click(function () {
+                    location.href = "participarEvento.html?id="+getID();
+                });
+                $("#Editar").click(function () {
+                    location.href = "edicionEventos.html?id="+getID();
+                });
+            });
+        });
+    </script>
+
+
 </head>
-<body>
+<body ng-controller="InformacionEventoController">
 <div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
     <div id="ReservaBungalows" class="container">
-        <h2>Nuevos Anos Event 2017</h2>
+        <h2 id="idEvento"></h2>
         <hr>
         <div class="detallesTipoBungalows mitadDerecha pull-left">
-            <div><h3>Event New <Year></Year></h3></div>
-            <div><h4>Happy New Year</h4></div>
-            <div><h4>Precio: S/100.00</h4></div>
-            <div><h4>Capacidad: 8000 Personas</h4></div>
-            <div><h4>Disponible</h4></div>
-            <ul style="position:relative; left:120px;">
-                <span>Incluye:</span>
-                <li><span>TO DO I DONT KNOW WHAT TO WRITE HERE GUYS</span></li>
-                <li><span>3 Camarotes</span></li>
-                <li><span>1 Cocina</span></li>
-                <li><span>1 Sala</span></li>
-                <li><span>2 Baños</span></li>
+            <div><h3 id="nombre">Event New <Year></Year></h3></div>
+            <div><h4 id="sede">Happy New Year</h4></div>
+            <div><h4 id="estGratYPub">Precio: S/100.00</h4></div>
+            <div>
+                <h4><span id="fechaInicio"></span> - <span id="fechaFin"></span></h4>
+                <h4><span id="fechaInicioInscripcion"></span> - <span id="fechaFinInscripcion"></span></h4>
+            </div>
+            <div><h4 id="descripcion"></h4></div>
+            <ul id="tarifas" style="position:relative; left:120px;">
+                <span>Tarifas:</span>
+                <!--<li><span>TO DO I DONT KNOW WHAT TO WRITE HERE GUYS</span></li>-->
             </ul>
+            <div><h4 id="reglamento"></h4></div>
             <div class="col-xs-offset-1 col-xs-10">
-                <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="location.href='reservaEventos.html.html';">
-                <input type="" class="btn btn-primary" value="Editar" style="width:22%" onclick="location.href='edicionEventos.html.html';">
+                <input id="Participar" type="" class="btn btn-primary" value="Participar" style="width:22%">
+                <input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">
                 <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='loginUsuario.html';">
             </div>
         </div>
 
         <div id="detallesBungalows" class="mitadDerecha">
             <div id="BungTipo2" class="show">
-                <img class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
+                <img id="imgEvento" class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
             </div>
             <div></div>
         </div>
