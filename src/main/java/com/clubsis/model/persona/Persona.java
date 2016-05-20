@@ -8,6 +8,7 @@ import com.clubsis.model.evento.Evento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,21 +39,24 @@ public class Persona {
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
-    private Set<Evento> eventos;
+    private Set<Evento> eventos=new HashSet<Evento>();;
 
     protected Persona() {
     }
 
-    public Persona( String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular) {
-    this.nombre = nombre;
-    this.apellidoPaterno = apellidoPaterno;
-    this.apellidoMaterno = apellidoMaterno;
-    this.fechaNacimiento = fechaNacimiento;
-    this.direccion = direccion;
-    this.correo = correo;
-    this.dni = dni;
-    this.telefono = telefono;
-    this.esTitular = esTitular;
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, Date fechaNacimiento, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Set<Evento> eventos, Usuario usuario) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.esTitular = esTitular;
+        this.socio = socio;
+        this.eventos = eventos;
+        this.usuario = usuario;
     }
 
 

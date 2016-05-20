@@ -23,10 +23,10 @@ public class Usuario {
     protected Usuario() {
     }
 
-    public Usuario(String contraseña, Integer dni, Set<Persona> personas) {
+    public Usuario(String contraseña, Set<Persona> personas, Integer dni) {
         this.contraseña = contraseña;
-        this.dni = dni;
         this.personas = personas;
+        this.dni = dni;
     }
 
 

@@ -5,6 +5,7 @@ import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,24 +24,25 @@ public class Empresa {
     private String correoElectronico;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="empresas")
-    private Set<Evento> eventos;
+    private Set<Evento> eventos = new HashSet<Evento>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<ReservaInstalacion> reservasInstalacion;
+    private Set<ReservaInstalacion> reservasInstalacion=new HashSet<ReservaInstalacion>();
 
     protected Empresa() {
     }
 
-    public Empresa(String razonSocial, String ruc, String representante, String telefono, String correoElectronico, String celularContacto) {
+    public Empresa(String razonSocial, String ruc, String representante, String celularContacto, String telefono, String correoElectronico, Set<Evento> eventos, Set<ReservaInstalacion> reservasInstalacion) {
         this.razonSocial = razonSocial;
         this.ruc = ruc;
         this.representante = representante;
+        this.celularContacto = celularContacto;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.celularContacto = celularContacto;
+        this.eventos = eventos;
+        this.reservasInstalacion = reservasInstalacion;
     }
-
 
 
     public String getRazonSocial() {
