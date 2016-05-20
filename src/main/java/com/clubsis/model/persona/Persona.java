@@ -15,7 +15,7 @@ public class Persona {
     @Id
     @GeneratedValue
     @Column(name="id_persona")
-    private Integer idPersona;
+    private Integer id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -34,31 +34,33 @@ public class Persona {
     @JoinColumn(name="id_usuario")
     private Usuario usuario;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
+    @ManyToMany(mappedBy ="personas")
     private Set<Evento> eventos;
 
     protected Persona() {
     }
 
-    public Persona(Integer idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, String telefono, Boolean esTitular) {
-        this.idPersona = idPersona;
-    this.nombre = nombre;
-    this.apellidoPaterno = apellidoPaterno;
-    this.apellidoMaterno = apellidoMaterno;
-    this.fechaNacimiento = fechaNacimiento;
-    this.direccion = direccion;
-    this.correoElectronico = correoElectronico;
-    this.dni = dni;
-    this.telefono = telefono;
-    this.esTitular = esTitular;
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, String telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<Evento> eventos) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.correoElectronico = correoElectronico;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.esTitular = esTitular;
+        this.socio = socio;
+        this.usuario = usuario;
+        this.eventos = eventos;
     }
 
-    public Integer getIdPersona() {
-        return idPersona;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -133,9 +135,13 @@ public class Persona {
         this.esTitular = esTitular;
     }
 
-    public Socio getSocio() { return socio; }
+    public Socio getSocio() {
+        return socio;
+    }
 
-    public void setSocio(Socio socio) { this.socio = socio; }
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -143,5 +149,13 @@ public class Persona {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
     }
 }

@@ -44,7 +44,7 @@ public class TarifaEventoController {
         TarifaEvento tarifa= servicioTarifas.buscarTarifa(id);
         Sede sede = servicioSede.buscarSede(idSede);
         evento.setSede(sede);
-        evento.setTarifa(tarifa);
+        evento.getTarifaEventos().add(tarifa);
         return servicioEvento.crearEvento(evento);
     }
 }
