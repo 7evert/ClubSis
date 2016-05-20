@@ -26,8 +26,7 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado(Integer idInvitado, String apellidoPaterno, String apellidoMaterno, Boolean esExoneradoPago, Date fechaVisita, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres) {
-        this.idInvitado = idInvitado;
+    public Invitado( String apellidoPaterno, String apellidoMaterno, Boolean esExoneradoPago, Date fechaVisita, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.esExoneradoPago = esExoneradoPago;

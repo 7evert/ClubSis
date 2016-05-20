@@ -23,7 +23,7 @@ public class Persona {
     private String direccion;
     private String correoElectronico;
     private Integer dni;
-    private String telefono;
+    private Integer telefono;
     private Boolean esTitular;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -40,8 +40,7 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona(Integer idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, String telefono, Boolean esTitular) {
-        this.idPersona = idPersona;
+    public Persona( String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, Integer telefono, Boolean esTitular) {
     this.nombre = nombre;
     this.apellidoPaterno = apellidoPaterno;
     this.apellidoMaterno = apellidoMaterno;
@@ -117,11 +116,11 @@ public class Persona {
         this.dni = dni;
     }
 
-    public String getTelefono() {
+    public Integer getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(Integer telefono) {
         this.telefono = telefono;
     }
 

@@ -4,10 +4,12 @@ import com.clubsis.model.club.Usuario;
 import com.clubsis.model.persona.Persona;
 import com.clubsis.model.persona.Postulante;
 import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.Suspension;
 import com.clubsis.repository.club.UsuarioRepository;
 import com.clubsis.repository.persona.PersonaRepository;
 import com.clubsis.repository.persona.PostulanteRepository;
 import com.clubsis.repository.persona.SocioRepository;
+import com.clubsis.repository.persona.SuspensionRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class ServicioMembresias {
 
     @Autowired
     private SocioRepository socioRepository;
+
+    @Autowired
+    private SuspensionRepository suspensionRepository;
 
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
@@ -75,5 +80,44 @@ public class ServicioMembresias {
         BeanUtils.copyProperties(socio,socioExistente);
         return socioRepository.saveAndFlush(socioExistente);
     }
+
+    //Suspension
+
+    public List<Suspension> mostrarSuspensiones(){return suspensionRepository.findAll();}
+    public Suspension buscarSuspension(Integer id) {return suspensionRepository.findOne(id);}
+    public Suspension crearSuspension(Suspension suspension){return suspensionRepository.saveAndFlush(suspension);}
+
+    public Suspension actualizarSuspension(Integer id, Suspension suspension){
+        Suspension suspensionExistente=suspensionRepository.findOne(id);
+        BeanUtils.copyProperties(suspension,suspensionExistente);
+        return suspensionRepository.saveAndFlush(suspensionExistente);
+    }
+
+    //MEMBRESIA
+
+    public Persona personaMembresia(Postulante postulanteExistente){
+        Persona nuevaPersona = new Persona(
+                postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
+                postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
+                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),true);
+        return nuevaPersona;
+    }
+
+    public Socio socioMembresia(Postulante postulanteExistente){
+        Socio nuevoSocio = new Socio(
+                postulanteExistente.getFechaPostulacion(),1,postulanteExistente.getIdPostulante());
+        return nuevoSocio;
+    }
+
+
+    public void crearMembresia(Integer idPostulante){
+        Postulante postulanteExistente = postulanteRepository.findOne(idPostulante);
+        postulanteExistente.setEsAprobado(true);
+        personaMembresia(postulanteExistente);
+        socioMembresia(postulanteExistente);
+        actualizarPostulante(idPostulante,postulanteExistente);
+    }
+
+
 
 }

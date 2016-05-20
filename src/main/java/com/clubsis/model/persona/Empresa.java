@@ -32,8 +32,7 @@ public class Empresa {
     protected Empresa() {
     }
 
-    public Empresa(Integer idEmpresa, String razonSocial, String ruc, String representante, String telefono, String correoElectronico, String celularContacto) {
-        this.idEmpresa = idEmpresa;
+    public Empresa(String razonSocial, String ruc, String representante, String telefono, String correoElectronico, String celularContacto) {
         this.razonSocial = razonSocial;
         this.ruc = ruc;
         this.representante = representante;

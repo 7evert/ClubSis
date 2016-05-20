@@ -18,6 +18,7 @@ public class Socio {
     private Integer idSocio;
     private Date fechaInscripcion;
     private Integer estado;
+    //@Column(columnDefinition = "integer auto_increment")
     private Integer codigoCarnet;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -31,11 +32,15 @@ public class Socio {
     @ManyToMany
     private Set<Postulante> postulantes;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Suspension> suspension;
+
+
     protected Socio() {
     }
 
-    public Socio(Integer idSocio, Date fechaInscripcion, Integer estado, Integer codigoCarnet) {
-        this.idSocio = idSocio;
+    public Socio(Date fechaInscripcion, Integer estado, Integer codigoCarnet) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
