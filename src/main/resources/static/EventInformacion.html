@@ -22,11 +22,111 @@
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <script type="text/javascript">
         //igual que en MantenimientoEventos.html
-        var dataJSON=[
+/*        var dataJSON=[
             {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
             {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
             {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
+        ];*/
+        var dataJSON = [
+            {
+                id: 0,
+                descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
+                isGratuito: 0,
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
+            },
+            {
+                id: 1,
+                descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
+                isGratuito: 0,
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
+            },
+
+            {
+                id: 2,
+                descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
+                isGratuito: 0,
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
+            }
         ];
+
 
         function getID() {
             var href = this.location.href;
@@ -96,7 +196,7 @@
                 mostraridEvento(dataevento.id);
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
-                mostrarTarifas(dataevento.tarifas);
+                mostrarTarifas(dataevento.tarifaEventos);
                 mostrarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
@@ -123,9 +223,9 @@
         <h2 id="idEvento"></h2>
         <hr>
         <div class="detallesTipoBungalows mitadDerecha pull-left">
-            <div><h3 id="nombre">Event New <Year></Year></h3></div>
-            <div><h4 id="sede">Happy New Year</h4></div>
-            <div><h4 id="estGratYPub">Precio: S/100.00</h4></div>
+            <div><h3 id="nombre"><Year></Year></h3></div>
+            <div><h4 id="sede"></h4></div>
+            <div><h4 id="estGratYPub"></h4></div>
             <div>
                 <h4><span id="fechaInicio"></span> - <span id="fechaFin"></span></h4>
                 <h4><span id="fechaInicioInscripcion"></span> - <span id="fechaFinInscripcion"></span></h4>

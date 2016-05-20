@@ -20,86 +20,105 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <script type="text/javascript">
-        //igual que en MantenimientoEventos.html
         var dataJSON = [
             {
                 id: 0,
-                url: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: {id: 0, nombre: "Chorrillos", direccion: "av"},
-                empresa: "Nestle",
-                fechaInicio: 3,
-                fechaFin: 4,
-                fechaInicioInscripcion: 2,
-                fechaFinInscripcion: 2,
-                tarifas: [{id: 1, descripcion: "a", precio: 0.00, nombre: "b"}, {
-                    id: 2,
-                    descripcion: "c",
-                    precio: 1.00,
-                    nombre: "d"
-                }],
-                reglamento: "....",
-                estado: 0,
                 descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
                 isGratuito: 0,
-                isPublico: 1
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
             },
             {
                 id: 1,
-                url: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Viejo 2016",
-                sede: {id: 1, nombre: "Santa Anita", direccion: "av"},
-                empresa: "Nestle",
-                fechaInicio: 3,
-                fechaFin: 4,
-                fechaInicioInscripcion: 2,
-                fechaFinInscripcion: 2,
-                tarifas: [{id: 1, descripcion: "a", precio: 0.00, nombre: "b"}, {
-                    id: 2,
-                    descripcion: "c",
-                    precio: 1.00,
-                    nombre: "d"
-                }],
-                reglamento: "....",
-                estado: 0,
                 descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
                 isGratuito: 0,
-                isPublico: 1
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
             },
+
             {
                 id: 2,
-                url: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Dia de la Madre 2016",
-                sede: {id: 0, nombre: "Chorrillos", direccion: "av"},
-                empresa: "Nestle",
-                fechaInicio: 3,
-                fechaFin: 4,
-                fechaInicioInscripcion: 2,
-                fechaFinInscripcion: 2,
-                tarifas: [{id: 1, descripcion: "a", precio: 0.50, nombre: "b"}, {
-                    id: 2,
-                    descripcion: "c",
-                    precio: 1.50,
-                    nombre: "d"
-                }],
-                reglamento: "....",
-                estado: 0,
                 descripcion: "asd",
+                fechaInicio: "2016-05-18 02:06:30",
+                fechaFin: "2016-05-18 02:06:30",
+                reglamento: "....",
+                estado: "En espera",
+                fechaInicioInscripcion: "2016-05-18 02:06:30",
+                fechaFinInscripcion: "2016-05-18 02:06:30",
+                url: "img/Eventos/newYear.jpg",
                 isGratuito: 0,
-                isPublico: 1
+                isPublico: 1,
+                nombre: "Feliz Año Nuevo 2016",
+                tarifaEventos: [{
+                    id: 1,
+                    descripcion: "a",
+                    precio: 0.00,
+                    nombre: "b"
+                },
+                    {
+                        id: 2,
+                        descripcion: "c",
+                        precio: 1.00,
+                        nombre: "d"
+                    }],
+                sede: {
+                    id: 0,
+                    nombre: "Chorrillos",
+                    direccion: "av",
+                    descripcion:"sasdas"
+                }
             }
         ];
-        /*        var dataJSON=[
-         {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Santa Anita",empresa:"Nestle",
-         fechaInicio:"12/31/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"12/29/2015",
-         precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-         {id:"1",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-         fechaInicio:"12/31/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"12/29/2015",
-         precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-         {id:"2",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Jesus Maria",empresa:"Nestle",
-         fechaInicio:"12/31/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"12/29/2015",
-         precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Reservado"}
-         ];*/
     </script>
     <script type="text/javascript">
         function getID() {
@@ -168,7 +187,7 @@
                 completaridEvento(dataevento.id);
                 completarNombre(dataevento.nombre);
                 completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
-                completarTarifas(dataevento.tarifas);
+                completarTarifas(dataevento.tarifaEventos);
                 completarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
                 completarImagen(dataevento.url);
                 seleccionarEstado(dataevento.estado);
@@ -189,16 +208,17 @@
                         "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
                         "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
                         "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                        "tarifas": $("#tarifas").val(),
+                        "tarifaEventos": [{id:$("#tarifas").val()}],
                         "reglamento": $("#reglamento").val(),
                         "estado": $("#estado").val(),
                         "descripcion": $("#descripcion").val(),
                         "isGratuito": $("#isGratuito").val(),
                         "isPublico": $("#isPublico").val()
                     };
+                    console.log(JSON.stringify(data));
                     $http.post("/api/reservasbungalow", data).success(function (data2, status) {
                         alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es " + data2.id);
-                        location.href = "MantenimientoEventos.html"
+                        //location.href = "MantenimientoEventos.html"
                     });
                 });
                 $("#Cancelar").click(function () {
@@ -229,9 +249,9 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
+                    <option value="0">Chorrillos</option>
+                    <option value="1">Santa Anita</option>
+                    <option value="2">Jesus Maria</option>
                 </select>
             </div>
         </div>
@@ -239,7 +259,7 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option value="0">Libre</option>
+                    <option value="En espera">En espera</option>
                     <option value="1">Reservado</option>
                     <option value="2">En Mantenimiento</option>
                 </select>
