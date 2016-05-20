@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app2">
+<html lang="en">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Edicion Eventos</title>
+    <title>Bungalow Edicion</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
@@ -19,158 +18,27 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
-    <script type="text/javascript">
-        //igual que en MantenimientoEventos.html
-        var dataJSON=[
-            {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Santa Anita",empresa:"Nestle",
-                fechaInicio:"12/31/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"12/29/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-            {id:"1",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"12/31/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"12/29/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-            {id:"2",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Jesus Maria",empresa:"Nestle",
-                fechaInicio:"12/31/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"12/29/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Reservado"}
-        ];
-    </script>
-    <script type="text/javascript">
-        function getID() {
-            var href = this.location.href;
-            var str=href.match(/\?id\=(\d+)/);
-            return str?str[1]:str;
-        }
-        function completaridEvento(id){
-            $("#idEvento").html("Edicion de Evento "+id);
-        }
-        function completarNombre(nombre){
-            $("#nombre").attr({value:nombre});
-        }
-        function completarFechas(fechaInicio,fechaFin,inicioInscripciones,finInscipciones){
-            $("#date-picker-DiaEntrada").datepicker("setDate",new Date(fechaInicio));
-            $("#date-picker-DiaSalida").datepicker("setDate",new Date(fechaFin));
-            $("#date-picker-InicioInscripcion").datepicker("setDate", new Date(inicioInscripciones));
-            $("#date-picker-FinInscripcion").datepicker("setDate", new Date(finInscipciones));
-        }
-        function completarTarifas(precios){
-            var strtarifas="";
-            for(var x in precios){
-                strtarifas+=(x+":"+precios[x]+";");
-            }
-            $("#tarifas").attr({value:strtarifas});
-        }
-        function completarRegYEmpresa(reglamento,empresa){
-            $("#reglamento").attr({value:reglamento});
-            $("#codEmpresa").attr({value:empresa});
-        }
-
-        function completarImagen(imgsrcEvent){
-            $("#imagenEvent")[0].src=imgsrcEvent;
-        }
-        function seleccionarEstado(estado){
-            var options=$("#estado").find($("option"));
-            options.each(function(index) {
-                if($(this).html()==estado)
-                    $( this ).attr({selected:"selected"});
-            })
-        }
-        function seleccionarSede(sede){
-            var options=$("#sede").find($("option"));
-            options.each(function(index) {
-                if($(this).html()==sede)
-                    $( this ).attr({selected:"selected"});
-            })
-        }
-    </script>
-
-    <script type="text/javascript">
-        //app script
-        var app2 = angular.module('app2', []);
-    </script>
-    <script type="text/javascript">
-        var dataeventos, dataevento;
-        app2.controller('RegistroEventoController', function ($scope, $http) {
-            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
-                //dataeventos = data;//eso deberia ser pero como no tengo link
-                //lo pongo harcodeado que esta en la linea 34
-                dataeventos=dataJSON;
-                dataevento = $.grep(dataeventos, function (e) {
-                    return e.id == getID();
-                })[0];
-                //dataeventos=dataJSON;
-                if (!dataevento) {
-                    alert("Bungalow No Disponible");
-                    location.href = "MantenimientoEventos.html";
-                }
-                var imgsrcEvents = ["img/Bungalows/TipoBungalows/1_Lorena.png",
-                    "img/Bungalows/TipoBungalows/2_Club.png",
-                    "img/Bungalows/TipoBungalows/3_Class.png",
-                    "img/Bungalows/TipoBungalows/4_king.png",
-                    "img/Bungalows/TipoBungalows/5_KingCharles.png"];
-
-                /*
-                * {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                 fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                 precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},*/
-                completaridEvento(dataevento.id);
-                completarNombre(dataevento.nombre);
-                completarFechas(dataevento.fechaInicio,dataevento.fechaFin,dataevento.inicioInscripciones,dataevento.finInscipciones);
-                completarTarifas(dataevento.precios);
-                completarRegYEmpresa(dataevento.reglamento,dataevento.empresa);
-                completarImagen(imgsrcEvents[dataevento.id]);
-                seleccionarEstado(dataevento.estado);
-                seleccionarSede(dataevento.sede);
-
-                $("#Guardar").click(function () {
-                    var cadTar=$("#tarifas").val().split(/[:;]/);
-                    var tarifas={};
-                    for(var i=0;i<cadTar.length;i+=2)
-                        if(cadTar[i]!="")tarifas[cadTar[i]]=cadTar[i+1];
-                    var data = {
-                        "id":dataevento.id,
-                        "imgsrc":dataevento.imgsrc,
-                        "nombre":$("#nombre").val(),
-                        "sede":$("#sede").find($("option"))[$("#sede").val()].innerText,
-                        "empresa":$("#codEmpresa").val(),
-                        "fechaInicio":Date.parse($("#date-picker-DiaEntrada")[0].value),
-                        "fechaFin":Date.parse($("#date-picker-DiaSalida")[0].value),
-                        "inicioInscripciones":Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                        "finInscipciones":Date.parse($("#date-picker-FinInscripcion")[0].value),
-                        "precios":tarifas,
-                        "reglamento":$("#reglamento").val(),
-                        "estado":$("#estado").find($("option"))[$("#estado").val()].innerText,
-                    };
-                    $http.post("/api/reservasbungalow", data).success(function (data2, status) {
-                        alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es "+data2.id);
-                        location.href="mantenimientoBungalows1.html"
-                    });
-                });
-            });
-        });
-
-    </script>
-
 </head>
-<body ng-controller="RegistroEventoController">
+<body>
 <div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2 id="idEvento">Edicion Evento</h2>
+    <h2>Edicion Eventos</h2>
     <hr>
     <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
         <div id="nombreBungalow" class="form-group">
             <label class="control-label col-xs-4">Nombre Evento</label>
             <div class="input-group col-xs-8">
-                <input id="nombre" type="text" class="form-control col-xs-8" value="Feliz Año 2016" />
+                <input type="text" class="form-control col-xs-8" value="Bungalow Lorena 6" />
             </div>
         </div>
         <div id="escogerSedeBungalows" class="form-group">
-            <label class="control-label col-xs-4">Escoger Sede</label>
+            <label class="control-label col-xs-4">Escoger Evento</label>
             <div class="col-xs-8">
-                <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
+                <select class="form-control col-xs-8">
+                    <option value="1">Nuevo Ano 2017</option>
+
                 </select>
             </div>
         </div>
@@ -184,75 +52,35 @@
                 </select>
             </div>
         </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Inicio</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
-                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Fin</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
-                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Inicio de Inscripcion</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-InicioInscripcion" type="text" class="date-picker form-control col-xs-6" />
-                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Fin de Inscripcion</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-FinInscripcion" type="text" class="date-picker form-control col-xs-6" />
-                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div id="tarifaEvento" class="form-group">
-            <label class="control-label col-xs-4">Tarifas de Evento</label>
+        <div id="precioBungalow" class="form-group">
+            <label class="control-label col-xs-4">Precio Evento</label>
             <div class="input-group col-xs-8">
-                <input id="tarifas" type="text" class="form-control col-xs-8"  placeholder="tar1;tar2;tar3;" value="tar1;"/>
+                <input type="text" class="form-control col-xs-8"  placeholder="S/" value="100.00"/>
             </div>
         </div>
-        <div id="Reglamento1" class="form-group">
-            <label class="control-label col-xs-4">Reglamento</label>
+        <div id="capacidadBungalow" class="form-group">
+            <label class="control-label col-xs-4">Capacidad</label>
             <div class="input-group col-xs-8">
-                <input id="reglamento" type="text" class="form-control col-xs-8" placeholder="" value=""/>
+                <input type="text" class="form-control col-xs-8" placeholder="Solo Numeros" value="8"/>
             </div>
         </div>
-        <div id="Empresa" class="form-group">
-            <label class="control-label col-xs-4">Codigo de Empresa</label>
+        <div id="CaracteristicasBungalow" class="form-group">
+            <label class="control-label col-xs-4">Caracteristicas</label>
             <div class="input-group col-xs-8">
-                <input id="codEmpresa" type="text" class="form-control col-xs-8" value="0000000"/>
+                <input type="text" class="form-control col-xs-8" value="TO EDIT "/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input type="" class="btn btn-primary" value="Mantener" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
-                <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
+                <input type="" class="btn btn-primary" value="Guardar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
                 <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='BungalowInformacion.html';">
             </div>
         </div>
     </form>
     <div id="detallesBungalows" class="mitadDerecha">
         <div id="BungTipo2" class="show">
-            <img id="imagenEvent" class="imgBungalow" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="img/Eventos/newYear.jpg">
+            <img class="imgBungalow" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="img/Eventos/newYear.jpg">
         </div>
         <div></div>
     </div>

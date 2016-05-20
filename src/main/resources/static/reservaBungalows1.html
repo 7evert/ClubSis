@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
@@ -19,37 +21,193 @@
     </script>
     <script type="text/javascript">
         //la misma data esta en mantenimientosBungalows1.html
-        var dataJSON=[
-            {id:"0",imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"6",sede:"Chorrillos",capacidad:"6",precio:"80.00",
-                caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
-            {id:"1",imgsrc:"img/Bungalows/TipoBungalows/2_Club.png",tipoBungalow:"Bungalow Club",NroBungalow:"20",sede:"Playa",capacidad:"8",precio:"100.00",
-                caracteristicas:["1 Habitacion Personal","3 Camarotes","1 Cocina","1 Sala","2 Baños"]},
-            {id:"2",imgsrc:"img/Bungalows/TipoBungalows/3_Class.png",tipoBungalow:"Bungalow Class",NroBungalow:"2",sede:"Chosica",capacidad:"12",precio:"120.00",
-                caracteristicas:["2 Habitaciones Personales","4 Camarotes","1 Cocina","1 Sala","2 Baños"]},
-            {id:"3",imgsrc:"img/Bungalows/TipoBungalows/4_king.png",tipoBungalow:"Bungalow King",NroBungalow:"6",sede:"Chosica",capacidad:"16",precio:"140.00",
-                caracteristicas:["3 Habitaciones Personales","5 Camarotes","1 Cocina","2 Salas","2 Baños"]},
-            {id:"4",imgsrc:"img/Bungalows/TipoBungalows/5_KingCharles.png",tipoBungalow:"Bungalow King Charles",NroBungalow:"7",sede:"Chorrillos",capacidad:"20",precio:"160.00",
-                caracteristicas:["5 Habitaciones Personales","6 Camarotes","2 Cocinas","2 Salas","2 Baños"]},
-            {id:"5",imgsrc:"img/Bungalows/TipoBungalows/1_Lorena.png",tipoBungalow:"Bungalow Lorena",NroBungalow:"8",sede:"Chorrillos",capacidad:"6",precio:"80.00",
-                caracteristicas:["1 Habitacion Personal","2 Camarotes","1 Cocina","1 Sala","1 Baño"]},
-            {id:"6",imgsrc:"img/Bungalows/TipoBungalows/2_Club.png",tipoBungalow:"Bungalow Club",NroBungalow:"1",sede:"Chosica",capacidad:"8",precio:"100.00",
-                caracteristicas:["1 Habitacion Personal","3 Camarotes","1 Cocina","1 Sala","2 Baños"]},
-            {id:"7",imgsrc:"img/Bungalows/TipoBungalows/3_Class.png",tipoBungalow:"Bungalow Class",NroBungalow:"32",sede:"Chorrillos",capacidad:"12",precio:"120.00",
-                caracteristicas:["2 Habitaciones Personales","4 Camarotes","1 Cocina","1 Sala","2 Baños"]},
-            {id:"8",imgsrc:"img/Bungalows/TipoBungalows/4_king.png",tipoBungalow:"Bungalow King",NroBungalow:"12",sede:"Chosica",capacidad:"16",precio:"140.00",
-                caracteristicas:["3 Habitaciones Personales","5 Camarotes","1 Cocina","2 Salas","2 Baños"]},
-            {id:"9",imgsrc:"img/Bungalows/TipoBungalows/5_KingCharles.png",tipoBungalow:"Bungalow King Charles",NroBungalow:"41",sede:"Chorrillos",capacidad:"20",precio:"160.00",
-                caracteristicas:["5 Habitaciones Personales","6 Camarotes","2 Cocinas","2 Salas","2 Baños"]}
+        var dataJSON = [
+            {
+                id: "0",
+                imgsrc: "img/Bungalows/TipoBungalows/1_Lorena.png",
+                tipoBungalow: "Bungalow Lorena",
+                NroBungalow: "6",
+                sede: "Chorrillos",
+                capacidad: "6",
+                precio: "80.00",
+                caracteristicas: ["1 Habitacion Personal", "2 Camarotes", "1 Cocina", "1 Sala", "1 Baño"]
+            },
+            {
+                id: "1",
+                imgsrc: "img/Bungalows/TipoBungalows/2_Club.png",
+                tipoBungalow: "Bungalow Club",
+                NroBungalow: "20",
+                sede: "Playa",
+                capacidad: "8",
+                precio: "100.00",
+                caracteristicas: ["1 Habitacion Personal", "3 Camarotes", "1 Cocina", "1 Sala", "2 Baños"]
+            },
+            {
+                id: "2",
+                imgsrc: "img/Bungalows/TipoBungalows/3_Class.png",
+                tipoBungalow: "Bungalow Class",
+                NroBungalow: "2",
+                sede: "Chosica",
+                capacidad: "12",
+                precio: "120.00",
+                caracteristicas: ["2 Habitaciones Personales", "4 Camarotes", "1 Cocina", "1 Sala", "2 Baños"]
+            },
+            {
+                id: "3",
+                imgsrc: "img/Bungalows/TipoBungalows/4_king.png",
+                tipoBungalow: "Bungalow King",
+                NroBungalow: "6",
+                sede: "Chosica",
+                capacidad: "16",
+                precio: "140.00",
+                caracteristicas: ["3 Habitaciones Personales", "5 Camarotes", "1 Cocina", "2 Salas", "2 Baños"]
+            },
+            {
+                id: "4",
+                imgsrc: "img/Bungalows/TipoBungalows/5_KingCharles.png",
+                tipoBungalow: "Bungalow King Charles",
+                NroBungalow: "7",
+                sede: "Chorrillos",
+                capacidad: "20",
+                precio: "160.00",
+                caracteristicas: ["5 Habitaciones Personales", "6 Camarotes", "2 Cocinas", "2 Salas", "2 Baños"]
+            },
+            {
+                id: "5",
+                imgsrc: "img/Bungalows/TipoBungalows/1_Lorena.png",
+                tipoBungalow: "Bungalow Lorena",
+                NroBungalow: "8",
+                sede: "Chorrillos",
+                capacidad: "6",
+                precio: "80.00",
+                caracteristicas: ["1 Habitacion Personal", "2 Camarotes", "1 Cocina", "1 Sala", "1 Baño"]
+            },
+            {
+                id: "6",
+                imgsrc: "img/Bungalows/TipoBungalows/2_Club.png",
+                tipoBungalow: "Bungalow Club",
+                NroBungalow: "1",
+                sede: "Chosica",
+                capacidad: "8",
+                precio: "100.00",
+                caracteristicas: ["1 Habitacion Personal", "3 Camarotes", "1 Cocina", "1 Sala", "2 Baños"]
+            },
+            {
+                id: "7",
+                imgsrc: "img/Bungalows/TipoBungalows/3_Class.png",
+                tipoBungalow: "Bungalow Class",
+                NroBungalow: "32",
+                sede: "Chorrillos",
+                capacidad: "12",
+                precio: "120.00",
+                caracteristicas: ["2 Habitaciones Personales", "4 Camarotes", "1 Cocina", "1 Sala", "2 Baños"]
+            },
+            {
+                id: "8",
+                imgsrc: "img/Bungalows/TipoBungalows/4_king.png",
+                tipoBungalow: "Bungalow King",
+                NroBungalow: "12",
+                sede: "Chosica",
+                capacidad: "16",
+                precio: "140.00",
+                caracteristicas: ["3 Habitaciones Personales", "5 Camarotes", "1 Cocina", "2 Salas", "2 Baños"]
+            },
+            {
+                id: "9",
+                imgsrc: "img/Bungalows/TipoBungalows/5_KingCharles.png",
+                tipoBungalow: "Bungalow King Charles",
+                NroBungalow: "41",
+                sede: "Chorrillos",
+                capacidad: "20",
+                precio: "160.00",
+                caracteristicas: ["5 Habitaciones Personales", "6 Camarotes", "2 Cocinas", "2 Salas", "2 Baños"]
+            }
         ];
     </script>
     <script type="text/javascript">
-        var indActualBungalow=2;
-        var claseOculta="hide";
-        var claseVisible="show"
+        var indActualBungalow = 2;
+        var claseOculta = "hide";
+        var claseVisible = "show"
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+
+    <script type="text/javascript">
+        function getID() {
+            var href = this.location.href;
+            return href.match(/\?id\=(\d+)/)[1];
+        }
+        function completarNombreBungalow(nombreBungalow) {
+            $("#NombreBungalow").html(nombreBungalow);
+        }
+        function completarSede(sede) {
+            $($("#escogerSedeBungalows").find($("label"))[1]).html(sede);
+        }
+        function completarImagen(imgsrc) {
+            $("#imgBungalow").find($("img"))[0].src = imgsrc;
+        }
+        function completarDetalles(tipoBungalow, precio, capacidad) {
+            var divs = $("#detallesBungalow").find($("div"));
+            $(divs[0]).find($("h3")).html(tipoBungalow);
+            $(divs[1]).find($("h4")).html("Precio: S/." + precio);
+            $(divs[2]).find($("h4")).html("Capacidad: " + capacidad + " Personas");
+        }
+        function completarCaracteristicas(caracteristicas) {
+            var lista = $("#detallesBungalow").find($("ul"));
+            var elemlista = lista.find($("li"));
+            caracteristicas = caracteristicas.split(";");
+            for (var i = 0; i < elemlista.length; i++) {
+                $(elemlista[i]).html(caracteristicas[i])
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        //app script
+        var app2 = angular.module('app2', []);
+    </script>
+    <script type="text/javascript">
+        var DATABUNGALOWS, databungalow;
+        app2.controller('ReservaController', function ($scope, $http) {
+            $http.get('/api/bungalows').success(function (data) {
+                DATABUNGALOWS = data;//eso deberia ser pero como no tengo link
+                //lo pongo harcodeado que esta en la linea 34
+                databungalow = $.grep(DATABUNGALOWS, function (e) {
+                    return e.id == getID();
+                })[0];
+                //DATABUNGALOWS=dataJSON;
+                if (!databungalow) {
+                    alert("Bungalow No Disponible");
+                    location.href = "MantenimientoBungalows1.html";
+                }
+                var imgsrcBung = ["img/Bungalows/TipoBungalows/1_Lorena.png",
+                    "img/Bungalows/TipoBungalows/2_Club.png",
+                    "img/Bungalows/TipoBungalows/3_Class.png",
+                    "img/Bungalows/TipoBungalows/4_king.png",
+                    "img/Bungalows/TipoBungalows/5_KingCharles.png"];
+
+                completarNombreBungalow(databungalow.tipoBungalow.nombre + " " + databungalow.id);
+                completarSede(databungalow.sede.nombre);
+                completarImagen(imgsrcBung[databungalow.tipoBungalow.id - 1]);
+                completarDetalles(databungalow.tipoBungalow.nombre, databungalow.precio, databungalow.capacidad)
+                completarCaracteristicas(databungalow.caracteristicas);
+                $("#buttonReservar").click(function () {
+                    var data = {
+                        "fechaReserva":  Date.parse($("#date-picker-DiaEntrada")[0].value),
+                        "fechaFinal": Date.parse($("#date-picker-DiaSalida")[0].value),
+                        "serviciosBungalows": [],
+                        "bungalow": databungalow
+                    };
+                    $http.post("/api/reservasbungalow", data).success(function (data2, status) {
+                        alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es "+data2.id);
+                        location.href="mantenimientoBungalows1.html"
+                    });
+                });
+            });
+        });
+
+    </script>
 </head>
-<body>
+<body ng-controller="ReservaController">
 <div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
@@ -69,25 +227,29 @@
             <div id="elegirEstadia" class="form-group">
                 <label class="control-label col-xs-4">Día de Entrada</label>
                 <div class="input-group input-append date">
-                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
-                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
 
                 <br>
                 <label class="control-label col-xs-4">Dia de Salida</label>
                 <div class="input-group input-append date">
-                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
-                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
 
             </div>
             <div class="form-group">
                 <div class="col-xs-offset-4 col-xs-10">
-                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%" onclick="location.href='BungalowInformacion.html';">
-                    <input type="" class="btn btn-primary" value="Reservar" style="width:22%" onclick="alert('Tu reserva fue exitosa');location.href='loginUsuario.html';">
-                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
+                    <input type="" class="btn btn-primary" value="Detalles" style="width:22%"
+                           onclick="location.href='BungalowInformacion.html';">
+                    <input id="buttonReservar" type="" class="btn btn-primary" value="Reservar" style="width:22%">
+                    <input type="" class="btn btn-primary" value="Cancelar" style="width:22%"
+                           onclick="location.href='MantenimientoBungalows.html';">
                 </div>
             </div>
         </form>
@@ -124,49 +286,26 @@
 <script type="text/javascript">
     $(".date-picker").datepicker();
     $("#date-picker-DiaEntrada").datepicker("setDate", new Date());
-    var diaEntrada=new Date();diaEntrada.setDate(diaEntrada.getDate()+1);
+    var diaEntrada = new Date();
+    diaEntrada.setDate(diaEntrada.getDate() + 1);
     $("#date-picker-DiaSalida").datepicker("setDate", diaEntrada);
 </script>
+
 <script type="text/javascript">
-    function getID() {
-        var href = this.location.href;
-        return href.match(/\?id\=(\d+)/)[1];
-    }
-    function completarNombreBungalow(nombreBungalow){
-        $("#NombreBungalow").html(nombreBungalow);
-    }
-    function completarSede(sede){
-        $($("#escogerSedeBungalows").find($("label"))[1]).html(sede);
-    }
-    window.onload=function(){
-        databungalow=dataJSON[getID()];
-        if(!databungalow){
-            alert("Bungalow No Disponible");
-            location.href="MantenimientoBungalows1.html";
-        }
-        completarNombreBungalow(databungalow.tipoBungalow+" "+databungalow.NroBungalow);
-        completarSede(databungalow.sede);
-        completarImagen(databungalow.imgsrc);
-        completarDetalles(databungalow.tipoBungalow,databungalow.precio,databungalow.capacidad)
-        completarCaracteristicas(databungalow.caracteristicas);
-    }
-    function completarImagen(imgsrc){
-        $("#imgBungalow").find($("img"))[0].src=imgsrc;
-    }
-    function completarDetalles(tipoBungalow,precio,capacidad){
-        var divs=$("#detallesBungalow").find($("div"));
-        $(divs[0]).find($("h3")).html(tipoBungalow);
-        $(divs[1]).find($("h4")).html("Precio: S/."+precio);
-        $(divs[2]).find($("h4")).html("Capacidad: "+capacidad+" Personas");
-    }
-    function completarCaracteristicas(caracteristicas){
-        var lista=$("#detallesBungalow").find($("ul"));
-        var elemlista=lista.find($("li"));
-        for(i in elemlista){
-            $(elemlista[i]).html(caracteristicas[i])
-        }
+    window.onload = function () {
+        /*databungalow=dataJSON[getID()];
+         if(!databungalow){
+         alert("Bungalow No Disponible");
+         location.href="MantenimientoBungalows1.html";
+         }
+         completarNombreBungalow(databungalow.tipoBungalow+" "+databungalow.NroBungalow);
+         completarSede(databungalow.sede);
+         completarImagen(databungalow.imgsrc);
+         completarDetalles(databungalow.tipoBungalow,databungalow.precio,databungalow.capacidad)
+         completarCaracteristicas(databungalow.caracteristicas);*/
     }
 </script>
+
 
 </body>
 </html>

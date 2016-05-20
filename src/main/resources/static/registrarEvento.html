@@ -1,233 +1,134 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app2">
+<html lang="en">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Registrar Evento</title>
+    <title>ClubSis</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
-    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
-    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
-    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
-    <link rel="stylesheet" type="text/css" media="screen"
-          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-    <script type="text/javascript"
-            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
-    <script type="text/javascript">
-        //igual que en MantenimientoEventos.html
-        var dataJSON = [
-            {
-                id: "0",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Santa Anita",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Libre"
-            },
-            {
-                id: "1",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Chorrillos",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Libre"
-            },
-            {
-                id: "2",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Jesus Maria",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Reservado"
-            }
-        ];
-    </script>
-    <script type="text/javascript">
-        //app script
-        var app2 = angular.module('app2', []);
-    </script>
-    <script type="text/javascript">
-        var dataeventos, dataevento;
-        app2.controller('EdicionEventoController', function ($scope, $http) {
-            $("#Guardar").click(function () {
-                var cadTar = $("#tarifas").val().split(/[:;]/);
-                var tarifas = {};
-                for (var i = 0; i < cadTar.length; i += 2)
-                    if (cadTar[i] != "")tarifas[cadTar[i]] = cadTar[i + 1];
-                var data = {
-/*                    "id": dataevento.id,
-                    "imgsrc": dataevento.imgsrc,*/
-                    "nombre": $("#nombre").val(),
-                    "sede": $("#sede").find($("option"))[$("#sede").val()].innerText,
-                    "empresa": $("#codEmpresa").val(),
-                    "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
-                    "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
-                    "inicioInscripciones": Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                    "finInscipciones": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                    "precios": tarifas,
-                    "reglamento": $("#reglamento").val(),
-                    "estado": $("#estado").find($("option"))[$("#estado").val()].innerText,
-                };
-                $http.post("/api/reservasbungalow", data).success(function (data2, status) {
-                    alert("Tu registro de Evento "+ data2.id+" fue hecha exitosamente.");
-                    location.href = "MantenimientoEventos.html"
-                });
-            });
-        });
-
-    </script>
-
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
 </head>
-<body ng-controller="EdicionEventoController">
+<body>
 <div id="headerUsuario"></div>
 <div class="container">
-    <!--------------------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------------------->
-    <h2 id="idEvento">Registro de Evento</h2>
+    <h2>Inscripción a Evento</h2>
     <hr>
-    <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
-        <div id="nombreBungalow" class="form-group">
-            <label class="control-label col-xs-4">Nombre Evento</label>
-            <div class="input-group col-xs-8">
-                <input id="nombre" type="text" class="form-control col-xs-8" value=""/>
-            </div>
-        </div>
-        <div id="escogerSedeBungalows" class="form-group">
-            <label class="control-label col-xs-4">Escoger Sede</label>
-            <div class="col-xs-8">
-                <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Estado</label>
-            <div class="col-xs-8">
-                <select class="form-control col-xs-8" id="estado">
-                    <option>Libre</option>
-                    <option>Reservado</option>
-                    <option>En Mantenimiento</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Inicio</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
-                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
-                            class="glyphicon glyphicon-calendar"></span>
-                    </label>
+    <div class="row">
+        <div>
+            <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
+                <!--<form class="form-horizontal col-sm-5 col-sm-offset-1" role="form" style="background-color:whitesmoke">-->
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="Sede">Evento:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" disabled id="Sede" placeholder="Evento">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Fin</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6"/>
-                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
-                            class="glyphicon glyphicon-calendar"></span>
-                    </label>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="event">Tipo de evento:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" disabled id="event" placeholder="Tipo de Evento">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Inicio de Inscripcion</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-InicioInscripcion" type="text" class="date-picker form-control col-xs-6"/>
-                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
-                            class="glyphicon glyphicon-calendar"></span>
-                    </label>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="dia">Dia</label>
+                    <div class="col-xs-7 date">
+                        <div class="input-group input-append date">
+                            <input id="dia" type="text" class="date-picker form-control col-xs-6"/>
+                            <label for="date-picker-dia" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-12">
-            <div class="form-group">
-                <label class="control-label col-md-4">Fin de Inscripcion</label>
-                <div class="input-group input-append date col-md-8">
-                    <input id="date-picker-FinInscripcion" type="text" class="date-picker form-control col-xs-6"/>
-                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
-                            class="glyphicon glyphicon-calendar"></span>
-                    </label>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Hora Inicio</label>
+                    <div class="col-xs-7 date">
+                        <div class="input-group input-append date">
+                            <input id="horaFin" type="text" class="date-picker form-control col-xs-6"/>
+                            <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <!--<div class="input-group bootstrap-timepicker timepicker">-->
+                        <!--<input id="timepicker1" type="text" class="form-control input-small">-->
+                        <!--<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>-->
+                    <!--</div>-->
+
+                    <!--<script type="text/javascript">-->
+                        <!--$('#timepicker1').timepicker();-->
+                    <!--</script>-->
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Hora Fin</label>
+                    <div class="col-xs-7 date">
+                        <div class="input-group input-append date">
+                            <input id="horaFin" type="text" class="date-picker form-control col-xs-6"/>
+                            <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="servicious">Lista de Servicios:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" id="servicious">
+                            <option value="one">Servicio 1</option>
+                            <option value="two">Servicio 2</option>
+                            <option value="three">Servicio 3</option>
+                            <option value="four">Servicio 4</option>
+                            <option value="five">Servicio 5</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4" for="radio">Invitar personas</label>
+                    <div class="col-sm-5" id="radio">
+                        <label class="radio-inline"><input type="radio" name="optradio">Si</label>
+                        <label class="radio-inline"><input type="radio" name="optradio">No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-6 col-sm-7">
+                        <button type="participar" class="btn btn-info"
+                        onclick="location.href='loginUsario.html'">Participar</button>
+
+                        <button type="cancelar" class="btn btn-info" onclick="location.href='MantenimientoEventos.html'">Cancelar</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div id="tarifaEvento" class="form-group">
-            <label class="control-label col-xs-4">Tarifas de Evento</label>
-            <div class="input-group col-xs-8">
-                <input id="tarifas" type="text" class="form-control col-xs-8" placeholder="tar1;tar2;tar3;"
-                       value="tar1;"/>
-            </div>
+
+        <div class="col-sm-offset-1 col-sm-5" align="center">
+            <h1>Happy New Year!</h1>
+            <img src="img/Eventos/newYear.jpg" class="img-responsive img-circle" alt="Cinque Terre" width="300"
+                 height="300">
+            <br>
+            <p class="text-info">En este evento celebramos la llegada del año nuevo. ¿Qué esperas? Ven con todas
+            tus amistades a divertirte en este gran evento.</p>
         </div>
-        <div id="Reglamento1" class="form-group">
-            <label class="control-label col-xs-4">Reglamento</label>
-            <div class="input-group col-xs-8">
-                <input id="reglamento" type="text" class="form-control col-xs-8" placeholder="" value=""/>
-            </div>
-        </div>
-        <div id="Empresa" class="form-group">
-            <label class="control-label col-xs-4">Codigo de Empresa</label>
-            <div class="input-group col-xs-8">
-                <input id="codEmpresa" type="text" class="form-control col-xs-8" value="0000000"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" value="Mantener" style="width:22%"
-                       onclick="location.href='MantenimientoBungalows.html';">
-                <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%"
-                       onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%"
-                       onclick="location.href='BungalowInformacion.html';">
-            </div>
-        </div>
-    </form>
-    <div id="detallesBungalows" class="mitadDerecha">
-        <div id="BungTipo2" class="show">
-            <img id="imagenEvent" class="imgBungalow"
-                 style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
-                 src="img/Eventos/newYear.jpg">
-        </div>
-        <div></div>
     </div>
-    <!--------------------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------------------->
 </div>
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
-<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
+    $('.date-picker').datepicker({
+        format: 'dd/MM/yyyy',
+        language: 'es-PE'
+    });
 </script>
 </body>
 </html>

@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
@@ -19,104 +18,6 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
-    <script type="text/javascript">
-        //igual que en MantenimientoEventos.html
-        var dataJSON = [
-            {
-                id: "0",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Santa Anita",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Libre"
-            },
-            {
-                id: "1",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Chorrillos",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Libre"
-            },
-            {
-                id: "2",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Jesus Maria",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Reservado"
-            }
-        ];
-
-        function completaridEvento(id){}
-        function completarNombre(nombre){}
-        function completarFechas(fechaInicio,fechaFin,inicioInscripciones,finInscipciones){}
-        function completarTarifas(precios){}
-        function completarRegYEmpresa(reglamento,empresa){}
-        function completarImagen(imgsrcEvents[id]){}
-        function seleccionarEstado(estado){}
-        function seleccionarSede(sede){}
-    </script>
-    <script type="text/javascript">
-        //app script
-        var app2 = angular.module('app2', []);
-    </script>
-    <script type="text/javascript">
-        var dataeventos, dataevento;
-        app2.controller('RegistroEventoController', function ($scope, $http) {
-            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
-                //dataeventos = data;//eso deberia ser pero como no tengo link
-                //lo pongo harcodeado que esta en la linea 34
-                dataeventos=dataJSON;
-                dataevento = $.grep(dataeventos, function (e) {
-                    return e.id == getID();
-                })[0];
-                if (!dataevento) {
-                    alert("Evento No Disponible");
-                    location.href = "MantenimientoEventos.html";
-                }
-                var imgsrcEvents = ["img/Bungalows/TipoBungalows/1_Lorena.png",
-                    "img/Bungalows/TipoBungalows/2_Club.png",
-                    "img/Bungalows/TipoBungalows/3_Class.png",
-                    "img/Bungalows/TipoBungalows/4_king.png",
-                    "img/Bungalows/TipoBungalows/5_KingCharles.png"];
-
-                /*
-                 * {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                 fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                 precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},*/
-                completaridEvento(dataevento.id);
-                completarNombre(dataevento.nombre);
-                completarFechas(dataevento.fechaInicio,dataevento.fechaFin,dataevento.inicioInscripciones,dataevento.finInscipciones);
-                completarTarifas(dataevento.precios);
-                completarRegYEmpresa(dataevento.reglamento,dataevento.empresa);
-                completarImagen(imgsrcEvents[dataevento.id]);
-                seleccionarEstado(dataevento.estado);
-                seleccionarSede(dataevento.sede);
-            });
-        });
-
-    </script>
-
-
 </head>
 <body>
 <div id="headerUsuario"></div>

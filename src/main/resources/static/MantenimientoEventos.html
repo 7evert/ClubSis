@@ -1,94 +1,35 @@
 <!DOCTYPE html>
-<html lang="es" ng-app="app">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>ClubSis-Mantenimiento Eventos</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
-    <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
     <script type="text/javascript">
-        function cambiarDeUsuario(accionesXElemento,nuevoUsuario,Agregar,funciones){
-            if(nuevoUsuario==actualUsuario)return;
-            actualUsuario=nuevoUsuario;
-            eliminarBotones();
-            agregarBotonAgregar(accionAgregar,Agregar,nuevoUsuario);
-            agregarBotonesAListas(accionesXElemento,funciones,nuevoUsuario);
-        }
-
-        var DATAEVENTOS;
         /* datos generales */
-        function getID(target){
-            var id=target.parentElement.parentElement.parentElement.parentElement.getAttribute("ID");
-            return id.replace(/\D/g,'');
-        }
-        function Ver(e){
-            e.preventDefault();
-            location.href="EventInformacion.html?id="+getID(e.target);
-        }
-        function Editar(e){location.href="edicionEventos.html?id="+getID(e.target);event.preventDefault();}
-        function Eliminar(e){location.href="loginUsuario.html";event.preventDefault();}
-        function Participar(e){location.href="participarEvento.html?id="+getID(e.target);event.preventDefault();}
+        function Ver(){location.href="EventInformacion.html";event.preventDefault();}
+        function Editar(){location.href="edicionEventos.html";event.preventDefault();}
+        function Eliminar(){location.href="loginUsuario.html";event.preventDefault();}
+        function Reservar(){location.href="reservaEventos.html";event.preventDefault();}
 
-        function Agregar(e){location.href="registrarEvento.html";event.preventDefault();}
-        var funciones=[Ver,Participar,Editar,Eliminar];
-
-        //json HARDCODEADO
-        //la misma data esta en reservaBungalows1.html
-        var accionesXElemento=[
-            /*ver,editar,eliminar,reservar,registrar*/
-            //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-            ["Ver","Participar","Editar","Eliminar"],//ADIMINISTRADOR
-            //["Reservar","Anular","Modificar"],//usuario:Administradio
-            ["Ver","Participar"]];//usuario:Socio
-        var accionAgregar=[["Registrar"],//usuario:ADMINISTRADOR
-            []];//usuario:Socio
-
-        var dataJSON=[
-            {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-            {id:"1",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},
-            {id:"2",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"}
-        ];
-
-    </script>
-    <script type="text/javascript">
-        //app script
-        var app = angular.module('app', []);
-    </script>
-    <script type="text/javascript">
-        app.controller('EventosController', function ($scope, $http) {
-            $http.get('api/tarifaeventos').success(function (data) {
-                //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
-                //lo pongo harcodeado que esta en la linea 34
-                alert(data);
-                DATAEVENTOS=dataJSON;
-                llenarListaBungalows1(DATAEVENTOS);
-                cambiarDeUsuario(accionesXElemento,administrador,Agregar,funciones);
-                mostrarNext5();
-            })
-        });
+        function Agregar(){location.href="registrarEvento.html";event.preventDefault();}
+        var funciones=[Ver,Editar,Eliminar,Reservar];
     </script>
 </head>
-<body ng-controller="EventosController">
+<body>
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--example link: http://www.trivago.pe/?iPathId=86439&iGeoDistanceItem=0&aDateRange[arr]=2016-05-08&aDateRange[dep]=2016-05-09&iRoomType=7&cpt=8643903&iViewType=0&bIsSeoPage=false&bIsSitemap=false    -->
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
     <div>
         <div class="form-group"><!--filtrado-->
-            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE EVENTOS
+            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE Eventos
                 <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
             </h4>
 
@@ -96,27 +37,32 @@
                 <div class="row">
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="tipo" class="col-md-4 control-label">Sede</label>
+                            <label for="tipo" class="col-md-4 control-label">Event</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="sede">
-                                    <option>Elegir</option>
-                                    <option>Chosica</option>
-                                    <option>Namekusein</option>
-                                    <option>Planeta del gran Kaiosama</option>
-                                    <option>Planeta Tierra</option>
+                                    <option>Nuevos Anos</option>
+
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="estado" class="col-md-4 control-label">Estado</label>
+                            <label for="tipo" class="col-md-4 control-label">Estado</label>
                             <div class="col-md-8">
-                                <select class="form-control" id="estado">
+                                <select class="form-control" id="tipo">
                                     <option>Libre</option>
                                     <option>Reservado</option>
                                     <option>En Mantenimiento</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de Evento">
                             </div>
                         </div>
                     </div>
@@ -128,30 +74,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <div class="col-md-12" style="visibility: hidden;">
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                        </div>
-                        <!--<div class="form-group">
-                            <label for="descripcion" class="col-md-12 control-label" style="visibility: hidden;">...</label>
-                        </div>-->
-                    </div>
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Apartir de</label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Antes de</label>
+                            <label class="control-label col-md-4">Apartir de</label>
                             <div class="input-group input-append date col-md-8">
                                 <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
                                 <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
@@ -162,26 +88,14 @@
 
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Inscripcion Inicio</label>
+                            <label class="control-label col-md-4">Antes de</label>
                             <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-InscripcionInicio" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-InscripcionInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Inscripcion Fin</label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-InscripcionFin" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-InscripcionFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="col-sm-7 col-lg-7">
                     </div>
                     <div class="col-sm-5 col-lg-5">
@@ -205,41 +119,55 @@
             </span><br>-->
         </div>
         <div id="listaBungalows" class="list-group list-group-flush">
-      <!--      <a href="#" class="list-group-item hidden">
+            <!--
+            <a href="#" class="list-group-item hidden">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="panel-more1 imagenBungalow">
-                            <img src="img/Eventos/newYear.jpg" />
+                            <img src="img/bungalows/TipoBungalows/1_Lorena.png" />
                         </div>
                         <div class="panel-info" style="padding-left: 2em;">
-                            <p><h1><strong>Fiesta de Año Nuevo 2016</strong></h1></p>
-                            <p>Evento 1378</p>
-                            <p>
+                            <p><h1><strong>Bungalow Lorena</strong></h1></p>
+                            <p></p>
+                            <p>Sedes disponibles:<br/>
                                 <span class="bg-info">
                                     Chorrillos
+                                </span>&nbsp;
+                                <span class="bg-info">
+                                    Playa
+                                </span>&nbsp;
+                                <span class="bg-info">
+                                    Santa Anita
                                 </span>
                             </p>
-                            <h3>Empresa Nestle</h3>
+                            <h3>Capacidad</h3>
+                            <h2>6 Personas</h2>
                         </div>
                         <div class="panel-more1" style="padding-left: 2em;">
+                            <p><h1>Precio: S/. 80.00</h1></p>
                             <div>
-                                <h4>Inicio de Inscripciones: 17/07/2016</h4>
-                                <h4>Fin de Inscripciones: 14/08/2016</h4>
-                                <h4>Fecha Inicio: 17/08/2016</h4>
-                                <h4>   Fecha Fin: 17/08/2016</h4>
+                                <p><h2>Caracteristicas:</h2></p>
+                                <ul>
+                                    <li><span>1 Habitacion Personal</span></li>
+                                    <li><span>2 Camarotes</span></li>
+                                    <li><span>1 Cocina</span></li>
+                                    <li><span>1 Sala</span></li>
+                                    <li><span>1 Baño</span></li>
+                                </ul>
                             </div>
-                            <h3>Asociado: S/. 50.00 - Inivitado: S/.80.00</h3>
                         </div>
-                        <div class="panel-more1 social-box botonesAcciones">
-                            <button tabindex="3" value="Ver" class="btn btn-primary rght-box accionLista" target="_blank">Ver</button>
-                            <button tabindex="3" value="Reservar" class="btn btn-primary rght-box accionLista" target="_blank">Reservar</button>
-                            <button tabindex="3" value="Editar" class="btn btn-primary rght-box accionLista" target="_blank">Editar</button>
-                            <button tabindex="3" value="Eliminar" class="btn btn-primary rght-box accionLista" target="_blank">Eliminar</button>
+                        <div class="social-box rght-box">
+                            <label class="accionLista"><label>Modificar</label></label>&nbsp;
+                            <label class="accionLista"><label>Anular</label></label>&nbsp;
+                            <label class="accionLista"><label>Reservar</label></label>&nbsp;
                         </div>
                     </div>
                 </div>
-            </a>-->
-
+            </a>
+            <a href="#" id="botonMostrarMas" class="list-group-item">
+                <h1>Mostrar Mas</h1>
+            </a>
+            -->
         </div>
     </div>
 </div>
@@ -251,103 +179,36 @@
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript" src="js/generarElementoBungalow.js"></script>
-<script type="text/javascript">
-    /*
-     {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-     fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-     precios:{asociado:"50.00",invitado:"80.00"}}
-    * */
-    function retornaPanelBody2(databungalow){
-        var panel = $('<div></div>').attr({
-            class: 'panel-body',
-        });
-        var b=new Array();
-        b[0]=retornaImagenBungalow1(databungalow.imgsrc);
-        b[1]=retornaPanelInfo1(databungalow.id,databungalow.nombre,databungalow.sede,databungalow.empresa);
-        b[2]=retornCaracteristicas1(databungalow.fechaInicio,databungalow.fechaFin,databungalow.inicioInscripciones,
-                databungalow.finInscipciones,databungalow.precios);
-        for(var j=0;j<b.length;j++)
-            panel.append(b[j]);
-        return panel;
-    }
-
-    function retornaImagenBungalow1(imgsrc){
-        return $('<div></div>').attr({
-            class: 'panel-more1 imagenBungalow',
-        }).append($('<img />').attr({
-            src:imgsrc
-        }));
-    }
-
-    function retornaPanelInfo1(id,nombre,sede,empresa){
-        var panelInfo=$('<div></div>').attr({
-            class: 'panel-info',
-            style: "padding-left: 2em;"
-        });
-        var b=new Array();
-        b[0]=retornaTitulo1(nombre);
-        b[1]=$('<p></p>').html("Evento "+id);
-        b[2]=retornaSedes1(sede);
-        b[3]=$('<h3></h3>').html('Empresa '+empresa);
-        for(var j=0;j<b.length;j++)
-            panelInfo.append(b[j]);
-        return panelInfo;
-    }
-
-    function retornaTitulo1(t){
-        return $('<h1></h1>').append($("<strong></strong>").html(t));
-    }
-    function retornaSedes1(sede){
-        if(sede.length==0)return $('<p></p>').html("No Sedes Disponibles");
-        else {
-            var parrafo=$('<p></p>');
-            parrafo.append($("<span></span>").attr({class:"bg-info"}).html(sede));
-            return parrafo;
-        }
-    }
-
-    function retornCaracteristicas1(fechaInicio,fechaFin,inicioInscripciones,finInscipciones,precios){
-        var caracteristicas=$('<div></div>').attr({
-            class: 'panel-more1',
-            style: "padding-left: 2em;"
-        });
-        var b=new Array();
-        b[0]=retornaMasCaracteristicas1(fechaInicio,fechaFin,inicioInscripciones,finInscipciones);
-        b[1]=retornaPrecios(precios);//$("<h3></h3>").html("Precio: S/. "+precio);
-        for(var j=0;j<b.length;j++)
-            caracteristicas.append(b[j]);
-        return caracteristicas;
-    }
-
-    function retornaMasCaracteristicas1(fechaInicio,fechaFin,inicioInscripciones,finInscipciones){
-        var div=$('<div></div>');
-        var b=new Array();
-        b[0]=$("<h4></h4>").html("Inicio de Inscripciones: "+inicioInscripciones);
-        b[1]=$("<h4></h4>").html("Fin de Inscripciones: "+finInscipciones);
-        b[2]=$("<h4></h4>").html("Fecha Inicio: "+fechaInicio);
-        b[3]=$("<h4></h4>").html("Fecha Fin: "+fechaFin);
-        for(var j=0;j<b.length;j++)
-            div.append(b[j]);
-        return div;
-    }
-
-    function retornaPrecios(precios) {
-        var str="";
-        for(var x in precios) {
-            str += (x + ": S/" + precios[x] + " - ");
-        }
-        str = str.substring(0,str.length-2);
-        return $("<h3></h3>").html(str);
-    }
-</script>
+<script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
     $(".date-picker").datepicker();
+    window.onload=function(){
+        /*todos los elementos de la lista esta incluidos dinamicamente*/
+        /*si desean cambiaar entren al codigo js/generarElementoBungalow.js **/
+        /** y cambien solo las variables imagen titulo,sedes, caracteristicas, precio**/
+        /**la plantilla estatica se encuentra comentada en esta misma pagina**/
+        /********* DENTRO DE : div id="listaBungalows" *************/
+        llenarListaBungalows();
+
+        /**************** de acuerdo al usuario que se coloque se cambian los botones****/
+        /*******tener en cuenta que debe estar  :
+         *un #top-mostrar para el  boton agregar(unico x pagina)
+         *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
+        /*******mas detalles en js/plantillaBotonesAccion.js**********/
+
+        cambiarDeUsuario(administrador,Agregar,funciones);
+
+        /***Para mostrar la lista de  5 en 5************/
+        /*******mas detalles en js/plantillaBotonesAccion.js**********/
+        mostrarNext5();
+    }
 </script>
 </body>
 </html>
