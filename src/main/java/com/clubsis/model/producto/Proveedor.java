@@ -22,20 +22,19 @@ public class Proveedor {
     private String numContacto;
     private String direccion;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedor")
     private Set<Producto> productos;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<OrdenCompra> ordenes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
     private Set<Sede> sedes;
 
     protected Proveedor() {
     }
 
-    public Proveedor(Integer idProveedor, String nombre, String descripcion, String numContacto, String direccion) {
-        this.idProveedor = idProveedor;
+    public Proveedor(String nombre, String descripcion, String numContacto, String direccion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numContacto = numContacto;

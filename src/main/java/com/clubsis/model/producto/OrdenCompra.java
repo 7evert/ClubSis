@@ -82,13 +82,13 @@ public class OrdenCompra {
         this.montoTotal = montoTotal;
     }
 
-    public Proveedor getProveedor() {
+   /* public Proveedor getProveedor() {
         return proveedor;
     }
 
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
-    }
+    }*/
 
     public Sede getSede() {
         return sede;

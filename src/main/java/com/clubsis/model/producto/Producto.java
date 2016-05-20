@@ -19,7 +19,7 @@ public class Producto {
     private Double precioVentaUnitario;
 
     @ManyToMany
-    private Proveedor proveedor;
+    private Set<Proveedor> proveedor;
 
     @ManyToMany
     private Set<OrdenCompra> ordenes;
@@ -66,11 +66,12 @@ public class Producto {
         this.precioVentaUnitario = precioVentaUnitario;
     }
 
-    public Proveedor getProveedor() {
+    /*public Proveedor getProveedor() {
         return proveedor;
     }
 
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }
+*/
 }
