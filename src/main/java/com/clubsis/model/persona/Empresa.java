@@ -5,6 +5,7 @@ import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Set;
 public class Empresa {
     @Id
     @GeneratedValue
-    private Integer idEmpresa;
+    private Integer id;
     private String razonSocial;
     private String ruc;
     private String representante;
@@ -23,32 +24,26 @@ public class Empresa {
     private String correoElectronico;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="empresas")
-    private Set<Evento> eventos;
+    private Set<Evento> eventos = new HashSet<Evento>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<ReservaInstalacion> reservasInstalacion;
+    private Set<ReservaInstalacion> reservasInstalacion=new HashSet<ReservaInstalacion>();
 
     protected Empresa() {
     }
 
-    public Empresa(Integer idEmpresa, String razonSocial, String ruc, String representante, String telefono, String correoElectronico, String celularContacto) {
-        this.idEmpresa = idEmpresa;
+    public Empresa(String razonSocial, String ruc, String representante, String celularContacto, String telefono, String correoElectronico, Set<Evento> eventos, Set<ReservaInstalacion> reservasInstalacion) {
         this.razonSocial = razonSocial;
         this.ruc = ruc;
         this.representante = representante;
+        this.celularContacto = celularContacto;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.celularContacto = celularContacto;
+        this.eventos = eventos;
+        this.reservasInstalacion = reservasInstalacion;
     }
 
-    public Integer getIdEmpresa() {
-        return idEmpresa;
-    }
-
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
-    }
 
     public String getRazonSocial() {
         return razonSocial;
@@ -96,5 +91,29 @@ public class Empresa {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
+    public Set<ReservaInstalacion> getReservasInstalacion() {
+        return reservasInstalacion;
+    }
+
+    public void setReservasInstalacion(Set<ReservaInstalacion> reservasInstalacion) {
+        this.reservasInstalacion = reservasInstalacion;
     }
 }

@@ -20,21 +20,25 @@ public class Sede {
     private Integer id;
     private String nombre;
     private String direccion;
+    private String descripcion;
 
     @OneToMany(mappedBy = "sede")
     @JsonIgnore
     private Set<Bungalow> bungalows;
 
     @OneToMany(mappedBy ="sede")
+    @JsonIgnore
     private Set<Evento> eventos = new HashSet<>();
 
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, Set<Bungalow> bungalows) {
+    public Sede(String nombre, String direccion, String descripcion, Set<Bungalow> bungalows, Set<Evento> eventos) {
         this.nombre = nombre;
         this.direccion = direccion;
+        this.descripcion = descripcion;
         this.bungalows = bungalows;
+        this.eventos = eventos;
     }
 
     public Integer getId() {
@@ -61,11 +65,27 @@ public class Sede {
         this.direccion = direccion;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Set<Bungalow> getBungalows() {
         return bungalows;
     }
 
     public void setBungalows(Set<Bungalow> bungalows) {
         this.bungalows = bungalows;
+    }
+
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
     }
 }

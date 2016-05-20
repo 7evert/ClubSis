@@ -22,4 +22,5 @@ public class ServicioSedes {
     public Sede crearSede(Sede sede) {
         return sedeRepository.saveAndFlush(sede);
     }
+    public Sede buscarSede(Integer id){  return sedeRepository.findOne(id);}
 }

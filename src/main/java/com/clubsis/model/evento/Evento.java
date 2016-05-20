@@ -2,9 +2,9 @@ package com.clubsis.model.evento;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.Set;
 public class Evento {
     @Id
     @GeneratedValue
-    private Integer idEvento;
+    private Integer id;
     private String descripcion;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInicio;
@@ -35,40 +35,47 @@ public class Evento {
     private String nombre;
 
     @ManyToMany
-    private Set<TarifaEvento> tarifaEventos = new HashSet<TarifaEvento>();
+    private Set<TarifaEvento> tarifaEventos = new HashSet<>();
 
-
+    @JsonIgnore
     @ManyToMany
-    private Set<Persona> personas;
+    private Set<Persona> personas = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany
-    private Set<Empresa> empresas;
+    private Set<Empresa> empresas = new HashSet<>();
 
     // este es el OWNER de la relación con sede
     @ManyToOne
-    @NotNull
     private Sede sede; // es un campo autor_id en la base de datos
 
     protected Evento() {
     }
 
-    public Evento(Integer idEvento, Date fechaInicio, String descripcion, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, Date fechaFinInscripcion) {
-        this.idEvento = idEvento;
-        this.fechaInicio = fechaInicio;
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<Persona> personas, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
         this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.reglamento = reglamento;
+        this.url = url;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.isGratuito = isGratuito;
+        this.nombre = nombre;
+        this.isPublico = isPublico;
+        this.personas = personas;
+        this.tarifaEventos = tarifaEventos;
+        this.empresas = empresas;
+        this.sede = sede;
     }
 
-    public Integer getIdEvento() {
-        return idEvento;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdEvento(Integer idEvento) {
-        this.idEvento = idEvento;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -135,15 +142,6 @@ public class Evento {
         this.url = url;
     }
 
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Integer getIsGratuito() {
         return isGratuito;
     }
@@ -160,7 +158,43 @@ public class Evento {
         this.isPublico = isPublico;
     }
 
-    public void setTarifa(TarifaEvento tarifa){
-        tarifaEventos.add(tarifa);
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Set<TarifaEvento> getTarifaEventos() {
+        return tarifaEventos;
+    }
+
+    public void setTarifaEventos(Set<TarifaEvento> tarifaEventos) {
+        this.tarifaEventos = tarifaEventos;
+    }
+
+    public Set<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Set<Persona> personas) {
+        this.personas = personas;
+    }
+
+    public Set<Empresa> getEmpresas() {
+        return empresas;
+    }
+
+    public void setEmpresas(Set<Empresa> empresas) {
+        this.empresas = empresas;
+    }
+
+    public Sede getSede() {
+        return sede;
+    }
+
+    public void setSede(Sede sede) {
+        this.sede = sede;
     }
 }

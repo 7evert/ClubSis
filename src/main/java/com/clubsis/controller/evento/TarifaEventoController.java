@@ -2,8 +2,10 @@ package com.clubsis.controller.evento;
 
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.evento.TarifaEvento;
+import com.clubsis.model.sede.Sede;
 import com.clubsis.repository.evento.TarifaEventoRepository;
 import com.clubsis.service.ServicioEventos;
+import com.clubsis.service.ServicioSedes;
 import com.clubsis.service.ServicioTarifas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,8 @@ public class TarifaEventoController {
     private ServicioTarifas servicioTarifas;
     @Autowired
     private ServicioEventos servicioEvento;
-
+    @Autowired
+    private ServicioSedes servicioSede;
     @RequestMapping(method=RequestMethod.GET)
     List<TarifaEvento> list() { return servicioTarifas.mostrarTarifas();}
 
@@ -36,10 +39,12 @@ public class TarifaEventoController {
         return servicioTarifas.actualizarTarifa(id, tarifa);
     }
 
-    @RequestMapping(value="/{id}/eventos",method = RequestMethod.PUT)
-    public Evento agregarEvento(@PathVariable Integer id, @RequestBody Evento evento){
+    @RequestMapping(value="/{idSede}/{id}/eventos",method = RequestMethod.POST)
+    public Evento agregarEvento(@PathVariable Integer idSede, @PathVariable Integer id,  @RequestBody Evento evento){
         TarifaEvento tarifa= servicioTarifas.buscarTarifa(id);
-        evento.setTarifa(tarifa);
+        Sede sede = servicioSede.buscarSede(idSede);
+        evento.setSede(sede);
+        evento.getTarifaEventos().add(tarifa);
         return servicioEvento.crearEvento(evento);
     }
 }

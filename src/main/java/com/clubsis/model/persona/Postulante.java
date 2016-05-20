@@ -1,11 +1,10 @@
 package com.clubsis.model.persona;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,12 +14,13 @@ import java.util.Set;
 public class Postulante {
     @Id
     @GeneratedValue
-    private Integer idPostulante;
+    private Integer id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String tipoDocumento;
     private Integer numeroDocumento;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaNacimiento;
     private String estadoCivil;
     private Integer numeroHijos;
@@ -32,20 +32,24 @@ public class Postulante {
     private Double ingresosMensuales;
     private String nombreEmpresa;
     private String correo;
-    private String observaciones;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaPostulacion;
-    @ManyToMany
-    private Set<Socio> socios;
+    private Boolean esAprobado;
+    private Boolean esActivo;
+    private Boolean esPeriodoObjeciones;
+    //private Set<String> observaciones; CAMBIAR LA RELACION MANY TO MANY Y PONERLO EN TABLA CRUZADA
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="postulantes")
+    private Set<Socio> socios=new HashSet<Socio>();;
 
     protected Postulante() {
     }
 
-    public Postulante(Integer idPostulante, String nombre, String apellidoPaterno, String tipoDocumento, Integer numeroDocumento, String apellidoMaterno, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, String observaciones, Date fechaPostulacion) {
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, String nombreEmpresa, Double ingresosMensuales, Boolean esAprobado, String correo, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
-        this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
         this.apellidoMaterno = apellidoMaterno;
+        this.numeroDocumento = numeroDocumento;
+        this.tipoDocumento = tipoDocumento;
         this.fechaNacimiento = fechaNacimiento;
         this.estadoCivil = estadoCivil;
         this.direccion = direccion;
@@ -54,38 +58,16 @@ public class Postulante {
         this.telefonoTrabajo = telefonoTrabajo;
         this.celular = celular;
         this.profesion = profesion;
-        this.ingresosMensuales = ingresosMensuales;
         this.nombreEmpresa = nombreEmpresa;
+        this.ingresosMensuales = ingresosMensuales;
+        this.esAprobado = esAprobado;
         this.correo = correo;
-        this.observaciones = observaciones;
         this.fechaPostulacion = fechaPostulacion;
+        this.esActivo = esActivo;
+        this.esPeriodoObjeciones = esPeriodoObjeciones;
+        this.socios = socios;
     }
 
-
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public Date getFechaPostulacion() {
-        return fechaPostulacion;
-    }
-
-    public void setFechaPostulacion(Date fechaPostulacion) {
-        this.fechaPostulacion = fechaPostulacion;
-    }
-
-    public Integer getIdPostulante() {
-        return idPostulante;
-    }
-
-    public void setIdPostulante(Integer idPostulante) {
-        this.idPostulante = idPostulante;
-    }
 
     public String getNombre() {
         return nombre;
@@ -213,5 +195,53 @@ public class Postulante {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public Date getFechaPostulacion() {
+        return fechaPostulacion;
+    }
+
+    public void setFechaPostulacion(Date fechaPostulacion) {
+        this.fechaPostulacion = fechaPostulacion;
+    }
+
+    public Set<Socio> getSocios() {
+        return socios;
+    }
+
+    public void setSocios(Set<Socio> socios) {
+        this.socios = socios;
+    }
+
+    public Boolean getEsAprobado() {
+        return esAprobado;
+    }
+
+    public void setEsAprobado(Boolean esAprobado) {
+        this.esAprobado = esAprobado;
+    }
+
+    public Boolean getEsActivo() {
+        return esActivo;
+    }
+
+    public void setEsActivo(Boolean esActivo) {
+        this.esActivo = esActivo;
+    }
+
+    public Boolean getEsPeriodoObjeciones() {
+        return esPeriodoObjeciones;
+    }
+
+    public void setEsPeriodoObjeciones(Boolean esPeriodoObjeciones) {
+        this.esPeriodoObjeciones = esPeriodoObjeciones;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -1,5 +1,7 @@
 package com.clubsis.model.evento;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,30 +13,33 @@ import java.util.Set;
 public class TarifaEvento {
 
     @Id
+
     @GeneratedValue
-    private Integer idTarifa;
+    private Integer id;
     private String descripcion;
     private Double precio;
     private String nombre;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="tarifaEventos")
-    private Set<Evento> eventos = new HashSet<Evento>();
+    @JsonIgnore
+    @ManyToMany(mappedBy ="tarifaEventos")
+    private Set<Evento> eventos = new HashSet<>();
 
     protected TarifaEvento() {
     }
 
-    public TarifaEvento(Integer idTarifa, String descripcion, Double precio) {
-        this.idTarifa = idTarifa;
-        this.descripcion = descripcion;
+    public TarifaEvento(Double precio, String descripcion, String nombre, Set<Evento> eventos) {
         this.precio = precio;
+        this.descripcion = descripcion;
+        this.nombre = nombre;
+        this.eventos = eventos;
     }
 
-    public Integer getIdTarifa() {
-        return idTarifa;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdTarifa(Integer idTarifa) {
-        this.idTarifa = idTarifa;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -61,5 +66,11 @@ public class TarifaEvento {
         this.nombre = nombre;
     }
 
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
 
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
+    }
 }

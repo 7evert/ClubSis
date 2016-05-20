@@ -1,10 +1,12 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.club.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,40 +16,43 @@ import java.util.Set;
 public class Socio {
     @Id
     @GeneratedValue
-    @Column(name = "id_socio")
-    private Integer idSocio;
+    private Integer id;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInscripcion;
-    private Integer estado;
+    private EstadoSocio estado;
+    //@Column(columnDefinition = "integer auto_increment")
     private Integer codigoCarnet;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Invitado> Invitados;
+    private Set<Invitado> invitados =new HashSet<Invitado>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Persona> personas;
+    private Set<Persona> personas =new HashSet<Persona>();
 
-    @ManyToMany
-    private Set<Postulante> postulantes;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Postulante> postulantes=new HashSet<Postulante>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Suspension> suspensiones =new HashSet<Suspension>();
+
 
     protected Socio() {
     }
 
-    public Socio(Integer idSocio, Date fechaInscripcion, Integer estado, Integer codigoCarnet) {
-        this.idSocio = idSocio;
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
+        this.invitados = invitados;
+        this.personas = personas;
+        this.postulantes = postulantes;
+        this.suspensiones = suspensiones;
     }
 
-    public Integer getIdSocio() {
-        return idSocio;
-    }
-
-    public void setIdSocio(Integer idSocio) {
-        this.idSocio = idSocio;
-    }
 
     public Date getFechaInscripcion() {
         return fechaInscripcion;
@@ -57,11 +62,11 @@ public class Socio {
         this.fechaInscripcion = fechaInscripcion;
     }
 
-    public Integer getEstado() {
+    public EstadoSocio getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(EstadoSocio estado) {
         this.estado = estado;
     }
 
@@ -73,4 +78,43 @@ public class Socio {
         this.codigoCarnet = codigoCarnet;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Invitado> getInvitados() {
+        return invitados;
+    }
+
+    public void setInvitados(Set<Invitado> invitados) {
+        this.invitados = invitados;
+    }
+
+    public Set<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Set<Persona> personas) {
+        this.personas = personas;
+    }
+
+    public Set<Postulante> getPostulantes() {
+        return postulantes;
+    }
+
+    public void setPostulantes(Set<Postulante> postulantes) {
+        this.postulantes = postulantes;
+    }
+
+    public Set<Suspension> getSuspensiones() {
+        return suspensiones;
+    }
+
+    public void setSuspensiones(Set<Suspension> suspensiones) {
+        this.suspensiones = suspensiones;
+    }
 }
