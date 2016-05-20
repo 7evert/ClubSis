@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Blitz on 18/05/2016.
  */
 @RestController
-@RequestMapping("/api/membresia")
+@RequestMapping("/api/membresias")
 public class MembresiaController {
     @Autowired
     private ServicioMembresias servicioMembresias;
