@@ -33,7 +33,7 @@ public class Evento {
     private Integer isGratuito;
     private Integer isPublico;
     private String nombre;
-    
+
     @ManyToMany
     private Set<TarifaEvento> tarifaEventos = new HashSet<>();
 
