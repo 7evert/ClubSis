@@ -1,5 +1,8 @@
 package com.clubsis.model.persona;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,8 +15,11 @@ public class Suspension {
     @GeneratedValue
     private Integer id;
     private EstadoSuspension estado;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaSolicitud;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaRespuesta;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaAnulacion;
     private String motivoSuspension;
 

@@ -1,6 +1,7 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.club.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
@@ -15,31 +16,33 @@ public class Socio {
     @Id
     @GeneratedValue
     private Integer id;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInscripcion;
-    private Integer estado;
+    private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
     private Integer codigoCarnet;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Invitado> Invitados;
+    private Set<Invitado> invitados;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Persona> personas;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Postulante> postulantes;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Suspension> suspension;
+    private Set<Suspension> suspensiones;
 
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, Integer estado, Integer codigoCarnet) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
@@ -55,11 +58,11 @@ public class Socio {
         this.fechaInscripcion = fechaInscripcion;
     }
 
-    public Integer getEstado() {
+    public EstadoSocio getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(EstadoSocio estado) {
         this.estado = estado;
     }
 
@@ -80,11 +83,11 @@ public class Socio {
     }
 
     public Set<Invitado> getInvitados() {
-        return Invitados;
+        return invitados;
     }
 
     public void setInvitados(Set<Invitado> invitados) {
-        Invitados = invitados;
+        this.invitados = invitados;
     }
 
     public Set<Persona> getPersonas() {
@@ -103,11 +106,11 @@ public class Socio {
         this.postulantes = postulantes;
     }
 
-    public Set<Suspension> getSuspension() {
-        return suspension;
+    public Set<Suspension> getSuspensiones() {
+        return suspensiones;
     }
 
-    public void setSuspension(Set<Suspension> suspension) {
-        this.suspension = suspension;
+    public void setSuspensiones(Set<Suspension> suspensiones) {
+        this.suspensiones = suspensiones;
     }
 }

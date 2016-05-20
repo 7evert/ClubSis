@@ -17,8 +17,7 @@ public class Usuario {
     private Integer idUsuario;
     private String contraseña;
     private Integer dni;
-    @OneToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy ="usuario")
     private Set<Persona> personas; // no se que nombre ponerle
 
     protected Usuario() {

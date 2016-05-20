@@ -5,6 +5,9 @@ import javax.persistence.*;
 
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 /**
@@ -18,9 +21,10 @@ public class Persona {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaNacimiento;
     private String direccion;
-    private String correoElectronico;
+    private String correo;
     private Integer dni;
     private Integer telefono;
     private Boolean esTitular;
@@ -39,13 +43,13 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona( String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correoElectronico, Integer dni, Integer telefono, Boolean esTitular) {
+    public Persona( String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular) {
     this.nombre = nombre;
     this.apellidoPaterno = apellidoPaterno;
     this.apellidoMaterno = apellidoMaterno;
     this.fechaNacimiento = fechaNacimiento;
     this.direccion = direccion;
-    this.correoElectronico = correoElectronico;
+    this.correo = correo;
     this.dni = dni;
     this.telefono = telefono;
     this.esTitular = esTitular;
@@ -92,12 +96,12 @@ public class Persona {
         this.direccion = direccion;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public Integer getDni() {

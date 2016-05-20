@@ -1,5 +1,7 @@
 package com.clubsis.model.persona;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,10 +15,12 @@ public class Invitado {
     private Integer id;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaVisita;
     private Boolean esExoneradoPago;
     private String tipoDocumento;
     private Integer numeroDocumento;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaSalida;
     private String nombres;
 
