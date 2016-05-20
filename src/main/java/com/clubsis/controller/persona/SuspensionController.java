@@ -5,6 +5,7 @@ import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +27,9 @@ public class SuspensionController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Suspension create(@RequestBody Suspension suspension){
+        suspension.setFechaSolicitud(new Date());
+        suspension.setFechaRespuesta(null);
+        suspension.setFechaAnulacion(null);
         return servicioMembresias.crearSuspension(suspension);
     }
 

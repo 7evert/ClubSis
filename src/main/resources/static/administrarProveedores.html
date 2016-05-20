@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            ADMINISTRACIÓN DE PROVEEDORES
+            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+                Proveedor</a>
+        </h3>
+
+    </div>
+    <hr>
+    <h4>CONSULTA DE PROVEEDORES</h4>
+
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del Proveedor">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Descripción</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="descripcion" placeholder="Palabra Clave">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-6 col-lg-12">
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                </div>
+            </div>
+        </div>
+        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Proveedor
+            |
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Proveedor
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+
+    $("#jqGrid").jqGrid({
+        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "jsonp",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+        colModel: [
+            {label: 'idSocio', name: 'idSocio', key: true, hidden: true, width: 75},
+            {label: 'Nombre Del Proveedor', name: 'OrderID', align: 'center', width: 150},
+            {label: 'Descripción', name: 'OrderID', align: 'center', width: 300},
+            {label: '# Contacto', name: 'OrderID', align: 'center', width: 100},
+            {label: 'Direccion', name: 'OrderID', align: 'center', width: 100},
+            {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+        ],
+        viewrecords: true,
+        height: 430,
+        rowNum: 15,
+        pager: "#jqGridPager"
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+
+        acciones = '<a href=edicionProveedor.html class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        return acciones;
+
+    }
+</script>
+</body>
+</html>

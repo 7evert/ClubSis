@@ -4,6 +4,9 @@
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
     <title>ClubSis</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -41,7 +44,7 @@
                         motivoSuspension: $scope.motivo
                     });
                     $http.post('/api/membresia', data).success(function (data ) {
-                        //happy end
+                            //happy end
                                 //$scope.PostDataResponse = data;
                             })
                             .error(function (data) {
@@ -101,7 +104,7 @@
             </div>
         </div>
         <div class="col-xs-offset-5 col-xs-9">
-            <button ng-click="enviarSuspension" href="" class="btn btn-primary">Enviar Soicitud</button>
+            <button ng-click="enviarSuspension" href="" class="btn btn-primary">Enviar Solicitud</button>
             <button href="loginUsuario.html" class="btn btn-primary">Cancelar</button>
         </div>
     </form>

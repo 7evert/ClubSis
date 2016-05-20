@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,34 +39,34 @@ public class Postulante {
     private Boolean esPeriodoObjeciones;
     //private Set<String> observaciones; CAMBIAR LA RELACION MANY TO MANY Y PONERLO EN TABLA CRUZADA
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="postulantes")
-    private Set<Socio> socios;
+    private Set<Socio> socios=new HashSet<Socio>();;
 
     protected Postulante() {
     }
 
-    public Postulante(String nombre, String apellidoPaterno, String tipoDocumento, String apellidoMaterno, Date fechaNacimiento, Integer numeroDocumento, Integer numeroHijos, String estadoCivil, String direccion, Integer celular, Integer telefonoCasa, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String correo, String nombreEmpresa, Date fechaPostulacion, Boolean esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones) {
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, String nombreEmpresa, Double ingresosMensuales, Boolean esAprobado, String correo, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
-        this.tipoDocumento = tipoDocumento;
         this.apellidoMaterno = apellidoMaterno;
-        this.fechaNacimiento = fechaNacimiento;
         this.numeroDocumento = numeroDocumento;
-        this.numeroHijos = numeroHijos;
+        this.tipoDocumento = tipoDocumento;
+        this.fechaNacimiento = fechaNacimiento;
         this.estadoCivil = estadoCivil;
         this.direccion = direccion;
-        this.celular = celular;
+        this.numeroHijos = numeroHijos;
         this.telefonoCasa = telefonoCasa;
         this.telefonoTrabajo = telefonoTrabajo;
+        this.celular = celular;
         this.profesion = profesion;
-        this.ingresosMensuales = ingresosMensuales;
-        this.correo = correo;
         this.nombreEmpresa = nombreEmpresa;
-        this.fechaPostulacion = fechaPostulacion;
+        this.ingresosMensuales = ingresosMensuales;
         this.esAprobado = esAprobado;
+        this.correo = correo;
+        this.fechaPostulacion = fechaPostulacion;
         this.esActivo = esActivo;
         this.esPeriodoObjeciones = esPeriodoObjeciones;
+        this.socios = socios;
     }
-
 
 
     public String getNombre() {

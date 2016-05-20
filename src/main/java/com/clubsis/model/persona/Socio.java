@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -24,30 +25,33 @@ public class Socio {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Invitado> invitados;
+    private Set<Invitado> invitados =new HashSet<Invitado>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Persona> personas;
+    private Set<Persona> personas =new HashSet<Persona>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Postulante> postulantes;
+    private Set<Postulante> postulantes=new HashSet<Postulante>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Suspension> suspensiones;
+    private Set<Suspension> suspensiones =new HashSet<Suspension>();
 
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
+        this.invitados = invitados;
+        this.personas = personas;
+        this.postulantes = postulantes;
+        this.suspensiones = suspensiones;
     }
-
 
 
     public Date getFechaInscripcion() {

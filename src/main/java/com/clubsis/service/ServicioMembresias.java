@@ -1,6 +1,7 @@
 package com.clubsis.service;
 
 import com.clubsis.model.club.Usuario;
+import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.*;
 import com.clubsis.repository.club.UsuarioRepository;
 import com.clubsis.repository.persona.*;
@@ -86,6 +87,9 @@ public class ServicioMembresias {
     public Suspension buscarSuspension(Integer id) {return suspensionRepository.findOne(id);}
     public Suspension crearSuspension(Suspension suspension){
         //Solo la suspension muestra al socio
+        //Socio nuevoSocio = socioRepository.findOne(suspension.getSocio().getId());
+        //nuevoSocio.getSuspensiones().add(suspension);
+        //socioRepository.saveAndFlush(nuevoSocio);
         return suspensionRepository.saveAndFlush(suspension);
     }
 
@@ -114,14 +118,15 @@ public class ServicioMembresias {
     public Persona personaMembresia(Postulante postulanteExistente){
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
-                postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE);
+                postulanteExistente.getDireccion(),postulanteExistente.getFechaNacimiento(),postulanteExistente.getCorreo(),
+                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,new HashSet<Evento>(),null);
         return nuevaPersona;
     }
 
     public Socio socioMembresia(Postulante postulanteExistente){
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId());
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
+        ,new HashSet<Persona>(),new HashSet<Postulante>(),new HashSet<Suspension>());
         return nuevoSocio;
     }
 
@@ -136,6 +141,8 @@ public class ServicioMembresias {
         nuevaPersona.setSocio(socioRepository.saveAndFlush(nuevoSocio));
         personaRepository.saveAndFlush(nuevaPersona);
         // Solo la persona muestra a que socio esta asociada
+        //nuevoSocio.getPersonas().add(nuevaPersona);
+        //socioRepository.saveAndFlush(nuevoSocio);
         actualizarPostulante(idPostulante,postulanteExistente);
     }
 

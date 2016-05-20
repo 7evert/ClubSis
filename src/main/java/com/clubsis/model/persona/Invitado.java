@@ -30,17 +30,17 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado( String apellidoPaterno, String apellidoMaterno, Boolean esExoneradoPago, Date fechaVisita, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, Date fechaVisita, Boolean esExoneradoPago, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres, Socio socio) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.esExoneradoPago = esExoneradoPago;
         this.fechaVisita = fechaVisita;
+        this.esExoneradoPago = esExoneradoPago;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.fechaSalida = fechaSalida;
         this.nombres = nombres;
+        this.socio = socio;
     }
-
 
 
     public Date getFechaVisita() {
