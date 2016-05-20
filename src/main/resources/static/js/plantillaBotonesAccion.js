@@ -41,22 +41,29 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
     for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
             var b = $('<button>').attr({
-                /*type: 'submit',*/
                 tabindex:"3",
                 value:accionesXElemento[tipoUsuario][j],
-                class:"btn btn-primary rght-box accionLista"
+                class:"btn btn-primary rght-box accionLista",
+                target:"_blank"
             }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
             b[0].onclick=funciones[j];
         }
 }
 function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
     if(accionAgregar[tipoUsuario].length!=0){
-        var b=$('<span>').attr({
+        var button1=$('<button>').attr({
+            tabindex:"3",
+            value:"Registrar",
+            class:"btn btn-primary rght-box accionLista",
+            target:"_blank",
+            style:"width:108px;"
+        }).html("Registrar").appendTo("#topMostrar");
+        button1[0].onclick=agregar;
+        /*var b=$('<span>').attr({
             class: 'pull-right',
             id:'accionAgregar',
             style:'width:108px;'
-        }).append('<input tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista" style="width:108px;">').appendTo("#topMostrar");
-        b[0].onclick=agregar;
+        }).append(button1).appendTo("#topMostrar");*/
     }
 }
 function eliminarBotones(){
