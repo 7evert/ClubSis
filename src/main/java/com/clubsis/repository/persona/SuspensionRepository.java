@@ -4,7 +4,7 @@ import com.clubsis.model.persona.Suspension;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Created by User on 20/05/2016.
+ * Created by Blitz on 20/05/2016.
  */
 public interface SuspensionRepository extends JpaRepository<Suspension,Integer> {
 }
