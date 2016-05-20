@@ -57,7 +57,7 @@ public class ServicioProducto {
         return productoRepository.findOne(id);
     }
 
-    public Producto actualizarProveedor(Integer id, Producto producto) {
+    public Producto actualizarProducto(Integer id, Producto producto) {
         Producto productoExistente = productoRepository.findOne(id);
         BeanUtils.copyProperties(producto, productoExistente);
         return productoRepository.saveAndFlush(productoExistente);
