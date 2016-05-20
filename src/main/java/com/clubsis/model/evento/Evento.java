@@ -2,6 +2,7 @@ package com.clubsis.model.evento;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,7 +47,6 @@ public class Evento {
 
     // este es el OWNER de la relación con sede
     @ManyToOne
-    @NotNull
     private Sede sede; // es un campo autor_id en la base de datos
 
     protected Evento() {
@@ -163,4 +163,6 @@ public class Evento {
     public void setTarifa(TarifaEvento tarifa){
         tarifaEventos.add(tarifa);
     }
+
+   public void setSede(Sede sede){this.sede=sede;}
 }

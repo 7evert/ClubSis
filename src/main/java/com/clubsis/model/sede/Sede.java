@@ -20,6 +20,7 @@ public class Sede {
     private Integer id;
     private String nombre;
     private String direccion;
+    private String descripcion;
 
     @OneToMany(mappedBy = "sede")
     @JsonIgnore
@@ -31,10 +32,10 @@ public class Sede {
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, Set<Bungalow> bungalows) {
+    public Sede(String nombre, String direccion, String descripcion) {
         this.nombre = nombre;
         this.direccion = direccion;
-        this.bungalows = bungalows;
+        this.setDescripcion(descripcion);
     }
 
     public Integer getId() {
@@ -67,5 +68,13 @@ public class Sede {
 
     public void setBungalows(Set<Bungalow> bungalows) {
         this.bungalows = bungalows;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
