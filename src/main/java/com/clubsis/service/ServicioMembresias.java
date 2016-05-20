@@ -1,18 +1,16 @@
 package com.clubsis.service;
 
 import com.clubsis.model.club.Usuario;
-import com.clubsis.model.persona.Persona;
-import com.clubsis.model.persona.Postulante;
-import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.*;
 import com.clubsis.repository.club.UsuarioRepository;
-import com.clubsis.repository.persona.PersonaRepository;
-import com.clubsis.repository.persona.PostulanteRepository;
-import com.clubsis.repository.persona.SocioRepository;
+import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Blitz on 18/05/2016.
@@ -30,6 +28,12 @@ public class ServicioMembresias {
 
     @Autowired
     private SocioRepository socioRepository;
+
+    @Autowired
+    private SuspensionRepository suspensionRepository;
+
+    @Autowired
+    private InvitadoRepository invitadoRepository;
 
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
@@ -75,5 +79,66 @@ public class ServicioMembresias {
         BeanUtils.copyProperties(socio,socioExistente);
         return socioRepository.saveAndFlush(socioExistente);
     }
+
+    //Suspension
+
+    public List<Suspension> mostrarSuspensiones(){return suspensionRepository.findAll();}
+    public Suspension buscarSuspension(Integer id) {return suspensionRepository.findOne(id);}
+    public Suspension crearSuspension(Suspension suspension){
+        //Solo la suspension muestra al socio
+        return suspensionRepository.saveAndFlush(suspension);
+    }
+
+    public Suspension actualizarSuspension(Integer id, Suspension suspension){
+        Suspension suspensionExistente=suspensionRepository.findOne(id);
+        BeanUtils.copyProperties(suspension,suspensionExistente);
+        return suspensionRepository.saveAndFlush(suspensionExistente);
+    }
+
+    //Invitado
+
+    public List<Invitado> mostrarInvitados(){return invitadoRepository.findAll();}
+    public Invitado buscarInvitado(Integer id) {return invitadoRepository.findOne(id);}
+    public Invitado crearInvitado(Invitado invitado){return invitadoRepository.saveAndFlush(invitado);}
+
+    public Invitado actualizarInvitado(Integer id, Invitado invitado){
+        Invitado invitadoExistente=invitadoRepository.findOne(id);
+        BeanUtils.copyProperties(invitado,invitadoExistente);
+        return invitadoRepository.saveAndFlush(invitadoExistente);
+    }
+
+
+
+    //MEMBRESIA
+
+    public Persona personaMembresia(Postulante postulanteExistente){
+        Persona nuevaPersona = new Persona(
+                postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
+                postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
+                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE);
+        return nuevaPersona;
+    }
+
+    public Socio socioMembresia(Postulante postulanteExistente){
+        Socio nuevoSocio = new Socio(
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId());
+        return nuevoSocio;
+    }
+
+
+    public void crearMembresia(Integer idPostulante){
+        Postulante postulanteExistente = postulanteRepository.findOne(idPostulante);
+        postulanteExistente.setEsAprobado(Boolean.TRUE);
+        postulanteExistente.setEsActivo(Boolean.TRUE);
+        Persona nuevaPersona= personaMembresia(postulanteExistente);
+        Socio nuevoSocio = socioMembresia(postulanteExistente);
+        personaRepository.saveAndFlush(nuevaPersona);
+        nuevaPersona.setSocio(socioRepository.saveAndFlush(nuevoSocio));
+        personaRepository.saveAndFlush(nuevaPersona);
+        // Solo la persona muestra a que socio esta asociada
+        actualizarPostulante(idPostulante,postulanteExistente);
+    }
+
+
 
 }

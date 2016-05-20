@@ -1,5 +1,7 @@
 package com.clubsis.model.persona;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -10,13 +12,15 @@ import java.util.Date;
 public class Invitado {
     @Id
     @GeneratedValue
-    private Integer idInvitado;
+    private Integer id;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaVisita;
     private Boolean esExoneradoPago;
     private String tipoDocumento;
     private Integer numeroDocumento;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaSalida;
     private String nombres;
 
@@ -26,8 +30,7 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado(Integer idInvitado, String apellidoPaterno, String apellidoMaterno, Boolean esExoneradoPago, Date fechaVisita, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres) {
-        this.idInvitado = idInvitado;
+    public Invitado( String apellidoPaterno, String apellidoMaterno, Boolean esExoneradoPago, Date fechaVisita, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.esExoneradoPago = esExoneradoPago;
@@ -38,13 +41,7 @@ public class Invitado {
         this.nombres = nombres;
     }
 
-    public Integer getIdInvitado() {
-        return idInvitado;
-    }
 
-    public void setIdInvitado(Integer idInvitado) {
-        this.idInvitado = idInvitado;
-    }
 
     public Date getFechaVisita() {
         return fechaVisita;
@@ -108,5 +105,21 @@ public class Invitado {
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }
