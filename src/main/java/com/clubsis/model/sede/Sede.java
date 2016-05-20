@@ -1,6 +1,7 @@
 package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.evento.Evento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -23,6 +24,9 @@ public class Sede {
     @OneToMany(mappedBy = "sede")
     @JsonIgnore
     private Set<Bungalow> bungalows;
+
+    @OneToMany(mappedBy ="sede")
+    private Set<Evento> eventos = new HashSet<>();
 
     protected Sede() {
     }

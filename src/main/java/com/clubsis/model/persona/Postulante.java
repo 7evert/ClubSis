@@ -32,7 +32,7 @@ public class Postulante {
     private Double ingresosMensuales;
     private String nombreEmpresa;
     private String correo;
-    private List<String> observaciones;
+    private String observaciones;
     private Date fechaPostulacion;
     @ManyToMany
     private Set<Socio> socios;
@@ -40,7 +40,7 @@ public class Postulante {
     protected Postulante() {
     }
 
-    public Postulante(Integer idPostulante, String nombre, String apellidoPaterno, String tipoDocumento, Integer numeroDocumento, String apellidoMaterno, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, List<String> observaciones, Date fechaPostulacion) {
+    public Postulante(Integer idPostulante, String nombre, String apellidoPaterno, String tipoDocumento, Integer numeroDocumento, String apellidoMaterno, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, String observaciones, Date fechaPostulacion) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.tipoDocumento = tipoDocumento;
@@ -63,11 +63,11 @@ public class Postulante {
 
 
 
-    public List<String> getObservaciones() {
+    public String getObservaciones() {
         return observaciones;
     }
 
-    public void setObservaciones(List<String> observaciones) {
+    public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
 

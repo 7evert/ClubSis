@@ -1,10 +1,12 @@
 package com.clubsis.model.evento;
-import com.clubsis.model.bungalow.EstadoBungalow;
 import com.clubsis.model.persona.*;
+import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -27,15 +29,25 @@ public class Evento {
     private Date fechaInicioInscripcion;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaFinInscripcion;
+    private String url;
+    private Integer isGratuito;
+    private Integer isPublico;
+    private String nombre;
 
     @ManyToMany
-    private Set<TarifaEvento> tarifaEventos;
+    private Set<TarifaEvento> tarifaEventos = new HashSet<TarifaEvento>();
+
 
     @ManyToMany
     private Set<Persona> personas;
 
     @ManyToMany
     private Set<Empresa> empresas;
+
+    // este es el OWNER de la relación con sede
+    @ManyToOne
+    @NotNull
+    private Sede sede; // es un campo autor_id en la base de datos
 
     protected Evento() {
     }
@@ -113,5 +125,42 @@ public class Evento {
 
     public void setFechaFinInscripcion(Date fechaFinInscripcion) {
         this.fechaFinInscripcion = fechaFinInscripcion;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Integer getIsGratuito() {
+        return isGratuito;
+    }
+
+    public void setIsGratuito(Integer isGratuito) {
+        this.isGratuito = isGratuito;
+    }
+
+    public Integer getIsPublico() {
+        return isPublico;
+    }
+
+    public void setIsPublico(Integer isPublico) {
+        this.isPublico = isPublico;
+    }
+
+    public void setTarifa(TarifaEvento tarifa){
+        tarifaEventos.add(tarifa);
     }
 }

@@ -1,6 +1,7 @@
 package com.clubsis.model.evento;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,7 +18,7 @@ public class TarifaEvento {
     private String nombre;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="tarifaEventos")
-    private Set<Evento> eventos;
+    private Set<Evento> eventos = new HashSet<Evento>();
 
     protected TarifaEvento() {
     }
@@ -60,7 +61,5 @@ public class TarifaEvento {
         this.nombre = nombre;
     }
 
-    public void setEvento( Evento evento){
-        eventos.add(evento);
-    }
+
 }
