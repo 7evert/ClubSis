@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="es" ng-app="app">
 <head>
     <meta charset="UTF-8">
     <title>ClubSis-Mantenimiento Bungalows</title>
@@ -62,11 +62,11 @@
     </script>
     <script type="text/javascript">
         app.controller('BungalowsController', function ($scope, $http) {
-            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
-                //DATABUNGALOWS=data;//eso deberia ser pero como no tengo link
+            $http.get('/api/bungalows').success(function (data) {
+                DATABUNGALOWS=data;//eso deberia ser pero como no tengo link
                 //lo pongo harcodeado que esta en la linea 34
 
-                DATABUNGALOWS=dataJSON;
+                //DATABUNGALOWS=dataJSON;
                 llenarListaBungalows1(DATABUNGALOWS);
                 cambiarDeUsuario(administrador,Agregar,funciones);
                 mostrarNext5();

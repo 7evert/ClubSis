@@ -20,51 +20,7 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <script type="text/javascript">
-        //igual que en MantenimientoEventos.html
-        var dataJSON = [
-            {
-                id: "0",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Santa Anita",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Libre"
-            },
-            {
-                id: "1",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Chorrillos",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Libre"
-            },
-            {
-                id: "2",
-                imgsrc: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: "Jesus Maria",
-                empresa: "Nestle",
-                fechaInicio: "12/31/2015",
-                fechaFin: "1/1/2016",
-                inicioInscripciones: "1/12/2015",
-                finInscipciones: "12/29/2015",
-                precios: {asociado: "50.00", invitado: "80.00"},
-                reglamento: "....",
-                estado: "Reservado"
-            }
-        ];
+        var dataJSON;
     </script>
     <script type="text/javascript">
         //app script
@@ -74,27 +30,38 @@
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
             $("#Guardar").click(function () {
-                var cadTar = $("#tarifas").val().split(/[:;]/);
-                var tarifas = {};
-                for (var i = 0; i < cadTar.length; i += 2)
-                    if (cadTar[i] != "")tarifas[cadTar[i]] = cadTar[i + 1];
+// {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:,nombre:"",direccion:""},
+// empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,
+// tarifas:[{id:,descripcion:"a",precio:0.00,nombre:"b"},{id:,descripcion:"c",precio:1.00,nombre:"d"}],
+// reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
+
                 var data = {
-/*                    "id": dataevento.id,
-                    "imgsrc": dataevento.imgsrc,*/
+/*                    "id": dataevento.id,*/
+                    "url": "img/Eventos/newYear.jpg",
                     "nombre": $("#nombre").val(),
-                    "sede": $("#sede").find($("option"))[$("#sede").val()].innerText,
-                    "empresa": $("#codEmpresa").val(),
+                    "sede": {"id":$("#sede").val()},//debeser id de sede
                     "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
                     "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
-                    "inicioInscripciones": Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                    "finInscipciones": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                    "precios": tarifas,
+                    "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
+                    "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
+                    "tarifaEventos": [{id:$("#tarifas").val()}],
                     "reglamento": $("#reglamento").val(),
-                    "estado": $("#estado").find($("option"))[$("#estado").val()].innerText,
+                    "estado": $("#estado").val(),
+                    "descripcion": $("#descripcion").val(),
+                    "isGratuito":$("#isGratuito").val(),
+                    "isPublico":$("#isPublico").val()
                 };
+                dataJSON=data;
+                console.log(JSON.stringify(dataJSON));
+                /*
+                 {"url":"img/Eventos/newYear.jpg","nombre":"nOMBRE","sede":{"id":"2"},
+                 "fechaInicio":1462251600000,"fechaFin":1464325200000,"fechaInicioInscripcion":1463806800000,
+                 "fechaFinInscripcion":1462165200000,"tarifaEventos":[{"id":"1"}],"reglamento":"ASDD",
+                 "estado":"1","descripcion":"asdadslajds","isGratuito":"1","isPublico":"0"}
+                * */
                 $http.post("/api/reservasbungalow", data).success(function (data2, status) {
                     alert("Tu registro de Evento "+ data2.id+" fue hecha exitosamente.");
-                    location.href = "MantenimientoEventos.html"
+                    //location.href = "MantenimientoEventos.html"
                 });
             });
         });
@@ -120,9 +87,9 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
+                    <option value="0">Chorrillos</option>
+                    <option value="1">Santa Anita</option>
+                    <option value="2">Jesus Maria</option>
                 </select>
             </div>
         </div>
@@ -130,9 +97,9 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option>Libre</option>
-                    <option>Reservado</option>
-                    <option>En Mantenimiento</option>
+                    <option value="0">Libre</option>
+                    <option value="1">Reservado</option>
+                    <option value="2">En Mantenimiento</option>
                 </select>
             </div>
         </div>
@@ -183,8 +150,10 @@
         <div id="tarifaEvento" class="form-group">
             <label class="control-label col-xs-4">Tarifas de Evento</label>
             <div class="input-group col-xs-8">
-                <input id="tarifas" type="text" class="form-control col-xs-8" placeholder="tar1;tar2;tar3;"
-                       value="tar1;"/>
+                <select class="form-control col-xs-8" id="tarifas">
+                    <option value="0">No</option>
+                    <option value="1">Si</option>
+                </select>
             </div>
         </div>
         <div id="Reglamento1" class="form-group">
@@ -193,20 +162,31 @@
                 <input id="reglamento" type="text" class="form-control col-xs-8" placeholder="" value=""/>
             </div>
         </div>
-        <div id="Empresa" class="form-group">
-            <label class="control-label col-xs-4">Codigo de Empresa</label>
+        <div id="Descripcion1" class="form-group">
+            <label class="control-label col-xs-4">Descripcion</label>
             <div class="input-group col-xs-8">
-                <input id="codEmpresa" type="text" class="form-control col-xs-8" value="0000000"/>
+                <input id="descripcion" type="text" class="form-control col-xs-8" placeholder="describir el evento"/>
             </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-4">Gratuito</label>
+            <select class="col-xs-2" id="isGratuito">
+                <option value="0">No</option>
+                <option value="1">Si</option>
+            </select>
+            <label class="control-label col-xs-3">Publico</label>
+            <select class="col-xs-2" id="isPublico">
+                <option value="0">No</option>
+                <option value="1">Si</option>
+            </select>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input type="" class="btn btn-primary" value="Mantener" style="width:22%"
-                       onclick="location.href='MantenimientoBungalows.html';">
-                <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%"
-                       onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
+                       onclick="location.href='MantenimientoEventos.html';">
+                <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%">
                 <input type="" class="btn btn-primary" value="Cancelar" style="width:22%"
-                       onclick="location.href='BungalowInformacion.html';">
+                       onclick="location.href='loginUsuario.html';">
             </div>
         </div>
     </form>
