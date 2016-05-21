@@ -182,10 +182,10 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('InformacionEventoController', function ($scope, $http) {
-            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
-                //dataeventos = data;//eso deberia ser pero como no tengo link
+            $http.get('/api/eventos').success(function (data) {
+                dataeventos = data;//eso deberia ser pero como no tengo link
                 //lo pongo harcodeado que esta en la linea 34
-                dataeventos=dataJSON;
+                //dataeventos=dataJSON;
                 dataevento = $.grep(dataeventos, function (e) {
                     return e.id == getID();
                 })[0];
@@ -239,7 +239,7 @@
             <div class="col-xs-offset-1 col-xs-10">
                 <input id="Participar" type="" class="btn btn-primary" value="Participar" style="width:22%">
                 <input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='loginUsuario.html';">
+                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='mantenimientoEventos.html';">
             </div>
         </div>
 

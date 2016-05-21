@@ -244,10 +244,11 @@
     </script>
     <script type="text/javascript">
         app.controller('EventosController', function ($scope, $http) {
-            $http.get('http://shopname.myshopify.com/products.json').success(function (data) {
+            $http.get('/api/eventos ').success(function (data) {
                 //    api/tarifaeventos
-                //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
-                DATAEVENTOS = dataJSON;
+                DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+                //DATAEVENTOS = dataJSON;
+                console.log(JSON.stringify(data));
                 llenarListaBungalows1(DATAEVENTOS);
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
                 mostrarNext5();
@@ -288,11 +289,12 @@
                             <label for="estado" class="col-md-4 control-label">Estado</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="estado">
-                                    <option>Libre</option>
-                                    <option>Reservado</option>
-                                    <option>En Mantenimiento</option>
+                                    <option value="CREADO">CREADO</option>
+                                    <option value="ESPERA">ESPERA</option>
+                                    <option value="ENMARCHA">ENMARCHA</option>
+                                    <option value="FINALIZADO">FINALIZADO</option>
                                 </select>
-                            </div>
+                            </div>1
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5">
@@ -427,7 +429,7 @@
         </div>
     </div>
 </div>
-<div class="pull-right"><!--esto solo es para verificar que funciona, luego se borrara-->
+<div class="pull-right" style="display:none;"><!--esto solo es para verificar que funciona, luego se borrara-->
     <button onclick="cambiarDeUsuario(1,Agregar,funciones)" class="btn btn-primary pull-right">Como Socio</button>
     <button onclick="cambiarDeUsuario(0,Agregar,funciones)" class="btn btn-primary pull-right">Como Administrador
     </button>
@@ -479,7 +481,7 @@
         b[0] = retornaTitulo1(nombre);
         b[1] = $('<p></p>').html("Evento " + id);
         b[2] = retornaSedes1(sede.nombre);
-        b[3] = $('<h3></h3>').html((isPublico) ? "Publico" : "Privado" + (isGratuito) ? " y Gratuito" : "");
+        b[3] = $('<h3></h3>').html(((isPublico) ? "Publico" : "Privado") + ((isGratuito) ? " y Gratuito" : ""));
         for (var j = 0; j < b.length; j++)
             panelInfo.append(b[j]);
         return panelInfo;
