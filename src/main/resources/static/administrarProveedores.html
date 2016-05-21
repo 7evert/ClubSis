@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>ClubSis - Mantenimientos Proveedores</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -55,7 +57,29 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="ProveedorController">
+
+<script type="text/javascript">
+    //app script
+    var app = angular.module('app', []);
+</script>
+
+<script type="text/javascript">
+    var app = angular.module('app', []);
+
+    app.controller('ProveedorController', function ($scope, $http) {
+        $http.get('/api/proveedores').success(function (data) {
+            alert("2");
+            //    api/tarifaeventos
+            //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+            console.log(data);
+            DATAEVENTOS = dataJSON;
+            llenarListaBungalows1(DATAEVENTOS);
+            cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
+            mostrarNext5();
+        })
+    });
+</script>
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -129,6 +153,7 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
+
 
     $("#jqGrid").jqGrid({
         url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
