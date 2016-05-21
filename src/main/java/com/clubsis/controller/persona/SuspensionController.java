@@ -1,5 +1,6 @@
 package com.clubsis.controller.persona;
 
+import com.clubsis.model.persona.EstadoSuspension;
 import com.clubsis.model.persona.Suspension;
 import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,10 @@ public class SuspensionController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Suspension create(@RequestBody Suspension suspension){
+        suspension.setEstado(EstadoSuspension.REGISTRADA);
         suspension.setFechaSolicitud(new Date());
-        suspension.setFechaRespuesta(null);
-        suspension.setFechaAnulacion(null);
+        /*suspension.setFechaRespuesta(null);
+        suspension.setFechaAnulacion(null);*/
         return servicioMembresias.crearSuspension(suspension);
     }
 
