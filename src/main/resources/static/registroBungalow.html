@@ -1,109 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Bungalow Registro</title>
+    <title>ClubSis</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
-    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-
-    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
-    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
-    <link rel="stylesheet" type="text/css" media="screen"
-          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-    <script type="text/javascript"
-            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-<body>
-<div id="headerUsuario"></div>
+<body  ng-controller="BungalowsController">
+<div id="headerAdministrador"></div>
 <div class="container">
-    <!--------------------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------------------->
-    <h2>Registro Bungalow</h2>
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            REGISTRO DE BUNGALOW
+        </h3>
+    </div>
     <hr>
-    <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
-        <div id="nombreBungalow" class="form-group">
-            <label class="control-label col-xs-4">Tipo Bungalow</label>
-            <div class="col-xs-4">
-                <select class="form-control col-xs-4">
-                    <option value="1">Bungalow Lorena</option>
-                    <option value="2">Bungalow Club</option>
-                    <option value="3">Bungalow Class</option>
-                    <option value="4">Bungalow King</option>
-                    <option value="5">Bungalow King Charles</option>
-                </select>
+    <h4>DATOS DEL BUNGALOW</h4>
+
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="tipoBungalow" class="col-md-4 control-label">Tipo de Bungalow</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="tipoBungalow" id="tipoBungalow">
+                            <option value="-1">Elegir</option>
+                            <option value="1">Cabaña</option>
+                            <option value="2">Madera</option>
+                            <option value="3">Cemento</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <label class="control-label col-xs-2">Nro.</label>
-            <div class="input-group col-xs-2">
-                <input type="text" class="form-control col-xs-2" placeholder="9999"/>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="precio" class="col-md-4 control-label">Precio</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="precio" id="precio" placeholder="Precio">
+                    </div>
+                    <label class="col-md-4 control-label">nuevos soles</label>
+                </div>
             </div>
-        </div>
-        <div id="escogerSedeBungalows" class="form-group">
-            <label class="control-label col-xs-4">Escoger Sede</label>
-            <div class="col-xs-8">
-                <select class="form-control col-xs-8">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
-                </select>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="piso" class="col-md-4 control-label">Piso</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="piso" id="piso">
+                            <option value="-1">Elegir</option>
+                            <option value="1">Piso 1</option>
+                            <option value="2">Piso 2</option>
+                            <option value="3">Piso 2</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Estado</label>
-            <div class="col-xs-8">
-                <select class="form-control col-xs-8" id="estado">
-                    <option>Libre</option>
-                    <option>Reservado</option>
-                    <option>En Mantenimiento</option>
-                </select>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="valoracion" class="col-md-4 control-label">Valoración</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="valoracion" id="valoracion">
+                            <option value="-1">Elegir</option>
+                            <option value="1">1 estrella</option>
+                            <option value="2">2 estrella</option>
+                            <option value="3">3 estrella</option>
+                            <option value="4">4 estrella</option>
+                            <option value="5">5 estrella</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="precioBungalow" class="form-group">
-            <label class="control-label col-xs-4">Precio Bungalow</label>
-            <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+            <div class="col-sm-12 col-lg-10">
+                <div class="form-group">
+                    <label for="caracteristicas" class="col-md-2 control-label">Caracteristicas</label>
+                    <div class="col-md-10">
+                        <textarea id="caracteristicas" ng-model="caracteristicas" class="form-control"
+                                  rows="4"></textarea>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="capacidadBungalow" class="form-group">
-            <label class="control-label col-xs-4">Capacidad</label>
-            <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+            <div class="col-sm-12 col-lg-10">
+                <div class="form-group">
+                    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+                    <div class="col-md-10">
+                        <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="CaracteristicasBungalow" class="form-group">
-            <label class="control-label col-xs-4">Caracteristicas</label>
-            <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" />
+            <div class="col-sm-12 col-lg-10">
+                <div class="form-group">
+                    <label for="urlFoto" class="col-md-2 control-label">Archivo Adjunto</label>
+                    <div class="col-md-10">
+                        <input id="urlFoto" ng-model="urlFoto" type="file" class="file form-control">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" value="Registrar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='loginUsuario.html';">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoBungalows.html';">
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
+                    <a href="MantenimientoBungalows.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                </div>
             </div>
         </div>
     </form>
-    <div id="detallesBungalows" class="mitadDerecha">
-        <div id="BungTipo2" class="show">
-            <img class="imgBungalow" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="img/Bungalows/draganddrop.jpg">
-        </div>
-        <div></div>
-    </div>
-    <!--------------------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------------------->
 </div>
+<br>
+<br>
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script type="text/javascript">
-    $(".date-picker").datepicker();
+    var app = angular.module('app', []);
+    app.controller('BungalowsController', function ($scope, $http) {
+        $("#btnRegistrar").click(function () {
+            $scope.registrarBungalow = function () {
+                var data = {
+                    //por preguntar
+                    //idSuspension: null,
+                    'estado': 1,
+                    'descripcion': $scope.descripcion,
+                    'precio': $scope.precio,
+                    'caracteristicas': $scope.caracteristicas,
+                    'piso': $scope.piso,
+                    'valoracion': $scope.valoracion,
+                    'urlFoto': 1,
+                };
+//                var jsonObj = JSON.parse(data);
+                console.log(data);
+                $http.post('/api/bungalows', data).success(function (data) {
+                    //happy end
+                    //$scope.PostDataResponse = data;
+                })
+                        .error(function (data) {
+                            //aca lo que se hara en caso falle
+                            console.log("fallo");
+                        });
+            }();
+        });
+    });
+    //    });
 </script>
 </body>
 </html>

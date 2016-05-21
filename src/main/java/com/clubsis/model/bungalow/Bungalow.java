@@ -18,8 +18,10 @@ public class Bungalow {
     private EstadoBungalow estado; //libre, en mantenimiento, ocupado, no irá en el formulario
     private Double precio;
     private String caracteristicas;
-    private String ubicacionEnSede;
     private Integer piso;
+    private Integer valoracion;
+    private String urlFoto;
+    private String descripcion;
 
     @ManyToOne
     private TipoBungalow tipoBungalow; // necesario (composición)
@@ -35,11 +37,10 @@ public class Bungalow {
     protected Bungalow() {
     }
 
-    public Bungalow(EstadoBungalow estado, Double precio, String caracteristicas, String ubicacionEnSede, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
+    public Bungalow(EstadoBungalow estado, Double precio, String caracteristicas, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
         this.estado = estado;
         this.precio = precio;
         this.caracteristicas = caracteristicas;
-        this.ubicacionEnSede = ubicacionEnSede;
         this.piso = piso;
         this.tipoBungalow = tipoBungalow;
         this.sede = sede;
@@ -77,14 +78,6 @@ public class Bungalow {
         this.caracteristicas = caracteristicas;
     }
 
-    public String getUbicacionEnSede() {
-        return ubicacionEnSede;
-    }
-
-    public void setUbicacionEnSede(String ubicacionEnSede) {
-        this.ubicacionEnSede = ubicacionEnSede;
-    }
-
     public Integer getPiso() {
         return piso;
     }
@@ -107,5 +100,29 @@ public class Bungalow {
 
     public void setSede(Sede sede) {
         this.sede = sede;
+    }
+
+    public Integer getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(Integer valoracion) {
+        this.valoracion = valoracion;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
+    }
+
+    public Set<ReservaBungalow> getReservaBungalowSet() {
+        return reservaBungalowSet;
+    }
+
+    public void setReservaBungalowSet(Set<ReservaBungalow> reservaBungalowSet) {
+        this.reservaBungalowSet = reservaBungalowSet;
     }
 }
