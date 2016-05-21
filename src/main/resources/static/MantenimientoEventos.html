@@ -181,8 +181,8 @@
         }
         function filtrarEvento(item){
             var filtra=[];
-            filtra[0]=($("#sede").val()=="")||($("#sede").val()==item.sede.val);
-            filtra[1]=($("#estado").val()=="")||($("#estado").val()==item.estado);
+            filtra[0]=($("#sede").val()=="0")||($("#sede").val()==item.sede.id);
+            filtra[1]=($("#estado").val()=="0")||($("#estado").val()==item.estado);
             filtra[2]=($("#descripcion").val()=="")||($("#descripcion").val()=="");
             filtra[3]=($("#date-picker-DiaEntrada").val()=="")||($("#date-picker-DiaEntrada").val()<=item.fechaInicio);
             filtra[4]=($("#date-picker-DiaSalida").val()=="")||($("#date-picker-DiaSalida").val()>=item.fechaFin);
@@ -191,7 +191,7 @@
             var rspta=true;
             $.each(filtra, function(i, item) {
                 rspta=rspta&&item;
-            });​
+            });
             return rspta;
         }
         function displayNone(item){
@@ -204,8 +204,9 @@
     </script>
     <script type="text/javascript">
         app.controller('EventosController', function ($scope, $http) {
-            $http.get('http://shopname.myshopify.com/products.json').success(function (data) {
+            $http.get('/api/eventos').success(function (data) {
                 //'/api/eventos'
+                //http://shopname.myshopify.com/products.json
                 //    api/tarifaeventos
                 DATAEVENTOS=data;//eso deberia ser pero como no tengo link
                 //DATAEVENTOS = dataJSON;
@@ -216,10 +217,13 @@
             });
             $("#Buscar").click(function(){
                 var data=[];
-                $.each(dataJSON, function(i, item) {
+                var data2=DATAEVENTOS;
+                $.each(data2, function(i, item) {
+                    displayNone(item);
                     if(!filtrarEvento(item))
                         displayNone(item);
-                });​
+                    console.log(i);
+                });
             });
 
             $("#Limpiar").click(function(){
