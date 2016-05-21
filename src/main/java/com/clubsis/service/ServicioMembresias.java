@@ -36,6 +36,9 @@ public class ServicioMembresias {
     @Autowired
     private InvitadoRepository invitadoRepository;
 
+    @Autowired
+    private ServicioPostulante servicioPostulante;
+
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
     public Persona buscarPersona(Integer id) {return personaRepository.findOne(id);}
@@ -47,16 +50,7 @@ public class ServicioMembresias {
         return personaRepository.saveAndFlush(personaExistente);
     }
 
-    //Postulante
-    public List<Postulante> mostrarPostulantes(){ return postulanteRepository.findAll(); }
-    public Postulante buscarPostulante(Integer id) {return postulanteRepository.findOne(id);}
-    public Postulante crearPostulante(Postulante postulante) {return postulanteRepository.saveAndFlush(postulante);}
 
-    public Postulante actualizarPostulante(Integer id, Postulante postulante){
-        Postulante postulanteExistente = postulanteRepository.findOne(id);
-        BeanUtils.copyProperties(postulante,postulanteExistente);
-        return postulanteRepository.saveAndFlush(postulanteExistente);
-    }
 
     //Usuario
     public List<Usuario> mostrarUsuarios(){ return usuarioRepository.findAll(); }
@@ -143,7 +137,7 @@ public class ServicioMembresias {
         // Solo la persona muestra a que socio esta asociada
         //nuevoSocio.getPersonas().add(nuevaPersona);
         //socioRepository.saveAndFlush(nuevoSocio);
-        actualizarPostulante(idPostulante,postulanteExistente);
+        servicioPostulante.actualizarPostulante(idPostulante,postulanteExistente);
     }
 
 
