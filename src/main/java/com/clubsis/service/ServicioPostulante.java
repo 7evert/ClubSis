@@ -25,5 +25,6 @@ public class ServicioPostulante {
         Postulante postulanteExistente = postulanteRepository.findOne(id);
         BeanUtils.copyProperties(postulante,postulanteExistente);
         return postulanteRepository.saveAndFlush(postulanteExistente);
+
     }
 }
