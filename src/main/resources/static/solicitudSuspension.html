@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" ng-app="app3" >
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
     <title>ClubSis</title>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
@@ -31,49 +31,58 @@
     </style>
     <script type="text/javascript">
 
-        var app = angular.module('app', []);
-        app.controller('MembresiaController', function ($scope, $http) {
-            &scope.enviarSuspension=function () {
-                    var data = $.param({
+        var app3 = angular.module('app3', []);
+        app3.controller('SuspensionController', function ($scope, $http) {
+
+            $scope.corre2="esta el angular";
+            $scope.enviarSolicitud =function (){
+
+
+                var data = {
                         //por preguntar
                         //idSuspension: null,
-                        estado: null,
-                        fechaSolicitud: $scope.fechaIni,
-                        fechaRespuesta: null,
-                        fechaAnulacion: null,
-                        motivoSuspension: $scope.motivo
-                    });
-                    $http.post('/api/membresia', data).success(function (data ) {
-                            //happy end
-                                //$scope.PostDataResponse = data;
-                            })
-                            .error(function (data) {
-                                //aca lo que se hara en caso falle
-                            });
+                    "id": 1,
+                    "estado": 0,
+                    "fechaSolicitud": "",
+                    "fechaRespuesta": "",
+                    "fechaAnulacion": "",
+                    "fechaInicio": Date.parse($("#date-picker-TiempoInicio")[0].value),
+                    "fechaFin": Date.parse($("#date-picker-TiempoFin")[0].value),
+                    "motivoSuspension": $scope.motivo
                 };
+
+                $http.post('/api/suspensiones', data).success(function (data2 ) {
+                    //happy end
+                    //$scope.PostDataResponse = data;
+                    console.log(JSON.stringify(data2));
+                    alert("Tu registro de suspension fue hecha exitosamente.");
+                })
+                        .error(function (data2) {
+                            console.log(JSON.stringify(data2));
+                            alert("Tu registro de suspension no se pudo realizar.");
+                        });
+            };
         });
     </script>
+
 </head>
-<body >
+<body ng-controller="SuspensionController">
 <div id="headerUsuario"></div>
-<div ng-controller="MembresiaController" class="container">
-    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
-    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
-    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
-    <h1>Membresía</h1>
+<div class="container">
+    <h2>Membresía</h2>
     <hr>
-    <h4>SOLICITUD DE SUSENSIÓN DE MEMBRESÍA</h4>
+    <h4>SOLICITUD DE SUSPENSIÓN DE MEMBRESÍA</h4>
     <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
         <div class="form-group">
             <label class="col-xs-5 control-label">Nombre Socio</label>
             <div class="col-xs-7">
-                <input type="text" disabled placeholder="Nombre" class="form-control "/>
+                <input type="text" disabled placeholder="Juan Perez" class="form-control "/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-5 control-label">Motivo</label>
             <div class="col-xs-7">
-                <textarea class="form-control" ng-model="motivo" minlength="15" maxlength="250" rows="5" placeholder="Ingresar los motivos..." required></textarea>
+                <textarea class="form-control" ng-model="motivo" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>
                 <!--<input type="text" name="motivo" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>-->
             </div>
         </div>
@@ -81,7 +90,7 @@
             <label class="control-label col-xs-5" >Fecha de Inicio</label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" />
                     <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
@@ -91,21 +100,15 @@
             <label class="control-label col-xs-5">Fecha de Fin</label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6" />
                     <label for="date-picker-TiempoFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-5 control-label">Confirmar contraseña</label>
-            <div class="col-xs-7">
-                <input type="password" name="clave" ng-model="clave" maxlength="15" autofocus="autofocus" tabindex="2" placeholder="Password" class="form-control validate[required]" required/>
-            </div>
-        </div>
         <div class="col-xs-offset-5 col-xs-9">
-            <button ng-click="enviarSuspension" href="" class="btn btn-primary">Enviar Solicitud</button>
-            <button href="loginUsuario.html" class="btn btn-primary">Cancelar</button>
+            <button ng-click="enviarSolicitud()" class="btn btn-primary">Enviar Solicitud</button>
+            <a id="Canccelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
         </div>
     </form>
 
