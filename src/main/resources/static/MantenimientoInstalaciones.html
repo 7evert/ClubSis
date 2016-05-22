@@ -55,9 +55,8 @@
                             <label for="tipo" class="col-md-4 control-label">Estado</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="tipo">
-                                    <option>Libre</option>
-                                    <option>Reservado</option>
-                                    <option>En Mantenimiento</option>
+                                    <option>Habilitado</option>
+                                    <option>Deshabilitado</option>
                                 </select>
                             </div>
                         </div>
@@ -92,21 +91,14 @@
 
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <!--<label for="stock" class="col-md-4 control-label">Apartir de</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
-                            </div>
-                            -->
+
                             <label class="control-label col-md-4">Hasta</label>
                             <div class="input-group input-append date col-md-8">
                                 <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
                                 <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
-                            <!--<label for="stock" class="col-md-2 control-label">Antes de</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
-                            </div>-->
+
                         </div>
                     </div>
                     <div class="col-sm-7 col-lg-7">
@@ -115,16 +107,12 @@
                         <div class="form-group" style="margin-left: 60px;">
                             <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
                             <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
-                            <!--<a href="javascript:void(0)" class="btn btn-primary">Nuevo Producto</a>-->
+
                         </div>
                     </div>
                 </div>
             </form>
-<!--            <label class="control-label col-xs-3">Filtrado:</label>
-            <div class="col-xs-6">
-                <input type="Sede" class="form-control" id="inputCurso" placeholder="Almendariz">
-            </div>
-            <input type="submit" tabindex="3" value="Buscar" class="btn btn-primary"/>-->
+<
         </div>
     </div>
 
@@ -188,12 +176,7 @@
         </div>
     </div>
 </div>
-<!--
-<div class="pull-right">--><!--esto solo es para verificar que funciona, luego se borrara-->
- <!--   <button onclick="cambiarDeUsuario(1,Agregar,funciones)" class="btn btn-primary pull-right">Como Socio</button>
-    <button onclick="cambiarDeUsuario(0,Agregar,funciones)" class="btn btn-primary pull-right">Como Administrador</button><br>
-    <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span>
-</div>-->
+
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
@@ -214,7 +197,7 @@
         /**la plantilla estatica se encuentra comentada en esta misma pagina**/
         /********* DENTRO DE : div id="listaBungalows" *************/
         llenarListaBungalows();
-
+        cambiarDeUsuario(0,Agregar,funciones)
         /**************** de acuerdo al usuario que se coloque se cambian los botones****/
         /*******tener en cuenta que debe estar  :
          *un #top-mostrar para el  boton agregar(unico x pagina)
