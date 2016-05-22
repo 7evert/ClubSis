@@ -2,6 +2,7 @@ package com.clubsis.controller.persona;
 
 import com.clubsis.model.persona.Postulante;
 import com.clubsis.service.ServicioMembresias;
+import com.clubsis.service.ServicioPostulante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,25 +15,25 @@ import java.util.List;
 @RequestMapping("/api/postulantes")
 public class PostulanteController {
     @Autowired
-    private ServicioMembresias servicioMembresias;
+    private ServicioPostulante servicioPostulante;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Postulante> list() {
-        return servicioMembresias.mostrarPostulantes() ;
+        return servicioPostulante.mostrarPostulantes() ;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Postulante get(@PathVariable Integer id) {
-        return servicioMembresias.buscarPostulante(id);
+        return servicioPostulante.buscarPostulante(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Postulante create(@RequestBody Postulante postulante) {
-        return servicioMembresias.crearPostulante(postulante);
+        return servicioPostulante.crearPostulante(postulante);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Postulante update(@PathVariable Integer id, @RequestBody Postulante postulante) {
-        return servicioMembresias.actualizarPostulante(id,postulante);
+        return servicioPostulante.actualizarPostulante(id,postulante);
     }
 }
