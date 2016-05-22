@@ -1,30 +1,36 @@
 package com.clubsis.model.clase;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class RegistroClase {
-    private Integer idPersona;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private Date fechaRegistro;
-    private String estado;
+    private EstadoRegistroClase estado;
 
     protected RegistroClase() {
     }
 
-    public RegistroClase(Integer idPersona, Date fechaRegistro, String estado) {
-        this.idPersona = idPersona;
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
     }
 
-    public Integer getIdPersona() {
-        return idPersona;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFechaRegistro() {
@@ -35,11 +41,11 @@ public class RegistroClase {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public String getEstado() {
+    public EstadoRegistroClase getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoRegistroClase estado) {
         this.estado = estado;
     }
 }
