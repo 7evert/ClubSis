@@ -208,9 +208,19 @@
         pager: "#jqGridPager",
         loadComplete: function () {
             $('.icono-modificar').click(function () {
-                alert("Hola mundo");
+                alert("Modificando bungalow");
                 var idActividad = $(this).attr('data-idBungalow-modificar');
-                console.log($(this).attr('data-idBungalow-modificar'));
+                console.log("Id bungalow modificando: " + $(this).attr('data-idBungalow-modificar'));
+            });
+            $('.icono-ver').click(function () {
+                alert("Ver bungalow");
+                var idActividad = $(this).attr('data-idBungalow-ver');
+                console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));
+            });
+            $('.icono-eliminar').click(function () {
+                alert("Eliminando bungalow");
+                var idActividad = $(this).attr('data-idBungalow-eliminar');
+                console.log("Id bungalow eliminando: " + $(this).attr('data-idBungalow-eliminar'));
             });
         }
     });
@@ -219,9 +229,9 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idBungalow-ver="' + rowdata['OrderID'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['OrderID'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['OrderID'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idBungalow-eliminar="' + rowdata['OrderID'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['OrderID'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>
