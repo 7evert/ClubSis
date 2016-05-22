@@ -180,7 +180,7 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "jsonp",
@@ -209,23 +209,8 @@
         loadComplete: function () {
             $('.icono-modificar').click(function () {
                 alert("Hola mundo");
-                var idActividad = $(this).attr('data-idEvento-modificar');
-//                $('#idActividadEditar').val(idActividad);
-                console.log($(this).attr('data-idEvento-modificar'));
-                var id = $("#jqGrid").getGridParam('selrow');
-                console.log(id);
-//                $('#formulario-editar').submit();
-//                var myGrid = $('#jqGrid'),
-//                        selRowId = myGrid.jqGrid('getGridParam', 'selrow'),
-//                        celValue = myGrid.jqGrid('getCell', selRowId, 'columnName');
-//                console.log(selRowId);
-//                console.log(celValue);
-                var rowData = $("#backlog").getRowData();
-                console.log(rowData);
-                for (var i = 0; i < rowData.length; i++)
-                {
-                    $("#backlog").jqGrid('setRowData', rowData[i], false, {color:'red'});
-                }
+                var idActividad = $(this).attr('data-idBungalow-modificar');
+                console.log($(this).attr('data-idBungalow-modificar'));
             });
         }
     });
@@ -234,13 +219,9 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        var idProducto = $("#jqGrid").getGridParam('selrow');
-        var rowData = $("#jqGrid").getGridParam('idProducto');
-        console.log(rowdata['idProducto']);
-        console.log(rowData);
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idBungalow-ver="' + rowdata['OrderID'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['OrderID'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idBungalow-eliminar="' + rowdata['OrderID'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>
