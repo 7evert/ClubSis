@@ -64,7 +64,8 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE BUNGALOW
-            <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir Bungalow</a>
+            <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir
+                Bungalow</a>
         </h3>
     </div>
     <hr>
@@ -182,12 +183,12 @@
         url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
         mtype: "GET",
         styleUI: 'Bootstrap',
-        datatype: "json",
+        datatype: "jsonp",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
-            {index: 'idProducto', name: 'idProducto', key: true, hidden: true, width: 75},
+            {index: 'idProducto', name: 'idProducto', hidden: true, width: 75},
             {index: 'N°', name: 'OrderID', align: 'center', width: 40},
             {index: 'Producto', name: 'CustomerID', align: 'center', width: 150},
             {index: 'Tipo de Producto', name: 'CustomerID', align: 'center', width: 150},
@@ -196,7 +197,10 @@
             {index: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},
             {index: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},
             {index: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},
-            {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+            {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
+        ],
+        colNames: [
+            'idProducto', 'N°', 'Producto', 'Tipo de Producto', 'Proveedor', 'Sede', 'Stock Mínimo', 'Stock Máximo', 'Stock Actual', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
@@ -208,8 +212,20 @@
                 var idActividad = $(this).attr('data-idEvento-modificar');
 //                $('#idActividadEditar').val(idActividad);
                 console.log($(this).attr('data-idEvento-modificar'));
-//                console.log($('#idActividadEditar').val());
+                var id = $("#jqGrid").getGridParam('selrow');
+                console.log(id);
 //                $('#formulario-editar').submit();
+//                var myGrid = $('#jqGrid'),
+//                        selRowId = myGrid.jqGrid('getGridParam', 'selrow'),
+//                        celValue = myGrid.jqGrid('getCell', selRowId, 'columnName');
+//                console.log(selRowId);
+//                console.log(celValue);
+                var rowData = $("#backlog").getRowData();
+                console.log(rowData);
+                for (var i = 0; i < rowData.length; i++)
+                {
+                    $("#backlog").jqGrid('setRowData', rowData[i], false, {color:'red'});
+                }
             });
         }
     });
@@ -218,7 +234,10 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-
+        var idProducto = $("#jqGrid").getGridParam('selrow');
+        var rowData = $("#jqGrid").getGridParam('idProducto');
+        console.log(rowdata['idProducto']);
+        console.log(rowData);
         acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
