@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-        <html lang="en">
+        <html lang="en" ng-app="app">
         <head>
             <meta charset="UTF-8">
             <title>Mantenimiento Instalaciones</title>
@@ -7,6 +7,10 @@
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
             <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
             <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+
             <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
             <title>Title</title>
             <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
@@ -20,8 +24,36 @@
 
                 function Agregar(){location.href="registroInstalacion.html";event.preventDefault();}
                 //var funciones=[Ver,Editar,Eliminar,Reservar];
-                var funciones=[Ver,Reservar,Editar,Eliminar];
+                var funciones=[Ver,Reservar,Editar,Eliminar];llenarListaBungalows1
             </script>
+            <script type="text/javascript">
+                app.controller('InstalacionesController', function ($scope, $http) {
+                    $http.get('/api/instalaciones').success(function (data) {
+
+                       var datainstalaciones=data;//eso deberia ser pero como no tengo link
+                        //datainstalaciones = dataJSON;
+                        console.log(JSON.stringify(data));
+                        (datainstalaciones);
+                        cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
+                        mostrarNext5();
+                    });
+                    $("#Buscar").click(function(){
+                        var data=[];
+                        var data2=datainstalaciones;
+                        $.each(data2, function(i, item) {
+                            displayNone(item);
+                            if(!filtrarInstalacion(item))
+                                displayNone(item);
+                            console.log(i);
+                        });
+                    });
+
+                    $("#Limpiar").click(function(){
+                        limpiarFiltradoInstalacion();
+                    });
+                });
+            </script>
+
         </head>
 <body>
 <div id="headerAdministrador"></div>
