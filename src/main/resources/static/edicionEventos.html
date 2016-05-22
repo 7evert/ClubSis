@@ -20,7 +20,7 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <script type="text/javascript">
-        var dataJSON = [
+        /*var dataJSON = [
             {
                 id: 0,
                 descripcion: "asd",
@@ -118,7 +118,7 @@
                     descripcion:"sasdas"
                 }
             }
-        ];
+        ];*/
     </script>
     <script type="text/javascript">
         function getID() {
@@ -139,7 +139,7 @@
             $("#date-picker-FinInscripcion").datepicker("setDate", new Date(finInscipciones));
         }
         function completarTarifas(precios) {
-            //$("#tarifas").attr({value:strtarifas});
+            $("#tarifas").val(precios[0].id);
         }
         function completarRegYDescripcion(reglamento, descripcion) {
             $("#reglamento").attr({value: reglamento});
@@ -169,16 +169,17 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
-            $http.get('http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo').success(function (data) {
-                //dataeventos = data;//eso deberia ser pero como no tengo link
+            $http.get('/api/eventos').success(function (data) {
+                dataeventos = data;//eso deberia ser pero como no tengo link
                 //lo pongo harcodeado que esta en la linea 34
-                dataeventos = dataJSON;
+                //dataeventos = dataJSON;
                 dataevento = $.grep(dataeventos, function (e) {
                     return e.id == getID();
                 })[0];
+                console.log(JSON.stringify(data));
                 //dataeventos=dataJSON;
                 if (!dataevento) {
-                    alert("Bungalow No Disponible");
+                    alert("Evento No Disponible");
                     location.href = "MantenimientoEventos.html";
                 }
                 /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
@@ -216,9 +217,10 @@
                         "isPublico": $("#isPublico").val()
                     };
                     console.log(JSON.stringify(data));
-                    $http.post("/api/reservasbungalow", data).success(function (data2, status) {
-                        alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es " + data2.id);
-                        //location.href = "MantenimientoEventos.html"
+                    var idSede=dataevento.id;
+                    $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
+                        alert("Tu actualizacion fue exitosa");
+                        location.href = "MantenimientoEventos.html"
                     });
                 });
                 $("#Cancelar").click(function () {
@@ -249,9 +251,9 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="0">Chorrillos</option>
-                    <option value="1">Santa Anita</option>
-                    <option value="2">Jesus Maria</option>
+                    <option value="1">Jesus Maria</option>
+                    <option value="2">Santa Anita</option>
+                    <option value="3">Chorrillos</option>
                 </select>
             </div>
         </div>
@@ -259,9 +261,10 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option value="En espera">En espera</option>
-                    <option value="1">Reservado</option>
-                    <option value="2">En Mantenimiento</option>
+                    <option value="CREADO">CREADO</option>
+                    <option value="ESPERA">ESPERA</option>
+                    <option value="ENMARCHA">ENMARCHA</option>
+                    <option value="FINALIZADO">FINALIZADO</option>
                 </select>
             </div>
         </div>
@@ -313,8 +316,9 @@
             <label class="control-label col-xs-4">Tarifas de Evento</label>
             <div class="input-group col-xs-8">
                 <select class="form-control col-xs-8" id="tarifas">
-                    <option value="0">No</option>
-                    <option value="1">Si</option>
+                    <option value="1">Adulto</option>
+                    <option value="2">Adolescente</option>
+                    <option value="3">Niño</option>
                 </select>
             </div>
         </div>

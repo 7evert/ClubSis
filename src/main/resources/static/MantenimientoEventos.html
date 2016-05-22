@@ -69,75 +69,6 @@
             ["Ver", "Participar"]];//usuario:Socio
         var accionAgregar = [["Registrar"],//usuario:ADMINISTRADOR
             []];//usuario:Socio
-
-/*        var dataJSON = [
-            {
-                id: 0,
-                url: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Nuevo 2016",
-                sede: {id: 0, nombre: "Chorrillos", direccion: "av"},
-                empresa: "Nestle",
-                fechaInicio: 3,
-                fechaFin: 4,
-                fechaInicioInscripcion: 2,
-                fechaFinInscripcion: 2,
-                tarifaEventos: [{id: 1, descripcion: "a", precio: 0.00, nombre: "b"}, {
-                    id: 2,
-                    descripcion: "c",
-                    precio: 1.00,
-                    nombre: "d"
-                }],
-                reglamento: "....",
-                estado: 0,
-                descripcion: "asd",
-                isGratuito: 0,
-                isPublico: 1
-            },
-            {
-                id: 1,
-                url: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Año Viejo 2016",
-                sede: {id: 1, nombre: "Santa Anita", direccion: "av"},
-                empresa: "Nestle",
-                fechaInicio: 3,
-                fechaFin: 4,
-                fechaInicioInscripcion: 2,
-                fechaFinInscripcion: 2,
-                tarifaEventos: [{id: 1, descripcion: "a", precio: 0.00, nombre: "b"}, {
-                    id: 2,
-                    descripcion: "c",
-                    precio: 1.00,
-                    nombre: "d"
-                }],
-                reglamento: "....",
-                estado: 0,
-                descripcion: "asd",
-                isGratuito: 0,
-                isPublico: 1
-            },
-            {
-                id: 2,
-                url: "img/Eventos/newYear.jpg",
-                nombre: "Feliz Dia de la Madre 2016",
-                sede: {id: 0, nombre: "Chorrillos", direccion: "av"},
-                empresa: "Nestle",
-                fechaInicio: 3,
-                fechaFin: 4,
-                fechaInicioInscripcion: 2,
-                fechaFinInscripcion: 2,
-                tarifaEventos: [{id: 1, descripcion: "a", precio: 0.50, nombre: "b"}, {
-                    id: 2,
-                    descripcion: "c",
-                    precio: 1.50,
-                    nombre: "d"
-                }],
-                reglamento: "....",
-                estado: 0,
-                descripcion: "asd",
-                isGratuito: 0,
-                isPublico: 1
-            }
-        ];*/
         var dataJSON = [
             {
                 id: 0,
@@ -239,19 +170,65 @@
         ];
     </script>
     <script type="text/javascript">
+        function limpiarFiltradoEvento(){
+            $("#sede").attr({val:""});
+            $("#estado").attr({val:""});
+            $("#descripcion").attr({val:""});
+            $("#date-picker-DiaEntrada").val("");
+            $("#date-picker-DiaSalida").val("");
+            $("#date-picker-InscripcionInicio").val("");
+            $("#date-picker-InscripcionFin").val("");
+        }
+        function filtrarEvento(item){
+            var filtra=[];
+            filtra[0]=($("#sede").val()=="0")||($("#sede").val()==item.sede.id);
+            filtra[1]=($("#estado").val()=="0")||($("#estado").val()==item.estado);
+            filtra[2]=($("#descripcion").val()=="")||($("#descripcion").val()=="");
+            filtra[3]=($("#date-picker-DiaEntrada").val()=="")||($("#date-picker-DiaEntrada").val()<=item.fechaInicio);
+            filtra[4]=($("#date-picker-DiaSalida").val()=="")||($("#date-picker-DiaSalida").val()>=item.fechaFin);
+            filtra[5]=($("#date-picker-InscripcionInicio").val()=="")||($("#date-picker-InscripcionInicio").val()<=item.fechaInicioInscripcion);
+            filtra[6]=($("#date-picker-InscripcionFin").val()=="")||($("#date-picker-InscripcionFin").val()>=item.fechaFinInscripcion);
+            var rspta=true;
+            $.each(filtra, function(i, item) {
+                rspta=rspta&&item;
+            });
+            return rspta;
+        }
+        function displayNone(item){
+            $("#"+item.id).attr({style:"display:none;"});
+        }
+    </script>
+    <script type="text/javascript">
         //app script
         var app = angular.module('app', []);
     </script>
     <script type="text/javascript">
         app.controller('EventosController', function ($scope, $http) {
-            $http.get('http://shopname.myshopify.com/products.json').success(function (data) {
+            $http.get('/api/eventos').success(function (data) {
+                //'/api/eventos'
+                //http://shopname.myshopify.com/products.json
                 //    api/tarifaeventos
-                //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
-                DATAEVENTOS = dataJSON;
+                DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+                //DATAEVENTOS = dataJSON;
+                console.log(JSON.stringify(data));
                 llenarListaBungalows1(DATAEVENTOS);
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
                 mostrarNext5();
-            })
+            });
+            $("#Buscar").click(function(){
+                var data=[];
+                var data2=DATAEVENTOS;
+                $.each(data2, function(i, item) {
+                    displayNone(item);
+                    if(!filtrarEvento(item))
+                        displayNone(item);
+                    console.log(i);
+                });
+            });
+
+            $("#Limpiar").click(function(){
+                limpiarFiltradoEvento();
+            });
         });
     </script>
 </head>
@@ -274,11 +251,11 @@
                             <label for="tipo" class="col-md-4 control-label">Sede</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="sede">
-                                    <option>Elegir</option>
-                                    <option>Chosica</option>
-                                    <option>Namekusein</option>
-                                    <option>Planeta del gran Kaiosama</option>
-                                    <option>Planeta Tierra</option>
+                                    <option value="0">Elegir</option>
+                                    <option value="1">Chosica</option>
+                                    <option value="2">Namekusein</option>
+                                    <option value="3">Planeta del gran Kaiosama</option>
+                                    <option value="4">Planeta Tierra</option>
                                 </select>
                             </div>
                         </div>
@@ -288,11 +265,13 @@
                             <label for="estado" class="col-md-4 control-label">Estado</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="estado">
-                                    <option>Libre</option>
-                                    <option>Reservado</option>
-                                    <option>En Mantenimiento</option>
+                                    <option value="0">-</option>
+                                    <option value="CREADO">CREADO</option>
+                                    <option value="ESPERA">ESPERA</option>
+                                    <option value="ENMARCHA">ENMARCHA</option>
+                                    <option value="FINALIZADO">FINALIZADO</option>
                                 </select>
-                            </div>
+                            </div>1
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5">
@@ -370,8 +349,8 @@
                     </div>
                     <div class="col-sm-5 col-lg-5">
                         <div class="form-group" style="margin-left: 60px;">
-                            <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                            <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                            <button id="Buscar" class="btn btn-primary">Buscar</button>
+                            <button id="Limpiar" class="btn btn-primary">Limpiar</button>
                             <!--Opcional-->
                             <!--<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>-->
                         </div>
@@ -427,7 +406,7 @@
         </div>
     </div>
 </div>
-<div class="pull-right"><!--esto solo es para verificar que funciona, luego se borrara-->
+<div class="pull-right" style="display:none;"><!--esto solo es para verificar que funciona, luego se borrara-->
     <button onclick="cambiarDeUsuario(1,Agregar,funciones)" class="btn btn-primary pull-right">Como Socio</button>
     <button onclick="cambiarDeUsuario(0,Agregar,funciones)" class="btn btn-primary pull-right">Como Administrador
     </button>
@@ -479,7 +458,7 @@
         b[0] = retornaTitulo1(nombre);
         b[1] = $('<p></p>').html("Evento " + id);
         b[2] = retornaSedes1(sede.nombre);
-        b[3] = $('<h3></h3>').html((isPublico) ? "Publico" : "Privado" + (isGratuito) ? " y Gratuito" : "");
+        b[3] = $('<h3></h3>').html(((isPublico) ? "Publico" : "Privado") + ((isGratuito) ? " y Gratuito" : ""));
         for (var j = 0; j < b.length; j++)
             panelInfo.append(b[j]);
         return panelInfo;

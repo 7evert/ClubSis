@@ -39,12 +39,12 @@
 /*                    "id": dataevento.id,*/
                     "url": "img/Eventos/newYear.jpg",
                     "nombre": $("#nombre").val(),
-                    "sede": {"id":$("#sede").val()},//debeser id de sede
+                    //"sede": {"id":$("#sede").val()},//debeser id de sede
                     "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
                     "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
                     "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
                     "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                    "tarifaEventos": [{id:$("#tarifas").val()}],
+                    //"tarifaEventos": [{id:$("#tarifas").val()}],
                     "reglamento": $("#reglamento").val(),
                     "estado": $("#estado").val(),
                     "descripcion": $("#descripcion").val(),
@@ -59,9 +59,11 @@
                  "fechaFinInscripcion":1462165200000,"tarifaEventos":[{"id":"1"}],"reglamento":"ASDD",
                  "estado":"1","descripcion":"asdadslajds","isGratuito":"1","isPublico":"0"}
                 * */
-                $http.post("/api/reservasbungalow", data).success(function (data2, status) {
+                var idSede=$("#sede").val();
+                var idtarifa=$("#tarifas").val();
+                $http.post("/api/tarifaeventos/"+idSede+"/"+idtarifa+"/eventos", data).success(function (data2, status) {
                     alert("Tu registro de Evento "+ data2.id+" fue hecha exitosamente.");
-                    //location.href = "MantenimientoEventos.html"
+                    location.href = "MantenimientoEventos.html"
                 });
             });
         });
@@ -87,9 +89,9 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="0">Chorrillos</option>
-                    <option value="1">Santa Anita</option>
-                    <option value="2">Jesus Maria</option>
+                    <option value="1">Jesus Maria</option>
+                    <option value="2">Santa Anita</option>
+                    <option value="3">Chorrillos</option>
                 </select>
             </div>
         </div>
@@ -97,9 +99,10 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option value="0">Libre</option>
-                    <option value="1">Reservado</option>
-                    <option value="2">En Mantenimiento</option>
+                    <option value="CREADO">CREADO</option>
+                    <option value="ESPERA">ESPERA</option>
+                    <option value="ENMARCHA">ENMARCHA</option>
+                    <option value="FINALIZADO">FINALIZADO</option>
                 </select>
             </div>
         </div>
@@ -151,8 +154,9 @@
             <label class="control-label col-xs-4">Tarifas de Evento</label>
             <div class="input-group col-xs-8">
                 <select class="form-control col-xs-8" id="tarifas">
-                    <option value="0">No</option>
-                    <option value="1">Si</option>
+                    <option value="1">Adulto</option>
+                    <option value="2">Adolescente</option>
+                    <option value="3">Niño</option>
                 </select>
             </div>
         </div>
