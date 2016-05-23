@@ -2,7 +2,10 @@ package com.clubsis.model.sede;
 
 import java.util.Date;
 import javax.persistence.*;
+
+import com.clubsis.model.persona.Empresa;
 import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -11,32 +14,36 @@ import com.clubsis.model.persona.Persona;
 public class ReservaInstalacion {
     @Id
     @GeneratedValue
-    private Integer idReserva;
+    private Integer id;
     private Date fechaReserva;
-    private String estado;
+    private EstadoReservaInstalacion estado;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_instalacion")
+    @ManyToOne
     private Instalacion instalacion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_persona")
-    private Persona persona;
+    @ManyToOne
+    private Empresa empresa;
+
+    @ManyToOne
+    private Socio socio;
+
     protected ReservaInstalacion() {
     }
 
-    public ReservaInstalacion(String estado, Integer idReserva, Date fechaReserva) {
-        this.estado = estado;
-        this.idReserva = idReserva;
+    public ReservaInstalacion(Date fechaReserva, EstadoReservaInstalacion estado, Instalacion instalacion, Empresa empresa, Socio socio) {
         this.fechaReserva = fechaReserva;
+        this.estado = estado;
+        this.instalacion = instalacion;
+        this.empresa = empresa;
+        this.socio = socio;
     }
 
-    public Integer getIdReserva() {
-        return idReserva;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdReserva(Integer idReserva) {
-        this.idReserva = idReserva;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFechaReserva() {
@@ -47,19 +54,35 @@ public class ReservaInstalacion {
         this.fechaReserva = fechaReserva;
     }
 
-    public String getEstado() {
+    public EstadoReservaInstalacion getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoReservaInstalacion estado) {
         this.estado = estado;
     }
 
-    public Instalacion getInstalacion() { return instalacion;  }
+    public Instalacion getInstalacion() {
+        return instalacion;
+    }
 
-    public void setInstalacion(Instalacion instalacion) { this.instalacion = instalacion; }
+    public void setInstalacion(Instalacion instalacion) {
+        this.instalacion = instalacion;
+    }
 
-    public Persona getPersona() { return persona; }
+    public Empresa getEmpresa() {
+        return empresa;
+    }
 
-    public void setPersona(Persona persona) { this.persona = persona; }
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
 }

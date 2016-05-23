@@ -9,45 +9,47 @@ import javax.persistence.*;
 public class Oferta {
     @Id
     @GeneratedValue
-    private Integer idOferta;
-    private String nombreOferta;
+    private Integer id;
+    private String nombre;
     private String descripcion;
     private Double porcentajeDescueto;
     private String tipoPagoAplicable;
     private Date fechaInicio;
     private Date fechaFin;
-    private String estado;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_club")
+
+    private EstadoOferta estado;
+
+    @ManyToOne
     private Club club;
+
     protected Oferta() {
     }
 
-    public Oferta(Integer idOferta, String nombreOferta, String descripcion, String tipoPagoAplicable, Double porcentajeDescueto, Date fechaInicio, Date fechaFin, String estado) {
-        this.idOferta = idOferta;
-        this.nombreOferta = nombreOferta;
+    public Oferta(String nombre, String descripcion, Double porcentajeDescueto, String tipoPagoAplicable, Date fechaInicio, Date fechaFin, EstadoOferta estado, Club club) {
+        this.nombre = nombre;
         this.descripcion = descripcion;
-        this.tipoPagoAplicable = tipoPagoAplicable;
         this.porcentajeDescueto = porcentajeDescueto;
+        this.tipoPagoAplicable = tipoPagoAplicable;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
+        this.club = club;
     }
 
-    public Integer getIdOferta() {
-        return idOferta;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdOferta(Integer idOferta) {
-        this.idOferta = idOferta;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getNombreOferta() {
-        return nombreOferta;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreOferta(String nombreOferta) {
-        this.nombreOferta = nombreOferta;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -90,15 +92,19 @@ public class Oferta {
         this.fechaFin = fechaFin;
     }
 
-    public String getEstado() {
+    public EstadoOferta getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoOferta estado) {
         this.estado = estado;
     }
 
-    public Club getClub() { return club; }
+    public Club getClub() {
+        return club;
+    }
 
-    public void setClub(Club club) { this.club = club; }
+    public void setClub(Club club) {
+        this.club = club;
+    }
 }

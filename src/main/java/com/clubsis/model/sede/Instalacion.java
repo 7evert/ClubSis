@@ -1,9 +1,9 @@
 package com.clubsis.model.sede;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.clubsis.model.clase.Horario;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -13,32 +13,41 @@ import javax.persistence.Id;
 public class Instalacion {
     @Id
     @GeneratedValue
-    @Column(name="id_instalacion")
-    private Integer idInstalacion;
+    private Integer id;
     private String descripcion;
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
-    private Integer estado;
+    private EstadoInstalacion estado;
+    private String urlFoto;
+
+    @OneToMany(mappedBy = "instalacion")
+    private Set<Horario> horarios;
+
+    @OneToMany(mappedBy = "instalacion")
+    private Set<ReservaInstalacion> reservas;
+
+    @ManyToOne
+    private Sede sede;
 
     protected Instalacion() {
     }
 
-    public Instalacion(Integer idInstalacion, String referencia, String descripcion, Integer capacidad, Double precioReserva, Integer estado) {
-        this.idInstalacion = idInstalacion;
-        this.referencia = referencia;
+    public Instalacion(String descripcion, String referencia, Integer capacidad, Double precioReserva, EstadoInstalacion estado, String urlFoto) {
         this.descripcion = descripcion;
+        this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
         this.estado = estado;
+        this.urlFoto = urlFoto;
     }
 
-    public Integer getIdInstalacion() {
-        return idInstalacion;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdInstalacion(Integer idInstalacion) {
-        this.idInstalacion = idInstalacion;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -73,11 +82,19 @@ public class Instalacion {
         this.precioReserva = precioReserva;
     }
 
-    public Integer getEstado() {
+    public EstadoInstalacion getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(EstadoInstalacion estado) {
         this.estado = estado;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }

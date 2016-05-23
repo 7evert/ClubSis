@@ -1,6 +1,7 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.club.Usuario;
+import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,6 +39,10 @@ public class Socio {
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Suspension> suspensiones =new HashSet<Suspension>();
+
+    @OneToMany(mappedBy = "socio")
+    @JsonIgnore
+    private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
 
 
     protected Socio() {
