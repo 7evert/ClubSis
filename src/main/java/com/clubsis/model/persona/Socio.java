@@ -39,16 +39,16 @@ public class Socio {
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Suspension> suspensiones = new HashSet<Suspension>();
-
+/*
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     @JsonIgnore
     private Set<RegistroClase> registrosClase = new HashSet<>();
-
+*/
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones, Set<RegistroClase> registrosClase) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
@@ -56,7 +56,6 @@ public class Socio {
         this.personas = personas;
         this.postulantes = postulantes;
         this.suspensiones = suspensiones;
-        this.registrosClase = registrosClase;
     }
 
     public Date getFechaInscripcion() {
@@ -122,7 +121,7 @@ public class Socio {
     public void setSuspensiones(Set<Suspension> suspensiones) {
         this.suspensiones = suspensiones;
     }
-
+/*
     public Set<RegistroClase> getRegistrosClase() {
         return registrosClase;
     }
@@ -130,4 +129,5 @@ public class Socio {
     public void setRegistrosClase(Set<RegistroClase> registrosClase) {
         this.registrosClase = registrosClase;
     }
+*/
 }

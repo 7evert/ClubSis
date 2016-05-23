@@ -49,7 +49,7 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<Evento> eventos, Set<RegistroClase> registrosClase) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, Date fechaNacimiento, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Set<Evento> eventos, Usuario usuario) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -62,7 +62,6 @@ public class Persona {
         this.socio = socio;
         this.usuario = usuario;
         this.eventos = eventos;
-        this.registrosClase = registrosClase;
     }
 
     public String getNombre() {

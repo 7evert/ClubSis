@@ -23,6 +23,7 @@ public class Proveedor {
     private String numContacto;
     private String direccion;
     private EstadoProveedor estadoProveedor;
+    private String ruc;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "proveedores")
     @JsonIgnore
@@ -39,12 +40,13 @@ public class Proveedor {
     protected Proveedor() {
     }
 
-    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, EstadoProveedor estadoProveedor, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
+    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, EstadoProveedor estadoProveedor, String ruc, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numContacto = numContacto;
         this.direccion = direccion;
         this.estadoProveedor = estadoProveedor;
+        this.ruc = ruc;
         this.productos = productos;
         this.ordenes = ordenes;
         this.sedes = sedes;
@@ -120,5 +122,13 @@ public class Proveedor {
 
     public void setSedes(Set<Sede> sedes) {
         this.sedes = sedes;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
     }
 }
