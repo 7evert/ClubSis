@@ -1,30 +1,50 @@
 package com.clubsis.model.clase;
 
+import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class RegistroClase {
-    private Integer idPersona;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private Date fechaRegistro;
-    private String estado;
+    private EstadoRegistroClase estado;
+
+    @ManyToOne
+    private Clase clase;
+
+    @ManyToOne
+    private Persona persona;
+
+    @ManyToOne
+    private Socio socio;
 
     protected RegistroClase() {
     }
 
-    public RegistroClase(Integer idPersona, Date fechaRegistro, String estado) {
-        this.idPersona = idPersona;
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona, Socio socio) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
+        this.clase = clase;
+        this.persona = persona;
+        this.socio = socio;
     }
 
-    public Integer getIdPersona() {
-        return idPersona;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFechaRegistro() {
@@ -35,11 +55,35 @@ public class RegistroClase {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public String getEstado() {
+    public EstadoRegistroClase getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoRegistroClase estado) {
         this.estado = estado;
+    }
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }

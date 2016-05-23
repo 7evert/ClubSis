@@ -22,8 +22,7 @@ public class Proveedor {
     private String descripcion;
     private String numContacto;
     private String direccion;
-    private Integer isHabilitado;
-
+    private EstadoProveedor estadoProveedor;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "proveedores")
     @JsonIgnore
@@ -37,18 +36,26 @@ public class Proveedor {
     @JsonIgnore
     private Set<Sede> sedes = new HashSet<>();
 
-    public Proveedor() {
+    protected Proveedor() {
     }
 
-    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, Integer isHabilitado, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
+    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, EstadoProveedor estadoProveedor, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numContacto = numContacto;
         this.direccion = direccion;
-        this.isHabilitado = isHabilitado;
+        this.estadoProveedor = estadoProveedor;
         this.productos = productos;
         this.ordenes = ordenes;
         this.sedes = sedes;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -83,6 +90,14 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
+    public EstadoProveedor getEstadoProveedor() {
+        return estadoProveedor;
+    }
+
+    public void setEstadoProveedor(EstadoProveedor estadoProveedor) {
+        this.estadoProveedor = estadoProveedor;
+    }
+
     public Set<Producto> getProductos() {
         return productos;
     }
@@ -105,21 +120,5 @@ public class Proveedor {
 
     public void setSedes(Set<Sede> sedes) {
         this.sedes = sedes;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getIsHabilitado() {
-        return isHabilitado;
-    }
-
-    public void setIsHabilitado(Integer isHabilitado) {
-        this.isHabilitado = isHabilitado;
     }
 }
