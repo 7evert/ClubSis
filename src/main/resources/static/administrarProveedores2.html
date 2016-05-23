@@ -24,6 +24,10 @@
             background-color: #008D34;
         }
 
+        .center .ui-jqgrid {
+            width: 1100px; margin-left: auto; margin-right: auto;
+        }
+
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
@@ -59,7 +63,6 @@
 </head>
 <body ng-controller="ProveedorController">
 
-
 <script type="text/javascript">
     //app script
     var app = angular.module('app', []);
@@ -67,19 +70,16 @@
 
 <script type="text/javascript">
     var app = angular.module('app', []);
-    var mydataproveedor;
 
     app.controller('ProveedorController', function ($scope, $http) {
         $http.get('/api/proveedores').success(function (data) {
+//            alert("2");
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
             console.log(data);
 
         })
     });
-
-
-
 </script>
 <div id="headerAdministrador"></div>
 <div class="container">
@@ -95,51 +95,51 @@
 
     </div>
     <hr>
-    <h4>CONSULTA DE PROVEEDORES</h4>
+    <!--<h4>CONSULTA DE PROVEEDORES</h4>-->
 
-    <form class="form-horizontal">
-        <div class="row">
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del Proveedor">
-                    </div>
-                </div>
+    <!--<form class="form-horizontal">-->
+    <!--<div class="row">-->
+    <!--<div class="col-sm-6 col-lg-5">-->
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del Proveedor">-->
+    <!--</div>-->
+    <!--</div>-->
 
-                <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Descripción</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion" placeholder="Palabra Clave">
-                    </div>
-                </div>
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Descripción</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="descripcion" placeholder="Palabra Clave">-->
+    <!--</div>-->
+    <!--</div>-->
 
-            </div>
+    <!--</div>-->
 
-            <div class="col-sm-6 col-lg-12">
-            </div>
-            <div class="col-sm-7 col-lg-7">
-            </div>
-            <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
-                </div>
-            </div>
-        </div>
-        <h4>RESULTADOS DE BUSQUEDA</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
-            <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
-        </div>
-        <br>
-        <div class="leyenda">
-            <span>Leyenda: </span>
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Proveedor
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Proveedor
-        </div>
+    <!--<div class="col-sm-6 col-lg-12">-->
+    <!--</div>-->
+    <!--<div class="col-sm-7 col-lg-7">-->
+    <!--</div>-->
+    <!--<div class="col-sm-5 col-lg-5">-->
+    <!--<div class="form-group" style="margin-left: 110px;">-->
+    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <h4>LISTA DE PROVEEDORES REGISTRADOS</h4>
+    <div class="rowchangeg" style="width: 1000px; margin-left: 0px; ">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br>
+    <div class="leyenda">
+        <span>Leyenda: </span>
+        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Proveedor
+        |
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Proveedor
+    </div>
     </form>
 </div>
 <br>
@@ -155,38 +155,61 @@
 <script src="js/principal.js"></script>
 <script type="text/javascript">
 
-
     $("#jqGrid").jqGrid({
+        url: '/api/proveedores',
+        mtype: "GET",
         styleUI: 'Bootstrap',
-        datatype: "jsonp",
-        data: mydataproveedor,
+        datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            {label: 'idSocio', name: 'idSocio', key: true, hidden: true, width: 75},
-            {label: 'Nombre Del Proveedor', name: 'OrderID', align: 'center', width: 150},
-            {label: 'Descripción', name: 'OrderID', align: 'center', width: 300},
-            {label: '# Contacto', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Direccion', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+        colNames:['Id','Nombre del Proveedor','RUC','Descripcion','# Contacto','Direccion','Estado Proveedor', 'Acciones'], //define column names
+        colModel:[
+            {name:'id', index:'id', key: true, width:50},
+            {name:'nombre', index:'nombre', width:150},
+            {name:'ruc', index:'ruc', width:100},
+            {name:'descripcion', index:'descripcion',width:350},
+            {name:'numContacto', index:'numContacto', width:100},
+            {name:'direccion', index:'direccion', width:220},
+            {name:'estadoProveedor', index:'estadoProveedor', width:100},
+            {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
-        height: 430,
-        rowNum: 15,
-        pager: "#jqGridPager"
+        height: 300,
+        rowNum: 1000,
+        pager: "#jqGridPager",
+        loadComplete:function(){
+            console.log("salio");
+        }
     });
 
-    $('#jqGrid').jqGrid('setGridWidth', '900');
+    $('#jqGrid').jqGrid('setGridWidth', '1150');
+
+
+    $.extend(true, $.jgrid.edit, {
+        recreateForm: true,
+        beforeShowForm: function ($form) {
+            $form.closest(".ui-jqdialog").position({
+                of: window, // or any other element
+                my: "center center",
+                at: "center center"
+            });
+        }
+    });
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href=edicionProveedor.html class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="javascript:void(0)" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }
+
+    jQuery("#bt1").click( function() {
+        jQuery("#jqGrid").jqGrid('editRow',"13");
+        console.log(data);
+        this.disabled = 'true';
+    });
 </script>
 </body>
 </html>
