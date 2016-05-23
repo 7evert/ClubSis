@@ -1,5 +1,6 @@
 package com.clubsis.model.bungalow;
 
+import com.clubsis.model.club.Sorteo;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +33,10 @@ public class Bungalow {
     @OneToMany(mappedBy = "bungalow")
     @JsonIgnore
     private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
+
+    @OneToMany(mappedBy = "sorteo")
+    @JsonIgnore
+    private Set<Sorteo> sorteos;
 
 
     protected Bungalow() {

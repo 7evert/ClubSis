@@ -1,8 +1,7 @@
 package com.clubsis.model.clase;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -21,6 +20,15 @@ public class Clase {
     private String profesor;
 
     private EstadoClase estadoClase;
+
+    @OneToMany(mappedBy = "clase")
+    private Set<RegistroClase> registrosClase;
+
+    @OneToMany(mappedBy = "clase")
+    private Set<Horario> horarios;
+
+    @ManyToOne
+    private Ciclo ciclo;
 
     protected Clase() {
     }

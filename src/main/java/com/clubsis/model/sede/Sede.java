@@ -35,10 +35,12 @@ public class Sede {
     @ManyToMany
     private Set<Proveedor> proveedores;
 
-    @OneToMany
+    @OneToMany(mappedBy = "sede")
+    @JsonIgnore
     private Set<OrdenCompra> ordenes;
 
     @OneToMany(mappedBy = "sede")
+    @JsonIgnore
     private Set<Instalacion> instalaciones;
 
 

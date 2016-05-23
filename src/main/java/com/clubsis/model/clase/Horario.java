@@ -26,15 +26,19 @@ public class Horario {
     @ManyToOne
     private Instalacion instalacion;
 
+    @ManyToOne
+    private Clase clase;
+
     protected Horario() {
     }
 
-    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Instalacion instalacion) {
+    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Instalacion instalacion, Clase clase) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.estadoHorario = estadoHorario;
         this.instalacion = instalacion;
+        this.clase = clase;
     }
 
     public Integer getId() {
@@ -83,5 +87,13 @@ public class Horario {
 
     public void setInstalacion(Instalacion instalacion) {
         this.instalacion = instalacion;
+    }
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
     }
 }

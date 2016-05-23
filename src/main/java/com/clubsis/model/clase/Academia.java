@@ -19,6 +19,8 @@ public class Academia {
 
     private EstadoAcademia estadoAcademia;
 
+    // TODO: ManyToMany con Ciclo
+
     protected Academia() {
     }
 
