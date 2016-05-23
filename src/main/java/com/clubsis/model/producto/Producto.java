@@ -1,8 +1,10 @@
 package com.clubsis.model.producto;
 
 import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,10 +23,10 @@ public class Producto {
     private EstadoProducto estadoProducto;
 
     @ManyToMany
-    private Set<Proveedor> proveedores;
+    private Set<Proveedor> proveedores = new HashSet<>();
 
     @ManyToMany
-    private Set<OrdenCompra> ordenes;
+    private Set<OrdenCompra> ordenes = new HashSet<>();
 
     protected Producto() {
     }

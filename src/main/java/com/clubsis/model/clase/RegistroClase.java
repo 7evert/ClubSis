@@ -1,8 +1,10 @@
 package com.clubsis.model.clase;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,12 +19,24 @@ public class RegistroClase {
     private Date fechaRegistro;
     private EstadoRegistroClase estado;
 
+    @ManyToOne
+    private Clase clase;
+
+    @ManyToOne
+    private Persona persona;
+
+    @ManyToOne
+    private Socio socio;
+
     protected RegistroClase() {
     }
 
-    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado) {
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona, Socio socio) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
+        this.clase = clase;
+        this.persona = persona;
+        this.socio = socio;
     }
 
     public Integer getId() {
@@ -47,5 +61,29 @@ public class RegistroClase {
 
     public void setEstado(EstadoRegistroClase estado) {
         this.estado = estado;
+    }
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }

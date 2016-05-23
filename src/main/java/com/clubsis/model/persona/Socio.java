@@ -1,7 +1,7 @@
 package com.clubsis.model.persona;
 
+import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
-import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,7 +18,7 @@ public class Socio {
     @Id
     @GeneratedValue
     private Integer id;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaInscripcion;
     private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
@@ -26,24 +26,24 @@ public class Socio {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Invitado> invitados =new HashSet<Invitado>();
+    private Set<Invitado> invitados = new HashSet<Invitado>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Persona> personas =new HashSet<Persona>();
+    private Set<Persona> personas = new HashSet<Persona>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Postulante> postulantes=new HashSet<Postulante>();
+    private Set<Postulante> postulantes = new HashSet<Postulante>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Suspension> suspensiones =new HashSet<Suspension>();
-
-    @OneToMany(mappedBy = "socio")
+    private Set<Suspension> suspensiones = new HashSet<Suspension>();
+/*
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     @JsonIgnore
-    private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
-
+    private Set<RegistroClase> registrosClase = new HashSet<>();
+*/
 
     protected Socio() {
     }
@@ -57,7 +57,6 @@ public class Socio {
         this.postulantes = postulantes;
         this.suspensiones = suspensiones;
     }
-
 
     public Date getFechaInscripcion() {
         return fechaInscripcion;
@@ -122,4 +121,13 @@ public class Socio {
     public void setSuspensiones(Set<Suspension> suspensiones) {
         this.suspensiones = suspensiones;
     }
+/*
+    public Set<RegistroClase> getRegistrosClase() {
+        return registrosClase;
+    }
+
+    public void setRegistrosClase(Set<RegistroClase> registrosClase) {
+        this.registrosClase = registrosClase;
+    }
+*/
 }

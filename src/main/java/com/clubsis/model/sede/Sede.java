@@ -28,24 +28,20 @@ public class Sede {
     @JsonIgnore
     private Set<Bungalow> bungalows;
 
-    @OneToMany(mappedBy ="sede")
+    @OneToMany(mappedBy = "sede")
     @JsonIgnore
     private Set<Evento> eventos = new HashSet<>();
 
     @ManyToMany
-    private Set<Proveedor> proveedores;
+    private Set<Proveedor> proveedores = new HashSet<>();
 
     @OneToMany
-    private Set<OrdenCompra> ordenes;
-
-    @OneToMany(mappedBy = "sede")
-    private Set<Instalacion> instalaciones;
-
+    private Set<OrdenCompra> ordenes = new HashSet<>();
 
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, String descripcion, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones) {
+    public Sede(String nombre, String direccion, String descripcion, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
@@ -53,7 +49,6 @@ public class Sede {
         this.eventos = eventos;
         this.proveedores = proveedores;
         this.ordenes = ordenes;
-        this.instalaciones = instalaciones;
     }
 
     public Integer getId() {
@@ -118,13 +113,5 @@ public class Sede {
 
     public void setOrdenes(Set<OrdenCompra> ordenes) {
         this.ordenes = ordenes;
-    }
-
-    public Set<Instalacion> getInstalaciones() {
-        return instalaciones;
-    }
-
-    public void setInstalaciones(Set<Instalacion> instalaciones) {
-        this.instalaciones = instalaciones;
     }
 }

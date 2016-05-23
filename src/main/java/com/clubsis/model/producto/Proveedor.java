@@ -6,6 +6,7 @@ import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,30 +22,31 @@ public class Proveedor {
     private String descripcion;
     private String numContacto;
     private String direccion;
-
     private EstadoProveedor estadoProveedor;
+    private String ruc;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "proveedores")
     @JsonIgnore
-    private Set<Producto> productos;
+    private Set<Producto> productos = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "proveedor")
     @JsonIgnore
-    private Set<OrdenCompra> ordenes;
+    private Set<OrdenCompra> ordenes = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "proveedores")
     @JsonIgnore
-    private Set<Sede> sedes;
+    private Set<Sede> sedes = new HashSet<>();
 
     protected Proveedor() {
     }
 
-    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, EstadoProveedor estadoProveedor, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
+    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, EstadoProveedor estadoProveedor, String ruc, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numContacto = numContacto;
         this.direccion = direccion;
         this.estadoProveedor = estadoProveedor;
+        this.ruc = ruc;
         this.productos = productos;
         this.ordenes = ordenes;
         this.sedes = sedes;
@@ -120,5 +122,13 @@ public class Proveedor {
 
     public void setSedes(Set<Sede> sedes) {
         this.sedes = sedes;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
     }
 }

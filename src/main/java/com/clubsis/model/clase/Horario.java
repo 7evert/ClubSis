@@ -2,10 +2,7 @@ package com.clubsis.model.clase;
 
 import com.clubsis.model.sede.Instalacion;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -20,8 +17,10 @@ public class Horario {
     private Date dia;
     private Date horaInicio;
     private Date horaFin;
-
     private EstadoHorario estadoHorario;
+
+    @ManyToOne
+    private Clase clase;
 
     @ManyToOne
     private Instalacion instalacion;
@@ -29,11 +28,12 @@ public class Horario {
     protected Horario() {
     }
 
-    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Instalacion instalacion) {
+    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Clase clase, Instalacion instalacion) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.estadoHorario = estadoHorario;
+        this.clase = clase;
         this.instalacion = instalacion;
     }
 
@@ -75,6 +75,14 @@ public class Horario {
 
     public void setEstadoHorario(EstadoHorario estadoHorario) {
         this.estadoHorario = estadoHorario;
+    }
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
     }
 
     public Instalacion getInstalacion() {

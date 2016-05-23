@@ -3,6 +3,7 @@ package com.clubsis.model.persona;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,7 +23,7 @@ public class Persona {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaNacimiento;
     private String direccion;
     private String correo;
@@ -31,15 +32,19 @@ public class Persona {
     private Boolean esTitular;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
+    @JoinColumn(name = "id_socio")
     private Socio socio;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_usuario")
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
-    private Set<Evento> eventos=new HashSet<Evento>();;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "personas")
+    private Set<Evento> eventos = new HashSet<Evento>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "persona")
+    @JsonIgnore
+    private Set<RegistroClase> registrosClase = new HashSet<>();
 
     protected Persona() {
     }
@@ -48,17 +53,16 @@ public class Persona {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
         this.correo = correo;
         this.dni = dni;
         this.telefono = telefono;
         this.esTitular = esTitular;
         this.socio = socio;
-        this.eventos = eventos;
         this.usuario = usuario;
+        this.eventos = eventos;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -132,9 +136,13 @@ public class Persona {
         this.esTitular = esTitular;
     }
 
-    public Socio getSocio() { return socio; }
+    public Socio getSocio() {
+        return socio;
+    }
 
-    public void setSocio(Socio socio) { this.socio = socio; }
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -158,5 +166,13 @@ public class Persona {
 
     public void setEventos(Set<Evento> eventos) {
         this.eventos = eventos;
+    }
+
+    public Set<RegistroClase> getRegistrosClase() {
+        return registrosClase;
+    }
+
+    public void setRegistrosClase(Set<RegistroClase> registrosClase) {
+        this.registrosClase = registrosClase;
     }
 }
