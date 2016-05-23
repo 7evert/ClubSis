@@ -1,6 +1,5 @@
 package com.clubsis.model.persona;
 
-import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,9 +30,9 @@ public class Socio {
     @JsonIgnore
     private Set<Persona> personas =new HashSet<Persona>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="id.socio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Postulante> postulantes=new HashSet<Postulante>();
+    private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -43,13 +42,13 @@ public class Socio {
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Socio_Postulante> postulantes, Set<Persona> personas, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
         this.invitados = invitados;
-        this.personas = personas;
         this.postulantes = postulantes;
+        this.personas = personas;
         this.suspensiones = suspensiones;
     }
 
@@ -102,13 +101,7 @@ public class Socio {
         this.personas = personas;
     }
 
-    public Set<Postulante> getPostulantes() {
-        return postulantes;
-    }
 
-    public void setPostulantes(Set<Postulante> postulantes) {
-        this.postulantes = postulantes;
-    }
 
     public Set<Suspension> getSuspensiones() {
         return suspensiones;
@@ -116,5 +109,13 @@ public class Socio {
 
     public void setSuspensiones(Set<Suspension> suspensiones) {
         this.suspensiones = suspensiones;
+    }
+
+    public Set<Socio_Postulante> getPostulantes() {
+        return postulantes;
+    }
+
+    public void setPostulantes(Set<Socio_Postulante> postulantes) {
+        this.postulantes = postulantes;
     }
 }
