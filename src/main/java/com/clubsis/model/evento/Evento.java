@@ -36,7 +36,7 @@ public class Evento {
     private Integer capacidad;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventos",cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos",cascade= CascadeType.ALL)
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
     @JsonIgnore

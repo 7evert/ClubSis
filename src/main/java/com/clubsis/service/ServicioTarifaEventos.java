@@ -21,7 +21,10 @@ public class ServicioTarifaEventos {
         return tarifaxEventoRepository.findAll();
     }
     public TarifaEvento buscarTarifasEventos(Integer id){return tarifaxEventoRepository.findOne(id);}
-    public TarifaEvento crearTarifaEventos(TarifaEvento tarifaEvento){return tarifaxEventoRepository.saveAndFlush(tarifaEvento);}
+    public TarifaEvento crearTarifaEventos(TarifaEvento tarifaEvento){
+        System.out.println(" 2 ");
+        return tarifaxEventoRepository.saveAndFlush(tarifaEvento);
+    }
     public TarifaEvento actualizarTarifaEventos(Integer id, TarifaEvento tarifaEvento){
         TarifaEvento tarifaEventoexistente= tarifaxEventoRepository.findOne(id);
         BeanUtils.copyProperties(tarifaEvento,tarifaEventoexistente);

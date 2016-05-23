@@ -106,8 +106,24 @@
                 console.log(JSON.stringify(data));
                 $http.post('/api/eventos/' + idSede,data).success(function (data2, status) {
                     console.log(data2.id+" "+data2.nombre);
+                    var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+                    for (var i = 0,vez=0; i < ids.length; i++) {
+                        var rowId = ids[i];
+                        var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                        //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
+                        if (rowData.UsarTar == "Yes") {
+                            vez++;
+                            dataJSON = {
+                                "precio": parseFloat(rowData.precio)
+                            };
+                            $http.post("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
+                                console.log("Salio");
+                            });
+                        }
+                    }
+
+                    });
                 });
-            });
             $http.get('/api/tarifas').success(function (data) {
 
                 var lastsel2;
