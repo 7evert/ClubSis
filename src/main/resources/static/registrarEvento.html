@@ -89,29 +89,83 @@
 
             $("#Guardar").click(function () {
                 var data = {
-                    "url": "img/Eventos/newYear.jpg",
-                    "nombre": $("#nombre").val(),
-                    //"sede": {"id":$("#sede").val()},//debeser id de sede
-                    "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
-                    "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
-                    "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                    "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                    //"tarifaEventos": [{id:$("#tarifas").val()}],
-                    "reglamento": $("#reglamento").val(),
-                    "estado": $("#estado").val(),
-                    "descripcion": $("#descripcion").val(),
-                    "isGratuito":$("#isGratuito").val(),
-                    "isPublico":$("#isPublico").val()
+                    "precio":0,
+                    "vez":0,
+                    "eventos": {
+                        "url": "img/Eventos/newYear.jpg",
+                        "nombre": $("#nombre").val(),
+                        "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
+                        "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
+                        "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
+                        "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
+                        "reglamento": $("#reglamento").val(),
+                        "estado": $("#estado").val(),
+                        "descripcion": $("#descripcion").val(),
+                        "isGratuito": $("#isGratuito").val(),
+                        "isPublico": $("#isPublico").val(),
+                        "capacidad":$("#capacidad").val()
+                    }
                 };
                 dataJSON=data;
-                console.log(JSON.stringify(dataJSON));
-                var idSede=$("#sede").val();
-                var idtarifa=$("#tarifas").val();
-                $http.post("/api/tarifaeventos/"+idSede+"/"+idtarifa+"/eventos", data).success(function (data2, status) {
-                    alert("Tu registro de Evento "+ data2.id+" fue hecha exitosamente.");
-                    location.href = "MantenimientoEventos.html"
-                });
+                idSede=$("#sede").val();
+                //console.log(JSON.stringify(dataJSON));
+                var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++)
+                {
+                    var rowId = ids[i];
+                    var rowData = jQuery('#jqGrid').jqGrid ('getRowData', rowId);
+                    if(rowData.UsarTar=="Yes") {
+                        dataJSON.precio=parseFloat(rowData.precio);
+                        dataJSON.vez++;
+                        console.log(JSON.stringify(dataJSON));
+                        console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
+                        $http.post("/api/tarifaeventos/" + rowData.id + "/" + idSede + "/eventos", data).success(function (data2, status) {
+                            alert("Tu registro de Evento " + data2.id + " fue hecha exitosamente.");
+                            console.log(rowData.nombre + " " + rowData.id + " " + rowData.precio + " " + rowData.UsarTar);
+                        });
+                    }
+                }
+
             });
+            $http.get('/api/tarifas').success(function (data) {
+
+                var lastsel2;
+                jQuery("#jqGrid").jqGrid({
+                    datatype: "local",
+                    height: 50*(data.legth+1),
+                    colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                    colModel:[
+                        {name:'id',index:'id', width:90, sorttype:"int"},
+                        {name:'nombre',index:'nombre', width:150,editable: false},
+                        {name:'UsarTar',index:'UsarTar', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},
+                        {name:'precio',index:'precio', width:120,editable: true, editoptions:{size:"20",maxlength:"30"}}
+                    ],
+                    onSelectRow: function(id){
+                        if(id && id!==lastsel2){
+                            jQuery("#jqGrid").jqGrid('saveRow',id,
+                                    {
+                                        successfunc: function( response ) {
+                                            console.log(response);
+                                            return true;
+                                        }
+                                    });
+                            jQuery('#jqGrid').restoreRow(lastsel2);
+                            jQuery('#jqGrid').editRow(id,true);
+                            lastsel2=id;
+                        }
+                    },
+                    editurl: "clientArray",
+                    caption: "Escoger Tarifas (Click y Enter paraguardar cambios en la tabla)"
+                });
+                for(var i=0;i<data.length;i++) {
+                    data[i].UsarTar="No";
+                    data[i].precio="0";
+                    jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+                }
+                data.push({id:-1,nombre:"Click para terminar"});
+                jQuery("#jqGrid").addRowData(data[data.length-1].id, data[i]);
+            });
+
         });
 
     </script>
@@ -189,14 +243,10 @@
                 </div>
             </div>
         </div>
-        <div id="tarifaEvento" class="form-group">
-            <label class="control-label col-xs-4">Tarifas de Evento</label>
+        <div id="capacidad1" class="form-group">
+            <label class="control-label col-xs-4">Capacidad Máxima</label>
             <div class="input-group col-xs-8">
-                <select class="form-control col-xs-8" id="tarifas">
-                    <option value="1">Adulto</option>
-                    <option value="2">Adolescente</option>
-                    <option value="3">Niño</option>
-                </select>
+                <input id="capacidad" type="text" class="form-control col-xs-8" value=""/>
             </div>
         </div>
         <div id="Reglamento1" class="form-group">
@@ -239,7 +289,7 @@
                  style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
                  src="img/Eventos/newYear.jpg">
         </div>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>
@@ -299,7 +349,7 @@
         caption:"jqGrid Sedes" //title of grid
     });
 
-    */
+    *//*
     $("#jqGrid").jqGrid({
         url: '/api/tarifas',
         mtype: "GET",
@@ -339,7 +389,7 @@
                 '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
-    }
+    }*/
 </script>
 </body>
 </html>
