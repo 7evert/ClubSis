@@ -89,9 +89,6 @@
 
             $("#Guardar").click(function () {
                 var data = {
-                    "precio":0,
-                    "vez":0,
-                    "eventos": {
                         "url": "img/Eventos/newYear.jpg",
                         "nombre": $("#nombre").val(),
                         "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
@@ -101,12 +98,10 @@
                         "reglamento": $("#reglamento").val(),
                         "estado": $("#estado").val(),
                         "descripcion": $("#descripcion").val(),
-                        "isGratuito": $("#isGratuito").val(),
-                        "isPublico": $("#isPublico").val(),
-                        "capacidad":$("#capacidad").val()
-                    }
+                        "isGratuito": parseInt($("#isGratuito").val()),
+                        "isPublico": parseInt($("#isPublico").val()),
+                        "capacidad":parseInt($("#capacidad").val())
                 };
-                dataJSON=data;
                 idSede=$("#sede").val();
                 //console.log(JSON.stringify(dataJSON));
                 var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
@@ -114,12 +109,17 @@
                 {
                     var rowId = ids[i];
                     var rowData = jQuery('#jqGrid').jqGrid ('getRowData', rowId);
+                    //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
                     if(rowData.UsarTar=="Yes") {
-                        dataJSON.precio=parseFloat(rowData.precio);
-                        dataJSON.vez++;
+                        dataJSON= {
+                            "precio": parseFloat(rowData.precio),
+                            "vez": (i + 1),
+                            "Content-Type": "application/json",
+                            "eventos": data
+                        };
                         console.log(JSON.stringify(dataJSON));
-                        console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
-                        $http.post("/api/tarifaeventos/" + rowData.id + "/" + idSede + "/eventos", data).success(function (data2, status) {
+                        var dataJSON1=JSON.stringify(dataJSON);
+                        $http.post("/api/tarifaeventos/" + rowData.id + "/" + idSede + "/eventos", dataJSON1).success(function (data2, status) {
                             alert("Tu registro de Evento " + data2.id + " fue hecha exitosamente.");
                             console.log(rowData.nombre + " " + rowData.id + " " + rowData.precio + " " + rowData.UsarTar);
                         });
