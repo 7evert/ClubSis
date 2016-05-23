@@ -59,6 +59,7 @@
 </head>
 <body ng-controller="ProveedorController">
 
+
 <script type="text/javascript">
     //app script
     var app = angular.module('app', []);
@@ -66,19 +67,19 @@
 
 <script type="text/javascript">
     var app = angular.module('app', []);
+    var mydataproveedor;
 
     app.controller('ProveedorController', function ($scope, $http) {
         $http.get('/api/proveedores').success(function (data) {
-            alert("2");
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
             console.log(data);
-            DATAEVENTOS = dataJSON;
-            llenarListaBungalows1(DATAEVENTOS);
-            cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
-            mostrarNext5();
+
         })
     });
+
+
+
 </script>
 <div id="headerAdministrador"></div>
 <div class="container">
@@ -156,10 +157,9 @@
 
 
     $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "jsonp",
+        data: mydataproveedor,
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
