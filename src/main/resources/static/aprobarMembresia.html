@@ -164,7 +164,7 @@
     <h2>Aprobación de membresía</h2>
 
     <hr>
-    <form class="form-horizontal">
+    <form id="formFiltrado" class="form-horizontal">
         <h4>FILTRO DE BÚSQUEDA</h4>
         <div class="row">
             <div class="col-sm-6 col-lg-5">
@@ -220,7 +220,7 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 60px;">
                     <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                    <button onclick="limpiarF()" class="btn btn-primary">Limpiar</button>
                 </div>
             </div>
         </div>
@@ -257,6 +257,9 @@
         var acciones = '';
         acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Detalle"><img src="img/Iconos/ver.png" class="icono"></a>'
         return acciones;
+    }
+    function limpiarF() {
+        document.getElementById("formFiltrado").reset();
     }
 </script>
 </body>
