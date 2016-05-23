@@ -103,29 +103,10 @@
                         "capacidad":parseInt($("#capacidad").val())
                 };
                 idSede=$("#sede").val();
-                //console.log(JSON.stringify(dataJSON));
-                var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
-                for (var i = 0; i < ids.length; i++)
-                {
-                    var rowId = ids[i];
-                    var rowData = jQuery('#jqGrid').jqGrid ('getRowData', rowId);
-                    //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
-                    if(rowData.UsarTar=="Yes") {
-                        dataJSON= {
-                            "precio": parseFloat(rowData.precio),
-                            "vez": (i + 1),
-                            "Content-Type": "application/json",
-                            "eventos": data
-                        };
-                        console.log(JSON.stringify(dataJSON));
-                        var dataJSON1=JSON.stringify(dataJSON);
-                        $http.post("/api/tarifaeventos/" + rowData.id + "/" + idSede + "/eventos", dataJSON1).success(function (data2, status) {
-                            alert("Tu registro de Evento " + data2.id + " fue hecha exitosamente.");
-                            console.log(rowData.nombre + " " + rowData.id + " " + rowData.precio + " " + rowData.UsarTar);
-                        });
-                    }
-                }
-
+                console.log(JSON.stringify(data));
+                $http.post('/api/eventos/' + idSede,data).success(function (data2, status) {
+                    console.log(data2.id+" "+data2.nombre);
+                });
             });
             $http.get('/api/tarifas').success(function (data) {
 
