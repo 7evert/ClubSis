@@ -1,6 +1,7 @@
 package com.clubsis.model.club;
 
 
+import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.privilegio.Permiso;
 import com.clubsis.model.privilegio.Rol;
 
@@ -30,8 +31,8 @@ public class Club {
     @OneToMany(mappedBy = "club")
     private Set<Sorteo> sorteos;
 
-//    @OneToMany(mappedBy = "club")
-//    private Set<Oferta> ofertas;
+    @OneToMany(mappedBy = "club")
+    private Set<CuotaExtraordinaria> cuotasExtraordinarias;
 
     @OneToMany(mappedBy = "club")
     private Set<Permiso> permisos;

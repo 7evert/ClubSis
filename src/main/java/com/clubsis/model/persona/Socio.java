@@ -49,6 +49,8 @@ public class Socio {
     @JsonIgnore
     private Set<PagoMembresia> pagosMembresia = new HashSet<>();
 
+    @ManyToOne
+    private TipoSocio tipo;
 
     protected Socio() {
     }
