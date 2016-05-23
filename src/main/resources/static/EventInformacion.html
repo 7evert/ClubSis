@@ -196,7 +196,7 @@
                 mostraridEvento(dataevento.id);
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
-                mostrarTarifas(dataevento.tarifaEventos);
+                //mostrarTarifas(dataevento.tarifaEventos);
                 mostrarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
@@ -208,7 +208,64 @@
                 $("#Editar").click(function () {
                     location.href = "edicionEventos.html?id="+getID();
                 });
+                $http.get('/api/tarifas').success(function (data) {
+
+                    var lastsel2;
+                    jQuery("#jqGrid").jqGrid({
+                        datatype: "local",
+                        height: 50*(data.legth+1),
+                        colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                        colModel:[
+                            {name:'id',index:'id', width:90, sorttype:"int"},
+                            {name:'nombre',index:'nombre', width:150,editable: false},
+                            {name:'UsarTar',index:'UsarTar', width:60, editable: false, edittype:"checkbox",editoptions: {value:"Yes:No"}},
+                            {name:'precio',index:'precio', width:120,editable: false, editoptions:{size:"20",maxlength:"30"}}
+                        ],
+                        onSelectRow: function(id){
+                            if(id && id!==lastsel2){
+                                jQuery("#jqGrid").jqGrid('saveRow',id,
+                                        {
+                                            successfunc: function( response ) {
+                                                console.log(response);
+                                                return true;
+                                            }
+                                        });
+                                jQuery('#jqGrid').restoreRow(lastsel2);
+                                jQuery('#jqGrid').editRow(id,true);
+                                lastsel2=id;
+                            }
+                        },
+                        editurl: "clientArray",
+                        caption: "Escoger Tarifas (Click y Enter para guardar cambios en la tabla)"
+                    });
+                    var tarreg=new Array();
+                    $http.get('api/tarifaeventos').success(function (data3) {
+                        for(var i=0;i<data3.length;i++){
+                            console.log(data3[i].eventos.id+" "+dataevento.id)
+                            if(data3[i].eventos.id==dataevento.id){
+                                for(var j=0;j<data.length;j++){
+                                    if(data3[i].tarifaeventos.id==data[j].id){
+                                        data[j].UsarTar="Yes";
+                                        data[j].precio=data3[i].precio;
+                                        jQuery("#jqGrid").addRowData(data[j].id, data[j]);
+                                        tarreg.push(j);
+                                    }
+                                }
+                            }
+                        }
+                        for(var i=0;i<data.length;i++) {
+                            if(tarreg.indexOf(i)<0) {
+                                data[i].UsarTar = "No";
+                                data[i].precio = "0";
+                                jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+                            }
+                        }
+                        $("#lui_jqGrid").addClass("hidden");
+                    });
+
+                })
             });
+
         });
     </script>
 
@@ -247,6 +304,10 @@
             <div id="BungTipo2" class="show">
                 <img id="imgEvento" class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
             </div>
+            <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
             <div></div>
         </div>
     </div>
@@ -254,9 +315,17 @@
     --------------------------------------------------------------------------------------------------------->
 </div>
 <div id="footer"></div>
+
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();

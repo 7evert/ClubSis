@@ -11,115 +11,59 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
     <link rel="stylesheet" type="text/css" media="screen"
           href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
-    <script type="text/javascript">
-        /*var dataJSON = [
-            {
-                id: 0,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            },
-            {
-                id: 1,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            },
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
 
-            {
-                id: 2,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            }
-        ];*/
-    </script>
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
     <script type="text/javascript">
         function getID() {
             var href = this.location.href;
@@ -138,8 +82,8 @@
             $("#date-picker-InicioInscripcion").datepicker("setDate", new Date(inicioInscripciones));
             $("#date-picker-FinInscripcion").datepicker("setDate", new Date(finInscipciones));
         }
-        function completarTarifas(precios) {
-            $("#tarifas").val(precios[0].id);
+        function completarCapacidad(capacidad) {
+            $("#capacidad").attr({value:capacidad});
         }
         function completarRegYDescripcion(reglamento, descripcion) {
             $("#reglamento").attr({value: reglamento});
@@ -199,7 +143,7 @@
                     completaridEvento(dataevento.id);
                     completarNombre(dataevento.nombre);
                     completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
-                    completarTarifas(dataevento.tarifaEventos);
+                    completarCapacidad(dataevento.capacidad);
                     completarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
                     completarImagen(dataevento.url);
                     seleccionarEstado(dataevento.estado);
@@ -207,10 +151,6 @@
                     seleccionarGratuitoyPublico(dataevento.isGratuito, dataevento.isPublico)
 
                     $("#Guardar").click(function () {
-                        var cadTar = $("#tarifas").val().split(/[:;]/);
-                        var tarifas = {};
-                        for (var i = 0; i < cadTar.length; i += 2)
-                            if (cadTar[i] != "")tarifas[cadTar[i]] = cadTar[i + 1];
                         var data = {
                             "id": dataevento.id,
                             "url": "img/Eventos/newYear.jpg",
@@ -225,7 +165,8 @@
                             "estado": $("#estado").val(),
                             "descripcion": $("#descripcion").val(),
                             "isGratuito": $("#isGratuito").val(),
-                            "isPublico": $("#isPublico").val()
+                            "isPublico": $("#isPublico").val(),
+                            "capacidad":parseInt($("#capacidad").val())
                         };
                         console.log(JSON.stringify(data));
                         var idSede=dataevento.id;
@@ -236,7 +177,64 @@
                     });
                     $("#Cancelar").click(function () {
                         alert("Cancelar");
-                        location.href = "EventInformacion.html?id="+getID();
+                        location.href = "MantenimientoEventos.html"+getID();
+                    });
+
+                    $http.get('/api/tarifas').success(function (data) {
+
+                        var lastsel2;
+                        jQuery("#jqGrid").jqGrid({
+                            datatype: "local",
+                            height: 50*(data.legth+1),
+                            colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                            colModel:[
+                                {name:'id',index:'id', width:90, sorttype:"int"},
+                                {name:'nombre',index:'nombre', width:150,editable: false},
+                                {name:'UsarTar',index:'UsarTar', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},
+                                {name:'precio',index:'precio', width:120,editable: true, editoptions:{size:"20",maxlength:"30"}}
+                            ],
+                            onSelectRow: function(id){
+                                if(id && id!==lastsel2){
+                                    jQuery("#jqGrid").jqGrid('saveRow',id,
+                                            {
+                                                successfunc: function( response ) {
+                                                    console.log(response);
+                                                    return true;
+                                                }
+                                            });
+                                    jQuery('#jqGrid').restoreRow(lastsel2);
+                                    jQuery('#jqGrid').editRow(id,true);
+                                    lastsel2=id;
+                                }
+                            },
+                            editurl: "clientArray",
+                            caption: "Escoger Tarifas (Click y Enter para guardar cambios en la tabla)"
+                        });
+                        var tarreg=new Array();
+                        data.push({id:-1,nombre:"Click para terminar"});
+                        $http.get('api/tarifaeventos').success(function (data3) {
+                            for(var i=0;i<data3.length;i++){
+                                console.log(data3[i].eventos.id+" "+dataevento.id)
+                                if(data3[i].eventos.id==dataevento.id){
+                                    for(var j=0;j<data.length;j++){
+                                        if(data3[i].tarifaeventos.id==data[j].id){
+                                            data[j].UsarTar="Yes";
+                                            data[j].precio=data3[i].precio;
+                                            jQuery("#jqGrid").addRowData(data[j].id, data[j]);
+                                            tarreg.push(j);
+                                        }
+                                    }
+                                }
+                            }
+                            for(var i=0;i<data.length;i++) {
+                                if(tarreg.indexOf(i)<0) {
+                                    data[i].UsarTar = "No";
+                                    data[i].precio = "0";
+                                    jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+                                }
+                            }
+                        });
+
                     });
                 });
             });
@@ -317,14 +315,10 @@
                 </div>
             </div>
         </div>
-        <div id="tarifaEvento" class="form-group">
-            <label class="control-label col-xs-4">Tarifas de Evento</label>
+        <div id="capacidad1" class="form-group">
+            <label class="control-label col-xs-4">Capacidad Máxima</label>
             <div class="input-group col-xs-8">
-                <select class="form-control col-xs-8" id="tarifas">
-                    <option value="1">Adulto</option>
-                    <option value="2">Adolescente</option>
-                    <option value="3">Niño</option>
-                </select>
+                <input id="capacidad" type="text" class="form-control col-xs-8" value=""/>
             </div>
         </div>
         <div id="Reglamento1" class="form-group">
@@ -353,8 +347,6 @@
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" value="Mantener" style="width:22%"
-                       onclick="location.href='MantenimientoEventos.html';">
                 <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%">
                 <input id="Cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%">
             </div>
@@ -366,15 +358,27 @@
                  style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
                  src="img/Eventos/newYear.jpg">
         </div>
+        <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
         <div></div>
     </div>
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
 </div>
 <div id="footer"></div>
+
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
