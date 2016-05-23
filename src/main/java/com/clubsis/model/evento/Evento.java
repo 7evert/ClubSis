@@ -34,8 +34,9 @@ public class Evento {
     private Integer isPublico;
     private String nombre;
 
-    @ManyToMany
-    private Set<TarifaEvento> tarifaEventos = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventos",cascade= CascadeType.ALL)
+    private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
     @JsonIgnore
     @ManyToMany
@@ -52,20 +53,20 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<Persona> personas, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, EstadoEvento estado, Date fechaFin, String reglamento, String url, Date fechaFinInscripcion, Date fechaInicioInscripcion, Integer isGratuito, Integer isPublico, String nombre, Set<TarifaEvento> tarifaxEventos, Set<Persona> personas, Set<Empresa> empresas, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
         this.estado = estado;
-        this.fechaInicioInscripcion = fechaInicioInscripcion;
+        this.fechaFin = fechaFin;
         this.reglamento = reglamento;
         this.url = url;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.isGratuito = isGratuito;
-        this.nombre = nombre;
         this.isPublico = isPublico;
+        this.nombre = nombre;
+        this.tarifaxEventos = tarifaxEventos;
         this.personas = personas;
-        this.tarifaEventos = tarifaEventos;
         this.empresas = empresas;
         this.sede = sede;
     }
@@ -166,12 +167,13 @@ public class Evento {
         this.nombre = nombre;
     }
 
-    public Set<TarifaEvento> getTarifaEventos() {
-        return tarifaEventos;
+
+    public Set<TarifaEvento> getTarifaxEventos() {
+        return tarifaxEventos;
     }
 
-    public void setTarifaEventos(Set<TarifaEvento> tarifaEventos) {
-        this.tarifaEventos = tarifaEventos;
+    public void setTarifaxEventos(Set<TarifaEvento> tarifaxEventos) {
+        this.tarifaxEventos = tarifaxEventos;
     }
 
     public Set<Persona> getPersonas() {
