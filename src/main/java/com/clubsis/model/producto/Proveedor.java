@@ -6,6 +6,7 @@ import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,27 +22,30 @@ public class Proveedor {
     private String descripcion;
     private String numContacto;
     private String direccion;
+    private Integer isHabilitado;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "proveedores")
     @JsonIgnore
-    private Set<Producto> productos;
+    private Set<Producto> productos = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "proveedor")
     @JsonIgnore
-    private Set<OrdenCompra> ordenes;
+    private Set<OrdenCompra> ordenes = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "proveedores")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "proveedores")
     @JsonIgnore
-    private Set<Sede> sedes;
+    private Set<Sede> sedes = new HashSet<>();
 
-    protected Proveedor() {
+    public Proveedor() {
     }
 
-    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
+    public Proveedor(String nombre, String descripcion, String numContacto, String direccion, Integer isHabilitado, Set<Producto> productos, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numContacto = numContacto;
         this.direccion = direccion;
+        this.isHabilitado = isHabilitado;
         this.productos = productos;
         this.ordenes = ordenes;
         this.sedes = sedes;
@@ -109,5 +113,13 @@ public class Proveedor {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getIsHabilitado() {
+        return isHabilitado;
+    }
+
+    public void setIsHabilitado(Integer isHabilitado) {
+        this.isHabilitado = isHabilitado;
     }
 }
