@@ -44,13 +44,18 @@ public class Club {
     protected Club() {
     }
 
-    public Club(String nombre, String vision, String mision, String historia, String urlFoto, Set<Oferta> ofertas) {
+    public Club(String nombre, String vision, String mision, String historia, String urlFoto, Set<Oferta> ofertas, Set<Sancion> sanciones, Set<Sorteo> sorteos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Permiso> permisos, Set<Rol> roles) {
         this.nombre = nombre;
         this.vision = vision;
         this.mision = mision;
         this.historia = historia;
         this.urlFoto = urlFoto;
         this.ofertas = ofertas;
+        this.sanciones = sanciones;
+        this.sorteos = sorteos;
+        this.cuotasExtraordinarias = cuotasExtraordinarias;
+        this.permisos = permisos;
+        this.roles = roles;
     }
 
     public Integer getId() {
@@ -107,5 +112,45 @@ public class Club {
 
     public void setOfertas(Set<Oferta> ofertas) {
         this.ofertas = ofertas;
+    }
+
+    public Set<Sancion> getSanciones() {
+        return sanciones;
+    }
+
+    public void setSanciones(Set<Sancion> sanciones) {
+        this.sanciones = sanciones;
+    }
+
+    public Set<Sorteo> getSorteos() {
+        return sorteos;
+    }
+
+    public void setSorteos(Set<Sorteo> sorteos) {
+        this.sorteos = sorteos;
+    }
+
+    public Set<CuotaExtraordinaria> getCuotasExtraordinarias() {
+        return cuotasExtraordinarias;
+    }
+
+    public void setCuotasExtraordinarias(Set<CuotaExtraordinaria> cuotasExtraordinarias) {
+        this.cuotasExtraordinarias = cuotasExtraordinarias;
+    }
+
+    public Set<Permiso> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(Set<Permiso> permisos) {
+        this.permisos = permisos;
+    }
+
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
     }
 }
