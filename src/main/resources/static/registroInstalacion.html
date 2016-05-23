@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
 </head>
-<body>
+<body ng-controller="InstalacionController">
 <div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
@@ -28,15 +28,15 @@
     <hr>
     <form id="formReservaInstalacions" class="form-horizontal mitadDerecha">
         <div id="nombreInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Nombre Instalacion</label>
+            <label class="control-label col-xs-4">Nombre</label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" placeholder="Campo 2 tenis,campo 3 de voley, o etc ..."/>
+                <input ng-model="nombre" type="text" class="form-control col-xs-8" placeholder="Campo 2 tenis,campo 3 de voley, o etc ..."/>
             </div>
         </div>
         <div id="escogerSedeInstalacions" class="form-group">
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
-                <select class="form-control col-xs-8">
+                <select ng-model="sede" class="form-control col-xs-8">
                     <option value="1">Chorrillos</option>
                     <option value="2">Santa Anita</option>
                     <option value="3">Jesus Maria</option>
@@ -44,25 +44,25 @@
             </div>
         </div>
 
-        <div id="precioInstalacion" class="form-group">
+        <div ng-model="precioReserva" id="precioInstalacion" class="form-group">
             <label class="control-label col-xs-4">Precio Reserva</label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" placeholder="S/. (Solo Numeros)"/>
             </div>
         </div>
-        <div id="capacidadInstalacion" class="form-group">
+        <div ng-model="capacidad" id="capacidadInstalacion" class="form-group">
             <label class="control-label col-xs-4">Capacidad</label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" placeholder="personas"/>
             </div>
         </div>
-        <div id="referenciaInstalacion" class="form-group">
+        <div ng-model="referencia" id="referenciaInstalacion" class="form-group">
             <label class="control-label col-xs-4">Referencia</label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" placeholder="Lugar donde queda"/>
             </div>
         </div>
-        <div id="CaracteristicasInstalacion" class="form-group">
+        <div ng-model="caracteristicas" id="CaracteristicasInstalacion" class="form-group">
             <label class="control-label col-xs-4">Caracteristicas</label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" placeholder="caracteristicas separadas por '-'"/>
@@ -91,6 +91,37 @@
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
+    var app = angular.module('app', []);
+    app.controller('InstalacionController', function ($scope, $http) {
+        $("#btnRegistrar").click(function () {
+            $scope.registrarInstalacion = function () {
+                var data = {
+                    'nombre': $scope.nombre,
+                    'caracteristicas': $scope.caracteristicas,
+                    'referencia': $scope.referencia,
+                    'capacidad': $scope.capacidad,
+                    'precioReserva': parseFloat($scope.precioReserva),
+                    'estado': $scope.estado,
+                    'sede':$scope.sede,
+                };
+//                var jsonObj = JSON.parse(data);
+                console.log(data);
+                //Falta las validaciones (LOO)
+                $http.post('/api/instalaciones', data).success(function (data) {
+                    //happy end
+                    Notificaciones.showProcesando();
+                    Notificaciones.hideAll();
+                    window.location = "mantenimientoInstalaciones.html";
+                    //$scope.PostDataResponse = data;
+                })
+                        .error(function (data) {
+                            //aca lo que se hara en caso falle
+                            Notificaciones.showError("Error al crear la instalación.");
+                            console.log("fallo");
+                        });
+            }();
+        });
+    });
 </script>
 </body>
 </html>
