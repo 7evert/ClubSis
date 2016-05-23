@@ -36,15 +36,16 @@ public class TarifaxEventoController {
     public TarifaEvento create(@RequestBody TarifaEvento tarifa) { return servicioTarifaxEventos.crearTarifaEventos(tarifa);}
 
     @RequestMapping(value="/{idSede}/{id}/eventos",method = RequestMethod.POST)
-    public TarifaEvento agregarEvento(@PathVariable Integer idSede, @PathVariable Integer id, @RequestBody Evento evento, @RequestHeader(value="precio") String precioStr){
+    public TarifaEvento agregarEvento(@PathVariable Integer idSede, @PathVariable Integer id, @RequestBody Evento evento, @RequestHeader(value="precio") String precioStr, @RequestHeader(value="vez") String vez){
         double precio= Double.parseDouble(precioStr);
+        int controlador = Integer.parseInt(vez);
         Tarifa tarifa= servicioTarifas.buscarTarifa(id);
         Sede sede = servicioSede.buscarSede(idSede);
         evento.setSede(sede);
         TarifaEvento tarifaxEventos = new TarifaEvento(precio,evento,tarifa);
         tarifaxEventos.setEventos(evento);
         tarifaxEventos.setTarifaeventos(tarifa);
-        servicioEvento.crearEvento(evento);
+        if(controlador ==1) servicioEvento.crearEvento(evento);
         return servicioTarifaxEventos.crearTarifaEventos(tarifaxEventos);
     }
 }

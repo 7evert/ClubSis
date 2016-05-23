@@ -33,17 +33,18 @@ public class Evento {
     private Integer isGratuito;
     private Integer isPublico;
     private String nombre;
+    private Integer capacidad;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventos",cascade= CascadeType.ALL)
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     private Set<Persona> personas = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     private Set<Empresa> empresas = new HashSet<>();
 
     // este es el OWNER de la relación con sede
@@ -53,22 +54,23 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, EstadoEvento estado, Date fechaFin, String reglamento, String url, Date fechaFinInscripcion, Date fechaInicioInscripcion, Integer isGratuito, Integer isPublico, String nombre, Set<TarifaEvento> tarifaxEventos, Set<Persona> personas, Set<Empresa> empresas, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<TarifaEvento> tarifaxEventos, Set<Persona> personas, Sede sede, Set<Empresa> empresas) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
-        this.estado = estado;
         this.fechaFin = fechaFin;
+        this.estado = estado;
         this.reglamento = reglamento;
-        this.url = url;
-        this.fechaFinInscripcion = fechaFinInscripcion;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
+        this.fechaFinInscripcion = fechaFinInscripcion;
+        this.url = url;
         this.isGratuito = isGratuito;
         this.isPublico = isPublico;
         this.nombre = nombre;
+        this.capacidad = capacidad;
         this.tarifaxEventos = tarifaxEventos;
         this.personas = personas;
+        this.setSede(sede);
         this.empresas = empresas;
-        this.sede = sede;
     }
 
     public Integer getId() {
@@ -165,31 +167,6 @@ public class Evento {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-
-    public Set<TarifaEvento> getTarifaxEventos() {
-        return tarifaxEventos;
-    }
-
-    public void setTarifaxEventos(Set<TarifaEvento> tarifaxEventos) {
-        this.tarifaxEventos = tarifaxEventos;
-    }
-
-    public Set<Persona> getPersonas() {
-        return personas;
-    }
-
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
-    }
-
-    public Set<Empresa> getEmpresas() {
-        return empresas;
-    }
-
-    public void setEmpresas(Set<Empresa> empresas) {
-        this.empresas = empresas;
     }
 
     public Sede getSede() {

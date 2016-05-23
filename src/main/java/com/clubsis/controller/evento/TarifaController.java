@@ -18,7 +18,7 @@ public class TarifaController {
 
     @Autowired
     private ServicioTarifas servicioTarifas;
-
+    
     @RequestMapping(method=RequestMethod.GET)
     List<Tarifa> list() { return servicioTarifas.mostrarTarifas();}
 

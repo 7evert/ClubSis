@@ -24,11 +24,11 @@ public class Sede {
     private String direccion;
     private String descripcion;
 
-    @OneToMany(mappedBy = "sede")
+    @OneToMany(mappedBy = "sede",cascade=CascadeType.ALL)
     @JsonIgnore
     private Set<Bungalow> bungalows;
 
-    @OneToMany(mappedBy ="sede")
+    @OneToMany(mappedBy ="sede",cascade=CascadeType.ALL)
     @JsonIgnore
     private Set<Evento> eventos = new HashSet<>();
 
