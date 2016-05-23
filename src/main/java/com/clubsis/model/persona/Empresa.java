@@ -26,9 +26,9 @@ public class Empresa {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="empresas")
     private Set<Evento> eventos = new HashSet<Evento>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "empresa")
     @JsonIgnore
-    private Set<ReservaInstalacion> reservasInstalacion=new HashSet<ReservaInstalacion>();
+    private Set<ReservaInstalacion> reservasInstalacion = new HashSet<ReservaInstalacion>();
 
     protected Empresa() {
     }

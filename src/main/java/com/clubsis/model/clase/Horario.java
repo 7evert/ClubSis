@@ -1,43 +1,87 @@
 package com.clubsis.model.clase;
 
+import com.clubsis.model.sede.Instalacion;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.util.Date;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class Horario {
-    private Integer idHorario;
-    private String dia;
-    private Integer hora;
+    @Id
+    @GeneratedValue
+    private Integer id;
+    private Date dia;
+    private Date horaInicio;
+    private Date horaFin;
+
+    private EstadoHorario estadoHorario;
+
+    @ManyToOne
+    private Instalacion instalacion;
 
     protected Horario() {
     }
 
-    public Horario(Integer idHorario, Integer hora, String dia) {
-        this.idHorario = idHorario;
-        this.hora = hora;
+    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Instalacion instalacion) {
         this.dia = dia;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.estadoHorario = estadoHorario;
+        this.instalacion = instalacion;
     }
 
-    public Integer getIdHorario() {
-        return idHorario;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdHorario(Integer idHorario) {
-        this.idHorario = idHorario;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getDia() {
+    public Date getDia() {
         return dia;
     }
 
-    public void setDia(String dia) {
+    public void setDia(Date dia) {
         this.dia = dia;
     }
 
-    public Integer getHora() {
-        return hora;
+    public Date getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHora(Integer hora) {
-        this.hora = hora;
+    public void setHoraInicio(Date horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public Date getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public EstadoHorario getEstadoHorario() {
+        return estadoHorario;
+    }
+
+    public void setEstadoHorario(EstadoHorario estadoHorario) {
+        this.estadoHorario = estadoHorario;
+    }
+
+    public Instalacion getInstalacion() {
+        return instalacion;
+    }
+
+    public void setInstalacion(Instalacion instalacion) {
+        this.instalacion = instalacion;
     }
 }
