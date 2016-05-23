@@ -169,63 +169,75 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
-            $http.get('/api/eventos').success(function (data) {
-                dataeventos = data;//eso deberia ser pero como no tengo link
-                //lo pongo harcodeado que esta en la linea 34
-                //dataeventos = dataJSON;
-                dataevento = $.grep(dataeventos, function (e) {
-                    return e.id == getID();
-                })[0];
-                console.log(JSON.stringify(data));
-                //dataeventos=dataJSON;
-                if (!dataevento) {
-                    alert("Evento No Disponible");
-                    location.href = "MantenimientoEventos.html";
-                }
-                /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
-                 fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                 precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},*/
-                completaridEvento(dataevento.id);
-                completarNombre(dataevento.nombre);
-                completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
-                completarTarifas(dataevento.tarifaEventos);
-                completarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
-                completarImagen(dataevento.url);
-                seleccionarEstado(dataevento.estado);
-                seleccionarSede(dataevento.sede);
-                seleccionarGratuitoyPublico(dataevento.isGratuito, dataevento.isPublico)
+            var estados=[{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
+            var estadosElem=$("#estado");
+            for(var i=0;i<estados.length;i++)
+                estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
 
-                $("#Guardar").click(function () {
-                    var cadTar = $("#tarifas").val().split(/[:;]/);
-                    var tarifas = {};
-                    for (var i = 0; i < cadTar.length; i += 2)
-                        if (cadTar[i] != "")tarifas[cadTar[i]] = cadTar[i + 1];
-                    var data = {
-                        "id": dataevento.id,
-                        "url": "img/Eventos/newYear.jpg",
-                        "nombre": $("#nombre").val(),
-                        "sede": {"id": $("#sede").val()},//debeser id de sede
-                        "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
-                        "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
-                        "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                        "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                        "tarifaEventos": [{id:$("#tarifas").val()}],
-                        "reglamento": $("#reglamento").val(),
-                        "estado": $("#estado").val(),
-                        "descripcion": $("#descripcion").val(),
-                        "isGratuito": $("#isGratuito").val(),
-                        "isPublico": $("#isPublico").val()
-                    };
+            $http.get('/api/sedes').success(function (data) {
+                DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+                var b=new Array();
+                var sedesElem=$("#sede");
+                for(var i=0;i<data.length;i++)
+                    sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+                $http.get('/api/eventos').success(function (data) {
+                    dataeventos = data;//eso deberia ser pero como no tengo link
+                    //lo pongo harcodeado que esta en la linea 34
+                    //dataeventos = dataJSON;
+                    dataevento = $.grep(dataeventos, function (e) {
+                        return e.id == getID();
+                    })[0];
                     console.log(JSON.stringify(data));
-                    var idSede=dataevento.id;
-                    $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
-                        alert("Tu actualizacion fue exitosa");
-                        location.href = "MantenimientoEventos.html"
+                    //dataeventos=dataJSON;
+                    if (!dataevento) {
+                        alert("Evento No Disponible");
+                        location.href = "MantenimientoEventos.html";
+                    }
+                    /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
+                     fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
+                     precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},*/
+                    completaridEvento(dataevento.id);
+                    completarNombre(dataevento.nombre);
+                    completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
+                    completarTarifas(dataevento.tarifaEventos);
+                    completarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                    completarImagen(dataevento.url);
+                    seleccionarEstado(dataevento.estado);
+                    seleccionarSede(dataevento.sede);
+                    seleccionarGratuitoyPublico(dataevento.isGratuito, dataevento.isPublico)
+
+                    $("#Guardar").click(function () {
+                        var cadTar = $("#tarifas").val().split(/[:;]/);
+                        var tarifas = {};
+                        for (var i = 0; i < cadTar.length; i += 2)
+                            if (cadTar[i] != "")tarifas[cadTar[i]] = cadTar[i + 1];
+                        var data = {
+                            "id": dataevento.id,
+                            "url": "img/Eventos/newYear.jpg",
+                            "nombre": $("#nombre").val(),
+                            "sede": {"id": $("#sede").val()},//debeser id de sede
+                            "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
+                            "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
+                            "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
+                            "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
+                            "tarifaEventos": [{id:$("#tarifas").val()}],
+                            "reglamento": $("#reglamento").val(),
+                            "estado": $("#estado").val(),
+                            "descripcion": $("#descripcion").val(),
+                            "isGratuito": $("#isGratuito").val(),
+                            "isPublico": $("#isPublico").val()
+                        };
+                        console.log(JSON.stringify(data));
+                        var idSede=dataevento.id;
+                        $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
+                            alert("Tu actualizacion fue exitosa");
+                            location.href = "MantenimientoEventos.html"
+                        });
                     });
-                });
-                $("#Cancelar").click(function () {
-                    alert("Cancelar");
-                    location.href = "EventInformacion.html?id="+getID();
+                    $("#Cancelar").click(function () {
+                        alert("Cancelar");
+                        location.href = "EventInformacion.html?id="+getID();
+                    });
                 });
             });
         });
@@ -251,9 +263,6 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Jesus Maria</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Chorrillos</option>
                 </select>
             </div>
         </div>
@@ -261,10 +270,6 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option value="CREADO">CREADO</option>
-                    <option value="ESPERA">ESPERA</option>
-                    <option value="ENMARCHA">ENMARCHA</option>
-                    <option value="FINALIZADO">FINALIZADO</option>
                 </select>
             </div>
         </div>

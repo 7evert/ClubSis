@@ -10,15 +10,60 @@
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
     <link rel="stylesheet" type="text/css" media="screen"
           href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
     <script type="text/javascript">
         var dataJSON;
     </script>
@@ -29,14 +74,21 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
-            $("#Guardar").click(function () {
-// {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:,nombre:"",direccion:""},
-// empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,
-// tarifas:[{id:,descripcion:"a",precio:0.00,nombre:"b"},{id:,descripcion:"c",precio:1.00,nombre:"d"}],
-// reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
+            var estados=[{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
+            var estadosElem=$("#estado");
+            for(var i=0;i<estados.length;i++)
+                estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
 
+            $http.get('/api/sedes').success(function (data) {
+                DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+                var b=new Array();
+                var sedesElem=$("#sede");
+                for(var i=0;i<data.length;i++)
+                    sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+            });
+
+            $("#Guardar").click(function () {
                 var data = {
-/*                    "id": dataevento.id,*/
                     "url": "img/Eventos/newYear.jpg",
                     "nombre": $("#nombre").val(),
                     //"sede": {"id":$("#sede").val()},//debeser id de sede
@@ -53,12 +105,6 @@
                 };
                 dataJSON=data;
                 console.log(JSON.stringify(dataJSON));
-                /*
-                 {"url":"img/Eventos/newYear.jpg","nombre":"nOMBRE","sede":{"id":"2"},
-                 "fechaInicio":1462251600000,"fechaFin":1464325200000,"fechaInicioInscripcion":1463806800000,
-                 "fechaFinInscripcion":1462165200000,"tarifaEventos":[{"id":"1"}],"reglamento":"ASDD",
-                 "estado":"1","descripcion":"asdadslajds","isGratuito":"1","isPublico":"0"}
-                * */
                 var idSede=$("#sede").val();
                 var idtarifa=$("#tarifas").val();
                 $http.post("/api/tarifaeventos/"+idSede+"/"+idtarifa+"/eventos", data).success(function (data2, status) {
@@ -89,9 +135,6 @@
             <label class="control-label col-xs-4">Escoger Sede</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
-                    <option value="1">Jesus Maria</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Chorrillos</option>
                 </select>
             </div>
         </div>
@@ -99,10 +142,6 @@
             <label class="control-label col-xs-4">Estado</label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
-                    <option value="CREADO">CREADO</option>
-                    <option value="ESPERA">ESPERA</option>
-                    <option value="ENMARCHA">ENMARCHA</option>
-                    <option value="FINALIZADO">FINALIZADO</option>
                 </select>
             </div>
         </div>
@@ -200,6 +239,10 @@
                  style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
                  src="img/Eventos/newYear.jpg">
         </div>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
         <div></div>
     </div>
     <!--------------------------------------------------------------------------------------------------------
@@ -209,9 +252,94 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
+</script>
+<script type="text/javascript">
+    /*var mydata = [
+        {
+            id: 1,
+            descripcion: "mayores a 25 años",
+            nombre: "adulto"
+        },
+        {
+            id: 2,
+            descripcion: "entre 18 y 25",
+            nombre: "adolescente"
+        },
+        {
+            id: 3,
+            descripcion: "entre 1 y 18",
+            nombre: "niño"
+        }
+    ];
+
+    $("#jqGrid").jqGrid({ //set your grid id
+        data: mydata, //insert data from the data object we created above
+        datatype: 'local',
+        width: 500, //specify width; optional
+        colNames:['Id','Nombre'], //define column names
+        colModel:[
+            {name:'id', index:'id', key: true, width:50},
+            {name:'nombre', index:'nombre', width:150}
+        ], //define column models
+        pager: '#jqGridPager', //set your pager div id
+        sortname: 'id', //the column according to which data is to be sorted; optional
+        viewrecords: true, //if true, displays the total number of records, etc. as: "View X to Y out of Z” optional
+        sortorder: "asc", //sort order; optional
+        caption:"jqGrid Sedes" //title of grid
+    });
+
+    */
+    $("#jqGrid").jqGrid({
+        url: '/api/tarifaeventos',
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "json",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        colNames:['Id','Nombre','Precio1'], //define column names
+         colModel:[
+         {name:'id', index:'id', key: true, width:50},
+         {name:'nombre', index:'nombre', width:150},
+             {name:'precio', index:'-', editable:true, edittype:'text',width:150}
+         ],
+        viewrecords: true,
+        height: 300,
+        rowNum: 5,
+        pager: "#jqGridPager",
+        onSelectRow: function(id,stat,e){
+            if(id && id!==lastSel){
+                jQuery('#jqGrid').restoreRow(lastSel);
+                lastSel=id;
+            }
+            jQuery('#jqGrid').editRow(id, true);
+            $("#"+id+"_formattedvalue").focus();
+        },
+        loadComplete:function(){
+            console.log("salio");
+        }
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '200');
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        return acciones;
+    }
 </script>
 </body>
 </html>

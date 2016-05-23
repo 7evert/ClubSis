@@ -170,10 +170,17 @@
         ];
     </script>
     <script type="text/javascript">
+        function contieneCadenaItem(item,cad){
+            var palabras=cad.split(" ");
+            var ver =false;
+            for(var i=0;i<palabras.length;i++)
+                ver=(ver || (item.nombre.indexOf(palabras[i])>=0) ||(item.descripcion.indexOf(palabras[i])>=0));
+            return ver;
+        }
         function limpiarFiltradoEvento(){
-            $("#sede").attr({val:""});
-            $("#estado").attr({val:""});
-            $("#descripcion").attr({val:""});
+            $("#sede").val(0);
+            $("#estado").val(0);
+            $("#descripcion").val("");
             $("#date-picker-DiaEntrada").val("");
             $("#date-picker-DiaSalida").val("");
             $("#date-picker-InscripcionInicio").val("");
@@ -183,11 +190,11 @@
             var filtra=[];
             filtra[0]=($("#sede").val()=="0")||($("#sede").val()==item.sede.id);
             filtra[1]=($("#estado").val()=="0")||($("#estado").val()==item.estado);
-            filtra[2]=($("#descripcion").val()=="")||($("#descripcion").val()=="");
-            filtra[3]=($("#date-picker-DiaEntrada").val()=="")||($("#date-picker-DiaEntrada").val()<=item.fechaInicio);
-            filtra[4]=($("#date-picker-DiaSalida").val()=="")||($("#date-picker-DiaSalida").val()>=item.fechaFin);
-            filtra[5]=($("#date-picker-InscripcionInicio").val()=="")||($("#date-picker-InscripcionInicio").val()<=item.fechaInicioInscripcion);
-            filtra[6]=($("#date-picker-InscripcionFin").val()=="")||($("#date-picker-InscripcionFin").val()>=item.fechaFinInscripcion);
+            filtra[2]=($("#descripcion").val()=="")||(contieneCadenaItem(item,$("#descripcion").val()));
+            filtra[3]=($("#date-picker-DiaEntrada").val()=="")||(new Date($("#date-picker-DiaEntrada").val())<=new Date(item.fechaInicio));
+            filtra[4]=($("#date-picker-DiaSalida").val()=="")||(new Date($("#date-picker-DiaSalida").val())>=new Date(item.fechaFin));
+            filtra[5]=($("#date-picker-InscripcionInicio").val()=="")||(new Date($("#date-picker-InscripcionInicio").val())<=new Date(item.fechaInicioInscripcion));
+            filtra[6]=($("#date-picker-InscripcionFin").val()=="")||(new Date($("#date-picker-InscripcionFin").val())>=new Date(item.fechaFinInscripcion));
             var rspta=true;
             $.each(filtra, function(i, item) {
                 rspta=rspta&&item;
@@ -215,15 +222,30 @@
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
                 mostrarNext5();
             });
+
+            var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
+            var estadosElem=$("#estado");
+            for(var i=0;i<estados.length;i++)
+                estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
+
+            $http.get('/api/sedes').success(function (data) {
+                DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+                var b=new Array();
+                var sedesElem=$("#sede");
+                sedesElem.append($("<option></option>").attr({value:0}).html("Elegir"));
+                for(var i=0;i<data.length;i++)
+                    sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+            });
             $("#Buscar").click(function(){
                 var data=[];
                 var data2=DATAEVENTOS;
                 $.each(data2, function(i, item) {
-                    displayNone(item);
-                    if(!filtrarEvento(item))
-                        displayNone(item);
-                    console.log(i);
+                    $("#"+item.id).addClass("hidden");
+                    if(filtrarEvento(item))
+                        $("#"+item.id).removeClass("hidden");
+                    //console.log(i);
                 });
+                $("#botonMostrarMas").addClass("hidden")
             });
 
             $("#Limpiar").click(function(){
@@ -251,11 +273,6 @@
                             <label for="tipo" class="col-md-4 control-label">Sede</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="sede">
-                                    <option value="0">Elegir</option>
-                                    <option value="1">Chosica</option>
-                                    <option value="2">Namekusein</option>
-                                    <option value="3">Planeta del gran Kaiosama</option>
-                                    <option value="4">Planeta Tierra</option>
                                 </select>
                             </div>
                         </div>
@@ -265,11 +282,6 @@
                             <label for="estado" class="col-md-4 control-label">Estado</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="estado">
-                                    <option value="0">-</option>
-                                    <option value="CREADO">CREADO</option>
-                                    <option value="ESPERA">ESPERA</option>
-                                    <option value="ENMARCHA">ENMARCHA</option>
-                                    <option value="FINALIZADO">FINALIZADO</option>
                                 </select>
                             </div>1
                         </div>
