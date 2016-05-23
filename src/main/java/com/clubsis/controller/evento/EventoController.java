@@ -1,6 +1,8 @@
 package com.clubsis.controller.evento;
 
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.sede.Sede;
+import com.clubsis.service.ServicioSedes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.clubsis.service.ServicioEventos;
@@ -16,6 +18,8 @@ public class EventoController {
 
     @Autowired
     private ServicioEventos servicioEvento;
+    @Autowired
+    private ServicioSedes servicioSedes;
 
     @RequestMapping(method=RequestMethod.GET)
     List<Evento>  list() { return servicioEvento.mostrarEventos();}
@@ -30,6 +34,12 @@ public class EventoController {
         return servicioEvento.crearEvento(evento);
     }*/
 
+    @RequestMapping(value="/{idSede}",method = RequestMethod.POST)
+    public Evento agregarEvento(@PathVariable Integer idSede, @RequestBody Evento evento){
+        Sede sede = servicioSedes.buscarSede(idSede);
+        evento.setSede(sede);
+        return servicioEvento.crearEvento(evento);
+    }
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Evento update(@PathVariable Integer id, @RequestBody Evento evento) {
         return servicioEvento.actualizarEvento(id, evento);

@@ -11,6 +11,7 @@ import com.clubsis.service.ServicioTarifaEventos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -32,20 +33,19 @@ public class TarifaxEventoController {
     @RequestMapping(method = RequestMethod.GET)
     List<TarifaEvento> list() { return servicioTarifaxEventos.mostrarTarifasEventos();}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public TarifaEvento create(@RequestBody TarifaEvento tarifa) { return servicioTarifaxEventos.crearTarifaEventos(tarifa);}
 
-    @RequestMapping(value="/{idSede}/{id}/eventos",method = RequestMethod.POST)
-    public TarifaEvento agregarEvento(@PathVariable Integer idSede, @PathVariable Integer id, @RequestBody Evento evento, @RequestHeader(value="precio") String precioStr, @RequestHeader(value="vez") String vez){
+    /*@RequestMapping(value="/{idSede}/{id}/eventos",method = RequestMethod.POST)
+    public Evento agregarEvento(@PathVariable Integer idSede, @PathVariable Integer id, @Valid @RequestBody Evento eventos, @RequestHeader(value="precio") String precioStr, @RequestHeader(value="vez") String vez){
         double precio= Double.parseDouble(precioStr);
         int controlador = Integer.parseInt(vez);
-        Tarifa tarifa= servicioTarifas.buscarTarifa(id);
-        Sede sede = servicioSede.buscarSede(idSede);
-        evento.setSede(sede);
-        TarifaEvento tarifaxEventos = new TarifaEvento(precio,evento,tarifa);
-        tarifaxEventos.setEventos(evento);
-        tarifaxEventos.setTarifaeventos(tarifa);
-        if(controlador ==1) servicioEvento.crearEvento(evento);
-        return servicioTarifaxEventos.crearTarifaEventos(tarifaxEventos);
-    }
+        //Tarifa tarifa= servicioTarifas.buscarTarifa(id);
+        //Sede sede = servicioSede.buscarSede(idSede);
+        //eventos.setSede(sede);
+        //TarifaEvento tarifaxEventos = new TarifaEvento(precio,eventos,tarifa);
+        //tarifaxEventos.setEventos(eventos);
+        //tarifaxEventos.setTarifaeventos(tarifa);
+        return servicioEvento.crearEvento(eventos);
+        //if(controlador ==1) servicioEvento.crearEvento(eventos);
+        //return servicioTarifaxEventos.crearTarifaEventos(tarifaxEventos);
+    }*/
 }
