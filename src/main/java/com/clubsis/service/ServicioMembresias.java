@@ -1,5 +1,6 @@
 package com.clubsis.service;
 
+import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.*;
@@ -7,6 +8,7 @@ import com.clubsis.repository.club.UsuarioRepository;
 import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.RegistrationBean;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -117,8 +119,9 @@ public class ServicioMembresias {
     public Persona personaMembresia(Postulante postulanteExistente){
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
-                postulanteExistente.getDireccion(),postulanteExistente.getFechaNacimiento(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,new HashSet<Evento>(),null);
+                postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
+                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,new HashSet<Evento>(),
+                new HashSet<RegistroClase>());
         return nuevaPersona;
     }
 

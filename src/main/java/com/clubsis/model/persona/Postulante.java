@@ -38,7 +38,7 @@ public class Postulante  {
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
     @OneToMany(mappedBy="id.postulante",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Socio_Postulante> socios=new HashSet<Socio_Postulante>();;
+    private Set<Socio_Postulante> socios=new HashSet<Socio_Postulante>();
 
     protected Postulante() {
     }

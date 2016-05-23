@@ -3,6 +3,7 @@ package com.clubsis.model.persona;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -41,22 +42,26 @@ public class Persona {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<Evento> eventos=new HashSet<Evento>();;
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
+    private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
+
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, Date fechaNacimiento, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Set<Evento> eventos, Usuario usuario) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<Evento> eventos, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
         this.correo = correo;
         this.dni = dni;
         this.telefono = telefono;
         this.esTitular = esTitular;
         this.socio = socio;
-        this.eventos = eventos;
         this.usuario = usuario;
+        this.eventos = eventos;
+        this.registroClases = registroClases;
     }
 
 
@@ -158,5 +163,13 @@ public class Persona {
 
     public void setEventos(Set<Evento> eventos) {
         this.eventos = eventos;
+    }
+
+    public Set<RegistroClase> getRegistroClases() {
+        return registroClases;
+    }
+
+    public void setRegistroClases(Set<RegistroClase> registroClases) {
+        this.registroClases = registroClases;
     }
 }
