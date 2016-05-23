@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body ng-controller="PostulanteController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            REGISTRO DE POSTULANTE AL CLUB
+        </h3>
+    </div>
+    <hr>
+    <h4>DATOS DEL POSTULANTE</h4>
+
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
+                    <div class="col-md-6">
+                        <select class="form-control" id="tipoDocumento" ng-model="tipoDocumento">
+                            <option value="-1" ng-selected="selected">Elegir</option>
+                            <option value="DNI">DNI</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-model="numeroDocumento" id="numeroDocumento"
+                               placeholder="Numero de documento">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-5 control-label">Nombres</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" ng-model="nombre" id="nombre"
+                               placeholder="Nombre completo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-model="apellidoPaterno" id="apellidoPaterno"
+                               placeholder="Apellido paterno">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="apellidoMaterno" class="col-md-5 control-label">Apellido Materno</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" ng-model="apellidoMaterno" id="apellidoMaterno"
+                               placeholder="Apellido Materno">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="estadoCivil" class="col-md-4 control-label">Estado Civil</label>
+                    <div class="col-md-7">
+                        <select class="form-control" id="estadoCivil" ng-model="estadoCivil">
+                            <option value="-1" ng-selected="selected">Elegir</option>
+                            <option value="Soltero">Soltero</option>
+                            <option value="Casado">Casado</option>
+                            <option value="Divorciado">Divorciado</option>
+                            <option value="Viudo">Viudo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-lg-5" style="margin-left: 52px;">
+                <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento</label>
+                <div class="input-group input-append date col-md-7">
+                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7"/>
+                    <label for="fechaNacimiento" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5" style="margin-left: 20px;">
+                <div class="form-group">
+                    <label for="numeroHijos" class="col-md-5 control-label">N° de hijos</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" ng-model="numeroHijos" id="numeroHijos"
+                               placeholder="Cantidad de hijos">
+                    </div>
+                    <label for="numeroHijos" class="control-label" style="margin-left: 24px;">hijos</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="telefonoCasa" class="col-md-5 control-label">Telefono de casa</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" ng-model="telefonoCasa" id="telefonoCasa"
+                               placeholder="Numero de teléfono de casa">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="celular" class="col-md-4 control-label">Celular</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-model="celular" id="celular"
+                               placeholder="Numero de teléfono celular">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="telefonoTrabajo" class="col-md-5 control-label">Telefono de trabajo</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" ng-model="telefonoTrabajo" id="telefonoTrabajo"
+                               placeholder="Numero de teléfono de trabajo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="profesion" class="col-md-4 control-label">Profesión</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-model="profesion" id="profesion"
+                               placeholder="Profesión del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="correo" class="col-md-5 control-label">Correo</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" ng-model="correo" id="correo"
+                               placeholder="Correo del socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="ingresosMensuales" class="col-md-4 control-label">Ingreso mensual</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" ng-model="ingresosMensuales" id="ingresosMensuales"
+                               placeholder="Ingreso mensual">
+                    </div>
+                    <label for="ingresosMensuales" style="margin-left: 22px">soles</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-10">
+                <div class="form-group">
+                    <label for="direccion" class="col-md-3 control-label">Dirección</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="direccion" id="direccion"
+                               placeholder="Dirección de vivienda del socio postulante (Referencia)" style="width: 755px;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-10">
+                <div class="form-group">
+                    <label for="nombreEmpresa" class="col-md-3 control-label">Empresa</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="nombreEmpresa" id="nombreEmpresa"
+                               placeholder="Nombre de la empresa donde labora el socio postulante" style="width: 755px;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 147px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
+                    <a href="mantenimientoPostulante.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+
+    var app = angular.module('app', []);
+    app.controller('PostulanteController', function ($scope, $http) {
+        $("#btnRegistrar").click(function () {
+            $scope.registrarBungalow = function () {
+                var data = {
+                    //por preguntar
+                    //idSuspension: null,
+                    'nombre': $scope.nombre,
+                    'apellidoPaterno': $scope.apellidoPaterno,
+                    'apellidoMaterno': $scope.apellidoMaterno,
+                    'tipoDocumento': $scope.tipoDocumento,
+                    'numeroDocumento': parseInt($scope.numeroDocumento),
+                    'fechaNacimiento': Date.parse($scope.fechaNacimiento),
+                    'estadoCivil': $scope.estadoCivil,
+                    'numeroHijos': parseInt($scope.numeroHijos),
+                    'estadoCivil': $scope.estadoCivil,
+                    'direccion': $scope.direccion,
+                    'telefonoCasa': parseInt($scope.telefonoCasa),
+                    'celular': parseInt($scope.celular),
+                    'telefonoTrabajo': parseInt($scope.telefonoTrabajo),
+                    'profesion': $scope.profesion,
+                    'ingresosMensuales': parseFloat($scope.ingresosMensuales),
+                    'nombreEmpresa': $scope.nombreEmpresa,
+                    'correo': $scope.correo,
+                    'fechaPostulacion': 05212003, //Estos datos los llena el back por dentro (Gerson) fecha actual
+                    'esAprobado': 0, //Estos datos los llena el back por dentro (Gerson)
+                    'esActivo': 1, //Estos datos los llena el back por dentro (Gerson)
+                    'esPeriodoObjeciones': 0, //Estos datos los llena el back por dentro (Gerson)
+                    'socios': null, //Estos datos los llena el back por dentro (Gerson)
+                };
+//                var jsonObj = JSON.parse(data);
+                console.log(data);
+                //Falta las validaciones (LOO)
+                $http.post('/api/postulantes', data).success(function (data) {
+                    //happy end
+                    Notificaciones.showProcesando();
+                    Notificaciones.hideAll();
+                    window.location = "mantenimientoPostulante.html";
+                    //$scope.PostDataResponse = data;
+                })
+                        .error(function (data) {
+                            //aca lo que se hara en caso falle
+                            Notificaciones.showError("Error al crear la entidad postulante");
+                            console.log("fallo");
+                        });
+            }();
+        });
+    });
+    //    });
+</script>
+</body>
+</html>

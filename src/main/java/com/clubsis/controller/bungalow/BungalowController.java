@@ -28,8 +28,8 @@ public class BungalowController {
         return servicioReservas.buscarBungalow(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Bungalow create(@RequestBody Bungalow bungalow) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public Bungalow create(@RequestBody Bungalow bungalow,@PathVariable Integer id) {
         return servicioReservas.crearBungalow(bungalow);
     }
 
