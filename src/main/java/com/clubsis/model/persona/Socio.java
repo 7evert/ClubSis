@@ -1,5 +1,8 @@
 package com.clubsis.model.persona;
 
+import com.clubsis.model.pago.CuotaExtraordinaria;
+import com.clubsis.model.pago.Pago;
+import com.clubsis.model.pago.PagoMembresia;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,19 +39,33 @@ public class Socio {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Suspension> suspensiones =new HashSet<Suspension>();
+    private Set<Pago> pagos =new HashSet<Pago>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<PagoMembresia> pagosMembresia =new HashSet<PagoMembresia>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<CuotaExtraordinaria> cuotasExtraordinarias =new HashSet<CuotaExtraordinaria>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Suspension> suspensiones =new HashSet<Suspension>();
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Socio_Postulante> postulantes, Set<Persona> personas, Set<Suspension> suspensiones) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<PagoMembresia> pagosMembresia, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
         this.invitados = invitados;
-        this.postulantes = postulantes;
         this.personas = personas;
+        this.postulantes = postulantes;
+        this.pagos = pagos;
+        this.pagosMembresia = pagosMembresia;
+        this.cuotasExtraordinarias = cuotasExtraordinarias;
         this.suspensiones = suspensiones;
     }
 
@@ -101,8 +118,6 @@ public class Socio {
         this.personas = personas;
     }
 
-
-
     public Set<Suspension> getSuspensiones() {
         return suspensiones;
     }
@@ -117,5 +132,29 @@ public class Socio {
 
     public void setPostulantes(Set<Socio_Postulante> postulantes) {
         this.postulantes = postulantes;
+    }
+
+    public Set<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(Set<Pago> pagos) {
+        this.pagos = pagos;
+    }
+
+    public Set<PagoMembresia> getPagosMembresia() {
+        return pagosMembresia;
+    }
+
+    public void setPagosMembresia(Set<PagoMembresia> pagosMembresia) {
+        this.pagosMembresia = pagosMembresia;
+    }
+
+    public Set<CuotaExtraordinaria> getCuotasExtraordinarias() {
+        return cuotasExtraordinarias;
+    }
+
+    public void setCuotasExtraordinarias(Set<CuotaExtraordinaria> cuotasExtraordinarias) {
+        this.cuotasExtraordinarias = cuotasExtraordinarias;
     }
 }

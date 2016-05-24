@@ -3,6 +3,9 @@ package com.clubsis.service;
 import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.pago.CuotaExtraordinaria;
+import com.clubsis.model.pago.Pago;
+import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
 import com.clubsis.repository.club.UsuarioRepository;
 import com.clubsis.repository.persona.*;
@@ -128,7 +131,8 @@ public class ServicioMembresias {
     public Socio socioMembresia(Postulante postulanteExistente){
         Socio nuevoSocio = new Socio(
                 postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
-                ,new HashSet<Socio_Postulante>(),new HashSet<Persona>(),new HashSet<Suspension>());
+                ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
+                ,new HashSet<PagoMembresia>(),new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>());
         return nuevoSocio;
     }
 

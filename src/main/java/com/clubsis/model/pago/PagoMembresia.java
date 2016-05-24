@@ -1,37 +1,40 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.persona.Socio;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class PagoMembresia {
-    private Integer idPagoMembresia;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private Date fechaVencimiento;
     private Double montoPago;
     private String estado;
     private Date fechaPago;
     private Date fechaAnulacion;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_socio")
+    private Socio socio;
+
     protected PagoMembresia() {
     }
 
-    public PagoMembresia(Integer idPagoMembresia, Date fechaVencimiento, Double montoPago, String estado, Date fechaPago, Date fechaAnulacion) {
-        this.idPagoMembresia = idPagoMembresia;
+    public PagoMembresia(Date fechaVencimiento, Double montoPago, String estado, Date fechaPago, Date fechaAnulacion, Socio socio) {
         this.fechaVencimiento = fechaVencimiento;
         this.montoPago = montoPago;
         this.estado = estado;
         this.fechaPago = fechaPago;
         this.fechaAnulacion = fechaAnulacion;
+        this.socio = socio;
     }
 
-    public Integer getIdPagoMembresia() {
-        return idPagoMembresia;
-    }
-
-    public void setIdPagoMembresia(Integer idPagoMembresia) {
-        this.idPagoMembresia = idPagoMembresia;
-    }
 
     public Date getFechaVencimiento() {
         return fechaVencimiento;
@@ -71,5 +74,13 @@ public class PagoMembresia {
 
     public void setFechaAnulacion(Date fechaAnulacion) {
         this.fechaAnulacion = fechaAnulacion;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }

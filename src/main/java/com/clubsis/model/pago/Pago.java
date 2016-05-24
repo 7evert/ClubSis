@@ -1,5 +1,7 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.persona.Socio;
+
 import javax.persistence.*;
 
 /**
@@ -9,28 +11,25 @@ import javax.persistence.*;
 public class Pago {
     @Id
     @GeneratedValue
-    @Column(name = "id_pago")
-    private Integer idPago;
+    private Integer id;
     private Integer cuotas;
     private Double mora;
     private String valoracion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_socio")
+    private Socio socio;
+
     protected Pago() {
     }
 
-    public Pago(Integer idPago, Integer cuotas, Double mora, String valoracion) {
-        this.idPago = idPago;
+    public Pago(Integer cuotas, String valoracion, Double mora, Socio socio) {
         this.cuotas = cuotas;
-        this.mora = mora;
         this.valoracion = valoracion;
+        this.mora = mora;
+        this.socio = socio;
     }
 
-    public Integer getIdPago() {
-        return idPago;
-    }
-
-    public void setIdPago(Integer idPago) {
-        this.idPago = idPago;
-    }
 
     public Integer getCuotas() {
         return cuotas;
@@ -54,5 +53,21 @@ public class Pago {
 
     public void setValoracion(String valoracion) {
         this.valoracion = valoracion;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
