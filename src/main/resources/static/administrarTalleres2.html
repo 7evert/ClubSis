@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>ClubSis - Administrar Talleres</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
@@ -51,7 +51,7 @@
         }
     </style>
 </head>
-<body ng-controller="ProveedorController">
+<body ng-controller="AcademiaController">
 
 <script type="text/javascript">
     //app script
@@ -61,8 +61,8 @@
 <script type="text/javascript">
     var app = angular.module('app', []);
 
-    app.controller('ProveedorController', function ($scope, $http) {
-        $http.get('/api/proveedores').success(function (data) {
+    app.controller('AcademiaController', function ($scope, $http) {
+        $http.get('/api/academias').success(function (data) {
 //            alert("2");
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
@@ -140,21 +140,18 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/proveedores',
+        url: '/api/academias',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Nombre del Proveedor','RUC','Descripcion','# Contacto','Direccion','Estado Proveedor', 'Acciones'], //define column names
+        colNames:['Id','Nombre de Academia','Descripcion','Estado','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
-            {name:'nombre', index:'nombre', width:150},
-            {name:'ruc', index:'ruc', width:100},
-            {name:'descripcion', index:'descripcion',width:350},
-            {name:'numContacto', index:'numContacto', width:100},
-            {name:'direccion', index:'direccion', width:220},
-            {name:'estadoProveedor', index:'estadoProveedor', width:100},
+            {name:'nombre', index:'nombre', width:100},
+            {name:'descripcion', index:'descripcion',width:300},
+            {name:'estadoAcademia', index:'estadoAcademia', width:100},
             {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -166,7 +163,7 @@
         }
     });
 
-    $('#jqGrid').jqGrid('setGridWidth', '1150');
+    $('#jqGrid').jqGrid('setGridWidth', '900');
 
 
     $.extend(true, $.jgrid.edit, {
@@ -183,8 +180,7 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="verTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>';
         return acciones;
 
     }

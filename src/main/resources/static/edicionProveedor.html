@@ -18,6 +18,59 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+
+    <script type="text/javascript">
+
+
+
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+
+        function mostraridEvento(id){
+            $("#idEvento").html("Evento Numero "+id);
+        }
+        function mostrarNombre(nombre){
+            $("#nombre").html(nombre);
+        }
+
+        Date.prototype.ddmmyyyy = function() {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = this.getDate().toString();
+            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+        };
+
+        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
+            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
+            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
+            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
+            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
+        }
+        function mostrarTarifas(tarifas){
+            var b=new Array();
+            var tarifasul=$("#tarifas");
+            for(var i=0;i<tarifas.length;i++)
+                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
+            for(var j=0;j<b.length;j++)
+                tarifasul.append(b[j]);
+        }
+        function mostrarRegYDescripcion(reglamento, descripcion){
+            $("#reglamento").html("Reglamento: "+reglamento);
+            $("#descripcion").html("Descripcion: <br>"+descripcion);
+        }
+        function mostrarImagen(url){
+            $("#imgEvento").attr({src:url});
+        }
+        function mostrarEstGratYPub(estado,isGratuito,isPublico){
+            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
+        }
+        function mostrarSede(sede){
+            $("#sede").html(sede.nombre);
+        }
+    </script>
 </head>
 <body>
 <div id="headerAdministrador"></div>
@@ -37,6 +90,12 @@
                 <input type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..."/>
             </div>
         </div>
+        <div id="RUC" class="form-group">
+            <label class="control-label col-xs-4">RUC</label>
+            <div class="input-group col-xs-8">
+                <input type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."/>
+            </div>
+        </div>
         <div id="Descripción" class="form-group">
             <label class="control-label col-xs-4">Descripción</label>
             <div class="input-group col-xs-8">
@@ -53,6 +112,15 @@
             <label class="control-label col-xs-4">Direccion</label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..."/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
+            <div class="col-md-8">
+                <select class="form-control" id="estadoProveedor" ng-model="estadoProveedor" >
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
+                </select>
             </div>
         </div>
         <div class="form-group">

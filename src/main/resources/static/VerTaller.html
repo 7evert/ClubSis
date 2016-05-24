@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis - Mantenimientos Proveedores</title>
+    <title>ClubSis - Administrar Talleres</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
@@ -18,20 +18,13 @@
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
-
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-
-        .center .ui-jqgrid {
-            width: 1100px; margin-left: auto; margin-right: auto;
-        }
-
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-
         .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
@@ -40,11 +33,9 @@
             background-color: #ededed;
             border-color: #ededed;
         }
-
         .icono {
             width: 19px;
         }
-
         h4 {
             background: #008D34;
             color: white;
@@ -54,14 +45,13 @@
             padding-bottom: 2px;
             margin-top: 0px;
         }
-
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
     </style>
 </head>
-<body ng-controller="ProveedorController">
+<body ng-controller="AcademiaController">
 
 <script type="text/javascript">
     //app script
@@ -71,8 +61,8 @@
 <script type="text/javascript">
     var app = angular.module('app', []);
 
-    app.controller('ProveedorController', function ($scope, $http) {
-        $http.get('/api/proveedores').success(function (data) {
+    app.controller('AcademiaController', function ($scope, $http) {
+        $http.get('/api/academias').success(function (data) {
 //            alert("2");
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
@@ -88,58 +78,52 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE PROVEEDORES
-            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
-                Proveedor</a>
+            ADMINISTRACIÓN DE TALLERES
+            <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir
+                Taller</a>
         </h3>
-
     </div>
     <hr>
-    <!--<h4>CONSULTA DE PROVEEDORES</h4>-->
+    <h4>CONSULTA DE TALLERES</h4>
 
-    <!--<form class="form-horizontal">-->
-    <!--<div class="row">-->
-    <!--<div class="col-sm-6 col-lg-5">-->
-    <!--<div class="form-group">-->
-    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
-    <!--<div class="col-md-8">-->
-    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del Proveedor">-->
-    <!--</div>-->
-    <!--</div>-->
+    <form class="form-horizontal">
+        <div class="row">
 
-    <!--<div class="form-group">-->
-    <!--<label for="nombre" class="col-md-4 control-label">Descripción</label>-->
-    <!--<div class="col-md-8">-->
-    <!--<input type="text" class="form-control" id="descripcion" placeholder="Palabra Clave">-->
-    <!--</div>-->
-    <!--</div>-->
 
-    <!--</div>-->
 
-    <!--<div class="col-sm-6 col-lg-12">-->
-    <!--</div>-->
-    <!--<div class="col-sm-7 col-lg-7">-->
-    <!--</div>-->
-    <!--<div class="col-sm-5 col-lg-5">-->
-    <!--<div class="form-group" style="margin-left: 110px;">-->
-    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
-    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
-    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <h4>LISTA DE PROVEEDORES REGISTRADOS</h4>
-    <div class="rowchangeg" style="width: 1000px; margin-left: 0px; ">
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
-    </div>
-    <br>
-    <div class="leyenda">
-        <span>Leyenda: </span>
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Proveedor
-        |
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Proveedor
-    </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="loginAdministrador.html.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                </div>
+            </div>
+        </div>
+        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller
+            |
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
+        </div>
     </form>
 </div>
 <br>
@@ -156,21 +140,18 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/proveedores',
+        url: '/api/academias',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Nombre del Proveedor','RUC','Descripcion','# Contacto','Direccion','Estado Proveedor', 'Acciones'], //define column names
+        colNames:['Id','Nombre de Academia','Descripcion','Estado','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
-            {name:'nombre', index:'nombre', width:150},
-            {name:'ruc', index:'ruc', width:100},
-            {name:'descripcion', index:'descripcion',width:350},
-            {name:'numContacto', index:'numContacto', width:100},
-            {name:'direccion', index:'direccion', width:220},
-            {name:'estadoProveedor', index:'estadoProveedor', width:100},
+            {name:'nombre', index:'nombre', width:100},
+            {name:'descripcion', index:'descripcion',width:300},
+            {name:'estadoAcademia', index:'estadoAcademia', width:100},
             {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -182,7 +163,7 @@
         }
     });
 
-    $('#jqGrid').jqGrid('setGridWidth', '1150');
+    $('#jqGrid').jqGrid('setGridWidth', '900');
 
 
     $.extend(true, $.jgrid.edit, {
@@ -199,8 +180,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="edicionProveedor.html"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="administrarProveedores1.html" id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="javascript:void(0)" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }
