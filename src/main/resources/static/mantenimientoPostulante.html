@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="appMantenimientoPostulante">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -55,7 +55,7 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="MantenimientoPostulanteController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -176,58 +176,99 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-    $http.get('/api/postulantes', data).success(function (data) {
-        //happy end
-        Notificaciones.showProcesando();
-        Notificaciones.hideAll();
-        window.location = "mantenimientoPostulante.html";
-        //$scope.PostDataResponse = data;
-    })
+//    var app = angular.module('appMantenimientoPostulante', []);
+    var dataPostulantes;
+    //    app.controller('MantenimientoPostulanteController', function ($scope, $http) {
+    //        $scope.obtenerTodosPostulantes = function () {
+    //            $http.get('/api/postulantes').success(function (data) {
+    //                console.log(data);
+    //            });
+    //        }
+    //        $scope.buscarPostulante = function (num) {
+    //            $http.get('/api/postulantes/' + num).success(function (data) {
+    //                console.log("Hola");
+    //                console.log(data);
+    //            });
+    //        }
+    //        $scope.obtenerTodosPostulantes();
+    //        $scope.buscarPostulante(2);
+    //    });
+
+
+    //    app.controller('MantenimientoPostulanteController', function ($scope, $http) {
+    //        $http.get('/api/postulantes/' + 1).success(function (data) {
+    //            console.log(data);
+    //        })
+    //                .error(function (data) {
+    //                    //aca lo que se hara en caso falle
+    //                    console.log(data);
+    //                    Notificaciones.showError("Error al crear la entidad postulante");
+    //                    console.log("fallo");
+    //                });
+    //    });
+
+    $('.icono-modificar').click(function () {
+        var idPostulante = $(this).attr('data-idPostulante-eliminar');
+        console.log("idPostulante eliminando: " + $(this).attr('data-idPostulante-eliminar'));
+    });
 
     $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
+        url: '/api/postulantes', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
         mtype: "GET",
         styleUI: 'Bootstrap',
-        datatype: "jsonp",
+        datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
-            {index: 'idProducto', name: 'idProducto', hidden: true, width: 75},
-            {index: 'N°', name: 'OrderID', align: 'center', width: 40},
-            {index: 'Producto', name: 'CustomerID', align: 'center', width: 150},
-            {index: 'Tipo de Producto', name: 'CustomerID', align: 'center', width: 150},
-            {index: 'Proveedor', name: 'CustomerID', align: 'center', width: 150},
-            {index: 'Sede', name: 'CustomerID', align: 'center', width: 150},
-            {index: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},
-            {index: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},
-            {index: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},
+            {index: 'id', name: 'id', hidden: true, width: 75},
+            {index: 'nombre', name: 'nombre', align: 'center', width: 40},
+            {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 150},
+            {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 150},
+            {index: 'tipoDocumento', name: 'tipoDocumento', align: 'center', width: 150},
             {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'idProducto', 'N°', 'Producto', 'Tipo de Producto', 'Proveedor', 'Sede', 'Stock Mínimo', 'Stock Máximo', 'Stock Actual', 'Acciones'
+            'idPostulante', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Tipo de Documento', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
-            $('.icono-modificar').click(function () {
-                alert("Modificando bungalow");
-                var idActividad = $(this).attr('data-idBungalow-modificar');
-                console.log("Id bungalow modificando: " + $(this).attr('data-idBungalow-modificar'));
-            });
+//            $('.icono-modificar').click(function () {
+//                var idPostulante = $(this).attr('data-idPostulante-modificar');
+//                console.log("idPostulante modificando: " + $(this).attr('data-idPostulante-modificar'));
+//                var app = angular.module('appMantenimientoPostulante', []);
+//                console.log("Data");
+//                app.controller('MantenimientoPostulanteController', function ($scope, $http) {
+//                    console("Data");
+//                    $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+//                        console.log(data);
+//                    })
+//                    .error(function (data) {
+//                        //aca lo que se hara en caso falle
+//                        console.log(data);
+//                        Notificaciones.showError("Error al crear la entidad postulante");
+//                        console.log("fallo");
+//                    });
+//                });
+//            });
             $('.icono-ver').click(function () {
-                alert("Ver bungalow");
-                var idActividad = $(this).attr('data-idBungalow-ver');
-                console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));
+                var idPostulante = $(this).attr('data-idPostulante-ver');
+                console.log("idPostulante " + $(this).attr('data-idPostulante-ver'));
             });
             $('.icono-eliminar').click(function () {
-                alert("Eliminando bungalow");
-                var idActividad = $(this).attr('data-idBungalow-eliminar');
-                console.log("Id bungalow eliminando: " + $(this).attr('data-idBungalow-eliminar'));
+                var idPostulante = $(this).attr('data-idPostulante-eliminar');
+                console.log("idPostulante eliminando: " + $(this).attr('data-idPostulante-eliminar'));
+            });
+            $('.icono-modificar').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-modificar');
+                console.log("idPostulante modificado: " + $(this).attr('data-idPostulante-modificar'));
             });
         }
     });
@@ -236,9 +277,9 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['OrderID'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['OrderID'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['OrderID'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idPostulante-ver="' + rowdata['id'] + '" title="Ver Postulante"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>
