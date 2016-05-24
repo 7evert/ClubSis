@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="appMantenimientoPostulante">
+<html lang="en">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -55,9 +55,9 @@
         }
     </style>
 </head>
-<body ng-controller="MantenimientoPostulanteController">
+<body>
 <div id="headerAdministrador"></div>
-<div class="container">
+<div class="container" id="MantenimientoPostulanteID" ng-app='appMantenimientoPostulante' ng-controller="MantenimientoPostulanteController">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
@@ -180,36 +180,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-//    var app = angular.module('appMantenimientoPostulante', []);
+    var app = angular.module('appMantenimientoPostulante', []);
     var dataPostulantes;
-    //    app.controller('MantenimientoPostulanteController', function ($scope, $http) {
-    //        $scope.obtenerTodosPostulantes = function () {
-    //            $http.get('/api/postulantes').success(function (data) {
-    //                console.log(data);
-    //            });
-    //        }
-    //        $scope.buscarPostulante = function (num) {
-    //            $http.get('/api/postulantes/' + num).success(function (data) {
-    //                console.log("Hola");
-    //                console.log(data);
-    //            });
-    //        }
-    //        $scope.obtenerTodosPostulantes();
-    //        $scope.buscarPostulante(2);
-    //    });
-
-
-    //    app.controller('MantenimientoPostulanteController', function ($scope, $http) {
-    //        $http.get('/api/postulantes/' + 1).success(function (data) {
-    //            console.log(data);
-    //        })
-    //                .error(function (data) {
-    //                    //aca lo que se hara en caso falle
-    //                    console.log(data);
-    //                    Notificaciones.showError("Error al crear la entidad postulante");
-    //                    console.log("fallo");
-    //                });
-    //    });
+        app.controller('MantenimientoPostulanteController', function ($scope, $http) {
+            $scope.obtenerTodosPostulantes = function () {
+                $http.get('/api/postulantes').success(function (data) {
+                    console.log(data);
+                });
+            }
+            $scope.buscarPostulante = function (num) {
+                $http.get('/api/postulantes/' + num).success(function (data) {
+                    console.log("Hola");
+                    console.log(data);
+                });
+            }
+        });
 
     $('.icono-modificar').click(function () {
         var idPostulante = $(this).attr('data-idPostulante-eliminar');
@@ -240,24 +225,6 @@
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
-//            $('.icono-modificar').click(function () {
-//                var idPostulante = $(this).attr('data-idPostulante-modificar');
-//                console.log("idPostulante modificando: " + $(this).attr('data-idPostulante-modificar'));
-//                var app = angular.module('appMantenimientoPostulante', []);
-//                console.log("Data");
-//                app.controller('MantenimientoPostulanteController', function ($scope, $http) {
-//                    console("Data");
-//                    $http.get('/api/postulantes/' + idPostulante).success(function (data) {
-//                        console.log(data);
-//                    })
-//                    .error(function (data) {
-//                        //aca lo que se hara en caso falle
-//                        console.log(data);
-//                        Notificaciones.showError("Error al crear la entidad postulante");
-//                        console.log("fallo");
-//                    });
-//                });
-//            });
             $('.icono-ver').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-ver');
                 console.log("idPostulante " + $(this).attr('data-idPostulante-ver'));
@@ -269,6 +236,7 @@
             $('.icono-modificar').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-modificar');
                 console.log("idPostulante modificado: " + $(this).attr('data-idPostulante-modificar'));
+                var postulante = angular.element(document.getElementById('MantenimientoPostulanteID')).scope().buscarPostulante(idPostulante);
             });
         }
     });
