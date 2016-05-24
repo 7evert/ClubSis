@@ -27,7 +27,9 @@ public class ServicioClases {
     private RegistroClaseRepository registroClaseRepository;
 
     //ACADEMIA
-    public List<Academia> mostrarAcademias() { return academiaRepository.findAll(); }
+    public List<Academia> mostrarAcademias() {
+        return academiaRepository.findAll();
+    }
 
     public Academia crearAcademia(Academia academia) {
         return academiaRepository.saveAndFlush(academia);
@@ -44,7 +46,9 @@ public class ServicioClases {
     }
 
     //CICLO
-    public List<Ciclo> mostrarCiclos() { return cicloRepository.findAll(); }
+    public List<Ciclo> mostrarCiclos() {
+        return cicloRepository.findAll();
+    }
 
     public Ciclo crearCiclo(Ciclo ciclo) {
         return cicloRepository.saveAndFlush(ciclo);
@@ -61,7 +65,9 @@ public class ServicioClases {
     }
 
     //CLASE
-    public List<Clase> mostrarClases() { return claseRepository.findAll(); }
+    public List<Clase> mostrarClases() {
+        return claseRepository.findAll();
+    }
 
     public Clase crearClase(Clase clase) {
         return claseRepository.saveAndFlush(clase);
@@ -78,7 +84,9 @@ public class ServicioClases {
     }
 
     //HORARIO
-    public List<Horario> mostrarHorarios() { return horarioRepository.findAll(); }
+    public List<Horario> mostrarHorarios() {
+        return horarioRepository.findAll();
+    }
 
     public Horario crearHorario(Horario horario) {
         return horarioRepository.saveAndFlush(horario);
@@ -88,14 +96,16 @@ public class ServicioClases {
         return horarioRepository.findOne(id);
     }
 
-    public Horario actualizarHorario(Integer id, Clase horario) {
+    public Horario actualizarHorario(Integer id, Horario horario) {
         Horario horarioExistente = horarioRepository.findOne(id);
         BeanUtils.copyProperties(horario, horarioExistente);
         return horarioRepository.saveAndFlush(horarioExistente);
     }
 
     //RESGISTROCLASE
-    public List<RegistroClase> mostrarRegistrosClase() { return registroClaseRepository.findAll(); }
+    public List<RegistroClase> mostrarRegistrosClase() {
+        return registroClaseRepository.findAll();
+    }
 
     public RegistroClase crearRegistroClase(RegistroClase registro) {
         return registroClaseRepository.saveAndFlush(registro);
@@ -105,7 +115,7 @@ public class ServicioClases {
         return registroClaseRepository.findOne(id);
     }
 
-    public RegistroClase actualizarRegistroClase(Integer id, Clase registroClase) {
+    public RegistroClase actualizarRegistroClase(Integer id, RegistroClase registroClase) {
         RegistroClase registroExistente = registroClaseRepository.findOne(id);
         BeanUtils.copyProperties(registroClase, registroExistente);
         return registroClaseRepository.saveAndFlush(registroExistente);

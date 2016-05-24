@@ -2,6 +2,7 @@ package com.clubsis.model.clase;
 
 import com.clubsis.model.persona.Persona;
 import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class RegistroClase {
     @Id
     @GeneratedValue
     private Integer id;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaRegistro;
     private EstadoRegistroClase estado;
 
@@ -32,6 +34,7 @@ public class RegistroClase {
     }
 
     public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona, Socio socio) {
+
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
         this.clase = clase;

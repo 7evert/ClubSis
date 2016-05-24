@@ -14,7 +14,7 @@ public class Horario {
     @Id
     @GeneratedValue
     private Integer id;
-    private Date dia;
+    private String dia;
     private Date horaInicio;
     private Date horaFin;
     private EstadoHorario estadoHorario;
@@ -28,7 +28,7 @@ public class Horario {
     protected Horario() {
     }
 
-    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Clase clase, Instalacion instalacion) {
+    public Horario(String dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Clase clase, Instalacion instalacion) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -45,11 +45,11 @@ public class Horario {
         this.id = id;
     }
 
-    public Date getDia() {
+    public String getDia() {
         return dia;
     }
 
-    public void setDia(Date dia) {
+    public void setDia(String dia) {
         this.dia = dia;
     }
 

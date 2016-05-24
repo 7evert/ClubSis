@@ -1,5 +1,6 @@
 package com.clubsis.model.clase;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -17,7 +18,9 @@ public class Ciclo {
     @GeneratedValue
     private Integer id;
     private String descripcion;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaInicio;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
     private EstadoCiclo estadoCiclo;
 
