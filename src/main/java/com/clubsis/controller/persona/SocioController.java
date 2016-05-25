@@ -30,6 +30,8 @@ public class SocioController {
     public Socio create(@RequestBody Socio socio) {
         return servicioMembresias.crearSocio(socio);
     }
+
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Socio update(@PathVariable Integer id, @RequestBody Socio socio){
         return servicioMembresias.actualizarSocio(id,socio);
