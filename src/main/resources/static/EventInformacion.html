@@ -20,6 +20,37 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
     <script type="text/javascript">
         //igual que en MantenimientoEventos.html
 /*        var dataJSON=[
@@ -235,8 +266,7 @@
                                 lastsel2=id;
                             }
                         },
-                        editurl: "clientArray",
-                        caption: "Escoger Tarifas (Click y Enter para guardar cambios en la tabla)"
+                        editurl: "clientArray"
                     });
                     var tarreg=new Array();
                     $http.get('api/tarifaeventos').success(function (data3) {
@@ -305,6 +335,7 @@
                 <img id="imgEvento" class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
             </div>
             <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+                <div><h1>Tarifas</h1></div>
                 <table id="jqGrid"></table>
                 <div id="jqGridPager"></div>
             </div>
