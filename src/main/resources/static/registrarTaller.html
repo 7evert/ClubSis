@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Registrar Taller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+</head>
+<body ng-controller="ProveedorController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <h2>Registrar Proveedor</h2>
+    <p>Vista en construccion. Basicamente aca se podrá registrar un taller y todos sus datos!</p>
+    <hr>
+    <form id="formRegistrarProveedores" class="form-horizontal mitadDerecha">
+
+
+
+
+        <!--<div id="NombreProveedor" class="form-group">-->
+            <!--<label class="control-label col-xs-4">Nombre Proveedor</label>-->
+            <!--<div class="input-group col-xs-8">-->
+                <!--<input type="text" class="form-control col-xs-8" ng-model="nombre" placeholder="Escriba el nombre..."/>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="RUC" class="form-group">-->
+            <!--<label class="control-label col-xs-4">RUC</label>-->
+            <!--<div class="input-group col-xs-8">-->
+                <!--<input type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."/>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="Descripción" class="form-group">-->
+            <!--<label class="control-label col-xs-4">Descripción</label>-->
+            <!--<div class="input-group col-xs-8">-->
+                <!--<textarea name="Descripción" rows="5" class="form-control col-xs-8" ng-model="descripcion" placeholder="Describa aquí el proveedor..."/></textarea>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="numContacto" class="form-group">-->
+            <!--<label class="control-label col-xs-4"># Contacto</label>-->
+            <!--<div class="input-group col-xs-8">-->
+                <!--<input type="text" class="form-control col-xs-8" ng-model="numContacto" placeholder="Ingrese # de contacto..."/>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="Direccion" class="form-group">-->
+            <!--<label class="control-label col-xs-4">Dirección</label>-->
+            <!--<div class="input-group col-xs-8">-->
+                <!--<input type="text" class="form-control col-xs-8" ng-model="direccion" placeholder="Ingrese una direccion..."/>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label for="estadoProveedor" class="col-md-4 control-label">Estado</label>-->
+            <!--<div class="col-md-8">-->
+                <!--<select class="form-control" id="estadoProveedor" ng-model="estadoProveedor" >-->
+                    <!--<option>INHABILITADO</option>-->
+                    <!--<option>HABILITADO</option>-->
+                <!--</select>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-8">
+                <!input type="button" id="btnRegistrar" value="Guardar" class="btn btn-primary" style="width:25%"/>
+                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarTalleres2.html';"/>
+                <!input type="submit" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores.html';"/>
+            </div>
+        </div>
+
+    </form>
+
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    var app = angular.module('app', []);
+    //    $("#btnRegistrar").click(function () {
+
+    /*//        app.controller('BungalowsController', function ($scope, $http) {
+     //            $http.get('/api/bungalows').success(function (data) {
+     //                DATABUNGALOWS=data;//eso deberia ser pero como no tengo link
+     //                //lo pongo harcodeado que esta en la linea 34
+     //
+     //                //DATABUNGALOWS=dataJSON;
+     //                llenarListaBungalows1(DATABUNGALOWS);
+     //                cambiarDeUsuario(administrador,Agregar,funciones);
+     //                mostrarNext5();
+     //            })
+     //        });*/
+    app.controller('ProveedorController', function ($scope, $http) {
+        $("#btnRegistrar").click(function () {
+            console.log("Entro");
+            $scope.regsitrarProveedor = function () {
+                console.log("Entro 2");
+                var data = {
+                    //por preguntar
+                    //idSuspension: null,
+                    'nombre': $scope.nombre,
+                    'ruc': $scope.ruc,
+                    'descripcion': $scope.descripcion,
+                    'numContacto': $scope.numContacto,
+                    'direccion': $scope.direccion,
+                    'estadoProveedor':$scope.estadoProveedor,
+                };
+//                var jsonObj = JSON.parse(data);
+                console.log(data);
+                $http.post('/api/proveedores', data).success(function (data) {
+                    alert("Proveedor registrado!!");
+                    location.href="administrarProveedores1.html";
+                    //happy end
+                    //$scope.PostDataResponse = data;
+                })
+                        .error(function (data) {
+                            //aca lo que se hara en caso falle
+                            console.log("fallo");
+                        });
+            }();
+        });
+    });
+    //    });
+</script>
+</body>
+</html>

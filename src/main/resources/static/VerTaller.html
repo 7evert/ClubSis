@@ -62,7 +62,7 @@
     var app = angular.module('app', []);
 
     app.controller('AcademiaController', function ($scope, $http) {
-        $http.get('/api/academias').success(function (data) {
+        $http.get('/api/academias/1').success(function (data) {
 //            alert("2");
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
@@ -79,12 +79,11 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE TALLERES
-            <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir
-                Taller</a>
+            <a href="administrarTalleres2.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Regresar</a>
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE TALLERES</h4>
+    <h4>CONSULTA DE TALLER SELECCIONADO</h4>
 
     <form class="form-horizontal">
         <div class="row">
@@ -95,7 +94,7 @@
                 <div class="form-group">
                     <label for="nombre" class="col-md-4 control-label">Nombre</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">
+                        <input type="text" class="form-control" id="nombre" value="Voley">
                     </div>
                 </div>
             </div>
@@ -104,14 +103,16 @@
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginAdministrador.html.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
-                </div>
+                <!--<div class="form-group" style="margin-left: 110px;">-->
+                    <!--<a href="loginAdministrador.html.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+                <!--</div>-->
             </div>
         </div>
-        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <h4>DATOS DEL TALLER SELECCIONADO</h4>
+        <p>Se mostran todos los datos del taller escogido anteriormente.</p>
+        <hr/>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -119,10 +120,9 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
         </div>
     </form>
 </div>
@@ -140,7 +140,7 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/academias',
+        url: '/api/academias/1',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
