@@ -45,12 +45,12 @@
             $("#apellidoMat").val(data.apellidoMaterno);
             $("#tipoDoc").val(data.tipoDocumento);
             $("#nroDoc").val(data.numeroDocumento);
-            $("#exonerado").val(data.esExoneradoPago);
-            $("#ingresoInv").val(data.ingresoInvitado);
+            $("#exonerado").val(data.esExoneradoPago+0);
+            $("#ingresoInv").val(data.ingresoInvitado+0);
             $("#date-picker-TiempoInicio").val(new Date(data.fechaVisita).ddmmyyyy());
             $("#date-picker-TiempoFin").val(new Date(data.fechaSalida).ddmmyyyy());
         }
-        function getInvitado(){
+        function getInvitado(codSocio){
             var dia1=(isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value)))?null:Date.parse($("#date-picker-TiempoInicio")[0].value);
             var dia2=(isNaN(Date.parse($("#date-picker-TiempoFin")[0].value)))?null:Date.parse($("#date-picker-TiempoFin")[0].value);
             return {
@@ -58,11 +58,14 @@
                 apellidoPaterno: $("#apellidoPat").val(),
                 apellidoMaterno: $("#apellidoMat").val(),
                 tipoDocumento: $("#tipoDoc").val(),
-                numeroDocumento: $("#nroDoc").val(),
-                esExoneradoPago: $("#exonerado").val(),
-                ingresoInvitado: $("#ingresoInv").val(),
+                numeroDocumento: parseInt($("#nroDoc").val()),
+                esExoneradoPago: parseInt($("#exonerado").val()),
+                ingresoInvitado: parseInt($("#ingresoInv").val()),
                 fechaVisita: dia1,
-                fechaSalida: dia2
+                fechaSalida: dia2,
+                socio:{
+                    id:codSocio
+                }
             };
         }
     </script>
@@ -70,6 +73,7 @@
         var app2 = angular.module('app2', []);
         app2.controller('modificarInvitadoController', function ($scope, $http) {
             var idInvitado=getID();
+            var codSocio;
             if(idInvitado==undefined){
                 //location.href="MantenimientoEventos.html"
             }
@@ -77,14 +81,15 @@
                 dataInvitado=data2;
                 console.log(dataInvitado);
                 llenarDatosInvitado(dataInvitado);
+                codSocio=dataInvitado.socio.id;
             });
             $("#modificar").click(function(){
-                var data=getInvitado();
+                var data=getInvitado(codSocio);
                 data.id=idInvitado;
                 console.log(JSON.stringify(data));
                 $http.put("/api/invitados/"+data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
-                    //location.href = "registrarInvitado.html"
+                    location.href = "registrarInvitado.html"
                 });
             });
             $("#cancelar").click(function(){

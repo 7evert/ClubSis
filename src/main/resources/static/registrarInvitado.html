@@ -79,17 +79,17 @@
         var app2 = angular.module('app2', []);
         app2.controller('RegistroInvitadoController', function ($scope, $http) {
             var ids = getIDSocioYEvento();
-            var idsocio = 1;//id[0];
-            var idevento = 1;//id[1];
+            var idsocio = ids?ids[0]:ids;
+            var idevento = ids?ids[1]:ids;
             if (idsocio == undefined || idevento == undefined) {
-                location.href="participarEvento.html";
+                location.href="participarEvento.html?id"+idevento;
             }
             $http.get('/api/invitados').success(function (data2, status) {
                 //var data2 = guest;
                 console.log(JSON.stringify(data2));
                 for(var i=0;i<data2.length;i++) {
                     for(var j=0;j<data2[i].eventos.length;j++){
-                        if((idsocio=data2[i].socio.id) && (idevento=data2[i].eventos[j].id)) {
+                        if((idsocio==data2[i].socio.id) && (idevento==data2[i].eventos[j].id)) {
                             var data = {id: data2[i].id, nombre: data2[i].nombres, nroDoc: data2[i].numeroDocumento};
                             jQuery("#jqGrid").addRowData(data.id, data);
                         }
@@ -116,12 +116,12 @@
                     console.log(JSON.stringify(data2));
                     limpiarFormulario();
                     var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
-                    jQuery("#jqGrid").addRowData(data.id, data);*/
+                    jQuery("#jqGrid").addRowData(data.id, data);
                 });
 
             });
 
-            $("#cancelar").click(function () {
+            $("#terminar").click(function () {
                 location.href = "MantenimientoEventos.html";
             });
         });
@@ -230,7 +230,7 @@
                             </div>
                             <div class="col-xs-offset-5 col-xs-9">
                                 <input id="addGuest" class="btn btn-primary" value="Añadir">
-                                <input id="cancelar" class="btn btn-default" value="Cancelar">
+                                <input id="terminar" class="btn btn-default" value="Terminar">
                             </div>
                         </form>
                     </div>

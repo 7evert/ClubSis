@@ -235,6 +235,9 @@
                 sedesElem.append($("<option></option>").attr({value:0}).html("Elegir"));
                 for(var i=0;i<data.length;i++)
                     sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+                $("#admSede").click(function(){
+                    location.href="administracionSedes.html"
+                });
             });
             $("#Buscar").click(function(){
                 var data=[];
@@ -270,7 +273,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="tipo" class="col-md-4 control-label">Sede</label>
+                            <label for="tipo" id="admSede" class="col-md-4 control-label">Sede</label>
                             <div class="col-md-8">
                                 <select class="form-control" id="sede">
                                 </select>
