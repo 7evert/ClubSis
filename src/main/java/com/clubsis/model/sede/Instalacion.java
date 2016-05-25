@@ -1,7 +1,5 @@
 package com.clubsis.model.sede;
 
-import com.clubsis.model.bungalow.ReservaBungalow;
-import com.clubsis.model.clase.Horario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,11 +16,11 @@ public class Instalacion {
     @Column(name="id_instalacion")
     private Integer id;
     private String nombre;
-    private String caracteristicas;;
+    private String caracteristicas;
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
-    private Integer estado;
+    private String estado;
 
     @ManyToOne
     private Sede sede; // necesaria (composición)
@@ -38,14 +36,14 @@ public class Instalacion {
     protected Instalacion() {
     }
 
-    public Instalacion(Integer idInstalacion, String referencia, String caracteristicas, Integer capacidad, Double precioReserva, Integer estado,Sede sede) {
+    public Instalacion(Integer idInstalacion, String referencia, String caracteristicas, Integer capacidad, Double precioReserva, String estado,Sede sede) {
         this.setId(idInstalacion);
         this.referencia = referencia;
         this.setCaracteristicas(caracteristicas);
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
         this.sede=sede;
-        this.estado = estado;
+        this.setEstado(estado);
     }
 
 
@@ -71,14 +69,6 @@ public class Instalacion {
 
     public void setPrecioReserva(Double precioReserva) {
         this.precioReserva = precioReserva;
-    }
-
-    public Integer getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Integer estado) {
-        this.estado = estado;
     }
 
     public String getNombre() {
@@ -119,6 +109,14 @@ public class Instalacion {
 
     public void setReservaInstalacionSet(Set<ReservaInstalacion> reservaInstalacionSet) {
         this.reservaInstalacionSet = reservaInstalacionSet;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 /*
     public Set<Horario> getHorarios() {
