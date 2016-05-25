@@ -151,13 +151,13 @@
     </script>
     <script type="text/javascript">
 
-        function Ver(){location.href="InstalacionInformacion.html";event.preventDefault();}
+        /*function Ver(){location.href="InstalacionInformacion.html";event.preventDefault();}
         function Editar(){location.href="edicionInstalacion.html";event.preventDefault();}
         function Eliminar(){location.href="loginUsuario.html";event.preventDefault();}
 
         function Agregar(){location.href="registroInstalacion.html";event.preventDefault();}
 
-        var funciones=[Ver,Reservar,Editar,Eliminar];
+        var funciones=[Ver,Reservar,Editar,Eliminar];*/
     </script>
     <script type="text/javascript">
         var app=angular.module('app',[]);
@@ -208,16 +208,19 @@
     $('.icono-ver').click(function () {
 
     var idInstalacion = $(this).attr('data-idInstalacion-ver');
-    console.log("idInstalacion " + $(this).attr('data-idInstalacion-ver'));
+        console.log("idInstalacion " + $(this).attr('data-idInstalacion-ver'));
+        windows.location='InstalacionInformacion.html?id='+idInstalacion;
+
     });
     $('.icono-eliminar').click(function () {
-    var idInstalacion = $(this).attr('data-idInstalacion-eliminar');
-    console.log("idInstalacion eliminando: " + $(this).attr('data-idInstalacion-eliminar'));
+        var idInstalacion = $(this).attr('data-idInstalacion-eliminar');
+        console.log("idInstalacion eliminando: " + $(this).attr('data-idInstalacion-eliminar'));
     });
     $('.icono-modificar').click(function () {
-    var idInstalacion = $(this).attr('data-idInstalacion-modificar');
-    console.log("idInstalacion modificado: " + $(this).attr('data-idInstalacion-modificar'));
-    var instalacion = angular.element(document.getElementById('MantenimientoInstalacionID')).scope().buscarInstalacion(idInstalacion);
+        var idInstalacion = $(this).attr('data-idInstalacion-modificar');
+        console.log("idInstalacion modificado: " + $(this).attr('data-idInstalacion-modificar'));
+        windows.location='edicionInstalacion.html?id='+idInstalacion;
+
     });
     }
     });
@@ -226,7 +229,7 @@
 
     function acciones(cellValue, options, rowdata, action) {
     var acciones = '';
-    acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idInstalacion-ver="' + rowdata['id'] + '" title="Ver Instalacion"><img src="img/Iconos/ver.png" class="icono"></a>' +
+    acciones = '<a href="javascript:void(0)"  ng-click="handleClick()" class="btn btn-warning icono-ver" data-idInstalacion-ver="' + rowdata['id'] + '" title="Ver Instalacion"><img src="img/Iconos/ver.png" class="icono"></a>' +
     '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idInstalacion-modificar="' + rowdata['id'] + '" title="Modificar Instalacion"><img src="img/Iconos/modificar.png" class="icono"></a>' +
     '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idInstalacion-eliminar="' + rowdata['id'] + '" title="Eliminar Instalacion"><img src="img/Iconos/eliminar.png" class="icono"></a>';
     return acciones;
