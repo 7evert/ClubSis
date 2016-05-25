@@ -37,9 +37,9 @@ public class RolController {
        //     return null;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Rol update(@PathVariable Integer id, @RequestBody Rol rol){
-        return servicioRol.actualizarRol(id,rol);
+    @RequestMapping(value = "/{rolId}", method = RequestMethod.PUT)
+    public Rol update(@PathVariable Integer rolId, @RequestBody Rol rol){
+        return servicioRol.actualizarRol(rolId,rol);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -59,7 +59,7 @@ public class RolController {
     }
 
 
-    @RequestMapping(value = "/updatePerm/{id}", method = RequestMethod.PUT)
+        @RequestMapping(value = "/updatePerm/{id}", method = RequestMethod.PUT)
     public Permiso update(@PathVariable Integer id, @RequestBody Permiso permiso){
         return servicioRol.actualizarPermisio(id,permiso);
     }
