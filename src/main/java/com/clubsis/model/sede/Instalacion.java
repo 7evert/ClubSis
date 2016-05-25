@@ -1,6 +1,7 @@
 package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.ReservaBungalow;
+import com.clubsis.model.clase.Horario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -25,9 +26,12 @@ public class Instalacion {
 
     @ManyToOne
     private Sede sede; // necesaria (composición)
-
+/*
+    @OneToMany(fetch=FetchType.EAGER,mappedBy = "instalacion")
+    @JsonIgnore
+    private Set<Horario> horarios;
+*/
     @OneToMany(mappedBy = "instalacion")
-
     @JsonIgnore
     private Set<ReservaInstalacion> reservaInstalacionSet; // no es necesario al inicio (vacío)
 
@@ -116,4 +120,13 @@ public class Instalacion {
     public void setReservaInstalacionSet(Set<ReservaInstalacion> reservaInstalacionSet) {
         this.reservaInstalacionSet = reservaInstalacionSet;
     }
+/*
+    public Set<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(Set<Horario> horarios) {
+        this.horarios = horarios;
+    }
+    */
 }
