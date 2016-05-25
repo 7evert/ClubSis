@@ -33,5 +33,6 @@ public class ServicioInvitados {
         Invitado eventoExistente = invitadoRepository.findOne(id);
         BeanUtils.copyProperties(invitado, eventoExistente);
         return invitadoRepository.save(eventoExistente);
+        //asdasdas
     }
 }
