@@ -64,23 +64,24 @@
 
         function verInvitado() {
             var id = event.target.parentNode.getAttribute("data-idevento-ver");
-            location.href = "modificarInvitado.html?id=" + id;
+            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
         function modificarInvitado() {
             var id = event.target.parentNode.getAttribute("data-idevento-modificar");
-            location.href = "modificarInvitado.html?id=" + id;
+            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
         function eliminarInvitado() {
             var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
-            location.href = "modificarInvitado.html?id=" + id;
+            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
+        var ids,idsocio,idevento;
         app2.controller('RegistroInvitadoController', function ($scope, $http) {
-            var ids = getIDSocioYEvento();
-            var idsocio = ids?ids[0]:ids;
-            var idevento = ids?ids[1]:ids;
+            ids = getIDSocioYEvento();
+            idsocio = ids?ids[0]:ids;
+            idevento = ids?ids[1]:ids;
             if (idsocio == undefined || idevento == undefined) {
                 location.href="participarEvento.html?id"+idevento;
             }

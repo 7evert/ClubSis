@@ -32,10 +32,10 @@
             var dd = this.getDate().toString();
             return (dd[1] ? dd : "0" + dd[0]) + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + yyyy; // padding
         };
-        function getID() {
+        function getIDInvYEvento() {
             var href = this.location.href;
-            var str = href.match(/\?id\=(\d+)/);
-            return str ? str[1] : str;
+            var str = href.match(/\?id\=(\d+)&idEvento\=(\d+)/);
+            return str ? [str[1], str[2]] : undefined;
         }
         function llenarDatosInvitado(data) {
             $("#idInv").val(data.id);
@@ -72,12 +72,14 @@
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
         app2.controller('modificarInvitadoController', function ($scope, $http) {
-            var idInvitado=getID();
+            var ids = getIDInvYEvento();
+            var idInvitado= ids?ids[0]:ids;
+            var idEvento = ids?ids[1]:ids;
             var codSocio;
             if(idInvitado==undefined){
                 //location.href="MantenimientoEventos.html"
             }
-            $http.get('/api/invitados/'+getID()).success(function (data2, status) {
+            $http.get('/api/invitados/'+idInvitado).success(function (data2, status) {
                 dataInvitado=data2;
                 console.log(dataInvitado);
                 llenarDatosInvitado(dataInvitado);
@@ -89,11 +91,11 @@
                 console.log(JSON.stringify(data));
                 $http.put("/api/invitados/"+data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
-                    location.href = "registrarInvitado.html"
+                    location.href = "registrarInvitado.html?idSocio=1&idEvento="+idEvento;
                 });
             });
             $("#cancelar").click(function(){
-                location.href = "registrarInvitado.html"
+                location.href = "registrarInvitado.html?idSocio=1&idEvento="+idEvento;
             });
         });
     </script>
