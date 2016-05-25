@@ -86,10 +86,10 @@
                     <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento</label>
                     <div class="col-md-8">
                         <select class="form-control" id="tipoDocumento">
-                            <option>Elegir</option>
-                            <option>DNI</option>
-                            <option>Pasaporte</option>
-                            <option>Documento de extranjería</option>
+                            <option value="-1">Elegir</option>
+                            <option value="DNI">DNI</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Carnet de extranjería">Carnet de extranjería</option>
                         </select>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
             {index: 'nombre', name: 'nombre', align: 'center', width: 90},
             {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 70},
             {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 70},
-            {index: 'tipoDocumento', name: 'tipoDocumento', align: 'center', width: 70},
+            {index: 'tipoDocumento', name: 'tipoDocumento', align: 'center', width: 95},
             {index: 'numeroDocumento', name: 'numeroDocumento', align: 'center', width: 70},
             {index: 'celular', name: 'celular', align: 'center', width: 70},
             {index: 'profesion', name: 'profesion', align: 'center', width: 70},
@@ -312,6 +312,14 @@
         return acciones;
     }
 
+    $('#btnLimpiar').click(function (){
+        $("#tipoDocumento").val(-1);
+        $("#estadoCivil").val(-1);
+        $("#nombre").val("");
+        $("#apellidoPaterno").val("");
+        $("#apellidoMaterno").val("");
+        $("#profesion").val("");
+    });
 </script>
 </body>
 </html>

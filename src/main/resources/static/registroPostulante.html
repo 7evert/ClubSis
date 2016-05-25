@@ -76,12 +76,14 @@
                 <div class="form-group">
                     <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
                     <div class="col-md-6">
-                        <select class="form-control" id="tipoDocumento" ng-model="tipoDocumento">
-                            <option value="-1">Elegir</option>
-                            <option value="DNI">DNI</option>
-                            <option value="Pasaporte">Pasaporte</option>
-                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                        <select id="tipoDocumento" class="form-control" ng-model="tipoDocumento.valor" ng-options="template.value as template.name for template in tipoDocumento.valores">
                         </select>
+                        <!--<select class="form-control" id="tipoDocumento" ng-model="tipoDocumento">-->
+                            <!--<option value="-1">Elegir</option>-->
+                            <!--<option value="DNI">DNI</option>-->
+                            <!--<option value="Pasaporte">Pasaporte</option>-->
+                            <!--<option value="Carnet de extranjería">Carnet de extranjería</option>-->
+                        <!--</select>-->
                     </div>
                 </div>
             </div>
@@ -125,20 +127,22 @@
                 <div class="form-group">
                     <label for="estadoCivil" class="col-md-4 control-label">Estado Civil</label>
                     <div class="col-md-7">
-                        <select class="form-control" id="estadoCivil" ng-model="estadoCivil">
-                            <option value="-1" ng-selected="selected">Elegir</option>
-                            <option value="Soltero">Soltero</option>
-                            <option value="Casado">Casado</option>
-                            <option value="Divorciado">Divorciado</option>
-                            <option value="Viudo">Viudo</option>
+                        <select id="estadoCivil" class="form-control" ng-model="estadoCivil.valor" ng-options="template.value as template.name for template in estadoCivil.valores">
                         </select>
+                        <!--<select class="form-control" id="estadoCivil" ng-model="estadoCivil">-->
+                            <!--<option value="-1" ng-selected="selected">Elegir</option>-->
+                            <!--<option value="Soltero">Soltero</option>-->
+                            <!--<option value="Casado">Casado</option>-->
+                            <!--<option value="Divorciado">Divorciado</option>-->
+                            <!--<option value="Viudo">Viudo</option>-->
+                        <!--</select>-->
                     </div>
                 </div>
             </div>
             <div class="form-group col-sm-6 col-lg-5" style="margin-left: 52px;">
                 <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento</label>
                 <div class="input-group input-append date col-md-7">
-                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7"/>
+                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="mm/dd/yyyy"/>
                     <label for="fechaNacimiento" class="input-group-addon btn"><span
                             class="glyphicon glyphicon-calendar"></span>
                     </label>
@@ -262,6 +266,26 @@
 
     var app = angular.module('app', []);
     app.controller('PostulanteController', function ($scope, $http) {
+        $scope.tipoDocumento = {};
+        $scope.estadoCivil = {};
+        //Esto deberia cargarse desde la BD pero no hay una tabla que guarde esto u.u
+        $scope.tipoDocumento.valores = [
+            {'name': 'Elegir', 'value': '-1'},
+            {'name': 'DNI', 'value': 'DNI'},
+            {'name': 'Pasaporte', 'value': 'Pasaporte'},
+            {'name': 'Carnet de extranjería', 'value': 'Carnet de extranjería'}
+        ];
+        $scope.estadoCivil.valores = [
+            {'name': 'Elegir', 'value': '-1'},
+            {'name': 'Soltero', 'value': 'Soltero'},
+            {'name': 'Casado', 'value': 'Casado'},
+            {'name': 'Divorciado', 'value': 'Divorciado'},
+            {'name': 'Viudo', 'value': 'Viudo'}
+        ];
+        //Seteando la primera opcion en el menu selected de Tipo Documento y de estado civil
+        $scope.tipoDocumento.valor = $scope.tipoDocumento.valores[0].value;
+        $scope.estadoCivil.valor = $scope.estadoCivil.valores[0].value;
+
         $("#btnRegistrar").click(function () {
             $scope.registrarBungalow = function () {
                 var data = {
@@ -270,12 +294,12 @@
                     'nombre': $scope.nombre,
                     'apellidoPaterno': $scope.apellidoPaterno,
                     'apellidoMaterno': $scope.apellidoMaterno,
-                    'tipoDocumento': $scope.tipoDocumento,
+                    'tipoDocumento': $scope.tipoDocumento.valor,
                     'numeroDocumento': parseInt($scope.numeroDocumento),
                     'fechaNacimiento': Date.parse($scope.fechaNacimiento),
                     'estadoCivil': $scope.estadoCivil,
                     'numeroHijos': parseInt($scope.numeroHijos),
-                    'estadoCivil': $scope.estadoCivil,
+                    'estadoCivil': $scope.estadoCivil.valor,
                     'direccion': $scope.direccion,
                     'telefonoCasa': parseInt($scope.telefonoCasa),
                     'celular': parseInt($scope.celular),
