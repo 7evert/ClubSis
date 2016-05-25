@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
     <title>ClubSis</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <style type="text/css">
-        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
+
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-        .ui-jqgrid-resize-ltr{
+
+        .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-        .btn-warning{
+
+        .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
             padding-right: 2px;
@@ -28,81 +34,189 @@
             border-color: #ededed;
         }
 
-        .icono{
+        .icono {
             width: 19px;
         }
 
-
-        hr{
+        hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
     </style>
+    <script type="text/javascript">
+        function limpiarFormulario() {
+            $("#nombre").val("");
+            $("#apellidoPat").val("");
+            $("#apellidoMat").val("");
+            $("#tipoDoc").val("");
+            $("#nroDoc").val("");
+            $("#exonerado").val(0);
+            $("#ingresoInv").val(0);
+            $("#date-picker-TiempoInicio").val("");
+            $("#date-picker-TiempoFin").val("");
+            $("#password").val("");
+        }
+        function getIDSocioYEvento() {
+            var href = this.location.href;
+            var str = href.match(/\?idSocio\=(\d+)&idEvento\=(\d+)/);
+            return str?[str[1],str[2]]:undefined;
+        }
+
+        function verInvitado(){
+            var id=event.target.parentNode.getAttribute("data-idevento-ver");
+            location.href = "modificarInvitado.html?id=" + id;
+        }
+        function modificarInvitado() {
+            var id=event.target.parentNode.getAttribute("data-idevento-modificar");
+            location.href = "modificarInvitado.html?id=" + id;
+        }
+        function eliminarInvitado(){
+            var id=event.target.parentNode.getAttribute("data-idevento-eliminar");
+            location.href = "modificarInvitado.html?id=" + id;
+        }
+    </script>
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+        app2.controller('RegistroInvitadoController', function ($scope, $http) {
+            var ids=getIDSocioYEvento();
+            var idsocio = 1;//id[0];
+            var idevento = 1;//id[1];
+            if(idsocio==undefined || idevento==undefined){
+                //location.href="participarEvento.html";
+            }
+            $("#addGuest").click(function () {
+                var guest = {
+                    nombres: $("#nombre").val(),
+                    apellidoPaterno: $("#apellidoPat").val(),
+                    apellidoMaterno: $("#apellidoMat").val(),
+                    tipoDocumento: $("#tipoDoc").val(),
+                    numeroDocumento: $("#nroDoc").val(),
+                    esExoneradoPago: $("#exonerado").val(),
+                    ingresoAlClub: $("#ingresoInv").val(),
+                    fechaVisita: Date.parse($("#date-picker-TiempoInicio")[0].value),
+                    fechaSalida: Date.parse($("#date-picker-TiempoFin")[0].value)
+                };
+                //$http.post('/api/invitados/' + idsocio+"/"+idevento,guest).success(function (data2, status) {
+                $http.get('/api/sedes', guest).success(function (data2, status) {
+                    var data2 = guest;
+                    console.log(JSON.stringify(data2));
+                    limpiarFormulario();
+                    var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
+                    jQuery("#jqGrid").addRowData(data.id, data);
+                });
+            });
+            $("#cancelar").click(function () {
+                location.href="MantenimientoEventos.html";
+            });
+        });
+    </script>
 </head>
-<body>
-    <div id="headerUsuario"></div>
-    <div class="container">
-        <div id="wrap">
-            <div class="main">
-                <div class="container">
-                    <h2>Registro de Invitados</h2>
-                    <hr>
-                    <div class="row">
+<body ng-controller="RegistroInvitadoController">
+<div id="headerUsuario"></div>
+<div class="container">
+    <div id="wrap">
+        <div class="main">
+            <div class="container">
+                <h2>Registro de Invitados</h2>
+                <hr>
+                <div class="row">
                     <div>
-                    <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">Nombre del Invitado</label>
-                            <div class="col-xs-7">
-                                <input type="text" name="nombre" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>
+                        <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">Nombre(s)</label>
+                                <div class="col-xs-7">
+                                    <input id="nombre" type="text" name="nombre" maxlength="30" autofocus="autofocus"
+                                           tabindex="1" autocomplete="off" placeholder=""
+                                           class="form-control validate[required]"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">Tipo de Documento</label>
-                            <div class="col-xs-7">
-                                <select class="form-control" id="tipoDocumento">
-                                    <option>DNI</option>
-                                    <option>Carnet de extranjería</option>
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">Apellido Paterno</label>
+                                <div class="col-xs-7">
+                                    <input id="apellidoPat" type="text" name="apellPat" maxlength="30"
+                                           autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
+                                           class="form-control validate[required]"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">Apellidos Materno</label>
+                                <div class="col-xs-7">
+                                    <input id="apellidoMat" type="text" name="apellMat" maxlength="30"
+                                           autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
+                                           class="form-control validate[required]"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">Tipo de Documento</label>
+                                <div class="col-xs-7">
+                                    <input id="tipoDoc" type="text" name="tipoDoc" maxlength="30" autofocus="autofocus"
+                                           tabindex="1" autocomplete="off" placeholder=""
+                                           class="form-control validate[required]"/>
+                                </div>
+                                <!--<div class="col-xs-7">
+                                    <select class="form-control" id="tipoDocumento">
+                                        <option>DNI</option>
+                                        <option>Carnet de extranjería</option>
+                                    </select>
+                                </div>-->
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">N° de Documento</label>
+                                <div class="col-xs-7">
+                                    <input id="nroDoc" type="text" name="dni" maxlength="15" autofocus="autofocus"
+                                           tabindex="1" autocomplete="off" placeholder=""
+                                           class="form-control validate[required]"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-5">Fecha de Inicio</label>
+                                <div class="col-xs-7 date">
+                                    <div class="input-group input-append date">
+                                        <input id="date-picker-TiempoInicio" type="text"
+                                               class="date-picker form-control col-xs-6"/>
+                                        <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
+                                                class="glyphicon glyphicon-calendar"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-5">Fecha de Fin</label>
+                                <div class="col-xs-7 date">
+                                    <div class="input-group input-append date">
+                                        <input id="date-picker-TiempoFin" type="text"
+                                               class="date-picker form-control col-xs-6"/>
+                                        <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
+                                                class="glyphicon glyphicon-calendar"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">Exonerado de Pago</label>
+                                <select class="col-xs-2" id="exonerado">
+                                    <option value="0">No</option>
+                                    <option value="1">Si</option>
+                                </select>
+                                <label class="control-label col-xs-3">Ingreso Invitado</label>
+                                <select class="col-xs-2" id="ingresoInv">
+                                    <option value="0">No</option>
+                                    <option value="1">Si</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">N° de Documento</label>
-                            <div class="col-xs-7">
-                                <input type="text" name="dni" maxlength="15" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-5" >Fecha de Inicio</label>
-                            <div class="col-xs-7 date">
-                                <div class="input-group input-append date">
-                                    <input id="date-picker-TiempoInicio" type="text" class="date-picker form-control col-xs-6" />
-                                    <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                                    </label>
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">Confirmar contraseña</label>
+                                <div class="col-xs-7">
+                                    <input id="password" type="password" name="clave" maxlength="15" autofocus="autofocus"
+                                           tabindex="2" placeholder="Password" class="form-control validate[required]"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-5">Fecha de Fin</label>
-                            <div class="col-xs-7 date">
-                                <div class="input-group input-append date">
-                                    <input id="date-picker-TiempoFin" type="text" class="date-picker form-control col-xs-6" />
-                                    <label for="date-picker-TiempoFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                                    </label>
-                                </div>
+                            <div class="col-xs-offset-5 col-xs-9">
+                                <input id="addGuest" class="btn btn-primary" value="Añadir">
+                                <input id="cancelar" class="btn btn-default" value="Cancelar">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-5 control-label">Confirmar contraseña</label>
-                            <div class="col-xs-7">
-                                <input type="password" name="clave" maxlength="15" autofocus="autofocus" tabindex="2" placeholder="Password" class="form-control validate[required]"/>
-                            </div>
-                        </div>
-                        <div class="col-xs-offset-5 col-xs-9">
-                            <input type="submit" class="btn btn-primary" value="Añadir">
-                            <input type="reset" class="btn btn-default" value="Cancelar">
-                        </div>
                         </form>
-                        </div>
+                    </div>
                     <div class="col-sm-offset-1 col-sm-5" align="left">
                         <h4>Lista de invitados:</h4>
                         <div class="rowchangeg" style="width: 400px; margin-left: auto; margin-right: auto;">
@@ -110,55 +224,77 @@
                             <div id="jqGridPager"></div>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="footer"></div>
-    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
-    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
-    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
-    <script src="js/principal.js"></script>
-    <script type="text/javascript">
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
 
-        $("#jqGrid").jqGrid({
-            url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            mtype: "GET",
-            styleUI : 'Bootstrap',
-            datatype: "jsonp",
-            gridview: true,
-            emptyrecords: 'No se encontraron resultados',
-            //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-            colModel: [
-                { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
-                { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
-                { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
-                { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
-                { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
-            ],
-            viewrecords: true,
-            height: 196,
-            rowNum: 7,
-            pager: "#jqGridPager"
-        });
+    var lastsel2;
+    jQuery("#jqGrid").jqGrid({
+        datatype: "local",
+        height: 300,
+        colNames: ['Id', 'Nombre', 'Nro. Doc.', 'Acciones'],
+        colModel: [
+            {name: 'Id', index: 'id', hidden: true, width: 10, editable: false},
+            {name: 'nombre', index: 'nombre', width: 150, editable: false},
+            {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false},
+            {name: 'acciones', width: 120, align: 'center', formatter: acciones}
+        ]
+    });
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+        acciones = '<a href="#" onclick="verInvitado();return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"/>' +
+                '<a  href="#" onclick="modificarInvitado();return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"/>' +
+                '<a href="#" onclick="eliminarInvitado();return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
+        return acciones;
+    }
+</script>
+<script type="text/javascript">
+    /*
+     $("#jqGrid").jqGrid({
+     url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+     mtype: "GET",
+     styleUI : 'Bootstrap',
+     datatype: "jsonp",
+     gridview: true,
+     emptyrecords: 'No se encontraron resultados',
+     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+     colModel: [
+     { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
+     { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
+     { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
+     { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
+     { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
+     ],
+     viewrecords: true,
+     height: 196,
+     rowNum: 7,
+     pager: "#jqGridPager"
+     });
 
-        $('#jqGrid').jqGrid('setGridWidth', '400');
+     $('#jqGrid').jqGrid('setGridWidth', '400');
 
-        function acciones(cellValue, options, rowdata, action) {
-            var acciones = '';
+     function acciones(cellValue, options, rowdata, action) {
+     var acciones = '';
 
-            acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"></a>'+
-                    '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"></a>'+
-                    '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-            return acciones;
-        }
-    </script>
-    <script type="text/javascript">
-        $(".date-picker").datepicker();
-    </script>
+     acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"></a>'+
+     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"></a>'+
+     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+     return acciones;
+     }*/
+</script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
 
 </body>
 </html>

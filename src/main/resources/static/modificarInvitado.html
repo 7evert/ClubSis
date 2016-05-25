@@ -1,14 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
     <title>ClubSis</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script type="text/javascript">
+        var dataInvitado = {
+            id: 1,
+            nombres: "pol",
+            apellidoPaterno: "seg",
+            apellidoMaterno: "mor",
+            tipoDocumento: "dni",
+            numeroDocumento: 70077000,
+            esExoneradoPago: 0,
+            ingresoAlClub: 1,
+            fechaVisita: "2016-05-18 02:06:30",
+            fechaSalida: "2016-05-18 02:06:31",
+            socio: {id: 1}
+        }
+        Date.prototype.ddmmyyyy = function () {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+            var dd = this.getDate().toString();
+            return (dd[1] ? dd : "0" + dd[0]) + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + yyyy; // padding
+        };
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+        function llenarDatosInvitado(data) {
+            $("#idInv").val(data.id);
+            $("#codSocio").val(data.socio.id);
+            $("#nombre").val(data.nombres);
+            $("#apellidoPat").val(data.apellidoPaterno);
+            $("#apellidoMat").val(data.apellidoMaterno);
+            $("#tipoDoc").val(data.tipoDocumento);
+            $("#nroDoc").val(data.numeroDocumento);
+            $("#exonerado").val(data.esExoneradoPago);
+            $("#ingresoInv").val(data.ingresoAlClub);
+            $("#date-picker-TiempoInicio").val(new Date(data.fechaVisita).ddmmyyyy());
+            $("#date-picker-TiempoFin").val(new Date(data.fechaSalida).ddmmyyyy());
+        }
+        function getInvitado(){
+            var dia1=(isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value)))?null:Date.parse($("#date-picker-TiempoInicio")[0].value);
+            var dia2=(isNaN(Date.parse($("#date-picker-TiempoFin")[0].value)))?null:Date.parse($("#date-picker-TiempoFin")[0].value);
+            return {
+                nombres: $("#nombre").val(),
+                apellidoPaterno: $("#apellidoPat").val(),
+                apellidoMaterno: $("#apellidoMat").val(),
+                tipoDocumento: $("#tipoDoc").val(),
+                numeroDocumento: $("#nroDoc").val(),
+                esExoneradoPago: $("#exonerado").val(),
+                ingresoAlClub: $("#ingresoInv").val(),
+                fechaVisita: dia1,
+                fechaSalida: dia2
+            };
+        }
+    </script>
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+        app2.controller('modificarInvitadoController', function ($scope, $http) {
+            //$http.get('/api/invitados/'+getID()).success(function (data2, status) {
+            var idInvitado=getID();
+            //dataInvitado=data2;
+            console.log(dataInvitado);
+            llenarDatosInvitado(dataInvitado);
+            //});
+            $("#modificar").click(function(){
+                var data=getInvitado();
+                data.id=idInvitado;
+                console.log(JSON.stringify(data));
+                //$http.put("/api/eventos/", data).success(function (data2, status) {
+                    alert("Tu actualizacion fue exitosa");
+                    //location.href = "registrarInvitado.html"
+                //});
+            });
+            $("#cancelar").click(function(){
+                location.href = "registrarInvitado.html"
+            });
+        });
+    </script>
 </head>
-<body>
+<body ng-controller="modificarInvitadoController">
 <div id="headerUsuario"></div>
 <div class="container">
     <div class="container">
@@ -18,62 +100,83 @@
             <div class="form-group">
                 <label class="control-label col-xs-4">ID Invitado</label>
                 <div class="col-xs-5">
-                    <input type="text" disabled="disabled" class="form-control" placeholder="ID-invitado">
+                    <input id="idInv" type="text" disabled="disabled" class="form-control" placeholder="ID-invitado">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-4">Código socio</label>
                 <div class="col-xs-5">
-                    <input type="text" disabled="disabled" class="form-control" placeholder="Codigo-Socio">
+                    <input id="codSocio" type="text" disabled="disabled" class="form-control"
+                           placeholder="Codigo-Socio">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-4">Nombre</label>
                 <div class="col-xs-5">
-                    <input type="text" class="form-control" id="inputNombres" placeholder="Nombre">
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-4">Apellido Paterno</label>
                 <div class="col-xs-5">
-                    <input type="text" class="form-control" id="inputApellidoPaterno" placeholder="Apellido Paterno">
+                    <input type="text" class="form-control" id="apellidoPat" placeholder="Apellido Paterno">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-4">Apellido Materno</label>
                 <div class="col-xs-5">
-                    <input type="text" class="form-control" id="inputApellidoMaterno" placeholder="Apellido Materno">
+                    <input type="text" class="form-control" id="apellidoMat" placeholder="Apellido Materno">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-xs-4">DNI</label>
+                <label class="control-label col-xs-4">Tipo de Documento</label>
                 <div class="col-xs-5">
-                    <input type="text" class="form-control" id="inputDNI" placeholder="DNI">
+                    <input type="text" class="form-control" id="tipoDoc" placeholder="Apellido Materno">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-xs-4" >Fecha Inicio</label>
+                <label class="control-label col-xs-4">Nro. Documento</label>
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" id="nroDoc" placeholder="Apellido Materno">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Fecha Inicio</label>
                 <div class="col-xs-2 date">
                     <div class="input-group input-append date">
-                        <input id="date-picker-FechaInicio" type="text" class="date-picker form-control col-xs-6" />
-                        <label for="date-picker-FechaInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                        <input id="date-picker-TiempoInicio" type="text" class="date-picker form-control col-xs-6"/>
+                        <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
+                                class="glyphicon glyphicon-calendar"></span>
                         </label>
                     </div>
                 </div>
                 <label class="control-label col-xs-1">Fecha Fin</label>
                 <div class="col-xs-2 date">
                     <div class="input-group input-append date">
-                        <input id="date-picker-FechaFin" type="text" class="date-picker form-control col-xs-6" />
-                        <label for="date-picker-FechaFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                        <input id="date-picker-TiempoFin" type="text" class="date-picker form-control col-xs-6"/>
+                        <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
+                                class="glyphicon glyphicon-calendar"></span>
                         </label>
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Exonerado de Pago</label>
+                <select class="col-xs-2" id="exonerado">
+                    <option value="0">No</option>
+                    <option value="1">Si</option>
+                </select>
+                <label class="control-label col-xs-1">Ingreso Invitado</label>
+                <select class="col-xs-2" id="ingresoInv">
+                    <option value="0">No</option>
+                    <option value="1">Si</option>
+                </select>
+            </div>
             <br>
             <div class="form-group">
                 <div class="col-xs-offset-7 col-xs-8">
-                    <input type="submit" class="btn btn-primary" value="Modificar">
-                    <input type="submit" class="btn btn-primary" value="Cancelar">
+                    <input id="modificar" type="submit" class="btn btn-primary" value="Modificar">
+                    <input id="cancelar" type="submit" class="btn btn-primary" value="Cancelar">
                 </div>
             </div>
         </form>
@@ -83,6 +186,8 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="js/principal.js"></script>
 <script>
     $(".date-picker").datepicker();
