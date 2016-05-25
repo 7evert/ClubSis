@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en" >
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -55,10 +55,10 @@
         }
     </style>
 </head>
-<body ng-controller="PostulanteController">
+<body>
 <div id="headerAdministrador"></div>
-<div class="container">
-    <input type="hidden" name="estaModificarPostulante" id="estaModificarPostulante" value=($location.search()).estaModificarPostulante>
+<div class="container" id="EditarPostulanteID" ng-controller="EditarPostulanteController" ng-app="app">
+    <!--<input type="hidden" name="estaModificarPostulante" id="estaModificarPostulante" value=($location.search()).estaModificarPostulante>-->
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
@@ -76,8 +76,8 @@
                 <div class="form-group">
                     <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
                     <div class="col-md-6">
-                        <select class="form-control" id="tipoDocumento" ng-model="tipoDocumento">
-                            <option value="-1">Elegir</option>
+                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDocumento">
+                            <option value="-1" ng-selected="selected">Elegir</option>
                             <option value="DNI">DNI</option>
                             <option value="Pasaporte">Pasaporte</option>
                             <option value="Carnet de extranjería">Carnet de extranjería</option>
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento</label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="numeroDocumento" id="numeroDocumento"
+                        <input type="text" class="form-control" ng-model="postulantes.numeroDocumento" id="numeroDocumento"
                                placeholder="Numero de documento">
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                 <div class="form-group">
                     <label for="nombre" class="col-md-5 control-label">Nombres</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" ng-model="nombre" id="nombre"
+                        <input type="text" class="form-control" ng-model="postulantes.nombre" id="nombre"
                                placeholder="Nombre completo">
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                 <div class="form-group">
                     <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno</label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="apellidoPaterno" id="apellidoPaterno"
+                        <input type="text" class="form-control" ng-model="postulantes.apellidoPaterno" id="apellidoPaterno"
                                placeholder="Apellido paterno">
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="form-group">
                     <label for="apellidoMaterno" class="col-md-5 control-label">Apellido Materno</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" ng-model="apellidoMaterno" id="apellidoMaterno"
+                        <input type="text" class="form-control" ng-model="postulantes.apellidoMaterno" id="apellidoMaterno"
                                placeholder="Apellido Materno">
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                 <div class="form-group">
                     <label for="estadoCivil" class="col-md-4 control-label">Estado Civil</label>
                     <div class="col-md-7">
-                        <select class="form-control" id="estadoCivil" ng-model="estadoCivil">
+                        <select class="form-control" id="estadoCivil" ng-model="postulantes.estadoCivil">
                             <option value="-1" ng-selected="selected">Elegir</option>
                             <option value="Soltero">Soltero</option>
                             <option value="Casado">Casado</option>
@@ -138,7 +138,7 @@
             <div class="form-group col-sm-6 col-lg-5" style="margin-left: 52px;">
                 <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento</label>
                 <div class="input-group input-append date col-md-7">
-                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7"/>
+                    <input ng-model=postulantes.fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7"/>
                     <label for="fechaNacimiento" class="input-group-addon btn"><span
                             class="glyphicon glyphicon-calendar"></span>
                     </label>
@@ -148,7 +148,7 @@
                 <div class="form-group">
                     <label for="numeroHijos" class="col-md-5 control-label">N° de hijos</label>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" ng-model="numeroHijos" id="numeroHijos"
+                        <input type="text" class="form-control" ng-model="postulantes.numeroHijos" id="numeroHijos"
                                placeholder="Cantidad de hijos">
                     </div>
                     <label for="numeroHijos" class="control-label" style="margin-left: 24px;">hijos</label>
@@ -158,7 +158,7 @@
                 <div class="form-group">
                     <label for="telefonoCasa" class="col-md-5 control-label">Telefono de casa</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" ng-model="telefonoCasa" id="telefonoCasa"
+                        <input type="text" class="form-control" ng-model="postulantes.telefonoCasa" id="telefonoCasa"
                                placeholder="Numero de teléfono de casa">
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                 <div class="form-group">
                     <label for="celular" class="col-md-4 control-label">Celular</label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="celular" id="celular"
+                        <input type="text" class="form-control" ng-model="postulantes.celular" id="celular"
                                placeholder="Numero de teléfono celular">
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                 <div class="form-group">
                     <label for="telefonoTrabajo" class="col-md-5 control-label">Telefono de trabajo</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" ng-model="telefonoTrabajo" id="telefonoTrabajo"
+                        <input type="text" class="form-control" ng-model="postulantes.telefonoTrabajo" id="telefonoTrabajo"
                                placeholder="Numero de teléfono de trabajo">
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                 <div class="form-group">
                     <label for="profesion" class="col-md-4 control-label">Profesión</label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="profesion" id="profesion"
+                        <input type="text" class="form-control" ng-model="postulantes.profesion" id="profesion"
                                placeholder="Profesión del socio">
                     </div>
                 </div>
@@ -194,7 +194,7 @@
                 <div class="form-group">
                     <label for="correo" class="col-md-5 control-label">Correo</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" ng-model="correo" id="correo"
+                        <input type="text" class="form-control" ng-model="postulantes.correo" id="correo"
                                placeholder="Correo del socio">
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                 <div class="form-group">
                     <label for="ingresosMensuales" class="col-md-4 control-label">Ingreso mensual</label>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" ng-model="ingresosMensuales" id="ingresosMensuales"
+                        <input type="text" class="form-control" ng-model="postulantes.ingresosMensuales" id="ingresosMensuales"
                                placeholder="Ingreso mensual">
                     </div>
                     <label for="ingresosMensuales" style="margin-left: 22px">soles</label>
@@ -213,7 +213,7 @@
                 <div class="form-group">
                     <label for="direccion" class="col-md-3 control-label">Dirección</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" ng-model="direccion" id="direccion"
+                        <input type="text" class="form-control" ng-model="postulantes.direccion" id="direccion"
                                placeholder="Dirección de vivienda del socio postulante (Referencia)" style="width: 755px;">
                     </div>
                 </div>
@@ -222,7 +222,7 @@
                 <div class="form-group">
                     <label for="nombreEmpresa" class="col-md-3 control-label">Empresa</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" ng-model="nombreEmpresa" id="nombreEmpresa"
+                        <input type="text" class="form-control" ng-model="postulantes.nombreEmpresa" id="nombreEmpresa"
                                placeholder="Nombre de la empresa donde labora el socio postulante" style="width: 755px;">
                     </div>
                 </div>
@@ -260,39 +260,74 @@
 <script type="text/javascript">
     $(".date-picker").datepicker();
 
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
+    var idPostulante = ruta.substring(ruta.lastIndexOf('=') + 1);
+    console.log("Id de postulante: " + idPostulante);
+
+//    console.log(angular.element(document.getElementById('EditarPostulanteID')).scope().buscarPostulante(idPostulante));
+
     var app = angular.module('app', []);
-    app.controller('PostulanteController', function ($scope, $http) {
+    app.controller('EditarPostulanteController', function ($scope, $http) {
+        $scope.postulantes = [];
+        $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+            console.log("Hola");
+            $scope.postulantes = data;
+            console.log($scope.postulantes);
+//                return data;
+//                console.log("Postulante" + data);
+//                nombre = data.id;
+//                console.log(nombre);
+//                return postulante = data;
+        });
+//        $scope.postulantes = [];
+//        $scope.buscarPostulante = function (idPostulante) {
+//            var nombre;
+//            $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+//                console.log("Hola");
+//                $scope.postulantes = data;
+//                console.log($scope.postulantes);
+////                return data;
+////                console.log("Postulante" + data);
+////                nombre = data.id;
+////                console.log(nombre);
+////                return postulante = data;
+//            })();
+//        }
         $("#btnRegistrar").click(function () {
+            console.log("Entro con IDPOSTULANTE: " + idPostulante);
             $scope.registrarBungalow = function () {
                 var data = {
                     //por preguntar
                     //idSuspension: null,
-                    'nombre': $scope.nombre,
-                    'apellidoPaterno': $scope.apellidoPaterno,
-                    'apellidoMaterno': $scope.apellidoMaterno,
-                    'tipoDocumento': $scope.tipoDocumento,
-                    'numeroDocumento': parseInt($scope.numeroDocumento),
-                    'fechaNacimiento': Date.parse($scope.fechaNacimiento),
-                    'estadoCivil': $scope.estadoCivil,
-                    'numeroHijos': parseInt($scope.numeroHijos),
-                    'estadoCivil': $scope.estadoCivil,
-                    'direccion': $scope.direccion,
-                    'telefonoCasa': parseInt($scope.telefonoCasa),
-                    'celular': parseInt($scope.celular),
-                    'telefonoTrabajo': parseInt($scope.telefonoTrabajo),
-                    'profesion': $scope.profesion,
-                    'ingresosMensuales': parseFloat($scope.ingresosMensuales),
-                    'nombreEmpresa': $scope.nombreEmpresa,
-                    'correo': $scope.correo,
+                    'id': idPostulante,
+                    'nombre': $scope.postulantes.nombre,
+                    'apellidoPaterno': $scope.postulantes.apellidoPaterno,
+                    'apellidoMaterno': $scope.postulantes.apellidoMaterno,
+                    'tipoDocumento': $scope.postulantes.tipoDocumento,
+                    'numeroDocumento': parseInt($scope.postulantes.numeroDocumento),
+                    'fechaNacimiento': Date.parse($scope.postulantes.fechaNacimiento),
+                    'estadoCivil': $scope.postulantes.estadoCivil,
+                    'numeroHijos': parseInt($scope.postulantes.numeroHijos),
+                    'estadoCivil': $scope.postulantes.estadoCivil,
+                    'direccion': $scope.postulantes.direccion,
+                    'telefonoCasa': parseInt($scope.postulantes.telefonoCasa),
+                    'celular': parseInt($scope.postulantes.celular),
+                    'telefonoTrabajo': parseInt($scope.postulantes.telefonoTrabajo),
+                    'profesion': $scope.postulantes.profesion,
+                    'ingresosMensuales': parseFloat($scope.postulantes.ingresosMensuales),
+                    'nombreEmpresa': $scope.postulantes.nombreEmpresa,
+                    'correo': $scope.postulantes.correo,
                     'fechaPostulacion': 05212003, //Estos datos los llena el back por dentro (Gerson) fecha actual
                     'esAprobado': 0, //Estos datos los llena el back por dentro (Gerson)
                     'esActivo': 1, //Estos datos los llena el back por dentro (Gerson)
                     'esPeriodoObjeciones': 0, //Estos datos los llena el back por dentro (Gerson)
                     'socios': null, //Estos datos los llena el back por dentro (Gerson)
                 };
+//                var jsonObj = JSON.parse(data);
                 console.log(data);
                 //Falta las validaciones (LOO)
-                $http.post('/api/postulantes', data).success(function (data) {
+                $http.put('/api/postulantes/' + idPostulante,data).success(function (data) {
+                    //happy end
                     Notificaciones.showProcesando();
                     Notificaciones.hideAll();
                     setTimeout(function(){location.href="mantenimientoPostulante.html"} , 1000);
@@ -305,6 +340,8 @@
             }();
         });
     });
+//    angular.element('#EditarPostulanteID').scope().$apply()
+//    console.log(angular.element(document.getElementById('EditarPostulanteID')).scope().buscarPostulante(1));
     //    });
 </script>
 </body>

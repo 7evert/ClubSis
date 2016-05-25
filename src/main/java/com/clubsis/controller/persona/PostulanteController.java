@@ -5,6 +5,8 @@ import com.clubsis.service.ServicioMembresias;
 import com.clubsis.service.ServicioPostulante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class PostulanteController {
     @Autowired
     private ServicioPostulante servicioPostulante;
 
+    //Este metodo debe traerme solo los activos
     @RequestMapping(method = RequestMethod.GET)
     public List<Postulante> list() {
         return servicioPostulante.mostrarPostulantes() ;
@@ -35,5 +38,13 @@ public class PostulanteController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Postulante update(@PathVariable Integer id, @RequestBody Postulante postulante) {
         return servicioPostulante.actualizarPostulante(id,postulante);
+    }
+
+    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+    public Integer editarPostulante(Model model, @RequestParam(value = "idPostulante") Integer idPostulante) {
+        Postulante postulante = servicioPostulante.buscarPostulante(idPostulante);
+        postulante.setEsActivo(false); //Lo eliminamos de la base de datos
+        servicioPostulante.actualizarPostulante(idPostulante,postulante);
+        return 1;
     }
 }
