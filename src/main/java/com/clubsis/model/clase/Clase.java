@@ -31,8 +31,11 @@ public class Clase {
     private Set<RegistroClase> registros = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
-    @JsonIgnore
     private Set<Horario> horarios = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnore
+    private Academia academia;
 
     protected Clase() {
     }
@@ -136,5 +139,13 @@ public class Clase {
 
     public void setHorarios(Set<Horario> horarios) {
         this.horarios = horarios;
+    }
+
+    public Academia getAcademia() {
+        return academia;
+    }
+
+    public void setAcademia(Academia academia) {
+        this.academia = academia;
     }
 }

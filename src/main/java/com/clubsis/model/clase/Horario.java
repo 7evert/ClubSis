@@ -1,6 +1,7 @@
 package com.clubsis.model.clase;
 
 import com.clubsis.model.sede.Instalacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Horario {
     private EstadoHorario estadoHorario;
 
     @ManyToOne
+    @JsonIgnore
     private Clase clase;
 
     @ManyToOne

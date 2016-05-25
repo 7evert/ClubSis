@@ -6,7 +6,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Vivian on 23/05/2016.
@@ -119,6 +121,27 @@ public class ServicioClases {
         RegistroClase registroExistente = registroClaseRepository.findOne(id);
         BeanUtils.copyProperties(registroClase, registroExistente);
         return registroClaseRepository.saveAndFlush(registroExistente);
+    }
+
+    //MAS FUNCIONES
+    public Ciclo obtenerCicloActual(){
+        List<Ciclo> ciclos=cicloRepository.findAll();
+        for (Ciclo item: ciclos) {
+            if(item.getEstadoCiclo()==EstadoCiclo.HABILITADO) return item;
+        }
+        return null;
+    }
+
+    public List<Clase> mostrarClasesCiclo(Integer idAcademia){
+        Ciclo cicloAct= obtenerCicloActual();
+        List<Clase> clases= claseRepository.findAll();
+        List<Clase> respuesta = new ArrayList<Clase>();
+        for(Clase item:clases){
+            if(item.getCiclo().getId()==cicloAct.getId() && item.getAcademia().getId()==idAcademia){
+                respuesta.add(item);
+            }
+        }
+        return respuesta;
     }
 
 }

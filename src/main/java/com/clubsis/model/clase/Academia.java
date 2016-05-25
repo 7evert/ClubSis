@@ -20,19 +20,21 @@ public class Academia {
     private String urlFoto;
     private EstadoAcademia estadoAcademia;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "academias")
-    @JsonIgnore
-    private Set<Ciclo> ciclos = new HashSet<>();
+    //@ManyToMany(fetch = FetchType.EAGER, mappedBy = "academias")
+    //private Set<Ciclo> ciclos = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "academia")
+    private Set<Clase> clases = new HashSet<>();
 
     protected Academia() {
     }
 
-    public Academia(String nombre, String descripcion, String urlFoto, EstadoAcademia estadoAcademia, Set<Ciclo> ciclos) {
+    public Academia(String nombre, String descripcion, String urlFoto, EstadoAcademia estadoAcademia, Set<Clase> clases) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.urlFoto = urlFoto;
         this.estadoAcademia = estadoAcademia;
-        this.ciclos = ciclos;
+        this.clases = clases;
     }
 
     public Integer getId() {
@@ -74,7 +76,7 @@ public class Academia {
     public void setEstadoAcademia(EstadoAcademia estadoAcademia) {
         this.estadoAcademia = estadoAcademia;
     }
-
+/*
     public Set<Ciclo> getCiclos() {
         return ciclos;
     }
@@ -82,4 +84,5 @@ public class Academia {
     public void setCiclos(Set<Ciclo> ciclos) {
         this.ciclos = ciclos;
     }
+*/
 }

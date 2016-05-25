@@ -1,6 +1,7 @@
 package com.clubsis.controller.clase;
 
 import com.clubsis.model.clase.Academia;
+import com.clubsis.model.clase.Clase;
 import com.clubsis.service.ServicioClases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,10 @@ public class AcademiaController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Academia get(@PathVariable Integer id) {
-        return servicioClases.buscarAcademia(id);
+    public List<Clase> get(@PathVariable Integer id) {
+
+        //return servicioClases.buscarAcademia(id);
+        return servicioClases.mostrarClasesCiclo(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
