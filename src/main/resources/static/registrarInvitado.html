@@ -59,54 +59,70 @@
         function getIDSocioYEvento() {
             var href = this.location.href;
             var str = href.match(/\?idSocio\=(\d+)&idEvento\=(\d+)/);
-            return str?[str[1],str[2]]:undefined;
+            return str ? [str[1], str[2]] : undefined;
         }
 
-        function verInvitado(){
-            var id=event.target.parentNode.getAttribute("data-idevento-ver");
+        function verInvitado() {
+            var id = event.target.parentNode.getAttribute("data-idevento-ver");
             location.href = "modificarInvitado.html?id=" + id;
         }
         function modificarInvitado() {
-            var id=event.target.parentNode.getAttribute("data-idevento-modificar");
+            var id = event.target.parentNode.getAttribute("data-idevento-modificar");
             location.href = "modificarInvitado.html?id=" + id;
         }
-        function eliminarInvitado(){
-            var id=event.target.parentNode.getAttribute("data-idevento-eliminar");
+        function eliminarInvitado() {
+            var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
             location.href = "modificarInvitado.html?id=" + id;
         }
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
         app2.controller('RegistroInvitadoController', function ($scope, $http) {
-            var ids=getIDSocioYEvento();
+            var ids = getIDSocioYEvento();
             var idsocio = 1;//id[0];
             var idevento = 1;//id[1];
-            if(idsocio==undefined || idevento==undefined){
-                //location.href="participarEvento.html";
+            if (idsocio == undefined || idevento == undefined) {
+                location.href="participarEvento.html";
             }
+            $http.get('/api/invitados').success(function (data2, status) {
+                //var data2 = guest;
+                console.log(JSON.stringify(data2));
+                for(var i=0;i<data2.length;i++) {
+                    for(var j=0;j<data2[i].eventos.length;j++){
+                        if((idsocio=data2[i].socio.id) && (idevento=data2[i].eventos[j].id)) {
+                            var data = {id: data2[i].id, nombre: data2[i].nombres, nroDoc: data2[i].numeroDocumento};
+                            jQuery("#jqGrid").addRowData(data.id, data);
+                        }
+                    }
+                }
+            });
+
             $("#addGuest").click(function () {
                 var guest = {
                     nombres: $("#nombre").val(),
                     apellidoPaterno: $("#apellidoPat").val(),
                     apellidoMaterno: $("#apellidoMat").val(),
                     tipoDocumento: $("#tipoDoc").val(),
-                    numeroDocumento: $("#nroDoc").val(),
-                    esExoneradoPago: $("#exonerado").val(),
-                    ingresoAlClub: $("#ingresoInv").val(),
+                    numeroDocumento: parseInt($("#nroDoc").val()),
+                    esExoneradoPago: parseInt($("#exonerado").val()),
+                    ingresoInvitado: parseInt($("#ingresoInv").val()),
                     fechaVisita: Date.parse($("#date-picker-TiempoInicio")[0].value),
                     fechaSalida: Date.parse($("#date-picker-TiempoFin")[0].value)
                 };
-                //$http.post('/api/invitados/' + idsocio+"/"+idevento,guest).success(function (data2, status) {
-                $http.get('/api/sedes', guest).success(function (data2, status) {
-                    var data2 = guest;
+                console.log(JSON.stringify(guest));
+                $http.post('/api/invitados/' + idevento+"/"+idsocio,guest).success(function (data2, status) {
+                //$http.get('/api/sedes', guest).success(function (data2, status) {
+                    //var data2 = guest;
                     console.log(JSON.stringify(data2));
                     limpiarFormulario();
                     var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
-                    jQuery("#jqGrid").addRowData(data.id, data);
+                    jQuery("#jqGrid").addRowData(data.id, data);*/
                 });
+
             });
+
             $("#cancelar").click(function () {
-                location.href="MantenimientoEventos.html";
+                location.href = "MantenimientoEventos.html";
             });
         });
     </script>
@@ -207,7 +223,8 @@
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">Confirmar contraseña</label>
                                 <div class="col-xs-7">
-                                    <input id="password" type="password" name="clave" maxlength="15" autofocus="autofocus"
+                                    <input id="password" type="password" name="clave" maxlength="15"
+                                           autofocus="autofocus"
                                            tabindex="2" placeholder="Password" class="form-control validate[required]"/>
                                 </div>
                             </div>

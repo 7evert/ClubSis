@@ -21,7 +21,7 @@
             tipoDocumento: "dni",
             numeroDocumento: 70077000,
             esExoneradoPago: 0,
-            ingresoAlClub: 1,
+            ingresoInvitado: 1,
             fechaVisita: "2016-05-18 02:06:30",
             fechaSalida: "2016-05-18 02:06:31",
             socio: {id: 1}
@@ -46,7 +46,7 @@
             $("#tipoDoc").val(data.tipoDocumento);
             $("#nroDoc").val(data.numeroDocumento);
             $("#exonerado").val(data.esExoneradoPago);
-            $("#ingresoInv").val(data.ingresoAlClub);
+            $("#ingresoInv").val(data.ingresoInvitado);
             $("#date-picker-TiempoInicio").val(new Date(data.fechaVisita).ddmmyyyy());
             $("#date-picker-TiempoFin").val(new Date(data.fechaSalida).ddmmyyyy());
         }
@@ -60,7 +60,7 @@
                 tipoDocumento: $("#tipoDoc").val(),
                 numeroDocumento: $("#nroDoc").val(),
                 esExoneradoPago: $("#exonerado").val(),
-                ingresoAlClub: $("#ingresoInv").val(),
+                ingresoInvitado: $("#ingresoInv").val(),
                 fechaVisita: dia1,
                 fechaSalida: dia2
             };
@@ -69,20 +69,23 @@
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
         app2.controller('modificarInvitadoController', function ($scope, $http) {
-            //$http.get('/api/invitados/'+getID()).success(function (data2, status) {
             var idInvitado=getID();
-            //dataInvitado=data2;
-            console.log(dataInvitado);
-            llenarDatosInvitado(dataInvitado);
-            //});
+            if(idInvitado==undefined){
+                //location.href="MantenimientoEventos.html"
+            }
+            $http.get('/api/invitados/'+getID()).success(function (data2, status) {
+                dataInvitado=data2;
+                console.log(dataInvitado);
+                llenarDatosInvitado(dataInvitado);
+            });
             $("#modificar").click(function(){
                 var data=getInvitado();
                 data.id=idInvitado;
                 console.log(JSON.stringify(data));
-                //$http.put("/api/eventos/", data).success(function (data2, status) {
+                $http.put("/api/invitados/"+data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
                     //location.href = "registrarInvitado.html"
-                //});
+                });
             });
             $("#cancelar").click(function(){
                 location.href = "registrarInvitado.html"
