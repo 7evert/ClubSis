@@ -47,7 +47,7 @@ public class RolController {
         return servicioRol.mostrarRols();
     }
 
-    @RequestMapping(value = "/{rolId}/crearPerm", method = RequestMethod.POST)
+    @RequestMapping(value = "/crearPerm/{rolId}", method = RequestMethod.POST)
     public Permiso createPermision(@PathVariable Integer rolId, @RequestBody Permiso permiso){
         permiso.setRol(servicioRol.buscarRol(rolId));
         return servicioRol.creaerPermisio(permiso);
