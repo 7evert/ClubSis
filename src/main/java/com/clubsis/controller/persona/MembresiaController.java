@@ -16,7 +16,7 @@ public class MembresiaController {
     @Autowired
     private ServicioMembresias servicioMembresias;
 
-    @RequestMapping(value = "{id}",method = RequestMethod.POST)
+    /*@RequestMapping(value = "{id}",method = RequestMethod.POST)
     public void create(@PathVariable Integer id){
         servicioMembresias.crearMembresia(id);
     }
@@ -24,6 +24,6 @@ public class MembresiaController {
     @RequestMapping(value = "{id}",method = RequestMethod.PUT)
     public void update(@PathVariable Integer id){
         // TODO: reincorporar o suspender a un socio
-    }
+    }*/
 
 }

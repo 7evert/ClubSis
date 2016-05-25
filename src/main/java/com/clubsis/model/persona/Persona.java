@@ -31,34 +31,17 @@ public class Persona {
     private Boolean esTitular;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
-    private Socio socio;
-
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_usuario")
     private Usuario usuario;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
-    private Set<Evento> eventos=new HashSet<Evento>();;
 
-    protected Persona() {
+    public Integer getId() {
+        return id;
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, Date fechaNacimiento, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Set<Evento> eventos, Usuario usuario) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.direccion = direccion;
-        this.fechaNacimiento = fechaNacimiento;
-        this.correo = correo;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.esTitular = esTitular;
-        this.socio = socio;
-        this.eventos = eventos;
-        this.usuario = usuario;
+    public void setId(Integer id) {
+        this.id = id;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -132,31 +115,11 @@ public class Persona {
         this.esTitular = esTitular;
     }
 
-    public Socio getSocio() { return socio; }
-
-    public void setSocio(Socio socio) { this.socio = socio; }
-
     public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Set<Evento> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(Set<Evento> eventos) {
-        this.eventos = eventos;
     }
 }

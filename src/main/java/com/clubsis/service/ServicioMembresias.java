@@ -115,18 +115,15 @@ public class ServicioMembresias {
 
     //MEMBRESIA
 
-    public Persona personaMembresia(Postulante postulanteExistente){
-        Persona nuevaPersona = new Persona(
-                postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
-                postulanteExistente.getDireccion(),postulanteExistente.getFechaNacimiento(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,new HashSet<Evento>(),null);
+    /*public Persona personaMembresia(Postulante postulanteExistente){
+        Persona nuevaPersona = new Persona (postulanteExistente.getNombre(), postulanteExistente.getApellidoPaterno(),postulanteExistente.getFechaNacimiento(),postulanteExistente.getApellidoMaterno(),
+                postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),postulanteExistente.getNumeroDocumento(),postulanteExistente.getTelefonoCasa(),Boolean.TRUE,null,null);
         return nuevaPersona;
     }
 
     public Socio socioMembresia(Postulante postulanteExistente){
-        Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
-        ,new HashSet<Persona>(),new HashSet<Postulante>(),new HashSet<Suspension>());
+        Socio nuevoSocio = new Socio (postulanteExistente.getFechaPostulacion(),postulanteExistente.getEstadoCivil(),"SOLTERO",new HashSet<Postulante>()
+                ,new HashSet<Invitado>(),new HashSet<Suspension>());
         return nuevoSocio;
     }
 
@@ -138,13 +135,12 @@ public class ServicioMembresias {
         Persona nuevaPersona= personaMembresia(postulanteExistente);
         Socio nuevoSocio = socioMembresia(postulanteExistente);
         personaRepository.saveAndFlush(nuevaPersona);
-        nuevaPersona.setSocio(socioRepository.saveAndFlush(nuevoSocio));
         personaRepository.saveAndFlush(nuevaPersona);
         // Solo la persona muestra a que socio esta asociada
         //nuevoSocio.getPersonas().add(nuevaPersona);
         //socioRepository.saveAndFlush(nuevoSocio);
         actualizarPostulante(idPostulante,postulanteExistente);
-    }
+    }*/
 
 
 

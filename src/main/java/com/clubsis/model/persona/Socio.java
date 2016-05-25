@@ -3,6 +3,7 @@ package com.clubsis.model.persona;
 import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import sun.util.PreHashedMap;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -23,36 +24,37 @@ public class Socio {
     //@Column(columnDefinition = "integer auto_increment")
     private Integer codigoCarnet;
 
-    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Invitado> invitados =new HashSet<Invitado>();
 
-    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Persona> personas =new HashSet<Persona>();
-
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
     private Set<Postulante> postulantes=new HashSet<Postulante>();
 
-    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Suspension> suspensiones =new HashSet<Suspension>();
-
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Set<Invitado> invitados, Integer codigoCarnet, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
-        this.codigoCarnet = codigoCarnet;
         this.invitados = invitados;
-        this.personas = personas;
+        this.codigoCarnet = codigoCarnet;
         this.postulantes = postulantes;
         this.suspensiones = suspensiones;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Date getFechaInscripcion() {
         return fechaInscripcion;
@@ -78,28 +80,12 @@ public class Socio {
         this.codigoCarnet = codigoCarnet;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Set<Invitado> getInvitados() {
         return invitados;
     }
 
     public void setInvitados(Set<Invitado> invitados) {
         this.invitados = invitados;
-    }
-
-    public Set<Persona> getPersonas() {
-        return personas;
-    }
-
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
     }
 
     public Set<Postulante> getPostulantes() {

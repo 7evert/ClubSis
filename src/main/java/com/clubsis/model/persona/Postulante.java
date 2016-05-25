@@ -37,37 +37,40 @@ public class Postulante {
     private Boolean esAprobado;
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
-    //private Set<String> observaciones; CAMBIAR LA RELACION MANY TO MANY Y PONERLO EN TABLA CRUZADA
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="postulantes")
-    private Set<Socio> socios=new HashSet<Socio>();;
 
     protected Postulante() {
     }
 
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, String nombreEmpresa, Double ingresosMensuales, Boolean esAprobado, String correo, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio> socios) {
+    public Postulante(String nombre, String apellidoPaterno, String tipoDocumento, String apellidoMaterno, String estadoCivil, Integer numeroDocumento, Date fechaNacimiento, Integer numeroHijos, Integer telefonoCasa, String direccion, Integer telefonoTrabajo, Integer celular, Double ingresosMensuales, String profesion, String correo, String nombreEmpresa, Boolean esAprobado, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.numeroDocumento = numeroDocumento;
         this.tipoDocumento = tipoDocumento;
-        this.fechaNacimiento = fechaNacimiento;
+        this.apellidoMaterno = apellidoMaterno;
         this.estadoCivil = estadoCivil;
-        this.direccion = direccion;
+        this.numeroDocumento = numeroDocumento;
+        this.fechaNacimiento = fechaNacimiento;
         this.numeroHijos = numeroHijos;
         this.telefonoCasa = telefonoCasa;
+        this.direccion = direccion;
         this.telefonoTrabajo = telefonoTrabajo;
         this.celular = celular;
-        this.profesion = profesion;
-        this.nombreEmpresa = nombreEmpresa;
         this.ingresosMensuales = ingresosMensuales;
-        this.esAprobado = esAprobado;
+        this.profesion = profesion;
         this.correo = correo;
+        this.nombreEmpresa = nombreEmpresa;
+        this.esAprobado = esAprobado;
         this.fechaPostulacion = fechaPostulacion;
         this.esActivo = esActivo;
         this.esPeriodoObjeciones = esPeriodoObjeciones;
-        this.socios = socios;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -205,14 +208,6 @@ public class Postulante {
         this.fechaPostulacion = fechaPostulacion;
     }
 
-    public Set<Socio> getSocios() {
-        return socios;
-    }
-
-    public void setSocios(Set<Socio> socios) {
-        this.socios = socios;
-    }
-
     public Boolean getEsAprobado() {
         return esAprobado;
     }
@@ -235,13 +230,5 @@ public class Postulante {
 
     public void setEsPeriodoObjeciones(Boolean esPeriodoObjeciones) {
         this.esPeriodoObjeciones = esPeriodoObjeciones;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }

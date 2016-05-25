@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Fetch;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +14,6 @@ import java.util.Set;
  * Created by Juan Tenorio on 29/4/2016.
  */
 @Entity
-
 public class Evento {
     @Id
     @GeneratedValue
@@ -35,43 +35,45 @@ public class Evento {
     private String nombre;
     private Integer capacidad;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos",cascade= CascadeType.ALL)
-    private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
-
-    @JsonIgnore
-    @ManyToMany(cascade=CascadeType.ALL)
-    private Set<Persona> personas = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(cascade=CascadeType.ALL)
     private Set<Empresa> empresas = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos")
+    private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
+
+    @JsonIgnore
+    @OneToMany(cascade=CascadeType.ALL)
+    private Set<Invitado> invitados = new HashSet<Invitado>(0);
+
     // este es el OWNER de la relación con sede
     @ManyToOne
     private Sede sede; // es un campo autor_id en la base de datos
 
+    public Evento(String descripcion, Date fechaInicio, EstadoEvento estado, Date fechaFin, Date fechaInicioInscripcion, String reglamento, Date fechaFinInscripcion, String url, Integer isPublico, Integer isGratuito, String nombre, Set<Empresa> empresas, Integer capacidad, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
+        this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
+        this.estado = estado;
+        this.fechaFin = fechaFin;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
+        this.reglamento = reglamento;
+        this.fechaFinInscripcion = fechaFinInscripcion;
+        this.url = url;
+        this.isPublico = isPublico;
+        this.isGratuito = isGratuito;
+        this.nombre = nombre;
+        this.empresas = empresas;
+        this.capacidad = capacidad;
+        this.tarifaxEventos = tarifaxEventos;
+        this.invitados = invitados;
+        this.sede = sede;
+    }
+
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<TarifaEvento> tarifaxEventos, Set<Persona> personas, Sede sede, Set<Empresa> empresas) {
-        this.descripcion = descripcion;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.estado = estado;
-        this.reglamento = reglamento;
-        this.fechaInicioInscripcion = fechaInicioInscripcion;
-        this.fechaFinInscripcion = fechaFinInscripcion;
-        this.url = url;
-        this.isGratuito = isGratuito;
-        this.isPublico = isPublico;
-        this.nombre = nombre;
-        this.capacidad = capacidad;
-        this.tarifaxEventos = tarifaxEventos;
-        this.personas = personas;
-        this.setSede(sede);
-        this.empresas = empresas;
-    }
 
     public Integer getId() {
         return id;
@@ -167,6 +169,38 @@ public class Evento {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public Set<Empresa> getEmpresas() {
+        return empresas;
+    }
+
+    public void setEmpresas(Set<Empresa> empresas) {
+        this.empresas = empresas;
+    }
+
+    public Set<TarifaEvento> getTarifaxEventos() {
+        return tarifaxEventos;
+    }
+
+    public void setTarifaxEventos(Set<TarifaEvento> tarifaxEventos) {
+        this.tarifaxEventos = tarifaxEventos;
+    }
+
+    public Set<Invitado> getInvitados() {
+        return invitados;
+    }
+
+    public void setInvitados(Set<Invitado> invitados) {
+        this.invitados = invitados;
     }
 
     public Sede getSede() {

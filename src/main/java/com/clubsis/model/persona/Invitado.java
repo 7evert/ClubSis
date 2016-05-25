@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -24,39 +26,31 @@ public class Invitado {
     private Date fechaSalida;
     private String nombres;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
     private Socio socio;
+
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, String apellidoMaterno, Date fechaVisita, Boolean esExoneradoPago, String tipoDocumento, Integer numeroDocumento, Date fechaSalida, String nombres, Socio socio) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, Date fechaVisita, String tipoDocumento, Boolean esExoneradoPago, Date fechaSalida, Integer numeroDocumento, Socio socio, String nombres) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.fechaVisita = fechaVisita;
-        this.esExoneradoPago = esExoneradoPago;
         this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
-        this.fechaSalida = fechaSalida;
-        this.nombres = nombres;
-        this.socio = socio;
-    }
-
-
-    public Date getFechaVisita() {
-        return fechaVisita;
-    }
-
-    public void setFechaVisita(Date fechaVisita) {
-        this.fechaVisita = fechaVisita;
-    }
-
-    public Boolean getEsExoneradoPago() {
-        return esExoneradoPago;
-    }
-
-    public void setEsExoneradoPago(Boolean esExoneradoPago) {
         this.esExoneradoPago = esExoneradoPago;
+        this.fechaSalida = fechaSalida;
+        this.numeroDocumento = numeroDocumento;
+        this.socio = socio;
+        this.nombres = nombres;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getApellidoPaterno() {
@@ -73,6 +67,22 @@ public class Invitado {
 
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public Date getFechaVisita() {
+        return fechaVisita;
+    }
+
+    public void setFechaVisita(Date fechaVisita) {
+        this.fechaVisita = fechaVisita;
+    }
+
+    public Boolean getEsExoneradoPago() {
+        return esExoneradoPago;
+    }
+
+    public void setEsExoneradoPago(Boolean esExoneradoPago) {
+        this.esExoneradoPago = esExoneradoPago;
     }
 
     public String getTipoDocumento() {
@@ -105,14 +115,6 @@ public class Invitado {
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Socio getSocio() {
