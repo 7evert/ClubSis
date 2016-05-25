@@ -30,9 +30,11 @@ public class ServicioInvitados {
         return invitadoRepository.saveAndFlush(invitado);
     }
     public Invitado actualizarInvitado(Integer id, Invitado invitado){
-        Invitado eventoExistente = invitadoRepository.findOne(id);
-        BeanUtils.copyProperties(invitado, eventoExistente);
-        return invitadoRepository.save(eventoExistente);
+        Invitado invitadoExistente = invitadoRepository.findOne(id);
+        if (invitado.getFechaSalida() == null ) invitado.setFechaSalida(invitadoExistente.getFechaSalida());
+        if (invitado.getFechaVisita() == null ) invitado.setFechaVisita(invitadoExistente.getFechaVisita());
+        BeanUtils.copyProperties(invitado, invitadoExistente);
+        return invitadoRepository.saveAndFlush(invitadoExistente);
         //asdasdas
     }
 }
