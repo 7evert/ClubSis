@@ -20,7 +20,6 @@ public class Tarifa {
     private String nombre;
 
 
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,mappedBy="tarifaeventos",cascade=CascadeType.ALL)
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);

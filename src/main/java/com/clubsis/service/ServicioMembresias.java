@@ -99,19 +99,6 @@ public class ServicioMembresias {
         return suspensionRepository.saveAndFlush(suspensionExistente);
     }
 
-    //Invitado
-
-    public List<Invitado> mostrarInvitados(){return invitadoRepository.findAll();}
-    public Invitado buscarInvitado(Integer id) {return invitadoRepository.findOne(id);}
-    public Invitado crearInvitado(Invitado invitado){return invitadoRepository.saveAndFlush(invitado);}
-
-    public Invitado actualizarInvitado(Integer id, Invitado invitado){
-        Invitado invitadoExistente=invitadoRepository.findOne(id);
-        BeanUtils.copyProperties(invitado,invitadoExistente);
-        return invitadoRepository.saveAndFlush(invitadoExistente);
-    }
-
-
 
     //MEMBRESIA
 

@@ -29,7 +29,7 @@ public class ServicioEventos {
     public Evento actualizarEvento(Integer id, Evento evento){
         Evento eventoExistente = eventoRepository.findOne(id);
         BeanUtils.copyProperties(evento, eventoExistente);
-        return eventoRepository.save(eventoExistente);
+        return eventoRepository.saveAndFlush(eventoExistente);
     }
 
 

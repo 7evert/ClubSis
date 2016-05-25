@@ -1,6 +1,8 @@
 package com.clubsis.model.persona;
 
+import com.clubsis.model.evento.Evento;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,24 +27,31 @@ public class Invitado {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaSalida;
     private String nombres;
+    private Boolean ingresoInvitado;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Socio socio;
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Evento> eventos= new HashSet<Evento>(0);
 
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, String apellidoMaterno, Date fechaVisita, String tipoDocumento, Boolean esExoneradoPago, Date fechaSalida, Integer numeroDocumento, Socio socio, String nombres) {
+    public Invitado(String apellidoPaterno, Date fechaVisita, String apellidoMaterno, Boolean esExoneradoPago, Date fechaSalida, Integer numeroDocumento, String tipoDocumento, Boolean ingresoInvitado, String nombres, Set<Evento> eventos, Socio socio) {
         this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
         this.fechaVisita = fechaVisita;
-        this.tipoDocumento = tipoDocumento;
+        this.apellidoMaterno = apellidoMaterno;
         this.esExoneradoPago = esExoneradoPago;
         this.fechaSalida = fechaSalida;
         this.numeroDocumento = numeroDocumento;
-        this.socio = socio;
+        this.tipoDocumento = tipoDocumento;
+        this.ingresoInvitado = ingresoInvitado;
         this.nombres = nombres;
+        this.eventos = eventos;
+        this.socio = socio;
     }
 
     public Integer getId() {
@@ -117,11 +126,27 @@ public class Invitado {
         this.nombres = nombres;
     }
 
+    public Boolean getIngresoInvitado() {
+        return ingresoInvitado;
+    }
+
+    public void setIngresoInvitado(Boolean ingresoInvitado) {
+        this.ingresoInvitado = ingresoInvitado;
+    }
+
     public Socio getSocio() {
         return socio;
     }
 
     public void setSocio(Socio socio) {
         this.socio = socio;
+    }
+
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
     }
 }

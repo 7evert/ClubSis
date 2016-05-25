@@ -41,39 +41,38 @@ public class Evento {
     private Set<Empresa> empresas = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos",cascade=CascadeType.ALL)
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
     @JsonIgnore
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Invitado> invitados = new HashSet<Invitado>(0);
 
     // este es el OWNER de la relación con sede
     @ManyToOne
     private Sede sede; // es un campo autor_id en la base de datos
 
-    public Evento(String descripcion, Date fechaInicio, EstadoEvento estado, Date fechaFin, Date fechaInicioInscripcion, String reglamento, Date fechaFinInscripcion, String url, Integer isPublico, Integer isGratuito, String nombre, Set<Empresa> empresas, Integer capacidad, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
+    protected Evento(){
+
+    }
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, String reglamento, EstadoEvento estado, Date fechaInicioInscripcion, String url, Date fechaFinInscripcion, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
-        this.estado = estado;
         this.fechaFin = fechaFin;
-        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.reglamento = reglamento;
-        this.fechaFinInscripcion = fechaFinInscripcion;
+        this.estado = estado;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.url = url;
-        this.isPublico = isPublico;
+        this.fechaFinInscripcion = fechaFinInscripcion;
         this.isGratuito = isGratuito;
+        this.isPublico = isPublico;
         this.nombre = nombre;
-        this.empresas = empresas;
         this.capacidad = capacidad;
+        this.empresas = empresas;
         this.tarifaxEventos = tarifaxEventos;
         this.invitados = invitados;
         this.sede = sede;
     }
-
-    protected Evento() {
-    }
-
 
     public Integer getId() {
         return id;
