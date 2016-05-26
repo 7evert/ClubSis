@@ -24,7 +24,6 @@ public class Evento {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
     private EstadoEvento estado;
-    private String reglamento;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInicioInscripcion;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
@@ -55,23 +54,23 @@ public class Evento {
     protected Evento(){
 
     }
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, String reglamento, EstadoEvento estado, Date fechaInicioInscripcion, String url, Date fechaFinInscripcion, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
+
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Set<Empresa> empresas, Integer capacidad, Set<TarifaEvento> tarifaxEventos, Sede sede, Set<Invitado> invitados) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.reglamento = reglamento;
         this.estado = estado;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
-        this.url = url;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.url = url;
         this.isGratuito = isGratuito;
         this.isPublico = isPublico;
         this.nombre = nombre;
-        this.capacidad = capacidad;
         this.empresas = empresas;
+        this.capacidad = capacidad;
         this.tarifaxEventos = tarifaxEventos;
-        this.invitados = invitados;
         this.sede = sede;
+        this.invitados = invitados;
     }
 
     public Integer getId() {
@@ -112,14 +111,6 @@ public class Evento {
 
     public void setEstado(EstadoEvento estado) {
         this.estado = estado;
-    }
-
-    public String getReglamento() {
-        return reglamento;
-    }
-
-    public void setReglamento(String reglamento) {
-        this.reglamento = reglamento;
     }
 
     public Date getFechaInicioInscripcion() {

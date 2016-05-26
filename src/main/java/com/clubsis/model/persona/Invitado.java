@@ -21,7 +21,6 @@ public class Invitado {
     private String apellidoMaterno;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaVisita;
-    private Boolean esExoneradoPago;
     private String tipoDocumento;
     private Integer numeroDocumento;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
@@ -40,18 +39,17 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, Date fechaVisita, String apellidoMaterno, Boolean esExoneradoPago, Date fechaSalida, Integer numeroDocumento, String tipoDocumento, Boolean ingresoInvitado, String nombres, Set<Evento> eventos, Socio socio) {
+    public Invitado(String apellidoPaterno, Date fechaVisita, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaSalida, Set<Evento> eventos, Socio socio, Boolean ingresoInvitado, String nombres) {
         this.apellidoPaterno = apellidoPaterno;
         this.fechaVisita = fechaVisita;
         this.apellidoMaterno = apellidoMaterno;
-        this.esExoneradoPago = esExoneradoPago;
-        this.fechaSalida = fechaSalida;
         this.numeroDocumento = numeroDocumento;
         this.tipoDocumento = tipoDocumento;
-        this.ingresoInvitado = ingresoInvitado;
-        this.nombres = nombres;
+        this.fechaSalida = fechaSalida;
         this.eventos = eventos;
         this.socio = socio;
+        this.ingresoInvitado = ingresoInvitado;
+        this.nombres = nombres;
     }
 
     public Integer getId() {
@@ -84,14 +82,6 @@ public class Invitado {
 
     public void setFechaVisita(Date fechaVisita) {
         this.fechaVisita = fechaVisita;
-    }
-
-    public Boolean getEsExoneradoPago() {
-        return esExoneradoPago;
-    }
-
-    public void setEsExoneradoPago(Boolean esExoneradoPago) {
-        this.esExoneradoPago = esExoneradoPago;
     }
 
     public String getTipoDocumento() {
