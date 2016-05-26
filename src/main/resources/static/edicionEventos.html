@@ -85,8 +85,7 @@
         function completarCapacidad(capacidad) {
             $("#capacidad").attr({value:capacidad});
         }
-        function completarRegYDescripcion(reglamento, descripcion) {
-            $("#reglamento").attr({value: reglamento});
+        function completarRegYDescripcion(descripcion) {
             $("#descripcion").attr({value: descripcion});
         }
 
@@ -139,12 +138,12 @@
                     }
                     /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
                      fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
-                     precios:{asociado:"50.00",invitado:"80.00"},reglamento:"....",estado:"Libre"},*/
+                     precios:{asociado:"50.00",invitado:"80.00"},estado:"Libre"},*/
                     completaridEvento(dataevento.id);
                     completarNombre(dataevento.nombre);
                     completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
                     completarCapacidad(dataevento.capacidad);
-                    completarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                    completarRegYDescripcion(dataevento.descripcion);
                     completarImagen(dataevento.url);
                     seleccionarEstado(dataevento.estado);
                     seleccionarSede(dataevento.sede);
@@ -161,7 +160,6 @@
                             "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
                             "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
                             "tarifaEventos": [{id:$("#tarifas").val()}],
-                            "reglamento": $("#reglamento").val(),
                             "estado": $("#estado").val(),
                             "descripcion": $("#descripcion").val(),
                             "isGratuito": $("#isGratuito").val(),
@@ -177,7 +175,7 @@
                     });
                     $("#Cancelar").click(function () {
                         alert("Cancelar");
-                        location.href = "MantenimientoEventos.html"+getID();
+                        location.href = "MantenimientoEventos.html";
                     });
 
                     $http.get('/api/tarifas').success(function (data) {
@@ -321,12 +319,6 @@
             <label class="control-label col-xs-4">Capacidad Máxima</label>
             <div class="input-group col-xs-8">
                 <input id="capacidad" type="text" class="form-control col-xs-8" value=""/>
-            </div>
-        </div>
-        <div id="Reglamento1" class="form-group">
-            <label class="control-label col-xs-4">Reglamento</label>
-            <div class="input-group col-xs-8">
-                <input id="reglamento" type="text" class="form-control col-xs-8" placeholder="" value=""/>
             </div>
         </div>
         <div id="Descripcion1" class="form-group">

@@ -193,8 +193,7 @@
             for(var j=0;j<b.length;j++)
                 tarifasul.append(b[j]);
         }
-        function mostrarRegYDescripcion(reglamento, descripcion){
-            $("#reglamento").html("Reglamento: "+reglamento);
+        function mostrarRegYDescripcion(descripcion){
             $("#descripcion").html("Descripcion: <br>"+descripcion);
         }
         function mostrarImagen(url){
@@ -228,7 +227,7 @@
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
                 //mostrarTarifas(dataevento.tarifaEventos);
-                mostrarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                mostrarRegYDescripcion(dataevento.descripcion);
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
@@ -279,13 +278,6 @@
                                 }
                             }
                         }
-                        for(var i=0;i<data.length;i++) {
-                            if(tarreg.indexOf(i)<0) {
-                                data[i].UsarTar = "No";
-                                data[i].precio = "0";
-                                jQuery("#jqGrid").addRowData(data[i].id, data[i]);
-                            }
-                        }
                         $("#lui_jqGrid").addClass("hidden");
                     });
 
@@ -321,7 +313,6 @@
                 <span>Tarifas:</span>
                 <!--<li><span>TO DO I DONT KNOW WHAT TO WRITE HERE GUYS</span></li>-->
             </ul>
-            <div><h4 id="reglamento"></h4></div>
             <div class="col-xs-offset-1 col-xs-10">
                 <input id="Participar" type="" class="btn btn-primary" value="Invitar" style="width:22%">
                 <!--<input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">-->

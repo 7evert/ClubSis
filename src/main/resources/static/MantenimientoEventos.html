@@ -183,8 +183,6 @@
             $("#descripcion").val("");
             $("#date-picker-DiaEntrada").val("");
             $("#date-picker-DiaSalida").val("");
-            $("#date-picker-InscripcionInicio").val("");
-            $("#date-picker-InscripcionFin").val("");
         }
         function filtrarEvento(item){
             var filtra=[];
@@ -193,8 +191,6 @@
             filtra[2]=($("#descripcion").val()=="")||(contieneCadenaItem(item,$("#descripcion").val()));
             filtra[3]=($("#date-picker-DiaEntrada").val()=="")||(new Date($("#date-picker-DiaEntrada").val())<=new Date(item.fechaInicio));
             filtra[4]=($("#date-picker-DiaSalida").val()=="")||(new Date($("#date-picker-DiaSalida").val())>=new Date(item.fechaFin));
-            filtra[5]=($("#date-picker-InscripcionInicio").val()=="")||(new Date($("#date-picker-InscripcionInicio").val())<=new Date(item.fechaInicioInscripcion));
-            filtra[6]=($("#date-picker-InscripcionFin").val()=="")||(new Date($("#date-picker-InscripcionFin").val())>=new Date(item.fechaFinInscripcion));
             var rspta=true;
             $.each(filtra, function(i, item) {
                 rspta=rspta&&item;
@@ -286,7 +282,7 @@
                             <div class="col-md-8">
                                 <select class="form-control" id="estado">
                                 </select>
-                            </div>1
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5">
@@ -310,7 +306,7 @@
                     </div>
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Apartir de</label>
+                            <label class="control-label col-md-4">Fecha Fin</label>
                             <div class="input-group input-append date col-md-8">
                                 <input id="date-picker-DiaEntrada" type="text"
                                        class="date-picker form-control col-xs-6"/>
@@ -323,37 +319,11 @@
 
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Antes de</label>
+                            <label class="control-label col-md-4">Fecha Fin</label>
                             <div class="input-group input-append date col-md-8">
                                 <input id="date-picker-DiaSalida" type="text"
                                        class="date-picker form-control col-xs-6"/>
                                 <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
-                                        class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Inscripcion Inicio</label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-InscripcionInicio" type="text"
-                                       class="date-picker form-control col-xs-6"/>
-                                <label for="date-picker-InscripcionInicio" class="input-group-addon btn"><span
-                                        class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Inscripcion Fin</label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-InscripcionFin" type="text"
-                                       class="date-picker form-control col-xs-6"/>
-                                <label for="date-picker-InscripcionFin" class="input-group-addon btn"><span
                                         class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>

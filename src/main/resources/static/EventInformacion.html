@@ -53,11 +53,11 @@
     </style>
     <script type="text/javascript">
         //igual que en MantenimientoEventos.html
-/*        var dataJSON=[
-            {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
-            {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
-            {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
-        ];*/
+        /*        var dataJSON=[
+         {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+         {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+         {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
+         ];*/
         var dataJSON = [
             {
                 id: 0,
@@ -193,8 +193,7 @@
             for(var j=0;j<b.length;j++)
                 tarifasul.append(b[j]);
         }
-        function mostrarRegYDescripcion(reglamento, descripcion){
-            $("#reglamento").html("Reglamento: "+reglamento);
+        function mostrarRegYDescripcion(descripcion){
             $("#descripcion").html("Descripcion: <br>"+descripcion);
         }
         function mostrarImagen(url){
@@ -228,7 +227,7 @@
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
                 //mostrarTarifas(dataevento.tarifaEventos);
-                mostrarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                mostrarRegYDescripcion(dataevento.descripcion);
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
@@ -283,13 +282,6 @@
                                 }
                             }
                         }
-                        for(var i=0;i<data.length;i++) {
-                            if(tarreg.indexOf(i)<0) {
-                                data[i].UsarTar = "No";
-                                data[i].precio = "0";
-                                jQuery("#jqGrid").addRowData(data[i].id, data[i]);
-                            }
-                        }
                         $("#lui_jqGrid").addClass("hidden");
                     });
 
@@ -314,15 +306,12 @@
             <div><h4 id="sede"></h4></div>
             <div><h4 id="estGratYPub"></h4></div>
             <div>
+                <h4>Fecha del Evento:</h4>
                 <h4><span id="fechaInicio"></span> - <span id="fechaFin"></span></h4>
+                <h4>Fechas de Inscripcion:</h4>
                 <h4><span id="fechaInicioInscripcion"></span> - <span id="fechaFinInscripcion"></span></h4>
             </div>
             <div><h4 id="descripcion"></h4></div>
-            <ul id="tarifas" style="position:relative; left:120px;">
-                <span>Tarifas:</span>
-                <!--<li><span>TO DO I DONT KNOW WHAT TO WRITE HERE GUYS</span></li>-->
-            </ul>
-            <div><h4 id="reglamento"></h4></div>
             <div class="col-xs-offset-1 col-xs-10">
                 <input id="Participar" type="" class="btn btn-primary" value="Participar" style="width:22%">
                 <input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">

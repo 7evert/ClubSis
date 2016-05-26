@@ -89,18 +89,17 @@
 
             $("#Guardar").click(function () {
                 var data = {
-                        "url": "img/Eventos/newYear.jpg",
-                        "nombre": $("#nombre").val(),
-                        "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
-                        "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
-                        "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                        "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
-                        "reglamento": $("#reglamento").val(),
-                        "estado": $("#estado").val(),
-                        "descripcion": $("#descripcion").val(),
-                        "isGratuito": parseInt($("#isGratuito").val()),
-                        "isPublico": parseInt($("#isPublico").val()),
-                        "capacidad":parseInt($("#capacidad").val())
+                    "url": "img/Eventos/newYear.jpg",
+                    "nombre": $("#nombre").val(),
+                    "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
+                    "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
+                    "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
+                    "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
+                    "estado": $("#estado").val(),
+                    "descripcion": $("#descripcion").val(),
+                    "isGratuito": parseInt($("#isGratuito").val()),
+                    "isPublico": parseInt($("#isPublico").val()),
+                    "capacidad":parseInt($("#capacidad").val())
                 };
                 idSede=$("#sede").val();
                 console.log(JSON.stringify(data));
@@ -122,8 +121,8 @@
                         }
                     }
 
-                    });
                 });
+            });
             $http.get('/api/tarifas').success(function (data) {
 
                 var lastsel2;
@@ -245,12 +244,6 @@
                 <input id="capacidad" type="text" class="form-control col-xs-8"/>
             </div>
         </div>
-        <div id="Reglamento1" class="form-group">
-            <label class="control-label col-xs-4">Reglamento</label>
-            <div class="input-group col-xs-8">
-                <input id="reglamento" type="text" class="form-control col-xs-8" placeholder="" value=""/>
-            </div>
-        </div>
         <div id="Descripcion1" class="form-group">
             <label class="control-label col-xs-4">Descripcion</label>
             <div class="input-group col-xs-8">
@@ -311,80 +304,80 @@
 </script>
 <script type="text/javascript">
     /*var mydata = [
-        {
-            id: 1,
-            descripcion: "mayores a 25 años",
-            nombre: "adulto"
-        },
-        {
-            id: 2,
-            descripcion: "entre 18 y 25",
-            nombre: "adolescente"
-        },
-        {
-            id: 3,
-            descripcion: "entre 1 y 18",
-            nombre: "niño"
-        }
-    ];
+     {
+     id: 1,
+     descripcion: "mayores a 25 años",
+     nombre: "adulto"
+     },
+     {
+     id: 2,
+     descripcion: "entre 18 y 25",
+     nombre: "adolescente"
+     },
+     {
+     id: 3,
+     descripcion: "entre 1 y 18",
+     nombre: "niño"
+     }
+     ];
 
-    $("#jqGrid").jqGrid({ //set your grid id
-        data: mydata, //insert data from the data object we created above
-        datatype: 'local',
-        width: 500, //specify width; optional
-        colNames:['Id','Nombre'], //define column names
-        colModel:[
-            {name:'id', index:'id', key: true, width:50},
-            {name:'nombre', index:'nombre', width:150}
-        ], //define column models
-        pager: '#jqGridPager', //set your pager div id
-        sortname: 'id', //the column according to which data is to be sorted; optional
-        viewrecords: true, //if true, displays the total number of records, etc. as: "View X to Y out of Z” optional
-        sortorder: "asc", //sort order; optional
-        caption:"jqGrid Sedes" //title of grid
-    });
+     $("#jqGrid").jqGrid({ //set your grid id
+     data: mydata, //insert data from the data object we created above
+     datatype: 'local',
+     width: 500, //specify width; optional
+     colNames:['Id','Nombre'], //define column names
+     colModel:[
+     {name:'id', index:'id', key: true, width:50},
+     {name:'nombre', index:'nombre', width:150}
+     ], //define column models
+     pager: '#jqGridPager', //set your pager div id
+     sortname: 'id', //the column according to which data is to be sorted; optional
+     viewrecords: true, //if true, displays the total number of records, etc. as: "View X to Y out of Z” optional
+     sortorder: "asc", //sort order; optional
+     caption:"jqGrid Sedes" //title of grid
+     });
 
-    *//*
-    $("#jqGrid").jqGrid({
-        url: '/api/tarifas',
-        mtype: "GET",
-        styleUI: 'Bootstrap',
-        datatype: "json",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Nombre','Precio1'], //define column names
-         colModel:[
-         {name:'id', index:'id', key: true, width:50},
-         {name:'nombre', index:'nombre', width:150},
-             {name:'precio', index:'-', editable:true, edittype:'text',width:150}
-         ],
-        viewrecords: true,
-        height: 300,
-        rowNum: 5,
-        pager: "#jqGridPager",
-        onSelectRow: function(id,stat,e){
-            if(id && id!==lastSel){
-                jQuery('#jqGrid').restoreRow(lastSel);
-                lastSel=id;
-            }
-            jQuery('#jqGrid').editRow(id, true);
-            $("#"+id+"_formattedvalue").focus();
-        },
-        loadComplete:function(){
-            console.log("salio");
-        }
-    });
+     *//*
+     $("#jqGrid").jqGrid({
+     url: '/api/tarifas',
+     mtype: "GET",
+     styleUI: 'Bootstrap',
+     datatype: "json",
+     gridview: true,
+     emptyrecords: 'No se encontraron resultados',
+     colNames:['Id','Nombre','Precio1'], //define column names
+     colModel:[
+     {name:'id', index:'id', key: true, width:50},
+     {name:'nombre', index:'nombre', width:150},
+     {name:'precio', index:'-', editable:true, edittype:'text',width:150}
+     ],
+     viewrecords: true,
+     height: 300,
+     rowNum: 5,
+     pager: "#jqGridPager",
+     onSelectRow: function(id,stat,e){
+     if(id && id!==lastSel){
+     jQuery('#jqGrid').restoreRow(lastSel);
+     lastSel=id;
+     }
+     jQuery('#jqGrid').editRow(id, true);
+     $("#"+id+"_formattedvalue").focus();
+     },
+     loadComplete:function(){
+     console.log("salio");
+     }
+     });
 
-    $('#jqGrid').jqGrid('setGridWidth', '200');
+     $('#jqGrid').jqGrid('setGridWidth', '200');
 
-    function acciones(cellValue, options, rowdata, action) {
-        var acciones = '';
+     function acciones(cellValue, options, rowdata, action) {
+     var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-        return acciones;
-    }*/
+     acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
+     '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+     return acciones;
+     }*/
 </script>
 </body>
 </html>

@@ -50,7 +50,7 @@
             $("#apellidoMat").val("");
             $("#tipoDoc").val("");
             $("#nroDoc").val("");
-            $("#exonerado").val(0);
+            //$("#exonerado").val(0);
             $("#ingresoInv").val(0);
             $("#date-picker-TiempoInicio").val("");
             $("#date-picker-TiempoFin").val("");
@@ -105,14 +105,14 @@
                     apellidoMaterno: $("#apellidoMat").val(),
                     tipoDocumento: $("#tipoDoc").val(),
                     numeroDocumento: parseInt($("#nroDoc").val()),
-                    esExoneradoPago: parseInt($("#exonerado").val()),
+                    //esExoneradoPago: parseInt($("#exonerado").val()),
                     ingresoInvitado: parseInt($("#ingresoInv").val()),
                     fechaVisita: Date.parse($("#date-picker-TiempoInicio")[0].value),
                     fechaSalida: Date.parse($("#date-picker-TiempoFin")[0].value)
                 };
                 console.log(JSON.stringify(guest));
                 $http.post('/api/invitados/' + idevento+"/"+idsocio,guest).success(function (data2, status) {
-                //$http.get('/api/sedes', guest).success(function (data2, status) {
+                    //$http.get('/api/sedes', guest).success(function (data2, status) {
                     //var data2 = guest;
                     console.log(JSON.stringify(data2));
                     limpiarFormulario();
@@ -210,13 +210,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-4">Exonerado de Pago</label>
+                                <!--<label class="control-label col-xs-4">Exonerado de Pago</label>
                                 <select class="col-xs-2" id="exonerado">
                                     <option value="0">No</option>
                                     <option value="1">Si</option>
-                                </select>
-                                <label class="control-label col-xs-3">Ingreso Invitado</label>
-                                <select class="col-xs-2" id="ingresoInv">
+                                </select>-->
+                                <label class="control-label col-xs-5">Ingreso Invitado</label>
+                                <select class="col-xs-7" id="ingresoInv">
                                     <option value="0">No</option>
                                     <option value="1">Si</option>
                                 </select>

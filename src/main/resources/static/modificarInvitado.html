@@ -20,7 +20,7 @@
             apellidoMaterno: "mor",
             tipoDocumento: "dni",
             numeroDocumento: 70077000,
-            esExoneradoPago: 0,
+            //esExoneradoPago: 0,
             ingresoInvitado: 1,
             fechaVisita: "2016-05-18 02:06:30",
             fechaSalida: "2016-05-18 02:06:31",
@@ -45,7 +45,7 @@
             $("#apellidoMat").val(data.apellidoMaterno);
             $("#tipoDoc").val(data.tipoDocumento);
             $("#nroDoc").val(data.numeroDocumento);
-            $("#exonerado").val(data.esExoneradoPago+0);
+            //$("#exonerado").val(data.esExoneradoPago+0);
             $("#ingresoInv").val(data.ingresoInvitado+0);
             $("#date-picker-TiempoInicio").val(new Date(data.fechaVisita).ddmmyyyy());
             $("#date-picker-TiempoFin").val(new Date(data.fechaSalida).ddmmyyyy());
@@ -59,7 +59,7 @@
                 apellidoMaterno: $("#apellidoMat").val(),
                 tipoDocumento: $("#tipoDoc").val(),
                 numeroDocumento: parseInt($("#nroDoc").val()),
-                esExoneradoPago: parseInt($("#exonerado").val()),
+                //esExoneradoPago: parseInt($("#exonerado").val()),
                 ingresoInvitado: parseInt($("#ingresoInv").val()),
                 fechaVisita: dia1,
                 fechaSalida: dia2,
@@ -171,13 +171,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-xs-4">Exonerado de Pago</label>
+                <!--<label class="control-label col-xs-4">Exonerado de Pago</label>
                 <select class="col-xs-2" id="exonerado">
                     <option value="0">No</option>
                     <option value="1">Si</option>
-                </select>
-                <label class="control-label col-xs-1">Ingreso Invitado</label>
-                <select class="col-xs-2" id="ingresoInv">
+                </select>-->
+                <label class="control-label col-xs-4">Ingreso Invitado</label>
+                <select class="col-xs-5" id="ingresoInv">
                     <option value="0">No</option>
                     <option value="1">Si</option>
                 </select>
