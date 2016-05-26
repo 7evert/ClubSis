@@ -65,6 +65,39 @@
         }
     </style>
     <script type="text/javascript">
+        function mostrarMensaje(message){
+            alert(message);
+        }
+        function verificarDatos(){
+            var mensajes=["Nombre debe tener entre 1 y 50 caracteres",
+                "Descripcion debe tener entre 1 y 100 caracteres",
+                "fechaEntrada debe ser una fecha válida",
+                "fechaSalida debe ser una fecha válida",
+                "fecha fnicio de Inscripcion debe ser una fecha válida",
+                "fecha fin de Inscripcion debe ser una fecha válida",
+                "capacidad debe ser un numero entero",
+                "fecha de inscripcion debe ser antes de fecha entrada",
+                "fecha de fin de inscripcion debe ser antes de fecha entrada",
+                "fecha de entrada debe ser antes o igual a fecha salida"
+            ]
+            var ver=[];
+            ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
+            ver[1]=$("#descripcion").val().length>0&&$("#descripcion").val().length<100;
+            ver[2]=isNaN(Date.parse($("#date-picker-DiaEntrada")[0].value))==false;
+            ver[3]=isNaN(Date.parse($("#date-picker-DiaSalida")[0].value))==false;
+            ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
+            ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
+            ver[6]=$("#capacidad").val() % 1 === 0;
+            ver[7]=Date.parse($("#date-picker-DiaEntrada")[0].value)>Date.parse($("#date-picker-InicioInscripcion")[0].value);
+            ver[8]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
+            ver[9]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
+            for(var i=0;i<ver.length;i++)
+                if(ver[i]==false) {
+                    mostrarMensaje(mensajes[i]);
+                    return false;
+                }
+            return true;
+        }
         function getID() {
             var href = this.location.href;
             var str = href.match(/\?id\=(\d+)/);
@@ -150,6 +183,7 @@
                     seleccionarGratuitoyPublico(dataevento.isGratuito, dataevento.isPublico)
 
                     $("#Guardar").click(function () {
+                        if(!verificarDatos())return;
                         var data = {
                             "id": dataevento.id,
                             "url": "img/Eventos/newYear.jpg",

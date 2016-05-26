@@ -66,6 +66,26 @@
         }
     </script>
     <script type="text/javascript">
+        function mostrarMensaje(message){
+            alert(message);
+        }
+        function verificarDatos() {
+            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
+                "Direccion debe tener entre 1 y 100 caracteres",
+                //"Telefono debe tener entre 7 a 15 caracteres",
+                "Descripcion debe tneer entre 1 y 255 caracteres"
+            ]
+            var ver=[];
+            ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
+            ver[1]=$("#direccion").val().length>0&&$("#nombre").val().length<100;
+            ver[2]=$("#descripcion").val().length>0&&$("#descripcion").val().length<255;
+            for(var i=0;i<ver.length;i++)
+                if(ver[i]==false) {
+                    mostrarMensaje(mensajes[i]);
+                    return false;
+                }
+            return true;
+        }
         var app2 = angular.module('app2', []);
         app2.controller('administracionSedesController', function ($scope, $http) {
             $http.get('/api/sedes').success(function (data) {
@@ -87,6 +107,7 @@
             });
 
             $("#registrar").click(function(){
+                if(!verificarDatos())return;
                 var data={
                     "nombre":$("#nombre").val(),
                     "direccion":$("#direccion").val(),
