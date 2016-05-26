@@ -40,15 +40,12 @@ public class Persona {
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
-    private Set<Evento> eventos=new HashSet<Evento>();;
-
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
 
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<Evento> eventos, Set<RegistroClase> registroClases) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -60,7 +57,6 @@ public class Persona {
         this.esTitular = esTitular;
         this.socio = socio;
         this.usuario = usuario;
-        this.eventos = eventos;
         this.registroClases = registroClases;
     }
 
@@ -155,14 +151,6 @@ public class Persona {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Set<Evento> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(Set<Evento> eventos) {
-        this.eventos = eventos;
     }
 
     public Set<RegistroClase> getRegistroClases() {

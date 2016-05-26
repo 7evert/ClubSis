@@ -51,17 +51,6 @@ public class ServicioMembresias {
         return personaRepository.saveAndFlush(personaExistente);
     }
 
-    //Postulante
-    public List<Postulante> mostrarPostulantes(){ return postulanteRepository.findAll(); }
-    public Postulante buscarPostulante(Integer id) {return postulanteRepository.findOne(id);}
-    public Postulante crearPostulante(Postulante postulante) {return postulanteRepository.saveAndFlush(postulante);}
-
-    public Postulante actualizarPostulante(Integer id, Postulante postulante){
-        Postulante postulanteExistente = postulanteRepository.findOne(id);
-        BeanUtils.copyProperties(postulante,postulanteExistente);
-        return postulanteRepository.saveAndFlush(postulanteExistente);
-    }
-
     //Usuario
     public List<Usuario> mostrarUsuarios(){ return usuarioRepository.findAll(); }
     public Usuario buscarUsuario(Integer id) {return usuarioRepository.findOne(id);}
@@ -103,27 +92,13 @@ public class ServicioMembresias {
         return suspensionRepository.saveAndFlush(suspensionExistente);
     }
 
-    //Invitado
-
-    public List<Invitado> mostrarInvitados(){return invitadoRepository.findAll();}
-    public Invitado buscarInvitado(Integer id) {return invitadoRepository.findOne(id);}
-    public Invitado crearInvitado(Invitado invitado){return invitadoRepository.saveAndFlush(invitado);}
-
-    public Invitado actualizarInvitado(Integer id, Invitado invitado){
-        Invitado invitadoExistente=invitadoRepository.findOne(id);
-        BeanUtils.copyProperties(invitado,invitadoExistente);
-        return invitadoRepository.saveAndFlush(invitadoExistente);
-    }
-
-
-
     //MEMBRESIA
 
     public Persona personaMembresia(Postulante postulanteExistente){
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,new HashSet<Evento>(),
+                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }
@@ -140,7 +115,7 @@ public class ServicioMembresias {
     public void crearMembresia(Integer idPostulante){
         Postulante postulanteExistente = postulanteRepository.findOne(idPostulante);
         postulanteExistente.setEsAprobado(Boolean.TRUE);
-        postulanteExistente.setEsActivo(Boolean.TRUE);
+        postulanteExistente.setEsActivo(Boolean.FALSE);
         Persona nuevaPersona= personaMembresia(postulanteExistente);
         Socio nuevoSocio = socioMembresia(postulanteExistente);
         personaRepository.saveAndFlush(nuevaPersona);
@@ -149,7 +124,8 @@ public class ServicioMembresias {
         // Solo la persona muestra a que socio esta asociada
         //nuevoSocio.getPersonas().add(nuevaPersona);
         //socioRepository.saveAndFlush(nuevoSocio);
-        actualizarPostulante(idPostulante,postulanteExistente);
+        postulanteRepository.saveAndFlush(postulanteExistente);
+
     }
 
 

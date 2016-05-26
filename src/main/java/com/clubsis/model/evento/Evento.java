@@ -39,10 +39,6 @@ public class Evento {
 
     @JsonIgnore
     @ManyToMany
-    private Set<Persona> personas = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToMany
     private Set<Empresa> empresas = new HashSet<>();
 
     // este es el OWNER de la relación con sede
@@ -52,7 +48,7 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<Persona> personas, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -64,7 +60,6 @@ public class Evento {
         this.isGratuito = isGratuito;
         this.nombre = nombre;
         this.isPublico = isPublico;
-        this.personas = personas;
         this.tarifaEventos = tarifaEventos;
         this.empresas = empresas;
         this.sede = sede;
@@ -172,14 +167,6 @@ public class Evento {
 
     public void setTarifaEventos(Set<TarifaEvento> tarifaEventos) {
         this.tarifaEventos = tarifaEventos;
-    }
-
-    public Set<Persona> getPersonas() {
-        return personas;
-    }
-
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
     }
 
     public Set<Empresa> getEmpresas() {
