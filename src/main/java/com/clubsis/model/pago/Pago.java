@@ -20,14 +20,18 @@ public class Pago {
     @JoinColumn(name="id_socio")
     private Socio socio;
 
+    private TipoPago tipoPago;
+
+
     protected Pago() {
     }
 
-    public Pago(Integer cuotas, String valoracion, Double mora, Socio socio) {
+    public Pago(Integer cuotas, String valoracion, Double mora, Socio socio, TipoPago tipoPago) {
         this.cuotas = cuotas;
         this.valoracion = valoracion;
         this.mora = mora;
         this.socio = socio;
+        this.tipoPago = tipoPago;
     }
 
 
@@ -69,5 +73,13 @@ public class Pago {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public TipoPago getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(TipoPago tipoPago) {
+        this.tipoPago = tipoPago;
     }
 }

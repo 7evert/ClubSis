@@ -53,22 +53,26 @@ public class Socio {
     @JsonIgnore
     private Set<Suspension> suspensiones =new HashSet<Suspension>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_tipo_socio")
+    private TipoSocio tipoSocio;
+
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<PagoMembresia> pagosMembresia, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Persona> personas, Set<Invitado> invitados, Set<Socio_Postulante> postulantes, Set<PagoMembresia> pagosMembresia, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, TipoSocio tipoSocio) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
-        this.invitados = invitados;
         this.personas = personas;
+        this.invitados = invitados;
         this.postulantes = postulantes;
-        this.pagos = pagos;
         this.pagosMembresia = pagosMembresia;
+        this.pagos = pagos;
         this.cuotasExtraordinarias = cuotasExtraordinarias;
         this.suspensiones = suspensiones;
+        this.tipoSocio = tipoSocio;
     }
-
 
     public Date getFechaInscripcion() {
         return fechaInscripcion;
@@ -156,5 +160,13 @@ public class Socio {
 
     public void setCuotasExtraordinarias(Set<CuotaExtraordinaria> cuotasExtraordinarias) {
         this.cuotasExtraordinarias = cuotasExtraordinarias;
+    }
+
+    public TipoSocio getTipoSocio() {
+        return tipoSocio;
+    }
+
+    public void setTipoSocio(TipoSocio tipoSocio) {
+        this.tipoSocio = tipoSocio;
     }
 }

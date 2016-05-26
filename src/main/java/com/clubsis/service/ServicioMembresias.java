@@ -38,7 +38,7 @@ public class ServicioMembresias {
     private SuspensionRepository suspensionRepository;
 
     @Autowired
-    private InvitadoRepository invitadoRepository;
+    private TipoSocioRepository tipoSocioRepository ;
 
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
@@ -74,6 +74,16 @@ public class ServicioMembresias {
         return socioRepository.saveAndFlush(socioExistente);
     }
 
+    //Tipo Socio
+    public List<TipoSocio> mostrarTiposSocios(){return tipoSocioRepository.findAll();}
+    public TipoSocio buscarTipoSocio(Integer id) {return  tipoSocioRepository.findOne(id);}
+    public TipoSocio crearTipoSocio(TipoSocio tipoSocio) {return  tipoSocioRepository.saveAndFlush(tipoSocio);}
+    public TipoSocio actualizarTipoSocio(Integer id, TipoSocio tipoSocio){
+        TipoSocio tipoSocioExistente= tipoSocioRepository.findOne(id);
+        BeanUtils.copyProperties(tipoSocio,tipoSocioExistente);
+        return tipoSocioRepository.saveAndFlush(tipoSocioExistente);
+    }
+
     //Suspension
 
     public List<Suspension> mostrarSuspensiones(){return suspensionRepository.findAll();}
@@ -94,6 +104,16 @@ public class ServicioMembresias {
 
     //MEMBRESIA
 
+    public TipoSocio seleccionarTipoSocio(double ingreso){
+        List<TipoSocio> tiposSocio = tipoSocioRepository.findAll();
+        TipoSocio resultado=null;
+        for(TipoSocio item: tiposSocio){
+            if(item.getIngresoMinimo()<ingreso) resultado=item;
+        }
+        return resultado;
+    }
+
+
     public Persona personaMembresia(Postulante postulanteExistente){
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
@@ -104,17 +124,18 @@ public class ServicioMembresias {
     }
 
     public Socio socioMembresia(Postulante postulanteExistente){
+        TipoSocio tipo = seleccionarTipoSocio(postulanteExistente.getIngresosMensuales());
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
-                ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
-                ,new HashSet<PagoMembresia>(),new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>());
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Persona>()
+                ,new HashSet<Invitado>(),new HashSet<Socio_Postulante>(),new HashSet<PagoMembresia>()
+                ,new HashSet<Pago>(),new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),tipo);
         return nuevoSocio;
     }
 
 
     public void crearMembresia(Integer idPostulante){
         Postulante postulanteExistente = postulanteRepository.findOne(idPostulante);
-        postulanteExistente.setEsAprobado(Boolean.TRUE);
+        postulanteExistente.setEsAprobado(EstadoPostulante.APROBADO);
         postulanteExistente.setEsActivo(Boolean.FALSE);
         Persona nuevaPersona= personaMembresia(postulanteExistente);
         Socio nuevoSocio = socioMembresia(postulanteExistente);
@@ -125,7 +146,6 @@ public class ServicioMembresias {
         //nuevoSocio.getPersonas().add(nuevaPersona);
         //socioRepository.saveAndFlush(nuevoSocio);
         postulanteRepository.saveAndFlush(postulanteExistente);
-
     }
 
 
