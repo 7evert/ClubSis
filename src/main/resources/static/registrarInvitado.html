@@ -85,6 +85,22 @@
             if (idsocio == undefined || idevento == undefined) {
                 location.href="participarEvento.html?id"+idevento;
             }
+
+            $http.get('/api/tarifas').success(function (data) {
+                $http.get('api/tarifaeventos').success(function (data3) {
+                    for(var i=0;i<data3.length;i++){
+                        //console.log(data3[i].eventos.id+" "+dataevento.id)
+                        if(data3[i].eventos.id==idevento){
+                            for(var j=0;j<data.length;j++){
+                                if(data3[i].tarifaeventos.id==data[j].id){
+                                    $("#tipoTarifa").append($("<option></option>").attr({value:data[j].nombre}).html(data[j].nombre));
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
             $http.get('/api/invitados').success(function (data2, status) {
                 //var data2 = guest;
                 console.log(JSON.stringify(data2));
@@ -111,7 +127,7 @@
                     fechaSalida: Date.parse($("#date-picker-TiempoFin")[0].value)
                 };
                 console.log(JSON.stringify(guest));
-                $http.post('/api/invitados/' + idevento+"/"+idsocio,guest).success(function (data2, status) {
+                $http.post('/api/invitados/' + idevento+"/"+idsocio+"/eventos",guest).success(function (data2, status) {
                     //$http.get('/api/sedes', guest).success(function (data2, status) {
                     //var data2 = guest;
                     console.log(JSON.stringify(data2));
@@ -119,7 +135,6 @@
                     var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
                     jQuery("#jqGrid").addRowData(data.id, data);
                 });
-
             });
 
             $("#terminar").click(function () {
@@ -210,13 +225,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <!--<label class="control-label col-xs-4">Exonerado de Pago</label>
-                                <select class="col-xs-2" id="exonerado">
-                                    <option value="0">No</option>
-                                    <option value="1">Si</option>
-                                </select>-->
-                                <label class="control-label col-xs-5">Ingreso Invitado</label>
-                                <select class="col-xs-7" id="ingresoInv">
+                                <label class="control-label col-xs-5">Tipo</label>
+                                <select class="col-xs-3" id="tipoTarifa">
+                                </select>
+                                <label class="control-label col-xs-2">Ingreso Invitado</label>
+                                <select class="col-xs-2" id="ingresoInv">
                                     <option value="0">No</option>
                                     <option value="1">Si</option>
                                 </select>

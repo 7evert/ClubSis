@@ -89,7 +89,7 @@
                 var data=getInvitado(codSocio);
                 data.id=idInvitado;
                 console.log(JSON.stringify(data));
-                $http.put("/api/invitados/"+data.id, data).success(function (data2, status) {
+                $http.put("/api/invitados/"+data.id+"/actualizar", data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
                     location.href = "registrarInvitado.html?idSocio=1&idEvento="+idEvento;
                 });
