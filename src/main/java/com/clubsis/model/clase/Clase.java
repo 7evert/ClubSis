@@ -1,10 +1,17 @@
 package com.clubsis.model.clase;
 
+import javax.persistence.*;
+import java.util.Set;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class Clase {
-    private Integer idClase;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private Integer nivel;
     private String rangoEdad;
     private Double precioCiclo;
@@ -12,25 +19,36 @@ public class Clase {
     private Integer capacidad;
     private String profesor;
 
+    private EstadoClase estadoClase;
+
+    @OneToMany(mappedBy = "clase")
+    private Set<RegistroClase> registrosClase;
+
+    @OneToMany(mappedBy = "clase")
+    private Set<Horario> horarios;
+
+    @ManyToOne
+    private Ciclo ciclo;
+
     protected Clase() {
     }
 
-    public Clase(Integer idClase, Integer nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor) {
-        this.idClase = idClase;
+    public Clase(Integer nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor, EstadoClase estadoClase) {
         this.nivel = nivel;
         this.rangoEdad = rangoEdad;
         this.precioCiclo = precioCiclo;
         this.precioMes = precioMes;
         this.capacidad = capacidad;
         this.profesor = profesor;
+        this.estadoClase = estadoClase;
     }
 
-    public Integer getIdClase() {
-        return idClase;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdClase(Integer idClase) {
-        this.idClase = idClase;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getNivel() {
@@ -79,5 +97,13 @@ public class Clase {
 
     public void setProfesor(String profesor) {
         this.profesor = profesor;
+    }
+
+    public EstadoClase getEstadoClase() {
+        return estadoClase;
+    }
+
+    public void setEstadoClase(EstadoClase estadoClase) {
+        this.estadoClase = estadoClase;
     }
 }

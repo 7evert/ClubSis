@@ -1,8 +1,6 @@
 package com.clubsis.model.persona;
 
-import com.clubsis.model.pago.CuotaExtraordinaria;
-import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
+import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -54,13 +52,22 @@ public class Socio {
     private Set<Suspension> suspensiones =new HashSet<Suspension>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_tipo_socio")
     private TipoSocio tipoSocio;
+    @OneToMany(mappedBy = "socio")
+    @JsonIgnore
+    private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
+
+    @OneToMany(mappedBy = "socio")
+    @JsonIgnore
+    private Set<PagoMembresia> pagosMembresia = new HashSet<>();
+
+    @ManyToOne
+    private TipoSocio tipo;
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Persona> personas, Set<Invitado> invitados, Set<Socio_Postulante> postulantes, Set<PagoMembresia> pagosMembresia, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, TipoSocio tipoSocio) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Postulante> postulantes, Set<Suspension> suspensiones) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;

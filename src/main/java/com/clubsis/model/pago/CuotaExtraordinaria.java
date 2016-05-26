@@ -4,14 +4,20 @@ import com.clubsis.model.persona.Socio;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import com.clubsis.model.club.Club;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Blitz on 24/05/2016.
+ * Created by Sebastian on 23-May-16.
  */
+
 @Entity
 public class CuotaExtraordinaria {
     @Id
@@ -25,10 +31,13 @@ public class CuotaExtraordinaria {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
     private Boolean isActivo;
+    private EstadoCuotaExtraordinaria estadoCuotaExtraordinaria; // no habrá isActivo
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
     private Socio socio;
+
+    @ManyToOne
+    private Club club;
 
     protected CuotaExtraordinaria() {
     }
@@ -92,19 +101,4 @@ public class CuotaExtraordinaria {
         this.fechaFin = fechaFin;
     }
 
-    public Boolean getActivo() {
-        return isActivo;
-    }
-
-    public void setActivo(Boolean activo) {
-        isActivo = activo;
-    }
-
-    public Socio getSocio() {
-        return socio;
-    }
-
-    public void setSocio(Socio socio) {
-        this.socio = socio;
-    }
 }

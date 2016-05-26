@@ -1,5 +1,6 @@
 package com.clubsis.model.persona;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -8,6 +9,18 @@ import java.util.Set;
 /**
  * Created by Blitz on 25/05/2016.
  */
+=======
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Set;
+
+/**
+ * Created by Sebastian on 23-May-16.
+ */
+
+>>>>>>> master
 @Entity
 public class TipoSocio {
     @Id
@@ -20,7 +33,7 @@ public class TipoSocio {
     private Double costoInicial;
     private Double ingresoMinimo;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
     @JsonIgnore
     private Set<Socio> socios;
 
@@ -46,12 +59,12 @@ public class TipoSocio {
         this.id = id;
     }
 
-    public String getNombreTipo() {
-        return nombreTipo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreTipo(String nombreTipo) {
-        this.nombreTipo = nombreTipo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -70,12 +83,12 @@ public class TipoSocio {
         this.costoMembresia = costoMembresia;
     }
 
-    public Integer getNumerosInvitadosGratuitos() {
-        return numerosInvitadosGratuitos;
+    public Integer getNumeroInvitadosGratuitos() {
+        return numeroInvitadosGratuitos;
     }
 
-    public void setNumerosInvitadosGratuitos(Integer numerosInvitadosGratuitos) {
-        this.numerosInvitadosGratuitos = numerosInvitadosGratuitos;
+    public void setNumeroInvitadosGratuitos(Integer numeroInvitadosGratuitos) {
+        this.numeroInvitadosGratuitos = numeroInvitadosGratuitos;
     }
 
     public Double getCostoInicial() {
@@ -84,14 +97,6 @@ public class TipoSocio {
 
     public void setCostoInicial(Double costoInicial) {
         this.costoInicial = costoInicial;
-    }
-
-    public Double getIngresoMinimo() {
-        return ingresoMinimo;
-    }
-
-    public void setIngresoMinimo(Double ingresoMinimo) {
-        this.ingresoMinimo = ingresoMinimo;
     }
 
     public Set<Socio> getSocios() {

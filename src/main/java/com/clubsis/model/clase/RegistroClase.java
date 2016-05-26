@@ -1,11 +1,5 @@
 package com.clubsis.model.clase;
 
-import com.clubsis.model.persona.Persona;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,13 +7,17 @@ import java.util.Set;
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
-@Entity
 public class RegistroClase {
     @Id
     @GeneratedValue
     private Integer id;
     private Date fechaRegistro;
-    private String estado;
+    private EstadoRegistroClase estado;
+
+    @ManyToOne
+    private Clase clase;
+
+    // TODO: ManyToMany con Persona, no hay relación con Socio
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -28,10 +26,10 @@ public class RegistroClase {
     protected RegistroClase() {
     }
 
-    public RegistroClase(Date fechaRegistro, String estado, Set<Persona> personas) {
+    public RegistroClase(Integer idPersona, Date fechaRegistro, String estado) {
+        this.idPersona = idPersona;
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
-        this.personas = personas;
     }
 
     public Integer getId() {
@@ -42,7 +40,6 @@ public class RegistroClase {
         this.id = id;
     }
 
-
     public Date getFechaRegistro() {
         return fechaRegistro;
     }
@@ -51,11 +48,11 @@ public class RegistroClase {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public String getEstado() {
+    public EstadoRegistroClase getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoRegistroClase estado) {
         this.estado = estado;
     }
 
@@ -67,4 +64,12 @@ public class RegistroClase {
         this.personas = personas;
     }
 
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
 }

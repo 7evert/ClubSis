@@ -11,40 +11,41 @@ import javax.persistence.*;
 public class Cuota {
     @Id
     @GeneratedValue
-    private Integer idCuota;
-    private String estado;
+    private Integer id;
+    private EstadoCuota estado;
     private Date fechaVencimiento;
     private Integer numero;
     private Date fechaPago;
     private String tipo;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_pago")
+
+    @ManyToOne
     private Pago pago;
+
     protected Cuota() {
     }
 
-    public Cuota(Integer idCuota, Date fechaVencimiento, String estado, Integer numero, Date fechaPago, String tipo) {
-        this.idCuota = idCuota;
-        this.fechaVencimiento = fechaVencimiento;
+    public Cuota(EstadoCuota estado, Date fechaVencimiento, Integer numero, Date fechaPago, String tipo, Pago pago) {
         this.estado = estado;
+        this.fechaVencimiento = fechaVencimiento;
         this.numero = numero;
         this.fechaPago = fechaPago;
         this.tipo = tipo;
+        this.pago = pago;
     }
 
-    public Integer getIdCuota() {
-        return idCuota;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdCuota(Integer idCuota) {
-        this.idCuota = idCuota;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getEstado() {
+    public EstadoCuota getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoCuota estado) {
         this.estado = estado;
     }
 
@@ -80,7 +81,11 @@ public class Cuota {
         this.tipo = tipo;
     }
 
-    public Pago getPago() { return pago; }
+    public Pago getPago() {
+        return pago;
+    }
 
-    public void setPago(Pago pago) { this.pago = pago; }
+    public void setPago(Pago pago) {
+        this.pago = pago;
+    }
 }

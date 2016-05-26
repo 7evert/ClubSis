@@ -2,12 +2,14 @@ package com.clubsis.model.pago;
 
 import com.clubsis.model.persona.Socio;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
 @Entity
 public class PagoMembresia {
     @Id
@@ -15,18 +17,18 @@ public class PagoMembresia {
     private Integer id;
     private Date fechaVencimiento;
     private Double montoPago;
-    private String estado;
+    private EstadoPagoMembresia estado;
     private Date fechaPago;
     private Date fechaAnulacion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
+    @ManyToOne
     private Socio socio;
 
     protected PagoMembresia() {
     }
 
-    public PagoMembresia(Date fechaVencimiento, Double montoPago, String estado, Date fechaPago, Date fechaAnulacion, Socio socio) {
+    public PagoMembresia(Integer id, Date fechaVencimiento, Double montoPago, EstadoPagoMembresia estado, Date fechaPago, Date fechaAnulacion, Socio socio) {
+        this.id = id;
         this.fechaVencimiento = fechaVencimiento;
         this.montoPago = montoPago;
         this.estado = estado;
@@ -35,6 +37,13 @@ public class PagoMembresia {
         this.socio = socio;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Date getFechaVencimiento() {
         return fechaVencimiento;
@@ -52,11 +61,11 @@ public class PagoMembresia {
         this.montoPago = montoPago;
     }
 
-    public String getEstado() {
+    public EstadoPagoMembresia getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoPagoMembresia estado) {
         this.estado = estado;
     }
 

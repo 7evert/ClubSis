@@ -10,34 +10,37 @@ import java.util.Date;
 public class Sancion {
     @Id
     @GeneratedValue
-    private Integer idSancion;
+    private Integer id;
     private String nombre;
     private Double costo;
     private String descripcion;
     private Date fechaPago;
-    private String estado;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_club")
+
+    private EstadoSancion estado;
+
+    @ManyToOne
     private Club club;
+
+    // TODO: manytomany con Socio
 
     protected Sancion() {
     }
 
-    public Sancion(Integer idSancion, String nombre, Double costo, String descripcion, Date fechaPago, String estado) {
-        this.idSancion = idSancion;
+    public Sancion(String nombre, Double costo, String descripcion, Date fechaPago, EstadoSancion estado, Club club) {
         this.nombre = nombre;
         this.costo = costo;
         this.descripcion = descripcion;
         this.fechaPago = fechaPago;
         this.estado = estado;
+        this.club = club;
     }
 
-    public Integer getIdSancion() {
-        return idSancion;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdSancion(Integer idSancion) {
-        this.idSancion = idSancion;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -72,15 +75,19 @@ public class Sancion {
         this.fechaPago = fechaPago;
     }
 
-    public String getEstado() {
+    public EstadoSancion getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoSancion estado) {
         this.estado = estado;
     }
 
-    public Club getClub() { return club; }
+    public Club getClub() {
+        return club;
+    }
 
-    public void setClub(Club club) { this.club = club; }
+    public void setClub(Club club) {
+        this.club = club;
+    }
 }
