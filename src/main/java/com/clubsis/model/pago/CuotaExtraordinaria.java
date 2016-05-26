@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.clubsis.model.club.Club;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,16 +39,17 @@ public class CuotaExtraordinaria {
     protected CuotaExtraordinaria() {
     }
 
-    public CuotaExtraordinaria(String nombre, String descripcion, Date fechaInicio, Double monto, Date fechaFin, Socio socio, Boolean isActivo) {
+    public CuotaExtraordinaria(String nombre, String descripcion, Double monto, Date fechaInicio, Date fechaFin, Boolean isActivo, EstadoCuotaExtraordinaria estadoCuotaExtraordinaria, Socio socio, Club club) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.fechaInicio = fechaInicio;
         this.monto = monto;
+        this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.socio = socio;
         this.isActivo = isActivo;
+        this.estadoCuotaExtraordinaria = estadoCuotaExtraordinaria;
+        this.socio = socio;
+        this.club = club;
     }
-
 
     public Integer getId() {
         return id;
@@ -101,4 +99,35 @@ public class CuotaExtraordinaria {
         this.fechaFin = fechaFin;
     }
 
+    public Boolean getActivo() {
+        return isActivo;
+    }
+
+    public void setActivo(Boolean activo) {
+        isActivo = activo;
+    }
+
+    public EstadoCuotaExtraordinaria getEstadoCuotaExtraordinaria() {
+        return estadoCuotaExtraordinaria;
+    }
+
+    public void setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria estadoCuotaExtraordinaria) {
+        this.estadoCuotaExtraordinaria = estadoCuotaExtraordinaria;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
 }

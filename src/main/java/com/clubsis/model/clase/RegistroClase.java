@@ -1,5 +1,9 @@
 package com.clubsis.model.clase;
 
+import com.clubsis.model.persona.Persona;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +21,7 @@ public class RegistroClase {
     @ManyToOne
     private Clase clase;
 
-    // TODO: ManyToMany con Persona, no hay relación con Socio
+    // Observación: no hay relación con Socio
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -26,10 +30,11 @@ public class RegistroClase {
     protected RegistroClase() {
     }
 
-    public RegistroClase(Integer idPersona, Date fechaRegistro, String estado) {
-        this.idPersona = idPersona;
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Set<Persona> personas) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
+        this.clase = clase;
+        this.personas = personas;
     }
 
     public Integer getId() {
@@ -56,20 +61,19 @@ public class RegistroClase {
         this.estado = estado;
     }
 
-    public Set<Persona> getPersonas() {
-        return personas;
-    }
-
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
-    }
-
-
     public Clase getClase() {
         return clase;
     }
 
     public void setClase(Clase clase) {
         this.clase = clase;
+    }
+
+    public Set<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Set<Persona> personas) {
+        this.personas = personas;
     }
 }

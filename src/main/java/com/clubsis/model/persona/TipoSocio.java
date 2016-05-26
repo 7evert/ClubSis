@@ -1,32 +1,21 @@
 package com.clubsis.model.persona;
 
-<<<<<<< HEAD
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Created by Blitz on 25/05/2016.
- */
-=======
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Set;
-
-/**
  * Created by Sebastian on 23-May-16.
  */
 
->>>>>>> master
 @Entity
 public class TipoSocio {
     @Id
     @GeneratedValue
     private Integer id;
-    private String nombreTipo;
+    private String nombre;
     private String descripcion;
     private Double costoMembresia;
     private Integer numerosInvitadosGratuitos;
@@ -40,16 +29,15 @@ public class TipoSocio {
     protected TipoSocio() {
     }
 
-    public TipoSocio(String nombreTipo, Set<Socio> socios, String descripcion, Double costoMembresia, Double costoInicial, Integer numerosInvitadosGratuitos, Double ingresoMinimo) {
-        this.nombreTipo = nombreTipo;
-        this.socios = socios;
+    public TipoSocio(String nombre, String descripcion, Double costoMembresia, Integer numerosInvitadosGratuitos, Double costoInicial, Double ingresoMinimo, Set<Socio> socios) {
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.costoMembresia = costoMembresia;
-        this.costoInicial = costoInicial;
         this.numerosInvitadosGratuitos = numerosInvitadosGratuitos;
+        this.costoInicial = costoInicial;
         this.ingresoMinimo = ingresoMinimo;
+        this.socios = socios;
     }
-
 
     public Integer getId() {
         return id;
@@ -83,12 +71,12 @@ public class TipoSocio {
         this.costoMembresia = costoMembresia;
     }
 
-    public Integer getNumeroInvitadosGratuitos() {
-        return numeroInvitadosGratuitos;
+    public Integer getNumerosInvitadosGratuitos() {
+        return numerosInvitadosGratuitos;
     }
 
-    public void setNumeroInvitadosGratuitos(Integer numeroInvitadosGratuitos) {
-        this.numeroInvitadosGratuitos = numeroInvitadosGratuitos;
+    public void setNumerosInvitadosGratuitos(Integer numerosInvitadosGratuitos) {
+        this.numerosInvitadosGratuitos = numerosInvitadosGratuitos;
     }
 
     public Double getCostoInicial() {
@@ -97,6 +85,14 @@ public class TipoSocio {
 
     public void setCostoInicial(Double costoInicial) {
         this.costoInicial = costoInicial;
+    }
+
+    public Double getIngresoMinimo() {
+        return ingresoMinimo;
+    }
+
+    public void setIngresoMinimo(Double ingresoMinimo) {
+        this.ingresoMinimo = ingresoMinimo;
     }
 
     public Set<Socio> getSocios() {

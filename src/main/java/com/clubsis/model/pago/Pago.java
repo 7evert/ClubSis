@@ -14,19 +14,17 @@ public class Pago {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer cuotas;
+    private Integer numeroCuotas;
     private Double mora;
+    private Double montoTotal;
+    private Date fechaAnulacion;
+    private TipoPago tipoPago;
+
+    // TODO: ¿Mascapo, qué es "valoración"?
     private String valoracion;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
     private Socio socio;
-
-    private TipoPago tipoPago;
-
-
-    private Double montoTotal;
-    private Date fechaAnulacion;
 
     @OneToMany(mappedBy = "pago")
     private Set<Cuota> cuotas;
@@ -34,25 +32,14 @@ public class Pago {
     protected Pago() {
     }
 
-    public Pago(Integer cuotas, String valoracion, Double mora, Socio socio, TipoPago tipoPago) {
-        this.cuotas = cuotas;
-        this.valoracion = valoracion;
-        this.mora = mora;
-        this.socio = socio;
-        this.tipoPago = tipoPago;
-    }
-
-
-    public Integer getCuotas() {
-        return cuotas;
-    }
-
-    public void setCuotas(Integer cuotas) {
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, Set<Cuota> cuotas) {
+    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
         this.numeroCuotas = numeroCuotas;
         this.mora = mora;
         this.montoTotal = montoTotal;
         this.fechaAnulacion = fechaAnulacion;
+        this.tipoPago = tipoPago;
+        this.valoracion = valoracion;
+        this.socio = socio;
         this.cuotas = cuotas;
     }
 
@@ -96,12 +83,20 @@ public class Pago {
         this.fechaAnulacion = fechaAnulacion;
     }
 
-    public Set<Cuota> getCuotas() {
-        return cuotas;
+    public TipoPago getTipoPago() {
+        return tipoPago;
     }
 
-    public void setCuotas(Set<Cuota> cuotas) {
-        this.cuotas = cuotas;
+    public void setTipoPago(TipoPago tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
+    public String getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(String valoracion) {
+        this.valoracion = valoracion;
     }
 
     public Socio getSocio() {
@@ -112,19 +107,11 @@ public class Pago {
         this.socio = socio;
     }
 
-    public Integer getId() {
-        return id;
+    public Set<Cuota> getCuotas() {
+        return cuotas;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public TipoPago getTipoPago() {
-        return tipoPago;
-    }
-
-    public void setTipoPago(TipoPago tipoPago) {
-        this.tipoPago = tipoPago;
+    public void setCuotas(Set<Cuota> cuotas) {
+        this.cuotas = cuotas;
     }
 }
