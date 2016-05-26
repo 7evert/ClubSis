@@ -34,7 +34,7 @@ public class Postulante {
     private String correo;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaPostulacion;
-    private Boolean esAprobado;
+    private Integer esAprobado;
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
     //private Set<String> observaciones; CAMBIAR LA RELACION MANY TO MANY Y PONERLO EN TABLA CRUZADA
@@ -44,7 +44,7 @@ public class Postulante {
     protected Postulante() {
     }
 
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, String nombreEmpresa, Double ingresosMensuales, Boolean esAprobado, String correo, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio> socios) {
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, String nombreEmpresa, Double ingresosMensuales, Integer esAprobado, String correo, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -213,11 +213,11 @@ public class Postulante {
         this.socios = socios;
     }
 
-    public Boolean getEsAprobado() {
+    public Integer getEsAprobado() {
         return esAprobado;
     }
 
-    public void setEsAprobado(Boolean esAprobado) {
+    public void setEsAprobado(Integer esAprobado) {
         this.esAprobado = esAprobado;
     }
 

@@ -53,6 +53,10 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .obligatorio {
+            color: #FF0000;
+        }
     </style>
 </head>
 <body ng-controller="PostulanteController">
@@ -64,7 +68,7 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            REGISTRO DE POSTULANTE AL CLUB
+            REGISTRO DE SOLICITUD DE POSTULANTE AL CLUB
         </h3>
     </div>
     <hr>
@@ -74,7 +78,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
+                    <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
                         <select id="tipoDocumento" class="form-control" ng-model="tipoDocumento.valor" ng-options="template.value as template.name for template in tipoDocumento.valores">
                         </select>
@@ -89,60 +93,53 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento</label>
+                    <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-7">
                         <input type="text" class="form-control" ng-model="numeroDocumento" id="numeroDocumento"
-                               placeholder="Numero de documento">
+                               placeholder="Numero de documento" maxlength="8">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-5 control-label">Nombres</label>
+                    <label for="nombre" class="col-md-5 control-label">Nombres<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="nombre" id="nombre"
-                               placeholder="Nombre completo">
+                               placeholder="Nombre completo" maxlength="50">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno</label>
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno<span class="obligatorio">*</span></label>
                     <div class="col-md-7">
                         <input type="text" class="form-control" ng-model="apellidoPaterno" id="apellidoPaterno"
-                               placeholder="Apellido paterno">
+                               placeholder="Apellido paterno" maxlength="50">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="apellidoMaterno" class="col-md-5 control-label">Apellido Materno</label>
+                    <label for="apellidoMaterno" class="col-md-5 control-label">Apellido Materno<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="apellidoMaterno" id="apellidoMaterno"
-                               placeholder="Apellido Materno">
+                               placeholder="Apellido Materno" maxlength="50">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="estadoCivil" class="col-md-4 control-label">Estado Civil</label>
+                    <label for="estadoCivil" class="col-md-4 control-label">Estado Civil<span class="obligatorio">*</span></label>
                     <div class="col-md-7">
                         <select id="estadoCivil" class="form-control" ng-model="estadoCivil.valor" ng-options="template.value as template.name for template in estadoCivil.valores">
                         </select>
-                        <!--<select class="form-control" id="estadoCivil" ng-model="estadoCivil">-->
-                            <!--<option value="-1" ng-selected="selected">Elegir</option>-->
-                            <!--<option value="Soltero">Soltero</option>-->
-                            <!--<option value="Casado">Casado</option>-->
-                            <!--<option value="Divorciado">Divorciado</option>-->
-                            <!--<option value="Viudo">Viudo</option>-->
-                        <!--</select>-->
                     </div>
                 </div>
             </div>
             <div class="form-group col-sm-6 col-lg-5" style="margin-left: 52px;">
-                <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento</label>
+                <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento<span class="obligatorio">*</span></label>
                 <div class="input-group input-append date col-md-7">
-                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="mm/dd/yyyy"/>
+                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
                     <label for="fechaNacimiento" class="input-group-addon btn"><span
                             class="glyphicon glyphicon-calendar"></span>
                     </label>
@@ -150,7 +147,7 @@
             </div>
             <div class="col-sm-6 col-lg-5" style="margin-left: 20px;">
                 <div class="form-group">
-                    <label for="numeroHijos" class="col-md-5 control-label">N° de hijos</label>
+                    <label for="numeroHijos" class="col-md-5 control-label">N° de hijos<span class="obligatorio">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" ng-model="numeroHijos" id="numeroHijos"
                                placeholder="Cantidad de hijos">
@@ -160,10 +157,10 @@
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="telefonoCasa" class="col-md-5 control-label">Telefono de casa</label>
+                    <label for="telefonoCasa" class="col-md-5 control-label">Telefono de casa<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="telefonoCasa" id="telefonoCasa"
-                               placeholder="Numero de teléfono de casa">
+                               placeholder="Numero de teléfono de casa" maxlength="10">
                     </div>
                 </div>
             </div>
@@ -172,7 +169,7 @@
                     <label for="celular" class="col-md-4 control-label">Celular</label>
                     <div class="col-md-7">
                         <input type="text" class="form-control" ng-model="celular" id="celular"
-                               placeholder="Numero de teléfono celular">
+                               placeholder="Numero de teléfono celular" maxlength="10">
                     </div>
                 </div>
             </div>
@@ -181,31 +178,31 @@
                     <label for="telefonoTrabajo" class="col-md-5 control-label">Telefono de trabajo</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="telefonoTrabajo" id="telefonoTrabajo"
-                               placeholder="Numero de teléfono de trabajo">
+                               placeholder="Numero de teléfono de trabajo" maxlength="10">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="profesion" class="col-md-4 control-label">Profesión</label>
+                    <label for="profesion" class="col-md-4 control-label">Profesión<span class="obligatorio">*</span></label>
                     <div class="col-md-7">
                         <input type="text" class="form-control" ng-model="profesion" id="profesion"
-                               placeholder="Profesión del socio">
+                               placeholder="Profesión del socio" maxlength="50">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="correo" class="col-md-5 control-label">Correo</label>
+                    <label for="correo" class="col-md-5 control-label">Correo<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="correo" id="correo"
-                               placeholder="Correo del socio">
+                               placeholder="Correo del socio" maxlength="50">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="ingresosMensuales" class="col-md-4 control-label">Ingreso mensual</label>
+                    <label for="ingresosMensuales" class="col-md-4 control-label">Ingreso mensual<span class="obligatorio">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" ng-model="ingresosMensuales" id="ingresosMensuales"
                                placeholder="Ingreso mensual">
@@ -215,20 +212,25 @@
             </div>
             <div class="col-sm-6 col-lg-10">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-3 control-label">Dirección</label>
+                    <label for="direccion" class="col-md-3 control-label">Dirección<span class="obligatorio">*</span></label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" ng-model="direccion" id="direccion"
-                               placeholder="Dirección de vivienda del socio postulante (Referencia)" style="width: 755px;">
+                               placeholder="Dirección de vivienda del socio postulante (Referencia)" style="width: 755px;" maxlength="140">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-10">
                 <div class="form-group">
-                    <label for="nombreEmpresa" class="col-md-3 control-label">Empresa</label>
+                    <label for="nombreEmpresa" class="col-md-3 control-label">Empresa<span class="obligatorio">*</span></label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" ng-model="nombreEmpresa" id="nombreEmpresa"
-                               placeholder="Nombre de la empresa donde labora el socio postulante" style="width: 755px;">
+                               placeholder="Nombre de la empresa donde labora el socio postulante" style="width: 755px;"  maxlength="140">
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
@@ -262,7 +264,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script type="text/javascript">
-    $(".date-picker").datepicker();
+    $('#fechaNacimiento').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 
     var app = angular.module('app', []);
     app.controller('PostulanteController', function ($scope, $http) {
@@ -287,6 +291,16 @@
         $scope.estadoCivil.valor = $scope.estadoCivil.valores[0].value;
 
         $("#btnRegistrar").click(function () {
+            var fechaConvertida = "";
+            if($("#fechaNacimiento").val() != "") {
+                var fecha = $scope.fechaNacimiento;
+                console.log($scope.fechaNacimiento);
+                var fechaPartida = fecha.split("/");
+                var dia = fechaPartida[0];
+                var mes = fechaPartida[1];
+                var anho = fechaPartida[2];
+                fechaConvertida = mes + '/' + dia + '/' + anho;
+            }
             $scope.registrarBungalow = function () {
                 var data = {
                     //por preguntar
@@ -296,7 +310,7 @@
                     'apellidoMaterno': $scope.apellidoMaterno,
                     'tipoDocumento': $scope.tipoDocumento.valor,
                     'numeroDocumento': parseInt($scope.numeroDocumento),
-                    'fechaNacimiento': Date.parse($scope.fechaNacimiento),
+                    'fechaNacimiento': Date.parse(fechaConvertida),
                     'estadoCivil': $scope.estadoCivil,
                     'numeroHijos': parseInt($scope.numeroHijos),
                     'estadoCivil': $scope.estadoCivil.valor,
@@ -309,24 +323,166 @@
                     'nombreEmpresa': $scope.nombreEmpresa,
                     'correo': $scope.correo,
                     'fechaPostulacion': 05212003, //Estos datos los llena el back por dentro (Gerson) fecha actual
-                    'esAprobado': 0, //Estos datos los llena el back por dentro (Gerson)
+                    'esAprobado': 0, //Estos datos los llena el back por dentro (Gerson) 0: Pendiente 1:Rechazada 2:Aprobada
                     'esActivo': 1, //Estos datos los llena el back por dentro (Gerson)
                     'esPeriodoObjeciones': 0, //Estos datos los llena el back por dentro (Gerson)
                     'socios': null, //Estos datos los llena el back por dentro (Gerson)
                 };
                 console.log(data);
                 //Falta las validaciones (LOO)
-                $http.post('/api/postulantes', data).success(function (data) {
-                    Notificaciones.showProcesando();
-                    Notificaciones.hideAll();
-                    setTimeout(function(){location.href="mantenimientoPostulante.html"} , 1000);
-                })
-                        .error(function (data) {
-                            //aca lo que se hara en caso falle
-                            Notificaciones.showError("Error al crear la entidad postulante");
-                            console.log("fallo");
-                        });
+                if (!validarDatos()) {
+                    $http.post('/api/postulantes', data).success(function (data) {
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "mantenimientoPostulante.html"
+                        }, 1000);
+                    })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al crear la entidad postulante");
+                                console.log("fallo");
+                            });
+                }
             }();
+        });
+
+        function validarDatos() {
+            var tipoDocumento = $("#tipoDocumento").val(); //Por ser angular devuelve string:-1 (string:"valor")
+            tipoDocumento = tipoDocumento.substring(tipoDocumento.lastIndexOf(':') + 1);
+            var numeroDocumento = $("#numeroDocumento").val();
+            var nombre = $("#nombre").val();
+            var apellidoPaterno = $("#apellidoPaterno").val();
+            var apellidoMaterno = $("#apellidoMaterno").val();
+            var estadoCivil = $("#estadoCivil").val();
+            estadoCivil = estadoCivil.substring(estadoCivil.lastIndexOf(':') + 1);
+            var fechaNacimiento =  $("#fechaNacimiento").val();
+            var numeroHijos = $("#numeroHijos").val();
+            var telefonoCasa = $("#telefonoCasa").val();
+            var profesion = $("#profesion").val();
+            var correo = $("#correo").val();
+            var ingresosMensuales = $("#ingresosMensuales").val();
+            var direccion = $("#direccion").val();
+            var nombreEmpresa = $("#nombreEmpresa").val();
+
+            if (tipoDocumento == -1) {
+                Notificaciones.showError('Tipo de documento requerido');
+                $("#tipoDocumento").css("border-color", "red");
+                return true;
+            } else if (!numeroDocumento) {
+                Notificaciones.showError('Numero de documento requerido');
+                $("#numeroDocumento").css("border-color", "red");
+                return true;
+            }else if (!nombre) {
+                Notificaciones.showError('Nombres requeridos');
+                $("#nombre").css("border-color", "red");
+                return true;
+            }
+            else if (!apellidoPaterno) {
+                Notificaciones.showError('Nombre requerido');
+                $("#apellidoPaterno").css("border-color", "red");
+                return true;
+            }
+            else if (!apellidoMaterno) {
+                Notificaciones.showError('Nombre requerido');
+                $("#apellidoMaterno").css("border-color", "red");
+                return true;
+            }
+            else if (estadoCivil == -1) {
+                Notificaciones.showError('Estado civil requerido');
+                $("#estadoCivil").css("border-color", "red");
+                return true;
+            }else if (!fechaNacimiento) {
+                Notificaciones.showError('Fecha de nacimiento requerido');
+                $("#fechaNacimiento").css("border-color", "red");
+                return true;
+            }else if (!numeroHijos) {
+                Notificaciones.showError('Numero de hijos requerido');
+                $("#numeroHijos").css("border-color", "red");
+                return true;
+            }else if (!telefonoCasa) {
+                Notificaciones.showError('Telefono de casa requerido');
+                $("#telefonoCasa").css("border-color", "red");
+                return true;
+            }
+            else if (!profesion) {
+                Notificaciones.showError('Profesión requerido');
+                $("#profesion").css("border-color", "red");
+                return true;
+            }else if (!correo) {
+                Notificaciones.showError('Correo requerido');
+                $("#correo").css("border-color", "red");
+                return true;
+            }else if (!ingresosMensuales) {
+                Notificaciones.showError('Ingreso mensual requerido');
+                $("#ingresosMensuales").css("border-color", "red");
+                return true;
+            }else if (!direccion) {
+                Notificaciones.showError('Dirección requerida');
+                $("#direccion").css("border-color", "red");
+                return true;
+            }else if (!nombreEmpresa) {
+                Notificaciones.showError('Empresa requerida');
+                $("#nombreEmpresa").css("border-color", "red");
+                return true;
+            }
+            return false;
+        }
+
+        $("#tipoDocumento").click(function () {
+            $("#tipoDocumento").css("border-color", "#ccc");
+        });
+
+        $("#numeroDocumento").click(function () {
+            $("#numeroDocumento").css("border-color", "#ccc");
+        });
+
+        $("#nombre").click(function () {
+            $("#nombre").css("border-color", "#ccc");
+        });
+
+        $("#apellidoPaterno").click(function () {
+            $("#apellidoPaterno").css("border-color", "#ccc");
+        });
+
+        $("#apellidoMaterno").click(function () {
+            $("#apellidoMaterno").css("border-color", "#ccc");
+        });
+
+        $("#estadoCivil").click(function () {
+            $("#estadoCivil").css("border-color", "#ccc");
+        });
+
+        $("#fechaNacimiento").click(function () {
+            $("#fechaNacimiento").css("border-color", "#ccc");
+        });
+
+        $("#numeroHijos").click(function () {
+            $("#numeroHijos").css("border-color", "#ccc");
+        });
+
+        $("#telefonoCasa").click(function () {
+            $("#telefonoCasa").css("border-color", "#ccc");
+        });
+
+        $("#profesion").click(function () {
+            $("#profesion").css("border-color", "#ccc");
+        });
+
+        $("#correo").click(function () {
+            $("#correo").css("border-color", "#ccc");
+        });
+
+        $("#ingresosMensuales").click(function () {
+            $("#ingresosMensuales").css("border-color", "#ccc");
+        });
+
+        $("#direccion").click(function () {
+            $("#direccion").css("border-color", "#ccc");
+        });
+
+        $("#nombreEmpresa").click(function () {
+            $("#nombreEmpresa").css("border-color", "#ccc");
         });
     });
     //    });

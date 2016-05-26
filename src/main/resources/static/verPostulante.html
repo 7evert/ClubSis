@@ -64,7 +64,7 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            REGISTRO DE POSTULANTE AL CLUB
+            REGISTRO DE SOLICITUD DE POSTULANTE AL CLUB
         </h3>
     </div>
     <hr>
@@ -268,6 +268,11 @@
         //Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
         $http.get('/api/postulantes/' + idPostulante).success(function (data) {
             $scope.postulantes = data;
+            var fecha = $scope.postulantes.fechaNacimiento;
+            var dia = fecha.split("-");
+            fechaNacimiento = dia[2].split(' ')[0] + '/' + dia[1] + '/' + dia[0];
+            console.log(fechaNacimiento);
+            $scope.postulantes.fechaNacimiento = fechaNacimiento;
         });
     });
     //como estamos en el ver Postulante dissableamos todos los campos posibles
