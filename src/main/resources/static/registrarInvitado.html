@@ -74,6 +74,36 @@
             var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
             location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
+
+        function mostrarMensaje(message){
+            alert(message);
+        }
+        function verificarDatos(){
+            var mensajes=["Nombre debe tener entre 0 y 50 letras",
+                "Apellido Paterno debe tener entre 0 y 50 letras",
+                "Apellido Materno debe tener entre 0 y 50 letras",
+                "Tipoc Documento debe tener entre 0 y 50 letras",
+                "Numero de Documento debe ser un numero entero",
+                "fecha Inicio debe ser una fecha Valida",
+                "fecha Fin debe ser una fecha Valida",
+                "fecha de Inicio debe ser antes o igual a fecha Fin"
+            ];
+            var ver=[],i=0;
+            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0
+            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0
+            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
+            ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
+            ver[i++]=($("#nroDoc").val()%1===0) && ($("#nroDoc").val()%Math.pow(10,8)<0);
+            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
+            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
+            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);
+            for(var j=0;j<i;j++)
+                if(ver[j]==false) {
+                    mostrarMensaje(mensajes[j]);
+                    return false;
+                }
+            return true;
+        }
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
@@ -115,6 +145,7 @@
             });
 
             $("#addGuest").click(function () {
+                if(!verificarDatos())return;
                 var guest = {
                     nombres: $("#nombre").val(),
                     apellidoPaterno: $("#apellidoPat").val(),
