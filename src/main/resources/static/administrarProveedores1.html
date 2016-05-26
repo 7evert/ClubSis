@@ -62,7 +62,18 @@
     </style>
 </head>
 <body ng-controller="ProveedorController">
-
+<script type="text/javascript">
+    function edicionProveedor(){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "edicionProveedor.html?id=" + id;
+    }
+    function accionEliminar() {
+        var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+        console.log("Accion:");
+        console.log(id);
+        funciones.eliminar(id);
+    }
+</script>
 <script type="text/javascript">
     //app script
     var app = angular.module('app', []);
@@ -70,7 +81,7 @@
 
 <script type="text/javascript">
     var app = angular.module('app', []);
-
+    var funciones={};
     app.controller('ProveedorController', function ($scope, $http) {
         $http.get('/api/proveedores').success(function (data) {
 //            alert("2");
@@ -79,6 +90,22 @@
             console.log(data);
 
         })
+
+        funciones.eliminar=(function (id) {
+            console.log("Quieres eliminar?");
+            //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+            console.log(id);
+            $http.get('/api/proveedores/' + id).success(function (data2, status) {
+                console.log(data2);
+                data2.estadoProveedor = 0;
+                $http.put("/api/proveedores/" + data2.id, data2).success(function (data3, status) {
+                    alert("Este proveedor ya no esta habilitado");
+                    location.href = "administrarProveedores1.html";
+                });
+            });
+        })
+
+
     });
 </script>
 <div id="headerAdministrador"></div>
@@ -199,8 +226,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="edicionProveedor.html"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="administrarProveedores1.html" id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionProveedor();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }
