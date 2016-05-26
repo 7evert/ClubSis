@@ -36,7 +36,6 @@ public class TarifaxEventoController {
 
     @RequestMapping(method = RequestMethod.POST)
     public TarifaEvento agregarTarifaEventos(@Valid @RequestBody TarifaEvento tarifaxEventos){
-        System.out.println(" 1 ");
         return servicioTarifaxEventos.crearTarifaEventos(tarifaxEventos);
     }
 

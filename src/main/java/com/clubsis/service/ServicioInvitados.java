@@ -31,9 +31,15 @@ public class ServicioInvitados {
     }
     public Invitado actualizarInvitado(Integer id, Invitado invitado){
         Invitado invitadoExistente = invitadoRepository.findOne(id);
-        if (invitado.getFechaSalida() == null ) invitado.setFechaSalida(invitadoExistente.getFechaSalida());
-        if (invitado.getFechaVisita() == null ) invitado.setFechaVisita(invitadoExistente.getFechaVisita());
-        BeanUtils.copyProperties(invitado, invitadoExistente);
+        if(invitado.getFechaSalida() != null ) invitadoExistente.setFechaSalida(invitado.getFechaSalida());
+        if(invitado.getFechaVisita() != null ) invitadoExistente.setFechaVisita(invitado.getFechaVisita());
+        if(invitado.getIngresoInvitado() != invitadoExistente.getIngresoInvitado()) invitadoExistente.setIngresoInvitado(invitado.getIngresoInvitado());
+        if(invitado.getApellidoMaterno() != invitadoExistente.getApellidoMaterno()) invitadoExistente.setApellidoMaterno(invitado.getApellidoMaterno());
+        if(invitado.getApellidoPaterno() != invitadoExistente.getApellidoPaterno()) invitadoExistente.setApellidoPaterno(invitado.getApellidoPaterno());
+        if(invitado.getNombres() != invitadoExistente.getNombres()) invitadoExistente.setNombres(invitado.getNombres());
+        if(invitado.getTipoDocumento() != invitadoExistente.getTipoDocumento()) invitadoExistente.setTipoDocumento(invitado.getTipoDocumento());
+        if(invitado.getNumeroDocumento() != invitadoExistente.getNumeroDocumento()) invitadoExistente.setNumeroDocumento(invitado.getNumeroDocumento());
+        //BeanUtils.copyProperties(invitado, invitadoExistente);
         return invitadoRepository.saveAndFlush(invitadoExistente);
         //asdasdas
     }

@@ -31,7 +31,7 @@ public class InvitadoController {
         return servicioInvitados.buscarInvitado(id);
     }
 
-    @RequestMapping(value="/{idEvento}/{idSocio}",method = RequestMethod.POST)
+    @RequestMapping(value="/{idEvento}/{idSocio}/eventos",method = RequestMethod.POST)
     public Invitado create(@PathVariable Integer idEvento, @PathVariable Integer idSocio,@RequestBody Invitado invitado){
         Evento evento = servicioEventos.buscarEvento(idEvento);
         Socio socio = servicioSocio.buscarSocio(idSocio);
@@ -42,7 +42,7 @@ public class InvitadoController {
         return servicioInvitados.crearInvitado(invitado);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/actualizar", method = RequestMethod.PUT)
     public Invitado update(@PathVariable Integer id, @RequestBody Invitado invitado){
         return servicioInvitados.actualizarInvitado(id,invitado);
     }
