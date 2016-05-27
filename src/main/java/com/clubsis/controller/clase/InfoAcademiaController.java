@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Vivian on 27/05/2016.
  */
 @RestController
-@RequestMapping("/api/infoAacademia")
+@RequestMapping("/api/infoAcademia")
 public class InfoAcademiaController {
     @Autowired
     private ServicioClases servicioClases;
