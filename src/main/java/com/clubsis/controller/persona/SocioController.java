@@ -1,7 +1,10 @@
 package com.clubsis.controller.persona;
 
 import com.clubsis.model.pago.Pago;
+import com.clubsis.model.pago.PagoMembresia;
+import com.clubsis.model.persona.Persona;
 import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.Suspension;
 import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,4 +43,22 @@ public class SocioController {
     public List<Pago> mostrarPagos(@PathVariable Integer id) {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagos());
     }
+
+    @RequestMapping(value = "/{id}/pagosMembresia", method = RequestMethod.GET)
+    public List<PagoMembresia> mostrarPagosMembresia(@PathVariable Integer id) {
+        return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagosMembresia());
+    }
+
+    @RequestMapping(value = "/{id}/suspensiones", method = RequestMethod.GET)
+    public List<Suspension> mostrarSuspensiones(@PathVariable Integer id) {
+        return new ArrayList<>(servicioMembresias.buscarSocio(id).getSuspensiones());
+    }
+
+    @RequestMapping(value = "/{id}/personas", method = RequestMethod.GET)
+    public Persona mostrarNombrePersona(@PathVariable Integer id) {
+        List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
+        return personas.get(0);
+    }
+
+
 }
