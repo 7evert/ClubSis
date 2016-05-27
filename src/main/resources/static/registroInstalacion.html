@@ -12,70 +12,81 @@
     <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
 
-    <script src="js/Notificaciones.js"></script>
-    <script src="js/Instalaciones.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
-    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
-    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
     <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
     <script src="js/principal.js"></script>
+    <script src="js/Notificaciones.js"></script>
 
 </head>
 <body ng-controller="InstalacionController">
-<div id="headerUsuario"></div>
+<div id="headerAdministrador"></div>
 <div class="container">
     <h2>Registro Instalacion</h2>
     <hr>
     <form id="formReservaInstalacion" class="form-horizontal mitadDerecha">
         <div id="nombreInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Nombre</label>
+            <label class="control-label col-xs-4">Nombre<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Campo 2 tenis,campo 3 de voley, o etc ..."/>
+                <input ng-model="nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Cancha de tenis,cancha de voley, o etc ..."/>
             </div>
         </div>
-        <div id="escogerSedeInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Escoger Sede</label>
-            <div class="col-xs-8">
-                <select ng-model="sede" id="sede" class="form-control col-xs-8">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
+        <div id="escogerSedeInstalacions" class="form-group">
+            <label class="control-label col-xs-4">Sede<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <select ng-model="instalaciones.sede.id" id="sede" class="form-control col-xs-8">
+                    <option  value="0">Elegir</option>
+                    <option value="1">Playa</option>
+                    <option value="2">Campo</option>
+                    <option value="3">Ciudad</option>
                 </select>
             </div>
         </div>
 
+        <!--
+        <div id="escogerSedeInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Sede<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <select ng-model="sedes.repeatSelect" id="sede" class="form-control col-xs-8">
+                    <option ng-repeat="option in sedes.availableOptions" value="{{option.id}}">{{option.name}}</option>
+                </select>
+            </div>
+        </div>
+-->
         <div id="precioReservaInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Precio Reserva</label>
+            <label class="control-label col-xs-4">Precio Reserva<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
                 <input type="text" ng-model="precioReserva" id="precioReserva" class="form-control col-xs-8" placeholder="S/. (Solo Numeros)"/>
             </div>
         </div>
         <div id="capacidadInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Capacidad</label>
+            <label class="control-label col-xs-4">Capacidad<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="capacidad" id="capacidad" type="text" class="form-control col-xs-8" placeholder="personas"/>
+                <input ng-model="capacidad" id="capacidad" type="text" class="form-control col-xs-8" placeholder="Número máximo de personas"/>
             </div>
         </div>
         <div id="referenciaInstalacion" class="form-group">
             <label class="control-label col-xs-4">Referencia</label>
             <div class="input-group col-xs-8">
-                <input ng-model="referencia" id="referencia" type="text" class="form-control col-xs-8" placeholder="Lugar donde queda"/>
+                <input ng-model="referencia" id="referencia" type="text" class="form-control col-xs-8" placeholder="Lugares cercanos a la instalación"/>
             </div>
         </div>
         <div id="caracteristicasInstalacion" class="form-group">
             <label class="control-label col-xs-4">Caracteristicas</label>
             <div class="input-group col-xs-8">
-                <input ng-model="caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8" placeholder="caracteristicas separadas por '-'"/>
+                <input ng-model="caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8" placeholder="Caracteristicas"/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" id="btnRegistrar" value="Registrar" style="width:22%" onclick="alert('Tu registro fue exitoso');location.href='MantenimientoInstalaciones.html';">
+                <input type="" class="btn btn-primary" id="btnRegistrar" value="Registrar" style="width:22%" >
                 <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
             </div>
         </div>
@@ -97,7 +108,7 @@
     var app = angular.module('app', []);
     app.controller('InstalacionController', function ($scope, $http) {
         $("#btnRegistrar").click(function () {
-            $scope.registrarInstalacion = function () {
+
                 var data = {
                     'nombre': $scope.nombre,
                     'caracteristicas': $scope.caracteristicas,
@@ -105,25 +116,71 @@
                     'capacidad': parseInt($scope.capacidad),
                     'precioReserva': parseFloat($scope.precioReserva),
                     'estado': 'Habilitado',
-                    //'sede':$scope.sede,
+                    'sede': $scope.sede,
                 };
+
 //
                 console.log(data);
 
-                $http.post('/api/instalaciones', data).success(function (data) {
+                    $http.post('/api/instalaciones', data).success(function (data) {
 
-                    Notificaciones.showProcesando();
-                    Notificaciones.hideAll();
-                    window.location = "mantenimientoInstalaciones.html";
+                        //Notificaciones.showProcesando();
+                        //Notificaciones.hideAll();
+                        window.location = "mantenimientoInstalaciones.html";
 
-                })
-                .error(function (data) {
-                  Notificaciones.showError("Error al crear la instalación.");
-                   console.log("fallo");
-                 });
-            }();
+                    })
+                            .error(function (data) {
+                                Notificaciones.showError("Error al crear la instalación.");
+                                console.log("fallo");
+                            });
         });
     });
+    /*
+    app.controller('SedeController',function($scope,$http){
+        $scope.sedes=[];
+        $http.get('/api/sedes').success(function (data) {
+            $scope.sedes=data;
+        })
+    });*/
+
+/*
+    function validarDatos() {
+        var nombre = $("#nombre").val();
+        var capacidad = $("#capacidad").val();
+        var precioReserva = $("#precioReserva").val();
+
+        if (!nombre) {
+            Notificaciones.showError('Nombre requerido');
+            $("#nombre").css("border-color", "red");
+            return true;
+        } else if (!capacidad) {
+            Notificaciones.showError('Capacidad requerida');
+            $("#capacidad").css("border-color", "red");
+            return true;
+        }else if (!precioReserva) {
+            Notificaciones.showError('Precio de reserva requerido');
+            $("#precioReserva").css("border-color", "red");
+            return true;
+        }
+
+        return false;
+    }
+
+
+    $("#nombre").click(function () {
+        $("#nombre").css("border-color", "#ccc");
+    });
+
+    $("#capacidad").click(function () {
+        $("#capacidad").css("border-color", "#ccc");
+    });
+
+    $("#precioReserva").click(function () {
+        $("#precioReserva").css("border-color", "#ccc");
+    });
+
+*/
+
 </script>
 </body>
 </html>
