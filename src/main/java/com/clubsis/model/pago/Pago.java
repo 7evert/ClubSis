@@ -1,5 +1,6 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
 
 import javax.persistence.*;
@@ -28,10 +29,7 @@ public class Pago {
     @OneToMany(mappedBy = "pago")
     private Set<Cuota> cuotas;
 
-    protected Pago() {
-    }
-
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
+    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas, Evento evento) {
         this.numeroCuotas = numeroCuotas;
         this.mora = mora;
         this.montoTotal = montoTotal;
@@ -40,7 +38,15 @@ public class Pago {
         this.valoracion = valoracion;
         this.socio = socio;
         this.cuotas = cuotas;
+        this.evento = evento;
     }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Evento evento;
+
+    protected Pago() {
+    }
+
 
     public Integer getId() {
         return id;
@@ -112,5 +118,13 @@ public class Pago {
 
     public void setCuotas(Set<Cuota> cuotas) {
         this.cuotas = cuotas;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 }

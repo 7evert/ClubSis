@@ -1,4 +1,5 @@
 package com.clubsis.model.evento;
+import com.clubsis.model.pago.Pago;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -45,24 +46,29 @@ public class Evento {
     @ManyToOne
     private Sede sede; // es un campo autor_id en la base de datos
 
+    @OneToMany
+    @JsonIgnore
+    private Set<Pago> pagos;
+
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede, Set<Pago> pagos) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.reglamento = reglamento;
-        this.url = url;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.url = url;
         this.isGratuito = isGratuito;
-        this.nombre = nombre;
         this.isPublico = isPublico;
+        this.nombre = nombre;
         this.tarifaEventos = tarifaEventos;
         this.empresas = empresas;
         this.sede = sede;
+        this.pagos = pagos;
     }
 
     public Integer getId() {
@@ -183,5 +189,13 @@ public class Evento {
 
     public void setSede(Sede sede) {
         this.sede = sede;
+    }
+
+    public Set<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(Set<Pago> pagos) {
+        this.pagos = pagos;
     }
 }

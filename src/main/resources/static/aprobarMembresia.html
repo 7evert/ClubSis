@@ -102,7 +102,7 @@
             $http.get('/api/postulantes').then(function (respuesta) {
                 //datosUrl=respuesta.data;
                 var datosUrl= $.grep(respuesta.data, function (element, index) {
-                    return element.esAprobado == false;
+                    return element.esActivo == true;
                 });
                 $("#jqGrid").jqGrid({
                     data: datosUrl,
