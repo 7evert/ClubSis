@@ -14,8 +14,7 @@ import java.util.Set;
 public class Instalacion {
     @Id
     @GeneratedValue
-    @Column(name = "id_instalacion")
-    private Integer idInstalacion;
+    private Integer id;
     private String descripcion;
     private String referencia;
     private Integer capacidad;
@@ -26,24 +25,32 @@ public class Instalacion {
     @JsonIgnore
     private Set<Horario> horarios;
 
+    @ManyToOne
+    private Sede sede;
+
+    @OneToMany(mappedBy = "instalacion")
+    private Set<ReservaInstalacion> reservas;
+
     protected Instalacion() {
     }
 
-    public Instalacion(String descripcion, String referencia, Integer capacidad, Double precioReserva, Integer estado, Set<Horario> horarios) {
+    public Instalacion(String descripcion, String referencia, Integer capacidad, Double precioReserva, Integer estado, Set<Horario> horarios, Sede sede, Set<ReservaInstalacion> reservas) {
         this.descripcion = descripcion;
         this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
         this.estado = estado;
         this.horarios = horarios;
+        this.sede = sede;
+        this.reservas = reservas;
     }
 
-    public Integer getIdInstalacion() {
-        return idInstalacion;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdInstalacion(Integer idInstalacion) {
-        this.idInstalacion = idInstalacion;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -92,5 +99,21 @@ public class Instalacion {
 
     public void setHorarios(Set<Horario> horarios) {
         this.horarios = horarios;
+    }
+
+    public Sede getSede() {
+        return sede;
+    }
+
+    public void setSede(Sede sede) {
+        this.sede = sede;
+    }
+
+    public Set<ReservaInstalacion> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(Set<ReservaInstalacion> reservas) {
+        this.reservas = reservas;
     }
 }
