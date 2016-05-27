@@ -60,6 +60,8 @@
             $("#nombre").val("");
             $("#direccion").val("");
             $("#descripcion").val("");
+            $("#telefono").val("");
+            $("#administrador").val("");
         }
         function llenarEngrilla(data){
             jQuery("#jqGrid").addRowData(data.id, data);
@@ -72,13 +74,16 @@
         function verificarDatos() {
             var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
                 "Direccion debe tener entre 1 y 100 caracteres",
-                //"Telefono debe tener entre 7 a 15 caracteres",
-                "Descripcion debe tneer entre 1 y 255 caracteres"
+                "Telefono debe tener entre 7 a 15 caracteres",
+                "Descripcion debe tneer entre 1 y 255 caracteres",
+                "Administrador debe tneer entre 1 y 255 caracteres"
             ]
             var ver=[];
             ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
-            ver[1]=$("#direccion").val().length>0&&$("#nombre").val().length<100;
-            ver[2]=$("#descripcion").val().length>0&&$("#descripcion").val().length<255;
+            ver[1]=$("#direccion").val().length>0&&$("#direccion").val().length<100;
+            ver[2]=$("#telefono").val().length>=7&&$("#telefono").val().length<=15;
+            ver[3]=$("#descripcion").val().length>0&&$("#descripcion").val().length<255;
+            ver[4]=$("#administrador").val().length>0&&$("#administrador").val().length<255;
             for(var i=0;i<ver.length;i++)
                 if(ver[i]==false) {
                     mostrarMensaje(mensajes[i]);
@@ -94,11 +99,12 @@
                     datatype: "local",
                     styleUI : 'Bootstrap',
                     height: 50*(data.legth+1),
-                    colNames:['ID','Nombre', 'Direccion', 'Descripcion'],
+                    colNames:['ID','Nombre', 'Direccion','Telefono', 'Descripcion'],
                     colModel:[
                         {name:'id',index:'id', width:90, sorttype:"int"},
                         {name:'nombre',index:'nombre', width:150,editable: false},
                         {name:'direccion',index:'direccion', width:260, editable: false},
+                        {name:'telefono',index:'telefono', width:220,editable: false},
                         {name:'descripcion',index:'descripcion', width:220,editable: false}
                     ]
                 });
@@ -111,11 +117,14 @@
                 var data={
                     "nombre":$("#nombre").val(),
                     "direccion":$("#direccion").val(),
-                    "descripcion":$("#descripcion").val()
+                    "telefono":$("#telefono").val(),
+                    "descripcion":$("#descripcion").val(),
+                    "administrador":$("#administrador").val()
                 }
                 $http.post('/api/sedes/',data).success(function (data2, status) {
                     alert("registro Exitoso de la Sede "+data2.id);
                     console.log(data2);
+                    limpiar();
                     llenarEngrilla(data2);
                 });
             });
@@ -159,11 +168,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="telefono" placeholder="solo numeros">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="administrador" class="col-md-4 control-label">Administrador</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="administrador" placeholder="">
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-6 col-lg-5 invisible">
                 <div class="form-group">
-                    <label for="appMaterno" class="col-md-4 control-label"> - </label>
+                    <label class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="appMaterno" placeholder="">
+                        <input type="text" class="form-control" placeholder="">
                     </div>
                 </div>
             </div>
