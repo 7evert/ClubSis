@@ -40,9 +40,12 @@ public class Persona {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
 
-    protected Persona() {
+    public Integer getId() {
+        return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
     public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -57,7 +60,6 @@ public class Persona {
         this.usuario = usuario;
         this.registroClases = registroClases;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -130,10 +132,6 @@ public class Persona {
     public void setEsTitular(Boolean esTitular) {
         this.esTitular = esTitular;
     }
-
-    public Socio getSocio() { return socio; }
-
-    public void setSocio(Socio socio) { this.socio = socio; }
 
     public Usuario getUsuario() {
         return usuario;

@@ -7,6 +7,7 @@ import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import sun.util.PreHashedMap;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -27,8 +28,8 @@ public class Socio {
     //@Column(columnDefinition = "integer auto_increment")
     private Integer codigoCarnet;
 
-    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Invitado> invitados =new HashSet<Invitado>();
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "socio")
@@ -39,8 +40,8 @@ public class Socio {
     @JsonIgnore
     private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
 
-    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Pago> pagos =new HashSet<Pago>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
@@ -68,9 +69,8 @@ public class Socio {
     public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, Set<PagoMembresia> pagosMembresia, TipoSocio tipo) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
-        this.codigoCarnet = codigoCarnet;
         this.invitados = invitados;
-        this.personas = personas;
+        this.codigoCarnet = codigoCarnet;
         this.postulantes = postulantes;
         this.pagos = pagos;
         this.cuotasExtraordinarias = cuotasExtraordinarias;

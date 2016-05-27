@@ -20,13 +20,44 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
     <script type="text/javascript">
         //igual que en MantenimientoEventos.html
-/*        var dataJSON=[
-            {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
-            {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
-            {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
-        ];*/
+        /*        var dataJSON=[
+         {id:0,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+         {id:1,url:"img/Eventos/newYear.jpg",nombre:"Feliz Año Viejo 2016",sede:{id:1,nombre:"Santa Anita",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.00,nombre:"b"},{id:2,descripcion:"c",precio:1.00,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1},
+         {id:2,url:"img/Eventos/newYear.jpg",nombre:"Feliz Dia de la Madre 2016",sede:{id:0,nombre:"Chorrillos",direccion:"av"},empresa:"Nestle",fechaInicio:3,fechaFin:4,fechaInicioInscripcion:2,fechaFinInscripcion:2,tarifas:[{id:1,descripcion:"a",precio:0.50,nombre:"b"},{id:2,descripcion:"c",precio:1.50,nombre:"d"}],reglamento:"....",estado:0,descripcion:"asd",isGratuito:0,isPublico:1}
+         ];*/
         var dataJSON = [
             {
                 id: 0,
@@ -162,8 +193,7 @@
             for(var j=0;j<b.length;j++)
                 tarifasul.append(b[j]);
         }
-        function mostrarRegYDescripcion(reglamento, descripcion){
-            $("#reglamento").html("Reglamento: "+reglamento);
+        function mostrarRegYDescripcion(descripcion){
             $("#descripcion").html("Descripcion: <br>"+descripcion);
         }
         function mostrarImagen(url){
@@ -196,8 +226,8 @@
                 mostraridEvento(dataevento.id);
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
-                mostrarTarifas(dataevento.tarifaEventos);
-                mostrarRegYDescripcion(dataevento.reglamento, dataevento.descripcion);
+                //mostrarTarifas(dataevento.tarifaEventos);
+                mostrarRegYDescripcion(dataevento.descripcion);
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
@@ -208,7 +238,56 @@
                 $("#Editar").click(function () {
                     location.href = "edicionEventos.html?id="+getID();
                 });
+                $http.get('/api/tarifas').success(function (data) {
+
+                    var lastsel2;
+                    jQuery("#jqGrid").jqGrid({
+                        datatype: "local",
+                        height: 50*(data.legth+1),
+                        colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                        colModel:[
+                            {name:'id',index:'id', width:90, sorttype:"int"},
+                            {name:'nombre',index:'nombre', width:150,editable: false},
+                            {name:'UsarTar',index:'UsarTar', width:60, editable: false, edittype:"checkbox",editoptions: {value:"Yes:No"}},
+                            {name:'precio',index:'precio', width:120,editable: false, editoptions:{size:"20",maxlength:"30"}}
+                        ],
+                        onSelectRow: function(id){
+                            if(id && id!==lastsel2){
+                                jQuery("#jqGrid").jqGrid('saveRow',id,
+                                        {
+                                            successfunc: function( response ) {
+                                                console.log(response);
+                                                return true;
+                                            }
+                                        });
+                                jQuery('#jqGrid').restoreRow(lastsel2);
+                                jQuery('#jqGrid').editRow(id,true);
+                                lastsel2=id;
+                            }
+                        },
+                        editurl: "clientArray"
+                    });
+                    var tarreg=new Array();
+                    $http.get('api/tarifaeventos').success(function (data3) {
+                        for(var i=0;i<data3.length;i++){
+                            console.log(data3[i].eventos.id+" "+dataevento.id)
+                            if(data3[i].eventos.id==dataevento.id){
+                                for(var j=0;j<data.length;j++){
+                                    if(data3[i].tarifaeventos.id==data[j].id){
+                                        data[j].UsarTar="Yes";
+                                        data[j].precio=data3[i].precio;
+                                        jQuery("#jqGrid").addRowData(data[j].id, data[j]);
+                                        tarreg.push(j);
+                                    }
+                                }
+                            }
+                        }
+                        $("#lui_jqGrid").addClass("hidden");
+                    });
+
+                })
             });
+
         });
     </script>
 
@@ -227,15 +306,12 @@
             <div><h4 id="sede"></h4></div>
             <div><h4 id="estGratYPub"></h4></div>
             <div>
+                <h4>Fecha del Evento:</h4>
                 <h4><span id="fechaInicio"></span> - <span id="fechaFin"></span></h4>
+                <h4>Fechas de Inscripcion:</h4>
                 <h4><span id="fechaInicioInscripcion"></span> - <span id="fechaFinInscripcion"></span></h4>
             </div>
             <div><h4 id="descripcion"></h4></div>
-            <ul id="tarifas" style="position:relative; left:120px;">
-                <span>Tarifas:</span>
-                <!--<li><span>TO DO I DONT KNOW WHAT TO WRITE HERE GUYS</span></li>-->
-            </ul>
-            <div><h4 id="reglamento"></h4></div>
             <div class="col-xs-offset-1 col-xs-10">
                 <input id="Participar" type="" class="btn btn-primary" value="Participar" style="width:22%">
                 <input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">
@@ -247,6 +323,11 @@
             <div id="BungTipo2" class="show">
                 <img id="imgEvento" class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
             </div>
+            <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+                <div><h1>Tarifas</h1></div>
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
             <div></div>
         </div>
     </div>
@@ -254,9 +335,17 @@
     --------------------------------------------------------------------------------------------------------->
 </div>
 <div id="footer"></div>
+
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
