@@ -25,7 +25,7 @@
             <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
             <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
             <script src="js/principal.js"></script>
-            <script src="js/Instalaciones.js"></script>
+
 
 
         </head>
@@ -35,10 +35,10 @@
         <div>
             <h3>
                 ADMINISTRACIÓN DE INSTALACIONES
-                <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='registroInstalacion.html';">Añadir Instalación</a>
+                <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='registroInstalacion.html';">Registrar</a>
             </h3>
         </div>
-            <div class="form-group"><!--filtrado-->
+            <div class="form-group">
                 <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE INSTALACIONES </h4>
 
                 <form class="form-horizontal">
@@ -73,22 +73,22 @@
                             <div class="form-group">
                                 <label for="nombre" class="col-md-4 control-label">Nombre</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre de Instalacion">
+                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre de instalación">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-5">
                             <div class="form-group">
-                                <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                                <label for="descripcion" class="col-md-4 control-label">Descripción</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Instalacion">
+                                    <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Instalación">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-6 col-lg-5">
                             <div class="form-group">
-                                <label class="control-label col-md-4">Desde</label>
+                                <label class="control-label col-md-4">Fecha Inicio</label>
                                 <div class="input-group input-append date col-md-8">
                                     <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
                                     <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
@@ -100,7 +100,7 @@
                         <div class="col-sm-6 col-lg-5">
                             <div class="form-group">
 
-                                <label class="control-label col-md-4">Hasta</label>
+                                <label class="control-label col-md-4">Fecha Fin</label>
                                 <div class="input-group input-append date col-md-8">
                                     <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
                                     <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
@@ -123,7 +123,7 @@
             </div>
 
 
-        <div><!--listas-->
+        <div>
             <h4>RESULTADOS DE BÚSQUEDA</h4>
             <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
                 <table id="jqGrid"></table>
@@ -143,23 +143,8 @@
     <div id="footer"></div>
 
     <script type="text/javascript">
-
         $(".date-picker").datepicker();
-        window.onload=function(){
 
-        }
-    </script>
-    <script type="text/javascript">
-
-        /*function Ver(){location.href="InstalacionInformacion.html";event.preventDefault();}
-        function Editar(){location.href="edicionInstalacion.html";event.preventDefault();}
-        function Eliminar(){location.href="loginUsuario.html";event.preventDefault();}
-
-        function Agregar(){location.href="registroInstalacion.html";event.preventDefault();}
-
-        var funciones=[Ver,Reservar,Editar,Eliminar];*/
-    </script>
-    <script type="text/javascript">
         var app=angular.module('app',[]);
         app.controller('InstalacionesController', function ($scope, $http) {
             $http.get('/api/instalaciones').success(function (data) {
@@ -209,7 +194,7 @@
 
     var idInstalacion = $(this).attr('data-idInstalacion-ver');
         console.log("idInstalacion " + $(this).attr('data-idInstalacion-ver'));
-        windows.location='InstalacionInformacion.html?id='+idInstalacion;
+        window.location='InstalacionInformacion.html?id='+idInstalacion;
 
     });
     $('.icono-eliminar').click(function () {
@@ -219,7 +204,7 @@
     $('.icono-modificar').click(function () {
         var idInstalacion = $(this).attr('data-idInstalacion-modificar');
         console.log("idInstalacion modificado: " + $(this).attr('data-idInstalacion-modificar'));
-        windows.location='edicionInstalacion.html?id='+idInstalacion;
+        window.location='edicionInstalacion.html?id='+idInstalacion;
 
     });
     }
