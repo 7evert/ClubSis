@@ -25,10 +25,9 @@ public class AcademiaController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public List<Clase> get(@PathVariable Integer id) {
-
-        //return servicioClases.buscarAcademia(id);
-        return servicioClases.mostrarClasesCiclo(id);
+    public Academia get(@PathVariable Integer id) {
+        return servicioClases.buscarAcademia(id);
+        //return servicioClases.mostrarClasesCiclo(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
