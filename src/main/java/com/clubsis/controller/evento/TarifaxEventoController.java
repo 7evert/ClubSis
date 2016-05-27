@@ -39,7 +39,7 @@ public class TarifaxEventoController {
         return servicioTarifaxEventos.crearTarifaEventos(tarifaxEventos);
     }
 
-
+    // id1: tarifa, id2: evento
     @RequestMapping(value="/{id1}/{id2}/eventos",method = RequestMethod.POST)
     public TarifaEvento agregarTarifaEventos1(@PathVariable Integer id1, @PathVariable Integer id2,@Valid @RequestBody TarifaEvento tarifaxEventos){
         Tarifa tarifa= servicioTarifas.buscarTarifa(id1);

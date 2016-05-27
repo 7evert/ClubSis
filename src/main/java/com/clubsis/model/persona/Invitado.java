@@ -29,6 +29,7 @@ public class Invitado {
     private Boolean ingresoInvitado;
 
 
+
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Socio socio;
 
