@@ -78,7 +78,8 @@
                 "capacidad debe ser un numero entero",
                 "fecha de inscripcion debe ser antes de fecha entrada",
                 "fecha de fin de inscripcion debe ser antes de fecha entrada",
-                "fecha de entrada debe ser antes o igual a fecha salida"
+                "fecha de entrada debe ser antes o igual a fecha salida",
+                "Todas las tarifas deben ser mayores a 0"
             ]
             var ver=[];
             ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
@@ -87,10 +88,20 @@
             ver[3]=isNaN(Date.parse($("#date-picker-DiaSalida")[0].value))==false;
             ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
             ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
-            ver[6]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1);;
+            ver[6]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;;
             ver[7]=Date.parse($("#date-picker-DiaEntrada")[0].value)>Date.parse($("#date-picker-InicioInscripcion")[0].value);
             ver[8]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
+            ver[10]=true;
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+            for (var i = 0,vez=0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
+                if (rowData.UsarTar == "Yes") {
+                    ver[10]=ver[10]&&(isNaN(parseFloat(rowData.precio))==false&&(parseFloat(rowData.precio)>0));
+                }
+            }
             for(var i=0;i<ver.length;i++)
                 if(ver[i]==false) {
                     mostrarMensaje(mensajes[i]);
@@ -204,7 +215,22 @@
                         var idSede=dataevento.id;
                         $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
                             alert("Tu actualizacion fue exitosa");
-                            location.href = "MantenimientoEventos.html"
+                            location.href="EventInformacion.html?id="+data2.id;
+                            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+                            for (var i = 0,vez=0; i < ids.length; i++) {
+                                var rowId = ids[i];
+                                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                                //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
+                                if (rowData.UsarTar == "Yes") {
+                                    vez++;
+                                    dataJSON = {
+                                        "precio": parseFloat(rowData.precio)
+                                    };
+                                    $http.put("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
+                                        console.log("Salio");
+                                    });
+                                }
+                            }
                         });
                     });
                     $("#Cancelar").click(function () {

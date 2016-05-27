@@ -79,11 +79,11 @@
             alert(message);
         }
         function verificarDatos(){
-            var mensajes=["Nombre debe tener entre 0 y 50 letras",
-                "Apellido Paterno debe tener entre 0 y 50 letras",
-                "Apellido Materno debe tener entre 0 y 50 letras",
-                "Tipoc Documento debe tener entre 0 y 50 letras",
-                "Numero de Documento debe ser un numero entero",
+            var mensajes=["Nombre debe tener entre 1 y 50 letras",
+                "Apellido Paterno debe tener entre 1 y 50 letras",
+                "Apellido Materno debe tener entre 1 y 50 letras",
+                "Tipoc Documento debe tener entre 1 y 50 letras",
+                "Numero de Documento debe ser un numero entero entre 8 y 25 numeros",
                 "fecha Inicio debe ser una fecha Valida",
                 "fecha Fin debe ser una fecha Valida",
                 "fecha de Inicio debe ser antes o igual a fecha Fin"
@@ -93,7 +93,7 @@
             ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0
             ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
             ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
-            ver[i++]=($("#nroDoc").val()%1===0) && ($("#nroDoc").val()%Math.pow(10,8)<0);
+            ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,8)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
             ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);
@@ -163,12 +163,15 @@
                     //var data2 = guest;
                     console.log(JSON.stringify(data2));
                     limpiarFormulario();
+                    alert("Se registro al invitado exitosamente");
                     var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
                     jQuery("#jqGrid").addRowData(data.id, data);
                 });
             });
-
             $("#terminar").click(function () {
+                location.href = "generarPagoEvento.html?idSocio="+idsocio+"&idEvento="+idevento;
+            });
+            $("#cancelar").click(function () {
                 location.href = "MantenimientoEventos.html";
             });
         });
@@ -232,7 +235,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-5">Fecha de Inicio</label>
+                                <label class="control-label col-xs-5">Fecha de Entrada</label>
                                 <div class="col-xs-7 date">
                                     <div class="input-group input-append date">
                                         <input id="date-picker-TiempoInicio" type="text"
@@ -244,7 +247,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-5">Fecha de Fin</label>
+                                <label class="control-label col-xs-5">Fecha de Salida</label>
                                 <div class="col-xs-7 date">
                                     <div class="input-group input-append date">
                                         <input id="date-picker-TiempoFin" type="text"
@@ -275,7 +278,8 @@
                             </div>
                             <div class="col-xs-offset-5 col-xs-9">
                                 <input id="addGuest" class="btn btn-primary" value="Añadir">
-                                <input id="terminar" class="btn btn-default" value="Terminar">
+                                <input id="terminar" class="btn btn-default" value="Terminar y Confirmar">
+                                <input id="cancelar" class="btn btn-default" value="cancelar">
                             </div>
                         </form>
                     </div>

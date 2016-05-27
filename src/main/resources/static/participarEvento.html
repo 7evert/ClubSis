@@ -235,6 +235,10 @@
                 $("#Participar").click(function () {
                     location.href = "registrarInvitado.html?idSocio=1&idEvento="+dataevento.id;
                 });
+                $("#confirmar").click(function () {
+                    location.href = "generarPagoEvento.html?idSocio=1&idEvento="+dataevento.id;
+                });
+
                 $http.get('/api/tarifas').success(function (data) {
                     var lastsel2;
                     jQuery("#jqGrid").jqGrid({
@@ -315,7 +319,7 @@
             </ul>
             <div class="col-xs-offset-1 col-xs-10">
                 <input id="Participar" type="" class="btn btn-primary" value="Invitar" style="width:22%">
-                <!--<input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">-->
+                <input id="confirmar" type="" class="btn btn-primary" value="Confirmar" style="width:22%">
                 <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='mantenimientoEventos.html';">
             </div>
         </div>
