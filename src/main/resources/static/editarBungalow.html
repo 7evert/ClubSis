@@ -213,7 +213,6 @@
     var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
     var idBungalow = ruta.substring(ruta.lastIndexOf('=') + 1);
     console.log(idBungalow);
-    var valorValoracion = $('#valoracion').val();
     var valorPiso = $('#piso').val();
     var app = angular.module('app', []);
     app.controller('VerBungalowController', function ($scope, $http) {
@@ -255,6 +254,15 @@
 
         $("#btnRegistrar").click(function () {
             $scope.registrarBungalow = function () {
+                var valorValoracion = $('#valoracion').val();
+                console.log(valorValoracion);
+                valorValoracion = valorValoracion.substring(valorValoracion.lastIndexOf(':') + 1);
+                valorValoracion = parseInt(valorValoracion);
+
+                var valorPiso = $('#piso').val();
+                console.log(valorPiso);
+                valorPiso = valorPiso.substring(valorPiso.lastIndexOf(':') + 1);
+                valorPiso = parseInt(valorPiso);
                 var data = {
                     //por preguntar
                     //idSuspension: null,

@@ -1,6 +1,7 @@
 package com.clubsis.service;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.bungalow.EstadoBungalow;
 import com.clubsis.model.bungalow.ReservaBungalow;
 import com.clubsis.model.bungalow.TipoBungalow;
 import com.clubsis.model.sede.Sede;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +36,13 @@ public class ServicioReservas {
     // Bungalow
 
     public List<Bungalow> mostrarBungalows() {
-        return bungalowRepository.findAll();
+        List<Bungalow> bungalows = bungalowRepository.findAll();
+        List<Bungalow> bungalowsFiltrados = new ArrayList<Bungalow>();
+        for(Bungalow item : bungalows){
+            if(item.getEstado().toString().contentEquals("DISPONIBLE"))
+                bungalowsFiltrados.add(item);
+        }
+        return bungalowsFiltrados;
     }
 
     public Bungalow crearBungalow(Bungalow bungalow) {
