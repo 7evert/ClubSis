@@ -5,25 +5,13 @@
     <meta charset="UTF-8">
     <title>Administrar Talleres</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
-    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
-
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
-    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-
-
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
-    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
-    <link rel="stylesheet" type="text/css" media="screen"
-          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-    <script type="text/javascript"
-            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -127,7 +115,7 @@
     <script type="text/javascript">
         function llenarDatosTaller(data2) {
             $("#nombre").val(data2.nombre);
-            $("#url").val(data2.url);
+            //$("#urlFoto").val(data2.urlFoto);
             $("#descripcion").val(data2.descripcion);
             $("#estadoAcademia").val(data2.estadoAcademia);
 
@@ -136,7 +124,7 @@
             return {
                 id:id,
                 nombre: $("#nombre").val(),
-                url: $("#url").val(),
+                urlFoto: $("#urlFoto").val(),
                 descripcion: $("#descripcion").val(),
                 estadoAcademia: parseInt($("#estadoAcademia").val())
             };
@@ -160,7 +148,7 @@
                 console.log(JSON.stringify(data));
                 $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
-                    location.href = "VerTaller.html";
+                    location.href = "VerTaller.html?id=" + id;
                 });
             });
             $("#cancelar").click(function(){
@@ -170,6 +158,18 @@
     </script>
 </head>
 <body ng-controller="edicionAcademiaController">
+<script type="text/javascript">
+    function edicionDatosTaller(){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "edicionDatosTaller.html?id=" + id;
+    }
+    function accionEliminar() {
+        var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+        console.log("Accion:");
+        console.log(id);
+        funciones.eliminar(id);
+    }
+</script>
 <script type="text/javascript">
     //app script
     var app = angular.module('app', []);
@@ -199,25 +199,26 @@
                     </div>
                 </div>
             </div>
+            <!--<div class="col-sm-6 col-lg-5">-->
+                <!--<div class="form-group">-->
+                    <!--<label for="urlFoto" class="col-md-4 control-label">URL</label>-->
+                    <!--<div class="col-md-8">-->
+                        <!--<input type="text" id="urlFoto" class="form-control col-xs-8" ng-model="urlFoto" placeholder="Escriba el nombre..." required/>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="estadoAcademia" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
                         <select class="form-control" ng-model="estadoAcademia" id="estadoAcademia">
-                            <option value="-1">INHABILITADO</option>
+                            <option value="0">INHABILITADO</option>
                             <option value="1">HABILITADO</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="url" class="col-md-4 control-label">URL</label>
-                    <div class="col-md-8">
-                        <input type="text" id="url" class="form-control col-xs-8" ng-model="url" placeholder="Escriba el nombre..." required/>
-                    </div>
-                </div>
-            </div>
+
             <div class="col-sm-12 col-lg-10">
                 <div class="form-group">
                     <label for="descripcion" class="col-md-2 control-label">Descripción</label>
@@ -230,8 +231,7 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrarTaller">Registrar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="guardar">Actualizar</a>
                 </div>
             </div>
 
@@ -249,6 +249,7 @@
             |
             <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
         </div>
+        <br>
 
         <h4>HORARIOS DEL TALLER SELECCIONADO</h4>
 
@@ -277,9 +278,9 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-
+    var id = getID();
     $("#jqGrid").jqGrid({
-        url: '/api/academias/',
+        url: '/api/infoAcademia/' + id,
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
@@ -288,17 +289,17 @@
         colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
-            {name:'nombre', index:'nombre', width:100},
             {name:'capacidad', index:'capacidad',width:100},
             {name:'estadoClase', index:'estadoClase', width:100},
             {name:'nivel', index:'nivel', width:100},
             {name:'precioCiclo', index:'precioCiclo', width:100},
             {name:'precioMes', index:'precioMes', width:100},
+            {name:'profesor', index:'profesor', width:100},
             {name:'rangoEdad', index:'rangoEdad', width:100},
             {name: 'acciones', width: 50, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
-        height: 300,
+        height: 100,
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
@@ -308,26 +309,27 @@
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
+
     $("#jqGrid1").jqGrid({
-        url: '/api/academias/',
+        url: '/api/infoAcademia/' + id,
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names
+        colNames:['#','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
-            {name:'dia', index:'dia', width:100},
+            {name:'horarios[dia]', index:'horarios[0].dia', width:100},
             {name:'estadoHorario', index:'estadoHorario',width:100},
             {name:'horaInicio', index:'horaInicio', width:100},
             {name:'horaFin', index:'horaFin', width:100},
             {name:'Ciclo', index:'Ciclo', width:100},
             {name:'Instalación', index:'Instalación', width:100},
-            {name: 'acciones', width: 50, align: 'center', formatter: acciones},
+            {name: 'acciones', width: 50, align: 'center', formatter: acciones2},
         ],
         viewrecords: true,
-        height: 300,
+        height: 100,
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
@@ -337,19 +339,16 @@
 
     $('#jqGrid1').jqGrid('setGridWidth', '900');
 
-
-    $.extend(true, $.jgrid.edit, {
-        recreateForm: true,
-        beforeShowForm: function ($form) {
-            $form.closest(".ui-jqdialog").position({
-                of: window, // or any other element
-                my: "center center",
-                at: "center center"
-            });
-        }
-    });
-
     function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+
+        acciones = '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        return acciones;
+
+    }
+
+    function acciones2(cellValue, options, rowdata, action) {
         var acciones = '';
 
         acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
@@ -357,12 +356,105 @@
         return acciones;
 
     }
-
-    jQuery("#bt1").click( function() {
-        jQuery("#jqGrid").jqGrid('editRow',"13");
-        console.log(data);
-        this.disabled = 'true';
-    });
 </script>
+<!--<script type="text/javascript">-->
+
+<!--//    var app2 = angular.module('app2', []);-->
+<!--//    app2.controller('edicionAcademiaController', function ($scope, $http) {-->
+<!--//        var id = getID();-->
+<!--//        console.log(id);-->
+<!--//        if(id==undefined){-->
+            <!--//location.href="administrarProveedores1.html"-->
+        <!--}-->
+
+
+
+<!--//    $("#jqGrid").jqGrid({-->
+<!--//        url: '/api/infoAcademia/' + id,-->
+<!--//        mtype: "GET",-->
+<!--//        styleUI: 'Bootstrap',-->
+<!--//        datatype: "json",-->
+<!--//        gridview: true,-->
+<!--//        emptyrecords: 'No se encontraron resultados',-->
+        <!--colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names-->
+        <!--colModel:[-->
+            <!--{name:'id', index:'id', key: true, width:50},-->
+            <!--{name:'nombre', index:'nombre', width:100},-->
+            <!--{name:'capacidad', index:'capacidad',width:100},-->
+            <!--{name:'estadoClase', index:'estadoClase', width:100},-->
+            <!--{name:'nivel', index:'nivel', width:100},-->
+            <!--{name:'precioCiclo', index:'precioCiclo', width:100},-->
+            <!--{name:'precioMes', index:'precioMes', width:100},-->
+            <!--{name:'rangoEdad', index:'rangoEdad', width:100},-->
+            <!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
+        <!--],-->
+<!--//        viewrecords: true,-->
+<!--//        height: 300,-->
+<!--//        rowNum: 1000,-->
+<!--//        pager: "#jqGridPager",-->
+<!--//        loadComplete:function(){-->
+<!--//            console.log("salio");-->
+<!--//        }-->
+<!--//    });-->
+<!--//-->
+<!--//    $('#jqGrid').jqGrid('setGridWidth', '900');-->
+
+<!--//    $("#jqGrid1").jqGrid({-->
+<!--//        url: '/api/infoAcademia/' + id,-->
+<!--//        mtype: "GET",-->
+<!--//        styleUI: 'Bootstrap',-->
+<!--//        datatype: "json",-->
+<!--//        gridview: true,-->
+<!--//        emptyrecords: 'No se encontraron resultados',-->
+        <!--colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names-->
+        <!--colModel:[-->
+            <!--{name:'id', index:'id', key: true, width:50},-->
+            <!--{name:'dia', index:'dia', width:100},-->
+            <!--{name:'estadoHorario', index:'estadoHorario',width:100},-->
+            <!--{name:'horaInicio', index:'horaInicio', width:100},-->
+            <!--{name:'horaFin', index:'horaFin', width:100},-->
+            <!--{name:'Ciclo', index:'Ciclo', width:100},-->
+            <!--{name:'Instalación', index:'Instalación', width:100},-->
+            <!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
+        <!--],-->
+<!--//        viewrecords: true,-->
+<!--//        height: 300,-->
+<!--//        rowNum: 1000,-->
+<!--//        pager: "#jqGridPager",-->
+<!--//        loadComplete:function(){-->
+<!--//            console.log("salio");-->
+<!--//        }-->
+<!--//    });-->
+<!--//-->
+<!--//    $('#jqGrid1').jqGrid('setGridWidth', '900');-->
+
+
+<!--//    $.extend(true, $.jgrid.edit, {-->
+<!--//        recreateForm: true,-->
+<!--//        beforeShowForm: function ($form) {-->
+<!--//            $form.closest(".ui-jqdialog").position({-->
+<!--//                of: window, // or any other element-->
+<!--//                my: "center center",-->
+<!--//                at: "center center"-->
+<!--//            });-->
+<!--//        }-->
+<!--//    });-->
+
+    <!--function acciones(cellValue, options, rowdata, action) {-->
+        <!--var acciones = '';-->
+
+        <!--acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +-->
+                <!--'<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';-->
+        <!--return acciones;-->
+
+    <!--}-->
+
+    <!--jQuery("#bt1").click( function() {-->
+        <!--jQuery("#jqGrid").jqGrid('editRow',"13");-->
+        <!--console.log(data);-->
+        <!--this.disabled = 'true';-->
+    <!--});-->
+
+<!--</script>-->
 </body>
 </html>
