@@ -125,4 +125,12 @@ public class Bungalow {
     public void setReservaBungalowSet(Set<ReservaBungalow> reservaBungalowSet) {
         this.reservaBungalowSet = reservaBungalowSet;
     }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }

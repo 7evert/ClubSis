@@ -71,5 +71,7 @@ public class ServicioReservas {
         return reservaBungalowRepository.saveAndFlush(reservaBungalow);
     }
 
-
+    public TipoBungalow obtenerBungalow(Integer id){
+        return tipoBungalowRepository.findOne(id);
+    }
 }

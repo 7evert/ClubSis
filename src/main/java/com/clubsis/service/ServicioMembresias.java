@@ -127,7 +127,8 @@ public class ServicioMembresias {
 
     public void crearMembresia(Integer idPostulante){
         Postulante postulanteExistente = postulanteRepository.findOne(idPostulante);
-        postulanteExistente.setEsAprobado(Boolean.TRUE);
+        //La he modificado mascapo porque hay 3 tipos de estados de solicitudes 0:Pendiente, 1:Rechazada, 2:Aprobada
+        postulanteExistente.setEsAprobado(2);
         postulanteExistente.setEsActivo(Boolean.TRUE);
         Persona nuevaPersona= personaMembresia(postulanteExistente);
         Socio nuevoSocio = socioMembresia(postulanteExistente);

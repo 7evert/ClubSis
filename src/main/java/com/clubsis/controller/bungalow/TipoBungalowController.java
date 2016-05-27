@@ -22,10 +22,11 @@ public class TipoBungalowController {
         return servicioReservas.mostrarTiposBungalow();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public TipoBungalow get(@PathVariable Integer id) {
         // TODO: retornar un tipo de bungalow (llamar a un solo método del servicio que haga esto)
-        return null;
+        TipoBungalow tipoBungalow = servicioReservas.obtenerBungalow(id);
+        return tipoBungalow;
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -1,7 +1,10 @@
 package com.clubsis.controller.bungalow;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.bungalow.TipoBungalow;
+import com.clubsis.model.sede.Sede;
 import com.clubsis.service.ServicioReservas;
+import com.clubsis.service.ServicioSedes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,9 @@ public class BungalowController {
     @Autowired
     private ServicioReservas servicioReservas;
 
+    @Autowired
+    private ServicioSedes servicioSedes;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Bungalow> list() {
         return servicioReservas.mostrarBungalows();
@@ -28,13 +34,21 @@ public class BungalowController {
         return servicioReservas.buscarBungalow(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public Bungalow create(@RequestBody Bungalow bungalow,@PathVariable Integer id) {
+    @RequestMapping(value = "/{idTipoBungalow}/{idSede}", method = RequestMethod.POST)
+    public Bungalow create(@PathVariable Integer idTipoBungalow, @PathVariable Integer idSede, @RequestBody Bungalow bungalow) {
+        TipoBungalow tipoBungalow =  servicioReservas.obtenerBungalow(idTipoBungalow);
+        Sede sede = servicioSedes.buscarSede(idSede);
+        bungalow.setTipoBungalow(tipoBungalow);
+        bungalow.setSede(sede);
         return servicioReservas.crearBungalow(bungalow);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Bungalow update(@PathVariable Integer id, @RequestBody Bungalow bungalow) {
+    @RequestMapping(value = "/{id}/{idTipoBungalow}/{idSede}", method = RequestMethod.PUT)
+    public Bungalow update(@PathVariable Integer id, @PathVariable Integer idTipoBungalow, @PathVariable Integer idSede, @RequestBody Bungalow bungalow) {
+        TipoBungalow tipoBungalow =  servicioReservas.obtenerBungalow(idTipoBungalow);
+        Sede sede = servicioSedes.buscarSede(idSede);
+        bungalow.setTipoBungalow(tipoBungalow);
+        bungalow.setSede(sede);
         return servicioReservas.actualizarBungalow(id, bungalow);
     }
     //PPRUEBAS THE BLITZ

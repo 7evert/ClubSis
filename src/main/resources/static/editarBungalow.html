@@ -55,7 +55,7 @@
         }
     </style>
 </head>
-<body ng-controller="BungalowController">
+<body ng-controller="VerBungalowController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     <label for="sede" class="col-md-4 control-label">Sede</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="sede" name="sede" ng-model="sede">
+                        <select class="form-control" id="sede" name="sede" ng-model="bugalow.sede.id">
                         </select>
                     </div>
                 </div>
@@ -84,7 +84,9 @@
                 <div class="form-group">
                     <label for="tipoBungalow" class="col-md-4 control-label">Tipo de Bungalow</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipoBungalow" name="tipoBungalow" ng-model="tipoBungalow"></select>
+                        <select class="form-control" id="tipoBungalow" name="tipoBungalow"
+                                ng-model="bugalow.tipoBungalow.id">
+                        </select>
                     </div>
                 </div>
             </div>
@@ -92,7 +94,8 @@
                 <div class="form-group">
                     <label for="valoracion" class="col-md-4 control-label">Valoración</label>
                     <div class="col-md-8">
-                        <select id="valoracion" class="form-control" ng-model="valoracion.valor" ng-options="template.value as template.name for template in valoracion.valores">
+                        <select id="valoracion" class="form-control" ng-model="valoracion.valor"
+                                ng-options="template.value as template.name for template in valoracion.valores">
                         </select>
                     </div>
                 </div>
@@ -101,7 +104,8 @@
                 <div class="form-group">
                     <label for="piso" class="col-md-4 control-label">Piso</label>
                     <div class="col-md-8">
-                        <select id="piso" class="form-control" ng-model="piso.valor" ng-options="template.value as template.name for template in piso.valores">
+                        <select id="piso" class="form-control" ng-model="piso.valor"
+                                ng-options="template.value as template.name for template in piso.valores">
                         </select>
                     </div>
                 </div>
@@ -110,7 +114,8 @@
                 <div class="form-group">
                     <label for="precio" class="col-md-4 control-label">Precio</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="precio" id="precio" placeholder="Precio">
+                        <input type="text" class="form-control" ng-model="bungalow.precio" id="precio"
+                               placeholder="Precio">
                     </div>
                     <label class="col-md-4 control-label">nuevos soles</label>
                 </div>
@@ -119,7 +124,7 @@
                 <div class="form-group">
                     <label for="caracteristicas" class="col-md-2 control-label">Caracteristicas</label>
                     <div class="col-md-10">
-                        <textarea id="caracteristicas" ng-model="caracteristicas" class="form-control"
+                        <textarea id="caracteristicas" ng-model="bungalow.caracteristicas" class="form-control"
                                   rows="4"></textarea>
                     </div>
                 </div>
@@ -128,7 +133,8 @@
                 <div class="form-group">
                     <label for="descripcion" class="col-md-2 control-label">Descripción</label>
                     <div class="col-md-10">
-                        <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
+                        <textarea id="descripcion" ng-model="bungalow.descripcion" class="form-control"
+                                  rows="4"></textarea>
                     </div>
                 </div>
             </div>
@@ -136,7 +142,7 @@
                 <div class="form-group">
                     <label for="urlFoto" class="col-md-2 control-label">Archivo Adjunto</label>
                     <div class="col-md-10">
-                        <input id="urlFoto" ng-model="urlFoto" class="form-control">
+                        <input id="urlFoto" ng-model="bungalow.urlFoto" class="form-control">
                     </div>
                 </div>
             </div>
@@ -171,44 +177,46 @@
 <script src="js/principal.js"></script>
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
-    $("sede").click(
-            $.getJSON("/api/sedes", null, function (data) {
-                console.log(data);
-                $("#sede option").remove(); // Remove all <option> child tags.
-                $("#sede").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                $.each(data, function (index, item) { // Iterates through a collection
-                    $("#sede").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
-                    );
-                });
-            })
-    );
-    $("tipoBungalow").click(
-            $.getJSON("/api/tiposbungalow", null, function (data) {
-                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
-                $("#tipoBungalow").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                console.log(data);
-                $.each(data, function (index, item) { // Iterates through a collection
-                    $("#tipoBungalow").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
-                    );
-                });
-            })
-    );
+    $.getJSON("/api/sedes", null, function (data) {
+        console.log(data);
+        $("#sede option").remove(); // Remove all <option> child tags.
+        $("#sede").append( // Append an object to the inside of the select box
+                $("<option></option>") // Yes you can do this.
+                        .text("Elegir")
+                        .val(-1)
+        );
+        $.each(data, function (index, item) { // Iterates through a collection
+            $("#sede").append( // Append an object to the inside of the select box
+                    $("<option></option>") // Yes you can do this.
+                            .text(item.nombre)
+                            .val(item.id)
+            );
+        });
+    })
+
+    $.getJSON("/api/tiposbungalow", null, function (data) {
+        $("#tipoBungalow option").remove(); // Remove all <option> child tags.
+        $("#tipoBungalow").append( // Append an object to the inside of the select box
+                $("<option></option>") // Yes you can do this.
+                        .text("Elegir")
+                        .val(-1)
+        );
+        console.log(data);
+        $.each(data, function (index, item) { // Iterates through a collection
+            $("#tipoBungalow").append( // Append an object to the inside of the select box
+                    $("<option></option>") // Yes you can do this.
+                            .text(item.nombre)
+                            .val(item.id)
+            );
+        });
+    })
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
+    var idBungalow = ruta.substring(ruta.lastIndexOf('=') + 1);
+    console.log(idBungalow);
+    var valorValoracion = $('#valoracion').val();
+    var valorPiso = $('#piso').val();
     var app = angular.module('app', []);
-    app.controller('BungalowController', function ($scope, $http) {
+    app.controller('VerBungalowController', function ($scope, $http) {
         $scope.valoracion = {};
         $scope.piso = {};
         <!--<select id="tipoDocumento" class="form-control" ng-model="tipoDocumento.valor" ng-options="template.value as template.name for template in tipoDocumento.valores">-->
@@ -231,22 +239,37 @@
         $scope.valoracion.valor = $scope.valoracion.valores[0].value;
         $scope.piso.valor = $scope.piso.valores[0].value;
 
+        $scope.bungalow = [];
+        //Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
+        $http.get('/api/bungalows/' + idBungalow).success(function (data) {
+            console.log(data);
+            $scope.bungalow = data;
+            $("#sede").val(data.sede.id);
+            $("#tipoBungalow").val(data.tipoBungalow.id);
+            var strValoracion = "string:" + data.valoracion
+            $("#valoracion").val(strValoracion);
+            var strPiso = "string:" + data.piso;
+            $("#piso").val(strPiso);
+            console.log($scope.bungalow);
+        });
+
         $("#btnRegistrar").click(function () {
             $scope.registrarBungalow = function () {
                 var data = {
                     //por preguntar
                     //idSuspension: null,
+                    'id' : idBungalow,
                     'estado': 1,
-                    'descripcion': $scope.descripcion,
-                    'precio': parseFloat($scope.precio),
-                    'caracteristicas': $scope.caracteristicas,
-                    'piso': parseInt($scope.piso.valor),
-                    'valoracion': parseInt($scope.valoracion.valor),
-                    'descripcion': $scope.descripcion,
-                    'urlFoto': $scope.urlFoto,
+                    'descripcion': $scope.bungalow.descripcion,
+                    'precio': parseFloat($scope.bungalow.precio),
+                    'caracteristicas': $scope.bungalow.caracteristicas,
+                    'piso': valorPiso,
+                    'valoracion': valorValoracion,
+                    'descripcion': $scope.bungalow.descripcion,
+                    'urlFoto': $scope.bungalow.urlFoto,
                 };
                 console.log(data);
-                $http.post('/api/bungalows/' + $("#tipoBungalow").val() + '/' + $("#sede").val(), data).success(function (data) {
+                $http.put('/api/bungalows/' + idBungalow + '/' + $("#tipoBungalow").val() + '/' + $("#sede").val(), data).success(function (data) {
                     Notificaciones.showProcesando();
                     Notificaciones.hideAll();
                     setTimeout(function () {
@@ -260,7 +283,6 @@
             }();
         });
     });
-    //    });
 </script>
 </body>
 </html>
