@@ -52,6 +52,18 @@
     </style>
 </head>
 <body ng-controller="AcademiaController">
+<script type="text/javascript">
+    function edicionTaller(){
+        var id = event.target.parentNode.getAttribute("data-idTaller-modificar");
+        location.href = "VerTaller.html?id=" + id;
+    }
+    function accionEliminar() {
+        var id = event.target.parentNode.getAttribute("data-idTaller-eliminar");
+        console.log("Accion:");
+        console.log(id);
+        funciones.eliminar(id);
+    }
+</script>
 
 <script type="text/javascript">
     //app script
@@ -60,7 +72,7 @@
 
 <script type="text/javascript">
     var app = angular.module('app', []);
-
+    var funciones={};
     app.controller('AcademiaController', function ($scope, $http) {
         $http.get('/api/academias').success(function (data) {
 //            alert("2");
@@ -68,6 +80,20 @@
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
             console.log(data);
 
+        })
+
+        funciones.eliminar=(function (id) {
+            console.log("Quieres eliminar?");
+            //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+            console.log(id);
+            $http.get('/api/academias/' + id).success(function (data2, status) {
+                console.log(data2);
+                data2.estadoAcademia = 0;
+                $http.put("/api/academias/" + id, data2).success(function (data3, status) {
+                    alert("Este academia ya no esta habilitado");
+                    location.href = "administrarTalleres2.html";
+                });
+            });
         })
     });
 </script>
@@ -84,34 +110,34 @@
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE TALLERES</h4>
+    <!--<h4>CONSULTA DE TALLERES</h4>-->
 
-    <form class="form-horizontal">
-        <div class="row">
-
-
-
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">
-                    </div>
-                </div>
-            </div>
+    <!--<form class="form-horizontal">-->
+        <!--<div class="row">-->
 
 
-            <div class="col-sm-7 col-lg-7">
-            </div>
-            <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
-                </div>
-            </div>
-        </div>
-        <h4>RESULTADOS DE BUSQUEDA</h4>
+
+            <!--<div class="col-sm-6 col-lg-5">-->
+                <!--<div class="form-group">-->
+                    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
+                    <!--<div class="col-md-8">-->
+                        <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <!--<div class="col-sm-7 col-lg-7">-->
+            <!--</div>-->
+            <!--<div class="col-sm-5 col-lg-5">-->
+                <!--<div class="form-group" style="margin-left: 110px;">-->
+                    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <h4>LISTA DE TALLERES</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -120,8 +146,8 @@
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller
-            |
+            <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
+            <!--|-->
             <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
         </div>
     </form>
@@ -180,7 +206,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="verTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>';
+        acciones = '<a href="#" onclick="edicionTaller();return false;" id="bt1" class="btn btn-warning" data-idTaller-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#" onclick="accionEliminar();return false;" id="bt2"  class="btn btn-warning" data-idTaller-eliminar="' + rowdata['id'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }
@@ -191,60 +218,5 @@
         this.disabled = 'true';
     });
 </script>
-<!--<script type="text/javascript">-->
-    <!--$("#jqGrid").jqGrid({-->
-        <!--url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta-->
-        <!--mtype: "GET",-->
-        <!--styleUI: 'Bootstrap',-->
-        <!--datatype: "jsonp",-->
-        <!--gridview: true,-->
-        <!--emptyrecords: 'No se encontraron resultados',-->
-        <!--//Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos-->
-        <!--colModel: [-->
-            <!--{index: 'idProducto', name: 'idProducto', hidden: true, width: 75},-->
-            <!--{index: 'N°', name: 'OrderID', align: 'center', width: 40},-->
-            <!--{index: 'Producto', name: 'CustomerID', align: 'center', width: 150},-->
-            <!--{index: 'Tipo de Producto', name: 'CustomerID', align: 'center', width: 150},-->
-            <!--{index: 'Proveedor', name: 'CustomerID', align: 'center', width: 150},-->
-            <!--{index: 'Sede', name: 'CustomerID', align: 'center', width: 150},-->
-            <!--{index: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},-->
-            <!--{index: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},-->
-            <!--{index: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},-->
-            <!--{index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}-->
-        <!--],-->
-        <!--colNames: [-->
-            <!--'idProducto', 'N°', 'Producto', 'Tipo de Producto', 'Proveedor', 'Sede', 'Stock Mínimo', 'Stock Máximo', 'Stock Actual', 'Acciones'-->
-        <!--],-->
-        <!--viewrecords: true,-->
-        <!--height: 400,-->
-        <!--rowNum: 20,-->
-        <!--pager: "#jqGridPager",-->
-        <!--loadComplete: function () {-->
-            <!--$('.icono-modificar').click(function () {-->
-                <!--alert("Modificando bungalow");-->
-                <!--var idActividad = $(this).attr('data-idBungalow-modificar');-->
-                <!--console.log("Id bungalow modificando: " + $(this).attr('data-idBungalow-modificar'));-->
-            <!--});-->
-            <!--$('.icono-ver').click(function () {-->
-                <!--alert("Ver bungalow");-->
-                <!--var idActividad = $(this).attr('data-idBungalow-ver');-->
-                <!--console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));-->
-            <!--});-->
-            <!--$('.icono-eliminar').click(function () {-->
-                <!--alert("Eliminando bungalow");-->
-                <!--var idActividad = $(this).attr('data-idBungalow-eliminar');-->
-                <!--console.log("Id bungalow eliminando: " + $(this).attr('data-idBungalow-eliminar'));-->
-            <!--});-->
-        <!--}-->
-    <!--});-->
-    <!--$('#jqGrid').jqGrid('setGridWidth', '900');-->
-    <!--function acciones(cellValue, options, rowdata, action) {-->
-        <!--var acciones = '';-->
-        <!--acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['OrderID'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +-->
-                <!--'<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['OrderID'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +-->
-                <!--'<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['OrderID'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';-->
-        <!--return acciones;-->
-    <!--}-->
-<!--</script>-->
 </body>
 </html>

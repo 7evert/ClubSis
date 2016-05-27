@@ -1,30 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="app2">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis - Administrar Talleres</title>
+    <title>Administrar Talleres</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
-    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
-    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
+
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
+
+        .center .ui-jqgrid {
+            width: 1100px; margin-left: auto; margin-right: auto;
+        }
+
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
+
         .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
@@ -33,9 +52,11 @@
             background-color: #ededed;
             border-color: #ededed;
         }
+
         .icono {
             width: 19px;
         }
+
         h4 {
             background: #008D34;
             color: white;
@@ -45,32 +66,115 @@
             padding-bottom: 2px;
             margin-top: 0px;
         }
+
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
     </style>
-</head>
-<body ng-controller="AcademiaController">
 
+
+    <script type="text/javascript">
+
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+
+        function mostraridEvento(id){
+            $("#idEvento").html("Evento Numero "+id);
+        }
+        function mostrarNombre(nombre){
+            $("#nombre").html(nombre);
+        }
+
+        Date.prototype.ddmmyyyy = function() {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = this.getDate().toString();
+            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+        };
+
+        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
+            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
+            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
+            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
+            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
+        }
+        function mostrarTarifas(tarifas){
+            var b=new Array();
+            var tarifasul=$("#tarifas");
+            for(var i=0;i<tarifas.length;i++)
+                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
+            for(var j=0;j<b.length;j++)
+                tarifasul.append(b[j]);
+        }
+        function mostrarRegYDescripcion(reglamento, descripcion){
+            $("#reglamento").html("Reglamento: "+reglamento);
+            $("#descripcion").html("Descripcion: <br>"+descripcion);
+        }
+        function mostrarImagen(url){
+            $("#imgEvento").attr({src:url});
+        }
+        function mostrarEstGratYPub(estado,isGratuito,isPublico){
+            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
+        }
+        function mostrarSede(sede){
+            $("#sede").html(sede.nombre);
+        }
+    </script>
+    <script type="text/javascript">
+        function llenarDatosTaller(data2) {
+            $("#nombre").val(data2.nombre);
+            $("#url").val(data2.url);
+            $("#descripcion").val(data2.descripcion);
+            $("#estadoAcademia").val(data2.estadoAcademia);
+
+        }
+        function getTaller(id){
+            return {
+                id:id,
+                nombre: $("#nombre").val(),
+                url: $("#url").val(),
+                descripcion: $("#descripcion").val(),
+                estadoAcademia: parseInt($("#estadoAcademia").val())
+            };
+        }
+    </script>
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+        app2.controller('edicionAcademiaController', function ($scope, $http) {
+            var id = getID();
+            console.log(id);
+            if(id==undefined){
+                //location.href="administrarProveedores1.html"
+            }
+            $http.get('/api/academias/'+id).success(function (data2, status) {
+                console.log(data2);
+                llenarDatosTaller(data2);
+            });
+
+            $("#guardar").click(function(){
+                var data=getTaller(id);
+                console.log(JSON.stringify(data));
+                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+                    alert("Tu actualizacion fue exitosa");
+                    location.href = "VerTaller.html";
+                });
+            });
+            $("#cancelar").click(function(){
+                location.href = "VerTaller.html";
+            });
+        });
+    </script>
+</head>
+<body ng-controller="edicionAcademiaController">
 <script type="text/javascript">
     //app script
     var app = angular.module('app', []);
 </script>
 
-<script type="text/javascript">
-    var app = angular.module('app', []);
-
-    app.controller('AcademiaController', function ($scope, $http) {
-        $http.get('/api/academias/1').success(function (data) {
-//            alert("2");
-            //    api/tarifaeventos
-            //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
-            console.log(data);
-
-        })
-    });
-</script>
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -87,35 +191,70 @@
 
     <form class="form-horizontal">
         <div class="row">
-
-
-
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="nombre" class="col-md-4 control-label">Nombre</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" value="Voley">
+                        <input type="text" id="nombre" class="form-control col-xs-8" ng-model="nombre" placeholder="Escriba el nombre..." required/>
                     </div>
                 </div>
             </div>
-
-
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="estadoAcademia" class="col-md-4 control-label">Estado</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="estadoAcademia" id="estadoAcademia">
+                            <option value="-1">INHABILITADO</option>
+                            <option value="1">HABILITADO</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="url" class="col-md-4 control-label">URL</label>
+                    <div class="col-md-8">
+                        <input type="text" id="url" class="form-control col-xs-8" ng-model="url" placeholder="Escriba el nombre..." required/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-10">
+                <div class="form-group">
+                    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+                    <div class="col-md-10">
+                        <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <!--<div class="form-group" style="margin-left: 110px;">-->
-                    <!--<a href="loginAdministrador.html.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
-                <!--</div>-->
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrarTaller">Registrar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                </div>
             </div>
+
         </div>
         <h4>DATOS DEL TALLER SELECCIONADO</h4>
-        <p>Se mostran todos los datos del taller escogido anteriormente.</p>
-        <hr/>
+
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
+            |
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+        </div>
+
+        <h4>HORARIOS DEL TALLER SELECCIONADO</h4>
+
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid1"></table>
+            <div id="jqGridPager1"></div>
         </div>
         <br>
         <div class="leyenda">
@@ -140,19 +279,23 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/academias/1',
+        url: '/api/academias/',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Nombre de Academia','Descripcion','Estado','Acciones'], //define column names
+        colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'nombre', index:'nombre', width:100},
-            {name:'descripcion', index:'descripcion',width:300},
-            {name:'estadoAcademia', index:'estadoAcademia', width:100},
-            {name: 'acciones', width: 80, align: 'center', formatter: acciones},
+            {name:'capacidad', index:'capacidad',width:100},
+            {name:'estadoClase', index:'estadoClase', width:100},
+            {name:'nivel', index:'nivel', width:100},
+            {name:'precioCiclo', index:'precioCiclo', width:100},
+            {name:'precioMes', index:'precioMes', width:100},
+            {name:'rangoEdad', index:'rangoEdad', width:100},
+            {name: 'acciones', width: 50, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
         height: 300,
@@ -164,6 +307,35 @@
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    $("#jqGrid1").jqGrid({
+        url: '/api/academias/',
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "json",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names
+        colModel:[
+            {name:'id', index:'id', key: true, width:50},
+            {name:'dia', index:'dia', width:100},
+            {name:'estadoHorario', index:'estadoHorario',width:100},
+            {name:'horaInicio', index:'horaInicio', width:100},
+            {name:'horaFin', index:'horaFin', width:100},
+            {name:'Ciclo', index:'Ciclo', width:100},
+            {name:'Instalación', index:'Instalación', width:100},
+            {name: 'acciones', width: 50, align: 'center', formatter: acciones},
+        ],
+        viewrecords: true,
+        height: 300,
+        rowNum: 1000,
+        pager: "#jqGridPager",
+        loadComplete:function(){
+            console.log("salio");
+        }
+    });
+
+    $('#jqGrid1').jqGrid('setGridWidth', '900');
 
 
     $.extend(true, $.jgrid.edit, {
