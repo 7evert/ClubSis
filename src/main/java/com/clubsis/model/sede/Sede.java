@@ -24,7 +24,7 @@ public class Sede {
     private String direccion;
     private String descripcion;
     private String telefono;
-
+    private String administrador;
     @JsonIgnore
     @OneToMany(mappedBy = "sede",cascade=CascadeType.ALL)
     private Set<Bungalow> bungalows;
@@ -42,15 +42,16 @@ public class Sede {
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, String descripcion, String telefono, Set<Evento> eventos, Set<Bungalow> bungalows, Set<OrdenCompra> ordenes, Set<Proveedor> proveedores) {
+    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
         this.telefono = telefono;
-        this.eventos = eventos;
+        this.administrador = administrador;
         this.bungalows = bungalows;
-        this.ordenes = ordenes;
+        this.eventos = eventos;
         this.proveedores = proveedores;
+        this.ordenes = ordenes;
     }
 
     public Integer getId() {
@@ -91,6 +92,14 @@ public class Sede {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(String administrador) {
+        this.administrador = administrador;
     }
 
     public Set<Bungalow> getBungalows() {
