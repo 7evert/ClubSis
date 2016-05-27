@@ -34,7 +34,7 @@ public class Sede {
     private Set<Evento> eventos = new HashSet<>();
 
     @ManyToMany
-    private Set<Proveedor> proveedores;
+    private Set<Proveedor> proveedores = new HashSet<>();
 
     @OneToMany(mappedBy = "sede")
     @JsonIgnore

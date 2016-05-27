@@ -4,8 +4,11 @@ import com.clubsis.model.sede.Sede;
 import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -26,7 +29,7 @@ public class OrdenCompra {
     private Proveedor proveedor;
 
     @ManyToMany
-    private Set<Producto> productos;
+    private Set<Producto> productos = new HashSet<>();
 
     @ManyToOne
     private Sede sede;
