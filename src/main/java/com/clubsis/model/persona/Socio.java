@@ -69,8 +69,9 @@ public class Socio {
     public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, Set<PagoMembresia> pagosMembresia, TipoSocio tipo) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
-        this.invitados = invitados;
         this.codigoCarnet = codigoCarnet;
+        this.invitados = invitados;
+        this.personas = personas;
         this.postulantes = postulantes;
         this.pagos = pagos;
         this.cuotasExtraordinarias = cuotasExtraordinarias;

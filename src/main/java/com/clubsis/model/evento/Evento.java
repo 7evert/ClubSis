@@ -55,21 +55,22 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<Persona> personas, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.reglamento = reglamento;
-        this.url = url;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.url = url;
         this.isGratuito = isGratuito;
-        this.nombre = nombre;
         this.isPublico = isPublico;
-        this.personas = personas;
-        this.tarifaEventos = tarifaEventos;
+        this.nombre = nombre;
+        this.capacidad = capacidad;
         this.empresas = empresas;
+        this.tarifaxEventos = tarifaxEventos;
+        this.invitados = invitados;
         this.sede = sede;
     }
 
@@ -111,6 +112,14 @@ public class Evento {
 
     public void setEstado(EstadoEvento estado) {
         this.estado = estado;
+    }
+
+    public String getReglamento() {
+        return reglamento;
+    }
+
+    public void setReglamento(String reglamento) {
+        this.reglamento = reglamento;
     }
 
     public Date getFechaInicioInscripcion() {

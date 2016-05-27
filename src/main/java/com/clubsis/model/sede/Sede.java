@@ -26,11 +26,11 @@ public class Sede {
     private String telefono;
     private String administrador;
     @JsonIgnore
-    @OneToMany(mappedBy = "sede",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
     private Set<Bungalow> bungalows;
 
     @JsonIgnore
-    @OneToMany(mappedBy ="sede",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
     private Set<Evento> eventos = new HashSet<>();
 
     @ManyToMany
@@ -48,7 +48,7 @@ public class Sede {
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
+    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
@@ -58,6 +58,7 @@ public class Sede {
         this.eventos = eventos;
         this.proveedores = proveedores;
         this.ordenes = ordenes;
+        this.instalaciones = instalaciones;
     }
 
     public Integer getId() {
@@ -146,21 +147,5 @@ public class Sede {
 
     public void setInstalaciones(Set<Instalacion> instalaciones) {
         this.instalaciones = instalaciones;
-    }
-
-    public Set<Proveedor> getProveedores() {
-        return proveedores;
-    }
-
-    public void setProveedores(Set<Proveedor> proveedores) {
-        this.proveedores = proveedores;
-    }
-
-    public Set<OrdenCompra> getOrdenes() {
-        return ordenes;
-    }
-
-    public void setOrdenes(Set<OrdenCompra> ordenes) {
-        this.ordenes = ordenes;
     }
 }
