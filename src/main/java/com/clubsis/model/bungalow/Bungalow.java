@@ -34,7 +34,7 @@ public class Bungalow {
     @JsonIgnore
     private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
 
-    @OneToMany(mappedBy = "sorteo")
+    @OneToMany(mappedBy = "bungalow")
     @JsonIgnore
     private Set<Sorteo> sorteos;
 

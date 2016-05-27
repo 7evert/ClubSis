@@ -11,6 +11,7 @@ import java.util.Set;
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class RegistroClase {
     @Id
     @GeneratedValue

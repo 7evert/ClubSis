@@ -1,6 +1,8 @@
 package com.clubsis.controller.persona;
 
+import com.clubsis.model.persona.Socio;
 import com.clubsis.service.ServicioMembresias;
+import com.clubsis.service.ServicioPagos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +18,17 @@ public class MembresiaController {
     @Autowired
     private ServicioMembresias servicioMembresias;
 
-    @RequestMapping(value = "{id}",method = RequestMethod.POST)
+    @Autowired
+    private ServicioPagos servicioPagos;
+
+    //esto recibe el id del postulante
+    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
     public void create(@PathVariable Integer id){
-        servicioMembresias.crearMembresia(id);
+        Socio nuevoSocio = servicioMembresias.crearMembresia(id);
+        servicioPagos.primerPago(nuevoSocio);
     }
 
-    @RequestMapping(value = "{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
     public void update(@PathVariable Integer id){
         // TODO: reincorporar o suspender a un socio
     }

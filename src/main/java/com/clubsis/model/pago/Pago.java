@@ -20,7 +20,6 @@ public class Pago {
     private Date fechaAnulacion;
     private TipoPago tipoPago;
 
-    // TODO: ¿Mascapo, qué es "valoración"?
     private String valoracion;
 
     @ManyToOne(fetch = FetchType.EAGER)

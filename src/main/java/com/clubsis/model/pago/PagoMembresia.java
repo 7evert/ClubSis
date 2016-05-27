@@ -29,15 +29,15 @@ public class PagoMembresia {
     protected PagoMembresia() {
     }
 
-    public PagoMembresia(Integer id, Date fechaVencimiento, Double montoPago, EstadoPagoMembresia estado, Date fechaPago, Date fechaAnulacion, Socio socio) {
-        this.id = id;
+    public PagoMembresia(Date fechaVencimiento, EstadoPagoMembresia estado, Double montoPago, Date fechaPago, Socio socio, Date fechaAnulacion) {
         this.fechaVencimiento = fechaVencimiento;
-        this.montoPago = montoPago;
         this.estado = estado;
+        this.montoPago = montoPago;
         this.fechaPago = fechaPago;
-        this.fechaAnulacion = fechaAnulacion;
         this.socio = socio;
+        this.fechaAnulacion = fechaAnulacion;
     }
+
 
     public Integer getId() {
         return id;

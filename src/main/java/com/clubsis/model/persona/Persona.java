@@ -32,11 +32,9 @@ public class Persona {
     private Boolean esTitular;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_socio")
     private Socio socio;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_usuario")
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")

@@ -1,9 +1,8 @@
 package com.clubsis.service;
 
-import com.clubsis.model.pago.Cuota;
-import com.clubsis.model.pago.CuotaExtraordinaria;
-import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
+import com.clubsis.model.pago.*;
+import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.TipoSocio;
 import com.clubsis.repository.pago.CuotaExtraordinariaRepository;
 import com.clubsis.repository.pago.CuotaRepository;
 import com.clubsis.repository.pago.PagoMembresiaRepository;
@@ -12,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,6 +76,19 @@ public class ServicioPagos {
         Pago pagoExistente = pagoRepository.findOne(id);
         BeanUtils.copyProperties(pago,pagoExistente);
         return pagoRepository.saveAndFlush(pagoExistente);
+    }
+
+
+    //ADICIONALES
+
+    public PagoMembresia primerPago(Socio socio) {
+        Date fechaInicial = new Date();
+        Date fechaFinal = new Date();
+        fechaFinal.setTime(fechaInicial.getTime() + 7 * 24 * 60 * 60 * 1000);
+        Double pago= socio.getTipo().getCostoInicial()+socio.getTipo().getCostoMembresia();
+        PagoMembresia nuevoPago = new PagoMembresia(fechaFinal, EstadoPagoMembresia.REGISTRADO,pago,fechaInicial,socio,null);
+        pagoMembresiaRepository.saveAndFlush(nuevoPago);
+        return nuevoPago;
     }
 
 

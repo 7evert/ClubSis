@@ -7,7 +7,9 @@ import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.pago.Pago;
 import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
+import com.clubsis.model.sede.ReservaInstalacion;
 import com.clubsis.repository.club.UsuarioRepository;
+import com.clubsis.repository.pago.PagoMembresiaRepository;
 import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class ServicioMembresias {
 
     @Autowired
     private TipoSocioRepository tipoSocioRepository ;
+
+    @Autowired
+    private PagoMembresiaRepository pagoMembresiaRepository;
 
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
@@ -108,7 +113,7 @@ public class ServicioMembresias {
         List<TipoSocio> tiposSocio = tipoSocioRepository.findAll();
         TipoSocio resultado=null;
         for(TipoSocio item: tiposSocio){
-            if(item.getIngresoMinimo()<ingreso) resultado=item;
+            if(item.getIngresoMinimo()<=ingreso) resultado=item;
         }
         return resultado;
     }
@@ -126,26 +131,27 @@ public class ServicioMembresias {
     public Socio socioMembresia(Postulante postulanteExistente){
         TipoSocio tipo = seleccionarTipoSocio(postulanteExistente.getIngresosMensuales());
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Persona>()
-                ,new HashSet<Invitado>(),new HashSet<Socio_Postulante>(),new HashSet<PagoMembresia>()
-                ,new HashSet<Pago>(),new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),tipo);
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
+                ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
+                ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
+                new HashSet<ReservaInstalacion>(),new HashSet<PagoMembresia>(),tipo);
         return nuevoSocio;
     }
 
 
-    public void crearMembresia(Integer idPostulante){
+    public Socio crearMembresia(Integer idPostulante){
         Postulante postulanteExistente = postulanteRepository.findOne(idPostulante);
         postulanteExistente.setEsAprobado(EstadoPostulante.APROBADO);
         postulanteExistente.setEsActivo(Boolean.FALSE);
         Persona nuevaPersona= personaMembresia(postulanteExistente);
         Socio nuevoSocio = socioMembresia(postulanteExistente);
-        personaRepository.saveAndFlush(nuevaPersona);
         nuevaPersona.setSocio(socioRepository.saveAndFlush(nuevoSocio));
         personaRepository.saveAndFlush(nuevaPersona);
         // Solo la persona muestra a que socio esta asociada
         //nuevoSocio.getPersonas().add(nuevaPersona);
         //socioRepository.saveAndFlush(nuevoSocio);
         postulanteRepository.saveAndFlush(postulanteExistente);
+        return nuevoSocio;
     }
 
 
