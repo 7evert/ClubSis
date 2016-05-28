@@ -140,18 +140,22 @@
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
+                    var mensaje="Tu aprobacion de membresia se realizó satisfactoriamente.";
                     for (var i = 0; i < selectedIDs.length; i++) {
                         var data= selectedIDs[i];
                         $http.post('/api/membresias/'+ data).success(function (data ) {
                             result += selectedIDs[i] + ",";
+                            flag=true
                             console.log(JSON.stringify(data));
+
                         }).error(function (data2) {
                             console.log(JSON.stringify(data));
-                            alert("Tu aprobacion de membresa de "+ data+" no se pudo realizar.");
+                            mensaje="Tu aprobacion de membresa de no se pudo realizar.";
                         });
                         result += selectedIDs[i] + ",";
                     }
-                    alert("Se pudo aprobar todas las solicitudes");
+                        alert(mensaje);
+                        window.location="aprobarMembresia.html";
                 }
             }
         });
