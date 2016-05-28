@@ -43,7 +43,7 @@ public class Postulante {
     protected Postulante() {
     }
 
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer celular, Integer telefonoCasa, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio_Postulante> socios) {
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio_Postulante> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -51,22 +51,29 @@ public class Postulante {
         this.numeroDocumento = numeroDocumento;
         this.fechaNacimiento = fechaNacimiento;
         this.estadoCivil = estadoCivil;
-        this.direccion = direccion;
         this.numeroHijos = numeroHijos;
-        this.celular = celular;
+        this.direccion = direccion;
         this.telefonoCasa = telefonoCasa;
+        this.celular = celular;
         this.telefonoTrabajo = telefonoTrabajo;
         this.profesion = profesion;
         this.ingresosMensuales = ingresosMensuales;
         this.nombreEmpresa = nombreEmpresa;
         this.correo = correo;
         this.fechaPostulacion = fechaPostulacion;
-        this.esAprobado=esAprobado;
+        this.esAprobado = esAprobado;
         this.esActivo = esActivo;
         this.esPeriodoObjeciones = esPeriodoObjeciones;
         this.socios = socios;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -204,19 +211,11 @@ public class Postulante {
         this.fechaPostulacion = fechaPostulacion;
     }
 
-    public Set<Socio> getSocios() {
-        return socios;
-    }
-
-    public void setSocios(Set<Socio> socios) {
-        this.socios = socios;
-    }
-
-    public Boolean getEsAprobado() {
+    public EstadoPostulante getEsAprobado() {
         return esAprobado;
     }
 
-    public void setEsAprobado(Boolean esAprobado) {
+    public void setEsAprobado(EstadoPostulante esAprobado) {
         this.esAprobado = esAprobado;
     }
 
@@ -236,23 +235,11 @@ public class Postulante {
         this.esPeriodoObjeciones = esPeriodoObjeciones;
     }
 
-    public Integer getId() {
-        return id;
+    public Set<Socio_Postulante> getSocios() {
+        return socios;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Set<Socio_Postulante> getSocios() {return socios;}
-
-    public void setSocios(Set<Socio_Postulante> socios) {this.socios = socios;}
-
-    public EstadoPostulante getEsAprobado() {
-        return esAprobado;
-    }
-
-    public void setEsAprobado(EstadoPostulante esAprobado) {
-        this.esAprobado = esAprobado;
+    public void setSocios(Set<Socio_Postulante> socios) {
+        this.socios = socios;
     }
 }
