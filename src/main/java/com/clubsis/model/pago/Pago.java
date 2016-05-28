@@ -29,7 +29,7 @@ public class Pago {
     @OneToMany(mappedBy = "pago")
     private Set<Cuota> cuotas;
 
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas, Evento evento) {
+    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
         this.numeroCuotas = numeroCuotas;
         this.mora = mora;
         this.montoTotal = montoTotal;
@@ -38,11 +38,10 @@ public class Pago {
         this.valoracion = valoracion;
         this.socio = socio;
         this.cuotas = cuotas;
-        this.evento = evento;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Evento evento;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    private Evento evento;
 
     protected Pago() {
     }
@@ -118,13 +117,5 @@ public class Pago {
 
     public void setCuotas(Set<Cuota> cuotas) {
         this.cuotas = cuotas;
-    }
-
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
     }
 }
