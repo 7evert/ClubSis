@@ -1,5 +1,9 @@
 package com.clubsis.model.sede;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
 import com.clubsis.model.clase.Horario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,18 +19,27 @@ public class Instalacion {
     @Id
     @GeneratedValue
     private Integer id;
-    private String descripcion;
+    private String nombre;
+    private String caracteristicas;
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
-    private Integer estado;
+    private String estado;
+
+    @ManyToOne
+    private Sede sede; // necesaria (composición)
+/*
+    @OneToMany(fetch=FetchType.EAGER,mappedBy = "instalacion")
+    @JsonIgnore
+    private Set<Horario> horarios;
+*/
+    @OneToMany(mappedBy = "instalacion")
+    @JsonIgnore
+    private Set<ReservaInstalacion> reservaInstalacionSet; // no es necesario al inicio (vacío)
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "instalacion")
     @JsonIgnore
     private Set<Horario> horarios;
-
-    @ManyToOne
-    private Sede sede;
 
     @OneToMany(mappedBy = "instalacion")
     private Set<ReservaInstalacion> reservas;
@@ -34,14 +47,17 @@ public class Instalacion {
     protected Instalacion() {
     }
 
-    public Instalacion(String descripcion, String referencia, Integer capacidad, Double precioReserva, Integer estado, Set<Horario> horarios, Sede sede, Set<ReservaInstalacion> reservas) {
-        this.descripcion = descripcion;
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, String estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Sede sede1, Set<ReservaInstalacion> reservas) {
+        this.nombre = nombre;
+        this.caracteristicas = caracteristicas;
         this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
         this.estado = estado;
-        this.horarios = horarios;
         this.sede = sede;
+        this.reservaInstalacionSet = reservaInstalacionSet;
+        this.horarios = horarios;
+        this.sede = sede1;
         this.reservas = reservas;
     }
 
@@ -53,12 +69,20 @@ public class Instalacion {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public void setCaracteristicas(String caracteristicas) {
+        this.caracteristicas = caracteristicas;
     }
 
     public String getReferencia() {
@@ -85,20 +109,12 @@ public class Instalacion {
         this.precioReserva = precioReserva;
     }
 
-    public Integer getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public Set<Horario> getHorarios() {
-        return horarios;
-    }
-
-    public void setHorarios(Set<Horario> horarios) {
-        this.horarios = horarios;
     }
 
     public Sede getSede() {
@@ -115,5 +131,21 @@ public class Instalacion {
 
     public void setReservas(Set<ReservaInstalacion> reservas) {
         this.reservas = reservas;
+    }
+
+    public Set<ReservaInstalacion> getReservaInstalacionSet() {
+        return reservaInstalacionSet;
+    }
+
+    public void setReservaInstalacionSet(Set<ReservaInstalacion> reservaInstalacionSet) {
+        this.reservaInstalacionSet = reservaInstalacionSet;
+    }
+
+    public Set<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(Set<Horario> horarios) {
+        this.horarios = horarios;
     }
 }

@@ -24,7 +24,3 @@ var Notificaciones = (function () {
         }
     };
 })();
-
-$(function () {
-    
-});

@@ -1,6 +1,7 @@
 package com.clubsis.model.pago;
 
 import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,13 @@ public class PagoMembresia {
     @Id
     @GeneratedValue
     private Integer id;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaVencimiento;
     private Double montoPago;
     private EstadoPagoMembresia estado;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaPago;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaAnulacion;
 
     @ManyToOne

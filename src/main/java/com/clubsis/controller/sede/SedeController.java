@@ -27,7 +27,10 @@ public class SedeController {
     private ServicioEventos servicioEventos;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Sede> list() {return servicioSedes.mostrarSedes();}
+    public List<Sede> list() {
+        List<Sede> lstSedes = servicioSedes.mostrarSedes();
+        return servicioSedes.mostrarSedes();
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Sede create(@RequestBody Sede sede) { return servicioSedes.crearSede(sede); }

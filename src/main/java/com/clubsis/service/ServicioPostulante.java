@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,15 @@ public class ServicioPostulante {
     private PostulanteRepository postulanteRepository;
 
     //Postulante
-    public List<Postulante> mostrarPostulantes(){ return postulanteRepository.findAll(); }
+    public List<Postulante> mostrarPostulantes(){
+        List<Postulante> postulantes = postulanteRepository.findAll();
+        List<Postulante> postulanteFiltrados = new ArrayList<Postulante>();
+        for(Postulante item : postulantes){
+            if(item.getEsActivo()==true)
+                postulanteFiltrados.add(item);
+        }
+        return postulanteFiltrados;
+    }
     public Postulante buscarPostulante(Integer id) {return postulanteRepository.findOne(id);}
     public Postulante crearPostulante(Postulante postulante) {return postulanteRepository.saveAndFlush(postulante);}
 

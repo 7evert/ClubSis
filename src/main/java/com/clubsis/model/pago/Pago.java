@@ -1,5 +1,6 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
 
 import javax.persistence.*;
@@ -28,9 +29,6 @@ public class Pago {
     @OneToMany(mappedBy = "pago")
     private Set<Cuota> cuotas;
 
-    protected Pago() {
-    }
-
     public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
         this.numeroCuotas = numeroCuotas;
         this.mora = mora;
@@ -41,6 +39,13 @@ public class Pago {
         this.socio = socio;
         this.cuotas = cuotas;
     }
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    private Evento evento;
+
+    protected Pago() {
+    }
+
 
     public Integer getId() {
         return id;

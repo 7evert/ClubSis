@@ -87,7 +87,7 @@
             ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0
             ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
             ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
-            ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,8)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
+            ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,7)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
             ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);

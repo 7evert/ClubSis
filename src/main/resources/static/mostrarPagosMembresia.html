@@ -97,13 +97,17 @@
         //                }
         //            };
         //        });
-
+        var persona,nombreSocio;
         appAprobarMembresia.controller('MembresiaController', function ($scope, $http) {
-            $http.get('/api/postulantes').then(function (respuesta) {
-                //datosUrl=respuesta.data;
-                var datosUrl= $.grep(respuesta.data, function (element, index) {
-                    return element.esActivo == true;
-                });
+            $http.get('/api/socios/1/personas').then(function (respuesta) {
+                persona=respuesta.data;
+                nombreSocio=persona.nombre+" "+persona.apellidoPaterno;
+                $scope.hola=nombreSocio;
+            });
+            $http.get('/api/pagosMembresias').then(function (respuesta) {
+                datosUrl=respuesta.data;
+
+
                 $("#jqGrid").jqGrid({
                     data: datosUrl,
                     mtype: "GET",
@@ -114,50 +118,20 @@
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
                         { label: 'ID', name: 'id', key: true, hidden:true,width: 75},
-                        { label: 'Nombre', name: 'nombre', align: 'center', width: 70 },
-                        { label: 'Apellido Paterno', name: 'apellidoPaterno', align: 'center', width: 100 },
-                        { label: 'Apellido Materno', name: 'apellidoMaterno', align: 'center', width: 100 },
-                        { label: 'Correo', name: 'correo', align: 'center', width: 120 },
-                        { label: 'Tipo Doc.', name: 'tipoDocumento', align: 'center', width: 80 },
-                        { label: 'Numero Doc.', name: 'numeroDocumento', align: 'center', width: 100 },
-                        { label: 'Fecha Postulación', name: 'fechaPostulacion', align: 'center', width: 120 },
-                        { label: 'Ver', name: 'acciones', width: 50, align: 'center', formatter: acciones},
+                        { label: 'ID del Socio', name: 'socio.id', align: 'center', width: 100 },
+                        { label: 'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
+                        { label: 'Monto', name: 'montoPago', align: 'center', width: 120 },
+                        { label: 'Fecha de Pago', name: 'fechaPago', align: 'center', width: 80 },
+                        { label: 'Fecha de anulación', name: 'fechaAnulacion', align: 'center', width: 100 },
+                        //{ label: 'Ver', name: 'acciones', width: 50, align: 'center', formatter: acciones},
                     ],
                     viewrecords: true,
                     height: "auto",
                     width: 900,
                     rowNum: 10,
-                    multiselect: true,
                     pager: "#jqGridPager"
                 });
             })
-            $scope.enviarAprobacion =function (){
-                var grid = $("#jqGrid");
-                var rowKey = grid.getGridParam("selrow");
-
-                if (!rowKey)
-                    alert("No hay postulante seleccionado");
-                else {
-                    var selectedIDs = grid.getGridParam("selarrrow");
-                    var result = "";
-                    var mensaje="Tu aprobacion de membresia se realizó satisfactoriamente.";
-                    for (var i = 0; i < selectedIDs.length; i++) {
-                        var data= selectedIDs[i];
-                        $http.post('/api/membresias/'+ data).success(function (data ) {
-                            result += selectedIDs[i] + ",";
-                            flag=true
-                            console.log(JSON.stringify(data));
-
-                        }).error(function (data2) {
-                            console.log(JSON.stringify(data));
-                            mensaje="Tu aprobacion de membresa de no se pudo realizar.";
-                        });
-                        result += selectedIDs[i] + ",";
-                    }
-                        alert(mensaje);
-                        window.location="aprobarMembresia.html";
-                }
-            }
         });
     </script>
 
@@ -165,71 +139,11 @@
 <body>
 <div id="headerAdministrador"></div>
 <div class="container" ng-app="appAprobarMembresia" ng-controller="MembresiaController">
-    <h2>Aprobación de membresía</h2>
-
+    <h2>Pagos</h2>
     <hr>
     <form id="formFiltrado" class="form-horizontal">
-        <!--<h4>FILTRO DE BÚSQUEDA</h4>-->
-        <!--<div class="row">-->
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del Socio">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="appPaterno" class="col-md-4 control-label">Apellido Paterno</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="appPaterno" placeholder="Apellido Paterno del Socio">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="appMaterno" class="col-md-4 control-label">Apellido Materno</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="appMaterno" placeholder="Apellido Materno del Socio">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="dni" class="col-md-4 control-label">Número de Doc.</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="dni" placeholder="DNI del Socio">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="correo" class="col-md-4 control-label">Correo</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="correo" placeholder="Correo del Socio">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="fecha" class="col-md-4 control-label">Fecha Postulación</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="fecha" placeholder="Nombre del Socio">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-7 col-lg-7">-->
-            <!--</div>-->
-            <!--<div class="col-sm-5 col-lg-5">-->
-                <!--<div class="form-group" style="margin-left: 60px;">-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary">Buscar</a>-->
-                    <!--<button onclick="limpiarF()" class="btn btn-primary">Limpiar</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <h4>LISTADO DE POSTULANTES</h4>
-        <h5>Seleccione los postulantes que desea aprobar su Membresía:</h5>
+        <h4>LISTA DE PAGOS DE MEMBRESIA</h4>
+        <h5>Listado de los pagos de membresía:</h5>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
