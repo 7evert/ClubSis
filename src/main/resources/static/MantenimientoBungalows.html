@@ -53,6 +53,14 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
     </style>
 </head>
 <body>
@@ -176,7 +184,13 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
@@ -260,9 +274,44 @@
                 window.location = 'verBungalow.html?id=' + idBungalow;
             });
             $('.icono-eliminar').click(function () {
-                alert("Eliminando bungalow");
-                var idActividad = $(this).attr('data-idBungalow-eliminar');
+                var idBungalow = $(this).attr('data-idBungalow-eliminar');
                 console.log("Id bungalow eliminando: " + $(this).attr('data-idBungalow-eliminar'));
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea eliminar el bungalow?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                            //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
+                            //Simplemente se le cambiara el estado
+                            $.post('/api/bungalows/eliminar',
+                                    {idBungalow: idBungalow},
+                                    function (response) {
+                                        if (!response.error) {
+                                            Notificaciones.hideAll();
+                                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                                            $('#grid').trigger('reloadGrid');
+                                            setTimeout(function () {
+                                                location.href = "mantenimientoBungalows.html"
+                                            }, 1000);
+                                        } else {
+                                            Noty.hideAll();
+                                            Noty.showError(response.mensaje, false, 3000);
+                                        }
+                                    });
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
             });
         }
     });
