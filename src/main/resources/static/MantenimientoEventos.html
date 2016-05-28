@@ -14,6 +14,10 @@
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
     <script type="text/javascript">
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
+        }
+
         Date.prototype.ddmmyyyy = function () {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
@@ -224,11 +228,11 @@
                 funcion.Eliminar=function(e){
                     location.href = "loginUsuario.html";
                     /*event.preventDefault();
-                    DATAEVENTOS[getID(e.target)].estado="INHABILITADO";
-                    console.log(JSON.stringify(DATAEVENTOS[getID(e.target)-1]));
-                    $http.put('/api/eventos/'+getID(e.target),DATAEVENTOS[getID(e.target)]).success(function (data) {
+                     DATAEVENTOS[getID(e.target)].estado="INHABILITADO";
+                     console.log(JSON.stringify(DATAEVENTOS[getID(e.target)-1]));
+                     $http.put('/api/eventos/'+getID(e.target),DATAEVENTOS[getID(e.target)]).success(function (data) {
 
-                    });*/
+                     });*/
                 }
             });
 
@@ -492,10 +496,10 @@
     function retornaMasCaracteristicas1(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
         var div = $('<div></div>');
         var b = new Array();
-        b[0] = $("<h4></h4>").html("Inicio de Inscripciones: " + new Date(inicioInscripciones).ddmmyyyy());
-        b[1] = $("<h4></h4>").html("Fin de Inscripciones: " + new Date(finInscipciones).ddmmyyyy());
-        b[2] = $("<h4></h4>").html("Fecha Inicio: " + new Date(fechaInicio).ddmmyyyy());
-        b[3] = $("<h4></h4>").html("Fecha Fin: " + new Date(fechaFin).ddmmyyyy());
+        b[0] = $("<h4></h4>").html("Inicio de Inscripciones: " + new Date(validateDateInAllBrowsers(inicioInscripciones)).ddmmyyyy());
+        b[1] = $("<h4></h4>").html("Fin de Inscripciones: " + new Date(validateDateInAllBrowsers(finInscipciones)).ddmmyyyy());
+        b[2] = $("<h4></h4>").html("Fecha Inicio: " + new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
+        b[3] = $("<h4></h4>").html("Fecha Fin: " + new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
         for (var j = 0; j < b.length; j++)
             div.append(b[j]);
         return div;
@@ -515,4 +519,3 @@
 </script>
 </body>
 </html>
-

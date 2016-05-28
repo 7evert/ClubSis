@@ -4,7 +4,7 @@
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
 
-    <title>Bungalow Informacion</title>
+    <title>Evento Informacion</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -158,6 +158,9 @@
             }
         ];
 
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
+        }
 
         function getID() {
             var href = this.location.href;
@@ -180,10 +183,10 @@
         };
 
         function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
-            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
-            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
+            $("#fechaInicio").html(new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
+            $("#fechaFin").html(new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
+            $("#fechaInicioInscripcion").html(new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
+            $("#fechaFinInscripcion").html(new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
         }
         function mostrarTarifas(tarifas){
             var b=new Array();

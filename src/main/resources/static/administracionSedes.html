@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>Administracion De Sedes</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -75,8 +75,8 @@
             var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
                 "Direccion debe tener entre 1 y 100 caracteres",
                 "Telefono debe tener entre 7 a 15 caracteres",
-                "Descripcion debe tneer entre 1 y 255 caracteres",
-                "Administrador debe tneer entre 8 y 100 caracteres",
+                "Descripcion debe tener entre 1 y 255 caracteres",
+                "Administrador debe tener entre 8 y 100 caracteres",
                 "Telefono solo puede tener numeros, *, # y -"
             ]
             var ver=[];
@@ -101,9 +101,9 @@
                     datatype: "local",
                     styleUI : 'Bootstrap',
                     height: 50*(data.legth+1),
-                    colNames:['ID','Nombre', 'Direccion','Telefono', 'Descripcion'],
+                    colNames:['Nro.','Nombre', 'Direccion','Telefono', 'Descripcion'],
                     colModel:[
-                        {name:'id',index:'id', width:90, sorttype:"int"},
+                        {name:'id',index:'Nro.', width:90, sorttype:"int"},
                         {name:'nombre',index:'nombre', width:150,editable: false},
                         {name:'direccion',index:'direccion', width:260, editable: false},
                         {name:'telefono',index:'telefono', width:220,editable: false},

@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>Registrar Invitado</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -52,9 +52,6 @@
             $("#nroDoc").val("");
             //$("#exonerado").val(0);
             $("#ingresoInv").val(0);
-            $("#date-picker-TiempoInicio").val("");
-            $("#date-picker-TiempoFin").val("");
-            $("#password").val("");
         }
         function getIDSocioYEvento() {
             var href = this.location.href;
@@ -62,15 +59,15 @@
             return str ? [str[1], str[2]] : undefined;
         }
 
-        function verInvitado() {
+        function verInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-ver");
             location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
-        function modificarInvitado() {
+        function modificarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-modificar");
             location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
-        function eliminarInvitado() {
+        function eliminarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
             location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
         }
@@ -84,9 +81,6 @@
                 "Apellido Materno debe tener entre 1 y 50 letras",
                 "Tipoc Documento debe tener entre 1 y 50 letras",
                 "Numero de Documento debe ser un numero entero entre 8 y 25 numeros",
-                "fecha Inicio debe ser una fecha Valida",
-                "fecha Fin debe ser una fecha Valida",
-                "fecha de Inicio debe ser antes o igual a fecha Fin"
             ];
             var ver=[],i=0;
             ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0
@@ -94,9 +88,6 @@
             ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
             ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
             ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,7)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
-            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);
             for(var j=0;j<i;j++)
                 if(ver[j]==false) {
                     mostrarMensaje(mensajes[j]);
@@ -153,9 +144,7 @@
                     tipoDocumento: $("#tipoDoc").val(),
                     numeroDocumento: parseInt($("#nroDoc").val()),
                     //esExoneradoPago: parseInt($("#exonerado").val()),
-                    ingresoInvitado: parseInt($("#ingresoInv").val()),
-                    fechaVisita: Date.parse($("#date-picker-TiempoInicio")[0].value),
-                    fechaSalida: Date.parse($("#date-picker-TiempoFin")[0].value)
+                    ingresoInvitado: parseInt($("#ingresoInv").val())
                 };
                 console.log(JSON.stringify(guest));
                 $http.post('/api/invitados/' + idevento+"/"+idsocio+"/eventos",guest).success(function (data2, status) {
@@ -235,30 +224,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-5">Fecha de Entrada</label>
-                                <div class="col-xs-7 date">
-                                    <div class="input-group input-append date">
-                                        <input id="date-picker-TiempoInicio" type="text"
-                                               class="date-picker form-control col-xs-6"/>
-                                        <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
-                                                class="glyphicon glyphicon-calendar"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-5">Fecha de Salida</label>
-                                <div class="col-xs-7 date">
-                                    <div class="input-group input-append date">
-                                        <input id="date-picker-TiempoFin" type="text"
-                                               class="date-picker form-control col-xs-6"/>
-                                        <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
-                                                class="glyphicon glyphicon-calendar"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="control-label col-xs-5">Tipo</label>
                                 <select class="col-xs-3" id="tipoTarifa">
                                 </select>
@@ -278,9 +243,9 @@
                                 </div>
                             </div>-->
                             <div class="col-xs-offset-5 col-xs-9">
-                                <input id="addGuest" class="btn btn-primary" value="Añadir">
-                                <input id="terminar" class="btn btn-default" value="Terminar y Confirmar">
-                                <input id="cancelar" class="btn btn-default" value="cancelar">
+                                <input id="addGuest" class="btn btn-primary" value="Añadir" style="width:30%">
+                                <input id="terminar" class="btn btn-primary" value="Confirmar" style="width:30%">
+                                <input id="cancelar" class="btn btn-primary" value="cancelar" style="width:30%">
                             </div>
                         </form>
                     </div>
@@ -319,9 +284,9 @@
     });
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="verInvitado();return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"/>' +
-                '<a  href="#" onclick="modificarInvitado();return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                '<a href="#" onclick="eliminarInvitado();return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
+        acciones = '<a href="#" onclick="verInvitado(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"/>' +
+                '<a  href="#" onclick="modificarInvitado(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"/>' +
+                '<a href="#" onclick="eliminarInvitado(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
         return acciones;
     }
 </script>

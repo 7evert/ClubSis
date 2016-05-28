@@ -65,6 +65,10 @@
         }
     </style>
     <script type="text/javascript">
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
+        }
+
         function mostrarMensaje(message){
             alert(message);
         }
@@ -121,10 +125,10 @@
             $("#nombre").attr({value: nombre});
         }
         function completarFechas(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
-            $("#date-picker-DiaEntrada").datepicker("setDate", new Date(fechaInicio));
-            $("#date-picker-DiaSalida").datepicker("setDate", new Date(fechaFin));
-            $("#date-picker-InicioInscripcion").datepicker("setDate", new Date(inicioInscripciones));
-            $("#date-picker-FinInscripcion").datepicker("setDate", new Date(finInscipciones));
+            $("#date-picker-DiaEntrada").datepicker("setDate", new Date(validateDateInAllBrowsers(fechaInicio)));
+            $("#date-picker-DiaSalida").datepicker("setDate", new Date(validateDateInAllBrowsers(fechaFin)));
+            $("#date-picker-InicioInscripcion").datepicker("setDate", new Date(validateDateInAllBrowsers(inicioInscripciones)));
+            $("#date-picker-FinInscripcion").datepicker("setDate", new Date(validateDateInAllBrowsers(finInscipciones)));
         }
         function completarCapacidad(capacidad) {
             $("#capacidad").attr({value:capacidad});
