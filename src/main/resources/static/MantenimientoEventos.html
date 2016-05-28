@@ -45,8 +45,7 @@
             event.preventDefault();
         }
         function Eliminar(e) {
-            location.href = "loginUsuario.html";
-            event.preventDefault();
+            funcion.Eliminar(e);
         }
         function Participar(e) {
             location.href = "participarEvento.html?id=" + getID(e.target);
@@ -57,6 +56,7 @@
             location.href = "registrarEvento.html";
             event.preventDefault();
         }
+        var funcion={};
         var funciones = [Ver, Participar, Editar, Eliminar];
 
         //json HARDCODEADO
@@ -217,6 +217,19 @@
                 llenarListaBungalows1(DATAEVENTOS);
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
                 mostrarNext5();
+                var eliminar=$("button");
+                for(var i=0;i<eliminar.length;i++)
+                    if($("button")[i].value=="Eliminar")
+                        $($("button")[i]).attr({style:'display:none;'});
+                funcion.Eliminar=function(e){
+                    location.href = "loginUsuario.html";
+                    /*event.preventDefault();
+                    DATAEVENTOS[getID(e.target)].estado="INHABILITADO";
+                    console.log(JSON.stringify(DATAEVENTOS[getID(e.target)-1]));
+                    $http.put('/api/eventos/'+getID(e.target),DATAEVENTOS[getID(e.target)]).success(function (data) {
+
+                    });*/
+                }
             });
 
             var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
@@ -235,6 +248,8 @@
                     location.href="administracionSedes.html"
                 });
             });
+
+
             $("#Buscar").click(function(){
                 var data=[];
                 var data2=DATAEVENTOS;
@@ -306,7 +321,7 @@
                     </div>
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label class="control-label col-md-4">Fecha Fin</label>
+                            <label class="control-label col-md-4">Fecha Inicio</label>
                             <div class="input-group input-append date col-md-8">
                                 <input id="date-picker-DiaEntrada" type="text"
                                        class="date-picker form-control col-xs-6"/>

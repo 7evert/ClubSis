@@ -1,215 +1,301 @@
 <!DOCTYPE html>
-        <html lang="en">
+        <html lang="en" ng-app="app">
         <head>
             <meta charset="UTF-8">
             <title>Mantenimiento Instalaciones</title>
-            <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+
+            <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
             <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
             <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
-            <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-            <title>Title</title>
+            <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
             <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
             <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
-            <script type="text/javascript">
+            <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
 
-                function Ver(){location.href="InstalacionInformacion.html";event.preventDefault();}
-                function Editar(){location.href="edicionInstalacion.html";event.preventDefault();}
-                function Eliminar(){location.href="loginUsuario.html";event.preventDefault();}
-                function Reservar(){location.href="reservaInstalacion.html";event.preventDefault();}
+            <script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
+            <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+            <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+            <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+            <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+            <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+            <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+            <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+            <script src="js/principal.js"></script>
 
-                function Agregar(){location.href="registroInstalacion.html";event.preventDefault();}
-                //var funciones=[Ver,Editar,Eliminar,Reservar];
-                var funciones=[Ver,Reservar,Editar,Eliminar];
-            </script>
+
+
         </head>
 <body>
 <div id="headerAdministrador"></div>
-<div class="container">
-    <!--example link: http://www.trivago.pe/?iPathId=86439&iGeoDistanceItem=0&aDateRange[arr]=2016-05-08&aDateRange[dep]=2016-05-09&iRoomType=7&cpt=8643903&iViewType=0&bIsSeoPage=false&bIsSitemap=false    -->
-    <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
-    <div>
-        <div class="form-group"><!--filtrado-->
-            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE INSTALACIONES
-            <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
-            </h4>
+    <div class="container">
+        <div>
+            <h3>
+                ADMINISTRACIÓN DE INSTALACIONES
+                <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='registroInstalacion.html';">Registrar</a>
+            </h3>
+        </div>
+            <div class="form-group">
+                <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE INSTALACIONES </h4>
 
-            <form class="form-horizontal">
-                <div class="row">
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label for="tipo" class="col-md-4 control-label">Sede</label>
-                            <div class="col-md-8">
-                                <select class="form-control" id="sede">
-                                    <option>Elegir</option>
-                                    <option>Chosica</option>
-                                    <option>Namekusein</option>
-                                    <option>Planeta del gran Kaiosama</option>
-                                    <option>Planeta Tierra</option>
-                                </select>
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label for="tipo" class="col-md-4 control-label">Sede</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" id="sede">
+                                        <option>Elegir</option>
+                                        <option value="1">Playa</option>
+                                        <option value="2">Campo</option>
+                                        <option value="3">Ciudad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label for="tipo" class="col-md-4 control-label">Estado</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" id="tipo">
+                                        <option>Seleccione un estado</option>
+                                        <option>Habilitado</option>
+                                        <option>Deshabilitado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre de instalación">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label for="descripcion" class="col-md-4 control-label">Descripción</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Instalación">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Fecha Inicio</label>
+                                <div class="input-group input-append date col-md-8">
+                                    <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
+                                    <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+
+                                <label class="control-label col-md-4">Fecha Fin</label>
+                                <div class="input-group input-append date col-md-8">
+                                    <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
+                                    <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-7 col-lg-7">
+                        </div>
+                        <div class="col-sm-5 col-lg-5">
+                            <div class="form-group" style="margin-left: 60px;">
+                                <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
+                                <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label for="tipo" class="col-md-4 control-label">Estado</label>
-                            <div class="col-md-8">
-                                <select class="form-control" id="tipo">
-                                    <option>Habilitado</option>
-                                    <option>Deshabilitado</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de Instalacion">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Instalacion">
-                            </div>
-                        </div>
-                    </div>
+                </form>
+            </div>
 
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Desde</label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-
-                            <label class="control-label col-md-4">Hasta</label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6" />
-                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-7 col-lg-7">
-                    </div>
-                    <div class="col-sm-5 col-lg-5">
-                        <div class="form-group" style="margin-left: 60px;">
-                            <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                            <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
-
-                        </div>
-                    </div>
-                </div>
-            </form>
-<
+        <div>
+            <h4>RESULTADOS DE BÚSQUEDA</h4>
+            <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
+            <br>
+            <div class="leyenda">
+                <span>Leyenda: </span>
+                <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Instalación
+                <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Instalación
+                |
+                <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Instalación
+            </div>
         </div>
     </div>
 
-    <div class="panel panel-primary"><!--listas-->
-        <div id="topMostrar" class="panel-heading">
-            <span class="col-xs-9 titulo">Instalaciones</span>
-            <!--<span class="pull-right" id="accionAgregar">
-                <input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>
-            </span><br>-->
-        </div>
-        <div id="listaBungalows" class="list-group list-group-flush">
-            <!--
-            <a href="#" class="list-group-item hidden">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="panel-more1 imagenBungalow">
-                            <img src="img/bungalows/TipoBungalows/1_Lorena.png" />
-                        </div>
-                        <div class="panel-info" style="padding-left: 2em;">
-                            <p><h1><strong>Bungalow Lorena</strong></h1></p>
-                            <p></p>
-                            <p>Sedes disponibles:<br/>
-                                <span class="bg-info">
-                                    Chorrillos
-                                </span>&nbsp;
-                                <span class="bg-info">
-                                    Playa
-                                </span>&nbsp;
-                                <span class="bg-info">
-                                    Santa Anita
-                                </span>
-                            </p>
-                            <h3>Capacidad</h3>
-                            <h2>6 Personas</h2>
-                        </div>
-                        <div class="panel-more1" style="padding-left: 2em;">
-                            <p><h1>Precio: S/. 80.00</h1></p>
-                            <div>
-                                <p><h2>Caracteristicas:</h2></p>
-                                <ul>
-                                    <li><span>1 Habitacion Personal</span></li>
-                                    <li><span>2 Camarotes</span></li>
-                                    <li><span>1 Cocina</span></li>
-                                    <li><span>1 Sala</span></li>
-                                    <li><span>1 Baño</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="social-box rght-box">
-                            <label class="accionLista"><label>Modificar</label></label>&nbsp;
-                            <label class="accionLista"><label>Anular</label></label>&nbsp;
-                            <label class="accionLista"><label>Reservar</label></label>&nbsp;
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="#" id="botonMostrarMas" class="list-group-item">
-                <h1>Mostrar Mas</h1>
-            </a>
-            -->
-        </div>
-    </div>
-</div>
+    <div id="footer"></div>
 
-<div id="footer"></div>
-<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
-<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
-<script src="js/principal.js"></script>
-<script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
-<script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
-<script type="text/javascript">
-    /*******************LEAN LOS COMENTARIOS ************************/
-    $(".date-picker").datepicker();
-    window.onload=function(){
-        /*todos los elementos de la lista esta incluidos dinamicamente*/
-        /*si desean cambiaar entren al codigo js/generarElementoBungalow.js **/
-        /** y cambien solo las variables imagen titulo,sedes, caracteristicas, precio**/
-        /**la plantilla estatica se encuentra comentada en esta misma pagina**/
-        /********* DENTRO DE : div id="listaBungalows" *************/
-        llenarListaBungalows();
-        cambiarDeUsuario(0,Agregar,funciones)
-        /**************** de acuerdo al usuario que se coloque se cambian los botones****/
-        /*******tener en cuenta que debe estar  :
-         *un #top-mostrar para el  boton agregar(unico x pagina)
-         *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
-        /*******mas detalles en js/plantillaBotonesAccion.js**********/
+    <script type="text/javascript">
+        $(".date-picker").datepicker();
 
-        //cambiarDeUsuario(administrador,Agregar,funciones);
+        var app=angular.module('app',[]);
+        app.controller('InstalacionesController', function ($scope, $http) {
+            $http.get('/api/instalaciones').success(function (data) {
+                console.log(JSON.stringify(data));
+            });
+            $("#Buscar").click(function(){
+                var data=[];
+                var data2=datainstalaciones;
+                $.each(data2, function(i, item) {
+                    displayNone(item);
+                    if(!filtrarInstalacion(item))
+                        displayNone(item);
+                    console.log(i);
+                });
+            });
 
-        /***Para mostrar la lista de  5 en 5************/
-        /*******mas detalles en js/plantillaBotonesAccion.js**********/
-        mostrarNext5();
+            $("#Limpiar").click(function(){
+                limpiarFiltradoInstalacion();
+            });
+        });
+
+
+    $("#jqGrid").jqGrid({
+    url: '/api/instalaciones',
+    mtype: "GET",
+    styleUI: 'Bootstrap',
+    datatype: "json",
+    gridview: true,
+    emptyrecords: 'No se encontraron resultados',
+    colModel: [
+    {index: 'id', name: 'id', hidden: true, width: 45},
+    {index: 'nombre', name: 'nombre', align: 'center', width: 200},
+    {index: 'capacidad', name: 'capacidad', align: 'center', width: 100},
+    {index: 'precioReserva', name: 'precioReserva', align: 'center', width: 100},
+    {index: 'estado', name: 'estado', align: 'center', width: 100},
+    {index: 'Acciones', name: 'Acciones', width: 150, align: 'center', formatter: acciones}
+    ],
+    colNames: [
+    'idInstalacion', 'Nombre','Capacidad','Precio Reserva','Estado','Acciones'
+    ],
+    viewrecords: true,
+    height: 400,
+    rowNum: 20,
+    pager: "#jqGridPager",
+    loadComplete: function () {
+    $('.icono-ver').click(function () {
+
+    var idInstalacion = $(this).attr('data-idInstalacion-ver');
+        console.log("idInstalacion " + $(this).attr('data-idInstalacion-ver'));
+        window.location='InstalacionInformacion.html?id='+idInstalacion;
+
+    });
+    $('.icono-eliminar').click(function () {
+        var idInstalacion = $(this).attr('data-idInstalacion-eliminar');
+        console.log("idInstalacion eliminando: " + $(this).attr('data-idInstalacion-eliminar'));
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea eliminar la instalación?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
+                    //Simplemente se le cambiara el estado
+                    $.post('/api/instalaciones/eliminar',
+                            {idInstalacion: idInstalacion},
+                            function (response) {
+                                if (!response.error) {
+                                    Notificaciones.hideAll();
+                                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                                    $('#grid').trigger('reloadGrid');
+                                    setTimeout(function () {
+                                        location.href = "mantenimientoInstalaciones.html"
+                                    }, 1000);
+                                } else {
+                                    Noty.hideAll();
+                                    Noty.showError(response.mensaje, false, 3000);
+                                }
+                            });
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
+    });
+    $('.icono-modificar').click(function () {
+        var idInstalacion = $(this).attr('data-idInstalacion-modificar');
+        console.log("idInstalacion modificado: " + $(this).attr('data-idInstalacion-modificar'));
+        window.location='edicionInstalacion.html?id='+idInstalacion;
+
+    });
     }
-</script>
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    function acciones(cellValue, options, rowdata, action) {
+    var acciones = '';
+    acciones = '<a href="javascript:void(0)"  ng-click="handleClick()" class="btn btn-warning icono-ver" data-idInstalacion-ver="' + rowdata['id'] + '" title="Ver Instalacion"><img src="img/Iconos/ver.png" class="icono"></a>' +
+    '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idInstalacion-modificar="' + rowdata['id'] + '" title="Modificar Instalacion"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+    '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idInstalacion-eliminar="' + rowdata['id'] + '" title="Eliminar Instalacion"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+    return acciones;
+    }
+    </script>
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
 </body>
-</html></title>
+</html>

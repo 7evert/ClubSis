@@ -1,11 +1,10 @@
 package com.clubsis.model.privilegio;
 
 import com.clubsis.model.club.Club;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -19,6 +18,10 @@ public class Rol {
 
     @ManyToOne
     private Club club;
+
+    @OneToMany(fetch= FetchType.EAGER, mappedBy= "rol")
+    @JsonIgnore
+    private Set<Permiso> permisos;
 
     protected Rol() {
     }
@@ -42,5 +45,13 @@ public class Rol {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Set<Permiso> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(Set<Permiso> permisos) {
+        this.permisos = permisos;
     }
 }

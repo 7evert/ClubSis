@@ -3,73 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Instalacion Edicion</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
 
-    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
-    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
-    <link rel="stylesheet" type="text/css" media="screen"
-          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-    <script type="text/javascript" nbnhjhu
-            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+    <script src="js/principal.js"></script>
+    <script src="js/Notificaciones.js"></script>
 </head>
 <body ng-controller="InstalacionController">
 <div class="container">
-
-    <h2>Edicion de Instalacion</h2>
+    <div id="headerAdministrador"></div>
+    <h2>Edición de Instalación</h2>
     <hr>
     <form id="formReservaInstalacions" class="form-horizontal mitadDerecha">
         <div id="nombreInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Nombre Instalacion</label>
+            <label class="control-label col-xs-4">Nombre<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Campo 2 tenis,campo 3 de voley, o etc ..."/>
+                <input ng-model="instalaciones.nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Cancha de tenis,cancha de voley, o etc ..."/>
+                <input ng-model="instalaciones.estado" type="hidden" name="estado" >
             </div>
         </div>
         <div id="escogerSedeInstalacions" class="form-group">
-            <label class="control-label col-xs-4">Escoger Sede</label>
-            <div class="col-xs-8">
-                <select ng-model="sede" id="sede" class="form-control col-xs-8">
-                    <option value="1">Chorrillos</option>
-                    <option value="2">Santa Anita</option>
-                    <option value="3">Jesus Maria</option>
+            <label class="control-label col-xs-4">Sede<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <select ng-model="instalaciones.sede.id" id="sede" class="form-control col-xs-8">
+                    <option  value="0">Elegir</option>
+                    <option value="1">Playa</option>
+                    <option value="2">Campo</option>
+                    <option value="3">Ciudad</option>
                 </select>
             </div>
         </div>
 
         <div id="precioInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Precio Reserva</label>
+            <label class="control-label col-xs-4">Precio Reserva<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="precioReserva" id="precioReserva" type="text" class="form-control col-xs-8"  placeholder="S/. (Solo Numeros)" />
+                <input ng-model="instalaciones.precioReserva" id="precioReserva" type="text" class="form-control col-xs-8"  placeholder="S/. (Solo Numeros)" />
             </div>
         </div>
         <div id="capacidadInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Capacidad</label>
+            <label class="control-label col-xs-4">Capacidad<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="capacidad" id="capacidad" type="text" class="form-control col-xs-8"  placeholder="personas" />
+                <input ng-model="instalaciones.capacidad" id="capacidad" type="text" class="form-control col-xs-8"  placeholder="Número máximo de personas" />
             </div>
         </div>
         <div id="referenciaInstalacion" class="form-group">
             <label class="control-label col-xs-4">Referencia</label>
             <div class="input-group col-xs-8">
-                <input ng-model="referencia" id="referencia" type="text" class="form-control col-xs-8"  placeholder="Lugar donde queda" />
+                <input ng-model="instalaciones.referencia" id="referencia" type="text" class="form-control col-xs-8"  placeholder="Lugares cercanos a la instalación" />
             </div>
         </div>
         <div id="CaracteristicasInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Caracteristicas</label>
+            <label class="control-label col-xs-4">Características</label>
             <div class="input-group col-xs-8">
-                <input ng-model="caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8"  placeholder="caracteristicas separadas por '-'" />
+                <input ng-model="instalaciones.caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8"  placeholder="Características" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" id="btnGuardar" value="Guardar" style="width:22%" onclick="alert('Se modifico exitosamente');/*location.href='loginUsuario.html';*/">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='InstalacionInformacion.html';">
+                <a href="javascript:void(0)" class="btn btn-primary" id="btnGuardar">Guardar</a>
+                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
             </div>
         </div>
     </form>
@@ -83,32 +90,37 @@
     -->
 </div>
 <div id="footer"></div>
-<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
-<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
+    var idInstalacion = ruta.substring(ruta.lastIndexOf('=') + 1);
+
     var app = angular.module('app', []);
     app.controller('InstalacionController', function ($scope, $http) {
+        $scope.instalaciones=[];
+        $http.get('/api/instalaciones/'+idInstalacion).success(function (data) {
+            $scope.instalaciones=data;
+        });
+
         $("#btnGuardar").click(function () {
-            $scope.editarInstalacion = function () {
+            console.log("entro al boton");
+
+
                 var data = {
-                    'nombre': $scope.nombre,
-                    'caracteristicas': $scope.caracteristicas,
-                    'referencia': $scope.referencia,
-                    'capacidad': parseInt($scope.capacidad),
-                    'precioReserva': parseFloat($scope.precioReserva),
-                    'estado': parseInt($scope.estado),
-                    //'sede':$scope.sede,
+                    'id':idInstalacion,
+                    'nombre': $scope.instalaciones.nombre,
+                    'caracteristicas': $scope.instalaciones.caracteristicas,
+                    'referencia': $scope.instalaciones.referencia,
+                    'capacidad': parseInt($scope.instalaciones.capacidad),
+                    'precioReserva': parseFloat($scope.instalaciones.precioReserva),
+                   'estado': $scope.instalaciones.estado,
+                    'sede':$scope.sede,
                 };
-//
-                console.log(data);
 
-                $http.post('/api/instalaciones', data).success(function (data) {
-
+                $http.put('/api/instalaciones/' + idInstalacion, data).success(function (data) {
+                    /*
                     Notificaciones.showProcesando();
-                    Notificaciones.hideAll();
+                    Notificaciones.hideAll();*/
                     window.location = "mantenimientoInstalaciones.html";
 
                 })
@@ -116,8 +128,9 @@
                             Notificaciones.showError("Error al crear la instalación.");
                             console.log("fallo");
                         });
-            }();
-        });
+
+            });
+
     });
 </script>
 </body>

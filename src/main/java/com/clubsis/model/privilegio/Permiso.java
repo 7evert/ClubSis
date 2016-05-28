@@ -21,12 +21,19 @@ public class Permiso {
     //there is not going to be a relationship between sede and permiso
     @ManyToOne
     private Club club;
+    @ManyToOne
+    private Rol rol;
+
+
+
     protected Permiso() {
     }
 
     public Permiso(Integer id, String descripcion) {
         this.id= id;
         this.descripcion = descripcion;
+        this.rol = rol;
+
     }
 
     public Integer getId() {
@@ -43,5 +50,13 @@ public class Permiso {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 }
