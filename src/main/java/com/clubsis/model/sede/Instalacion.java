@@ -41,30 +41,24 @@ public class Instalacion {
     @JsonIgnore
     private Set<Horario> horarios;
 
-    @ManyToOne
-    private Sede sede;
-
     @OneToMany(mappedBy = "instalacion")
     private Set<ReservaInstalacion> reservas;
 
     protected Instalacion() {
     }
 
-    public Instalacion(String descripcion, String referencia, Integer capacidad, Double precioReserva, Integer estado, Set<Horario> horarios, Sede sede, Set<ReservaInstalacion> reservas) {
-        this.descripcion = descripcion;
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, String estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Sede sede1, Set<ReservaInstalacion> reservas) {
+        this.nombre = nombre;
+        this.caracteristicas = caracteristicas;
         this.referencia = referencia;
-    public Instalacion(Integer idInstalacion, String referencia, String caracteristicas, Integer capacidad, Double precioReserva, String estado,Sede sede) {
-        this.setId(idInstalacion);
-        this.referencia = referencia;
-        this.setCaracteristicas(caracteristicas);
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
         this.estado = estado;
-        this.horarios = horarios;
         this.sede = sede;
+        this.reservaInstalacionSet = reservaInstalacionSet;
+        this.horarios = horarios;
+        this.sede = sede1;
         this.reservas = reservas;
-        this.sede=sede;
-        this.setEstado(estado);
     }
 
     public Integer getId() {
@@ -75,12 +69,20 @@ public class Instalacion {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public void setCaracteristicas(String caracteristicas) {
+        this.caracteristicas = caracteristicas;
     }
 
     public String getReferencia() {
@@ -107,60 +109,12 @@ public class Instalacion {
         this.precioReserva = precioReserva;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCaracteristicas() {
-        return caracteristicas;
-    }
-
-    public void setCaracteristicas(String caracteristicas) {
-        this.caracteristicas = caracteristicas;
-    }
-
-    public Sede getSede() {
-        return sede;
-    }
-
-    public void setSede(Sede sede) {
-        this.sede = sede;
-    }
-
-    public Set<ReservaInstalacion> getReservaInstalacionSet() {
-        return reservaInstalacionSet;
-    }
-
-    public void setReservaInstalacionSet(Set<ReservaInstalacion> reservaInstalacionSet) {
-        this.reservaInstalacionSet = reservaInstalacionSet;
-    }
-
     public String getEstado() {
         return estado;
     }
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public Set<Horario> getHorarios() {
-        return horarios;
-    }
-
-    public void setHorarios(Set<Horario> horarios) {
-        this.horarios = horarios;
     }
 
     public Sede getSede() {
@@ -178,7 +132,15 @@ public class Instalacion {
     public void setReservas(Set<ReservaInstalacion> reservas) {
         this.reservas = reservas;
     }
-/*
+
+    public Set<ReservaInstalacion> getReservaInstalacionSet() {
+        return reservaInstalacionSet;
+    }
+
+    public void setReservaInstalacionSet(Set<ReservaInstalacion> reservaInstalacionSet) {
+        this.reservaInstalacionSet = reservaInstalacionSet;
+    }
+
     public Set<Horario> getHorarios() {
         return horarios;
     }
@@ -186,5 +148,4 @@ public class Instalacion {
     public void setHorarios(Set<Horario> horarios) {
         this.horarios = horarios;
     }
-    */
 }
