@@ -4,6 +4,8 @@
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
     <title>ClubSis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
@@ -12,6 +14,16 @@
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
+        .icono {
+            width: 18px;
+        }
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+        }
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
             background: #008D34;
         }
@@ -32,7 +44,7 @@
         }
 
         .   {
-            width: 19px;
+            width: 20px;
         }
 
         h4{
@@ -50,26 +62,111 @@
             margin-bottom: 10px;
         }
     </style>
+    <script type="text/javascript">
+        var datosUrl;
+    </script>
+    <script type="text/javascript">
+
+        var appAprobarMembresia = angular.module('appAprobarMembresia', []);
+        //        appAprobarMembresia.directive('ngJqGrid', function () {
+        //            return {
+        //                restrict: 'E',
+        //                scope: {
+        //                    config: '=',
+        //                    data: '=',
+        //                },
+        //                link: function (scope, element, attrs) {
+        //                    var table;
+        //
+        //                    scope.$watch('config', function (newValue) {
+        //                        element.children().empty();
+        //                        table = angular.element('<table></table>');
+        //                        element.append(table);
+        //                        $(table).jqGrid(newValue);
+        //                    });
+        //
+        //                    scope.$watch('data', function (newValue, oldValue) {
+        //                        var i;
+        //                        for (i = oldValue.length - 1; i >= 0; i--) {
+        //                            $(table).jqGrid('delRowData', i);
+        //                        }
+        //                        for (i = 0; i < newValue.length; i++) {
+        //                            $(table).jqGrid('addRowData', i, newValue[i]);
+        //                        }
+        //                    });
+        //                }
+        //            };
+        //        });
+
+        appAprobarMembresia.controller('MembresiaController', function ($scope, $http) {
+            $http.get('/api/postulantes').then(function (respuesta) {
+                //datosUrl=respuesta.data;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.esAprobado == false;
+                });
+                $("#jqGrid").jqGrid({
+                    data: datosUrl,
+                    mtype: "GET",
+                    styleUI : 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        { label: 'ID', name: 'id', key: true, hidden:true,width: 75},
+                        { label: 'Nombre', name: 'nombre', align: 'center', width: 70 },
+                        { label: 'Apellido Paterno', name: 'apellidoPaterno', align: 'center', width: 100 },
+                        { label: 'Apellido Materno', name: 'apellidoMaterno', align: 'center', width: 100 },
+                        { label: 'Correo', name: 'correo', align: 'center', width: 120 },
+                        { label: 'Tipo Doc.', name: 'tipoDocumento', align: 'center', width: 80 },
+                        { label: 'Numero Doc.', name: 'numeroDocumento', align: 'center', width: 100 },
+                        { label: 'Fecha Postulación', name: 'fechaPostulacion', align: 'center', width: 120 },
+                        { label: 'Ver', name: 'acciones', width: 50, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: "auto",
+                    width: 900,
+                    rowNum: 10,
+                    multiselect: true,
+                    pager: "#jqGridPager"
+                });
+            })
+            $scope.enviarAprobacion =function (){
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    alert("No hay postulante seleccionado");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data= selectedIDs[i];
+                        $http.post('/api/membresias/'+ data).success(function (data ) {
+                            result += selectedIDs[i] + ",";
+                            console.log(JSON.stringify(data));
+                        }).error(function (data2) {
+                            console.log(JSON.stringify(data));
+                            alert("Tu aprobacion de membresa de "+ data+" no se pudo realizar.");
+                        });
+                        result += selectedIDs[i] + ",";
+                    }
+                    alert("Se pudo aprobar todas las solicitudes");
+                }
+            }
+        });
+    </script>
+
 </head>
 <body>
-<div id="headerUsuario"></div>
-<div class="container">
-    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
-    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
-    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+<div id="headerAdministrador"></div>
+<div class="container" ng-app="appAprobarMembresia" ng-controller="MembresiaController">
     <h2>Aprobación de membresía</h2>
+
     <hr>
-    <form class="form-horizontal">
+    <form id="formFiltrado" class="form-horizontal">
         <h4>FILTRO DE BÚSQUEDA</h4>
         <div class="row">
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="codigo" class="col-md-4 control-label">Código</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="codigo" placeholder="Codigo del Socio">
-                    </div>
-                </div>
-            </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="nombre" class="col-md-4 control-label">Nombre</label>
@@ -96,7 +193,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="dni" class="col-md-4 control-label">DNI</label>
+                    <label for="dni" class="col-md-4 control-label">Número de Doc.</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="dni" placeholder="DNI del Socio">
                     </div>
@@ -110,18 +207,28 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="fecha" class="col-md-4 control-label">Fecha Postulación</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="fecha" placeholder="Nombre del Socio">
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 60px;">
                     <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                    <button onclick="limpiarF()" class="btn btn-primary">Limpiar</button>
                 </div>
             </div>
         </div>
         <h4>RESULTADOS DE BÚSQUEDA</h4>
+        <h5>Seleccione los postulantes que desea aprobar su Membresía:</h5>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
         </div>
         <br>
 
@@ -129,7 +236,7 @@
         </div>
         <div class="col-sm-5 col-lg-5">
             <div class="form-group" style="margin-left: 60px;">
-                <a href="javascript:void(0)" class="btn btn-primary">Grabar</a>
+                <button ng-click="enviarAprobacion()" class="btn btn-primary">Aprobar</button>
                 <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
             </div>
         </div>
@@ -144,35 +251,15 @@
 <script src="js/principal.js"></script>
 <script type="text/javascript">
 
-    $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI : 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 75},
-            { label: 'Codigo Socio', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Nombre del Servicio', name: 'ShipName', align: 'center', width: 300 },
-            { label: 'Monto', name: 'Freight', align: 'center', width: 150 },
-            { label: 'Fecha de vencimiento', name: 'OrderDate', align: 'center', width: 150 },
-            { label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 220,
-        rowNum: 10,
-        pager: "#jqGridPager"
-
-    });
-
-    $('#jqGrid').jqGrid('setGridWidth', '900');
+    //$('#jqGrid').jqGrid('setGridWidth', '900');
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<input type="checkbox" value="">'
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Detalle"><img src="img/Iconos/ver.png" class="icono"></a>'
         return acciones;
+    }
+    function limpiarF() {
+        document.getElementById("formFiltrado").reset();
     }
 </script>
 </body>

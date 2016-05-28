@@ -13,8 +13,7 @@ import java.util.Set;
 public class Usuario {
     @Id
     @GeneratedValue
-    @Column(name="id_usuario")
-    private Integer idUsuario;
+    private Integer id;
     private String contraseña;
     private Integer dni;
     @OneToMany(fetch = FetchType.EAGER, mappedBy ="usuario")
@@ -30,12 +29,12 @@ public class Usuario {
     }
 
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getContraseña() {

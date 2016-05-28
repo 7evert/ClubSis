@@ -34,35 +34,34 @@ public class Postulante {
     private String correo;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaPostulacion;
-    private Integer esAprobado;
+    private EstadoPostulante esAprobado;
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
-    //private Set<String> observaciones; CAMBIAR LA RELACION MANY TO MANY Y PONERLO EN TABLA CRUZADA
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="postulantes")
-    private Set<Socio> socios=new HashSet<Socio>();;
+    @OneToMany(mappedBy="id.postulante",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Socio_Postulante> socios=new HashSet<Socio_Postulante>();
 
     protected Postulante() {
     }
 
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer telefonoCasa, Integer telefonoTrabajo, Integer celular, String profesion, String nombreEmpresa, Double ingresosMensuales, Integer esAprobado, String correo, Date fechaPostulacion, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio> socios) {
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, String direccion, Integer numeroHijos, Integer celular, Integer telefonoCasa, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio_Postulante> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.numeroDocumento = numeroDocumento;
         this.tipoDocumento = tipoDocumento;
+        this.numeroDocumento = numeroDocumento;
         this.fechaNacimiento = fechaNacimiento;
         this.estadoCivil = estadoCivil;
         this.direccion = direccion;
         this.numeroHijos = numeroHijos;
+        this.celular = celular;
         this.telefonoCasa = telefonoCasa;
         this.telefonoTrabajo = telefonoTrabajo;
-        this.celular = celular;
         this.profesion = profesion;
-        this.nombreEmpresa = nombreEmpresa;
         this.ingresosMensuales = ingresosMensuales;
-        this.esAprobado = esAprobado;
+        this.nombreEmpresa = nombreEmpresa;
         this.correo = correo;
         this.fechaPostulacion = fechaPostulacion;
+        this.esAprobado=esAprobado;
         this.esActivo = esActivo;
         this.esPeriodoObjeciones = esPeriodoObjeciones;
         this.socios = socios;
@@ -213,11 +212,11 @@ public class Postulante {
         this.socios = socios;
     }
 
-    public Integer getEsAprobado() {
+    public Boolean getEsAprobado() {
         return esAprobado;
     }
 
-    public void setEsAprobado(Integer esAprobado) {
+    public void setEsAprobado(Boolean esAprobado) {
         this.esAprobado = esAprobado;
     }
 
@@ -243,5 +242,17 @@ public class Postulante {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Set<Socio_Postulante> getSocios() {return socios;}
+
+    public void setSocios(Set<Socio_Postulante> socios) {this.socios = socios;}
+
+    public EstadoPostulante getEsAprobado() {
+        return esAprobado;
+    }
+
+    public void setEsAprobado(EstadoPostulante esAprobado) {
+        this.esAprobado = esAprobado;
     }
 }

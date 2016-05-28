@@ -1,9 +1,10 @@
 package com.clubsis.model.sede;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.clubsis.model.clase.Horario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -13,32 +14,43 @@ import javax.persistence.Id;
 public class Instalacion {
     @Id
     @GeneratedValue
-    @Column(name="id_instalacion")
-    private Integer idInstalacion;
+    private Integer id;
     private String descripcion;
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
     private Integer estado;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "instalacion")
+    @JsonIgnore
+    private Set<Horario> horarios;
+
+    @ManyToOne
+    private Sede sede;
+
+    @OneToMany(mappedBy = "instalacion")
+    private Set<ReservaInstalacion> reservas;
+
     protected Instalacion() {
     }
 
-    public Instalacion(Integer idInstalacion, String referencia, String descripcion, Integer capacidad, Double precioReserva, Integer estado) {
-        this.idInstalacion = idInstalacion;
-        this.referencia = referencia;
+    public Instalacion(String descripcion, String referencia, Integer capacidad, Double precioReserva, Integer estado, Set<Horario> horarios, Sede sede, Set<ReservaInstalacion> reservas) {
         this.descripcion = descripcion;
+        this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
         this.estado = estado;
+        this.horarios = horarios;
+        this.sede = sede;
+        this.reservas = reservas;
     }
 
-    public Integer getIdInstalacion() {
-        return idInstalacion;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdInstalacion(Integer idInstalacion) {
-        this.idInstalacion = idInstalacion;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -79,5 +91,29 @@ public class Instalacion {
 
     public void setEstado(Integer estado) {
         this.estado = estado;
+    }
+
+    public Set<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(Set<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    public Sede getSede() {
+        return sede;
+    }
+
+    public void setSede(Sede sede) {
+        this.sede = sede;
+    }
+
+    public Set<ReservaInstalacion> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(Set<ReservaInstalacion> reservas) {
+        this.reservas = reservas;
     }
 }

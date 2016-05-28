@@ -1,6 +1,10 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.persona.Socio;
+
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -9,35 +13,49 @@ import javax.persistence.*;
 public class Pago {
     @Id
     @GeneratedValue
-    @Column(name = "id_pago")
-    private Integer idPago;
-    private Integer cuotas;
+    private Integer id;
+    private Integer numeroCuotas;
     private Double mora;
+    private Double montoTotal;
+    private Date fechaAnulacion;
+    private TipoPago tipoPago;
+
     private String valoracion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Socio socio;
+
+    @OneToMany(mappedBy = "pago")
+    private Set<Cuota> cuotas;
+
     protected Pago() {
     }
 
-    public Pago(Integer idPago, Integer cuotas, Double mora, String valoracion) {
-        this.idPago = idPago;
-        this.cuotas = cuotas;
+    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
+        this.numeroCuotas = numeroCuotas;
         this.mora = mora;
+        this.montoTotal = montoTotal;
+        this.fechaAnulacion = fechaAnulacion;
+        this.tipoPago = tipoPago;
         this.valoracion = valoracion;
-    }
-
-    public Integer getIdPago() {
-        return idPago;
-    }
-
-    public void setIdPago(Integer idPago) {
-        this.idPago = idPago;
-    }
-
-    public Integer getCuotas() {
-        return cuotas;
-    }
-
-    public void setCuotas(Integer cuotas) {
+        this.socio = socio;
         this.cuotas = cuotas;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getNumeroCuotas() {
+        return numeroCuotas;
+    }
+
+    public void setNumeroCuotas(Integer numeroCuotas) {
+        this.numeroCuotas = numeroCuotas;
     }
 
     public Double getMora() {
@@ -48,11 +66,51 @@ public class Pago {
         this.mora = mora;
     }
 
+    public Double getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(Double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public Date getFechaAnulacion() {
+        return fechaAnulacion;
+    }
+
+    public void setFechaAnulacion(Date fechaAnulacion) {
+        this.fechaAnulacion = fechaAnulacion;
+    }
+
+    public TipoPago getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(TipoPago tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
     public String getValoracion() {
         return valoracion;
     }
 
     public void setValoracion(String valoracion) {
         this.valoracion = valoracion;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
+
+    public Set<Cuota> getCuotas() {
+        return cuotas;
+    }
+
+    public void setCuotas(Set<Cuota> cuotas) {
+        this.cuotas = cuotas;
     }
 }

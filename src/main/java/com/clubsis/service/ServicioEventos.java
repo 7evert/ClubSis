@@ -24,10 +24,14 @@ public class ServicioEventos {
 
     public Evento buscarEvento(Integer id){return eventoRepository.findOne(id);}
 
-    public Evento crearEvento(Evento evento){ return eventoRepository.saveAndFlush(evento);}
+    public Evento crearEvento(Evento evento){ return eventoRepository.save(evento);}
 
     public Evento actualizarEvento(Integer id, Evento evento){
         Evento eventoExistente = eventoRepository.findOne(id);
+        if(evento.getFechaFin() == null ) evento.setFechaFin(eventoExistente.getFechaFin());
+        if(evento.getFechaInicio() == null ) evento.setFechaInicio(eventoExistente.getFechaInicio());
+        if(evento.getFechaInicioInscripcion() == null ) evento.setFechaInicioInscripcion(eventoExistente.getFechaInicioInscripcion());
+        if(evento.getFechaFinInscripcion() == null ) evento.setFechaFinInscripcion(eventoExistente.getFechaFinInscripcion());
         BeanUtils.copyProperties(evento, eventoExistente);
         return eventoRepository.saveAndFlush(eventoExistente);
     }

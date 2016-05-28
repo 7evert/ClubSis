@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Fetch;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,17 +34,19 @@ public class Evento {
     private Integer isGratuito;
     private Integer isPublico;
     private String nombre;
-
-    @ManyToMany
-    private Set<TarifaEvento> tarifaEventos = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToMany
-    private Set<Persona> personas = new HashSet<>();
+    private Integer capacidad;
 
     @JsonIgnore
     @ManyToMany
     private Set<Empresa> empresas = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos",cascade=CascadeType.ALL)
+    private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Invitado> invitados = new HashSet<Invitado>(0);
 
     // este es el OWNER de la relación con sede
     @ManyToOne
@@ -52,21 +55,22 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, String reglamento, String url, Date fechaFinInscripcion, Integer isGratuito, String nombre, Integer isPublico, Set<Persona> personas, Set<TarifaEvento> tarifaEventos, Set<Empresa> empresas, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.reglamento = reglamento;
-        this.url = url;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.url = url;
         this.isGratuito = isGratuito;
-        this.nombre = nombre;
         this.isPublico = isPublico;
-        this.personas = personas;
-        this.tarifaEventos = tarifaEventos;
+        this.nombre = nombre;
+        this.capacidad = capacidad;
         this.empresas = empresas;
+        this.tarifaxEventos = tarifaxEventos;
+        this.invitados = invitados;
         this.sede = sede;
     }
 
@@ -166,20 +170,12 @@ public class Evento {
         this.nombre = nombre;
     }
 
-    public Set<TarifaEvento> getTarifaEventos() {
-        return tarifaEventos;
+    public Integer getCapacidad() {
+        return capacidad;
     }
 
-    public void setTarifaEventos(Set<TarifaEvento> tarifaEventos) {
-        this.tarifaEventos = tarifaEventos;
-    }
-
-    public Set<Persona> getPersonas() {
-        return personas;
-    }
-
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
     }
 
     public Set<Empresa> getEmpresas() {
@@ -188,6 +184,22 @@ public class Evento {
 
     public void setEmpresas(Set<Empresa> empresas) {
         this.empresas = empresas;
+    }
+
+    public Set<TarifaEvento> getTarifaxEventos() {
+        return tarifaxEventos;
+    }
+
+    public void setTarifaxEventos(Set<TarifaEvento> tarifaxEventos) {
+        this.tarifaxEventos = tarifaxEventos;
+    }
+
+    public Set<Invitado> getInvitados() {
+        return invitados;
+    }
+
+    public void setInvitados(Set<Invitado> invitados) {
+        this.invitados = invitados;
     }
 
     public Sede getSede() {

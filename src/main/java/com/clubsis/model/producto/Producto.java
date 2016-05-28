@@ -1,8 +1,10 @@
 package com.clubsis.model.producto;
 
 import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,23 +20,33 @@ public class Producto {
     private String nombre;
     private Double precioVentaUnitario;
 
-    @ManyToMany
-    private Set<Proveedor> proveedores;
+    private EstadoProducto estadoProducto;
 
     @ManyToMany
-    private Set<OrdenCompra> ordenes;
+    private Set<Proveedor> proveedores = new HashSet<>();
+
+    @ManyToMany
+    private Set<OrdenCompra> ordenes = new HashSet<>();
 
     protected Producto() {
     }
 
-    public Producto(String descripcion, Double precioVentaUnitario, String nombre, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
+    public Producto(String descripcion, String nombre, Double precioVentaUnitario, EstadoProducto estadoProducto, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
         this.descripcion = descripcion;
-        this.precioVentaUnitario = precioVentaUnitario;
         this.nombre = nombre;
+        this.precioVentaUnitario = precioVentaUnitario;
+        this.estadoProducto = estadoProducto;
         this.proveedores = proveedores;
         this.ordenes = ordenes;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getDescripcion() {
         return descripcion;
@@ -60,12 +72,12 @@ public class Producto {
         this.precioVentaUnitario = precioVentaUnitario;
     }
 
-    public Integer getId() {
-        return id;
+    public EstadoProducto getEstadoProducto() {
+        return estadoProducto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setEstadoProducto(EstadoProducto estadoProducto) {
+        this.estadoProducto = estadoProducto;
     }
 
     public Set<Proveedor> getProveedores() {
@@ -83,5 +95,4 @@ public class Producto {
     public void setOrdenes(Set<OrdenCompra> ordenes) {
         this.ordenes = ordenes;
     }
-
 }

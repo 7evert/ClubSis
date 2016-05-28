@@ -1,36 +1,64 @@
 package com.clubsis.model.clase;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class Clase {
-    private Integer idClase;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private Integer nivel;
     private String rangoEdad;
     private Double precioCiclo;
     private Double precioMes;
     private Integer capacidad;
     private String profesor;
+    private EstadoClase estadoClase;
+
+    @ManyToOne
+    private Ciclo ciclo;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
+    @JsonIgnore
+    private Set<RegistroClase> registros = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
+    private Set<Horario> horarios = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnore
+    private Academia academia;
 
     protected Clase() {
     }
 
-    public Clase(Integer idClase, Integer nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor) {
-        this.idClase = idClase;
+    public Clase(Integer nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor, EstadoClase estadoClase, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios) {
         this.nivel = nivel;
         this.rangoEdad = rangoEdad;
         this.precioCiclo = precioCiclo;
         this.precioMes = precioMes;
         this.capacidad = capacidad;
         this.profesor = profesor;
+        this.estadoClase = estadoClase;
+        this.ciclo = ciclo;
+        this.registros = registros;
+        this.horarios = horarios;
     }
 
-    public Integer getIdClase() {
-        return idClase;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdClase(Integer idClase) {
-        this.idClase = idClase;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getNivel() {
@@ -79,5 +107,45 @@ public class Clase {
 
     public void setProfesor(String profesor) {
         this.profesor = profesor;
+    }
+
+    public EstadoClase getEstadoClase() {
+        return estadoClase;
+    }
+
+    public void setEstadoClase(EstadoClase estadoClase) {
+        this.estadoClase = estadoClase;
+    }
+
+    public Ciclo getCiclo() {
+        return ciclo;
+    }
+
+    public void setCiclo(Ciclo ciclo) {
+        this.ciclo = ciclo;
+    }
+
+    public Set<RegistroClase> getRegistros() {
+        return registros;
+    }
+
+    public void setRegistros(Set<RegistroClase> registros) {
+        this.registros = registros;
+    }
+
+    public Set<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(Set<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    public Academia getAcademia() {
+        return academia;
+    }
+
+    public void setAcademia(Academia academia) {
+        this.academia = academia;
     }
 }

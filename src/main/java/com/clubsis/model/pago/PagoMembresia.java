@@ -1,36 +1,50 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.persona.Socio;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+
+@Entity
 public class PagoMembresia {
-    private Integer idPagoMembresia;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private Date fechaVencimiento;
     private Double montoPago;
-    private String estado;
+    private EstadoPagoMembresia estado;
     private Date fechaPago;
     private Date fechaAnulacion;
+
+    @ManyToOne
+    private Socio socio;
 
     protected PagoMembresia() {
     }
 
-    public PagoMembresia(Integer idPagoMembresia, Date fechaVencimiento, Double montoPago, String estado, Date fechaPago, Date fechaAnulacion) {
-        this.idPagoMembresia = idPagoMembresia;
+    public PagoMembresia(Date fechaVencimiento, EstadoPagoMembresia estado, Double montoPago, Date fechaPago, Socio socio, Date fechaAnulacion) {
         this.fechaVencimiento = fechaVencimiento;
-        this.montoPago = montoPago;
         this.estado = estado;
+        this.montoPago = montoPago;
         this.fechaPago = fechaPago;
+        this.socio = socio;
         this.fechaAnulacion = fechaAnulacion;
     }
 
-    public Integer getIdPagoMembresia() {
-        return idPagoMembresia;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPagoMembresia(Integer idPagoMembresia) {
-        this.idPagoMembresia = idPagoMembresia;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFechaVencimiento() {
@@ -49,11 +63,11 @@ public class PagoMembresia {
         this.montoPago = montoPago;
     }
 
-    public String getEstado() {
+    public EstadoPagoMembresia getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoPagoMembresia estado) {
         this.estado = estado;
     }
 
@@ -71,5 +85,13 @@ public class PagoMembresia {
 
     public void setFechaAnulacion(Date fechaAnulacion) {
         this.fechaAnulacion = fechaAnulacion;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }

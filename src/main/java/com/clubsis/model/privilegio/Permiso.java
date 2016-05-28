@@ -1,26 +1,40 @@
 package com.clubsis.model.privilegio;
 
+import com.clubsis.model.club.Club;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
+@Entity
 public class Permiso {
-    private Integer idPermiso;
+    @Id
+    @GeneratedValue
+    private Integer id;
     private String descripcion;
 
+    //no habra relacion con permiso y sede
+    //there is not going to be a relationship between sede and permiso
+    @ManyToOne
+    private Club club;
     protected Permiso() {
     }
 
-    public Permiso(Integer idPermiso, String descripcion) {
-        this.idPermiso = idPermiso;
+    public Permiso(Integer id, String descripcion) {
+        this.id= id;
         this.descripcion = descripcion;
     }
 
-    public Integer getIdPermiso() {
-        return idPermiso;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPermiso(Integer idPermiso) {
-        this.idPermiso = idPermiso;
+    public void setId(Integer idPermiso) {
+        this.id = id;
     }
 
     public String getDescripcion() {

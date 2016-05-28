@@ -11,33 +11,37 @@ import java.util.Date;
 public class Sorteo {
     @Id
     @GeneratedValue
-    private Integer idSorteo;
+    private Integer id;
     private Date fechaInicio;
     private Date fechaFin;
-    private Integer ganador;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="id_bungalow")
+
+    // TODO: agregar una relación muchos a muchos con Socio y que en la tabla cruzada haya un atributo que indique si un
+    // socio ha ganado un sorteo o no (boolean)
+    private Integer codigoGanador;
+    
+    @ManyToOne
     private Bungalow bungalow;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_club")
+    @ManyToOne
     private Club club;
 
     protected Sorteo() {
     }
 
-    public Sorteo(Integer idSorteo, Date fechaInicio, Date fechaFin) {
-        this.idSorteo= idSorteo;
+    public Sorteo(Date fechaInicio, Date fechaFin, Integer codigoGanador, Bungalow bungalow, Club club) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.codigoGanador = codigoGanador;
+        this.bungalow = bungalow;
+        this.club = club;
     }
 
-    public Integer getIdSorteo() {
-        return idSorteo;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdSorteo(Integer idSorteo) {
-        this.idSorteo = idSorteo;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getFechaInicio() {
@@ -56,11 +60,27 @@ public class Sorteo {
         this.fechaFin = fechaFin;
     }
 
-    public Bungalow getBungalow() { return bungalow; }
+    public Integer getCodigoGanador() {
+        return codigoGanador;
+    }
 
-    public void setBungalow(Bungalow bungalow) { this.bungalow = bungalow; }
+    public void setCodigoGanador(Integer codigoGanador) {
+        this.codigoGanador = codigoGanador;
+    }
 
-    public Club getClub() { return club; }
+    public Bungalow getBungalow() {
+        return bungalow;
+    }
 
-    public void setClub(Club club) { this.club = club; }
+    public void setBungalow(Bungalow bungalow) {
+        this.bungalow = bungalow;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
 }

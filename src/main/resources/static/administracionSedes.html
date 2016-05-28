@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app2">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+            background: #008D34;
+        }
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+        .ui-jqgrid-resize-ltr{
+            background-color: #008D34;
+        }
+        .btn-warning{
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .   {
+            width: 19px;
+        }
+
+        h4{
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr{
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        function limpiar(){
+            $("#nombre").val("");
+            $("#direccion").val("");
+            $("#descripcion").val("");
+            $("#telefono").val("");
+            $("#administrador").val("");
+        }
+        function llenarEngrilla(data){
+            jQuery("#jqGrid").addRowData(data.id, data);
+        }
+    </script>
+    <script type="text/javascript">
+        function mostrarMensaje(message){
+            alert(message);
+        }
+        function verificarDatos() {
+            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
+                "Direccion debe tener entre 1 y 100 caracteres",
+                "Telefono debe tener entre 7 a 15 caracteres",
+                "Descripcion debe tneer entre 1 y 255 caracteres",
+                "Administrador debe tneer entre 8 y 100 caracteres",
+                "Telefono solo puede tener numeros, *, # y -"
+            ]
+            var ver=[];
+            ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
+            ver[1]=$("#direccion").val().length>0&&$("#direccion").val().length<100;
+            ver[2]=$("#telefono").val().length>=7&&$("#telefono").val().length<=15;
+            ver[3]=$("#descripcion").val().length>0&&$("#descripcion").val().length<255;
+            ver[4]=$("#administrador").val().length>8&&$("#administrador").val().length<100;
+            ver[5]=$("#telefono").val().match(/[^0-9*#-]/)==null;
+            for(var i=0;i<ver.length;i++)
+                if(ver[i]==false) {
+                    mostrarMensaje(mensajes[i]);
+                    return false;
+                }
+            return true;
+        }
+        var app2 = angular.module('app2', []);
+        app2.controller('administracionSedesController', function ($scope, $http) {
+            $http.get('/api/sedes').success(function (data) {
+                var lastsel2;
+                jQuery("#jqGrid").jqGrid({
+                    datatype: "local",
+                    styleUI : 'Bootstrap',
+                    height: 50*(data.legth+1),
+                    colNames:['ID','Nombre', 'Direccion','Telefono', 'Descripcion'],
+                    colModel:[
+                        {name:'id',index:'id', width:90, sorttype:"int"},
+                        {name:'nombre',index:'nombre', width:150,editable: false},
+                        {name:'direccion',index:'direccion', width:260, editable: false},
+                        {name:'telefono',index:'telefono', width:220,editable: false},
+                        {name:'descripcion',index:'descripcion', width:220,editable: false}
+                    ]
+                });
+                for(var i=0;i<data.length;i++)
+                    jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+            });
+
+            $("#registrar").click(function(){
+                if(!verificarDatos())return;
+                var data={
+                    "nombre":$("#nombre").val(),
+                    "direccion":$("#direccion").val(),
+                    "telefono":$("#telefono").val(),
+                    "descripcion":$("#descripcion").val(),
+                    "administrador":$("#administrador").val()
+                }
+                $http.post('/api/sedes/',data).success(function (data2, status) {
+                    alert("registro Exitoso de la Sede "+data2.id);
+                    console.log(data2);
+                    limpiar();
+                    llenarEngrilla(data2);
+                });
+            });
+
+            $("#limpiar").click(function(){
+                limpiar();
+            });
+
+        });
+    </script>
+</head>
+<body ng-controller="administracionSedesController">
+<div id="headerUsuario"></div>
+<div class="container">
+    <h2>Sede</h2>
+    <hr>
+    <form class="form-horizontal">
+        <h4>REGISTRO SEDES</h4>
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nombre" placeholder="Descripcion de Sede">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="direccion" placeholder="Direccion de Sede">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="telefono" placeholder="solo numeros">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="administrador" class="col-md-4 control-label">Administrador</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="administrador" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5 invisible">
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 60px;">
+                    <input id="registrar" type="" class="btn btn-primary" value="Registrar" style="width:22%">
+                    <input id="limpiar" type="" class="btn btn-primary" value="Limpiar" style="width:22%">
+                </div>
+            </div>
+        </div>
+        <h4>RESULTADOS DE BÚSQUEDA</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+        </div>
+    </form>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="js/principal.js"></script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.clubsis.model.bungalow;
 
+import com.clubsis.model.club.Sorteo;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,17 +34,25 @@ public class Bungalow {
     @JsonIgnore
     private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
 
+    @OneToMany(mappedBy = "bungalow")
+    @JsonIgnore
+    private Set<Sorteo> sorteos;
 
     protected Bungalow() {
     }
 
-    public Bungalow(EstadoBungalow estado, Double precio, String caracteristicas, Integer piso, TipoBungalow tipoBungalow, Sede sede) {
+    public Bungalow(EstadoBungalow estado, Double precio, String caracteristicas, Integer piso, Integer valoracion, String urlFoto, String descripcion, TipoBungalow tipoBungalow, Sede sede, Set<ReservaBungalow> reservaBungalowSet, Set<Sorteo> sorteos) {
         this.estado = estado;
         this.precio = precio;
         this.caracteristicas = caracteristicas;
         this.piso = piso;
+        this.valoracion = valoracion;
+        this.urlFoto = urlFoto;
+        this.descripcion = descripcion;
         this.tipoBungalow = tipoBungalow;
         this.sede = sede;
+        this.reservaBungalowSet = reservaBungalowSet;
+        this.sorteos = sorteos;
     }
 
     public Integer getId() {
@@ -86,22 +95,6 @@ public class Bungalow {
         this.piso = piso;
     }
 
-    public TipoBungalow getTipoBungalow() {
-        return tipoBungalow;
-    }
-
-    public void setTipoBungalow(TipoBungalow tipoBungalow) {
-        this.tipoBungalow = tipoBungalow;
-    }
-
-    public Sede getSede() {
-        return sede;
-    }
-
-    public void setSede(Sede sede) {
-        this.sede = sede;
-    }
-
     public Integer getValoracion() {
         return valoracion;
     }
@@ -118,6 +111,30 @@ public class Bungalow {
         this.urlFoto = urlFoto;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public TipoBungalow getTipoBungalow() {
+        return tipoBungalow;
+    }
+
+    public void setTipoBungalow(TipoBungalow tipoBungalow) {
+        this.tipoBungalow = tipoBungalow;
+    }
+
+    public Sede getSede() {
+        return sede;
+    }
+
+    public void setSede(Sede sede) {
+        this.sede = sede;
+    }
+
     public Set<ReservaBungalow> getReservaBungalowSet() {
         return reservaBungalowSet;
     }
@@ -126,11 +143,11 @@ public class Bungalow {
         this.reservaBungalowSet = reservaBungalowSet;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public Set<Sorteo> getSorteos() {
+        return sorteos;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setSorteos(Set<Sorteo> sorteos) {
+        this.sorteos = sorteos;
     }
 }
