@@ -32,36 +32,27 @@
     <script type="text/javascript">
 
         var app3 = angular.module('app3', []);
-        var socioResp,persona;
         app3.controller('SuspensionController', function ($scope, $http) {
-            $http.get('/api/socios/1').then(function (respuesta) {
-                socioResp=respuesta.data;
-            });
-            $http.get('/api/socios/1/personas').then(function (respuesta) {
-                persona=respuesta.data;
-                $scope.ngSocio=persona.nombre+" "+persona.apellidoPaterno;
-            });
 
             $scope.enviarSolicitud =function (){
-
                 var data = {
-                        //por preguntar
+                    //por preguntar
+                    "id": 1,
                     "estado": 0,
                     "fechaSolicitud": "",
                     "fechaRespuesta": "",
                     "fechaAnulacion": "",
                     "fechaInicio": Date.parse($("#date-picker-TiempoInicio")[0].value),
                     "fechaFin": Date.parse($("#date-picker-TiempoFin")[0].value),
-                    "motivoSuspension": $scope.motivo,
-                    "socio": socioResp
+                    "motivoSuspension": $scope.motivo
                 };
 
                 $http.post('/api/suspensiones', data).success(function (data2 ) {
-                    //happy end
-                    //$scope.PostDataResponse = data;
-                    console.log(JSON.stringify(data2));
-                    alert("Tu registro de suspension fue hecha exitosamente.");
-                })
+                            //happy end
+                            //$scope.PostDataResponse = data;
+                            console.log(JSON.stringify(data2));
+                            alert("Tu registro de suspension fue hecha exitosamente.");
+                        })
                         .error(function (data2) {
                             console.log(JSON.stringify(data2));
                             alert("Tu registro de suspension no se pudo realizar.");
@@ -81,7 +72,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label">Nombre Socio</label>
             <div class="col-xs-7">
-                <input type="text" ng-model="ngSocio" disabled placeholder="" class="form-control "/>
+                <input type="text" disabled placeholder="Juan Perez" class="form-control "/>
             </div>
         </div>
         <div class="form-group">

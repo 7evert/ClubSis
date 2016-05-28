@@ -1,8 +1,10 @@
 package com.clubsis.model.clase;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -16,19 +18,23 @@ public class Academia {
     private String nombre;
     private String descripcion;
     private String urlFoto;
-
     private EstadoAcademia estadoAcademia;
 
-    // TODO: ManyToMany con Ciclo
+    //@ManyToMany(fetch = FetchType.EAGER, mappedBy = "academias")
+    //private Set<Ciclo> ciclos = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "academia")
+    private Set<Clase> clases = new HashSet<>();
 
     protected Academia() {
     }
 
-    public Academia(String nombre, String descripcion, String urlFoto, EstadoAcademia estadoAcademia) {
+    public Academia(String nombre, String descripcion, String urlFoto, EstadoAcademia estadoAcademia, Set<Clase> clases) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.urlFoto = urlFoto;
         this.estadoAcademia = estadoAcademia;
+        this.clases = clases;
     }
 
     public Integer getId() {
@@ -70,4 +76,13 @@ public class Academia {
     public void setEstadoAcademia(EstadoAcademia estadoAcademia) {
         this.estadoAcademia = estadoAcademia;
     }
+/*
+    public Set<Ciclo> getCiclos() {
+        return ciclos;
+    }
+
+    public void setCiclos(Set<Ciclo> ciclos) {
+        this.ciclos = ciclos;
+    }
+*/
 }

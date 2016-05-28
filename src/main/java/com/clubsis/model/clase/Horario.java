@@ -1,6 +1,7 @@
 package com.clubsis.model.clase;
 
 import com.clubsis.model.sede.Instalacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,22 +18,22 @@ public class Horario {
     @Id
     @GeneratedValue
     private Integer id;
-    private Date dia;
+    private String dia; // lunes, martes...
     private Date horaInicio;
     private Date horaFin;
-
     private EstadoHorario estadoHorario;
 
     @ManyToOne
     private Instalacion instalacion;
 
     @ManyToOne
+    @JsonIgnore
     private Clase clase;
 
     protected Horario() {
     }
 
-    public Horario(Date dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Instalacion instalacion, Clase clase) {
+    public Horario(String dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Clase clase, Instalacion instalacion) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -49,11 +50,11 @@ public class Horario {
         this.id = id;
     }
 
-    public Date getDia() {
+    public String getDia() {
         return dia;
     }
 
-    public void setDia(Date dia) {
+    public void setDia(String dia) {
         this.dia = dia;
     }
 

@@ -1,10 +1,11 @@
 package com.clubsis.model.clase;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,24 +18,29 @@ public class Ciclo {
     @GeneratedValue
     private Integer id;
     private String descripcion;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaInicio;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
-
     private EstadoCiclo estadoCiclo;
-
-    @OneToMany(mappedBy = "ciclo")
-    private Set<Clase> clases;
-
-    // TODO: ManyToMany con Academia
+/*
+    @ManyToMany
+    @JsonIgnore
+    private Set<Academia> academias = new HashSet<>();
+*/
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ciclo")
+    @JsonIgnore
+    private Set<Clase> clases = new HashSet<>();
 
     protected Ciclo() {
     }
 
-    public Ciclo(String descripcion, Date fechaInicio, Date fechaFin, EstadoCiclo estadoCiclo) {
+    public Ciclo(String descripcion, Date fechaInicio, Date fechaFin, EstadoCiclo estadoCiclo,Set<Clase> clases) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estadoCiclo = estadoCiclo;
+        this.clases = clases;
     }
 
     public Integer getId() {
@@ -76,4 +82,13 @@ public class Ciclo {
     public void setEstadoCiclo(EstadoCiclo estadoCiclo) {
         this.estadoCiclo = estadoCiclo;
     }
+
+    public Set<Clase> getClases() {
+        return clases;
+    }
+
+    public void setClases(Set<Clase> clases) {
+        this.clases = clases;
+    }
+
 }
