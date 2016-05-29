@@ -18,20 +18,16 @@
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
-
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-
         .center .ui-jqgrid {
             width: 1100px; margin-left: auto; margin-right: auto;
         }
-
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-
         .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
@@ -40,11 +36,9 @@
             background-color: #ededed;
             border-color: #ededed;
         }
-
         .icono {
             width: 19px;
         }
-
         h4 {
             background: #008D34;
             color: white;
@@ -54,7 +48,6 @@
             padding-bottom: 2px;
             margin-top: 0px;
         }
-
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
@@ -63,27 +56,23 @@
 
 
     <script type="text/javascript">
-
         function getID() {
             var href = this.location.href;
             var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
-
         function mostraridEvento(id){
             $("#idEvento").html("Evento Numero "+id);
         }
         function mostrarNombre(nombre){
             $("#nombre").html(nombre);
         }
-
         Date.prototype.ddmmyyyy = function() {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
             var dd  = this.getDate().toString();
             return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
         };
-
         function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
             $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
             $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
@@ -118,7 +107,6 @@
             //$("#urlFoto").val(data2.urlFoto);
             $("#descripcion").val(data2.descripcion);
             $("#estadoAcademia").val(data2.estadoAcademia);
-
         }
         function getTaller(id){
             return {
@@ -142,7 +130,6 @@
                 console.log(data2);
                 llenarDatosTaller(data2);
             });
-
             $("#guardar").click(function(){
                 var data=getTaller(id);
                 console.log(JSON.stringify(data));
@@ -200,12 +187,12 @@
                 </div>
             </div>
             <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="urlFoto" class="col-md-4 control-label">URL</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" id="urlFoto" class="form-control col-xs-8" ng-model="urlFoto" placeholder="Escriba el nombre..." required/>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label for="urlFoto" class="col-md-4 control-label">URL</label>-->
+            <!--<div class="col-md-8">-->
+            <!--<input type="text" id="urlFoto" class="form-control col-xs-8" ng-model="urlFoto" placeholder="Escriba el nombre..." required/>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
@@ -306,10 +293,7 @@
             console.log("salio");
         }
     });
-
     $('#jqGrid').jqGrid('setGridWidth', '900');
-
-
     $("#jqGrid1").jqGrid({
         url: '/api/infoAcademia/' + id,
         mtype: "GET",
@@ -336,25 +320,18 @@
             console.log("salio");
         }
     });
-
     $('#jqGrid1').jqGrid('setGridWidth', '900');
-
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-
         acciones = '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
-
     }
-
     function acciones2(cellValue, options, rowdata, action) {
         var acciones = '';
-
         acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
-
     }
 </script>
 <!--<script type="text/javascript">-->
@@ -364,8 +341,8 @@
 <!--//        var id = getID();-->
 <!--//        console.log(id);-->
 <!--//        if(id==undefined){-->
-            <!--//location.href="administrarProveedores1.html"-->
-        <!--}-->
+<!--//location.href="administrarProveedores1.html"-->
+<!--}-->
 
 
 
@@ -376,18 +353,18 @@
 <!--//        datatype: "json",-->
 <!--//        gridview: true,-->
 <!--//        emptyrecords: 'No se encontraron resultados',-->
-        <!--colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names-->
-        <!--colModel:[-->
-            <!--{name:'id', index:'id', key: true, width:50},-->
-            <!--{name:'nombre', index:'nombre', width:100},-->
-            <!--{name:'capacidad', index:'capacidad',width:100},-->
-            <!--{name:'estadoClase', index:'estadoClase', width:100},-->
-            <!--{name:'nivel', index:'nivel', width:100},-->
-            <!--{name:'precioCiclo', index:'precioCiclo', width:100},-->
-            <!--{name:'precioMes', index:'precioMes', width:100},-->
-            <!--{name:'rangoEdad', index:'rangoEdad', width:100},-->
-            <!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
-        <!--],-->
+<!--colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names-->
+<!--colModel:[-->
+<!--{name:'id', index:'id', key: true, width:50},-->
+<!--{name:'nombre', index:'nombre', width:100},-->
+<!--{name:'capacidad', index:'capacidad',width:100},-->
+<!--{name:'estadoClase', index:'estadoClase', width:100},-->
+<!--{name:'nivel', index:'nivel', width:100},-->
+<!--{name:'precioCiclo', index:'precioCiclo', width:100},-->
+<!--{name:'precioMes', index:'precioMes', width:100},-->
+<!--{name:'rangoEdad', index:'rangoEdad', width:100},-->
+<!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
+<!--],-->
 <!--//        viewrecords: true,-->
 <!--//        height: 300,-->
 <!--//        rowNum: 1000,-->
@@ -406,17 +383,17 @@
 <!--//        datatype: "json",-->
 <!--//        gridview: true,-->
 <!--//        emptyrecords: 'No se encontraron resultados',-->
-        <!--colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names-->
-        <!--colModel:[-->
-            <!--{name:'id', index:'id', key: true, width:50},-->
-            <!--{name:'dia', index:'dia', width:100},-->
-            <!--{name:'estadoHorario', index:'estadoHorario',width:100},-->
-            <!--{name:'horaInicio', index:'horaInicio', width:100},-->
-            <!--{name:'horaFin', index:'horaFin', width:100},-->
-            <!--{name:'Ciclo', index:'Ciclo', width:100},-->
-            <!--{name:'Instalación', index:'Instalación', width:100},-->
-            <!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
-        <!--],-->
+<!--colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names-->
+<!--colModel:[-->
+<!--{name:'id', index:'id', key: true, width:50},-->
+<!--{name:'dia', index:'dia', width:100},-->
+<!--{name:'estadoHorario', index:'estadoHorario',width:100},-->
+<!--{name:'horaInicio', index:'horaInicio', width:100},-->
+<!--{name:'horaFin', index:'horaFin', width:100},-->
+<!--{name:'Ciclo', index:'Ciclo', width:100},-->
+<!--{name:'Instalación', index:'Instalación', width:100},-->
+<!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
+<!--],-->
 <!--//        viewrecords: true,-->
 <!--//        height: 300,-->
 <!--//        rowNum: 1000,-->
@@ -440,20 +417,20 @@
 <!--//        }-->
 <!--//    });-->
 
-    <!--function acciones(cellValue, options, rowdata, action) {-->
-        <!--var acciones = '';-->
+<!--function acciones(cellValue, options, rowdata, action) {-->
+<!--var acciones = '';-->
 
-        <!--acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +-->
-                <!--'<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';-->
-        <!--return acciones;-->
+<!--acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +-->
+<!--'<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';-->
+<!--return acciones;-->
 
-    <!--}-->
+<!--}-->
 
-    <!--jQuery("#bt1").click( function() {-->
-        <!--jQuery("#jqGrid").jqGrid('editRow',"13");-->
-        <!--console.log(data);-->
-        <!--this.disabled = 'true';-->
-    <!--});-->
+<!--jQuery("#bt1").click( function() {-->
+<!--jQuery("#jqGrid").jqGrid('editRow',"13");-->
+<!--console.log(data);-->
+<!--this.disabled = 'true';-->
+<!--});-->
 
 <!--</script>-->
 </body>

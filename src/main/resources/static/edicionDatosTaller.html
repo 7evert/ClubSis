@@ -106,8 +106,6 @@
                 llenarDatosTaller(data2);
             });
             $("#guardar").click(function(){
-
-
                 var data=getTaller(id);
                 console.log(JSON.stringify(data));
                 $http.put("/api/infoAcademia/"+data.id, data).success(function (data2, status) {
@@ -180,8 +178,6 @@
                 </select>
             </div>
         </div>
-
-
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
