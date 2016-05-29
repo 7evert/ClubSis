@@ -27,7 +27,7 @@ public class ServicioTarifaEventos {
     public TarifaEvento actualizarTarifaEventos(Integer id, TarifaEvento tarifaEvento) {
         TarifaEvento tarifaEventoexistente = tarifaxEventoRepository.findOne(id);
         if (tarifaEventoexistente != null) {
-            BeanUtils.copyProperties(tarifaEvento, tarifaEventoexistente);
+            tarifaEventoexistente.setPrecio(tarifaEvento.getPrecio());
             return tarifaxEventoRepository.saveAndFlush(tarifaEventoexistente);
         }else{
             return crearTarifaEventos(tarifaEvento);
