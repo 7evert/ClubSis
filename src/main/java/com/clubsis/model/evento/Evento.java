@@ -44,8 +44,8 @@ public class Evento {
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Invitado> invitados = new HashSet<Invitado>(0);
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private Set<InvitadoEvento> invitadoeventos = new HashSet<InvitadoEvento>(0);
 
     // este es el OWNER de la relación con sede
     @ManyToOne
@@ -54,22 +54,21 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(Date fechaInicio, String descripcion, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String nombre, String url, Integer isGratuito, Integer isPublico, Set<TarifaEvento> tarifaxEventos, Set<Empresa> empresas, Integer capacidad, Set<Invitado> invitados, Sede sede) {
-
-        this.fechaInicio = fechaInicio;
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Sede sede) {
         this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
-        this.nombre = nombre;
         this.url = url;
         this.isGratuito = isGratuito;
         this.isPublico = isPublico;
-        this.tarifaxEventos = tarifaxEventos;
-        this.empresas = empresas;
+        this.nombre = nombre;
         this.capacidad = capacidad;
-        this.invitados = invitados;
+        this.empresas = empresas;
+        this.tarifaxEventos = tarifaxEventos;
+        this.invitadoeventos = invitadoeventos;
         this.sede = sede;
     }
 
@@ -185,12 +184,12 @@ public class Evento {
         this.tarifaxEventos = tarifaxEventos;
     }
 
-    public Set<Invitado> getInvitados() {
-        return invitados;
+    public Set<InvitadoEvento> getInvitadoeventos() {
+        return invitadoeventos;
     }
 
-    public void setInvitados(Set<Invitado> invitados) {
-        this.invitados = invitados;
+    public void setInvitadoeventos(Set<InvitadoEvento> invitadoeventos) {
+        this.invitadoeventos = invitadoeventos;
     }
 
     public Sede getSede() {

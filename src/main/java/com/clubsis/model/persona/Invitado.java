@@ -1,10 +1,12 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.evento.InvitadoEvento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,25 +28,25 @@ public class Invitado {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Evento> eventos= new HashSet<Evento>(0);
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "invitado")
+    private Set<InvitadoEvento> invitadoEventos= new HashSet<InvitadoEvento>(0);
 
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, String nombres, Integer numeroDocumento, Socio socio, Boolean ingresoInvitado, Set<Evento> eventos) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, String nombres, Boolean ingresoInvitado, Socio socio, Set<InvitadoEvento> invitadoEventos) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.tipoDocumento = tipoDocumento;
-        this.nombres = nombres;
         this.numeroDocumento = numeroDocumento;
-        this.socio = socio;
+        this.nombres = nombres;
         this.ingresoInvitado = ingresoInvitado;
-        this.eventos = eventos;
+        this.socio = socio;
+        this.invitadoEventos = invitadoEventos;
     }
 
     public Integer getId() {
@@ -111,11 +113,11 @@ public class Invitado {
         this.socio = socio;
     }
 
-    public Set<Evento> getEventos() {
-        return eventos;
+    public Set<InvitadoEvento> getInvitadoEventos() {
+        return invitadoEventos;
     }
 
-    public void setEventos(Set<Evento> eventos) {
-        this.eventos = eventos;
+    public void setInvitadoEventos(Set<InvitadoEvento> invitadoEventos) {
+        this.invitadoEventos = invitadoEventos;
     }
 }
