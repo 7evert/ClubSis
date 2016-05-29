@@ -48,7 +48,7 @@
             $("#nombre").val("");
             $("#apellidoPat").val("");
             $("#apellidoMat").val("");
-            $("#tipoDoc").val("");
+            $("#tipoDoc").val(0);
             $("#nroDoc").val("");
             //$("#exonerado").val(0);
             $("#ingresoInv").val(0);
@@ -79,21 +79,19 @@
             var mensajes=["Nombre debe tener entre 1 y 50 letras",
                 "Apellido Paterno debe tener entre 1 y 50 letras",
                 "Apellido Materno debe tener entre 1 y 50 letras",
-                "Tipoc Documento debe tener entre 1 y 50 letras",
-                "Numero de Documento debe ser un numero entero entre 8 y 25 numeros",
+                "Debe elegir algun tipo de documento",
+                "Numero de Documento debe ser un numero entero entre 8 y 25 numeros"
             ];
             var ver=[],i=0;
-            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0
-            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0
-            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
-            ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
+            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0;
+            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0;
+            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0;
+            ver[i++]=$("#tipoDoc").val()!=0;
             ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,7)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
-            <<<<<<< Updated upstream
-                            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
+            /*ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
-            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);
-=======
->>>>>>> Stashed changes
+            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);*/
+
             for(var j=0;j<i;j++)
                 if(ver[j]==false) {
                     mostrarMensaje(mensajes[j]);
@@ -210,9 +208,12 @@
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">Tipo de Documento</label>
                                 <div class="col-xs-7">
-                                    <input id="tipoDoc" type="text" name="tipoDoc" maxlength="30" autofocus="autofocus"
-                                           tabindex="1" autocomplete="off" placeholder=""
-                                           class="form-control validate[required]"/>
+                                    <select class="form-control" id="tipoDoc" ng-model="postulantes.tipoDocumento">
+                                        <option value="0" ng-selected="selected">Elegir</option>
+                                        <option value="DNI">DNI</option>
+                                        <option value="Pasaporte">Pasaporte</option>
+                                        <option value="Carnet de extranjería">Carnet de extranjería</option>
+                                    </select>
                                 </div>
                                 <!--<div class="col-xs-7">
                                     <select class="form-control" id="tipoDocumento">

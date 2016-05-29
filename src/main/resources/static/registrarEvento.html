@@ -192,9 +192,9 @@
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
                     height: 50*(data.legth+1),
-                    colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                    colNames:['Tipo','Tarifa', 'Usar Tarifa', 'Precio'],
                     colModel:[
-                        {name:'id',index:'id', width:90, sorttype:"int"},
+                        {name:'id',index:'Tipo', width:90, sorttype:"int"},
                         {name:'nombre',index:'nombre', width:150,editable: false},
                         {name:'UsarTar',index:'UsarTar', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},
                         {name:'precio',index:'precio', width:120,editable: true, editoptions:{size:"20",maxlength:"30"}}
@@ -220,7 +220,6 @@
                     data[i].precio="0";
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
                 }
-                data.push({id:-1,nombre:"Click para terminar"});
                 jQuery("#jqGrid").addRowData(data[data.length-1].id, data[i]);
             });
 
@@ -340,7 +339,7 @@
                  src="img/Eventos/newYear.jpg">
         </div>
         <div id="Tarifas" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
-            <div><h1>Tarifas</h1> (haga click para agregar)</div>
+            <div><h1>Tarifas</h1> (Seleccione su tarifa en la grilla y edite el precio)</div>
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>

@@ -13,19 +13,6 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <script type="text/javascript">
-        var dataInvitado = {
-            id: 1,
-            nombres: "pol",
-            apellidoPaterno: "seg",
-            apellidoMaterno: "mor",
-            tipoDocumento: "dni",
-            numeroDocumento: 70077000,
-            //esExoneradoPago: 0,
-            ingresoInvitado: 1,
-            fechaVisita: "2016-05-18 02:06:30",
-            fechaSalida: "2016-05-18 02:06:31",
-            socio: {id: 1}
-        }
         Date.prototype.ddmmyyyy = function () {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
@@ -46,13 +33,9 @@
             $("#tipoDoc").val(data.tipoDocumento);
             $("#nroDoc").val(data.numeroDocumento);
             //$("#exonerado").val(data.esExoneradoPago+0);
-            $("#ingresoInv").val(data.ingresoInvitado+0);
-            $("#date-picker-TiempoInicio").datepicker("setDate",new Date(data.fechaVisita));
-            $("#date-picker-TiempoFin").datepicker("setDate",new Date(data.fechaSalida));
+            //$("#ingresoInv").val(data.ingresoInvitado+0);
         }
         function getInvitado(codSocio){
-            var dia1=(isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value)))?null:Date.parse($("#date-picker-TiempoInicio")[0].value);
-            var dia2=(isNaN(Date.parse($("#date-picker-TiempoFin")[0].value)))?null:Date.parse($("#date-picker-TiempoFin")[0].value);
             return {
                 nombres: $("#nombre").val(),
                 apellidoPaterno: $("#apellidoPat").val(),
@@ -60,9 +43,7 @@
                 tipoDocumento: $("#tipoDoc").val(),
                 numeroDocumento: parseInt($("#nroDoc").val()),
                 //esExoneradoPago: parseInt($("#exonerado").val()),
-                ingresoInvitado: parseInt($("#ingresoInv").val()),
-                fechaVisita: dia1,
-                fechaSalida: dia2,
+                //ingresoInvitado: parseInt($("#ingresoInv").val()),
                 socio:{
                     id:codSocio
                 }
@@ -76,21 +57,15 @@
             var mensajes=["Nombre debe tener entre 0 y 50 letras",
                 "Apellido Paterno debe tener entre 0 y 50 letras",
                 "Apellido Materno debe tener entre 0 y 50 letras",
-                "Tipoc Documento debe tener entre 0 y 50 letras",
-                "Numero de Documento debe ser un numero entero",
-                "fecha Inicio debe ser una fecha Valida",
-                "fecha Fin debe ser una fecha Valida",
-                "fecha de Inicio debe ser antes o igual a fecha Fin"
+                "Debe elegir algun tipo de documento",
+                "Numero de Documento debe ser un numero entero"
             ];
             var ver=[],i=0;
-            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0
-            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0
-            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
-            ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
+            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0;
+            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0;
+            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0;
+            ver[i++]=$("#tipoDoc").val()!=0;
             ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,7)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
-            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);
             for(var j=0;j<i;j++)
                 if(ver[j]==false) {
                     mostrarMensaje(mensajes[j]);
@@ -172,7 +147,12 @@
             <div class="form-group">
                 <label class="control-label col-xs-4">Tipo de Documento</label>
                 <div class="col-xs-5">
-                    <input type="text" class="form-control" id="tipoDoc" placeholder="Apellido Materno">
+                    <select class="form-control" id="tipoDoc" ng-model="postulantes.tipoDocumento">
+                        <option value="0" ng-selected="selected">Elegir</option>
+                        <option value="DNI">DNI</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                        <option value="Carnet de extranjería">Carnet de extranjería</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -181,39 +161,19 @@
                     <input type="text" class="form-control" id="nroDoc" placeholder="Apellido Materno">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-xs-4">Fecha Inicio</label>
-                <div class="col-xs-2 date">
-                    <div class="input-group input-append date">
-                        <input id="date-picker-TiempoInicio" type="text" class="date-picker form-control col-xs-6"/>
-                        <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
-                                class="glyphicon glyphicon-calendar"></span>
-                        </label>
-                    </div>
-                </div>
-                <label class="control-label col-xs-1">Fecha Fin</label>
-                <div class="col-xs-2 date">
-                    <div class="input-group input-append date">
-                        <input id="date-picker-TiempoFin" type="text" class="date-picker form-control col-xs-6"/>
-                        <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
-                                class="glyphicon glyphicon-calendar"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <!--<label class="control-label col-xs-4">Exonerado de Pago</label>
+            <!--<div class="form-group">
+                <label class="control-label col-xs-4">Exonerado de Pago</label>
                 <select class="col-xs-2" id="exonerado">
                     <option value="0">No</option>
                     <option value="1">Si</option>
-                </select>-->
+                </select>
                 <label class="control-label col-xs-4">Ingreso Invitado</label>
                 <select class="col-xs-5" id="ingresoInv">
                     <option value="0">No</option>
                     <option value="1">Si</option>
                 </select>
             </div>
-            <br>
+            <br>-->
             <div class="form-group">
                 <div class="col-xs-offset-7 col-xs-8">
                     <input id="modificar" type="submit" class="btn btn-primary" value="Modificar">

@@ -229,7 +229,7 @@
                         var idSede=dataevento.id;
                         $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
                             alert("Tu actualizacion fue exitosa");
-                            location.href="EventInformacion.html?id="+data2.id;
+                            //location.href="EventInformacion.html?id="+data2.id;
                             if(data2.isGratuito==1){return;}
                             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
                             for (var i = 0,vez=0; i < ids.length; i++) {
@@ -239,11 +239,20 @@
                                 if (rowData.UsarTar == "Yes") {
                                     vez++;
                                     dataJSON = {
-                                        "precio": parseFloat(rowData.precio)
+                                        "id":parseInt(rowData.id),
+                                        "precio": parseFloat(rowData.precio),
+                                        "eventos":{
+                                            "id":data2.id
+                                        },
+                                        "tarifaEventos":{
+                                            "id":parseInt(rowData.idTar)
+                                        }
                                     };
-                                    $http.put("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
+                                    console.log("/api/tarifaeventos/" + rowData.idTar +"/actualizar");
+                                    console.log(JSON.stringify(dataJSON));
+                                    /*$http.put("/api/tarifaeventos/" + rowData.id +"/actualizar", dataJSON).success(function (data2, status) {
                                         console.log("Salio");
-                                    });
+                                    });*/
                                 }
                             }
                         });
@@ -259,9 +268,10 @@
                         jQuery("#jqGrid").jqGrid({
                             datatype: "local",
                             height: 50*(data.legth+1),
-                            colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                            colNames:['ID','idTar','Tarifa', 'Usar Tarifa', 'Precio'],
                             colModel:[
                                 {name:'id',index:'id', width:90, sorttype:"int"},
+                                {name:'idTar',index:'idTar', width:90, sorttype:"int"},
                                 {name:'nombre',index:'nombre', width:150,editable: false},
                                 {name:'UsarTar',index:'UsarTar', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},
                                 {name:'precio',index:'precio', width:120,editable: true, editoptions:{size:"20",maxlength:"30"}}
@@ -283,15 +293,16 @@
                             editurl: "clientArray"
                         });
                         var tarreg=new Array();
-                        data.push({id:-1,nombre:"Click para terminar"});
                         $http.get('api/tarifaeventos').success(function (data3) {
                             for(var i=0;i<data3.length;i++){
-                                console.log(data3[i].eventos.id+" "+dataevento.id)
+                                //console.log(data3[i].eventos.id+" "+dataevento.id)
                                 if(data3[i].eventos.id==dataevento.id){
                                     for(var j=0;j<data.length;j++){
                                         if(data3[i].tarifaeventos.id==data[j].id){
+                                            data[j].idTar=data3[i].id;
                                             data[j].UsarTar="Yes";
                                             data[j].precio=data3[i].precio;
+                                            console.log(data[j]);
                                             jQuery("#jqGrid").addRowData(data[j].id, data[j]);
                                             tarreg.push(j);
                                         }
@@ -305,6 +316,7 @@
                                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
                                 }
                             }
+                            jQuery("#jqGrid").jqGrid('hideCol',["idTar"]);
                         });
 
                     });
