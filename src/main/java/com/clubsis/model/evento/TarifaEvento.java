@@ -15,13 +15,13 @@ public class TarifaEvento {
     private double precio;
 
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "evento_id")
     private Evento eventos;
 
 
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "tarifaevento_id")
     private Tarifa tarifaeventos;
 
