@@ -2,6 +2,7 @@ package com.clubsis.model.pago;
 
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,6 +20,7 @@ public class Pago {
     private Double mora;
     private Double montoTotal;
     private Date fechaAnulacion;
+    //TODO:Agregar fechaRegistro , fechaCancelacion , y estado
     private TipoPago tipoPago;
 
     private String valoracion;
@@ -27,6 +29,7 @@ public class Pago {
     private Socio socio;
 
     @OneToMany(mappedBy = "pago")
+    @JsonIgnore
     private Set<Cuota> cuotas;
 
     public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {

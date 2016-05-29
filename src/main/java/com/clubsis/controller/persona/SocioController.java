@@ -58,6 +58,7 @@ public class SocioController {
 
     @RequestMapping(value = "/{id}/personas", method = RequestMethod.GET)
     public Persona mostrarNombrePersona(@PathVariable Integer id) {
+        //TODO: renombrar
         List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
         return personas.get(0);
     }

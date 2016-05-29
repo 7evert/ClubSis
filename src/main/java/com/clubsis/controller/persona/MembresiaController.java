@@ -24,6 +24,7 @@ public class MembresiaController {
     //esto recibe el id del postulante
     @RequestMapping(value = "/{id}",method = RequestMethod.POST)
     public void create(@PathVariable Integer id){
+        //TODO:RENOMBRAR APRUEBA Y DESAPRUEBA /{boolean}
         Socio nuevoSocio = servicioMembresias.crearMembresia(id);
         servicioPagos.primerPago(nuevoSocio);
     }

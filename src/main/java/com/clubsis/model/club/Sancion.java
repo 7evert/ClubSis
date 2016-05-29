@@ -1,7 +1,11 @@
 package com.clubsis.model.club;
 
+import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Rodrigo López on 30/04/2016.
@@ -21,7 +25,9 @@ public class Sancion {
     @ManyToOne
     private Club club;
 
-    // TODO: manytomany con Socio
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Socio> socios;
 
     protected Sancion() {
     }
