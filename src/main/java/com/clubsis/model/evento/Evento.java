@@ -25,7 +25,6 @@ public class Evento {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
     private EstadoEvento estado;
-    private String reglamento;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInicioInscripcion;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
@@ -55,21 +54,21 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
-        this.descripcion = descripcion;
+    public Evento(Date fechaInicio, String descripcion, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String nombre, String url, Integer isGratuito, Integer isPublico, Set<TarifaEvento> tarifaxEventos, Set<Empresa> empresas, Integer capacidad, Set<Invitado> invitados, Sede sede) {
+
         this.fechaInicio = fechaInicio;
+        this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.reglamento = reglamento;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.nombre = nombre;
         this.url = url;
         this.isGratuito = isGratuito;
         this.isPublico = isPublico;
-        this.nombre = nombre;
-        this.capacidad = capacidad;
-        this.empresas = empresas;
         this.tarifaxEventos = tarifaxEventos;
+        this.empresas = empresas;
+        this.capacidad = capacidad;
         this.invitados = invitados;
         this.sede = sede;
     }
@@ -112,14 +111,6 @@ public class Evento {
 
     public void setEstado(EstadoEvento estado) {
         this.estado = estado;
-    }
-
-    public String getReglamento() {
-        return reglamento;
-    }
-
-    public void setReglamento(String reglamento) {
-        this.reglamento = reglamento;
     }
 
     public Date getFechaInicioInscripcion() {

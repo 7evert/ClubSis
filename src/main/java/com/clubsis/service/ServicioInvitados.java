@@ -31,8 +31,6 @@ public class ServicioInvitados {
     }
     public Invitado actualizarInvitado(Integer id, Invitado invitado){
         Invitado invitadoExistente = invitadoRepository.findOne(id);
-        if(invitado.getFechaSalida() != null ) invitadoExistente.setFechaSalida(invitado.getFechaSalida());
-        if(invitado.getFechaVisita() != null ) invitadoExistente.setFechaVisita(invitado.getFechaVisita());
         if(invitado.getIngresoInvitado() != invitadoExistente.getIngresoInvitado()) invitadoExistente.setIngresoInvitado(invitado.getIngresoInvitado());
         if(invitado.getApellidoMaterno() != invitadoExistente.getApellidoMaterno()) invitadoExistente.setApellidoMaterno(invitado.getApellidoMaterno());
         if(invitado.getApellidoPaterno() != invitadoExistente.getApellidoPaterno()) invitadoExistente.setApellidoPaterno(invitado.getApellidoPaterno());

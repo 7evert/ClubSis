@@ -19,12 +19,8 @@ public class Invitado {
     private Integer id;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
-    private Date fechaVisita;
     private String tipoDocumento;
     private Integer numeroDocumento;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
-    private Date fechaSalida;
     private String nombres;
     private Boolean ingresoInvitado;
 
@@ -40,17 +36,15 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, Date fechaVisita, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaSalida, Set<Evento> eventos, Socio socio, Boolean ingresoInvitado, String nombres) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, String nombres, Integer numeroDocumento, Socio socio, Boolean ingresoInvitado, Set<Evento> eventos) {
         this.apellidoPaterno = apellidoPaterno;
-        this.fechaVisita = fechaVisita;
         this.apellidoMaterno = apellidoMaterno;
-        this.numeroDocumento = numeroDocumento;
         this.tipoDocumento = tipoDocumento;
-        this.fechaSalida = fechaSalida;
-        this.eventos = eventos;
+        this.nombres = nombres;
+        this.numeroDocumento = numeroDocumento;
         this.socio = socio;
         this.ingresoInvitado = ingresoInvitado;
-        this.nombres = nombres;
+        this.eventos = eventos;
     }
 
     public Integer getId() {
@@ -77,14 +71,6 @@ public class Invitado {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Date getFechaVisita() {
-        return fechaVisita;
-    }
-
-    public void setFechaVisita(Date fechaVisita) {
-        this.fechaVisita = fechaVisita;
-    }
-
     public String getTipoDocumento() {
         return tipoDocumento;
     }
@@ -99,14 +85,6 @@ public class Invitado {
 
     public void setNumeroDocumento(Integer numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
-    }
-
-    public Date getFechaSalida() {
-        return fechaSalida;
-    }
-
-    public void setFechaSalida(Date fechaSalida) {
-        this.fechaSalida = fechaSalida;
     }
 
     public String getNombres() {

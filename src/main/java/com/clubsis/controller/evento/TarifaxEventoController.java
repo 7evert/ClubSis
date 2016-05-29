@@ -8,6 +8,7 @@ import com.clubsis.service.ServicioEventos;
 import com.clubsis.service.ServicioSedes;
 import com.clubsis.service.ServicioTarifas;
 import com.clubsis.service.ServicioTarifaEventos;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,16 @@ public class TarifaxEventoController {
         double precio=tarifaxEventos.getPrecio();
         TarifaEvento tarifaxEventos1 = new TarifaEvento(precio,evento,tarifa);
         return servicioTarifaxEventos.crearTarifaEventos(tarifaxEventos1);
+    }
+
+    @RequestMapping(value="/{id}/actualizar",method = RequestMethod.PUT)
+    public TarifaEvento update(@PathVariable Integer id, @RequestBody TarifaEvento tarifaevento) {
+        return servicioTarifaxEventos.actualizarTarifaEventos(id, tarifaevento);
+    }
+
+    @RequestMapping(value="/{id}/eliminar",method= RequestMethod.DELETE)
+    public void delete(@PathVariable Integer id){
+       servicioTarifaxEventos.eliminarTarifaEvento(id);
     }
 
 }
