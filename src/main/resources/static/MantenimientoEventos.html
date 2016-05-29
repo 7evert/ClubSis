@@ -221,23 +221,27 @@
                 llenarListaBungalows1(DATAEVENTOS);
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
                 mostrarNext5();
-                var eliminar=$("button");
+                /*var eliminar=$("button");
                 for(var i=0;i<eliminar.length;i++)
                     if($("button")[i].value=="Eliminar")
-                        $($("button")[i]).attr({style:'display:none;'});
-                funcion.Eliminar=function(e){
-                    location.href = "loginUsuario.html";
-                    /*event.preventDefault();
-                     <<<<<<< Updated upstream
-                     DATAEVENTOS[getID(e.target)].estado="INHABILITADO";
-                     console.log(JSON.stringify(DATAEVENTOS[getID(e.target)-1]));
-                     $http.put('/api/eventos/'+getID(e.target),DATAEVENTOS[getID(e.target)]).success(function (data) {
+                        $($("button")[i]).attr({style:'display:none;'});*/
+                funcion.Eliminar=function(event){
+                    //location.href = "loginUsuario.html";
+                    event.preventDefault();
 
-                     });*/
+                    dataevento = $.grep(DATAEVENTOS, function (e) {
+                        return e.id == getID(event.target);
+                    })[0];
+                    dataevento.estado="INHABILITADO";
+                    dataevento.sede={"id":dataevento.sede.id};
+                     console.log(JSON.stringify(dataevento));
+                     $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
+                        console.log(data);
+                     });
                 }
             });
 
-            var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
+            var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"},{v:"INHABILITADO"}];
             var estadosElem=$("#estado");
             for(var i=0;i<estados.length;i++)
                 estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
@@ -462,7 +466,7 @@
         var b = new Array();
         b[0] = retornaTitulo1(nombre);
         b[1] = $('<p></p>').html("Evento " + id);
-        b[2] = retornaSedes1(sede.nombre);
+        b[2] = retornaSedes1(sede?sede.nombre:"");
         b[3] = $('<h3></h3>').html(((isPublico) ? "Publico" : "Privado") + ((isGratuito) ? " y Gratuito" : ""));
         for (var j = 0; j < b.length; j++)
             panelInfo.append(b[j]);
