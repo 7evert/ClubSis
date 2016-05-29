@@ -79,9 +79,7 @@
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
             console.log(data);
-
         })
-
         funciones.eliminar=(function (id) {
             console.log("Quieres eliminar?");
             //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
@@ -113,43 +111,43 @@
     <!--<h4>CONSULTA DE TALLERES</h4>-->
 
     <!--<form class="form-horizontal">-->
-        <!--<div class="row">-->
+    <!--<div class="row">-->
 
 
 
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+    <!--<div class="col-sm-6 col-lg-5">-->
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
 
 
-            <!--<div class="col-sm-7 col-lg-7">-->
-            <!--</div>-->
-            <!--<div class="col-sm-5 col-lg-5">-->
-                <!--<div class="form-group" style="margin-left: 110px;">-->
-                    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <h4>LISTA DE TALLERES</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
-            <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
-        </div>
-        <br>
-        <div class="leyenda">
-            <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
-            <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
-            <!--|-->
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
-        </div>
+    <!--<div class="col-sm-7 col-lg-7">-->
+    <!--</div>-->
+    <!--<div class="col-sm-5 col-lg-5">-->
+    <!--<div class="form-group" style="margin-left: 110px;">-->
+    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <h4>LISTA DE TALLERES</h4>
+    <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br>
+    <div class="leyenda">
+        <span>Leyenda: </span>
+        <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
+        <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
+        <!--|-->
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
+    </div>
     </form>
 </div>
 <br>
@@ -164,7 +162,6 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-
     $("#jqGrid").jqGrid({
         url: '/api/academias',
         mtype: "GET",
@@ -188,10 +185,7 @@
             console.log("salio");
         }
     });
-
     $('#jqGrid').jqGrid('setGridWidth', '900');
-
-
     $.extend(true, $.jgrid.edit, {
         recreateForm: true,
         beforeShowForm: function ($form) {
@@ -202,16 +196,12 @@
             });
         }
     });
-
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-
         acciones = '<a href="#" onclick="edicionTaller();return false;" id="bt1" class="btn btn-warning" data-idTaller-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="#" onclick="accionEliminar();return false;" id="bt2"  class="btn btn-warning" data-idTaller-eliminar="' + rowdata['id'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
-
     }
-
     jQuery("#bt1").click( function() {
         jQuery("#jqGrid").jqGrid('editRow',"13");
         console.log(data);

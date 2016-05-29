@@ -73,6 +73,7 @@
     </script>
     <script type="text/javascript">
         function llenarDatosProveedor(data2) {
+
             $("#nombreProv").val(data2.nombre);
             $("#numRUC").val(data2.ruc);
             $("#descripcion").val(data2.descripcion);
@@ -104,8 +105,6 @@
                 llenarDatosProveedor(data2);
             });
             $("#guardar").click(function(){
-
-
                 var data=getProveedor(id);
                 console.log(JSON.stringify(data));
                 $http.put("/api/proveedores/"+data.id, data).success(function (data2, status) {

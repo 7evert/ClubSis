@@ -73,13 +73,14 @@
     </script>
     <script type="text/javascript">
         function llenarDatosTaller(data2) {
-            $("#nivel").val(data2.nivel);
-            $("#rangoEdad").val(data2.rangoEdad);
-            $("#precioMes").val(data2.precioMes);
-            $("#precioCiclo").val(data2.precioCiclo);
-            $("#capacidad").val(data2.capacidad);
-            $("#profesor").val(data2.profesor);
-            $("#estadoProveedor").val(data2.estadoProveedor+0);
+            for(var i = 0; i < data2.length; i++){
+            $("#nivel").val(data2[i].nivel);
+            $("#rangoEdad").val(data2[i].rangoEdad);
+            $("#precioMes").val(data2[i].precioMes);
+            $("#precioCiclo").val(data2[i].precioCiclo);
+            $("#capacidad").val(data2[i].capacidad);
+            $("#profesor").val(data2[i].profesor);
+            $("#estadoProveedor").val(data2.estadoProveedor+0);}
         }
         function getDatosTaller(id){
             return {
@@ -106,7 +107,7 @@
                 llenarDatosTaller(data2);
             });
             $("#guardar").click(function(){
-                var data=getTaller(id);
+                var data=getDatosTaller(id);
                 console.log(JSON.stringify(data));
                 $http.put("/api/infoAcademia/"+data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
@@ -137,12 +138,6 @@
             <label class="control-label col-xs-4">Rango Edad</label>
             <div class="input-group col-xs-8">
                 <input id="rangoEdad" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
-            </div>
-        </div>
-        <div id="DescripcionTaller" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
-            <div class="input-group col-xs-8">
-                <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
             </div>
         </div>
         <div id="precioCicloTaller" class="form-group">
