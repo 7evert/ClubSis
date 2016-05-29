@@ -241,12 +241,10 @@
                                     dataJSON = {
                                         "id":parseInt(rowData.id),
                                         "precio": parseFloat(rowData.precio),
-                                        "eventos":{
-                                            "id":data2.id
-                                        },
-                                        "tarifaEventos":{
-                                            "id":parseInt(rowData.idTar)
-                                        }
+                                        "eventos":data2,
+                                        "tarifaEventos":$.grep(TARIFAS, function (d) {
+                                            return d.id == rowData.idTar;
+                                        })[0]
                                     };
                                     console.log("/api/tarifaeventos/" + rowData.idTar +"/actualizar");
                                     console.log(JSON.stringify(dataJSON));
@@ -261,9 +259,9 @@
                         alert("Cancelar");
                         location.href = "MantenimientoEventos.html";
                     });
-
+                    var TARIFAS;
                     $http.get('/api/tarifas').success(function (data) {
-
+                        TARIFAS=data;
                         var lastsel2;
                         jQuery("#jqGrid").jqGrid({
                             datatype: "local",
