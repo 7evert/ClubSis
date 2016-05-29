@@ -4,6 +4,7 @@ package com.clubsis.model.club;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.privilegio.Permiso;
 import com.clubsis.model.privilegio.Rol;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,22 +22,22 @@ public class Club {
     private String mision;
     private String historia;
     private String urlFoto;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Oferta> ofertas;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Sancion> sanciones;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Sorteo> sorteos;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<CuotaExtraordinaria> cuotasExtraordinarias;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Permiso> permisos;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Rol> roles;
 

@@ -154,6 +154,14 @@ public class ServicioMembresias {
         return nuevoSocio;
     }
 
-
+    public Persona obtenerSocioPrincipal(Integer idSocio){
+        List<Persona> personas = personaRepository.findAll();
+        for(Persona item:personas){
+            if(item.getSocio().getId()== idSocio && item.getEsTitular() ){
+                return item;
+            }
+        }
+        return null;
+    }
 
 }

@@ -32,13 +32,14 @@ public class Sancion {
     protected Sancion() {
     }
 
-    public Sancion(String nombre, Double costo, String descripcion, Date fechaPago, EstadoSancion estado, Club club) {
+    public Sancion(String nombre, Double costo, String descripcion, EstadoSancion estado, Date fechaPago, Club club, Set<Socio> socios) {
         this.nombre = nombre;
         this.costo = costo;
         this.descripcion = descripcion;
-        this.fechaPago = fechaPago;
         this.estado = estado;
+        this.fechaPago = fechaPago;
         this.club = club;
+        this.socios = socios;
     }
 
     public Integer getId() {
@@ -95,5 +96,13 @@ public class Sancion {
 
     public void setClub(Club club) {
         this.club = club;
+    }
+
+    public Set<Socio> getSocios() {
+        return socios;
+    }
+
+    public void setSocios(Set<Socio> socios) {
+        this.socios = socios;
     }
 }

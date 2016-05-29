@@ -1,8 +1,11 @@
 package com.clubsis.controller.persona;
 
+import com.clubsis.model.persona.EstadoPostulante;
+import com.clubsis.model.persona.Postulante;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.service.ServicioMembresias;
 import com.clubsis.service.ServicioPagos;
+import com.clubsis.service.ServicioPostulante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +24,22 @@ public class MembresiaController {
     @Autowired
     private ServicioPagos servicioPagos;
 
+    @Autowired
+    private ServicioPostulante servicioPostulante;
+
     //esto recibe el id del postulante
-    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
-    public void create(@PathVariable Integer id){
-        //TODO:RENOMBRAR APRUEBA Y DESAPRUEBA /{boolean}
-        Socio nuevoSocio = servicioMembresias.crearMembresia(id);
-        servicioPagos.primerPago(nuevoSocio);
+    @RequestMapping(value = "/{id}/{respuesta}",method = RequestMethod.POST)
+    public void responderMembresia(@PathVariable Integer id,@PathVariable Boolean respuesta){
+        if(respuesta){//Aprobado
+            Socio nuevoSocio = servicioMembresias.crearMembresia(id);
+            servicioPagos.primerPago(nuevoSocio);
+        }
+        else{
+            Postulante postulanteActualizado=servicioPostulante.buscarPostulante(id);
+            postulanteActualizado.setEsAprobado(EstadoPostulante.RECHAZADO);
+            servicioPostulante.actualizarPostulante(id,postulanteActualizado);
+        }
+
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)

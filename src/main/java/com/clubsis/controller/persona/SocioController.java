@@ -56,11 +56,14 @@ public class SocioController {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getSuspensiones());
     }
 
+    @RequestMapping(value = "/{id}/socioPrincipal", method = RequestMethod.GET)
+    public Persona mostrarSocioPrincipal(@PathVariable Integer id) {
+        return servicioMembresias.obtenerSocioPrincipal(id);
+    }
+
     @RequestMapping(value = "/{id}/personas", method = RequestMethod.GET)
-    public Persona mostrarNombrePersona(@PathVariable Integer id) {
-        //TODO: renombrar
-        List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
-        return personas.get(0);
+    public List<Persona> mostrarPersonas(@PathVariable Integer id) {
+        return servicioMembresias.mostrarPersonas();
     }
 
 
