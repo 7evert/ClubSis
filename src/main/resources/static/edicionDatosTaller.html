@@ -109,7 +109,7 @@
             $("#guardar").click(function(){
                 var data=getDatosTaller(id);
                 console.log(JSON.stringify(data));
-                $http.put("/api/infoAcademia/"+data.id, data).success(function (data2, status) {
+                $http.put("/api/clases/"+data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
                     location.href = "VerTaller.html?id=" + id;
                 });
