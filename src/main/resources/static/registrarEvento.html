@@ -76,11 +76,11 @@
                 "fechaSalida debe ser una fecha válida",
                 "fecha fnicio de Inscripcion debe ser una fecha válida",
                 "fecha fin de Inscripcion debe ser una fecha válida",
-                "capacidad debe ser un numero entero",
+                "capacidad no valida",
                 "fecha de inscripcion inicio debe ser a partir de hoy",
                 "fecha de fin de inscripcion debe ser antes de fecha inscripcion inicio",
                 "fecha de inicio debe ser antes o igual a fecha fin",
-                "Todas las tarifas deben ser mayores a 0"
+                "todas las tarifas deben ser mayores a 0"
             ];
             var ver=[];
             ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
@@ -89,8 +89,8 @@
             ver[3]=isNaN(Date.parse($("#date-picker-DiaSalida")[0].value))==false;
             ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
             ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
-            ver[6]=Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000);
-            ver[7]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;;
+            ver[6]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000)) == false;
+            ver[7]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;
             ver[8]=Date.parse($("#date-picker-InicioInscripcion")[0].value)<=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[10]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
@@ -104,7 +104,9 @@
                 }
             }
             for(var i=0;i<ver.length;i++)
-                if(ver[i]==false) {
+                if(ver[i]===false) {
+                    console.log(i);
+                    console.log(ver[i]);
                     mostrarMensaje(mensajes[i]);
                     return false;
                 }

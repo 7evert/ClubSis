@@ -92,8 +92,8 @@
             ver[3]=isNaN(Date.parse($("#date-picker-DiaSalida")[0].value))==false;
             ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
             ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
-            ver[6]=Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000);
-            ver[7]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;;
+            ver[6]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000)) == false;
+            ver[7]=($("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0);
             ver[8]=Date.parse($("#date-picker-InicioInscripcion")[0].value)<=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[10]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
