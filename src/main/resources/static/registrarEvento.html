@@ -70,17 +70,18 @@
             alert(message);
         }
         function verificarDatos(){
-            var mensajes=["Nombre debe tener entre 1 y 50 caracteres",
-                "Descripcion debe tener entre 1 y 100 caracteres",
-                "fechaEntrada debe ser una fecha válida",
-                "fechaSalida debe ser una fecha válida",
-                "fecha fnicio de Inscripcion debe ser una fecha válida",
-                "fecha fin de Inscripcion debe ser una fecha válida",
-                "capacidad no valida",
-                "fecha de inscripcion inicio debe ser a partir de hoy",
-                "fecha de fin de inscripcion debe ser antes de fecha inscripcion inicio",
-                "fecha de inicio debe ser antes o igual a fecha fin",
-                "todas las tarifas deben ser mayores a 0"
+            var mensajes=["Nombre debe tener entre 1 y 50 caracteres",//0
+                "Descripcion debe tener entre 1 y 100 caracteres",//1
+                "fechaEntrada debe ser una fecha válida",//2
+                "fechaSalida debe ser una fecha válida",//3
+                "fecha fnicio de Inscripcion debe ser una fecha válida",//4
+                "fecha fin de Inscripcion debe ser una fecha válida",//5
+                "capacidad debe ser un numero entero",//6
+                "fecha de inscripcion inicio debe ser a partir de hoy",//7
+                "fecha de fin de inscripcion debe ser a partir de fecha inicio inscripcion",//8
+                "fecha inicio de ser a partir de fecha fin de Inscripcion",//9
+                "fecha fin debe ser a partir de fecha inicio",//10
+                "Todas las tarifas deben ser mayores a 0"//11
             ];
             var ver=[];
             ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
@@ -89,8 +90,8 @@
             ver[3]=isNaN(Date.parse($("#date-picker-DiaSalida")[0].value))==false;
             ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
             ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
-            ver[6]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000)) == false;
-            ver[7]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;
+            ver[6]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;;
+            ver[7]=Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000);
             ver[8]=Date.parse($("#date-picker-InicioInscripcion")[0].value)<=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[10]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
@@ -104,9 +105,7 @@
                 }
             }
             for(var i=0;i<ver.length;i++)
-                if(ver[i]===false) {
-                    console.log(i);
-                    console.log(ver[i]);
+                if(ver[i]==false) {
                     mostrarMensaje(mensajes[i]);
                     return false;
                 }
