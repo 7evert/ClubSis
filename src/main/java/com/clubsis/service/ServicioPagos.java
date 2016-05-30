@@ -2,7 +2,6 @@ package com.clubsis.service;
 
 import com.clubsis.model.pago.*;
 import com.clubsis.model.persona.Socio;
-import com.clubsis.model.persona.TipoSocio;
 import com.clubsis.repository.pago.CuotaExtraordinariaRepository;
 import com.clubsis.repository.pago.CuotaRepository;
 import com.clubsis.repository.pago.PagoMembresiaRepository;
@@ -69,7 +68,9 @@ public class ServicioPagos {
     public List<Pago> mostrarPagos(){ return pagoRepository.findAll(); }
     public Pago buscarPago(Integer id) {return pagoRepository.findOne(id);}
     public Pago crearPago(Pago pago) {
-        return pagoRepository.saveAndFlush(pago);
+        Pago pagoConID =pagoRepository.saveAndFlush(pago);
+        crearCuotas(pagoConID);
+        return pagoConID;
     }
 
     public Pago actualizarPago(Integer id, Pago pago){
@@ -86,10 +87,21 @@ public class ServicioPagos {
         Date fechaFinal = new Date();
         fechaFinal.setTime(fechaInicial.getTime() + 7 * 24 * 60 * 60 * 1000);
         Double pago= socio.getTipo().getCostoInicial()+socio.getTipo().getCostoMembresia();
-        PagoMembresia nuevoPago = new PagoMembresia(fechaFinal, EstadoPagoMembresia.REGISTRADO,pago,fechaInicial,socio,null);
+        PagoMembresia nuevoPago = new PagoMembresia(fechaFinal, EstadoPago.REGISTRADO,pago,fechaInicial,socio,null);
         pagoMembresiaRepository.saveAndFlush(nuevoPago);
         return nuevoPago;
     }
 
+    public void crearCuotas(Pago pago){
+        Date fechaInicial = new Date();
+        Date fechaFinal = new Date();
+        for(int i=0;i<pago.getNumeroCuotas();i++){
+            //TODO: modificar generacion de fechas
+            fechaFinal.setTime(fechaInicial.getTime() + 7 * 24 * 60 * 60 * 1000);
+            Cuota nuevaCuota = new Cuota(EstadoCuota.REGISTRADA,fechaFinal,i+1,null,
+                    pago,pago.getMontoTotal()/pago.getNumeroCuotas(),pago.getTipoPago().toString());
+            cuotaRepository.saveAndFlush(nuevaCuota);
+        }
+    }
 
 }

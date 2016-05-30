@@ -2,6 +2,7 @@ package com.clubsis.model.pago;
 
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,8 +20,13 @@ public class Pago {
     private Integer numeroCuotas;
     private Double mora;
     private Double montoTotal;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaAnulacion;
-    //TODO:Agregar fechaRegistro , fechaCancelacion , y estado
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    private Date fechaRegistro;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    private Date fechaPago;
+    private EstadoPago estadoPago;
     private TipoPago tipoPago;
 
     private String valoracion;
@@ -32,18 +38,21 @@ public class Pago {
     @JsonIgnore
     private Set<Cuota> cuotas;
 
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
+    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, Date fechaPago, EstadoPago estadoPago, Date fechaRegistro, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
         this.numeroCuotas = numeroCuotas;
         this.mora = mora;
         this.montoTotal = montoTotal;
         this.fechaAnulacion = fechaAnulacion;
+        this.fechaPago = fechaPago;
+        this.estadoPago = estadoPago;
+        this.fechaRegistro = fechaRegistro;
         this.tipoPago = tipoPago;
         this.valoracion = valoracion;
         this.socio = socio;
         this.cuotas = cuotas;
     }
 
-//    @ManyToOne(fetch = FetchType.EAGER)
+    //    @ManyToOne(fetch = FetchType.EAGER)
 //    private Evento evento;
 
     protected Pago() {
@@ -120,5 +129,29 @@ public class Pago {
 
     public void setCuotas(Set<Cuota> cuotas) {
         this.cuotas = cuotas;
+    }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaPago() {
+        return fechaPago;
+    }
+
+    public void setFechaPago(Date fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public EstadoPago getEstadoPago() {
+        return estadoPago;
+    }
+
+    public void setEstadoPago(EstadoPago estadoPago) {
+        this.estadoPago = estadoPago;
     }
 }

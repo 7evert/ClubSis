@@ -1,5 +1,7 @@
 package com.clubsis.model.pago;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -13,24 +15,26 @@ public class Cuota {
     @GeneratedValue
     private Integer id;
     private EstadoCuota estado;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaVencimiento;
     private Integer numero;
     private Date fechaPago;
     private String tipo;
-
+    private Double monto;
     @ManyToOne
     private Pago pago;
 
     protected Cuota() {
     }
 
-    public Cuota(EstadoCuota estado, Date fechaVencimiento, Integer numero, Date fechaPago, String tipo, Pago pago) {
+    public Cuota(EstadoCuota estado, Date fechaVencimiento, Integer numero, Date fechaPago, Pago pago, Double monto, String tipo) {
         this.estado = estado;
         this.fechaVencimiento = fechaVencimiento;
         this.numero = numero;
         this.fechaPago = fechaPago;
-        this.tipo = tipo;
         this.pago = pago;
+        this.monto = monto;
+        this.tipo = tipo;
     }
 
     public Integer getId() {
@@ -87,5 +91,13 @@ public class Cuota {
 
     public void setPago(Pago pago) {
         this.pago = pago;
+    }
+
+    public Double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Double monto) {
+        this.monto = monto;
     }
 }

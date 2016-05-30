@@ -21,7 +21,7 @@ public class PagoMembresia {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaVencimiento;
     private Double montoPago;
-    private EstadoPagoMembresia estado;
+    private EstadoPago estado;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaPago;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
@@ -33,7 +33,7 @@ public class PagoMembresia {
     protected PagoMembresia() {
     }
 
-    public PagoMembresia(Date fechaVencimiento, EstadoPagoMembresia estado, Double montoPago, Date fechaPago, Socio socio, Date fechaAnulacion) {
+    public PagoMembresia(Date fechaVencimiento, EstadoPago estado, Double montoPago, Date fechaPago, Socio socio, Date fechaAnulacion) {
         this.fechaVencimiento = fechaVencimiento;
         this.estado = estado;
         this.montoPago = montoPago;
@@ -67,11 +67,11 @@ public class PagoMembresia {
         this.montoPago = montoPago;
     }
 
-    public EstadoPagoMembresia getEstado() {
+    public EstadoPago getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoPagoMembresia estado) {
+    public void setEstado(EstadoPago estado) {
         this.estado = estado;
     }
 
