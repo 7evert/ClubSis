@@ -31,7 +31,7 @@ public class Invitado {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "invitado")
     private Set<InvitadoEvento> invitadoEventos= new HashSet<InvitadoEvento>(0);
 
