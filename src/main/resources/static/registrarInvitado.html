@@ -138,7 +138,7 @@
             $http.get('/api/invitadoeventos').success(function (data3, status) {
                 console.log(data3);
                 for(var i=0;i<data3.length;i++){
-                    if(data3.evento && data3.evento.id==idevento && idsocio==data3.invitado.id){
+                    if(data3[i].evento && data3[i].evento.id==idevento && idsocio==data3[i].invitado.socio.id){
                         var data = {id: data3[i].id, nombre: data3[i].invitado.nombres, nroDoc: data3[i].invitado.numeroDocumento};
                         jQuery("#jqGrid").addRowData(data.id, data);
                     }

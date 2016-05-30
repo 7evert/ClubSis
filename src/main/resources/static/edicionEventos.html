@@ -248,9 +248,27 @@
                                     };
                                     console.log("/api/tarifaeventos/" + rowData.idTar +"/actualizar");
                                     console.log(JSON.stringify(dataJSON));
-                                    /*$http.put("/api/tarifaeventos/" + rowData.id +"/actualizar", dataJSON).success(function (data2, status) {
-                                        console.log("Salio");
-                                    });*/
+                                    if(rowData.idTar>0){
+                                        $http.put("/api/tarifaeventos/" + rowData.idTar +"/actualizar", dataJSON).success(function (data2, status) {
+                                            console.log("Acutualizo1");
+                                        });
+                                    }else{
+                                        dataJSON = {
+                                            "precio": parseFloat(rowData.precio)
+                                        };
+                                        $http.post("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
+                                            console.log("Registro");
+                                        });
+                                    }
+                                }/*
+                                 @RequestMapping(value="/{id}/actualizar",method = RequestMethod.PUT)
+                                 @RequestMapping(value="/{id}/eliminar",method= RequestMethod.DELETE)
+
+                                 * */
+                                else if(rowData.idTar>0){
+                                    $http.delete("/api/tarifaeventos/" + rowData.idTar +"/eliminar").success(function (data2, status) {
+                                        console.log("Se elimino");
+                                    });
                                 }
                             }
                         });
@@ -293,8 +311,8 @@
                         var tarreg=new Array();
                         $http.get('api/tarifaeventos').success(function (data3) {
                             for(var i=0;i<data3.length;i++){
-                                //console.log(data3[i].eventos.id+" "+dataevento.id)
-                                if(data3[i].eventos.id==dataevento.id){
+                                //console.log(data3[i].evento.id+" "+dataevento.id)
+                                if(data3[i].eventos && data3[i].eventos.id==dataevento.id){
                                     for(var j=0;j<data.length;j++){
                                         if(data3[i].tarifaeventos.id==data[j].id){
                                             data[j].idTar=data3[i].id;

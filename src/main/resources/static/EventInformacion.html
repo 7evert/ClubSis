@@ -274,8 +274,8 @@
                     $http.get('api/tarifaeventos').success(function (data3) {
                         var cant=0;
                         for(var i=0;i<data3.length;i++){
-                            console.log(data3[i].eventos.id+" "+dataevento.id)
-                            if(data3[i].eventos.id==dataevento.id){
+                            //console.log(data3[i].eventos.id+" "+dataevento.id)
+                            if(data3[i].eventos && data3[i].eventos.id==dataevento.id){
                                 for(var j=0;j<data.length;j++){
                                     if(data3[i].tarifaeventos.id==data[j].id){
                                         cant++;
