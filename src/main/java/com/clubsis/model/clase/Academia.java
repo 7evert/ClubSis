@@ -24,6 +24,7 @@ public class Academia {
     //private Set<Ciclo> ciclos = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "academia")
+    @JsonIgnore
     private Set<Clase> clases = new HashSet<>();
 
     protected Academia() {

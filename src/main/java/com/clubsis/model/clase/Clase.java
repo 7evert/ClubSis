@@ -31,10 +31,11 @@ public class Clase {
     private Set<RegistroClase> registros = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
+    @JsonIgnore
     private Set<Horario> horarios = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnore
+    //@JsonIgnore
     private Academia academia;
 
     protected Clase() {

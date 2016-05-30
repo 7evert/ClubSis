@@ -27,7 +27,7 @@ public class Horario {
     private Instalacion instalacion;
 
     @ManyToOne
-    @JsonIgnore
+    //@JsonIgnore
     private Clase clase;
 
     protected Horario() {

@@ -76,48 +76,75 @@
     </script>
     <script type="text/javascript">
         function llenarDatosTaller(data2) {
-            for(var i = 0; i < data2.length; i++){
-            $("#nivel").val(data2[i].nivel);
-            $("#rangoEdad").val(data2[i].rangoEdad);
-            $("#precioMes").val(data2[i].precioMes);
-            $("#precioCiclo").val(data2[i].precioCiclo);
-            $("#capacidad").val(data2[i].capacidad);
-            $("#profesor").val(data2[i].profesor);
-            $("#estadoProveedor").val(data2.estadoProveedor+0);}
+            $("#nivel").val(data2.nivel);
+            $("#rangoEdad").val(data2.rangoEdad);
+            $("#precioMes").val(data2.precioMes);
+            $("#precioCiclo").val(data2.precioCiclo);
+            $("#capacidad").val(data2.capacidad);
+            $("#profesor").val(data2.profesor);
+            $("#estadoProveedor").val(data2.estadoProveedor + 0);
+            /*
+             for(var i = 0; i < data2.length; i++){
+             $("#nivel").val(data2[i].nivel);
+             $("#rangoEdad").val(data2[i].rangoEdad);
+             $("#precioMes").val(data2[i].precioMes);
+             $("#precioCiclo").val(data2[i].precioCiclo);
+             $("#capacidad").val(data2[i].capacidad);
+             $("#profesor").val(data2[i].profesor);
+             $("#estadoProveedor").val(data2.estadoProveedor+0);}
+             */
         }
-        function getDatosTaller(id){
+        function getDatosTaller(id, ciclo, academia) {
             return {
-                id:id,
+                id: id,
                 nivel: $("#nivel").val(),
                 rangoEdad: $("#rangoEdad").val(),
                 precioMes: $("#precioMes").val(),
                 precioCiclo: $("#precioCiclo").val(),
                 capacidad: $("#capacidad").val(),
                 profesor: $("#profesor").val(),
-                estadoClase: parseInt($("#estadoClase").val())
+                estadoClase: parseInt($("#estadoClase").val()),
+                ciclo: {id: ciclo},
+                academia:{id:academia}
             };
         }
-    </script>
-    <script type="text/javascript">
+
         var app2 = angular.module('app2', []);
         app2.controller('edicionTallerController', function ($scope, $http) {
             var id = getID();
+            var idCiclo;
+            var idAcademia;
             console.log(id);
-            if(id==undefined){
-                //location.href="administrarProveedores1.html"
+            if (id == undefined) {
+                location.href = "VerTaller.html"
             }
-            $http.get('/api/infoAcademia/'+id).success(function (data2, status) {
+            $http.get('/api/clases/' + id).success(function (data2, status) {
+                //var objetoClase=JSON.parse(data2);
+                //console.log("Este es el ciclo?");
+                //console.log(objetoClase.ciclo.id);
+                //alert(data2.ciclo.id);
                 llenarDatosTaller(data2);
+                console.log(data2);
+                idCiclo = data2.ciclo ["id"];
+                idAcademia = data2.academia["id"];
+                console.log(idCiclo);
             });
-            $("#guardar").click(function(){
-                var data=getDatosTaller(id);
+
+            $("#guardar").click(function () {
+                /*
+                 $http.get("/api/ciclos/"+ciclo).success(function (, status) {
+                 alert("Tu actualizacion fue exitosa");
+                 location.href = "VerTaller.html?id=" + id;
+                 });
+                 */
+                var data = getDatosTaller(id, idCiclo, idAcademia);
                 console.log(JSON.stringify(data));
-                $http.put("/api/clases/"+data.id, data).success(function (data2, status) {
+                $http.put("/api/clases/" + data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
                     location.href = "VerTaller.html?id=" + id;
                 });
             });
-            $("#cancelar").click(function(){
+            $("#cancelar").click(function () {
                 location.href = "VerTaller.html?id=" + id;
             });
         });
