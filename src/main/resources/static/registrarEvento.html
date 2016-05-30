@@ -148,7 +148,11 @@
             addActionGratuito();
 
             $("#Guardar").click(function () {
-                if(!verificarDatos())return;
+                $( "#Guardar" ).prop( "disabled", true );
+                if(!verificarDatos()){
+                    $( "#Guardar" ).prop( "disabled", false );
+                    return;
+                }
                 var data = {
                     "url": "img/Eventos/newYear.jpg",
                     "nombre": $("#nombre").val(),
@@ -183,7 +187,8 @@
                             });
                         }
                     }
-
+                }).error(function(){
+                    $( "#Guardar" ).prop( "disabled", false );
                 });
             });
             $http.get('/api/tarifas').success(function (data) {

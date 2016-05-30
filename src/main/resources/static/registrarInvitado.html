@@ -44,6 +44,7 @@
         }
     </style>
     <script type="text/javascript">
+        var funciones={};
         function limpiarFormulario() {
             $("#nombre").val("");
             $("#apellidoPat").val("");
@@ -69,7 +70,7 @@
         }
         function eliminarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
-            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
+            funciones.eliminarInvitado(event,id);
         }
 
         function mostrarMensaje(message){
@@ -111,11 +112,19 @@
                 location.href="participarEvento.html?id"+idevento;
             }
 
+            funciones.eliminarInvitado=function(event,idInvEvento){
+                $http.delete('/api/invitadoeventos/'+idInvEvento+'/eliminar').success(function (data) {
+                    console.log("eliminado");
+                    $('#jqGrid').jqGrid('delRowData',idInvEvento);
+                });
+            };
+
             $http.get('/api/tarifas').success(function (data) {
                 $http.get('api/tarifaeventos').success(function (data3) {
+                    console.log(data3);
                     for(var i=0;i<data3.length;i++){
                         //console.log(data3[i].eventos.id+" "+dataevento.id)
-                        if(data3[i].eventos.id==idevento){
+                        if(data3[i].eventos && data3[i].eventos.id==idevento){
                             for(var j=0;j<data.length;j++){
                                 if(data3[i].tarifaeventos.id==data[j].id){
                                     $("#tipoTarifa").append($("<option></option>").attr({value:data[j].nombre}).html(data[j].nombre));
@@ -126,9 +135,16 @@
                 });
             });
 
-            $http.get('/api/invitados').success(function (data2, status) {
-                //var data2 = guest;
-                console.log(JSON.stringify(data2));
+            $http.get('/api/invitadoeventos').success(function (data3, status) {
+                console.log(data3);
+                for(var i=0;i<data3.length;i++){
+                    if(data3.evento && data3.evento.id==idevento && idsocio==data3.invitado.id){
+                        var data = {id: data3[i].id, nombre: data3[i].invitado.nombres, nroDoc: data3[i].invitado.numeroDocumento};
+                        jQuery("#jqGrid").addRowData(data.id, data);
+                    }
+                }
+            });
+                /*console.log(JSON.stringify(data2));
                 for(var i=0;i<data2.length;i++) {
                     for(var j=0;j<data2[i].eventos.length;j++){
                         if((idsocio==data2[i].socio.id) && (idevento==data2[i].eventos[j].id)) {
@@ -136,11 +152,14 @@
                             jQuery("#jqGrid").addRowData(data.id, data);
                         }
                     }
-                }
-            });
+                }*/
 
-            $("#addGuest").click(function () {
-                if(!verificarDatos())return;
+            $("#addGuest").click(function (event) {
+                $(event.target).prop( "disabled", true );
+                if(!verificarDatos()){
+                    $(event.target).prop( "disabled", false );
+                    return;
+                }
                 var guest = {
                     nombres: $("#nombre").val(),
                     apellidoPaterno: $("#apellidoPat").val(),
@@ -151,14 +170,22 @@
                     ingresoInvitado: parseInt($("#ingresoInv").val())
                 };
                 console.log(JSON.stringify(guest));
-                $http.post('/api/invitados/' + idevento+"/"+idsocio+"/eventos",guest).success(function (data2, status) {
+                $http.post('/api/invitados/' + idsocio+"/eventos",guest).success(function (dataInvitado, status) {
                     //$http.get('/api/sedes', guest).success(function (data2, status) {
                     //var data2 = guest;
-                    console.log(JSON.stringify(data2));
-                    limpiarFormulario();
-                    alert("Se registro al invitado exitosamente");
-                    var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
-                    jQuery("#jqGrid").addRowData(data.id, data);
+                    console.log(JSON.stringify(dataInvitado));
+                    $http.post('/api/invitadoeventos/' + dataInvitado.id +"/"+idevento+"/eventos",guest).success(function (datosinvitadoevento, status) {
+                        limpiarFormulario();
+                        alert("Se registro al invitado exitosamente");
+                        var data = {id: datosinvitadoevento.id, nombre: dataInvitado.nombres, nroDoc: dataInvitado.numeroDocumento};
+                        //console.log(data);
+                        jQuery("#jqGrid").addRowData(data.id, data);
+                        $(event.target).prop( "disabled", false );
+                    }).error(function(){
+                        $(event.target).prop( "disabled", false );
+                    });
+                }).error(function(){
+                    $(event.target).prop( "disabled", true );
                 });
             });
             $("#terminar").click(function () {
@@ -296,40 +323,6 @@
                 '<a href="#" onclick="eliminarInvitado(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
         return acciones;
     }
-</script>
-<script type="text/javascript">
-    /*
-     $("#jqGrid").jqGrid({
-     url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-     mtype: "GET",
-     styleUI : 'Bootstrap',
-     datatype: "jsonp",
-     gridview: true,
-     emptyrecords: 'No se encontraron resultados',
-     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-     colModel: [
-     { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
-     { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
-     { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
-     { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
-     { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
-     ],
-     viewrecords: true,
-     height: 196,
-     rowNum: 7,
-     pager: "#jqGridPager"
-     });
-
-     $('#jqGrid').jqGrid('setGridWidth', '400');
-
-     function acciones(cellValue, options, rowdata, action) {
-     var acciones = '';
-
-     acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"></a>'+
-     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"></a>'+
-     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-     return acciones;
-     }*/
 </script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
