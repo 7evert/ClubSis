@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app2">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Pruebas</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+
+
+
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+        app2.controller('edicionProveedorController', function ($scope, $http) {
+            var id = getID();
+            console.log(id);
+            if(id==undefined){
+                //location.href="administrarProveedores1.html"
+            }
+            $http.get('/api/proveedores/'+id).success(function (data2, status) {
+                llenarDatosProveedor(data2);
+            });
+            $("#guardar").click(function(){
+                alert("No salio la prueba!!!");
+            });
+            $("#cancelar").click(function(){
+                location.href = "loginAdministrador.html";
+            });
+        });
+    </script>
+</head>
+<body ng-controller="Controller">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <h2>Campos de prueba</h2>
+    <hr>
+    <form id="formPruebas" class="form-horizontal mitadDerecha">
+        <div id="NombreProveedor" class="form-group">
+            <label class="control-label col-xs-4">Nombre Proveedor</label>
+            <div class="input-group col-xs-8">
+                <input id="nombreProv" type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..." required/>
+            </div>
+        </div>
+        <div id="RUC" class="form-group">
+            <label class="control-label col-xs-4">RUC</label>
+            <div class="input-group col-xs-8">
+                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
+            </div>
+        </div>
+        <div id="Descripcion" class="form-group">
+            <label class="control-label col-xs-4">Descripción</label>
+            <div class="input-group col-xs-8">
+                <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
+            </div>
+        </div>
+        <div id="numContacto" class="form-group">
+            <label class="control-label col-xs-4"># Contacto</label>
+            <div class="input-group col-xs-8">
+                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese # de contacto..." required/>
+            </div>
+        </div>
+        <div id="Direccion" class="form-group">
+            <label class="control-label col-xs-4">Direccion</label>
+            <div class="input-group col-xs-8">
+                <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
+            <div class="col-md-8">
+                <select class="form-control" id="estadoProveedor" ng-model="estadoProveedor" required>
+                    <option value="0">INHABILITADO</option>
+                    <option value="1">HABILITADO</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-10">
+                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
+                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%" >
+            </div>
+        </div>
+    </form>
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
