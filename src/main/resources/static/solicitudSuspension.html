@@ -30,7 +30,28 @@
         }
     </style>
     <script type="text/javascript">
+        function verificarDatos(){
+            var mensajes=["La fecha de Inicio debe ser despues de hoy",
+                "Le fecha de Fin no es válida"
+            ]
+            var ver=[];
+            ver[0]=Date.parse($("#date-picker-TiempoInicio")[0].value)>=Date.parse( Date());
 
+            if(isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==true){
+                ver[1]=true;
+            }
+            else{
+                ver[1]=Date.parse($("#date-picker-TiempoFin")[0].value)>=Date.parse($("#date-picker-TiempoInicio")[0].value);
+            }
+            ver[2]=true;
+            for(var i=0;i<ver.length;i++)
+                if(ver[i]==false) {
+                    alert(mensajes[i]);
+                    return false;
+                }
+            alert("pude");
+            return true;
+        }
         var app3 = angular.module('app3', []);
         var socioResp,persona;
         app3.controller('SuspensionController', function ($scope, $http) {
@@ -43,7 +64,7 @@
             });
 
             $scope.enviarSolicitud =function (){
-
+                if(!verificarDatos())return;
                 var data = {
                         //por preguntar
                     "estado": 0,
@@ -106,7 +127,7 @@
             <label class="control-label col-xs-5">Fecha de Fin</label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-TiempoFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
