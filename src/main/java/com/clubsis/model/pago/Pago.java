@@ -17,9 +17,10 @@ public class Pago {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer numeroCuotas;
     private Double mora;
     private Double montoTotal;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date fechaVencimiento;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaAnulacion;
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -34,23 +35,23 @@ public class Pago {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, Date fechaPago, EstadoPago estadoPago, Date fechaRegistro, TipoPago tipoPago, String valoracion, Socio socio) {
-        this.numeroCuotas = numeroCuotas;
-        this.mora = mora;
-        this.montoTotal = montoTotal;
-        this.fechaAnulacion = fechaAnulacion;
-        this.fechaPago = fechaPago;
-        this.estadoPago = estadoPago;
-        this.fechaRegistro = fechaRegistro;
-        this.tipoPago = tipoPago;
-        this.valoracion = valoracion;
-        this.socio = socio;
-    }
-
     //    @ManyToOne(fetch = FetchType.EAGER)
 //    private Evento evento;
 
     protected Pago() {
+    }
+
+    public Pago(Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, String valoracion, TipoPago tipoPago, Socio socio) {
+        this.mora = mora;
+        this.montoTotal = montoTotal;
+        this.fechaVencimiento = fechaVencimiento;
+        this.fechaAnulacion = fechaAnulacion;
+        this.fechaPago = fechaPago;
+        this.fechaRegistro = fechaRegistro;
+        this.estadoPago = estadoPago;
+        this.valoracion = valoracion;
+        this.tipoPago = tipoPago;
+        this.socio = socio;
     }
 
 
@@ -60,14 +61,6 @@ public class Pago {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getNumeroCuotas() {
-        return numeroCuotas;
-    }
-
-    public void setNumeroCuotas(Integer numeroCuotas) {
-        this.numeroCuotas = numeroCuotas;
     }
 
     public Double getMora() {
@@ -140,5 +133,13 @@ public class Pago {
 
     public void setEstadoPago(EstadoPago estadoPago) {
         this.estadoPago = estadoPago;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 }

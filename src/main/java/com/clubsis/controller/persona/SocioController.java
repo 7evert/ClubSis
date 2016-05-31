@@ -1,7 +1,6 @@
 package com.clubsis.controller.persona;
 
 import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.Persona;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.model.persona.Suspension;
@@ -44,11 +43,6 @@ public class SocioController {
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)
     public List<Pago> mostrarPagos(@PathVariable Integer id) {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagos());
-    }
-
-    @RequestMapping(value = "/{id}/pagosMembresia", method = RequestMethod.GET)
-    public List<PagoMembresia> mostrarPagosMembresia(@PathVariable Integer id) {
-        return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagosMembresia());
     }
 
     @RequestMapping(value = "/{id}/suspensiones", method = RequestMethod.GET)

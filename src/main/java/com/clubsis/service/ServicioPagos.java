@@ -3,7 +3,6 @@ package com.clubsis.service;
 import com.clubsis.model.pago.*;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.repository.pago.CuotaExtraordinariaRepository;
-import com.clubsis.repository.pago.PagoMembresiaRepository;
 import com.clubsis.repository.pago.PagoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ public class ServicioPagos {
     @Autowired
     private CuotaExtraordinariaRepository cuotaExtraordinariaRepository;
     @Autowired
-    private PagoMembresiaRepository pagoMembresiaRepository;
-    @Autowired
     private PagoRepository pagoRepository;
 
 
@@ -37,18 +34,6 @@ public class ServicioPagos {
         return cuotaExtraordinariaRepository.saveAndFlush(cuotaExistente);
     }
 
-    //PagoMembresia
-    public List<PagoMembresia> mostrarPagosMembresia(){ return pagoMembresiaRepository.findAll(); }
-    public PagoMembresia buscarPagoMembresia(Integer id) {return pagoMembresiaRepository.findOne(id);}
-    public PagoMembresia crearPagoMembresia(PagoMembresia pagoMembresia) {
-        return pagoMembresiaRepository.saveAndFlush(pagoMembresia);
-    }
-
-    public PagoMembresia actualizarPagoMembresia(Integer id, PagoMembresia pagoMembresia){
-        PagoMembresia pagoMembresiaExistente = pagoMembresiaRepository.findOne(id);
-        BeanUtils.copyProperties(pagoMembresia,pagoMembresiaExistente);
-        return pagoMembresiaRepository.saveAndFlush(pagoMembresiaExistente);
-    }
 
     //Pago
     public List<Pago> mostrarPagos(){ return pagoRepository.findAll(); }
@@ -66,14 +51,18 @@ public class ServicioPagos {
 
     //ADICIONALES
 
-    public PagoMembresia primerPago(Socio socio) {
+    public Pago primerPago(Socio socio) {
         Date fechaInicial = new Date();
         Date fechaFinal = new Date();
         fechaFinal.setTime(fechaInicial.getTime() + 7 * 24 * 60 * 60 * 1000);
         Double pago= socio.getTipo().getCostoInicial()+socio.getTipo().getCostoMembresia();
-        PagoMembresia nuevoPago = new PagoMembresia(fechaFinal, EstadoPago.REGISTRADO,pago,fechaInicial,socio,null);
-        pagoMembresiaRepository.saveAndFlush(nuevoPago);
+        Pago nuevoPago = new Pago(null,pago,fechaFinal,null,null,fechaInicial, EstadoPago.REGISTRADO,null,TipoPago.MEMBRESIA,socio);
+        pagoRepository.saveAndFlush(nuevoPago);
         return nuevoPago;
+    }
+
+    public List<CuotaExtraordinaria> crearCuotasExtraordinarias(){
+        return null;
     }
 
 }

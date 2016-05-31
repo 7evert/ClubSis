@@ -2,18 +2,14 @@ package com.clubsis.service;
 
 import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
-import com.clubsis.model.evento.Evento;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.clubsis.repository.club.UsuarioRepository;
-import com.clubsis.repository.pago.PagoMembresiaRepository;
 import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.RegistrationBean;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -41,9 +37,6 @@ public class ServicioMembresias {
 
     @Autowired
     private TipoSocioRepository tipoSocioRepository ;
-
-    @Autowired
-    private PagoMembresiaRepository pagoMembresiaRepository;
 
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
@@ -134,7 +127,7 @@ public class ServicioMembresias {
                 postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
                 ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
                 ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
-                new HashSet<ReservaInstalacion>(),new HashSet<PagoMembresia>(),tipo);
+                new HashSet<ReservaInstalacion>(),tipo);
         return nuevoSocio;
     }
 
