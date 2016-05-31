@@ -45,6 +45,7 @@
     </style>
     <script type="text/javascript">
         var funciones={};
+        var nroInv=0;
         function limpiarFormulario() {
             $("#nombre").val("");
             $("#apellidoPat").val("");
@@ -62,7 +63,7 @@
 
         function verInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-ver");
-            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
+            location.href = "informacionInvitado.html?id=" + id+"&idEvento="+idevento;
         }
         function modificarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-modificar");
@@ -116,6 +117,7 @@
                 $http.delete('/api/invitadoeventos/'+idInvEvento+'/eliminar').success(function (data) {
                     console.log("eliminado");
                     $('#jqGrid').jqGrid('delRowData',idInvEvento);
+                    nroInv--;
                 });
             };
 
@@ -139,7 +141,8 @@
                 console.log(data3);
                 for(var i=0;i<data3.length;i++){
                     if(data3[i].evento && data3[i].evento.id==idevento && idsocio==data3[i].invitado.socio.id){
-                        var data = {id: data3[i].id, nombre: data3[i].invitado.nombres, nroDoc: data3[i].invitado.numeroDocumento};
+                        nroInv++;
+                        var data = {nro:nroInv,id: data3[i].id, nombre: data3[i].invitado.nombres, nroDoc: data3[i].invitado.numeroDocumento};
                         jQuery("#jqGrid").addRowData(data.id, data);
                     }
                 }
@@ -176,8 +179,9 @@
                     console.log(JSON.stringify(dataInvitado));
                     $http.post('/api/invitadoeventos/' + dataInvitado.id +"/"+idevento+"/eventos",guest).success(function (datosinvitadoevento, status) {
                         limpiarFormulario();
+                        nroInv++;
                         alert("Se registro al invitado exitosamente");
-                        var data = {id: datosinvitadoevento.id, nombre: dataInvitado.nombres, nroDoc: dataInvitado.numeroDocumento};
+                        var data = {nro:nroInv,id: datosinvitadoevento.id, nombre: dataInvitado.nombres, nroDoc: dataInvitado.numeroDocumento};
                         //console.log(data);
                         jQuery("#jqGrid").addRowData(data.id, data);
                         $(event.target).prop( "disabled", false );
@@ -308,13 +312,15 @@
     jQuery("#jqGrid").jqGrid({
         datatype: "local",
         height: 300,
-        colNames: ['Id', 'Nombre', 'Nro. Doc.', 'Acciones'],
+        colNames: ['Nro','Id', 'Nombre', 'Nro. Doc.', 'Acciones'],
         colModel: [
-            {name: 'Id', index: 'id', hidden: true, width: 10, editable: false},
+            {name: 'nro', index: 'nro',width: 30, editable: false},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
             {name: 'nombre', index: 'nombre', width: 150, editable: false},
             {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones}
-        ]
+        ],
+        multiselect: true
     });
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';

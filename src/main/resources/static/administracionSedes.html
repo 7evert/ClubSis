@@ -19,17 +19,20 @@
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
-        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
+
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-        .ui-jqgrid-resize-ltr{
+
+        .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-        .btn-warning{
+
+        .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
             padding-right: 2px;
@@ -38,11 +41,11 @@
             border-color: #ededed;
         }
 
-        .   {
+        . {
             width: 19px;
         }
 
-        h4{
+        h4 {
             background: #008D34;
             color: white;
             padding-left: 30px;
@@ -52,15 +55,15 @@
             margin-top: 0px;
         }
 
-        hr{
+        hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
     </style>
     <script type="text/javascript">
-        const INHABILITADO="INHABILITADO";
-        const HABILITADO="HABILITADO";
-        function limpiar(){
+        const INHABILITADO = "INHABILITADO";
+        const HABILITADO = "HABILITADO";
+        function limpiar() {
             $("#nombre").val("");
             $("#direccion").val("");
             $("#descripcion").val("");
@@ -68,7 +71,7 @@
             $("#administrador").val("");
             $("#estado").val("");
         }
-        function llenarDatosEnLabels(sede){
+        function llenarDatosEnLabels(sede) {
             $("#nombre").val(sede.nombre);
             $("#direccion").val(sede.direccion);
             $("#descripcion").val(sede.descripcion);
@@ -76,14 +79,14 @@
             $("#administrador").val(sede.administrador);
             $("#estado").val(sede.estado);
         }
-        function llenarEngrilla(data){
+        function llenarEngrilla(data) {
             jQuery("#jqGrid").addRowData(data.id, data);
         }
-        var funciones={};
+        var funciones = {};
 
     </script>
     <script type="text/javascript">
-        function mostrarMensaje(message){
+        function mostrarMensaje(message) {
             alert(message);
         }
         function verificarDatos() {
@@ -94,15 +97,15 @@
                 "Administrador debe tener entre 8 y 100 caracteres",
                 "Telefono solo puede tener numeros, *, # y -"
             ]
-            var ver=[];
-            ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
-            ver[1]=$("#direccion").val().length>0&&$("#direccion").val().length<100;
-            ver[2]=$("#telefono").val().length>=7&&$("#telefono").val().length<=15;
-            ver[3]=$("#descripcion").val().length>0&&$("#descripcion").val().length<255;
-            ver[4]=$("#administrador").val().length>8&&$("#administrador").val().length<100;
-            ver[5]=$("#telefono").val().match(/[^0-9*#-]/)==null;
-            for(var i=0;i<ver.length;i++)
-                if(ver[i]==false) {
+            var ver = [];
+            ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
+            ver[1] = $("#direccion").val().length > 0 && $("#direccion").val().length < 100;
+            ver[2] = $("#telefono").val().length >= 7 && $("#telefono").val().length <= 15;
+            ver[3] = $("#descripcion").val().length > 0 && $("#descripcion").val().length < 255;
+            ver[4] = $("#administrador").val().length > 8 && $("#administrador").val().length < 100;
+            ver[5] = $("#telefono").val().match(/[^0-9*#-]/) == null;
+            for (var i = 0; i < ver.length; i++)
+                if (ver[i] == false) {
                     mostrarMensaje(mensajes[i]);
                     return false;
                 }
@@ -110,72 +113,132 @@
         }
         var app2 = angular.module('app2', []);
         app2.controller('administracionSedesController', function ($scope, $http) {
-            funciones.verSede= function (event){
-                var idSede=event.target.parentNode.getAttribute("data-idevento-ver");
+            funciones.verSede = function (event) {
+                var idSede = event.target.parentNode.getAttribute("data-idevento-ver");
                 $http.get('/api/sedes/').success(function (data) {
-                    for(var i=0;i<data.length;i++)
-                        if(data[i].id==idSede){
-                            console.log("SedeObtuvida: "+data[i]);
+                    for (var i = 0; i < data.length; i++)
+                        if (data[i].id == idSede) {
+                            console.log("SedeObtuvida: " + data[i]);
                             //mostrarSede(data[i]);
                             break;
                         }
                 });
             };
-            funciones.modificarSede=function (event){
+            funciones.modificarSede = function (event) {
                 var idSede = event.target.parentNode.getAttribute("data-idevento-modificar");
                 $http.get('/api/sedes/').success(function (data) {
-                    for(var i=0;i<data.length;i++)
-                        if(data[i].id==idSede){
-                            console.log("sedeObtuvida: "+data[i]);
+                    for (var i = 0; i < data.length; i++)
+                        if (data[i].id == idSede) {
+                            console.log("sedeObtuvida: " + data[i]);
                             $("#titulo").html("Modificacion de Sede");
                             $("#registrar").addClass("hidden");
+                            $("#limpiar").addClass("hidden");
                             $("#modificar").removeClass("hidden");
-                            funciones.idSedeAModificar=idSede;
+                            $("#cancelar").removeClass("hidden");
+                            funciones.idSedeAModificar = idSede;
                             llenarDatosEnLabels(data[i]);
                             break;
                         }
                 });
             };
 
-            $("#modificar").click(function(){
-                if(funciones.idSedeAModificar){
-                    var dataSede={
+            $("#deshabilitar").click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey)
+                    alert("No hay postulante seleccionado");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var nroExito=0;
+                    $http.get('/api/sedes/').success(function (data) {
+                        for (var j = 0; j < selectedIDs.length; j++) {
+                            var idSede = selectedIDs[j];
+                            for (var i = 0; i < data.length; i++)
+                                if (data[i].id == idSede) {
+                                    var sede = data[i];
+                                    var dataSede = {
+                                        "id": sede.id,
+                                        "nombre": sede.nombre,
+                                        "direccion": sede.direccion,
+                                        "telefono": sede.telefono,
+                                        "descripcion": sede.descripcion,
+                                        "administrador": sede.administrador,
+                                        "estado": INHABILITADO
+                                    };
+                                    $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
+                                        console.log("Inhabilitado: " + dataInhabilitadaSede.nombre);
+                                        nroExito++;
+                                        if(nroExito==selectedIDs.length){
+                                            jQuery("#jqGrid").trigger('reloadGrid');
+                                        }
+                                    }).error(function (data2) {
+                                        mensaje = "No se pudo dehabilitar sede";
+                                    });
+                                    break;
+                                }
+                        }
+                    });
+                }
+            });
+            $("#cancelar").click(function () {
+                if (funciones.idSedeAModificar) {
+                    funciones.idSedeAModificar = undefined;
+                    $("#titulo").html("REGISTRO SEDES");
+                    $("#registrar").removeClass("hidden");
+                    $("#limpiar").removeClass("hidden");
+                    $("#modificar").addClass("hidden");
+                    $("#cancelar").addClass("hidden");
+                    limpiar();
+                    jQuery("#jqGrid").trigger('reloadGrid');
+                }
+            });
+
+            $("#modificar").click(function () {
+                if (funciones.idSedeAModificar) {
+                    var dataSede = {
                         "id": funciones.idSedeAModificar,
                         "nombre": $("#nombre").val(),
-                        "direccion":$("#direccion").val(),
-                        "telefono":$("#telefono").val(),
-                        "descripcion":$("#descripcion").val(),
-                        "administrador":$("#administrador").val(),
+                        "direccion": $("#direccion").val(),
+                        "telefono": $("#telefono").val(),
+                        "descripcion": $("#descripcion").val(),
+                        "administrador": $("#administrador").val(),
                         "estado": $("#estado").val()
                     };
-                    $http.put('/api/sedes/'+dataSede.id,dataSede).success(function (datamodificadaSede) {
-                        console.log("Modificado: "+datamodificadaSede);
-                        funciones.idSedeAModificar=undefined;
+                    $http.put('/api/sedes/' + dataSede.id, dataSede).success(function (datamodificadaSede) {
+                        console.log("Modificado: " + datamodificadaSede);
+                        $('#jqGrid').jqGrid('setRowData', datamodificadaSede.id, datamodificadaSede);
+                        /*location.href="administracionSedes.html"*/
+                        funciones.idSedeAModificar = undefined;
                         $("#titulo").html("REGISTRO SEDES");
                         $("#registrar").removeClass("hidden");
+                        $("#limpiar").removeClass("hidden");
                         $("#modificar").addClass("hidden");
+                        $("#cancelar").addClass("hidden");
                         limpiar();
+                        jQuery("#jqGrid").trigger('reloadGrid');
                     });
                 }
             });
 
-            funciones.inhabilitarSede= function (event){
+            funciones.inhabilitarSede = function (event) {
                 var idSede = event.target.parentNode.getAttribute("data-idevento-eliminar");
                 $http.get('/api/sedes/').success(function (data) {
-                    for(var i=0;i<data.length;i++)
-                        if(data[i].id==idSede){
-                            var sede=data[i];
-                            var dataSede={
+                    for (var i = 0; i < data.length; i++)
+                        if (data[i].id == idSede) {
+                            var sede = data[i];
+                            var dataSede = {
                                 "id": sede.id,
                                 "nombre": sede.nombre,
-                                "direccion":sede.direccion,
-                                "telefono":sede.telefono,
-                                "descripcion":sede.descripcion,
-                                "administrador":sede.administrador,
+                                "direccion": sede.direccion,
+                                "telefono": sede.telefono,
+                                "descripcion": sede.descripcion,
+                                "administrador": sede.administrador,
                                 "estado": INHABILITADO
                             };
-                            $http.put('/api/sedes/'+sede.id,dataSede).success(function (dataInhabilitadaSede) {
-                                console.log("Inhabilitado: "+dataInhabilitadaSede);
+                            jQuery("#jqGrid").trigger('reloadGrid');
+                            $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
+                                console.log("Inhabilitado: " + dataInhabilitadaSede);
                             });
                             break;
                         }
@@ -187,17 +250,18 @@
                 var lastsel2;
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
-                    styleUI : 'Bootstrap',
-                    height: 50*(data.legth+1),
-                    colNames:['Nro.','Nombre', 'Direccion','Telefono', 'Descripcion',"Acciones"],
-                    colModel:[
-                        {name:'id',index:'Nro.', width:90, sorttype:"int"},
-                        {name:'nombre',index:'nombre', width:150,editable: false},
-                        {name:'direccion',index:'direccion', width:260, editable: false},
-                        {name:'telefono',index:'telefono', width:220,editable: false},
-                        {name:'descripcion',index:'descripcion', width:220,editable: false},
+                    styleUI: 'Bootstrap',
+                    height: 50 * (data.legth + 1),
+                    colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', "Acciones"],
+                    colModel: [
+                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
+                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center'},
+                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center'},
+                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center'},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
-                    ]
+                    ],
+                    multiselect: true
                 });
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
@@ -206,31 +270,32 @@
                             '<a href="#" onclick="funciones.inhabilitarSede(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Sede"><img src="img/Iconos/eliminar.png" class="icono"/>';
                     return acciones;
                 }
-                for(var i=0;i<data.length;i++)
+
+                for (var i = 0; i < data.length; i++)
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
             });
 
-            $("#registrar").click(function(){
-                if(!verificarDatos())return;
-                var data={
-                    "nombre":$("#nombre").val(),
-                    "direccion":$("#direccion").val(),
-                    "telefono":$("#telefono").val(),
-                    "descripcion":$("#descripcion").val(),
-                    "administrador":$("#administrador").val()
+            $("#registrar").click(function () {
+                if (!verificarDatos())return;
+                var data = {
+                    "nombre": $("#nombre").val(),
+                    "direccion": $("#direccion").val(),
+                    "telefono": $("#telefono").val(),
+                    "descripcion": $("#descripcion").val(),
+                    "administrador": $("#administrador").val()
                 }
-                $http.post('/api/sedes/',data).success(function (data2, status) {
-                    alert("registro Exitoso de la Sede "+data2.id);
+                $http.post('/api/sedes/', data).success(function (data2, status) {
+                    alert("registro Exitoso de la Sede " + data2.id);
                     console.log(data2);
                     limpiar();
                     llenarEngrilla(data2);
+                    jQuery("#jqGrid").trigger('reloadGrid');
                 });
             });
 
-            $("#limpiar").click(function(){
+            $("#limpiar").click(function () {
                 limpiar();
             });
-
         });
     </script>
 </head>
@@ -297,15 +362,21 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 60px;">
-                    <input id="modificar" class="hidden btn btn-primary" type="" class="btn btn-primary" value="Modificar" style="width:22%">
+                    <input id="modificar" class="hidden btn btn-primary" type="" class="btn btn-primary"
+                           value="Modificar" style="width:22%">
+                    <input id="cancelar" class="hidden btn btn-primary" type="" class="btn btn-primary"
+                           value="Cancelar" style="width:22%">
                     <input id="registrar" type="" class="btn btn-primary" value="Registrar" style="width:22%">
                     <input id="limpiar" type="" class="btn btn-primary" value="Limpiar" style="width:22%">
                 </div>
             </div>
         </div>
         <h4>RESULTADOS DE BÚSQUEDA</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
+            <div class="form-group" style="width:100%;">
+                <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%">
+            </div>
         </div>
     </form>
 </div>
