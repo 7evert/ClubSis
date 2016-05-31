@@ -25,8 +25,8 @@ public class CuotaExtraordinariaController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public CuotaExtraordinaria create(@RequestBody CuotaExtraordinaria cuota){
-        return servicioPagos.crearCuotaExtraordinaria(cuota);
+    public List<CuotaExtraordinaria> create(@RequestBody CuotaExtraordinaria cuota){
+        return servicioPagos.crearCuotasExtraordinarias(cuota);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

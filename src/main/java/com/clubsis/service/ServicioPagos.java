@@ -4,10 +4,12 @@ import com.clubsis.model.pago.*;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.repository.pago.CuotaExtraordinariaRepository;
 import com.clubsis.repository.pago.PagoRepository;
+import com.clubsis.repository.persona.SocioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +22,8 @@ public class ServicioPagos {
     private CuotaExtraordinariaRepository cuotaExtraordinariaRepository;
     @Autowired
     private PagoRepository pagoRepository;
-
+    @Autowired
+    private SocioRepository socioRepository;
 
     //CuotaExtraordinaria
     public List<CuotaExtraordinaria> mostrarCuotasExtraordinarias(){ return cuotaExtraordinariaRepository.findAll(); }
@@ -61,8 +64,17 @@ public class ServicioPagos {
         return nuevoPago;
     }
 
-    public List<CuotaExtraordinaria> crearCuotasExtraordinarias(){
-        return null;
+    public List<CuotaExtraordinaria> crearCuotasExtraordinarias(CuotaExtraordinaria replica){
+        List<Socio> socios= socioRepository.findAll();
+        List<CuotaExtraordinaria> respuesta=new ArrayList<CuotaExtraordinaria>();
+        for(Socio item:socios){
+            CuotaExtraordinaria nuevaCuota= new CuotaExtraordinaria(replica.getNombre(),replica.getDescripcion(),
+                    replica.getMonto(),replica.getFechaInicio(),replica.getFechaFin(),EstadoCuotaExtraordinaria.REGISTRADA,
+                    item,replica.getClub());
+            cuotaExtraordinariaRepository.saveAndFlush(nuevaCuota);
+            respuesta.add(nuevaCuota);
+        }
+        return respuesta;
     }
 
 }

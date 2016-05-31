@@ -87,10 +87,6 @@ public class ServicioMembresias {
     public List<Suspension> mostrarSuspensiones(){return suspensionRepository.findAll();}
     public Suspension buscarSuspension(Integer id) {return suspensionRepository.findOne(id);}
     public Suspension crearSuspension(Suspension suspension){
-        //Solo la suspension muestra al socio
-        //Socio nuevoSocio = socioRepository.findOne(suspension.getSocio().getId());
-        //nuevoSocio.getSuspensiones().add(suspension);
-        //socioRepository.saveAndFlush(nuevoSocio);
         return suspensionRepository.saveAndFlush(suspension);
     }
 
@@ -102,11 +98,12 @@ public class ServicioMembresias {
 
     //MEMBRESIA
 
-    public TipoSocio seleccionarTipoSocio(double ingreso){
+    public TipoSocio seleccionarTipoSocio(){
         List<TipoSocio> tiposSocio = tipoSocioRepository.findAll();
         TipoSocio resultado=null;
         for(TipoSocio item: tiposSocio){
-            if(item.getIngresoMinimo()<=ingreso) resultado=item;
+            System.out.print(item.getNombre());
+            if(item.getNombre().equals("NORMAL")) resultado=item; //Tipo membresia por defecto
         }
         return resultado;
     }
@@ -122,7 +119,7 @@ public class ServicioMembresias {
     }
 
     public Socio socioMembresia(Postulante postulanteExistente){
-        TipoSocio tipo = seleccionarTipoSocio(postulanteExistente.getIngresosMensuales());
+        TipoSocio tipo = seleccionarTipoSocio();
         Socio nuevoSocio = new Socio(
                 postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
                 ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
@@ -140,9 +137,6 @@ public class ServicioMembresias {
         Socio nuevoSocio = socioMembresia(postulanteExistente);
         nuevaPersona.setSocio(socioRepository.saveAndFlush(nuevoSocio));
         personaRepository.saveAndFlush(nuevaPersona);
-        // Solo la persona muestra a que socio esta asociada
-        //nuevoSocio.getPersonas().add(nuevaPersona);
-        //socioRepository.saveAndFlush(nuevoSocio);
         postulanteRepository.saveAndFlush(postulanteExistente);
         return nuevoSocio;
     }

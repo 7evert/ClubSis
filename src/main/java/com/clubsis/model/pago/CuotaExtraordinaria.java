@@ -27,7 +27,7 @@ public class CuotaExtraordinaria {
     private Date fechaInicio;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaFin;
-    private EstadoCuotaExtraordinaria estadoCuotaExtraordinaria; // no habrá isActivo
+    private EstadoCuotaExtraordinaria estadoCuotaExtraordinaria;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
