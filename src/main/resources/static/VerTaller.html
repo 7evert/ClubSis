@@ -6,7 +6,7 @@
     <title>Administrar Talleres</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-ro1ute.min.js"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -138,10 +138,18 @@
                     location.href = "VerTaller.html?id=" + id;
                 });
             });
-            $("#cancelar").click(function(){
-                location.href = "VerTaller.html";
+            $("#nuevo").click(function(){
+                var data=getTaller(id);
+//                console.log(JSON.stringify(data));
+//                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+//                    alert("Tu actualizacion fue exitosa");
+                location.href = "añadirClase.html?id=" + id;
+                });
             });
-        });
+            $("#cancelar").click(function(){
+                location.href = "VerTaller.html?id=" + id;
+            });
+
     </script>
 </head>
 <body ng-controller="edicionAcademiaController">
@@ -155,6 +163,13 @@
         console.log("Accion:");
         console.log(id);
         funciones.eliminar(id);
+    }
+    function añadirDatosTaller(){
+        var data=getTaller(id);
+//                console.log(JSON.stringify(data));
+//                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+//                    alert("Tu actualizacion fue exitosa");
+        location.href = "añadirClase.html?id=" + id;
     }
 </script>
 <script type="text/javascript">
@@ -218,7 +233,7 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="javascript:void(0)" class="btn btn-primary" id="guardar">Actualizar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" class="btn btn-primary" id="guardar">Actualizar</a>
                 </div>
             </div>
 
@@ -228,6 +243,12 @@
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 110px;">
+                <a href="#" onclick="añadirDatosTaller();return false;" class="btn btn-primary" id="nuevo">Agregar Nuevo</a>
+            </div>
         </div>
         <br>
         <div class="leyenda">
@@ -283,7 +304,7 @@
             {name:'precioMes', index:'precioMes', width:100},
             {name:'profesor', index:'profesor', width:100},
             {name:'rangoEdad', index:'rangoEdad', width:100},
-            {name: 'acciones', width: 50, align: 'center', formatter: acciones},
+            {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
         height: 100,
@@ -301,7 +322,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names
+        colNames:['#','Día','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'horarios[dia]', index:'horarios[0].dia', width:100},
@@ -310,7 +331,7 @@
             {name:'horaFin', index:'horaFin', width:100},
             {name:'Ciclo', index:'Ciclo', width:100},
             {name:'Instalación', index:'Instalación', width:100},
-            {name: 'acciones', width: 50, align: 'center', formatter: acciones2},
+            {name: 'acciones', width: 80, align: 'center', formatter: acciones2},
         ],
         viewrecords: true,
         height: 100,
@@ -323,115 +344,18 @@
     $('#jqGrid1').jqGrid('setGridWidth', '900');
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones ='<a href="#" id="bt0"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
+                '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Clase"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
     }
     function acciones2(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Horario"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Horario" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+
         return acciones;
     }
 </script>
-<!--<script type="text/javascript">-->
-
-<!--//    var app2 = angular.module('app2', []);-->
-<!--//    app2.controller('edicionAcademiaController', function ($scope, $http) {-->
-<!--//        var id = getID();-->
-<!--//        console.log(id);-->
-<!--//        if(id==undefined){-->
-<!--//location.href="administrarProveedores1.html"-->
-<!--}-->
-
-
-
-<!--//    $("#jqGrid").jqGrid({-->
-<!--//        url: '/api/infoAcademia/' + id,-->
-<!--//        mtype: "GET",-->
-<!--//        styleUI: 'Bootstrap',-->
-<!--//        datatype: "json",-->
-<!--//        gridview: true,-->
-<!--//        emptyrecords: 'No se encontraron resultados',-->
-<!--colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names-->
-<!--colModel:[-->
-<!--{name:'id', index:'id', key: true, width:50},-->
-<!--{name:'nombre', index:'nombre', width:100},-->
-<!--{name:'capacidad', index:'capacidad',width:100},-->
-<!--{name:'estadoClase', index:'estadoClase', width:100},-->
-<!--{name:'nivel', index:'nivel', width:100},-->
-<!--{name:'precioCiclo', index:'precioCiclo', width:100},-->
-<!--{name:'precioMes', index:'precioMes', width:100},-->
-<!--{name:'rangoEdad', index:'rangoEdad', width:100},-->
-<!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
-<!--],-->
-<!--//        viewrecords: true,-->
-<!--//        height: 300,-->
-<!--//        rowNum: 1000,-->
-<!--//        pager: "#jqGridPager",-->
-<!--//        loadComplete:function(){-->
-<!--//            console.log("salio");-->
-<!--//        }-->
-<!--//    });-->
-<!--//-->
-<!--//    $('#jqGrid').jqGrid('setGridWidth', '900');-->
-
-<!--//    $("#jqGrid1").jqGrid({-->
-<!--//        url: '/api/infoAcademia/' + id,-->
-<!--//        mtype: "GET",-->
-<!--//        styleUI: 'Bootstrap',-->
-<!--//        datatype: "json",-->
-<!--//        gridview: true,-->
-<!--//        emptyrecords: 'No se encontraron resultados',-->
-<!--colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names-->
-<!--colModel:[-->
-<!--{name:'id', index:'id', key: true, width:50},-->
-<!--{name:'dia', index:'dia', width:100},-->
-<!--{name:'estadoHorario', index:'estadoHorario',width:100},-->
-<!--{name:'horaInicio', index:'horaInicio', width:100},-->
-<!--{name:'horaFin', index:'horaFin', width:100},-->
-<!--{name:'Ciclo', index:'Ciclo', width:100},-->
-<!--{name:'Instalación', index:'Instalación', width:100},-->
-<!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
-<!--],-->
-<!--//        viewrecords: true,-->
-<!--//        height: 300,-->
-<!--//        rowNum: 1000,-->
-<!--//        pager: "#jqGridPager",-->
-<!--//        loadComplete:function(){-->
-<!--//            console.log("salio");-->
-<!--//        }-->
-<!--//    });-->
-<!--//-->
-<!--//    $('#jqGrid1').jqGrid('setGridWidth', '900');-->
-
-
-<!--//    $.extend(true, $.jgrid.edit, {-->
-<!--//        recreateForm: true,-->
-<!--//        beforeShowForm: function ($form) {-->
-<!--//            $form.closest(".ui-jqdialog").position({-->
-<!--//                of: window, // or any other element-->
-<!--//                my: "center center",-->
-<!--//                at: "center center"-->
-<!--//            });-->
-<!--//        }-->
-<!--//    });-->
-
-<!--function acciones(cellValue, options, rowdata, action) {-->
-<!--var acciones = '';-->
-
-<!--acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +-->
-<!--'<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';-->
-<!--return acciones;-->
-
-<!--}-->
-
-<!--jQuery("#bt1").click( function() {-->
-<!--jQuery("#jqGrid").jqGrid('editRow',"13");-->
-<!--console.log(data);-->
-<!--this.disabled = 'true';-->
-<!--});-->
-
-<!--</script>-->
 </body>
 </html>

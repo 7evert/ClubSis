@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Edicion Datos Taller</title>
+    <title>Añadir Clase Nueva</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -75,28 +75,27 @@
         }
     </script>
     <script type="text/javascript">
-        function llenarDatosTaller(data2) {
-            $("#nivel").val(data2.nivel);
-            $("#rangoEdad").val(data2.rangoEdad);
-            $("#precioMes").val(data2.precioMes);
-            $("#precioCiclo").val(data2.precioCiclo);
-            $("#capacidad").val(data2.capacidad);
-            $("#profesor").val(data2.profesor);
-            $("#estadoProveedor").val(data2.estadoProveedor + 0);
-            /*
-             for(var i = 0; i < data2.length; i++){
-             $("#nivel").val(data2[i].nivel);
-             $("#rangoEdad").val(data2[i].rangoEdad);
-             $("#precioMes").val(data2[i].precioMes);
-             $("#precioCiclo").val(data2[i].precioCiclo);
-             $("#capacidad").val(data2[i].capacidad);
-             $("#profesor").val(data2[i].profesor);
-             $("#estadoProveedor").val(data2.estadoProveedor+0);}
-             */
-        }
+//        function llenarDatosTaller(data2) {
+//            $("#nivel").val(data2.nivel);
+//            $("#rangoEdad").val(data2.rangoEdad);
+//            $("#precioMes").val(data2.precioMes);
+//            $("#precioCiclo").val(data2.precioCiclo);
+//            $("#capacidad").val(data2.capacidad);
+//            $("#profesor").val(data2.profesor);
+//            $("#estadoProveedor").val(data2.estadoProveedor + 0);
+//            /*
+//             for(var i = 0; i < data2.length; i++){
+//             $("#nivel").val(data2[i].nivel);
+//             $("#rangoEdad").val(data2[i].rangoEdad);
+//             $("#precioMes").val(data2[i].precioMes);
+//             $("#precioCiclo").val(data2[i].precioCiclo);
+//             $("#capacidad").val(data2[i].capacidad);
+//             $("#profesor").val(data2[i].profesor);
+//             $("#estadoProveedor").val(data2.estadoProveedor+0);}
+//             */
+//        }
         function getDatosTaller(id, ciclo, academia) {
             return {
-                id: id,
                 nivel: $("#nivel").val(),
                 rangoEdad: $("#rangoEdad").val(),
                 precioMes: $("#precioMes").val(),
@@ -123,10 +122,21 @@
                 //console.log("Este es el ciclo?");
                 //console.log(objetoClase.ciclo.id);
                 //alert(data2.ciclo.id);
-                llenarDatosTaller(data2);
+                //llenarDatosTaller(data2);
                 console.log(data2);
-                idCiclo = data2.ciclo ["id"];
+                //idCiclo = data2.ciclo ["id"];
                 idAcademia = data2.academia["id"];
+                console.log(idCiclo);
+            });
+
+            $http.get('/api/ciclos/0').success(function (data2, status) {
+                //var objetoClase=JSON.parse(data2);
+                //console.log("Este es el ciclo?");
+                //console.log(objetoClase.ciclo.id);
+                //alert(data2.ciclo.id);
+                //llenarDatosTaller(data2);
+                console.log(data2);
+                idCiclo = data2.id;
                 console.log(idCiclo);
             });
 
@@ -139,8 +149,8 @@
                  */
                 var data = getDatosTaller(id, idCiclo, idAcademia);
                 console.log(JSON.stringify(data));
-                $http.put("/api/clases/" + data.id, data).success(function (data2, status) {
-                    alert("Tu actualizacion fue exitosa");
+                $http.post("/api/clases/", data).success(function (data2, status) {
+                    alert("Tu clase se añadió correctamente");
                     location.href = "VerTaller.html?id=" + idAcademia;
                 });
             });
@@ -161,37 +171,37 @@
         <div id="NivelTaller" class="form-group">
             <label class="control-label col-xs-4">Nivel</label>
             <div class="input-group col-xs-8">
-                <input id="nivel" type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..." required/>
+                <input id="nivel" type="text" class="form-control col-xs-8" placeholder="Escriba el nivel..." required/>
             </div>
         </div>
         <div id="rangoEdadTaller" class="form-group">
             <label class="control-label col-xs-4">Rango Edad</label>
             <div class="input-group col-xs-8">
-                <input id="rangoEdad" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
+                <input id="rangoEdad" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el rango de edad..."required/>
             </div>
         </div>
         <div id="precioCicloTaller" class="form-group">
             <label class="control-label col-xs-4">Precio Ciclo</label>
             <div class="input-group col-xs-8">
-                <input id="precioCiclo" type="text" class="form-control col-xs-8" placeholder="Ingrese # de contacto..." required/>
+                <input id="precioCiclo" type="text" class="form-control col-xs-8" placeholder="Ingrese el precio por ciclo..." required/>
             </div>
         </div>
         <div id="precioMesTaller" class="form-group">
             <label class="control-label col-xs-4">Precio Mes</label>
             <div class="input-group col-xs-8">
-                <input id="precioMes" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="precioMes" type="text" class="form-control col-xs-8" placeholder="Ingrese el precio por mes..." required/>
             </div>
         </div>
         <div id="capacidadTaller" class="form-group">
             <label class="control-label col-xs-4">Capacidad</label>
             <div class="input-group col-xs-8">
-                <input id="capacidad" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="capacidad" type="text" class="form-control col-xs-8" placeholder="Ingrese la capacidad del taller..." required/>
             </div>
         </div>
         <div id="profesorTaller" class="form-group">
             <label class="control-label col-xs-4">Profesor</label>
             <div class="input-group col-xs-8">
-                <input id="profesor" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="profesor" type="text" class="form-control col-xs-8" placeholder="Ingrese el profesor del taller..." required/>
             </div>
         </div>
         <div class="form-group">
