@@ -24,7 +24,8 @@ public class CicloController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Ciclo get(@PathVariable Integer id) {
-        return servicioClases.buscarCiclo(id);
+        if(id==0) return servicioClases.obtenerCicloActual();
+        else return servicioClases.buscarCiclo(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
