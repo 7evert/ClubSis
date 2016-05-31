@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Created by Rodrigo López on 30/04/2016.
+ * Created by Blitz on 30/04/2016.
  */
 @Entity
 public class Sancion {

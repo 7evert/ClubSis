@@ -34,11 +34,7 @@ public class Pago {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-    @OneToMany(mappedBy = "pago")
-    @JsonIgnore
-    private Set<Cuota> cuotas;
-
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, Date fechaPago, EstadoPago estadoPago, Date fechaRegistro, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
+    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, Date fechaPago, EstadoPago estadoPago, Date fechaRegistro, TipoPago tipoPago, String valoracion, Socio socio) {
         this.numeroCuotas = numeroCuotas;
         this.mora = mora;
         this.montoTotal = montoTotal;
@@ -49,7 +45,6 @@ public class Pago {
         this.tipoPago = tipoPago;
         this.valoracion = valoracion;
         this.socio = socio;
-        this.cuotas = cuotas;
     }
 
     //    @ManyToOne(fetch = FetchType.EAGER)
@@ -121,14 +116,6 @@ public class Pago {
 
     public void setSocio(Socio socio) {
         this.socio = socio;
-    }
-
-    public Set<Cuota> getCuotas() {
-        return cuotas;
-    }
-
-    public void setCuotas(Set<Cuota> cuotas) {
-        this.cuotas = cuotas;
     }
 
     public Date getFechaRegistro() {

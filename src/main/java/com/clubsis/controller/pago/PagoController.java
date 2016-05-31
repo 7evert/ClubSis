@@ -1,12 +1,10 @@
 package com.clubsis.controller.pago;
 
-import com.clubsis.model.pago.Cuota;
 import com.clubsis.model.pago.Pago;
 import com.clubsis.service.ServicioPagos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,11 +32,6 @@ public class PagoController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Pago update(@PathVariable Integer id, @RequestBody Pago pago){
         return servicioPagos.actualizarPago(id,pago);
-    }
-
-    @RequestMapping(value = "/{id}/cuotas", method = RequestMethod.GET)
-    public List<Cuota> mostrarPagos(@PathVariable Integer id) {
-        return new ArrayList<>(servicioPagos.buscarPago(id).getCuotas());
     }
 
 }
