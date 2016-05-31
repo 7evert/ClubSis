@@ -120,7 +120,7 @@
                         { label: 'ID', name: 'id', key: true, hidden:true,width: 75},
                         { label: 'ID del Socio', name: 'socio.id', align: 'center', width: 100 },
                         { label: 'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
-                        { label: 'Monto(S/.)', name: 'montoPago', align: 'center', width: 120 },
+                        { label: 'Monto (S/.)', name: 'montoPago', align: 'center', width: 120 },
                         { label: 'Fecha de Pago', name: 'fechaPago', align: 'center', width: 80 },
                         { label: 'Fecha de anulación', name: 'fechaAnulacion', align: 'center', width: 100 },
                         { label: 'Estado', name: 'estado', align: 'center', width: 100 },
@@ -130,9 +130,36 @@
                     height: "auto",
                     width: 900,
                     rowNum: 10,
+                    multiselect: true,
                     pager: "#jqGridPager"
                 });
             })
+            $scope.enviarAnulacion =function (){
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    alert("No hay postulante seleccionado");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje="Se anularon todos los pagos seleccionados.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data= selectedIDs[i];
+                        $http.post('/api/membresias/'+ data).success(function (data ) {
+                            result += selectedIDs[i] + ",";
+                            flag=true
+                            console.log(JSON.stringify(data));
+                        }).error(function (data2) {
+                            console.log(JSON.stringify(data));
+                            mensaje="No se pudo anular los pagos seleccionados.";
+                        });
+                        result += selectedIDs[i] + ",";
+                    }
+                    alert(mensaje);
+                    window.location="mostrarPagosMembresia.html";
+                }
+            }
         });
     </script>
 
@@ -153,9 +180,9 @@
 
         <div class="col-sm-7 col-lg-7">
         </div>
-        <div class="col-sm-5 col-lg-5">
-            <div class="form-group" style="margin-left: 60px;">
-                <button ng-click="enviarAprobacion()" class="btn btn-primary">Aprobar</button>
+        <div class="col-sm-7 col-lg-5">
+            <div class="form-group" style="margin-left: 180px;">
+                <button ng-click="enviarAnulacion()" class="btn btn-primary">Anular</button>
                 <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
             </div>
         </div>
@@ -172,11 +199,6 @@
 
     //$('#jqGrid').jqGrid('setGridWidth', '900');
 
-    function acciones(cellValue, options, rowdata, action) {
-        var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Detalle"><img src="img/Iconos/ver.png" class="icono"></a>'
-        return acciones;
-    }
     function limpiarF() {
         document.getElementById("formFiltrado").reset();
     }
