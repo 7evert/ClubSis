@@ -34,6 +34,7 @@ public class Evento {
     private Integer isPublico;
     private String nombre;
     private Integer capacidad;
+    private double descuento;
 
     @JsonIgnore
     @ManyToMany
@@ -54,7 +55,7 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -66,6 +67,7 @@ public class Evento {
         this.isPublico = isPublico;
         this.nombre = nombre;
         this.capacidad = capacidad;
+        this.descuento = descuento;
         this.empresas = empresas;
         this.tarifaxEventos = tarifaxEventos;
         this.invitadoeventos = invitadoeventos;
@@ -166,6 +168,14 @@ public class Evento {
 
     public void setCapacidad(Integer capacidad) {
         this.capacidad = capacidad;
+    }
+
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
     }
 
     public Set<Empresa> getEmpresas() {

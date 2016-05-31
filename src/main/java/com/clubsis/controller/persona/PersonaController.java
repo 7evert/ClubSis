@@ -29,6 +29,7 @@ public class PersonaController {
         return servicioMembresias.crearPersona(persona);
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+
     public Persona update(@PathVariable Integer id, @RequestBody Persona persona){
         return servicioMembresias.actualizarPersona(id,persona);
     }
