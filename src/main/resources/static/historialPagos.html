@@ -59,6 +59,67 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <h3>HISTORIAL DE PAGOS</h3>
     <hr>
+    <h4>FILTRO DE BÚSQUEDA</h4>
+    <form class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="codigo" class="col-md-4 control-label">Código</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="codigo" placeholder="Codigo del Socio">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del Socio">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="appPaterno" class="col-md-4 control-label">Apellido Paterno</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="appPaterno" placeholder="Apellido Paterno del Socio">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="appMaterno" class="col-md-4 control-label">Apellido Materno</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="appMaterno" placeholder="Apellido Materno del Socio">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="dni" class="col-md-4 control-label">DNI</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="dni" placeholder="DNI del Socio">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="correo" class="col-md-4 control-label">Correo</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="correo" placeholder="Correo del Socio">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 col-lg-7">
+        </div>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 60px;">
+                <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
+                <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+            </div>
+        </div>
+    </div>
+        </form>
     <h4>BOLETAS DE PAGOS</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>

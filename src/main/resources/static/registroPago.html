@@ -124,11 +124,6 @@
             <table id="jqGrid"></table>
         </div>
         <br>
-        <h4>LISTADO DE CUOTAS</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
-            <table id="jqGrid1"></table>
-        </div>
-        <hr>
         <div class="col-sm-7 col-lg-7">
         </div>
         <div class="col-sm-5 col-lg-5">
@@ -160,13 +155,15 @@
             { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 75},
             { label: 'Codigo Socio', name: 'OrderID', align: 'center', width: 150 },
             { label: 'Nombre del Servicio', name: 'ShipName', align: 'center', width: 300 },
-            { label: 'Monto', name: 'Freight', align: 'center', width: 150 },
+            { label: 'Monto (S/.)', name: 'Freight', align: 'center', width: 150 },
             { label: 'Fecha de vencimiento', name: 'OrderDate', align: 'center', width: 150 },
-            { label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+            //{ label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
         height: 220,
+        multiselect: true,
         rowNum: 10,
+
         pager: "#jqGridPager"
 
     });
@@ -179,36 +176,6 @@
         return acciones;
     }
 
-    $("#jqGrid1").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI : 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 75},
-            { label: 'Número de cuota', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Nombre del Servicio', name: 'ShipName', align: 'center', width: 300 },
-            { label: 'Monto', name: 'Freight', align: 'center', width: 150 },
-            { label: 'Fecha de vencimiento', name: 'OrderDate', align: 'center', width: 150 },
-            { label: 'Pago', name: 'acciones', width: 150, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 220,
-        rowNum: 10,
-        pager: "#jqGridPager"
-
-    });
-
-    $('#jqGrid1').jqGrid('setGridWidth', '900');
-
-    function acciones(cellValue, options, rowdata, action) {
-        var acciones = '';
-        acciones = '<input type="checkbox" value="">'
-        return acciones;
-    }
 </script>
 </body>
 </html>
