@@ -20,11 +20,11 @@ public class Pago {
     private Integer numeroCuotas;
     private Double mora;
     private Double montoTotal;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaAnulacion;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaRegistro;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaPago;
     private EstadoPago estadoPago;
     private TipoPago tipoPago;

@@ -18,13 +18,13 @@ public class PagoMembresia {
     @Id
     @GeneratedValue
     private Integer id;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaVencimiento;
     private Double montoPago;
     private EstadoPago estado;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaPago;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaAnulacion;
 
     @ManyToOne

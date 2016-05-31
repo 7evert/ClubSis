@@ -15,11 +15,11 @@ public class Suspension {
     @GeneratedValue
     private Integer id;
     private EstadoSuspension estado;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaSolicitud;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaRespuesta;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaAnulacion;
     private String motivoSuspension;
 

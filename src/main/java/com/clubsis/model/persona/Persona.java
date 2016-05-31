@@ -23,7 +23,7 @@ public class Persona {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaNacimiento;
     private String direccion;
     private String correo;

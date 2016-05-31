@@ -20,7 +20,7 @@ public class Postulante {
     private String apellidoMaterno;
     private String tipoDocumento;
     private Integer numeroDocumento;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaNacimiento;
     private String estadoCivil;
     private Integer numeroHijos;
@@ -32,7 +32,7 @@ public class Postulante {
     private Double ingresosMensuales;
     private String nombreEmpresa;
     private String correo;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaPostulacion;
     private EstadoPostulante esAprobado;
     private Boolean esActivo;

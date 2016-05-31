@@ -23,7 +23,7 @@ public class Socio {
     @Id
     @GeneratedValue
     private Integer id;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaInscripcion;
     private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
