@@ -28,18 +28,18 @@ public class MembresiaController {
     private ServicioPostulante servicioPostulante;
 
     //esto recibe el id del postulante
-    @RequestMapping(value = "/{id}/{respuesta}",method = RequestMethod.POST)
-    public void responderMembresia(@PathVariable Integer id,@PathVariable Boolean respuesta){
-        if(respuesta){//Aprobado
-            Socio nuevoSocio = servicioMembresias.crearMembresia(id);
-            servicioPagos.primerPago(nuevoSocio);
-        }
-        else{
-            Postulante postulanteActualizado=servicioPostulante.buscarPostulante(id);
-            postulanteActualizado.setEsAprobado(EstadoPostulante.RECHAZADO);
-            servicioPostulante.actualizarPostulante(id,postulanteActualizado);
-        }
+    @RequestMapping(value = "/{id}/aprobar",method = RequestMethod.POST)
+    public void aprobarMembresia(@PathVariable Integer id){
+        Socio nuevoSocio = servicioMembresias.crearMembresia(id);
+        servicioPagos.primerPago(nuevoSocio);
+    }
 
+    @RequestMapping(value = "/{id}/rechazar",method = RequestMethod.POST)
+    public void rechazarMembresia(@PathVariable Integer id){
+        Postulante postulanteActualizado=servicioPostulante.buscarPostulante(id);
+        postulanteActualizado.setEsAprobado(EstadoPostulante.RECHAZADO);
+        postulanteActualizado.setEsActivo(Boolean.FALSE);
+        servicioPostulante.actualizarPostulante(id,postulanteActualizado);
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
