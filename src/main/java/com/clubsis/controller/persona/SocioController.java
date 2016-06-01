@@ -43,8 +43,10 @@ public class SocioController {
     }
 
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/actualizar", method = RequestMethod.PUT)
     public Socio update(@PathVariable Integer id, @RequestBody Socio socio){
+        Socio socioExistente = servicioMembresias.buscarSocio(id);
+        socio.setTipo(socioExistente.getTipo());
         return servicioMembresias.actualizarSocio(id,socio);
     }
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)
