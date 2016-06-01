@@ -21,6 +21,55 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <script src="js/principal.js"></script>
+    <script src="js/Notificaciones.js"></script>
+
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
 </head>
 <body ng-controller="ProveedorController">
 <div id="headerAdministrador"></div>
@@ -35,42 +84,47 @@
 
 
         <div id="NombreProveedor" class="form-group">
-            <label class="control-label col-xs-4">Nombre Proveedor</label>
+            <label class="control-label col-xs-4">Nombre Proveedor<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" ng-model="nombre" maxlength="50" placeholder="Escriba el nombre..." required/>
+                <input id="nombre" type="text" class="form-control col-xs-8" ng-model="nombre" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
         <div id="RUC" class="form-group">
-            <label class="control-label col-xs-4">RUC</label>
+            <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="11" placeholder="Escriba el RUC..." required/>
             </div>
         </div>
         <div id="Descripción" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
+            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <textarea name="Descripción" rows="5" class="form-control col-xs-8" ng-model="descripcion" placeholder="Especificar el rubro..." required/></textarea>
             </div>
         </div>
-        <div id="numContacto" class="form-group">
-            <label class="control-label col-xs-4"># Contacto</label>
+        <div id="telefono" class="form-group">
+            <label class="control-label col-xs-4"># Contacto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input type="text" class="form-control col-xs-8" ng-model="numContacto" maxlength="9" pattern="[0-9]{9}" placeholder="Ingrese # de contacto..." required/>
+                <input type="text" class="form-control col-xs-8" ng-model="numContacto" maxlength="9"  placeholder="Ingrese # de contacto..." required/>
             </div>
         </div>
         <div id="Direccion" class="form-group">
-            <label class="control-label col-xs-4">Dirección</label>
+            <label class="control-label col-xs-4">Dirección<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input type="text" class="form-control col-xs-8" ng-model="direccion" placeholder="Ingrese una direccion..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
+            <label for="estadoProveedor" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
-                <select class="form-control" id="estadoProveedor" >
+                <select class="form-control" id="estadoProveedor">
                     <option>INHABILITADO</option>
                     <option>HABILITADO</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
             </div>
         </div>
         <div class="form-group">
@@ -119,22 +173,41 @@
                     'descripcion': $scope.descripcion,
                     'numContacto': $scope.numContacto,
                     'direccion': $scope.direccion,
-                    'estadoProveedor':$scope.estadoProveedor,
+                    'estadoProveedor':$("#estadoProveedor").val()
                 };
 //                var jsonObj = JSON.parse(data);
                 console.log(data);
-                $http.post('/api/proveedores', data).success(function (data) {
-                    alert("Proveedor registrado!!");
-                    location.href="administrarProveedores1.html";
-                    //happy end
-                    //$scope.PostDataResponse = data;
-                })
-                        .error(function (data) {
-                            //aca lo que se hara en caso falle
-                            console.log("fallo");
-                        });
+                if(!validarDatos()) {
+                    $http.post('/api/proveedores', data).success(function (data) {
+                                alert("Proveedor registrado!!");
+                                location.href="administrarProveedores1.html";
+                                //happy end
+                                //$scope.PostDataResponse = data;
+                            })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                console.log("fallo");
+                            });
+                }
             }();
         });
+        
+        function validarDatos() {
+            var nombre=$scope.nombre;
+            var ruc= $scope.ruc;
+            var descripcion = $scope.descripcion;
+            var numContacto= $scope.numContacto;
+            var direccion = $scope.direccion;
+            var estadoProveedor =$("#estadoProveedor").val();
+
+            if(!nombre){
+                //alert("No hay nombre");
+                Notificaciones.showError('Nombre de proveedor requerido');
+                $("#nombre").css("border-color", "red");
+                return true;
+            }
+            return false;
+        }
     });
     //    });
 </script>
