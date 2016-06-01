@@ -57,7 +57,7 @@ public class BungalowController {
     @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
     public Integer editarPostulante(Model model, @RequestParam(value = "idBungalow") Integer idBungalow) {
         Bungalow bungalow = servicioReservas.buscarBungalow(idBungalow);
-        bungalow.setEstado(EstadoBungalow.ELIMINADO); //Lo eliminamos de la base de datos
+        bungalow.setEstado(EstadoBungalow.DESHABILITADO); //Lo deshabilitamos de la base de datos
         servicioReservas.actualizarBungalow(idBungalow,bungalow);
         return 1;
     }

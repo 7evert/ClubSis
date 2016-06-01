@@ -61,6 +61,8 @@
         .centered2 {
             margin-right: 510px;
         }
+
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
 <body>
@@ -167,10 +169,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Bungalow
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Bungalow
         </div>
     </form>
 </div>
@@ -223,20 +225,30 @@
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
             {index: 'id', name: 'id', align: 'center', width: 75},
-            {index: 'precio', name: 'precio', align: 'center', width: 40},
-            {index: 'piso', name: 'piso', align: 'center', width: 150},
+            {index: 'precio', name: 'precio', align: 'center', width: 60},
+            {index: 'piso', name: 'piso', align: 'center', width: 70},
             {index: 'valoracion', name: 'valoracion', align: 'center', width: 150},
-//            {index: 'tipoBungalow.id', name: 'tipoBungalow.id', align: 'center', width: 150},
+            {index: 'tipoBungalow.nombre', name: 'tipoBungalow.nombre', align: 'center', width: 150},
+            {index: 'sede.nombre', name: 'sede.nombre', align: 'center', width: 150},
+            {index: 'estado', name: 'estado', align: 'center', width: 150},
             {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoracion', 'Acciones',
+            'N° Bungalow', 'Precio', 'Piso', 'Valoracion', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones',
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estado'] == "DESHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
             for (i = 1; i < cantFilas+cantFilas*4; i++) {
@@ -251,14 +263,6 @@
                     rowData.valoracion = '4 estrellas';
                 else if (rowData.valoracion == "5")
                     rowData.valoracion = '5 estrellas';
-
-//                if (rowData.tipoBungalow.id == "1")
-//                    rowData.tipoBungalow.id = 'Gold King';
-//                else if (rowData.tipoBungalow.id == "2")
-//                    rowData.tipoBungalow.id = 'Silver King';
-//                else if (rowData.tipoBungalow.id == "3")
-//                    rowData.tipoBungalow.id = 'Bronze King';
-
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
             $('.icono-modificar').click(function () {
