@@ -75,8 +75,8 @@
             $http.get('/api/pagos').then(function (respuesta) {
                 //datosUrl=respuesta.data;
                 //Hasta tener el id del socio logeado se usara el 1
+
                 idSocio=1;
-                $scope.hola=respuesta.data;
                 var datosUrl= $.grep(respuesta.data, function (element, index) {
                     return element.socio.id == idSocio;
                 });
@@ -116,7 +116,6 @@
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <h4>BOLETAS DE PAGOS</h4>
-    {{hola}}
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
