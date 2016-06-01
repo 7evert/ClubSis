@@ -245,7 +245,7 @@
             for (i = 0; i <= rowIds.length; i++) {//iterate over each row
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
                 //set background style if ColumnValue == true
-                if (rowData['estado'] == "DESHABILITADO") {
+                if (rowData['estado'] == "INHABILITADO") {
                     $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
                 } //if
             }
