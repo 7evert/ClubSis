@@ -183,13 +183,15 @@
                 console.log(data);
                 if(!validarDatos()) {
                     $http.post('/api/proveedores', data).success(function (data) {
-                                alert("Proveedor registrado!!");
-                                location.href="administrarProveedores1.html";
-                                //happy end
-                                //$scope.PostDataResponse = data;
+                                Notificaciones.showProcesando();
+                                Notificaciones.hideAll();
+                                setTimeout(function () {
+                                    location.href = "administrarProveedores1.html"
+                                }, 1000);
                             })
                             .error(function (data) {
                                 //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al registrar proveedor");
                                 console.log("fallo");
                             });
                 }
