@@ -4,6 +4,8 @@
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
     <title>ClubSis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
@@ -12,6 +14,16 @@
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
+        .icono {
+            width: 18px;
+        }
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+        }
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
             background: #008D34;
         }
@@ -31,8 +43,8 @@
             border-color: #ededed;
         }
 
-        .icono{
-            width: 19px;
+        .   {
+            width: 20px;
         }
 
         h4{
@@ -50,77 +62,61 @@
             margin-bottom: 10px;
         }
     </style>
+
+    <script type="text/javascript">
+        var datosUrl;
+    </script>
+
+    <script type="text/javascript">
+
+        var appHistorialPagos = angular.module('appHistorialPagos', []);
+        var idSocio;
+        appHistorialPagos.controller('PagoController', function ($scope, $http) {
+            $http.get('/api/pagos').then(function (respuesta) {
+                //datosUrl=respuesta.data;
+                //Hasta tener el id del socio logeado se usara el 1
+                idSocio=1;
+                $scope.hola=respuesta.data;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.socio.id == idSocio;
+                });
+                $("#jqGrid").jqGrid({
+
+                    data: datosUrl,
+                    mtype: "GET",
+                    styleUI : 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        { label: 'id', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Tipo pago', name: 'tipoPago', align: 'center', width: 100 },
+                        { label: 'Importe (S/.)', name: 'montoTotal', align: 'center', width: 150 },
+                        { label: 'Estado', name: 'estadoPago', align: 'center', width: 100 },
+                        { label:'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
+                        { label:'Fecha Pago', name: 'fechaPago', align: 'center', width: 100 },
+                        { label:'Fecha Anulacion', name: 'fechaAnulacion', align: 'center', width: 100 },
+                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: "auto",
+                    width: 900,
+                    rowNum: 10,
+                    pager: "#jqGridPager"
+                });
+            })
+        });
+    </script>
 </head>
 <body>
 <div id="headerUsuario"></div>
-<div class="container">
+<div class="container" ng-app="appHistorialPagos" ng-controller="PagoController">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
-    <h3>HISTORIAL DE PAGOS</h3>
-    <hr>
-    <h4>FILTRO DE BÚSQUEDA</h4>
-    <form class="form-horizontal">
-    <div class="row">
-        <div class="col-sm-6 col-lg-5">
-            <div class="form-group">
-                <label for="codigo" class="col-md-4 control-label">Código</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="codigo" placeholder="Codigo del Socio">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-5">
-            <div class="form-group">
-                <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del Socio">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-5">
-            <div class="form-group">
-                <label for="appPaterno" class="col-md-4 control-label">Apellido Paterno</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="appPaterno" placeholder="Apellido Paterno del Socio">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-5">
-            <div class="form-group">
-                <label for="appMaterno" class="col-md-4 control-label">Apellido Materno</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="appMaterno" placeholder="Apellido Materno del Socio">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-5">
-            <div class="form-group">
-                <label for="dni" class="col-md-4 control-label">DNI</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="dni" placeholder="DNI del Socio">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-5">
-            <div class="form-group">
-                <label for="correo" class="col-md-4 control-label">Correo</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="correo" placeholder="Correo del Socio">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-7 col-lg-7">
-        </div>
-        <div class="col-sm-5 col-lg-5">
-            <div class="form-group" style="margin-left: 60px;">
-                <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
-            </div>
-        </div>
-    </div>
-        </form>
     <h4>BOLETAS DE PAGOS</h4>
+    {{hola}}
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -140,32 +136,6 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-
-    $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI : 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            { label: 'idCuota', name: 'idCuota', key: true, hidden: true, width: 75},
-            { label: 'Número', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Importe (S/.)', name: 'Freight', align: 'center', width: 150 },
-            { label: 'Estado', name: 'CustomerID', align: 'center', width: 150 },
-            { label:'Fecha Vencimiento', name: 'OrderDate', align: 'center', width: 100 },
-            { label:'Fecha Pago', name: 'OrderDate', align: 'center', width: 100 },
-            { label:'Fecha Anulacion', name: 'OrderDate', align: 'center', width: 100 },
-            //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 280,
-        rowNum: 10,
-        pager: "#jqGridPager"
-    });
-
-    $('#jqGrid').jqGrid('setGridWidth', '900');
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
