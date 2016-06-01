@@ -13,6 +13,19 @@
     <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+    <style type="text/css">
+        input[type='checkbox'].textboxbigger {
+            -webkit-appearance:none;
+            width:30px;
+            height:30px;
+            background:white;
+            border-radius:5px;
+            border:2px solid #555;
+        }
+        input[type='checkbox']:checked {
+            background: #abd;
+        }
+    </style>
     <script type="text/javascript">
         function validateDateInAllBrowsers(cad){
             return cad?cad.replace(" ","T")+"Z":cad;
@@ -204,6 +217,16 @@
         function displayNone(item){
             $("#"+item.id).attr({style:"display:none;"});
         }
+
+        function appearTextBoxToEliminate(){
+            var lista=document.getElementsByClassName("list-group-item");
+            var top=$("#topMostrar").append($('<input type="checkbox" class="textboxbigger pull-right" id="maintextbox" value="all">'));
+            for(var i=0;i<lista.length-1;i++) {
+                a = lista[i];
+                var id=a.getAttribute("id");;
+                a.childNodes[0].appendChild($(' <input type="checkbox" class="textboxbigger" value="'+ id+'" style="position:absolute;top:10px;right:20px;">')[0]);
+            }
+        }
     </script>
     <script type="text/javascript">
         //app script
@@ -219,12 +242,30 @@
                 //DATAEVENTOS = dataJSON;
                 console.log(JSON.stringify(data));
                 llenarListaBungalows1(DATAEVENTOS);
+                appearTextBoxToEliminate();
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
                 mostrarNext5();
-                /*var eliminar=$("button");
-                for(var i=0;i<eliminar.length;i++)
-                    if($("button")[i].value=="Eliminar")
-                        $($("button")[i]).attr({style:'display:none;'});*/
+                $('#maintextbox').click(function() {
+                    var lista=$(".textboxbigger");
+                    for(var i=0;i<lista.length;i++)
+                        if(!$("#"+lista[i].getAttribute("value")).hasClass("hidden"))
+                            lista[i].checked=this.checked;
+                });
+                $("#Deshabilitar").click(function(event){
+                    var lista=$(".textboxbigger"),id;
+                    lista[0].checked=false;
+                    for(var i=0;i<lista.length;i++){
+                        id=lista[i].getAttribute("value");
+                        if(id!="all" && lista[i].checked){
+                            lista[i].checked=false;
+                            $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
+                                console.log("se deshabilito el evento "+data.nombre);
+                            }).error(function(){
+                                console.log("No se pudo deshabilitar el evento ");
+                            });
+                        }
+                    }
+                });
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
@@ -358,6 +399,7 @@
                     </div>
                     <div class="col-sm-5 col-lg-5">
                         <div class="form-group" style="margin-left: 60px;">
+                            <button id="Deshabilitar" class="btn btn-primary">Deshabilitar</button>
                             <button id="Buscar" class="btn btn-primary">Buscar</button>
                             <button id="Limpiar" class="btn btn-primary">Limpiar</button>
                             <!--Opcional-->

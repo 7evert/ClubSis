@@ -44,8 +44,8 @@
         }
     </style>
     <script type="text/javascript">
-        var funciones={};
-        var nroInv=0;
+        var funciones = {};
+        var nroInv = 0;
         function limpiarFormulario() {
             $("#nombre").val("");
             $("#apellidoPat").val("");
@@ -63,39 +63,39 @@
 
         function verInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-ver");
-            location.href = "informacionInvitado.html?id=" + id+"&idEvento="+idevento;
+            location.href = "informacionInvitado.html?id=" + id + "&idEvento=" + idevento;
         }
         function modificarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-modificar");
-            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
+            location.href = "modificarInvitado.html?id=" + id + "&idEvento=" + idevento;
         }
         function eliminarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
-            funciones.eliminarInvitado(event,id);
+            funciones.eliminarInvitado(event, id);
         }
 
-        function mostrarMensaje(message){
+        function mostrarMensaje(message) {
             alert(message);
         }
-        function verificarDatos(){
-            var mensajes=["Nombre debe tener entre 1 y 50 letras",
+        function verificarDatos() {
+            var mensajes = ["Nombre debe tener entre 1 y 50 letras",
                 "Apellido Paterno debe tener entre 1 y 50 letras",
                 "Apellido Materno debe tener entre 1 y 50 letras",
                 "Debe elegir algun tipo de documento",
                 "Numero de Documento debe ser un numero entero entre 8 y 25 numeros"
             ];
-            var ver=[],i=0;
-            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0;
-            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0;
-            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0;
-            ver[i++]=$("#tipoDoc").val()!=0;
-            ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,7)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
+            var ver = [], i = 0;
+            ver[i++] = $("#nombre").val().length < 50 && $("#nombre").val().length > 0;
+            ver[i++] = $("#apellidoPat").val().length < 50 && $("#apellidoPat").val().length > 0;
+            ver[i++] = $("#apellidoMat").val().length < 50 && $("#apellidoMat").val().length > 0;
+            ver[i++] = $("#tipoDoc").val() != 0;
+            ver[i++] = ($("#nroDoc").val() % 1 === 0) && parseInt($("#nroDoc").val()) >= 0 && ($("#nroDoc").val() / Math.pow(10, 7) > 1) && ($("#nroDoc").val() / Math.pow(10, 25) < 1);
             /*ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
-            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);*/
+             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
+             ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);*/
 
-            for(var j=0;j<i;j++)
-                if(ver[j]==false) {
+            for (var j = 0; j < i; j++)
+                if (ver[j] == false) {
                     mostrarMensaje(mensajes[j]);
                     return false;
                 }
@@ -104,19 +104,20 @@
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        var ids,idsocio,idevento;
+        var ids, idsocio, idevento,selectedIDs;
         app2.controller('RegistroInvitadoController', function ($scope, $http) {
             ids = getIDSocioYEvento();
-            idsocio = ids?ids[0]:ids;
-            idevento = ids?ids[1]:ids;
+            idsocio = ids ? ids[0] : ids;
+            idevento = ids ? ids[1] : ids;
+
             if (idsocio == undefined || idevento == undefined) {
-                location.href="participarEvento.html?id"+idevento;
+                location.href = "participarEvento.html?id" + idevento;
             }
 
-            funciones.eliminarInvitado=function(event,idInvEvento){
-                $http.delete('/api/invitadoeventos/'+idInvEvento+'/eliminar').success(function (data) {
-                    console.log("eliminado");
-                    $('#jqGrid').jqGrid('delRowData',idInvEvento);
+            funciones.eliminarInvitado = function (event, idInvEvento) {
+                $http.delete('/api/invitadoeventos/' + idInvEvento + '/eliminar').success(function (data) {
+                    console.log("eliminado "+idInvEvento);
+                    $('#jqGrid').jqGrid('delRowData', idInvEvento);
                     nroInv--;
                 });
             };
@@ -124,12 +125,12 @@
             $http.get('/api/tarifas').success(function (data) {
                 $http.get('api/tarifaeventos').success(function (data3) {
                     console.log(data3);
-                    for(var i=0;i<data3.length;i++){
+                    for (var i = 0; i < data3.length; i++) {
                         //console.log(data3[i].eventos.id+" "+dataevento.id)
-                        if(data3[i].eventos && data3[i].eventos.id==idevento){
-                            for(var j=0;j<data.length;j++){
-                                if(data3[i].tarifaeventos.id==data[j].id){
-                                    $("#tipoTarifa").append($("<option></option>").attr({value:data[j].nombre}).html(data[j].nombre));
+                        if (data3[i].eventos && data3[i].eventos.id == idevento) {
+                            for (var j = 0; j < data.length; j++) {
+                                if (data3[i].tarifaeventos.id == data[j].id) {
+                                    $("#tipoTarifa").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre));
                                 }
                             }
                         }
@@ -139,28 +140,33 @@
 
             $http.get('/api/invitadoeventos').success(function (data3, status) {
                 console.log(data3);
-                for(var i=0;i<data3.length;i++){
-                    if(data3[i].evento && data3[i].evento.id==idevento && idsocio==data3[i].invitado.socio.id){
+                for (var i = 0; i < data3.length; i++) {
+                    if (data3[i].evento && data3[i].evento.id == idevento && idsocio == data3[i].invitado.socio.id) {
                         nroInv++;
-                        var data = {nro:nroInv,id: data3[i].id, nombre: data3[i].invitado.nombres, nroDoc: data3[i].invitado.numeroDocumento};
+                        var data = {
+                            nro: nroInv,
+                            id: data3[i].id,
+                            nombre: data3[i].invitado.nombres,
+                            nroDoc: data3[i].invitado.numeroDocumento
+                        };
                         jQuery("#jqGrid").addRowData(data.id, data);
                     }
                 }
             });
-                /*console.log(JSON.stringify(data2));
-                for(var i=0;i<data2.length;i++) {
-                    for(var j=0;j<data2[i].eventos.length;j++){
-                        if((idsocio==data2[i].socio.id) && (idevento==data2[i].eventos[j].id)) {
-                            var data = {id: data2[i].id, nombre: data2[i].nombres, nroDoc: data2[i].numeroDocumento};
-                            jQuery("#jqGrid").addRowData(data.id, data);
-                        }
-                    }
-                }*/
+            /*console.log(JSON.stringify(data2));
+             for(var i=0;i<data2.length;i++) {
+             for(var j=0;j<data2[i].eventos.length;j++){
+             if((idsocio==data2[i].socio.id) && (idevento==data2[i].eventos[j].id)) {
+             var data = {id: data2[i].id, nombre: data2[i].nombres, nroDoc: data2[i].numeroDocumento};
+             jQuery("#jqGrid").addRowData(data.id, data);
+             }
+             }
+             }*/
 
             $("#addGuest").click(function (event) {
-                $(event.target).prop( "disabled", true );
-                if(!verificarDatos()){
-                    $(event.target).prop( "disabled", false );
+                $(event.target).prop("disabled", true);
+                if (!verificarDatos()) {
+                    $(event.target).prop("disabled", false);
                     return;
                 }
                 var guest = {
@@ -173,27 +179,47 @@
                     ingresoInvitado: parseInt($("#ingresoInv").val())
                 };
                 console.log(JSON.stringify(guest));
-                $http.post('/api/invitados/' + idsocio+"/eventos",guest).success(function (dataInvitado, status) {
+                $http.post('/api/invitados/' + idsocio + "/eventos", guest).success(function (dataInvitado, status) {
                     //$http.get('/api/sedes', guest).success(function (data2, status) {
                     //var data2 = guest;
                     console.log(JSON.stringify(dataInvitado));
-                    $http.post('/api/invitadoeventos/' + dataInvitado.id +"/"+idevento+"/eventos",guest).success(function (datosinvitadoevento, status) {
+                    $http.post('/api/invitadoeventos/' + dataInvitado.id + "/" + idevento + "/eventos", guest).success(function (datosinvitadoevento, status) {
                         limpiarFormulario();
                         nroInv++;
                         alert("Se registro al invitado exitosamente");
-                        var data = {nro:nroInv,id: datosinvitadoevento.id, nombre: dataInvitado.nombres, nroDoc: dataInvitado.numeroDocumento};
+                        var data = {
+                            nro: nroInv,
+                            id: datosinvitadoevento.id,
+                            nombre: dataInvitado.nombres,
+                            nroDoc: dataInvitado.numeroDocumento
+                        };
                         //console.log(data);
                         jQuery("#jqGrid").addRowData(data.id, data);
-                        $(event.target).prop( "disabled", false );
-                    }).error(function(){
-                        $(event.target).prop( "disabled", false );
+                        $(event.target).prop("disabled", false);
+                    }).error(function () {
+                        $(event.target).prop("disabled", false);
                     });
-                }).error(function(){
-                    $(event.target).prop( "disabled", true );
+                }).error(function () {
+                    $(event.target).prop("disabled", true);
                 });
             });
+
+            $("#eliminar").click(function (event) {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey)
+                    alert("No hay postulante seleccionado");
+                else {
+                    selectedIDs = grid.getGridParam("selarrrow");
+                    for (var j = 0; j < selectedIDs.length; j++) {
+                        idInvEvento = selectedIDs[j];
+                        funciones.eliminarInvitado(event,idInvEvento);
+                    }
+                }
+            });
+
             $("#terminar").click(function () {
-                location.href = "generarPagoEvento.html?idSocio="+idsocio+"&idEvento="+idevento;
+                location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
             });
             $("#cancelar").click(function () {
                 location.href = "MantenimientoEventos.html";
@@ -282,6 +308,7 @@
                             </div>-->
                             <div class="col-xs-offset-5 col-xs-9">
                                 <input id="addGuest" class="btn btn-primary" value="Añadir" style="width:30%">
+                                <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
                                 <input id="terminar" class="btn btn-primary" value="Confirmar" style="width:30%">
                                 <input id="cancelar" class="btn btn-primary" value="cancelar" style="width:30%">
                             </div>
@@ -312,9 +339,9 @@
     jQuery("#jqGrid").jqGrid({
         datatype: "local",
         height: 300,
-        colNames: ['Nro','Id', 'Nombre', 'Nro. Doc.', 'Acciones'],
+        colNames: ['Nro', 'Id', 'Nombre', 'Nro. Doc.', 'Acciones'],
         colModel: [
-            {name: 'nro', index: 'nro',width: 30, editable: false},
+            {name: 'nro', index: 'nro', width: 30, editable: false},
             {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
             {name: 'nombre', index: 'nombre', width: 150, editable: false},
             {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false},
@@ -333,6 +360,5 @@
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>
-
 </body>
 </html>
