@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -10,6 +10,14 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -54,8 +62,190 @@
             margin-bottom: 10px;
         }
     </style>
+    <script type="text/javascript">
+        var funciones={};
+        funciones.registrarFormulario=function(){
+
+        }
+        function verificarDatos(){
+            var mensajes=["Nombre debe tener entre 1 y 50 caracteres",//0
+                "Descripcion debe tener entre 1 y 100 caracteres",//1
+                "Costo de Membresia debe ser un numero real mayor a 0",//2
+                "Numero de Invitados debe ser un numero entero mayor o igual a 0",//3
+                "Costo Inicio debe ser un numero real mayor a 0",//4
+                "Ingreso Minimo debe ser un numero real mayor a 0",//5
+            ];
+            var ver=[];
+            ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
+            ver[1]=$("#descripcion").val().length>0&&$("#descripcion").val().length<100;
+            ver[2]=(isNaN(parseFloat($("#costoMembresia").val()))==false&&(parseFloat($("#costoMembresia").val())>0));
+            ver[3]=$("#numerosInvitadosGratuitos").val() % 1 === 0  && ($("#numerosInvitadosGratuitos").val()/Math.pow(10,8)<1) && $("#numerosInvitadosGratuitos").val()>=0;
+            ver[4]=(isNaN(parseFloat($("#costoInicial").val()))==false&&(parseFloat($("#costoInicial").val())>0));
+            ver[5]=(isNaN(parseFloat($("#ingresoMinimo").val()))==false&&(parseFloat($("#ingresoMinimo").val())>0));
+            for(var i=0;i<ver.length;i++)
+                if(ver[i]==false) {
+                    mostrarMensaje(mensajes[i]);
+                    return false;
+                }
+            return true;
+        }
+        function mostrarMensaje(d){
+            alert(d)
+        }
+        funciones.limpiar=function(){
+            $("#nombre").val("");
+            $("#descripcion").val("");
+            $("#costoMembresia").val("");
+            $("#numerosInvitadosGratuitos").val("");
+            $("#costoInicial").val("");
+            $("#ingresoMinimo").val("");
+        }
+        function llenarEngrilla(data){
+            jQuery("#jqGrid").addRowData(data.id, data);
+        }
+        function actualizarEngrilla(data){
+            $('#jqGrid').jqGrid('setRowData', data.id, data);
+        }
+        funciones.mensaje=function(data2){
+            alert("registro Exitoso del tipoSocio" + data2.id+" "+data2.nombre);
+        }
+        function deshabilitarcampos(){
+            $("#nombre").attr({disabled:true});
+            $("#descripcion").attr({disabled:true});
+            $("#costoMembresia").attr({disabled:true});
+            $("#numerosInvitadosGratuitos").attr({disabled:true});
+            $("#costoInicial").attr({disabled:true});
+            $("#ingresoMinimo").attr({disabled:true});
+        }
+        function habilitarcampos(){
+            $("#nombre").attr({disabled:false});
+            $("#descripcion").attr({disabled:false});
+            $("#costoMembresia").attr({disabled:false});
+            $("#numerosInvitadosGratuitos").attr({disabled:false});
+            $("#costoInicial").attr({disabled:false});
+            $("#ingresoMinimo").attr({disabled:false});
+        }
+    </script>
+    <script type="text/javascript">
+        var DATATIPOSOCIOS,nroTipoSocio=1;
+        var app2 = angular.module('app2', []);
+        app2.controller('mantenimientoTipoSocioController', function ($scope, $http) {
+            $http.get('/api/tiposocios').success(function (data) {
+                var lastsel2;
+                $("#jqGrid").jqGrid({
+                    styleUI: 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        {label: 'idTipoSocio', name: 'id', key: true, hidden: true, width: 75},
+                        {label: 'N°', name: 'OrderID', align: 'center', width: 40},
+                        {label: 'Tipo de Socio', name: 'nombre', align: 'center', width: 150},
+                        {label: 'Costo de Membresía', name: 'costoMembresia', align: 'center', width: 150},
+                        {label: 'Costo Inicial', name: 'costoInicial', align: 'center', width: 150},
+                        {label: 'N° de invitados máximo', name: 'numerosInvitadosGratuitos', align: 'center', width: 150},
+                        {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: 400,
+                    rowNum: 20,
+                    pager: "#jqGridPager"
+                });
+
+                $('#jqGrid').jqGrid('setGridWidth', '900');
+
+                function acciones(cellValue, options, rowdata, action) {
+                    var acciones = '';
+
+                    acciones = '<a href="#" onclick="funciones.verTipoSocio(event);return false;" class="btn btn-warning" data-idTipoSocio-ver="' + rowdata['id'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                            '<a href="#" onclick="funciones.mostrarModificarTipoSocio(event);return false;" class="btn btn-warning" data-idTipoSocio-modificar="' + rowdata['id'] + '" title="Modificar Tipo de Socio"><img src="img/Iconos/modificar.png" class="icono"></a>'
+                    return acciones;
+                }
+                DATATIPOSOCIOS=data;
+                for (var i = 0; i < data.length; i++) {
+                    data[i].OrderID=nroTipoSocio;nroTipoSocio++;
+                    jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+                    console.log(JSON.stringify(data[i]));
+                }
+            });
+
+            funciones.registrarTipoSocio=function(){
+                if (!verificarDatos())return;
+                var data = {
+                    "nombre": $("#nombre").val(),
+                    "descripcion": $("#descripcion").val(),
+                    "costoMembresia": parseFloat($("#costoMembresia").val()),
+                    "numerosInvitadosGratuitos": parseInt($("#numerosInvitadosGratuitos").val()),
+                    "costoInicial": parseFloat($("#costoInicial").val()),
+                    "ingresoMinimo": parseFloat($("#ingresoMinimo").val())
+                };
+                $http.post('/api/tiposocios', data).success(function (data2, status) {
+                    funciones.limpiar();
+                    data2.OrderID=nroTipoSocio;nroTipoSocio++;
+                    funciones.mensaje(data2);
+                    llenarEngrilla(data2);
+                    DATATIPOSOCIOS[DATATIPOSOCIOS.length]=data2;
+                    jQuery("#jqGrid").trigger('reloadGrid');
+                });
+            };
+            funciones.verTipoSocio=function(event){
+                var unTipoSocio = $.grep(DATATIPOSOCIOS, function (e) {
+                    return e.id == event.target.parentNode.getAttribute("data-idTipoSocio-ver");
+                })[0];
+                deshabilitarcampos();
+                $("#nombre").val(unTipoSocio.nombre);
+                $("#descripcion").val(unTipoSocio.descripcion);
+                $("#costoMembresia").val(unTipoSocio.costoMembresia);
+                $("#numerosInvitadosGratuitos").val(unTipoSocio.numerosInvitadosGratuitos);
+                $("#costoInicial").val(unTipoSocio.costoInicial);
+                $("#ingresoMinimo").val(unTipoSocio.ingresoMinimo);
+            }
+            funciones.mostrarModificarTipoSocio=function(event){
+                habilitarcampos();
+                var unTipoSocio = $.grep(DATATIPOSOCIOS, function (e) {
+                    return e.id == event.target.parentNode.getAttribute("data-idTipoSocio-modificar");
+                })[0];
+                if(unTipoSocio==undefined)return;
+                funciones.tipoSocioAModificar=unTipoSocio.id;
+                $("#nombre").val(unTipoSocio.nombre);
+                $("#descripcion").val(unTipoSocio.descripcion);
+                $("#costoMembresia").val(unTipoSocio.costoMembresia);
+                $("#numerosInvitadosGratuitos").val(unTipoSocio.numerosInvitadosGratuitos);
+                $("#costoInicial").val(unTipoSocio.costoInicial);
+                $("#ingresoMinimo").val(unTipoSocio.ingresoMinimo);
+            }
+            funciones.modificarTipoSocio=function(){
+                if (!verificarDatos())return;
+                var data = {
+                    "id":funciones.tipoSocioAModificar,
+                    "nombre": $("#nombre").val(),
+                    "descripcion": $("#descripcion").val(),
+                    "costoMembresia": parseFloat($("#costoMembresia").val()),
+                    "numerosInvitadosGratuitos": parseInt($("#numerosInvitadosGratuitos").val()),
+                    "costoInicial": parseFloat($("#costoInicial").val()),
+                    "ingresoMinimo": parseFloat($("#ingresoMinimo").val())
+                };
+                $http.put('/api/tiposocios/'+funciones.tipoSocioAModificar, data).success(function (data2, status) {
+                    funciones.limpiar();
+                    funciones.tipoSocioAModificar=undefined;
+                    funciones.mensaje(data2,1);
+                    actualizarEngrilla(data2);
+                    DATATIPOSOCIOS[DATATIPOSOCIOS.length]=data2;
+                    for(var i=0;i<DATATIPOSOCIOS.length;i++){
+                        if(DATATIPOSOCIOS[i].id==data2.id) {
+                            DATATIPOSOCIOS[i] = data2;
+                            break;
+                        }
+                    }
+                    jQuery("#jqGrid").trigger('reloadGrid');
+                    habilitarcampos();
+                });
+            }
+        });
+    </script>
 </head>
-<body>
+<body ng-controller="mantenimientoTipoSocioController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -64,8 +254,8 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE TIPO DE SOCIOS
-            <a href="img/Error/construccion.jpg" class="fancybox btn btn-primary" rel="group" id="btnRegistrar" style="margin-left: 410px;">Añadir
-                Tipo de Socio</a>
+            <!--<a href="#" onclick="funciones.registrarFormulario(event);return false;" class="fancybox btn btn-primary" rel="group" id="btnFormRegistrar" style="margin-left: 410px;">Añadir
+                Tipo de Socio</a>-->
         </h3>
     </div>
     <hr>
@@ -91,9 +281,9 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="costoMinimo" class="col-md-6 control-label">Costo de membresía</label>
+                    <label for="costoMembresia" class="col-md-6 control-label">Costo de membresía</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="costoMinimo" placeholder="Costo mínimo" style="width: 150px;">
+                        <input type="text" class="form-control" id="costoMembresia" placeholder="Costo mínimo" style="width: 150px;">
                     </div>
                     <p for="soles" class="col-md-2 control-label">soles</p>
                 </div>
@@ -109,9 +299,18 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="cantidadInvitados" class="col-md-6 control-label">N° de invitados</label>
+                    <label for="numerosInvitadosGratuitos" class="col-md-6 control-label">N° de invitados</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="cantidadInvitados" placeholder="Cantidad mínima" style="width: 150px;">
+                        <input type="text" class="form-control" id="numerosInvitadosGratuitos" placeholder="Cantidad mínima" style="width: 150px;">
+                    </div>
+                    <p for="soles" class="col-md-2 control-label">personas</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="ingresoMinimo" class="col-md-6 control-label">Ingreso Minimo</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="ingresoMinimo" placeholder="Cantidad mínima" style="width: 150px;">
                     </div>
                     <p for="soles" class="col-md-2 control-label">personas</p>
                 </div>
@@ -122,9 +321,11 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    <a href="#" onclick="funciones.registrarTipoSocio(event);return false;" class="btn btn-primary" id="btnRegistrar">Registrar</a>
+                    <a href="#" onclick="funciones.modificarTipoSocio(event);return false;" class="btn btn-primary" id="btnModificar">Modificar</a>
+                    <a href="#" onclick="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <!--<a href="funciones.registrarTipoSocio(event);return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
                 </div>
             </div>
         </div>
@@ -154,41 +355,5 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
-<script type="text/javascript">
-
-    $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI: 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            {label: 'idTipoSocio', name: 'idTipoSocio', key: true, hidden: true, width: 75},
-            {label: 'N°', name: 'OrderID', align: 'center', width: 40},
-            {label: 'Tipo de Socio', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Costo de Membresía', name: 'OrderID', align: 'center', width: 150},
-            {label: 'Costo Inicial', name: 'OrderID', align: 'center', width: 150},
-            {label: 'N° de invitados máximo', name: 'OrderID', align: 'center', width: 150},
-            {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 400,
-        rowNum: 20,
-        pager: "#jqGridPager"
-    });
-
-    $('#jqGrid').jqGrid('setGridWidth', '900');
-
-    function acciones(cellValue, options, rowdata, action) {
-        var acciones = '';
-
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idTipoSocio-ver="' + rowdata['idTipoSocio'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idTipoSocio-modificar="' + rowdata['idTipoSocio'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idTipoSocio-eliminar="' + rowdata['idTipoSocio'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-        return acciones;
-    }
-</script>
 </body>
 </html>
