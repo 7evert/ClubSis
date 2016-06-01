@@ -71,7 +71,9 @@ public class ServicioMembresias {
     //Socio
     public List<Socio> mostrarSocios(){return socioRepository.findAll();}
     public Socio buscarSocio(Integer id){return socioRepository.findOne(id);}
-    public Socio crearSocio(Socio socio){return socioRepository.saveAndFlush(socio);}
+    public Socio crearSocio(Socio socio){
+        return socioRepository.saveAndFlush(socio);
+    }
 
     public Socio actualizarSocio(Integer id, Socio socio){
         Socio socioExistente= socioRepository.findOne(id);

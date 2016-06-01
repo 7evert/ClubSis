@@ -1,5 +1,6 @@
 package com.clubsis.controller.evento;
 
+import com.clubsis.model.evento.EstadoEvento;
 import com.clubsis.model.evento.Evento;
        import com.clubsis.model.sede.Sede;
         import com.clubsis.service.ServicioSedes;
@@ -35,6 +36,13 @@ public class EventoController {
         Sede sede = servicioSede.buscarSede(idSede);
         evento.setSede(sede);
         return servicioEvento.crearEvento(evento);
+    }
+
+    @RequestMapping(value="/{idEvento}/actualizar",method=RequestMethod.POST)
+    public Evento actualizarEstado(@PathVariable Integer idEvento){
+        Evento evento= servicioEvento.buscarEvento(idEvento);
+        evento.setEstado(EstadoEvento.INHABILITADO);
+        return servicioEvento.actualizarEvento(idEvento,evento);
     }
 /*
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)

@@ -5,6 +5,7 @@ import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.Persona;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.model.persona.Suspension;
+import com.clubsis.model.persona.TipoSocio;
 import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,10 @@ public class SocioController {
         return servicioMembresias.buscarSocio(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Socio create(@RequestBody Socio socio) {
+    @RequestMapping(value="/{idTipo}/crear",method = RequestMethod.POST)
+    public Socio create(@PathVariable Integer idTipo,@RequestBody Socio socio) {
+        TipoSocio tipoSocio = servicioMembresias.buscarTipoSocio(idTipo);
+        socio.setTipo(tipoSocio);
         return servicioMembresias.crearSocio(socio);
     }
 
