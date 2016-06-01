@@ -49,6 +49,8 @@ public class SocioController {
         socio.setTipo(socioExistente.getTipo());
         return servicioMembresias.actualizarSocio(id,socio);
     }
+
+
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)
     public List<Pago> mostrarPagos(@PathVariable Integer id) {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagos());

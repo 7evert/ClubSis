@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.RegistrationBean;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 
@@ -85,6 +89,13 @@ public class ServicioMembresias {
         return socioRepository.saveAndFlush(socioExistente);
     }
 
+    public List<Socio> buscarSocioPorCodigo(String codigo){
+        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "jpa" );
+        EntityManager entitymanager = emfactory.createEntityManager();
+        Query query = entitymanager.createQuery("Select e " + "from Socio e " + "where e.codigoCarnet= " + codigo);
+        List<Socio> list = (List<Socio>)query.getResultList();
+        return list;
+    }
     //Tipo Socio
     public List<TipoSocio> mostrarTiposSocios(){return tipoSocioRepository.findAll();}
     public TipoSocio buscarTipoSocio(Integer id) {return  tipoSocioRepository.findOne(id);}

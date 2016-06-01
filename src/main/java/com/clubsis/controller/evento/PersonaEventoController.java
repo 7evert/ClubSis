@@ -39,7 +39,10 @@ public class PersonaEventoController {
         return servicioPersonaEvento.crearPersonaEvento(personaEvento1);
 
     }
-
+    @RequestMapping(value="/{idSocio}/{idEvento}/eventosocio",method=RequestMethod.GET)
+    public List<Persona> getInvitadosPorSocio(@PathVariable Integer idSocio,@PathVariable Integer idEvento){
+        return servicioPersonaEvento.buscarAsistentesSocio(idSocio,idEvento);
+    }
     @RequestMapping(value = "/{id}/eliminar", method = RequestMethod.DELETE)
     public void delete(@PathVariable Integer id){
         servicioPersonaEvento.eliminarPersonaEvento(id);
