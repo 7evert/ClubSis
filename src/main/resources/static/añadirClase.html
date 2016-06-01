@@ -94,7 +94,8 @@
 //             $("#estadoProveedor").val(data2.estadoProveedor+0);}
 //             */
 //        }
-        function getDatosTaller(id, ciclo, academia) {
+        function getDatosTaller(ciclo, academia) {
+            console.log(academia);
             return {
                 nivel: $("#nivel").val(),
                 rangoEdad: $("#rangoEdad").val(),
@@ -106,28 +107,30 @@
                 ciclo: {id: ciclo},
                 academia:{id:academia}
             };
+            console.log(academia);
         }
 
         var app2 = angular.module('app2', []);
         app2.controller('edicionTallerController', function ($scope, $http) {
             var id = getID();
             var idCiclo;
-            var idAcademia;
+            var idAcademia = id;
             console.log(id);
             if (id == undefined) {
                 location.href = "VerTaller.html"
             }
-            $http.get('/api/clases/' + id).success(function (data2, status) {
+            //$http.get('/api/clases/' + id).success(function (data3, status) {
                 //var objetoClase=JSON.parse(data2);
                 //console.log("Este es el ciclo?");
                 //console.log(objetoClase.ciclo.id);
                 //alert(data2.ciclo.id);
                 //llenarDatosTaller(data2);
-                console.log(data2);
+//                console.log(data3.id);
                 //idCiclo = data2.ciclo ["id"];
-                idAcademia = data2.academia["id"];
-                console.log(idCiclo);
-            });
+//                idAcademia = data3.id;
+//                console.log(idAcademia);
+                //console.log(idCiclo);
+ //           });
 
             $http.get('/api/ciclos/0').success(function (data2, status) {
                 //var objetoClase=JSON.parse(data2);
@@ -147,7 +150,8 @@
                  location.href = "VerTaller.html?id=" + id;
                  });
                  */
-                var data = getDatosTaller(id, idCiclo, idAcademia);
+                console.log(idAcademia);
+                var data = getDatosTaller(idCiclo, idAcademia);
                 console.log(JSON.stringify(data));
                 $http.post("/api/clases/", data).success(function (data2, status) {
                     alert("Tu clase se añadió correctamente");
@@ -165,7 +169,7 @@
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Edicion Datos del Taller</h2>
+    <h2>Añadir Nueva Clase</h2>
     <hr>
     <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
         <div id="NivelTaller" class="form-group">
