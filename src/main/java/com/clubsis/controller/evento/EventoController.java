@@ -56,4 +56,9 @@ public class EventoController {
         return servicioEvento.actualizarEvento(id, evento);
     }
 
+    @RequestMapping(value="/{idSocio}/{idEvento}/costo",method = RequestMethod.POST)
+    public double costo(@PathVariable Integer idSocio,@PathVariable Integer idEvento){
+        return servicioEvento.PagoEvento(idEvento,idSocio);
+    }
+
 }
