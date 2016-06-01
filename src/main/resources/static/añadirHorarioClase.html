@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Edicion Proveedor</title>
+    <title>Edición Datos Taller</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
 
     <script type="text/javascript">
+        var idclase = 0;
+        var idacademia = 0;
+
         function getID() {
             var href = this.location.href;
             var str = href.match(/\?id\=(\d+)/);
@@ -72,101 +75,125 @@
         }
     </script>
     <script type="text/javascript">
-        function llenarDatosProveedor(data2) {
-
-            $("#nombreProv").val(data2.nombre);
-            $("#numRUC").val(data2.ruc);
-            $("#descripcion").val(data2.descripcion);
-            $("#telefono").val(data2.numContacto);
-            $("#direc").val(data2.direccion);
-            $("#estadoProveedor").val(data2.estadoProveedor+0);
-        }
-        function getProveedor(id){
+//        function llenarDatosTaller(data2) {
+//            $("#nivel").val(data2.nivel);
+//            $("#rangoEdad").val(data2.rangoEdad);
+//            $("#precioMes").val(data2.precioMes);
+//            $("#precioCiclo").val(data2.precioCiclo);
+//            $("#capacidad").val(data2.capacidad);
+//            $("#profesor").val(data2.profesor);
+//            $("#estadoProveedor").val(data2.estadoProveedor + 0);
+            /*
+             for(var i = 0; i < data2.length; i++){
+             $("#nivel").val(data2[i].nivel);
+             $("#rangoEdad").val(data2[i].rangoEdad);
+             $("#precioMes").val(data2[i].precioMes);
+             $("#precioCiclo").val(data2[i].precioCiclo);
+             $("#capacidad").val(data2[i].capacidad);
+             $("#profesor").val(data2[i].profesor);
+             $("#estadoProveedor").val(data2.estadoProveedor+0);}
+             */
+   //     }
+        function getDatosTaller(id, ciclo, academia) {
             return {
-                id:id,
-                nombre: $("#nombreProv").val(),
-                ruc: $("#numRUC").val(),
-                descripcion: $("#descripcion").val(),
-                numContacto: $("#telefono").val(),
-                direccion: $("#direc").val(),
-                estadoProveedor: parseInt($("#estadoProveedor").val())
+                id: id,
+                nivel: $("#nivel").val(),
+                rangoEdad: $("#rangoEdad").val(),
+                precioMes: $("#precioMes").val(),
+                precioCiclo: $("#precioCiclo").val(),
+                capacidad: $("#capacidad").val(),
+                profesor: $("#profesor").val(),
+                estadoClase: parseInt($("#estadoClase").val()),
+                ciclo: {id: ciclo},
+                academia:{id:academia}
             };
         }
-    </script>
-    <script type="text/javascript">
+
         var app2 = angular.module('app2', []);
-        app2.controller('edicionProveedorController', function ($scope, $http) {
+        app2.controller('edicionTallerController', function ($scope, $http) {
             var id = getID();
+            var idCiclo;
+            var idAcademia;
             console.log(id);
-            if(id==undefined){
-                //location.href="administrarProveedores1.html"
-            }
-            $http.get('/api/proveedores/'+id).success(function (data2, status) {
-                llenarDatosProveedor(data2);
+//            if (id == undefined) {
+//                location.href = "VerTaller.html"
+//            }
+            $http.get('/api/clases/' + id).success(function (data2, status) {
+                llenarDatosTaller(data2);
+                console.log(data2);
+                idCiclo = data2.ciclo ["id"];
+                idAcademia = data2.academia["id"];
+                console.log(idCiclo);
             });
-            $("#guardar").click(function(){
-                var data=getProveedor(id);
+
+            $("#guardar").click(function () {
+                var data = getDatosTaller(id, idCiclo, idAcademia);
                 console.log(JSON.stringify(data));
-                $http.put("/api/proveedores/"+data.id, data).success(function (data2, status) {
+                $http.put("/api/clases/" + data.id, data).success(function (data2, status) {
                     alert("Tu actualizacion fue exitosa");
-                    location.href = "administrarProveedores1.html";
+                    location.href = "VerTaller.html?id=" + idAcademia;
                 });
             });
-            $("#cancelar").click(function(){
-                location.href = "administrarProveedores1.html";
+            $("#cancelar").click(function () {
+                location.href = "VerTaller.html?id=" + idAcademia;
             });
         });
     </script>
 </head>
-<body ng-controller="edicionProveedorController">
+<body ng-controller="edicionTallerController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Edicion Proveedor</h2>
+    <h2>Añadir Horario De Clase</h2>
     <hr>
-        <form id="formEditarProveedor" class="form-horizontal mitadDerecha">
-        <div id="NombreProveedor" class="form-group">
-            <label class="control-label col-xs-4">Nombre Proveedor</label>
+    <form id="formAñadirHorarioClase" class="form-horizontal mitadDerecha">
+        <div id="DiaClase" class="form-group">
+            <label class="control-label col-xs-4">Día</label>
             <div class="input-group col-xs-8">
-                <input id="nombreProv" type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..." required/>
-            </div>
-        </div>
-        <div id="RUC" class="form-group">
-            <label class="control-label col-xs-4">RUC</label>
-            <div class="input-group col-xs-8">
-                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
-            </div>
-        </div>
-        <div id="Descripcion" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
-            <div class="input-group col-xs-8">
-                <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
-            </div>
-        </div>
-        <div id="numContacto" class="form-group">
-            <label class="control-label col-xs-4"># Contacto</label>
-            <div class="input-group col-xs-8">
-                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese # de contacto..." required/>
-            </div>
-        </div>
-        <div id="Direccion" class="form-group">
-            <label class="control-label col-xs-4">Direccion</label>
-            <div class="input-group col-xs-8">
-                <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="dia" type="text" class="form-control col-xs-8" placeholder="Escriba el día..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
+            <label for="estadoHorario" class="col-md-4 control-label">Estado</label>
             <div class="col-md-8">
-                <select class="form-control" id="estadoProveedor"  required>
+                <select class="form-control" id="estadoHorario"  required>
                     <option value="0">INHABILITADO</option>
                     <option value="1">HABILITADO</option>
                 </select>
             </div>
         </div>
+        <div id="HoraInicioClase" class="form-group">
+            <label class="control-label col-xs-4">Rango Edad</label>
+            <div class="input-group col-xs-8">
+                <input id="horaInicio" type="text" class="form-control col-xs-8"  placeholder="Escriba la hora de inicio..."required/>
+            </div>
+        </div>
+        <div id="HoraFinClase" class="form-group">
+            <label class="control-label col-xs-4">Precio Ciclo</label>
+            <div class="input-group col-xs-8">
+                <input id="horaFin" type="text" class="form-control col-xs-8" placeholder="Escriba la hora de fin..." required/>
+            </div>
+        </div>
 
-
+        <div class="form-group">
+            <label for="Sede" class="col-md-4 control-label">Sede</label>
+            <div class="col-md-8">
+                <select class="form-control" id="sede"  required>
+                    <option value="0">Perú</option>
+                    <option value="1">New York</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="instalacion" class="col-md-4 control-label">Instalación</label>
+            <div class="col-md-8">
+                <select class="form-control" id="instalacion"  required>
+                    <option value="0">Aqui</option>
+                    <option value="1">O Allá</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
