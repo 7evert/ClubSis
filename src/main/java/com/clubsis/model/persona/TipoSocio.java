@@ -15,21 +15,22 @@ public class TipoSocio {
     @Id
     @GeneratedValue
     private Integer id;
+
     private String nombre;
     private String descripcion;
-    private Double costoMembresia;
+    private double costoMembresia;
     private Integer numerosInvitadosGratuitos;
-    private Double costoInicial;
-    private Double ingresoMinimo;
+    private double costoInicial;
+    private double ingresoMinimo;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
     private Set<Socio> socios;
 
     protected TipoSocio() {
     }
 
-    public TipoSocio(String nombre, String descripcion, Double costoMembresia, Integer numerosInvitadosGratuitos, Double costoInicial, Double ingresoMinimo, Set<Socio> socios) {
+    public TipoSocio(String nombre, String descripcion, double costoMembresia, Integer numerosInvitadosGratuitos, double costoInicial, double ingresoMinimo, Set<Socio> socios) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costoMembresia = costoMembresia;
@@ -63,11 +64,11 @@ public class TipoSocio {
         this.descripcion = descripcion;
     }
 
-    public Double getCostoMembresia() {
+    public double getCostoMembresia() {
         return costoMembresia;
     }
 
-    public void setCostoMembresia(Double costoMembresia) {
+    public void setCostoMembresia(double costoMembresia) {
         this.costoMembresia = costoMembresia;
     }
 
@@ -79,19 +80,19 @@ public class TipoSocio {
         this.numerosInvitadosGratuitos = numerosInvitadosGratuitos;
     }
 
-    public Double getCostoInicial() {
+    public double getCostoInicial() {
         return costoInicial;
     }
 
-    public void setCostoInicial(Double costoInicial) {
+    public void setCostoInicial(double costoInicial) {
         this.costoInicial = costoInicial;
     }
 
-    public Double getIngresoMinimo() {
+    public double getIngresoMinimo() {
         return ingresoMinimo;
     }
 
-    public void setIngresoMinimo(Double ingresoMinimo) {
+    public void setIngresoMinimo(double ingresoMinimo) {
         this.ingresoMinimo = ingresoMinimo;
     }
 
