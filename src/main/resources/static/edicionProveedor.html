@@ -79,7 +79,7 @@
             $("#descripcion").val(data2.descripcion);
             $("#telefono").val(data2.numContacto);
             $("#direc").val(data2.direccion);
-            $("#estadoProveedor").val(data2.estadoProveedor+0);
+            $("#estadoProveedor").val(data2.estadoProveedor);
         }
         function getProveedor(id){
             return {
@@ -89,7 +89,7 @@
                 descripcion: $("#descripcion").val(),
                 numContacto: $("#telefono").val(),
                 direccion: $("#direc").val(),
-                estadoProveedor: parseInt($("#estadoProveedor").val())
+                estadoProveedor: $("#estadoProveedor").val()
             };
         }
     </script>
@@ -160,8 +160,8 @@
             <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
             <div class="col-md-8">
                 <select class="form-control" id="estadoProveedor"  required>
-                    <option value="0">INHABILITADO</option>
-                    <option value="1">HABILITADO</option>
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
                 </select>
             </div>
         </div>
