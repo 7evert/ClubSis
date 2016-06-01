@@ -6,6 +6,7 @@ import javax.persistence.*;
 import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.evento.PersonaEvento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,6 +32,10 @@ public class Persona {
     private Integer telefono;
     private Boolean esTitular;
 
+    @JsonIgnore
+    @OneToMany(fetch= FetchType.EAGER,mappedBy = "persona")
+    private Set<PersonaEvento> personaEventos;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
@@ -43,7 +48,7 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -53,6 +58,7 @@ public class Persona {
         this.dni = dni;
         this.telefono = telefono;
         this.esTitular = esTitular;
+        this.personaEventos = personaEventos;
         this.socio = socio;
         this.usuario = usuario;
         this.registroClases = registroClases;
@@ -136,6 +142,14 @@ public class Persona {
 
     public void setEsTitular(Boolean esTitular) {
         this.esTitular = esTitular;
+    }
+
+    public Set<PersonaEvento> getPersonaEventos() {
+        return personaEventos;
+    }
+
+    public void setPersonaEventos(Set<PersonaEvento> personaEventos) {
+        this.personaEventos = personaEventos;
     }
 
     public Socio getSocio() {

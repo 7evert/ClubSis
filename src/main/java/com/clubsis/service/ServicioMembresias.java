@@ -52,10 +52,14 @@ public class ServicioMembresias {
 
     public Persona actualizarPersona(Integer id, Persona persona){
         Persona personaExistente = personaRepository.findOne(id);
+        persona.setSocio(personaExistente.getSocio());
         BeanUtils.copyProperties(persona,personaExistente);
+
         return personaRepository.saveAndFlush(personaExistente);
     }
-
+    public void eliminarPersona(Integer id){
+        personaRepository.delete(id);
+    }
     //Usuario
     public List<Usuario> mostrarUsuarios(){ return usuarioRepository.findAll(); }
     public Usuario buscarUsuario(Integer id) {return usuarioRepository.findOne(id);}
@@ -125,7 +129,7 @@ public class ServicioMembresias {
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,
+                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }

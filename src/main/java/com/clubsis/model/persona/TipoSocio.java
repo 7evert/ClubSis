@@ -18,10 +18,10 @@ public class TipoSocio {
 
     private String nombre;
     private String descripcion;
-    private double costoMembresia;
+    private Double costoMembresia;
     private Integer numerosInvitadosGratuitos;
-    private double costoInicial;
-    private double ingresoMinimo;
+    private Double costoInicial;
+    private Double ingresoMinimo;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
@@ -30,7 +30,7 @@ public class TipoSocio {
     protected TipoSocio() {
     }
 
-    public TipoSocio(String nombre, String descripcion, double costoMembresia, Integer numerosInvitadosGratuitos, double costoInicial, double ingresoMinimo, Set<Socio> socios) {
+    public TipoSocio(String nombre, String descripcion, Double costoMembresia, Integer numerosInvitadosGratuitos, Double costoInicial, Double ingresoMinimo, Set<Socio> socios) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costoMembresia = costoMembresia;
@@ -64,11 +64,11 @@ public class TipoSocio {
         this.descripcion = descripcion;
     }
 
-    public double getCostoMembresia() {
+    public Double getCostoMembresia() {
         return costoMembresia;
     }
 
-    public void setCostoMembresia(double costoMembresia) {
+    public void setCostoMembresia(Double costoMembresia) {
         this.costoMembresia = costoMembresia;
     }
 
@@ -80,19 +80,19 @@ public class TipoSocio {
         this.numerosInvitadosGratuitos = numerosInvitadosGratuitos;
     }
 
-    public double getCostoInicial() {
+    public Double getCostoInicial() {
         return costoInicial;
     }
 
-    public void setCostoInicial(double costoInicial) {
+    public void setCostoInicial(Double costoInicial) {
         this.costoInicial = costoInicial;
     }
 
-    public double getIngresoMinimo() {
+    public Double getIngresoMinimo() {
         return ingresoMinimo;
     }
 
-    public void setIngresoMinimo(double ingresoMinimo) {
+    public void setIngresoMinimo(Double ingresoMinimo) {
         this.ingresoMinimo = ingresoMinimo;
     }
 

@@ -7,11 +7,14 @@ import com.clubsis.model.persona.Socio;
 import com.clubsis.model.persona.Suspension;
 import com.clubsis.model.persona.TipoSocio;
 import com.clubsis.service.ServicioMembresias;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.RepositoryQuery;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Blitz on 20/05/2016.
@@ -59,10 +62,28 @@ public class SocioController {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getSuspensiones());
     }
 
-    @RequestMapping(value = "/{id}/personas", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/persona", method = RequestMethod.GET)
     public Persona mostrarNombrePersona(@PathVariable Integer id) {
         List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
         return personas.get(0);
+    }
+
+    @RequestMapping(value="/{idSocio}/personas",method = RequestMethod.GET)
+    public List<Persona> mostrarPersonas(@PathVariable Integer idSocio){
+        List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(idSocio).getPersonas());
+        return personas;
+    }
+
+    @RequestMapping(value="/{idSocio}/personaasociada",method = RequestMethod.GET)
+    public Persona mostrarPersonaAsociada(@PathVariable Integer id){
+        List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
+        for (int i=0;i<personas.size();i++){
+            if(personas.get(i).getEsTitular() == true){
+                return personas.get(i);
+            }
+        }
+        //por defecto va a mandar a la ultima persona, aunque nunca debería llegar aquí
+        return personas.get(personas.size()-1);
     }
 
 

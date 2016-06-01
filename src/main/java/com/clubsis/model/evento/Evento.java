@@ -48,6 +48,10 @@ public class Evento {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
     private Set<InvitadoEvento> invitadoeventos = new HashSet<InvitadoEvento>(0);
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private Set<PersonaEvento> personaeventos = new HashSet<>(0);
+
     // este es el OWNER de la relación con sede
     @ManyToOne
     private Sede sede; // es un campo autor_id en la base de datos
@@ -55,7 +59,7 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Set<PersonaEvento> personaeventos, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -71,6 +75,7 @@ public class Evento {
         this.empresas = empresas;
         this.tarifaxEventos = tarifaxEventos;
         this.invitadoeventos = invitadoeventos;
+        this.personaeventos = personaeventos;
         this.sede = sede;
     }
 
@@ -200,6 +205,14 @@ public class Evento {
 
     public void setInvitadoeventos(Set<InvitadoEvento> invitadoeventos) {
         this.invitadoeventos = invitadoeventos;
+    }
+
+    public Set<PersonaEvento> getPersonaeventos() {
+        return personaeventos;
+    }
+
+    public void setPersonaeventos(Set<PersonaEvento> personaeventos) {
+        this.personaeventos = personaeventos;
     }
 
     public Sede getSede() {
