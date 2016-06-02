@@ -7,6 +7,7 @@ import com.clubsis.model.club.Multa;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.pago.*;
 import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.TipoSocio;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.clubsis.repository.bungalow.BungalowRepository;
 import com.clubsis.repository.bungalow.ReservaBungalowRepository;
@@ -21,9 +22,11 @@ import com.clubsis.repository.sede.InstalacionRepository;
 import com.clubsis.repository.sede.ReservaInstalacionRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -90,7 +93,10 @@ public class ServicioPagos {
         }
         else if(tipoPago==TipoPago.MULTA){
             Date fechaFinal = new Date();
-            fechaFinal.setTime(fechaFinal.getTime() + 7 * 24 * 60 * 60 * 1000);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaFinal);
+            calendar.add(Calendar.DATE,7);
+            fechaFinal.setTime(calendar.getTime().getTime());
             Multa multa=multaRepository.findOne(idServicio);
             Pago nuevoPago= new Pago(null,null,monto,fechaFinal,null,null,new Date(),EstadoPago.REGISTRADO,TipoPago.MULTA,null,
                     socio,null,null,null,null,multa);
@@ -109,11 +115,13 @@ public class ServicioPagos {
     //ADICIONALES
 
     public Pago primerPago(Socio socio) {
-        Date fechaInicial = new Date();
         Date fechaFinal = new Date();
-        fechaFinal.setTime(fechaInicial.getTime() + 7 * 24 * 60 * 60 * 1000);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaFinal);
+        calendar.add(Calendar.DATE,7);
+        fechaFinal.setTime(calendar.getTime().getTime());
         Double pago= socio.getTipo().getCostoInicial()+socio.getTipo().getCostoMembresia();
-        Pago nuevoPago = new Pago(null,null,pago,fechaFinal,null,null,fechaInicial, EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,socio,null,null,null,null,null);
+        Pago nuevoPago = new Pago(null,null,pago,fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,socio,null,null,null,null,null);
         pagoRepository.saveAndFlush(nuevoPago);
         return nuevoPago;
     }
@@ -130,5 +138,36 @@ public class ServicioPagos {
         }
         return respuesta;
     }
+
+    //@Scheduled(cron="0 0/1 * 1/1 * ? *")// cada minuto
+    //@Scheduled(cron="0 0 0 1 1/1 ? *")// primer dia de cada mes
+    public void crearPagosMembresia(){
+        List<Socio> socios=socioRepository.findAll();
+        Date fechaFinal = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaFinal);
+        calendar.add(Calendar.DATE,7);
+        fechaFinal.setTime(calendar.getTime().getTime());
+        for(Socio item:socios){
+            TipoSocio tipoSocio= item.getTipo();
+            Pago nuevoPago = new Pago(null,null,tipoSocio.getCostoMembresia(),fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,item,null,null,null,null,null);
+            pagoRepository.saveAndFlush(nuevoPago);
+        }
+    }
+
+    //TODO: Preguntar sobre como hacer para el scheduled faltan dependencias en el pom o se puede hacer otra cosa
+
+    //@Scheduled(cron="0 0/1 * 1/1 * ? *")// cada minuto
+    //@Scheduled(cron="0 0 0 1/1 * ? *")// cada dia
+    public void actualizarPagos(){
+        List<Pago> pagos=pagoRepository.findAll();
+        for(Pago item:pagos){
+            if(item.getFechaVencimiento().before(new Date()) && item.getEstadoPago()==EstadoPago.REGISTRADO){
+                item.setEstadoPago(EstadoPago.VENCIDO);
+                pagoRepository.saveAndFlush(item);
+            }
+        }
+    }
+
 
 }
