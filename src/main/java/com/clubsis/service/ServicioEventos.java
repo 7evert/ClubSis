@@ -51,7 +51,7 @@ public class ServicioEventos {
         return eventoRepository.saveAndFlush(eventoExistente);
     }
 
-   /* public double PagoEvento(Integer idEvento,Integer idSocio){
+    public double PagoEvento(Integer idEvento,Integer idSocio){
         double tot = 0.0;
         List<String> nombres = new ArrayList<String>();
         List<Double> precios = new ArrayList<Double>();
@@ -71,7 +71,7 @@ public class ServicioEventos {
                 Invitado invitado = tmp.getInvitado();
                 if(invitado.getSocio().getId() == idSocio){
                     for(int j=0;j<nombres.size();j++){
-                        if(nombres.get(j) == invitado.getTipo()){
+                        if(nombres.get(j) == tmp.getTipo()){
                             tot += precios.get(j);
                         }
                     }
@@ -87,7 +87,7 @@ public class ServicioEventos {
                 Persona persona = tmp.getPersona();
                 if(persona.getSocio().getId() == idSocio){
                     for(int j=0;j<nombres.size();j++){
-                        if(nombres.get(j) == persona.getTipo()){
+                        if(nombres.get(j) == tmp.getTipo()){
                             tot+=(1-tmp.getEvento().getDescuento()/100)*precios.get(j);
                         }
                     }
@@ -95,6 +95,6 @@ public class ServicioEventos {
             }
         }
         return tot;
-    }*/
+    }
 
 }

@@ -2,10 +2,7 @@ package com.clubsis.controller.persona;
 
 import com.clubsis.model.pago.Pago;
 import com.clubsis.model.pago.PagoMembresia;
-import com.clubsis.model.persona.Persona;
-import com.clubsis.model.persona.Socio;
-import com.clubsis.model.persona.Suspension;
-import com.clubsis.model.persona.TipoSocio;
+import com.clubsis.model.persona.*;
 import com.clubsis.service.ServicioMembresias;
 import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +47,13 @@ public class SocioController {
         return servicioMembresias.actualizarSocio(id,socio);
     }
 
-
+    @RequestMapping(value="/{id}/inhabilitar",method = RequestMethod.PUT)
+    public Socio updateEstado(@PathVariable Integer id, @RequestBody Socio socio){
+        Socio socioExistente = servicioMembresias.buscarSocio(id);
+        socio.setTipo(socioExistente.getTipo());
+        socio.setEstado(EstadoSocio.SUSPENDIDO);
+        return servicioMembresias.actualizarSocio(id,socio);
+    }
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)
     public List<Pago> mostrarPagos(@PathVariable Integer id) {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagos());
