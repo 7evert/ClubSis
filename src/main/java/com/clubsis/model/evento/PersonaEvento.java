@@ -21,13 +21,16 @@ public class PersonaEvento {
     @JoinColumn(name = "persona_id")
     private Persona persona;
 
+    private String tipo;
+
     protected PersonaEvento(){
 
     }
 
-    public PersonaEvento(Evento evento, Persona persona) {
+    public PersonaEvento(Evento evento, Persona persona, String tipo) {
         this.evento = evento;
         this.persona = persona;
+        this.tipo = tipo;
     }
 
     public Integer getId() {
@@ -52,5 +55,13 @@ public class PersonaEvento {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

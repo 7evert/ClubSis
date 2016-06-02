@@ -32,10 +32,10 @@ public class PersonaEventoController {
     }
 
     @RequestMapping(value="/{idPersona}/{idEvento}/eventos",method=RequestMethod.POST)
-    public PersonaEvento create(@PathVariable Integer idPersona, @PathVariable Integer idEvento){
+    public PersonaEvento create(@PathVariable Integer idPersona, @PathVariable Integer idEvento,@RequestBody PersonaEvento personaEvento){
         Persona invitado = servicioMembresias.buscarPersona(idPersona);
         Evento evento = servicioEventos.buscarEvento(idEvento);
-        PersonaEvento personaEvento1 = new PersonaEvento(evento,invitado);
+        PersonaEvento personaEvento1 = new PersonaEvento(evento,invitado,personaEvento.getTipo());
         return servicioPersonaEvento.crearPersonaEvento(personaEvento1);
 
     }

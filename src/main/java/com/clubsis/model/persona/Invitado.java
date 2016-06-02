@@ -25,8 +25,6 @@ public class Invitado {
     private Integer numeroDocumento;
     private String nombres;
     private Boolean ingresoInvitado;
-    private String tipo;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
@@ -38,14 +36,13 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, String nombres, Boolean ingresoInvitado, String tipo, Socio socio, Set<InvitadoEvento> invitadoEventos) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, String nombres, Boolean ingresoInvitado, Socio socio, Set<InvitadoEvento> invitadoEventos) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.nombres = nombres;
         this.ingresoInvitado = ingresoInvitado;
-        this.tipo = tipo;
         this.socio = socio;
         this.invitadoEventos = invitadoEventos;
     }
@@ -104,14 +101,6 @@ public class Invitado {
 
     public void setIngresoInvitado(Boolean ingresoInvitado) {
         this.ingresoInvitado = ingresoInvitado;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public Socio getSocio() {

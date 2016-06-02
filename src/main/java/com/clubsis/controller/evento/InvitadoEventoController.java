@@ -38,7 +38,7 @@ public class InvitadoEventoController {
     public InvitadoEvento create(@PathVariable Integer idInvitado, @PathVariable Integer idEvento,@RequestBody InvitadoEvento invitadoEvento){
         Invitado invitado = servicioInvitados.buscarInvitado(idInvitado);
         Evento evento = servicioEventos.buscarEvento(idEvento);
-        InvitadoEvento invitadoEvento1 = new InvitadoEvento(evento,invitado);
+        InvitadoEvento invitadoEvento1 = new InvitadoEvento(evento,invitado,invitadoEvento.getTipo());
         return servicioInvitadoEvento.crearInvitadoEvento(invitadoEvento1);
 
     }

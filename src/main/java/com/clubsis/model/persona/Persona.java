@@ -31,7 +31,6 @@ public class Persona {
     private Integer dni;
     private Integer telefono;
     private Boolean esTitular;
-    private String tipo;
 
     @JsonIgnore
     @OneToMany(fetch= FetchType.EAGER,mappedBy = "persona")
@@ -49,7 +48,7 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, String tipo, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -59,7 +58,6 @@ public class Persona {
         this.dni = dni;
         this.telefono = telefono;
         this.esTitular = esTitular;
-        this.tipo = tipo;
         this.personaEventos = personaEventos;
         this.socio = socio;
         this.usuario = usuario;
@@ -144,14 +142,6 @@ public class Persona {
 
     public void setEsTitular(Boolean esTitular) {
         this.esTitular = esTitular;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public Set<PersonaEvento> getPersonaEventos() {

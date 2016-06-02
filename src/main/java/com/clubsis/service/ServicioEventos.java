@@ -51,7 +51,7 @@ public class ServicioEventos {
         return eventoRepository.saveAndFlush(eventoExistente);
     }
 
-    public double PagoEvento(Integer idEvento,Integer idSocio){
+   /* public double PagoEvento(Integer idEvento,Integer idSocio){
         double tot = 0.0;
         List<String> nombres = new ArrayList<String>();
         List<Double> precios = new ArrayList<Double>();
@@ -95,6 +95,6 @@ public class ServicioEventos {
             }
         }
         return tot;
-    }
+    }*/
 
 }
