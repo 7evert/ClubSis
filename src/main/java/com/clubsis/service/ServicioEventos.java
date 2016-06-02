@@ -1,9 +1,6 @@
 package com.clubsis.service;
 
-import com.clubsis.model.evento.Evento;
-import com.clubsis.model.evento.InvitadoEvento;
-import com.clubsis.model.evento.PersonaEvento;
-import com.clubsis.model.evento.TarifaEvento;
+import com.clubsis.model.evento.*;
 import com.clubsis.model.persona.Invitado;
 import com.clubsis.model.persona.Persona;
 import com.clubsis.repository.evento.*;
@@ -14,12 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Juan Tenorio on 17/5/2016.
  */
-@EnableScheduling
+
 @Service
 public class ServicioEventos {
 
@@ -99,16 +97,49 @@ public class ServicioEventos {
         }
         return tot;
     }
+    //Por ahora revisa para cada hora
 
-    @Scheduled(cron = "* */15 * * * *")
-    public void UpdateEstado(){
+    @Scheduled(fixedRate = 3600000)
+    public void UpdateEstadoFinalizado(){
+        Date todayDate = new Date();
+
         List<Evento> eventos =eventoRepository.findAll();
         for(int i=0;i<eventos.size();i++){
             Evento evento = eventos.get(i);
-            //if(evento.getFechaFin().compareTo())
+            if(evento.getFechaFin().compareTo(todayDate) <0){
+                //Cambiar al estado finalizado
+                evento.setEstado(EstadoEvento.FINALIZADO);
+                eventoRepository.saveAndFlush(evento);
+            }
         }
     }
 
+    @Scheduled(fixedRate= 3600000)
+    public void UpdateEstadoEnMarcha(){
+        Date todayDate = new Date();
+        List<Evento> eventos =eventoRepository.findAll();
+        for(int i=0;i<eventos.size();i++){
+            Evento evento = eventos.get(i);
+            if(evento.getFechaInicio().compareTo(todayDate) >0 && evento.getFechaFin().compareTo(todayDate)<0){
+                //Cambiar al estado a en marcha
+                evento.setEstado(EstadoEvento.ENMARCHA);
+                eventoRepository.saveAndFlush(evento);
+            }
+        }
+    }
 
+    @Scheduled(fixedRate= 3600000)
+    public void UpdateEstadoEspera(){
+        Date todayDate = new Date();
+        List<Evento> eventos =eventoRepository.findAll();
+        for(int i=0;i<eventos.size();i++){
+            Evento evento = eventos.get(i);
+            if(evento.getFechaInicio().compareTo(todayDate) <0){
+                //Cambiar al estado a en espera
+                evento.setEstado(EstadoEvento.ESPERA);
+                eventoRepository.saveAndFlush(evento);
+            }
+        }
+    }
 
 }
