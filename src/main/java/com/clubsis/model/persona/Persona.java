@@ -29,7 +29,7 @@ public class Persona {
     private String direccion;
     private String correo;
     private Integer dni;
-    private Integer telefono;
+    private String telefono;
     private Boolean esTitular;
 
     @JsonIgnore
@@ -48,7 +48,7 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, String telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -128,11 +128,11 @@ public class Persona {
         this.dni = dni;
     }
 
-    public Integer getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Integer telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
