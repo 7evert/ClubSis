@@ -56,7 +56,7 @@ public class Pago {
     protected Pago() {
     }
 
-    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion) {
+    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion,Multa multa) {
         this.descripcion=descripcion;
         this.mora = mora;
         this.montoTotal = montoTotal;
@@ -72,6 +72,7 @@ public class Pago {
         this.bungalow = bungalow;
         this.clase = clase;
         this.instalacion = instalacion;
+        this.multa=multa;
     }
 
     public Integer getId() {
@@ -200,5 +201,13 @@ public class Pago {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Multa getMulta() {
+        return multa;
+    }
+
+    public void setMulta(Multa multa) {
+        this.multa = multa;
     }
 }

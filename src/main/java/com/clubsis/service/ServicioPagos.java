@@ -66,26 +66,34 @@ public class ServicioPagos {
         if(tipoPago==TipoPago.EVENTO){
             Evento evento= eventoRepository.findOne(idServicio);
             Pago nuevoPago = new Pago(null,null,monto,evento.getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,tipoPago,
-                    null,socio,evento,null,null,null);
+                    null,socio,evento,null,null,null,null);
             return pagoRepository.saveAndFlush(nuevoPago);
         }
         else if(tipoPago==TipoPago.BUNGALOW){
             ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
             Pago nuevoPago = new Pago(null,null,monto,reservaBungalow.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,reservaBungalow.getBungalow(),null,null);
+                    tipoPago,null,socio,null,reservaBungalow.getBungalow(),null,null,null);
             return pagoRepository.saveAndFlush(nuevoPago);
 
         }
         else if(tipoPago==TipoPago.CLASE){
             RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
             Pago nuevoPago = new Pago(null,null,monto,registroClase.getClase().getCiclo().getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,null,registroClase.getClase(),null);
+                    tipoPago,null,socio,null,null,registroClase.getClase(),null,null);
             return pagoRepository.saveAndFlush(nuevoPago);
         }
         else if(tipoPago==TipoPago.INSTALACION){
             ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
             Pago nuevoPago= new Pago(null,null,monto,reservaInstalacion.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,null,null,reservaInstalacion.getInstalacion());
+                    tipoPago,null,socio,null,null,null,reservaInstalacion.getInstalacion(),null);
+            return pagoRepository.saveAndFlush(nuevoPago);
+        }
+        else if(tipoPago==TipoPago.MULTA){
+            Date fechaFinal = new Date();
+            fechaFinal.setTime(fechaFinal.getTime() + 7 * 24 * 60 * 60 * 1000);
+            Multa multa=multaRepository.findOne(idServicio);
+            Pago nuevoPago= new Pago(null,null,monto,fechaFinal,null,null,new Date(),EstadoPago.REGISTRADO,TipoPago.MULTA,null,
+                    socio,null,null,null,null,multa);
             return pagoRepository.saveAndFlush(nuevoPago);
         }
         return null;
@@ -105,7 +113,7 @@ public class ServicioPagos {
         Date fechaFinal = new Date();
         fechaFinal.setTime(fechaInicial.getTime() + 7 * 24 * 60 * 60 * 1000);
         Double pago= socio.getTipo().getCostoInicial()+socio.getTipo().getCostoMembresia();
-        Pago nuevoPago = new Pago(null,null,pago,fechaFinal,null,null,fechaInicial, EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,socio,null,null,null,null);
+        Pago nuevoPago = new Pago(null,null,pago,fechaFinal,null,null,fechaInicial, EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,socio,null,null,null,null,null);
         pagoRepository.saveAndFlush(nuevoPago);
         return nuevoPago;
     }
