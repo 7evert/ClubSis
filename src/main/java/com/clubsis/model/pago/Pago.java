@@ -1,7 +1,10 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.clase.Clase;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
+import com.clubsis.model.sede.Instalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,13 +38,23 @@ public class Pago {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-    //    @ManyToOne(fetch = FetchType.EAGER)
-//    private Evento evento;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Evento evento;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Bungalow bungalow;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Clase clase;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Instalacion instalacion;
+
 
     protected Pago() {
     }
 
-    public Pago(Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, String valoracion, TipoPago tipoPago, Socio socio) {
+    public Pago(Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion) {
         this.mora = mora;
         this.montoTotal = montoTotal;
         this.fechaVencimiento = fechaVencimiento;
@@ -49,11 +62,14 @@ public class Pago {
         this.fechaPago = fechaPago;
         this.fechaRegistro = fechaRegistro;
         this.estadoPago = estadoPago;
-        this.valoracion = valoracion;
         this.tipoPago = tipoPago;
+        this.valoracion = valoracion;
         this.socio = socio;
+        this.evento = evento;
+        this.bungalow = bungalow;
+        this.clase = clase;
+        this.instalacion = instalacion;
     }
-
 
     public Integer getId() {
         return id;
@@ -141,5 +157,37 @@ public class Pago {
 
     public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public Bungalow getBungalow() {
+        return bungalow;
+    }
+
+    public void setBungalow(Bungalow bungalow) {
+        this.bungalow = bungalow;
+    }
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
+
+    public Instalacion getInstalacion() {
+        return instalacion;
+    }
+
+    public void setInstalacion(Instalacion instalacion) {
+        this.instalacion = instalacion;
     }
 }
