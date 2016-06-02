@@ -82,8 +82,8 @@ public class SocioController {
     }
 
     @RequestMapping(value="/{idSocio}/personaasociada",method = RequestMethod.GET)
-    public Persona mostrarPersonaAsociada(@PathVariable Integer id){
-        List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
+    public Persona mostrarPersonaAsociada(@PathVariable Integer idSocio){
+        List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(idSocio).getPersonas());
         for (int i=0;i<personas.size();i++){
             if(personas.get(i).getEsTitular() == true){
                 return personas.get(i);
