@@ -1,5 +1,6 @@
 package com.clubsis.model.clase;
 
+import com.clubsis.model.pago.Pago;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -33,6 +34,10 @@ public class Clase {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
     private Set<Horario> horarios = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
+    @JsonIgnore
+    private Set<Pago> pagos = new HashSet<>();
+
     @ManyToOne
     @JsonIgnore
     private Academia academia;
@@ -40,17 +45,19 @@ public class Clase {
     protected Clase() {
     }
 
-    public Clase(Integer nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor, EstadoClase estadoClase, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios) {
+    public Clase(Integer nivel, Double precioCiclo, String rangoEdad, Double precioMes, Integer capacidad, EstadoClase estadoClase, String profesor, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios, Set<Pago> pagos, Academia academia) {
         this.nivel = nivel;
-        this.rangoEdad = rangoEdad;
         this.precioCiclo = precioCiclo;
+        this.rangoEdad = rangoEdad;
         this.precioMes = precioMes;
         this.capacidad = capacidad;
-        this.profesor = profesor;
         this.estadoClase = estadoClase;
+        this.profesor = profesor;
         this.ciclo = ciclo;
         this.registros = registros;
         this.horarios = horarios;
+        this.pagos = pagos;
+        this.academia = academia;
     }
 
     public Integer getId() {

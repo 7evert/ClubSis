@@ -1,6 +1,5 @@
 package com.clubsis.model.persona;
 
-import com.clubsis.model.club.Sancion;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.pago.Pago;
 import com.clubsis.model.sede.ReservaInstalacion;
@@ -53,9 +52,6 @@ public class Socio {
     @OneToMany(mappedBy = "socio")
     @JsonIgnore
     private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="socios")
-    private Set<Sancion> sanciones;
 
     @ManyToOne
     private TipoSocio tipo;

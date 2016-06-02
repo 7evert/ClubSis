@@ -1,5 +1,6 @@
 package com.clubsis.model.sede;
 
+import com.clubsis.model.pago.Pago;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -42,12 +43,17 @@ public class Instalacion {
     private Set<Horario> horarios;
 
     @OneToMany(mappedBy = "instalacion")
+    @JsonIgnore
     private Set<ReservaInstalacion> reservas;
+
+    @OneToMany(mappedBy = "instalacion")
+    @JsonIgnore
+    private Set<Pago> pago;
 
     protected Instalacion() {
     }
 
-    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, String estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Sede sede1, Set<ReservaInstalacion> reservas) {
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, String estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, Set<Pago> pago) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.referencia = referencia;
@@ -57,8 +63,8 @@ public class Instalacion {
         this.sede = sede;
         this.reservaInstalacionSet = reservaInstalacionSet;
         this.horarios = horarios;
-        this.sede = sede1;
         this.reservas = reservas;
+        this.pago = pago;
     }
 
     public Integer getId() {
@@ -147,5 +153,13 @@ public class Instalacion {
 
     public void setHorarios(Set<Horario> horarios) {
         this.horarios = horarios;
+    }
+
+    public Set<Pago> getPago() {
+        return pago;
+    }
+
+    public void setPago(Set<Pago> pago) {
+        this.pago = pago;
     }
 }
