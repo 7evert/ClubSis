@@ -100,13 +100,14 @@
                     })[0];
                     if (!dataTitular) {
                         alert("No existe Titular");
-                        location.href = "Mantenimientosocio.html";
                     }
-                    llenarCampos(data, dataTitular);
+                    llenarCampos(data, {});
                     $http.get('/api/socios/' + idSocio + '/personas').success(function (dataFamiliares) {
                         var elemMiembros = $("#miembro");
                         for (var i = 0; i < dataFamiliares.length; i++)
                             elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].id + " " + dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
+                        if(!dataTitular)
+                            llenarCampos(data,dataFamiliares[0]?dataFamiliares[0]:{});
                         $('#miembro').on('change', function (e) {
                             var optionSelected = $("option:selected", this);
                             var valueSelected = this.value;

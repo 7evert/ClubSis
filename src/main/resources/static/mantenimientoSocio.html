@@ -110,7 +110,7 @@
                     acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a href="#" onclick="funciones.eliminarSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
                     return acciones;
                 }
                 for (var i = 0; i < data.length; i++) {
@@ -129,13 +129,14 @@
                         nroSocios++;
                     })
                 }
+                funciones.SuspenderSocio=function(event){
+                    var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
+                    var dataSocio= {"id":idSocio};
+                    $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
+                        mostrarSuspencion(socio);
+                    });
+                }
             });
-            funciones.SuspenderSocio=function(event){
-                var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
-                $http.put('/api/socios/'+data[i].id+'/deshabilitar').success(function (socio){
-                    mostrarSuspencion(socio);
-                });
-            }
             funciones.eliminar=function() {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");

@@ -32,14 +32,14 @@
         }
     </style>
     <script type="text/javascript">
-        function validateDateInAllBrowsers(cad){
-            return cad?cad.replace(" ","T")+"Z":cad;
+        function validateDateInAllBrowsers(cad) {
+            return cad ? cad.replace(" ", "T") + "Z" : cad;
         }
-        Date.prototype.ddmmyyyy = function() {
+        Date.prototype.ddmmyyyy = function () {
             var yyyy = this.getFullYear().toString();
-            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-            var dd  = this.getDate().toString();
-            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+            var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+            var dd = this.getDate().toString();
+            return (dd[1] ? dd : "0" + dd[0]) + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + yyyy; // padding
         };
         var funciones = {};
         function getID() {
@@ -57,14 +57,14 @@
             $("#tipoMembresia").val(data.tipo.id);
             $("#fechaInscripcion").val(new Date(data.fechaInscripcion).ddmmyyyy());
         }
-        function verificarDatos(){
+        function verificarDatos() {
             return true;
         }
         function mostrarMensaje(data) {
             alert("Se modifica exitosamente");
         }
-        function cancelar(){
-            location.href="verSocio.html?id="+getID();
+        function cancelar() {
+            location.href = "verSocio.html?idSocio=" + getID();
         }
     </script>
     <script type="text/javascript">
@@ -73,29 +73,29 @@
         app2.controller('EdicionSocioController', function ($scope, $http) {
             console.log('/api/socios/' + getID());
             $http.get('/api/socios/' + getID()).success(function (data) {
-            //data={id:1,fechaInscripcion:123123123,estado:"ACTIVO",codigoCarnet:12123,tipo:{id:1,nombre:"vitalicio"}};
-            $http.get('/api/tiposocios/').success(function (tipoSocios) {
-                llenarCampos(data, tipoSocios);
+                //data={id:1,fechaInscripcion:123123123,estado:"ACTIVO",codigoCarnet:12123,tipo:{id:1,nombre:"vitalicio"}};
+                $http.get('/api/tiposocios/').success(function (tipoSocios) {
+                    llenarCampos(data, tipoSocios);
 
-                funciones.modificarSocio = function () {
-                    verificarDatos();
-                    var dataSocio = {
-                        "id": $("#codigoSocio").val(),
-                        "estado": $("#estado").val(),
-                        "codigoCarnet": $("#codigocarnet").val(),
-                        "fechaInscripcion": Date.parse($("#fechaInscripcion").val()),
-                        "tipo":{
-                            "id":parseInt($("#tipoMembresia").val())
-                        }
+                    funciones.modificarSocio = function () {
+                        verificarDatos();
+                        var dataSocio = {
+                            "id": $("#codigoSocio").val(),
+                            "estado": $("#estado").val(),
+                            "codigoCarnet": $("#codigocarnet").val(),
+                            "fechaInscripcion": Date.parse($("#fechaInscripcion").val()),
+                            "tipo": {
+                                "id": parseInt($("#tipoMembresia").val())
+                            }
+                        };
+                        console.log('/api/socios/' + getID() + '/actualizar');
+                        console.log(JSON.stringify(dataSocio));
+                        $http.put('/api/socios/' + getID() + '/actualizar', dataSocio).success(function (data) {
+                            mostrarMensaje(data);
+                            location.href = "verSocio.html?idSocio=" + getID();
+                        });
                     };
-                    console.log('/api/socios/' + getID() + '/actualizar');
-                    console.log(JSON.stringify(dataSocio));
-                    $http.put('/api/socios/' + getID() + '/actualizar', dataSocio).success(function (data) {
-                     mostrarMensaje(data);
-                     location.href="verSocio.html?id="+getID();
-                     });
-                };
-            });
+                });
             });
         });
     </script>
@@ -136,7 +136,7 @@
             <div class="form-group">
                 <label for="codigocarnet" class="col-md-5 control-label">Codigo Carnet</label>
                 <div class="col-md-6">
-                    <input id="codigocarnet" disabled class="form-control" />
+                    <input id="codigocarnet" disabled class="form-control"/>
                 </div>
             </div>
         </div>
