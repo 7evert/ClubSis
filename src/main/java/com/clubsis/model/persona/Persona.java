@@ -31,7 +31,7 @@ public class Persona {
     private Integer dni;
     private Integer telefono;
     private Boolean esTitular;
-    private TipoInvitado tipo;
+    private String tipo;
 
     @JsonIgnore
     @OneToMany(fetch= FetchType.EAGER,mappedBy = "persona")
@@ -49,7 +49,7 @@ public class Persona {
     protected Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, TipoInvitado tipo, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, Integer telefono, Boolean esTitular, String tipo, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -146,11 +146,11 @@ public class Persona {
         this.esTitular = esTitular;
     }
 
-    public TipoInvitado getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoInvitado tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 

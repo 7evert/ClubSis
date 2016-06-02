@@ -71,7 +71,7 @@ public class ServicioEventos {
                 Invitado invitado = tmp.getInvitado();
                 if(invitado.getSocio().getId() == idSocio){
                     for(int j=0;j<nombres.size();j++){
-                        if(nombres.get(j) == invitado.getTipo().name()){
+                        if(nombres.get(j) == invitado.getTipo()){
                             tot += precios.get(j);
                         }
                     }
@@ -87,7 +87,7 @@ public class ServicioEventos {
                 Persona persona = tmp.getPersona();
                 if(persona.getSocio().getId() == idSocio){
                     for(int j=0;j<nombres.size();j++){
-                        if(nombres.get(j) == persona.getTipo().name()){
+                        if(nombres.get(j) == persona.getTipo()){
                             tot+=(1-tmp.getEvento().getDescuento()/100)*precios.get(j);
                         }
                     }
