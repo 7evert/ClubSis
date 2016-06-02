@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app2">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+    <style>
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
+        }
+        Date.prototype.ddmmyyyy = function() {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = this.getDate().toString();
+            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+        };
+        var funciones = {};
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+        function llenarCampos(data, tipoSocios) {
+            $("#codigoSocio").val(data.id);
+            $("#estado").val(data.estado);
+            $("#codigocarnet").val(data.codigoCarnet);
+            var elemtipoSocios = $("#tipoMembresia");
+            for (var i = 0; i < tipoSocios.length; i++)
+                elemtipoSocios.append($("<option></option>").attr({value: tipoSocios[i].id}).html(tipoSocios[i].nombre));
+            $("#tipoMembresia").val(data.tipo.id);
+            $("#fechaInscripcion").val(new Date(data.fechaInscripcion).ddmmyyyy());
+        }
+        function verificarDatos(){
+            return true;
+        }
+        function mostrarMensaje(data) {
+            alert("Se modifica exitosamente");
+        }
+        function cancelar(){
+            location.href="verSocio.html?id="+getID();
+        }
+    </script>
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+        var dataeventos, dataevento;
+        app2.controller('EdicionSocioController', function ($scope, $http) {
+            console.log('/api/socios/' + getID());
+            $http.get('/api/socios/' + getID()).success(function (data) {
+            //data={id:1,fechaInscripcion:123123123,estado:"ACTIVO",codigoCarnet:12123,tipo:{id:1,nombre:"vitalicio"}};
+            $http.get('/api/tiposocios/').success(function (tipoSocios) {
+                llenarCampos(data, tipoSocios);
+
+                funciones.modificarSocio = function () {
+                    verificarDatos();
+                    var dataSocio = {
+                        "id": $("#codigoSocio").val(),
+                        "estado": $("#estado").val(),
+                        "codigoCarnet": $("#codigocarnet").val(),
+                        "fechaInscripcion": Date.parse($("#fechaInscripcion").val())
+                    };
+                    console.log('/api/socios/' + $("#tipoMembresia").val() + '/actualizar');
+                    console.log(JSON.stringify(dataSocio));
+                    $http.put('/api/socios/' + $("#tipoMembresia").val() + '/actualizar', dataSocio).success(function (data) {
+                     mostrarMensaje(data);
+                     location.href="verSocio.html?id="+getID();
+                     });
+                };
+            });
+            });
+        });
+    </script>
+</head>
+<body ng-controller="EdicionSocioController">
+<div id="headerUsuario"></div>
+<div class="container">
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation"><a href="miCuenta.html">Cuenta</a></li>
+        <li role="presentation" class="active"><a href="#">Datos del Socio</a></li>
+        <li role="presentation"><a href="#">Perfil</a></li>
+        <li role="presentation"><a href="miCuenta_cambiarClave.html">Cambiar clave</a></li>
+        <li role="presentation"><a href="miCuenta_familiares.html">Familiares asociados</a></li>
+    </ul>
+    <hr>
+    <form class="form-horizontal">
+        <div class="col-sm-6 col-lg-6">
+            <div class="form-group">
+                <label for="codigoSocio" class="col-md-5 control-label">Código de Socio</label>
+                <div class="col-md-6">
+                    <input id="codigoSocio" disabled class="form-control">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="estado" class="col-md-4 control-label">Estado</label>
+                <div class="col-md-7">
+                    <select id="estado" class="form-control">
+                        <option value="SUSPENDIDO">SUSPENDIDO</option>
+                        <option value="ACTIVO">ACTIVO</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-6">
+            <div class="form-group">
+                <label for="codigocarnet" class="col-md-5 control-label">Codigo Carnet</label>
+                <div class="col-md-6">
+                    <input id="codigocarnet" disabled class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-5">
+            <div class="form-group">
+                <label for="tipoMembresia" class="col-md-4 control-label">Tipo de Membresia</label>
+                <div class="col-md-7">
+                    <select id="tipoMembresia" class="form-control">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-6">
+            <div class="form-group">
+                <label class="control-label col-md-5">Inicio</label>
+                <div class="col-md-6">
+                    <input id="fechaInscripcion" disabled class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
+            </div>
+        </div>
+
+        <!---------------------- -->
+        <div class="col-sm-3 col-lg-3">
+        </div>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 60px;">
+                <a href="#" onclick="funciones.modificarSocio();return false;" class="btn btn-primary">Guardar</a>
+                <a href="#" onclick="cancelar();return false;" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="js/principal.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
