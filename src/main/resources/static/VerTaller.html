@@ -52,6 +52,17 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 
 
@@ -61,45 +72,7 @@
             var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
-        function mostraridEvento(id){
-            $("#idEvento").html("Evento Numero "+id);
-        }
-        function mostrarNombre(nombre){
-            $("#nombre").html(nombre);
-        }
-        Date.prototype.ddmmyyyy = function() {
-            var yyyy = this.getFullYear().toString();
-            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-            var dd  = this.getDate().toString();
-            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
-        };
-        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
-            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
-            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
-        }
-        function mostrarTarifas(tarifas){
-            var b=new Array();
-            var tarifasul=$("#tarifas");
-            for(var i=0;i<tarifas.length;i++)
-                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
-            for(var j=0;j<b.length;j++)
-                tarifasul.append(b[j]);
-        }
-        function mostrarRegYDescripcion(reglamento, descripcion){
-            $("#reglamento").html("Reglamento: "+reglamento);
-            $("#descripcion").html("Descripcion: <br>"+descripcion);
-        }
-        function mostrarImagen(url){
-            $("#imgEvento").attr({src:url});
-        }
-        function mostrarEstGratYPub(estado,isGratuito,isPublico){
-            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
-        }
-        function mostrarSede(sede){
-            $("#sede").html(sede.nombre);
-        }
+
     </script>
     <script type="text/javascript">
         function llenarDatosTaller(data2) {
@@ -114,7 +87,7 @@
                 nombre: $("#nombre").val(),
                 urlFoto: $("#urlFoto").val(),
                 descripcion: $("#descripcion").val(),
-                estadoAcademia: parseInt($("#estadoAcademia").val())
+                estadoAcademia: $("#estadoAcademia").val()
             };
         }
     </script>
@@ -131,13 +104,27 @@
                 console.log(data2);
                 llenarDatosTaller(data2);
             });
-            $("#guardar").click(function(){
+
+            $("#guardar").click(function () {
+                console.log("Entro");
                 var data=getTaller(id);
                 console.log(JSON.stringify(data));
-                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
-                    alert("Tu actualizacion fue exitosa");
-                    location.href = "VerTaller.html?id=" + id;
-                });
+                console.log("Entro 2");
+                if (!validarDatos()) {
+                    $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + id
+                        }, 1000);
+                    })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al academia");
+                                console.log("fallo");
+                            });
+                }
+
             });
             $("#nuevo").click(function(){
                 var data=getTaller(id);
@@ -145,7 +132,7 @@
 //                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
 //                    alert("Tu actualizacion fue exitosa");
                 location.href = "añadirClase.html?id=" + id;
-                });
+            });
 
             funciones.eliminar=(function (id) {
                 var ref = getID();
@@ -156,17 +143,48 @@
                     console.log(data2);
                     data2.estadoClase= 0;
                     $http.put("/api/clases/" + data2.id, data2).success(function (data3, status) {
-                        alert("Esta clase ya no esta habilitada");
+                        //alert("Esta clase ya no esta habilitada");
                         location.href = "VerTaller.html?id=" + ref;
                     });
                 });
+         })
 
-            })
+            function validarDatos() {
+                var nombre = $("#nombre").val();
+                var descripcion = $("#descripcion").val();
+                var estadoAcademia = $("#estadoAcademia").val();
+
+                if (!nombre) {
+                    //alert("No hay nombre");
+                    console.log("No hay nombre");
+                    Notificaciones.showError('Nombre de taller requerido');
+                    $("#nombre").css("border-color", "red");
+                    return true;
+                }
+                else if (!descripcion) {
+                    Notificaciones.showError('Descripción del taller requerido');
+                    $("#descripcion").css("border-color", "red");
+                    return true;
+                }
+
+
+                return false;
+            }
+
+            $("#nombre").click(function () {
+                $("#nombre").css("border-color", "#ccc");
             });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+        });
 
-//            $("#cancelar").click(function(){
-//                location.href = "VerTaller.html?id=" + id;
-//            });
+
+
+
+        //            $("#cancelar").click(function(){
+        //                location.href = "VerTaller.html?id=" + id;
+        //            });
 
     </script>
 </head>
@@ -193,7 +211,28 @@
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         console.log("Accion:");
         console.log(id);
-        funciones.eliminar(id);
+
+
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea inhabilitar la clase?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    funciones.eliminar(id);
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
     }
 </script>
 <script type="text/javascript">
@@ -238,9 +277,9 @@
                 <div class="form-group">
                     <label for="estadoAcademia" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <select class="form-control"  id="estadoAcademia">
-                            <option value="0">INHABILITADO</option>
-                            <option value="1">HABILITADO</option>
+                        <select class="form-control" id="estadoAcademia"  required>
+                            <option>INHABILITADO</option>
+                            <option>HABILITADO</option>
                         </select>
                     </div>
                 </div>
@@ -311,6 +350,17 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
+
+
+
+
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     var idhor = 0;
 
@@ -342,7 +392,15 @@
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
-            console.log("salio");
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoClase'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+            //console.log("salio");
         }
     });
     $('#jqGrid').jqGrid('setGridWidth', '900');

@@ -25,6 +25,53 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
 
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+
     <script type="text/javascript">
         var idacademia = 0;
         var idciclo = 0;
@@ -82,7 +129,7 @@
             $("#precioCiclo").val(data2.precioCiclo);
             $("#capacidad").val(data2.capacidad);
             $("#profesor").val(data2.profesor);
-            $("#estadoProveedor").val(data2.estadoProveedor + 0);
+            $("#estadoClase").val(data2.estadoClase);
             /*
              for(var i = 0; i < data2.length; i++){
              $("#nivel").val(data2[i].nivel);
@@ -103,7 +150,7 @@
                 precioCiclo: $("#precioCiclo").val(),
                 capacidad: $("#capacidad").val(),
                 profesor: $("#profesor").val(),
-                estadoClase: parseInt($("#estadoClase").val()),
+                estadoClase: $("#estadoClase").val(),
                 ciclo: {id: ciclo},
                 academia:{id:academia}
             };
@@ -119,33 +166,97 @@
                 location.href = "VerTaller.html"
             }
             $http.get('/api/clases/' + id).success(function (data2, status) {
-                //var objetoClase=JSON.parse(data2);
-                //console.log("Este es el ciclo?");
-                //console.log(objetoClase.ciclo.id);
-                //alert(data2.ciclo.id);
                 llenarDatosTaller(data2);
-                console.log(data2);
                 idCiclo = data2.ciclo ["id"];
                 idAcademia = data2.academia["id"];
-                console.log(idCiclo);
             });
 
             $("#guardar").click(function () {
-                /*
-                 $http.get("/api/ciclos/"+ciclo).success(function (, status) {
-                 alert("Tu actualizacion fue exitosa");
-                 location.href = "VerTaller.html?id=" + id;
-                 });
-                 */
                 var data = getDatosTaller(id, idCiclo, idAcademia);
                 console.log(JSON.stringify(data));
-                $http.put("/api/clases/" + data.id, data).success(function (data2, status) {
-                    alert("Tu actualizacion fue exitosa");
-                    location.href = "VerTaller.html?id=" + idAcademia;
-                });
+
+                if(!validarDatos()){
+                    $http.put("/api/clases/"+data.id, data).success(function (data2, status) {
+                        //alert("Tu actualizacion fue exitosa");
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + idAcademia
+                        }, 1000);
+                        //location.href = "administrarProveedores1.html";
+                    }).error(function (data) {
+                        //aca lo que se hara en caso falle
+                        Notificaciones.showError("Error al editar proveedor");
+                        console.log("fallo");
+                    });
+
+                }
             });
             $("#cancelar").click(function () {
                 location.href = "VerTaller.html?id=" + idAcademia;
+            });
+
+            function validarDatos() {
+                var nivel=$("#nivel").val();
+                var rangoEdad= $("#rangoEdad").val();
+                var precioMes = $("#precioMes").val();
+                var precioCiclo= $("#precioCiclo").val();
+                var profesor = $("#profesor").val();
+                var capacidad=$("#capacidad").val();
+
+                if(!nivel){
+                    console.log($("#nivel").val());
+                    console.log("No hay nombre");
+                    Notificaciones.showError('Debe insertar un nivel');
+                    $("#nivel").css("border-color", "red");
+                    return true;
+                }
+                else if(!rangoEdad){
+                    Notificaciones.showError('Se necesita un rango de edad');
+                    $("#rangoEdad").css("border-color", "red");
+                    return true;
+                }
+                else if(!precioMes){
+                    Notificaciones.showError('Debe ingresar un precio por mes');
+                    $("#precioMes").css("border-color", "red");
+                    return true;
+                }
+                else if(!precioCiclo){
+                    Notificaciones.showError('Debe ingresar un precio por ciclo');
+                    $("#precioCiclo").css("border-color", "red");
+                    return true;
+                }
+                else if(!capacidad){
+                    Notificaciones.showError('Capacidad requerida');
+                    $("#capacidad").css("border-color", "red");
+                    return true;
+                }
+                else if(!profesor){
+                    Notificaciones.showError('Nombre del profesor requerido');
+                    $("#profesor").css("border-color", "red");
+                    return true;
+                }
+
+
+                return false;
+            }
+            $("#nivel").click(function () {
+                $("#nivel").css("border-color", "#ccc");
+            });
+            $("#rangoEdad").click(function () {
+                $("#rangoEdad").css("border-color", "#ccc");
+            });
+            $("#precioMes").click(function () {
+                $("#precioMes").css("border-color", "#ccc");
+            });
+            $("#precioCiclo").click(function () {
+                $("#precioCiclo").css("border-color", "#ccc");
+            });
+            $("#profesor").click(function () {
+                $("#profesor").css("border-color", "#ccc");
+            });
+            $("#capacidad").click(function () {
+                $("#capacidad").css("border-color", "#ccc");
             });
         });
     </script>
@@ -161,45 +272,45 @@
         <div id="NivelTaller" class="form-group">
             <label class="control-label col-xs-4">Nivel</label>
             <div class="input-group col-xs-8">
-                <input id="nivel" type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..." required/>
+                <input id="nivel" type="text" class="form-control col-xs-8" maxlength="1" placeholder="Escriba el nivel..." required/>
             </div>
         </div>
         <div id="rangoEdadTaller" class="form-group">
             <label class="control-label col-xs-4">Rango Edad</label>
             <div class="input-group col-xs-8">
-                <input id="rangoEdad" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
+                <input id="rangoEdad" type="text" class="form-control col-xs-8" maxlength="7" ng-model="ruc" placeholder="Escriba el rango de edad..."required/>
             </div>
         </div>
         <div id="precioCicloTaller" class="form-group">
             <label class="control-label col-xs-4">Precio Ciclo</label>
             <div class="input-group col-xs-8">
-                <input id="precioCiclo" type="text" class="form-control col-xs-8" placeholder="Ingrese # de contacto..." required/>
+                <input id="precioCiclo" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el precio por ciclo..." required/>
             </div>
         </div>
         <div id="precioMesTaller" class="form-group">
             <label class="control-label col-xs-4">Precio Mes</label>
             <div class="input-group col-xs-8">
-                <input id="precioMes" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="precioMes" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el precio por mes" required/>
             </div>
         </div>
         <div id="capacidadTaller" class="form-group">
             <label class="control-label col-xs-4">Capacidad</label>
             <div class="input-group col-xs-8">
-                <input id="capacidad" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="capacidad" type="text" class="form-control col-xs-8" maxlength="7" placeholder="Ingrese la capacidad..." required/>
             </div>
         </div>
         <div id="profesorTaller" class="form-group">
             <label class="control-label col-xs-4">Profesor</label>
             <div class="input-group col-xs-8">
-                <input id="profesor" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="profesor" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese el profesor del taller..." required/>
             </div>
         </div>
         <div class="form-group">
             <label for="estadoClase" class="col-md-4 control-label">Estado</label>
             <div class="col-md-8">
                 <select class="form-control" id="estadoClase"  required>
-                    <option value="0">INHABILITADO</option>
-                    <option value="1">HABILITADO</option>
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
                 </select>
             </div>
         </div>
@@ -217,7 +328,13 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>
