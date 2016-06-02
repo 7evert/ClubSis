@@ -56,19 +56,25 @@
             var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
+        funciones.registrarFamiliar=function(){
+            location.href="registrarFamiliaresDelSocio.html?id="+getID();
+        }
+        function mostrarSocio(){
+            location.href="verSocio.html?idSocio="+getID();
+        }
         </script>
     <script type="text/javascript">
         var nroFamiliares=0;
         var idFamiliar;
         var app2 = angular.module('app2', []);
         app2.controller('ListaFamiliaresController', function ($scope, $http) {
-            funciones.verFamilliar = function (event) {
+            funciones.verFamiliar = function (event) {
                 var idFamiliar = event.target.parentNode.getAttribute("data-idevento-ver");
-                location.href="informacionPersona?id="+getID();
+                location.href="verSocio.html?idSocio="+getID()+"&idFamiliar="+idFamiliar;
             };
             funciones.modificarFamiliar = function (event) {
                 var idFamiliar = event.target.parentNode.getAttribute("data-idevento-modificar");
-                location.href="modificacionPersona?id="+getID();
+                location.href="modificarFamiliares.html?idSocio="+getID()+"&idFamiliar="+idFamiliar;
             };
             funciones.eliminarFamiliar= function (event) {
                 idFamiliar = event.target.parentNode.getAttribute("data-idevento-eliminar");
@@ -141,9 +147,10 @@
 <div class="container">
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation"><a href="miCuenta.html">Cuenta</a></li>
+        <li role="presentation"><a href="#" onclick="mostrarSocio();return false;">Datos del Socio</a></li>
         <li role="presentation"><a href="#">Perfil</a></li>
         <li role="presentation"><a href="miCuenta_cambiarClave.html">Cambiar clave</a></li>
-        <li role="presentation" class="active"><a href="miCuenta_familiares.html">Familiares asociados</a></li>
+        <li role="presentation" class="active"><a href="#" onclick="mostrarFamiliares();return false;">Familiares asociados</a></li>
     </ul>
     <hr>
     <form class="form-horizontal">
@@ -160,9 +167,9 @@
         </div>
         <div class="col-sm-5 col-lg-5">
             <div class="form-group" style="margin-left: 60px;">
-                <a href="#" onclick="funciones.eliminarTodos();return false;" class="btn btn-primary">Agregar</a>
-                <a href="registrarFamiliaresDelSocio.html" class="btn btn-primary">Agregar</a>
-                <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+                <a href="#" onclick="funciones.eliminarTodos();return false;" class="btn btn-primary">Eliminar</a>
+                <a href="#" onclick="funciones.registrarFamiliar();return false;" class="btn btn-primary">Agregar</a>
+                <a href="mantenimientoSocio.html" class="btn btn-primary">Cancelar</a>
             </div>
         </div>
 

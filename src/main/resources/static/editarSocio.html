@@ -83,11 +83,14 @@
                         "id": $("#codigoSocio").val(),
                         "estado": $("#estado").val(),
                         "codigoCarnet": $("#codigocarnet").val(),
-                        "fechaInscripcion": Date.parse($("#fechaInscripcion").val())
+                        "fechaInscripcion": Date.parse($("#fechaInscripcion").val()),
+                        "tipo":{
+                            "id":parseInt($("#tipoMembresia").val())
+                        }
                     };
-                    console.log('/api/socios/' + $("#tipoMembresia").val() + '/actualizar');
+                    console.log('/api/socios/' + getID() + '/actualizar');
                     console.log(JSON.stringify(dataSocio));
-                    $http.put('/api/socios/' + $("#tipoMembresia").val() + '/actualizar', dataSocio).success(function (data) {
+                    $http.put('/api/socios/' + getID() + '/actualizar', dataSocio).success(function (data) {
                      mostrarMensaje(data);
                      location.href="verSocio.html?id="+getID();
                      });
