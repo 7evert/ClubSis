@@ -53,7 +53,9 @@ public class SocioController {
         Socio socioExistente = servicioMembresias.buscarSocio(id);
         socio.setTipo(socioExistente.getTipo());
         socio.setEstado(EstadoSocio.SUSPENDIDO);
-        BeanUtils.copyProperties(socio, socioExistente);
+        socio.setCodigoCarnet(socioExistente.getCodigoCarnet());
+        socio.setInvitados(socioExistente.getInvitados());
+        socio.setFechaInscripcion(socioExistente.getFechaInscripcion());
         return servicioMembresias.actualizarSocio(id,socio);
     }
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)

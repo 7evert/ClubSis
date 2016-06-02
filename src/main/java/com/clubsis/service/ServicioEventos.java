@@ -100,6 +100,15 @@ public class ServicioEventos {
         return tot;
     }
 
+    @Scheduled(cron = "* */15 * * * *")
+    public void UpdateEstado(){
+        List<Evento> eventos =eventoRepository.findAll();
+        for(int i=0;i<eventos.size();i++){
+            Evento evento = eventos.get(i);
+            //if(evento.getFechaFin().compareTo())
+        }
+    }
+
 
 
 }
