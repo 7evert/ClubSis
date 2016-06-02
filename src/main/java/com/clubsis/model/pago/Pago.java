@@ -2,15 +2,14 @@ package com.clubsis.model.pago;
 
 import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.clase.Clase;
+import com.clubsis.model.club.Multa;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.model.sede.Instalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -20,6 +19,7 @@ public class Pago {
     @Id
     @GeneratedValue
     private Integer id;
+    private String descripcion;
     private Double mora;
     private Double montoTotal;
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -50,11 +50,14 @@ public class Pago {
     @ManyToOne(fetch = FetchType.EAGER)
     private Instalacion instalacion;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Multa multa;
 
     protected Pago() {
     }
 
-    public Pago(Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion) {
+    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion) {
+        this.descripcion=descripcion;
         this.mora = mora;
         this.montoTotal = montoTotal;
         this.fechaVencimiento = fechaVencimiento;
@@ -189,5 +192,13 @@ public class Pago {
 
     public void setInstalacion(Instalacion instalacion) {
         this.instalacion = instalacion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
