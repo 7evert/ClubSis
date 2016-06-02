@@ -14,6 +14,16 @@
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
+        .icono {
+            width: 18px;
+        }
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+        }
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
             background: #008D34;
         }
@@ -34,7 +44,7 @@
         }
 
         .   {
-            width: 19px;
+            width: 20px;
         }
 
         h4{
@@ -84,10 +94,11 @@
                         { label:'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
                         { label:'Fecha Pago', name: 'fechaPago', align: 'center', width: 100 },
                         { label:'Fecha Anulacion', name: 'fechaAnulacion', align: 'center', width: 100 },
-                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                        { label:'Acciones', name: 'acciones', width: 50, align: 'center', formatter: acciones},
                     ],
                     viewrecords: true,
                     height: "auto",
+                    multiselect:true,
                     width: 900,
                     rowNum: 10,
                     pager: "#jqGridPager"
@@ -98,11 +109,11 @@
                 var rowKey = grid.getGridParam("selrow");
 
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    alert("No hay pago seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
-                    var mensaje= "Tu aprobacion de membresia se realizó satisfactoriamente.";
+                    var mensaje= "Tu registro de los pagos seleccionados se realizó satisfactoriamente.";
                     for (var i = 0; i < selectedIDs.length; i++) {
                         var data= selectedIDs[i];
                         $http.post('/api/membresias/'+ data+'/aprobar').success(function (data ) {
@@ -111,7 +122,7 @@
                             console.log(JSON.stringify(data));
                         }).error(function (data2) {
                             console.log(JSON.stringify(data));
-                            mensaje="Tu aprobacion de membresa de no se pudo realizar.";
+                            mensaje="No se pudo registrar los pagos seleccionados";
                         });
                         result += selectedIDs[i] + ",";
                     }
@@ -217,7 +228,8 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<input type="checkbox" value="">'
+
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Pago"><img src="img/Iconos/ver.png" class="icono"></a>';
         return acciones;
     }
 

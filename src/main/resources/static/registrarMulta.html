@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+</head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <h2>Socio</h2>
+    <hr>
+    <h4>REGISTRO DE MULTA</h4>
+    <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Nombre Socio</label>
+            <div class="col-xs-7">
+                <input type="text" ng-model="ngSocio" disabled placeholder="" class="form-control "/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Motivo</label>
+            <div class="col-xs-7">
+                <textarea class="form-control" ng-model="motivo" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>
+                <!--<input type="text" name="motivo" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>-->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-5" >Fecha de Inicio</label>
+            <div class="col-xs-7 date">
+                <div class="input-group input-append date">
+                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" required/>
+                    <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-5">Fecha de Fin</label>
+            <div class="col-xs-7 date">
+                <div class="input-group input-append date">
+                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6"/>
+                    <label for="date-picker-TiempoFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-offset-5 col-xs-9">
+            <button ng-click="enviarSolicitud()" class="btn btn-primary">Enviar Solicitud</button>
+            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="js/principal.js"></script>
+</body>
+</html>
