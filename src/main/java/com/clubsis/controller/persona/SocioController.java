@@ -5,6 +5,7 @@ import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
 import com.clubsis.service.ServicioMembresias;
 import org.omg.CORBA.Request;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.RepositoryQuery;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,7 @@ public class SocioController {
         Socio socioExistente = servicioMembresias.buscarSocio(id);
         socio.setTipo(socioExistente.getTipo());
         socio.setEstado(EstadoSocio.SUSPENDIDO);
+        BeanUtils.copyProperties(socio, socioExistente);
         return servicioMembresias.actualizarSocio(id,socio);
     }
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)

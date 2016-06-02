@@ -8,6 +8,8 @@ import com.clubsis.model.persona.Invitado;
 import com.clubsis.model.persona.Persona;
 import com.clubsis.repository.evento.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
@@ -17,6 +19,7 @@ import java.util.List;
 /**
  * Created by Juan Tenorio on 17/5/2016.
  */
+@EnableScheduling
 @Service
 public class ServicioEventos {
 
@@ -96,5 +99,7 @@ public class ServicioEventos {
         }
         return tot;
     }
+
+
 
 }
