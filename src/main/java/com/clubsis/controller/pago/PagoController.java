@@ -36,4 +36,9 @@ public class PagoController {
         return servicioPagos.actualizarPago(id,pago);
     }
 
+    @RequestMapping(value = "/{id}/anular", method = RequestMethod.POST)
+    public Pago anularPago(@PathVariable Integer id){
+        return servicioPagos.anularPago(id);
+    }
+
 }

@@ -34,4 +34,9 @@ public class CuotaExtraordinariaController {
         return servicioPagos.actualizarCuotaExtraordinaria(id,cuota);
     }
 
+    @RequestMapping(value = "/{id}/anular", method = RequestMethod.POST)
+    public CuotaExtraordinaria CuotaExtraordinaria(@PathVariable Integer id){
+        return servicioPagos.anularCuotaExtraordinaria(id);
+    }
+
 }

@@ -139,6 +139,19 @@ public class ServicioPagos {
         return respuesta;
     }
 
+    public Pago anularPago(Integer idPago){
+        Pago pago= pagoRepository.findOne(idPago);
+        pago.setEstadoPago(EstadoPago.ANULADO);
+        return pagoRepository.saveAndFlush(pago);
+    }
+
+    public CuotaExtraordinaria anularCuotaExtraordinaria(Integer idCuota){
+        CuotaExtraordinaria cuota= cuotaExtraordinariaRepository.findOne(idCuota);
+        cuota.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.ANULADA);
+        return cuotaExtraordinariaRepository.saveAndFlush(cuota);
+    }
+
+
     //@Scheduled(cron="0 0/1 * 1/1 * ? *")// cada minuto
     //@Scheduled(cron="0 0 0 1 1/1 ? *")// primer dia de cada mes
     public void crearPagosMembresia(){
