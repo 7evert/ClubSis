@@ -70,8 +70,7 @@
                             //$scope.PostDataResponse = data;
                             console.log(JSON.stringify(data2));
                             alert("Tu registro de cuota extraordinaria fue hecha exitosamente.");
-                    $scope.hola=data;
-                            //window.location="loginUsuario.html"
+                            window.location="registrarCuotaExtraordinaria.html"
                         })
                         .error(function (data2) {
                             console.log(JSON.stringify(data2));
@@ -86,7 +85,6 @@
 <div class="container" ng-app="appCuotaExtraordinaria" ng-controller="CuotaExtraordinariaController">
     <h2>Pagos</h2>
     <hr>
-    {{hola}}
     <h4>REGISTRO DE CUOTA EXTRAORDINARIA</h4>
     <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
         <div class="form-group">
