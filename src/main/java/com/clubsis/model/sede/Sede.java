@@ -44,6 +44,8 @@ public class Sede {
     @JsonIgnore
     private Set<Instalacion> instalaciones;
 
+    @ManyToMany
+    private Set<Concesion> concesiones = new HashSet<>();
 
     protected Sede() {
     }
