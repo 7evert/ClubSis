@@ -1,5 +1,7 @@
 package com.clubsis.model.bungalow;
 
+import com.clubsis.model.persona.Socio;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -22,6 +24,9 @@ public class ReservaBungalow {
     // En este caso, la relación en el UML es 0..* a 1, este bungalow siempre debe existir, no puede ser nulo
     @ManyToOne
     private Bungalow bungalow;
+
+    @ManyToOne
+    private Socio socio;
 
     protected ReservaBungalow() {
     }

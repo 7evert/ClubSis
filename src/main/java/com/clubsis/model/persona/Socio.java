@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -20,22 +19,22 @@ public class Socio {
     @Id
     @GeneratedValue
     private Integer id;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInscripcion;
     private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
-    private String codigoCarnet;
+    private Integer codigoCarnet;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Invitado> invitados =new HashSet<Invitado>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "socio")
+    @JsonIgnore
     private Set<Persona> personas =new HashSet<Persona>();
 
-    @JsonIgnore
     @OneToMany(mappedBy="id.socio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
 
     @JsonIgnore
@@ -53,6 +52,10 @@ public class Socio {
     @OneToMany(mappedBy = "socio")
     @JsonIgnore
     private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
+
+    @OneToMany(mappedBy = "socio")
+    @JsonIgnore
+    private Set<PagoMembresia> pagosMembresia = new HashSet<>();
 
     @ManyToOne
     private TipoSocio tipo;
@@ -98,11 +101,11 @@ public class Socio {
         this.estado = estado;
     }
 
-    public String getCodigoCarnet() {
+    public Integer getCodigoCarnet() {
         return codigoCarnet;
     }
 
-    public void setCodigoCarnet(String codigoCarnet) {
+    public void setCodigoCarnet(Integer codigoCarnet) {
         this.codigoCarnet = codigoCarnet;
     }
 
