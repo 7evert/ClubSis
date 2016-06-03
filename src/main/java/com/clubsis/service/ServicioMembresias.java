@@ -121,8 +121,9 @@ public class ServicioMembresias {
 
     public Socio socioMembresia(Postulante postulanteExistente){
         TipoSocio tipo = seleccionarTipoSocio();
+        String codigoCarnet= UUID.randomUUID().toString().replaceAll("-", "");
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO, UUID.randomUUID(),new HashSet<Invitado>()
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO, codigoCarnet.substring(0,12),new HashSet<Invitado>()
                 ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
                 ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
                 new HashSet<ReservaInstalacion>(),tipo);

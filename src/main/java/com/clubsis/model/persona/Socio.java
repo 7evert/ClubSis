@@ -24,7 +24,7 @@ public class Socio {
     private Date fechaInscripcion;
     private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
-    private UUID codigoCarnet;
+    private String codigoCarnet;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
@@ -60,7 +60,7 @@ public class Socio {
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, UUID codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, TipoSocio tipo) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, String codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, TipoSocio tipo) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
@@ -98,11 +98,11 @@ public class Socio {
         this.estado = estado;
     }
 
-    public UUID getCodigoCarnet() {
+    public String getCodigoCarnet() {
         return codigoCarnet;
     }
 
-    public void setCodigoCarnet(UUID codigoCarnet) {
+    public void setCodigoCarnet(String codigoCarnet) {
         this.codigoCarnet = codigoCarnet;
     }
 
