@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis - Mantenimientos Proveedores</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .center .ui-jqgrid {
+            width: 1100px; margin-left: auto; margin-right: auto;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
+    </style>
+</head>
+<body ng-controller="ConcesionController">
+<script type="text/javascript">
+    function edicionConcesion(){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "edicionConcesion.html?id=" + id;
+    }
+    function accionEliminar() {
+        var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea eliminar esta concesión ?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    funciones.eliminar(id);
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
+    }
+</script>
+<script type="text/javascript">
+    //app script
+    var app = angular.module('app', []);
+</script>
+
+<script type="text/javascript">
+    var app = angular.module('app', []);
+    var funciones={};
+    app.controller('ConcesionController', function ($scope, $http) {
+        $http.get('/api/concesiones').success(function (data) {
+//            alert("2");
+            //    api/tarifaeventos
+            //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+            console.log(data);
+
+        })
+        funciones.eliminar=(function (id) {
+            $http.get('/api/concesiones/' + id).success(function (data2, status) {
+                data2.estadoConcesion = 0;
+                $http.put("/api/concesiones/" + data2.id, data2).success(function (data3, status) {
+                    setTimeout(function () {
+                        location.href = "administrarConcesiones.html"
+                    }, 1000);
+                });
+            });
+        })
+
+
+    });
+</script>
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            ADMINISTRACIÓN DE CONCESIONES
+            <a href=registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+                Concesión </a>
+        </h3>
+
+    </div>
+    <hr>
+    <!--<h4>CONSULTA DE PROVEEDORES</h4>-->
+
+    <!--<form class="form-horizontal">-->
+    <!--<div class="row">-->
+    <!--<div class="col-sm-6 col-lg-5">-->
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del Proveedor">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Descripción</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="descripcion" placeholder="Palabra Clave">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div class="col-sm-6 col-lg-12">-->
+    <!--</div>-->
+    <!--<div class="col-sm-7 col-lg-7">-->
+    <!--</div>-->
+    <!--<div class="col-sm-5 col-lg-5">-->
+    <!--<div class="form-group" style="margin-left: 110px;">-->
+    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <h4>LISTA DE CONCESIONES REGISTRADAS</h4>
+    <div class="rowchangeg" style="width: 1000px; margin-left: 0px; ">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br>
+    <div class="leyenda">
+        <span>Leyenda: </span>
+        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Concesión
+        |
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Concesión
+    </div>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+
+    $("#jqGrid").jqGrid({
+        url: '/api/concesiones',
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "json",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        colNames:['Número','Razón Social','RUC','Servicios','Administrador','Estado Concesión', 'Acciones'], //define column names
+        colModel:[
+            {name:'id', index:'id', align:'center', key: true, width:50},
+            {name:'razonSocial', index:'razonSocial', align:'center', width:150},
+            {name:'ruc', index:'ruc', align:'center', width:100},
+            //{name:'fechaInicio', index:'fechaInicio',width:300},
+            //{name:'fechaVencimiento', index:'fechaVencimiento',align:'center', width:110},
+            {name:'servicios', index:'servicios', width:220},
+            {name:'administrador', index:'administrador', align:'center', width:100},
+            {name:'estadoConcesion', index:'estadoConcesion', align:'center', width:100},
+            {name: 'acciones', width: 80, align: 'center', formatter: acciones},
+        ],
+        viewrecords: true,
+        height: 300,
+        rowNum: 1000,
+        pager: "#jqGridPager",
+        loadComplete:function(){
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoConcesion'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                }
+            }
+        }
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '1150');
+
+
+    $.extend(true, $.jgrid.edit, {
+        recreateForm: true,
+        beforeShowForm: function ($form) {
+            $form.closest(".ui-jqdialog").position({
+                of: window, // or any other element
+                my: "center center",
+                at: "center center"
+            });
+        }
+    });
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+
+        acciones = '<a href="#" onclick="edicionConcesion();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        return acciones;
+
+    }
+
+    jQuery("#bt1").click( function() {
+        jQuery("#jqGrid").jqGrid('editRow',"13");
+        console.log(data);
+        this.disabled = 'true';
+    });
+</script>
+</body>
+</html>
