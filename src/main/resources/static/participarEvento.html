@@ -20,6 +20,7 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <script src="js/Notificaciones.js"></script>
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -185,8 +186,16 @@
         function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
             $("#fechaInicio").html(new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
             $("#fechaFin").html(new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
+            if(fechaInicioInscripcion&&fechaFinInscripcion) {
+                $("#fechaInicioInscripcion").html(new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
+                $("#fechaFinInscripcion").html(new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
+            }else if(fechaInicioInscripcion){
+                $("#fechaFinInscripcion").parent().html("Estaran Disponibles hasta el dia "+new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
+            }else if(fechaFinInscripcion){
+                $("#fechaInicioInscripcion").parent().html("Estaran Disponibles a partir de "+new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
+            }else{
+                $("#fechaFinInscripcion").parent().html("Pronto se publicarán las fechas de Inscripción");
+            }
         }
         function mostrarTarifas(tarifas){
             var b=new Array();
@@ -197,7 +206,7 @@
                 tarifasul.append(b[j]);
         }
         function mostrarRegYDescripcion(descripcion){
-            $("#descripcion").html("Descripcion: <br>"+descripcion);
+            $("#descripcion").html("Descripcion: <br>"+((descripcion)?descripcion:"..."));
         }
         function mostrarImagen(url){
             $("#imgEvento").attr({src:url});
@@ -223,7 +232,7 @@
                     return e.id == getID();
                 })[0];
                 if (!dataevento) {
-                    alert("Evento No Disponible");
+                    Notificaciones.showError("Evento No Disponible");
                     location.href = "MantenimientoEventos.html";
                 }
                 mostraridEvento(dataevento.id);
@@ -315,14 +324,12 @@
             <div><h4 id="sede"></h4></div>
             <div><h4 id="estGratYPub"></h4></div>
             <div>
+                <h4>Fecha del Evento:</h4>
                 <h4><span id="fechaInicio"></span> - <span id="fechaFin"></span></h4>
+                <h4>Fechas de Inscripcion:</h4>
                 <h4><span id="fechaInicioInscripcion"></span> - <span id="fechaFinInscripcion"></span></h4>
             </div>
             <div><h4 id="descripcion"></h4></div>
-            <ul id="tarifas" style="position:relative; left:120px;">
-                <span>Tarifas:</span>
-                <!--<li><span>TO DO I DONT KNOW WHAT TO WRITE HERE GUYS</span></li>-->
-            </ul>
             <div class="col-xs-offset-1 col-xs-10">
                 <input id="Participar" type="" class="btn btn-primary" value="Invitar" style="width:22%">
                 <input id="confirmar" type="" class="btn btn-primary" value="Confirmar" style="width:22%">

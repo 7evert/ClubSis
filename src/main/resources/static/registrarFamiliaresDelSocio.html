@@ -19,6 +19,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
+    <script src="js/Notificaciones.js"></script>
     <style type="text/css">
         h4 {
             background: #008D34;
@@ -38,6 +39,10 @@
         #addFamilyButton {
             margin-right: 20px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
+
     </style>
     <script type="text/javascript">
         var funciones = {};
@@ -47,10 +52,10 @@
             return str ? str[1] : str;
         }
         function mostrarMensaje(s){
-            alert(s);
+            Notificaciones.showError(s);
         }
         function mostrarMensajeExitoso(data) {
-            alert("se registro exitosamente al familiar " + data.nombre);
+            Notificaciones.showNoty("se registro exitosamente al familiar " + data.nombre);
         }
         function llenarCampos(data, dataTitular) {
             $("#socio").html(fechstr);
@@ -133,7 +138,7 @@
                 });
             });
             funciones.registrarFamiliar = function () {
-                verificarDatos();
+                if(!verificarDatos())return;
                 var socio = $("#socio").val();
                 var titular = $("#titular").val();
                 var persona = {
@@ -168,7 +173,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="socio" class="col-md-4 control-label">Socio(*): </label>
+                    <label for="socio" class="col-md-4 control-label">Socio<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="socio" disabled>
                     </div>
@@ -176,7 +181,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="titular" class="col-md-4 control-label">Titular(*): </label>
+                    <label for="titular" class="col-md-4 control-label">Titular<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="titular" disabled>
                     </div>
@@ -184,18 +189,18 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="esTitular" class="col-md-4 control-label">Es Titular(*): </label>
+                    <label for="esTitular" class="col-md-4 control-label">Es Titular<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <select id="esTitular" class="form-control">
+                        <select id="esTitular" disabled class="form-control">
                             <option value="0">Titular</option>
-                            <option value="1">No Titular</option>
+                            <option value="1" selected>No Titular</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombres(*): </label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre(s)<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nombre" placeholder="NOMBRES">
                     </div>
@@ -203,23 +208,23 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno(*): </label>
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="apellidoPaterno" placeholder="Precio">
+                        <input type="text" class="form-control" id="apellidoPaterno" placeholder="...">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno(*): </label>
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="apellidoMaterno" placeholder="Precio">
+                        <input type="text" class="form-control" id="apellidoMaterno" placeholder="...">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo Documento(*): </label>
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select id="tipoDocumento" class="form-control">
                             <option value="0">Elegir</option>
@@ -232,7 +237,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="numeroDocumento" class="col-md-4 control-label">Nro. Documento(*): </label>
+                    <label for="numeroDocumento" class="col-md-4 control-label">Nro. Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="numeroDocumento" placeholder="919191">
                     </div>
@@ -240,23 +245,23 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion :</label>
+                    <label for="direccion" class="col-md-4 control-label">Dirección</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="direccion" placeholder="Precio">
+                        <input type="text" class="form-control" id="direccion" placeholder="...">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="correo" class="col-md-4 control-label">Correo :</label>
+                    <label for="correo" class="col-md-4 control-label">Correo</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="correo" placeholder="...@....com">
+                        <input type="text" class="form-control" id="correo" placeholder="">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Teléfono :</label>
+                    <label for="telefono" class="col-md-4 control-label">Teléfono</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="telefono" placeholder="....">
                     </div>
@@ -264,7 +269,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="control-label col-md-4">Fecha de Nacimiento :</label>
+                    <label class="control-label col-md-4">Fecha de Nacimiento</label>
                     <div class="input-group input-append date col-md-8">
                         <input id="date-picker-FechaNacimiento" type="text"
                                class="date-picker form-control col-xs-6"/>

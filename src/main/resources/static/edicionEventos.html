@@ -21,6 +21,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
+    <script src="js/Notificaciones.js"></script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
@@ -73,7 +74,7 @@
         }
 
         function mostrarMensaje(message){
-            alert(message);
+            Notificaciones.showError(message);
         }
         function verificarDatos(){
             var mensajes=["Nombre debe tener entre 1 y 50 caracteres",//0
@@ -193,7 +194,7 @@
                     console.log(JSON.stringify(dataevento));
                     //dataeventos=dataJSON;
                     if (!dataevento) {
-                        alert("Evento No Disponible");
+                        Notificaciones.showError("Evento No Disponible");
                         location.href = "MantenimientoEventos.html";
                     }
                     /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
@@ -219,8 +220,8 @@
                             "sede": {"id": $("#sede").val()},//debeser id de sede
                             "fechaInicio": Date.parse($("#date-picker-DiaEntrada")[0].value),
                             "fechaFin": Date.parse($("#date-picker-DiaSalida")[0].value),
-                            "fechaInicioInscripcion": Date.parse($("#date-picker-InicioInscripcion")[0].value),
-                            "fechaFinInscripcion": Date.parse($("#date-picker-FinInscripcion")[0].value),
+                            "fechaInicioInscripcion": ($("#date-picker-InicioInscripcion")[0].value=="")?null:(Date.parse($("#date-picker-InicioInscripcion")[0].value)),
+                            "fechaFinInscripcion": ($("#date-picker-FinInscripcion")[0].value=="")?null:(Date.parse($("#date-picker-FinInscripcion")[0].value)),
                             "tarifaEventos": [{id:$("#tarifas").val()}],
                             "estado": $("#estado").val(),
                             "descripcion": $("#descripcion").val(),
@@ -231,7 +232,7 @@
                         console.log(JSON.stringify(data));
                         var idSede=dataevento.id;
                         $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
-                            alert("Tu actualizacion fue exitosa");
+                            Notificaciones.showNoty("Tu actualizacion fue exitosa");
                             location.href="EventInformacion.html?id="+data2.id;
                             if(data2.isGratuito==1){return;}
                             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
@@ -277,7 +278,7 @@
                         });
                     });
                     $("#Cancelar").click(function () {
-                        alert("Cancelar");
+                        Notificaciones.showNoty("Volviendo a Eventos");
                         location.href = "MantenimientoEventos.html";
                     });
                     var TARIFAS;
@@ -289,7 +290,7 @@
                             height: 50*(data.legth+1),
                             colNames:['ID','idTar','Tarifa', 'Usar Tarifa', 'Precio'],
                             colModel:[
-                                {name:'id',index:'id', width:90, sorttype:"int"},
+                                {name:'id',index:'Tipo', width:90, sorttype:"int"},
                                 {name:'idTar',index:'idTar', width:90, sorttype:"int"},
                                 {name:'nombre',index:'nombre', width:150,editable: false},
                                 {name:'UsarTar',index:'UsarTar', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},

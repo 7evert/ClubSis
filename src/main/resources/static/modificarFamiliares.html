@@ -19,6 +19,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
+    <script src="js/Notificaciones.js"></script>
     <style type="text/css">
         h4 {
             background: #008D34;
@@ -59,10 +60,10 @@
             location.href = "miCuenta_familiares.html?id=" + idSocio;
         };
         function mostrarMensaje(s){
-            alert(s);
+            Notificaciones.showError(s);
         }
         function mostrarMensajeExitoso(data) {
-            alert("se registro exitosamente al familiar " + data.nombre);
+            Notificaciones.showNoty("se registro exitosamente al familiar " + data.nombre);
         }
         function llenarCampos(data, titular,familiar) {
             $("#socio").val(data.codigoCarnet);
@@ -282,10 +283,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-7 col-lg-7">
+            <div class="col-sm-6 col-lg-6">
             </div>
-            <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 95px;">
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group" style="width:100%;">
                     <a href="#" onclick="funciones.modificarFamiliar();return false;" class="btn btn-primary">Modificar Familiar</a>
                     <a href="#" onclick="funciones.mostrarFamiliar();return false;" class="btn btn-primary">Mostrar Familiar</a>
                     <a href="#" onclick="funciones.mostrarFamiliares();return false;" class="btn btn-primary">Lista Familiares</a>

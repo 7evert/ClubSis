@@ -20,7 +20,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
+    <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -64,6 +64,7 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
     <script type="text/javascript">
         var funciones={};
@@ -77,10 +78,16 @@
         }
         funciones.sancionarSocio=function(event){
             var idSocio=event.target.parentNode.getAttribute("data-idevento-sancionar");;
-            location.href="registrarMulta.html?id="+idSocio;
+            location.href="asignarMulta.html?id="+idSocio;
         }
         function mostrarSuspencion(socio){
             console.log("se deshabilito correctamente al socio "+socio.id);
+        }
+        funciones.buscar=function(){
+
+        }
+        funciones.limpiar=function(){
+            $("#nombre").val("");
         }
     </script>
     <script type="text/javascript">
@@ -100,7 +107,7 @@
                         {name: 'codigoCarnet',index: 'Carnet',width: 150,editable: false,align: 'center'},
                         {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center'},
                         {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center'},
-                        {name: 'nombreTit', index: 'Titular', width: 220, editable: false, align: 'center'},
+                        {name: 'nombreTit', index: 'Nombre Titular', width: 220, editable: false, align: 'center'},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true
@@ -109,8 +116,8 @@
                     var acciones = '';
                     acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>'
+                            //+                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
                     return acciones;
                 }
                 for (var i = 0; i < data.length; i++) {
@@ -121,35 +128,40 @@
                             data[nroSocios].nombreTit=dataPersona.nombre;
                         console.log(JSON.stringify(dataPersona));
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
+                        $("#jqGrid").jqGrid('setRowData',data[nroSocios].id , false, "myAltRowClassEven");
                         nroSocios++;
                     }).error(function(){
                         data[nroSocios].nro=nroSocios+1;
                         data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
+                        $("#jqGrid").jqGrid('setRowData',data[nroSocios].id , false, "myAltRowClassEven");
                         nroSocios++;
                     })
                 }
-                funciones.SuspenderSocio=function(event){
+
+                /*funciones.SuspenderSocio=function(event){
                     var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
                     var dataSocio= {"id":idSocio};
                     $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
                         mostrarSuspencion(socio);
+                        location.reload();
                     });
-                }
+                }*/
             });
             funciones.eliminar=function() {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
                     var nroExito = 0;
                     for (var j = 0; j < selectedIDs.length; j++) {
                         var idSocio = selectedIDs[j];
-                        $http.delete('/api/socios/'+idSocio+'/inhabilitar').success(function (data) {
+                        $http.put('/api/socios/'+idSocio+'/inhabilitar').success(function (data) {
                             mostrarSuspencion(data);
+                            location.reload();
                         });
                     }
                 }
@@ -166,8 +178,8 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE SOCIOS
-            <a href="registroSocio.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 570px;">Añadir
-                Socio</a>
+            <!--<a href="registroSocio.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 570px;">Añadir
+                Socio</a>-->
         </h3>
     </div>
     <hr>
@@ -175,7 +187,7 @@
 
     <form class="form-horizontal">
         <div class="row">
-            <div class="col-sm-6 col-lg-5">
+            <!--<div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio :</label>
                     <div class="col-md-8">
@@ -222,7 +234,7 @@
                         <input type="text" class="form-control" id="nroDocumento" placeholder="DNI del socio">
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="nombre" class="col-md-4 control-label">Nombres :</label>
@@ -230,13 +242,13 @@
                         <input type="text" class="form-control" id="nombre" placeholder="Nombres del socio">
                     </div>
                 </div>
-            </div>
+            </div><!--
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoPaterno"
-                               placeholder="Apellido parteno del socio">
+                               placeholder="Apellido Paterno del socio">
                     </div>
                 </div>
             </div>
@@ -248,9 +260,9 @@
                                placeholder="Apellido materno del socio">
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="titular" class="col-md-4 control-label">¿Es titular? :</label>
                     <div class="radio col-md-3">
                         <label><input type="radio" name="optradio">Si</label>
@@ -258,7 +270,7 @@
                     <div class="radio col-md-3">
                         <label><input type="radio" name="optradio">No</label>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="col-sm-6 col-lg-12">
             </div>
@@ -267,25 +279,25 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="#" onclick="funciones.buscar();return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
             </div>
         </div>
         <h4>RESULTADOS DE BUSQUEDA</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
-            <div class="form-group" style="margin-left: 110px;">
-                <a href="#" onclick="funciones.eliminar();return false;" class="btn btn-primary" id="Suspender">Suspender</a>
-            </div>
+            <!--<div class="form-group" style="width:100%;">
+                <a href="#" onclick="funciones.eliminar();return false;" class="btn btn-primary" id="Suspender" style="position:relative;left:85%;width:12%">Suspender</a>
+            </div>-->
         </div>
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Socio|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio
-            |
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Sancionar Socio|
             <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Socio
         </div>
     </form>
