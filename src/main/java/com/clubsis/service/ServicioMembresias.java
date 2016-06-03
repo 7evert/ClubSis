@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Blitz on 18/05/2016.
@@ -121,7 +122,7 @@ public class ServicioMembresias {
     public Socio socioMembresia(Postulante postulanteExistente){
         TipoSocio tipo = seleccionarTipoSocio();
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO, UUID.randomUUID(),new HashSet<Invitado>()
                 ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
                 ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
                 new HashSet<ReservaInstalacion>(),tipo);
