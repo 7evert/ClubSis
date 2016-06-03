@@ -90,12 +90,12 @@
             alert(message);
         }
         function verificarDatos() {
-            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
-                "Direccion debe tener entre 1 y 100 caracteres",
-                "Telefono debe tener entre 7 a 15 caracteres",
-                "Descripcion debe tener entre 1 y 255 caracteres",
-                "Administrador debe tener entre 8 y 100 caracteres",
-                "Telefono solo puede tener numeros, *, # y -"
+            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres.",
+                "Dirección debe tener entre 1 y 100 caracteres.",
+                "Teléfono debe tener entre 7 a 15 caracteres.",
+                "Descripción debe tener entre 1 y 255 caracteres.",
+                "Nombre del administrador debe tener entre 8 y 100 caracteres.",
+                "Teléfono solo puede tener numeros, *, # y -"
             ]
             var ver = [];
             ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
@@ -118,7 +118,7 @@
                 $http.get('/api/sedes/').success(function (data) {
                     for (var i = 0; i < data.length; i++)
                         if (data[i].id == idSede) {
-                            console.log("SedeObtuvida: " + data[i]);
+                            console.log("SedeObtenida: " + data[i]);
                             //mostrarSede(data[i]);
                             break;
                         }
@@ -173,7 +173,7 @@
                                             jQuery("#jqGrid").trigger('reloadGrid');
                                         }
                                     }).error(function (data2) {
-                                        mensaje = "No se pudo dehabilitar sede";
+                                        mensaje = "No se pudo dehabilitar sede.";
                                     });
                                     break;
                                 }
@@ -309,39 +309,39 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre(*) :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Descripcion de Sede">
+                        <input type="text" class="form-control" id="nombre" placeholder="Descripción de Sede">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
+                    <label for="direccion" class="col-md-4 control-label">Dirección(*) :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="direccion" placeholder="Direccion de Sede">
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección de Sede">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripción :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
+                        <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <label for="telefono" class="col-md-4 control-label">Teléfono :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="telefono" placeholder="solo numeros">
+                        <input type="text" class="form-control" id="telefono" placeholder="Solo números">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="administrador" class="col-md-4 control-label">Administrador</label>
+                    <label for="administrador" class="col-md-4 control-label">Administrador :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="administrador" placeholder="">
                     </div>
@@ -349,7 +349,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Estado</label>
+                    <label class="col-md-4 control-label">Estado(*) :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
                             <option value="HABILITADO">HABILITADO</option>
