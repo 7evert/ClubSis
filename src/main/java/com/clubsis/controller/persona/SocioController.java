@@ -41,11 +41,9 @@ public class SocioController {
     }
 
 
-    @RequestMapping(value = "/{id}/actualizar", method = RequestMethod.PUT)
-    public Socio update(@PathVariable Integer id, @RequestBody Socio socio){
-        Socio socioExistente = servicioMembresias.buscarSocio(id);
-        socio.setTipo(socioExistente.getTipo());
-        return servicioMembresias.actualizarSocio(id,socio);
+    @RequestMapping(value = "/{id}/{idTipo}/actualizar", method = RequestMethod.POST)
+    public Socio update(@PathVariable Integer id,@PathVariable Integer idTipo, @RequestBody Socio socio){
+        return servicioMembresias.actualizarSocio(id,idTipo,socio);
     }
 
     @RequestMapping(value="/{id}/inhabilitar",method = RequestMethod.PUT)
@@ -56,7 +54,7 @@ public class SocioController {
         socio.setCodigoCarnet(socioExistente.getCodigoCarnet());
         socio.setInvitados(socioExistente.getInvitados());
         socio.setFechaInscripcion(socioExistente.getFechaInscripcion());
-        return servicioMembresias.actualizarSocio(id,socio);
+        return servicioMembresias.actualizarSocio(id,socio.getTipo().getId(),socio);
     }
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)
     public List<Pago> mostrarPagos(@PathVariable Integer id) {

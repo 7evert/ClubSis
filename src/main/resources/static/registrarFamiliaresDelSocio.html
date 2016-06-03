@@ -85,16 +85,16 @@
             $("#date-picker-FechaNacimiento")[0].value="";
         }
         function verificarDatos() {
-            var mensajes = ["Nombre debe tener entre 1 y 50 letras",
-                "Apellido Paterno debe tener entre 1 y 50 letras",
-                "Apellido Materno debe tener entre 1 y 50 letras",
-                "Debe elegir algun tipo de documento",
-                "Numero Documento debe ser un Numero",
-                "La direccion debe tener como maximo 50 caracteres",
-                "el correo.debe tener como maximo 30 caracteres",
-                "el telefono debe contener solo letras alfanumericos y/o *#",
-                "La fecha de Nacimiento debe ser fecha valida",
-                "La fecha de nacimiento debe ser antes de hoy"
+            var mensajes = ["Nombre debe tener entre 1 y 50 letras.",
+                "Apellido Paterno debe tener entre 1 y 50 letras.",
+                "Apellido Materno debe tener entre 1 y 50 letras.",
+                "Debe elegir algun tipo de documento.",
+                "El número de documento debe ser un número.",
+                "La dirección debe tener como máximo 50 caracteres.",
+                "El correo.debe tener como máximo 30 caracteres.",
+                "El telefono debe contener solo alfanumericos y/o *#.",
+                "La fecha de nacimiento debe ser fecha valida.",
+                "La fecha de nacimiento debe ser antes de hoy."
             ];
             var ver = [], i = 0;
             ver[i++] = $("#nombre").val().length < 50 && $("#nombre").val().length > 0;
@@ -168,7 +168,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="socio" class="col-md-4 control-label">Socio</label>
+                    <label for="socio" class="col-md-4 control-label">Socio(*): </label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="socio" disabled>
                     </div>
@@ -176,7 +176,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="titular" class="col-md-4 control-label">Titular</label>
+                    <label for="titular" class="col-md-4 control-label">Titular(*): </label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="titular" disabled>
                     </div>
@@ -184,7 +184,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="esTitular" class="col-md-4 control-label">Es Titular</label>
+                    <label for="esTitular" class="col-md-4 control-label">Es Titular(*): </label>
                     <div class="col-md-8">
                         <select id="esTitular" class="form-control">
                             <option value="0">Titular</option>
@@ -195,7 +195,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombres</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombres(*): </label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nombre" placeholder="NOMBRES">
                     </div>
@@ -203,7 +203,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno</label>
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno(*): </label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoPaterno" placeholder="Precio">
                     </div>
@@ -211,7 +211,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno</label>
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno(*): </label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoMaterno" placeholder="Precio">
                     </div>
@@ -219,7 +219,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo Documento</label>
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo Documento(*): </label>
                     <div class="col-md-8">
                         <select id="tipoDocumento" class="form-control">
                             <option value="0">Elegir</option>
@@ -232,7 +232,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="numeroDocumento" class="col-md-4 control-label">Nro. Documento</label>
+                    <label for="numeroDocumento" class="col-md-4 control-label">Nro. Documento(*): </label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="numeroDocumento" placeholder="919191">
                     </div>
@@ -240,7 +240,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
+                    <label for="direccion" class="col-md-4 control-label">Direccion :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="direccion" placeholder="Precio">
                     </div>
@@ -248,7 +248,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="correo" class="col-md-4 control-label">Correo</label>
+                    <label for="correo" class="col-md-4 control-label">Correo :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="correo" placeholder="...@....com">
                     </div>
@@ -256,7 +256,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <label for="telefono" class="col-md-4 control-label">Telefono :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="telefono" placeholder="....">
                     </div>
@@ -264,7 +264,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="control-label col-md-4">Fecha de Nacimiento</label>
+                    <label class="control-label col-md-4">Fecha de Nacimiento :</label>
                     <div class="input-group input-append date col-md-8">
                         <input id="date-picker-FechaNacimiento" type="text"
                                class="date-picker form-control col-xs-6"/>

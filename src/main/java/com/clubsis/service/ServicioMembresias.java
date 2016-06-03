@@ -83,19 +83,17 @@ public class ServicioMembresias {
         return socioRepository.saveAndFlush(socio);
     }
 
-    public Socio actualizarSocio(Integer id, Socio socio){
+    public Socio actualizarSocio(Integer id, Integer idTipo, Socio socio){
         Socio socioExistente= socioRepository.findOne(id);
-        BeanUtils.copyProperties(socio,socioExistente);
+        TipoSocio tipo = tipoSocioRepository.findOne(idTipo);
+        socioExistente.setTipo(tipo);
+        socioExistente.setFechaInscripcion(socio.getFechaInscripcion());
+        socioExistente.setCodigoCarnet(socio.getCodigoCarnet());
+        socioExistente.setEstado(socio.getEstado());
         return socioRepository.saveAndFlush(socioExistente);
     }
 
-    public List<Socio> buscarSocioPorCodigo(String codigo){
-        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "jpa" );
-        EntityManager entitymanager = emfactory.createEntityManager();
-        Query query = entitymanager.createQuery("Select e " + "from Socio e " + "where e.codigoCarnet= " + codigo);
-        List<Socio> list = (List<Socio>)query.getResultList();
-        return list;
-    }
+
     //Tipo Socio
     public List<TipoSocio> mostrarTiposSocios(){return tipoSocioRepository.findAll();}
     public TipoSocio buscarTipoSocio(Integer id) {return  tipoSocioRepository.findOne(id);}
