@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis - Mantenimiento Concesiones</title>
+    <title>ClubSis - Mantenimiento Productos</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
@@ -68,17 +68,17 @@
         .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
-<body ng-controller="ConcesionController">
+<body ng-controller="ProductoController">
 <script type="text/javascript">
-    function edicionConcesion(){
+    function edicionProducto(){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "edicionConcesion.html?id=" + id;
+        location.href = "edicionProducto.html?id=" + id;
     }
     function accionEliminar() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
-            text: '¿Está seguro de que desea eliminar esta concesión ?',
+            text: '¿Está seguro de que desea eliminar este producto ?',
             type: 'warning',
             buttons: [
                 {
@@ -106,20 +106,16 @@
 <script type="text/javascript">
     var app = angular.module('app', []);
     var funciones={};
-    app.controller('ConcesionController', function ($scope, $http) {
-        $http.get('/api/concesiones').success(function (data) {
-//            alert("2");
-            //    api/tarifaeventos
-            //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+    app.controller('ProductoController', function ($scope, $http) {
+        $http.get('/api/productos').success(function (data) {
             console.log(data);
-
         })
         funciones.eliminar=(function (id) {
-            $http.get('/api/concesiones/' + id).success(function (data2, status) {
-                data2.estadoConcesion = 0;
-                $http.put("/api/concesiones/" + data2.id, data2).success(function (data3, status) {
+            $http.get('/api/productos/' + id).success(function (data2, status) {
+                data2.estadoProducto = 0;
+                $http.put("/api/productos/" + data2.id, data2).success(function (data3, status) {
                     setTimeout(function () {
-                        location.href = "administrarConcesiones.html"
+                        location.href = "administrarProducto.html"
                     }, 1000);
                 });
             });
@@ -135,9 +131,9 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE CONCESIONES
-            <a href=registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
-                Concesión </a>
+            ADMINISTRACIÓN DE PRODUCTOS
+            <a href=registrarProducto.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+                Producto </a>
         </h3>
 
     </div>
@@ -175,7 +171,7 @@
     <!--</div>-->
     <!--</div>-->
     <!--</div>-->
-    <h4>LISTA DE CONCESIONES REGISTRADAS</h4>
+    <h4>LISTA DE PRODUCTOS REGISTRADOS</h4>
     <div class="rowchangeg" style="width: 1000px; margin-left: 0px; ">
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -183,9 +179,9 @@
     <br>
     <div class="leyenda">
         <span>Leyenda: </span>
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Concesión
+        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
         |
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Concesión
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
     </div>
     </form>
 </div>
@@ -209,22 +205,21 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/concesiones',
+        url: '/api/productos',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Número','Razón Social','RUC','Servicios','Administrador','Estado Concesión', 'Acciones'], //define column names
+        colNames:['Número','Nombre','Descripción','Precio Unitario (S/.)','Estado Producto', 'Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', align:'center', key: true, width:50},
-            {name:'razonSocial', index:'razonSocial', align:'center', width:150},
-            {name:'ruc', index:'ruc', align:'center', width:100},
+            {name:'nombre', index:'nombre', align:'center', width:150},
+            {name:'descripcion', index:'descripcion', width:220},
             //{name:'fechaInicio', index:'fechaInicio',width:300},
             //{name:'fechaVencimiento', index:'fechaVencimiento',align:'center', width:110},
-            {name:'servicios', index:'servicios', width:220},
-            {name:'administrador', index:'administrador', align:'center', width:100},
-            {name:'estadoConcesion', index:'estadoConcesion', align:'center', width:100},
+            {name:'precioVentaUnitario', index:'precioVentaUnitario',align:'center', width:100},
+            {name:'estadoProducto', index:'estadoProducto', align:'center', width:100},
             {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -236,7 +231,7 @@
             for (i = 0; i <= rowIds.length; i++) {//iterate over each row
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
                 //set background style if ColumnValue == true
-                if (rowData['estadoConcesion'] == "INHABILITADO") {
+                if (rowData['estadoProducto'] == "INHABILITADO") {
                     $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
                 }
             }
@@ -260,8 +255,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionConcesion();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionProducto();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Producto" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

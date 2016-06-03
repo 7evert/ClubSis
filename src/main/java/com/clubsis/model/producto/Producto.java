@@ -2,6 +2,7 @@ package com.clubsis.model.producto;
 
 import javax.persistence.*;
 
+import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashSet;
@@ -28,16 +29,21 @@ public class Producto {
     @ManyToMany
     private Set<OrdenCompra> ordenes = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "productos")
+    @JsonIgnore
+    private Set<Sede> sedes = new HashSet<>();
+
     protected Producto() {
     }
 
-    public Producto(String descripcion, String nombre, Double precioVentaUnitario, EstadoProducto estadoProducto, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes) {
+    public Producto(String descripcion, String nombre, Double precioVentaUnitario, EstadoProducto estadoProducto, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
         this.descripcion = descripcion;
         this.nombre = nombre;
         this.precioVentaUnitario = precioVentaUnitario;
         this.estadoProducto = estadoProducto;
         this.proveedores = proveedores;
         this.ordenes = ordenes;
+        this.sedes = sedes;
     }
 
     public Integer getId() {
@@ -94,5 +100,13 @@ public class Producto {
 
     public void setOrdenes(Set<OrdenCompra> ordenes) {
         this.ordenes = ordenes;
+    }
+
+    public Set<Sede> getSedes() {
+        return sedes;
+    }
+
+    public void setSedes(Set<Sede> sedes) {
+        this.sedes = sedes;
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Edicion Proveedor</title>
+    <title>Edicion Producto</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -117,98 +117,75 @@
         }
     </script>
     <script type="text/javascript">
-        function llenarDatosProveedor(data2) {
+        function llenarDatosProducto(data2) {
 
-            $("#nombreProv").val(data2.nombre);
-            $("#numRUC").val(data2.ruc);
+            $("#nombreProd").val(data2.nombre);
             $("#descripcion").val(data2.descripcion);
-            $("#telefono").val(data2.numContacto);
-            $("#direc").val(data2.direccion);
-            $("#estadoProveedor").val(data2.estadoProveedor);
-            console.log("Nombre:"+$("#nombreProv").val());
+            $("#precio").val(data2.precioVentaUnitario);
+            $("#estadoProducto").val(data2.estadoProducto);
         }
-        function getProveedor(id){
+        function getProducto(id){
             return {
                 id:id,
-                nombre: $("#nombreProv").val(),
-                ruc: $("#numRUC").val(),
+                nombre: $("#nombreProd").val(),
                 descripcion: $("#descripcion").val(),
-                numContacto: $("#telefono").val(),
-                direccion: $("#direc").val(),
-                estadoProveedor: $("#estadoProveedor").val()
+                precioVentaUnitario: $("#precio").val(),
+                estadoProducto: $("#estadoProducto").val()
             };
         }
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        app2.controller('edicionProveedorController', function ($scope, $http) {
+        app2.controller('edicionProductoController', function ($scope, $http) {
             var id = getID();
             console.log(id);
             if(id==undefined){
                 //location.href="administrarProveedores1.html"
             }
-            $http.get('/api/proveedores/'+id).success(function (data2, status) {
-                llenarDatosProveedor(data2);
+            $http.get('/api/productos/'+id).success(function (data2, status) {
+                llenarDatosProducto(data2);
             });
             $("#guardar").click(function(){
-                var data=getProveedor(id);
+                var data=getProducto(id);
                 console.log(JSON.stringify(data));
                 if(!validarDatos()){
-                    $http.put("/api/proveedores/"+data.id, data).success(function (data2, status) {
-                        //alert("Tu actualizacion fue exitosa");
+                    $http.put("/api/productos/"+data.id, data).success(function (data2, status) {
                         Notificaciones.showProcesando();
                         Notificaciones.hideAll();
                         setTimeout(function () {
-                            location.href = "administrarProveedores1.html"
+                            location.href = "administrarProducto.html"
                         }, 1000);
-                    //location.href = "administrarProveedores1.html";
                     }).error(function (data) {
-                        //aca lo que se hara en caso falle
                         Notificaciones.showError("Error al editar proveedor");
-                        console.log("fallo");
                     });
 
                 }
 
             });
             $("#cancelar").click(function(){
-                location.href = "administrarProveedores1.html";
+                location.href = "administrarProducto.html";
             });
 
             function validarDatos() {
-                var nombre=$("#nombreProv").val();
-                var ruc= $("#numRUC").val();
+                var nombre=$("#nombreProd").val();
                 var descripcion = $("#descripcion").val();
-                var numContacto= $("#telefono").val();
-                var direccion = $("#direc").val();
-                var estado=$("#estadoProveedor").val();
+                var precio= $("#precio").val();
+                var estado=$("#estadoProducto").val();
 
                 if(!nombre){
-                    console.log($("#nombreProv").val());
-                    console.log(nombre);
-                    console.log("No hay nombre");
+                    console.log($("#nombreProd").val());
                     Notificaciones.showError('Nombre de proveedor requerido');
                     $("#nombreProv").css("border-color", "red");
                     return true;
                 }
-                else if(!ruc){
-                    Notificaciones.showError('RUC requerido');
-                    $("#numRUC").css("border-color", "red");
-                    return true;
-                }
                 else if(!descripcion){
-                    Notificaciones.showError('Descripción del rubro del proveedor requerido');
+                    Notificaciones.showError('Descripción del producto requerido');
                     $("#descripcion").css("border-color", "red");
                     return true;
                 }
-                else if(!numContacto){
-                    Notificaciones.showError('Número de contacto requerido');
-                    $("#telefono").css("border-color", "red");
-                    return true;
-                }
-                else if(!direccion){
-                    Notificaciones.showError('Dirección requerida');
-                    $("#direc").css("border-color", "red");
+                else if(!precio){
+                    Notificaciones.showError('Precio de venta unitario requerido');
+                    $("#precio").css("border-color", "red");
                     return true;
                 }
                 else if(!estado){
@@ -220,73 +197,61 @@
                 return false;
             }
 
-            $("#nombreProv").click(function () {
-                $("#nombreProv").css("border-color", "#ccc");
-            });
-            $("#numRUC").click(function () {
-                $("#numRUC").css("border-color", "#ccc");
+            $("#nombreProd").click(function () {
+                $("#nombreProd").css("border-color", "#ccc");
             });
             $("#descripcion").click(function () {
                 $("#descripcion").css("border-color", "#ccc");
             });
-            $("#telefono").click(function () {
-                $("#telefono").css("border-color", "#ccc");
+            $("#precio").click(function () {
+                $("#precio").css("border-color", "#ccc");
             });
-            $("#nombreProv").click(function () {
-                $("#direc").css("border-color", "#ccc");
+            $("#estadoProducto").click(function () {
+                $("#estadoProducto").css("border-color", "#ccc");
             });
         });
     </script>
 </head>
-<body ng-controller="edicionProveedorController">
+<body ng-controller="edicionProductoController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Edición Proveedor</h2>
+    <h2>Edición Producto</h2>
     <hr>
-        <form id="formEditarProveedor" class="form-horizontal mitadDerecha">
-        <div id="NombreProveedor" class="form-group">
-            <label class="control-label col-xs-4">Nombre Proveedor</label>
+    <form id="formEditarProducto" class="form-horizontal mitadDerecha">
+        <div id="NombreProducto" class="form-group">
+            <label class="control-label col-xs-4">Nombre Producto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="nombreProv" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Escriba el nombre..." required/>
+                <input id="nombreProd" type="text" class="form-control col-xs-8" ng-model="nombre" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
-        <div id="RUC" class="form-group">
-            <label class="control-label col-xs-4">RUC</label>
+        <div id="Descripción" class="form-group">
+            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
+                <textarea id="descripcion" name="Descripción" rows="5" class="form-control col-xs-8" ng-model="descripcion" placeholder="Especificar el rubro..." required/></textarea>
             </div>
         </div>
-        <div id="Descripcion" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
+        <div id="precioVenta" class="form-group">
+            <label class="control-label col-xs-4">Precio de Venta S/.<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
-            </div>
-        </div>
-        <div id="numContacto" class="form-group">
-            <label class="control-label col-xs-4"># Contacto</label>
-            <div class="input-group col-xs-8">
-                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese # de contacto..." required/>
-            </div>
-        </div>
-        <div id="Direccion" class="form-group">
-            <label class="control-label col-xs-4">Direccion</label>
-            <div class="input-group col-xs-8">
-                <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="precio" type="text" class="form-control col-xs-8" ng-model="precio" maxlength="9"  placeholder="Ingrese # de contacto..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
+            <label for="estadoProducto" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
-                <select class="form-control" id="estadoProveedor"  required>
+                <select class="form-control" id="estadoProducto">
                     <option>INHABILITADO</option>
                     <option>HABILITADO</option>
                 </select>
             </div>
         </div>
-
-
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
