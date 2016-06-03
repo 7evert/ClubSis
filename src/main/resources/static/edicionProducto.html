@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Añadir Horario Nuevo</title>
+    <title>Edicion Producto</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -24,7 +24,6 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
-
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -71,23 +70,12 @@
             color: #FF0000;
         }
     </style>
-
     <script type="text/javascript">
-        var idacademia = 0;
-        var idciclo = 0;
-
-        //        function getID() {
-        //            var href = this.location.href;
-        //            var str = href.match(/\?id\=(\d+)/);
-        //            return str ? str[1] : str;
-        //        }
-
-        function getIDSocioYEvento() {
+        function getID() {
             var href = this.location.href;
-            var str = href.match(/\?id\=(\d+)&idClase\=(\d+)&idAcademia\=(\d+)/);
-            return str ? [str[1], str[2], str[3]] : undefined;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
         }
-
         function mostraridEvento(id){
             $("#idEvento").html("Evento Numero "+id);
         }
@@ -127,175 +115,141 @@
         function mostrarSede(sede){
             $("#sede").html(sede.nombre);
         }
-
     </script>
     <script type="text/javascript">
-        var idCiclo;
-        var idAcademia;
+        function llenarDatosProducto(data2) {
 
-//        function llenarDatosTaller(data2) {
-//            $("#dia").val(data2.dia);
-//            $("#horaInicio").val(data2.horaInicio);
-//            $("#horaFin").val(data2.horaFin);
-//            $("#estadoHorario").val(data2.estadoHorario);
-//            $("#instalacion").val(data2.instalacion["id"]);
-//
-//            /*
-//             for(var i = 0; i < data2.length; i++){
-//             $("#nivel").val(data2[i].nivel);
-//             $("#rangoEdad").val(data2[i].rangoEdad);
-//             $("#precioMes").val(data2[i].precioMes);
-//             $("#precioCiclo").val(data2[i].precioCiclo);
-//             $("#capacidad").val(data2[i].capacidad);
-//             $("#profesor").val(data2[i].profesor);
-//             $("#estadoProveedor").val(data2.estadoProveedor+0);}
-//             */
-//        }
-        function getDatosTaller(id) {
+            $("#nombreProd").val(data2.nombre);
+            $("#descripcion").val(data2.descripcion);
+            $("#precio").val(data2.precioVentaUnitario);
+            $("#estadoProducto").val(data2.estadoProducto);
+        }
+        function getProducto(id){
             return {
-
-                dia: $("#dia").val(),
-                rangoEdad: $("#rangoEdad").val(),
-                horaInicio: $("#horaInicio").val(),
-                horaFin: $("#horaFin").val(),
-                estadoHorario: $("#estadoHorario").val(),
-                instalacion: {id: $("#instalacion").val()},
-                clase: {id: id}
+                id:id,
+                nombre: $("#nombreProd").val(),
+                descripcion: $("#descripcion").val(),
+                precioVentaUnitario: $("#precio").val(),
+                estadoProducto: $("#estadoProducto").val()
             };
         }
-
+    </script>
+    <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        app2.controller('edicionTallerController', function ($scope, $http) {
-
-            var ids, id, idClac, idAcad;
-            ids = getIDSocioYEvento();
-            id = ids ? ids[0] : ids;
-            idClac = ids ? ids[1] : ids;
-            idAcad = ids ? ids[2] : ids;
-
+        app2.controller('edicionProductoController', function ($scope, $http) {
+            var id = getID();
             console.log(id);
-            if (id == undefined) {
-                location.href = "VerTaller.html"
+            if(id==undefined){
+                //location.href="administrarProveedores1.html"
             }
-//            $http.get('/api/horarios/' + id).success(function (data2, status) {
-//                llenarDatosTaller(data2);
-//
-//            });
-
-            $("#guardar").click(function () {
-                var data = getDatosTaller(id);
+            $http.get('/api/productos/'+id).success(function (data2, status) {
+                llenarDatosProducto(data2);
+            });
+            $("#guardar").click(function(){
+                var data=getProducto(id);
                 console.log(JSON.stringify(data));
-
                 if(!validarDatos()){
-                    $http.post("/api/horarios", data).success(function (data2, status) {
-                        //alert("Tu actualizacion fue exitosa");
+                    $http.put("/api/productos/"+data.id, data).success(function (data2, status) {
                         Notificaciones.showProcesando();
                         Notificaciones.hideAll();
                         setTimeout(function () {
-                            location.href = "VerTaller.html?id=" + idAcad
+                            location.href = "administrarProducto.html"
                         }, 1000);
-                        //location.href = "administrarProveedores1.html";
                     }).error(function (data) {
-                        //aca lo que se hara en caso falle
-                        Notificaciones.showError("Error al editar horario");
-                        console.log("fallo");
+                        Notificaciones.showError("Error al editar proveedor");
                     });
 
                 }
+
             });
-            $("#cancelar").click(function () {
-                location.href = "VerTaller.html?id=" + idAcad;
+            $("#cancelar").click(function(){
+                location.href = "administrarProducto.html";
             });
 
             function validarDatos() {
-                var dia=$("#dia").val();
-                var horaInicio= $("#horaInicio").val();
-                var horaFin = $("#horaFin").val();
-                var instalacion= $("#instalacion").val();
+                var nombre=$("#nombreProd").val();
+                var descripcion = $("#descripcion").val();
+                var precio= $("#precio").val();
+                var estado=$("#estadoProducto").val();
 
-
-                if(!dia){
-                    console.log($("#dia").val());
-                    Notificaciones.showError('Debe insertar un dia');
-                    $("#dia").css("border-color", "red");
+                if(!nombre){
+                    console.log($("#nombreProd").val());
+                    Notificaciones.showError('Nombre de proveedor requerido');
+                    $("#nombreProv").css("border-color", "red");
                     return true;
                 }
-                else if(!horaInicio){
-                    Notificaciones.showError('Se necesita una hora de inicio');
-                    $("#horaInicio").css("border-color", "red");
+                else if(!descripcion){
+                    Notificaciones.showError('Descripción del producto requerido');
+                    $("#descripcion").css("border-color", "red");
                     return true;
                 }
-                else if(!horaFin){
-                    Notificaciones.showError('Se necesita una hora de fin');
-                    $("#horaFin").css("border-color", "red");
+                else if(!precio){
+                    Notificaciones.showError('Precio de venta unitario requerido');
+                    $("#precio").css("border-color", "red");
                     return true;
                 }
-                else if(!instalacion){
-                    Notificaciones.showError('Debe ingresar el ID de la instalación');
-                    $("#instalacion").css("border-color", "red");
+                else if(!estado){
+                    Notificaciones.showError('Estado requerido');
+                    $("#estadoProveedor").css("border-color", "red");
                     return true;
                 }
-
-
 
                 return false;
             }
-            $("#dia").click(function () {
-                $("#dia").css("border-color", "#ccc");
-            });
-            $("#horaInicio").click(function () {
-                $("#horaInicio").css("border-color", "#ccc");
-            });
-            $("#horaFin").click(function () {
-                $("#horaFin").css("border-color", "#ccc");
-            });
-            $("#instalacion").click(function () {
-                $("#instalacion").css("border-color", "#ccc");
-            });
 
+            $("#nombreProd").click(function () {
+                $("#nombreProd").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+            $("#precio").click(function () {
+                $("#precio").css("border-color", "#ccc");
+            });
+            $("#estadoProducto").click(function () {
+                $("#estadoProducto").css("border-color", "#ccc");
+            });
         });
     </script>
 </head>
-<body ng-controller="edicionTallerController">
+<body ng-controller="edicionProductoController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Agregar Nuevo Horario</h2>
+    <h2>Edición Producto</h2>
     <hr>
-    <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
-        <div id="HorarioDia" class="form-group">
-            <label class="control-label col-xs-4">Día<span class="obligatorio"> *</span></label>
+    <form id="formEditarProducto" class="form-horizontal mitadDerecha">
+        <div id="NombreProducto" class="form-group">
+            <label class="control-label col-xs-4">Nombre Producto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="dia" type="text" class="form-control col-xs-8" maxlength="20" placeholder="Escriba el día..." required/>
+                <input id="nombreProd" type="text" class="form-control col-xs-8" ng-model="nombre" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
-        <div id="HoraInicioHorario" class="form-group">
-            <label class="control-label col-xs-4">Hora Inicio<span class="obligatorio"> *</span></label>
+        <div id="Descripción" class="form-group">
+            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="horaInicio" type="time" class="form-control col-xs-8" maxlength="30" ng-model="ruc" placeholder="Escriba la hora de inicio..."required/>
+                <textarea id="descripcion" name="Descripción" rows="5" class="form-control col-xs-8" ng-model="descripcion" placeholder="Especificar el rubro..." required/></textarea>
             </div>
         </div>
-        <div id="HoraFinHorario" class="form-group">
-            <label class="control-label col-xs-4">Hora Fin<span class="obligatorio"> *</span></label>
+        <div id="precioVenta" class="form-group">
+            <label class="control-label col-xs-4">Precio de Venta S/.<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="horaFin" type="time" class="form-control col-xs-8" maxlength="30" placeholder="Ingrese la hora de fin..." required/>
+                <input id="precio" type="text" class="form-control col-xs-8" ng-model="precio" maxlength="9"  placeholder="Ingrese # de contacto..." required/>
             </div>
         </div>
-        <div id="InstalacionHorario" class="form-group">
-            <label class="control-label col-xs-4">ID Instalación<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="instalacion" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el codigo de la instalacion..." required/>
-            </div>
-        </div>
-
         <div class="form-group">
-            <label for="estadoHorario" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
+            <label for="estadoProducto" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
-                <select class="form-control" id="estadoHorario"  required>
+                <select class="form-control" id="estadoProducto">
                     <option>INHABILITADO</option>
                     <option>HABILITADO</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
             </div>
         </div>
         <div class="form-group">

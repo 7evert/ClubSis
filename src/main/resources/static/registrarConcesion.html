@@ -69,19 +69,18 @@
         }
     </style>
 </head>
-<body ng-controller="ProveedorController">
+<body ng-controller="ConcesionController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Registrar Proveedor</h2>
+    <h2>Registrar Concesión</h2>
     <hr>
-    <form id="formRegistrarProveedores" class="form-horizontal mitadDerecha">
-
-        <div id="NombreProveedor" class="form-group">
-            <label class="control-label col-xs-4">Nombre Proveedor<span class="obligatorio"> *</span></label>
+    <form id="formRegistrarConcesiones" class="form-horizontal mitadDerecha">
+        <div id="RazonSocial" class="form-group">
+            <label class="control-label col-xs-4">Razón Social<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="nombreProv" type="text" class="form-control col-xs-8" ng-model="nombre" maxlength="50" placeholder="Escriba el nombre..." required/>
+                <input id="razon" type="text" class="form-control col-xs-8" ng-model="razon" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
         <div id="RUC" class="form-group">
@@ -90,10 +89,35 @@
                 <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="11" placeholder="Escriba el RUC..." required/>
             </div>
         </div>
-        <div id="Descripción" class="form-group">
-            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
+        <div class="form-group col-sm-6 col-lg-5" style="margin-left: 52px;">
+            <label for="fechaInicio" class="col-md-5 control-label">Inicio<span class="obligatorio">*</span></label>
+            <div class="input-group input-append date col-md-7">
+                <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                <label for="fechaInicio" class="input-group-addon btn"><span
+                        class="glyphicon glyphicon-calendar"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group col-sm-6 col-lg-5" style="margin-left: 54px;">
+            <label for="fechaFin" class="col-md-5 control-label">Fin<span class="obligatorio">*</span></label>
+            <div class="input-group input-append date col-md-7">
+                <input ng-model=fechaFin id="fechaFin" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                <label for="fechaFin" class="input-group-addon btn"><span
+                        class="glyphicon glyphicon-calendar"></span>
+                </label>
+            </div>
+        </div>
+
+        <div id="Servicio" class="form-group">
+            <label class="control-label col-xs-4">Servicio<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <textarea id="descripcion" name="Descripción" rows="5" class="form-control col-xs-8" ng-model="descripcion" placeholder="Especificar el rubro..." required/></textarea>
+                <textarea id="servi" rows="5" class="form-control col-xs-8" ng-model="servicio" placeholder="Por ejemplo:Alimentos y Bebidas..." required/></textarea>
+            </div>
+        </div>
+        <div id="Nombre de Administrador" class="form-group">
+            <label class="control-label col-xs-4">Nombre de administrador<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="admin" type="text" class="form-control col-xs-8" ng-model="admin" placeholder="Ingrese una direccion..." required/>
             </div>
         </div>
         <div id="numContacto" class="form-group">
@@ -102,16 +126,10 @@
                 <input id="telefono" type="text" class="form-control col-xs-8" ng-model="numContacto" maxlength="9"  placeholder="Ingrese # de contacto..." required/>
             </div>
         </div>
-        <div id="Direccion" class="form-group">
-            <label class="control-label col-xs-4">Dirección<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="direc" type="text" class="form-control col-xs-8" ng-model="direccion" placeholder="Ingrese una direccion..." required/>
-            </div>
-        </div>
         <div class="form-group">
-            <label for="estadoProveedor" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
+            <label for="estadoConcesion" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
-                <select class="form-control" id="estadoProveedor">
+                <select class="form-control" id="estadoConcesion">
                     <option>INHABILITADO</option>
                     <option>HABILITADO</option>
                 </select>
@@ -125,7 +143,7 @@
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-8">
                 <input type="button" id="btnRegistrar" value="Guardar" class="btn btn-primary" style="width:25%"/>
-                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores1.html';"/>
+                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarConcesiones.html';"/>
                 <!input type="submit" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores.html';"/>
             </div>
         </div>
@@ -147,67 +165,76 @@
 <script src="js/principal.js"></script>
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
+    $('#fechaInicio').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+    $('#fechaFin').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
     var app = angular.module('app', []);
-    //    $("#btnRegistrar").click(function () {
+    app.controller('ConcesionController', function ($scope, $http) {
 
-/*//        app.controller('BungalowsController', function ($scope, $http) {
-//            $http.get('/api/bungalows').success(function (data) {
-//                DATABUNGALOWS=data;//eso deberia ser pero como no tengo link
-//                //lo pongo harcodeado que esta en la linea 34
-//
-//                //DATABUNGALOWS=dataJSON;
-//                llenarListaBungalows1(DATABUNGALOWS);
-//                cambiarDeUsuario(administrador,Agregar,funciones);
-//                mostrarNext5();
-//            })
-//        });*/
-    app.controller('ProveedorController', function ($scope, $http) {
         $("#btnRegistrar").click(function () {
-            console.log("Entro");
-            $scope.regsitrarProveedor = function () {
-                console.log("Entro 2");
+            $scope.registrarConcesion = function () {
+                var fechaInicio="";
+                var fechaFin="";
+
+                function convertirFecha(fecha) {
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    return mes + '/' + dia + '/' + anho;
+                }
+                if($("#fechaInicio").val() != "") {
+                    console.log($("#fechaInicio").val());
+                    fechaInicio = convertirFecha($("#fechaInicio").val());
+                    console.log(fechaInicio);
+                }
+                if($("#fechaFin").val() != "") {
+                    fechaFin = convertirFecha($("#fechaFin").val());
+                }
                 var data = {
-                    //por preguntar
-                    //idSuspension: null,
-                    'nombre': $scope.nombre,
+                    'razonSocial': $scope.razon,
                     'ruc': $scope.ruc,
-                    'descripcion': $scope.descripcion,
-                    'numContacto': $scope.numContacto,
-                    'direccion': $scope.direccion,
-                    'estadoProveedor':$("#estadoProveedor").val()
+                    //'fechaInicio':fechaInicio,
+                    //'fechaVencimiento':fechaFin,
+                    'servicios': $("#servi").val(),
+                    'telefono': $("#telefono").val(),
+                    'administrador': $("#admin").val(),
+                    'estadoConcesion':$("#estadoConcesion").val()
                 };
-//                var jsonObj = JSON.parse(data);
-                console.log(data);
+
                 if(!validarDatos()) {
-                    $http.post('/api/proveedores', data).success(function (data) {
+                    console.log(data);
+                    $http.post('/api/concesiones', data).success(function (data) {
                                 Notificaciones.showProcesando();
                                 Notificaciones.hideAll();
                                 setTimeout(function () {
-                                    location.href = "administrarProveedores1.html"
+                                    location.href = "administrarConcesiones.html"
                                 }, 1000);
                             })
                             .error(function (data) {
                                 //aca lo que se hara en caso falle
-                                Notificaciones.showError("Error al registrar proveedor");
-                                console.log("fallo");
+                                Notificaciones.showError("Error al registrar concesión");
                             });
                 }
             }();
         });
-        
+
         function validarDatos() {
-            var nombre=$scope.nombre;
+            var nombre=$scope.razon;
             var ruc= $scope.ruc;
-            var descripcion = $scope.descripcion;
+            var fechaInicio =  $("#fechaInicio").val();
+            var fechaFin =  $("#fechaFin").val();
+            var servicio = $scope.servicio;
             var numContacto= $scope.numContacto;
-            var direccion = $scope.direccion;
+            var admin = $scope.admin;
             var estadoProveedor =$("#estadoProveedor").val();
 
             if(!nombre){
-                //alert("No hay nombre");
-                console.log("No hay nombre");
-                Notificaciones.showError('Nombre de proveedor requerido');
-                $("#nombreProv").css("border-color", "red");
+                Notificaciones.showError('Razón Social requerida');
+                $("#razon").css("border-color", "red");
                 return true;
             }
             else if(!ruc){
@@ -215,9 +242,19 @@
                 $("#numRUC").css("border-color", "red");
                 return true;
             }
-            else if(!descripcion){
-                Notificaciones.showError('Descripción del rubro del proveedor requerido');
-                $("#descripcion").css("border-color", "red");
+            else if(!fechaInicio) {
+                Notificaciones.showError('Fecha de inicio de la concesión requerida');
+                $("#fechaInicio").css("border-color", "red");
+                return true;
+            }
+            else if(!fechaFin){
+                Notificaciones.showError('Fecha de fin de la concesión requerida');
+                $("#fechaFin").css("border-color", "red");
+                return true;
+            }
+            else if(!servicio){
+                Notificaciones.showError('Servicio de la concesión requerido');
+                $("#servicio").css("border-color", "red");
                 return true;
             }
             else if(!numContacto){
@@ -225,29 +262,35 @@
                 $("#telefono").css("border-color", "red");
                 return true;
             }
-            else if(!direccion){
-                Notificaciones.showError('Dirección requerida');
-                $("#direc").css("border-color", "red");
+            else if(!admin){
+                Notificaciones.showError('Nombre del administrador requerido');
+                $("#admin").css("border-color", "red");
                 return true;
             }
 
             return false;
         }
 
-        $("#nombreProv").click(function () {
-            $("#nombreProv").css("border-color", "#ccc");
+        $("#razon").click(function () {
+            $("#razon").css("border-color", "#ccc");
         });
         $("#numRUC").click(function () {
             $("#numRUC").css("border-color", "#ccc");
         });
-        $("#descripcion").click(function () {
-            $("#descripcion").css("border-color", "#ccc");
+        $("#fechaInicio").click(function () {
+            $("#fechaInicio").css("border-color", "#ccc");
+        });
+        $("#fechaFin").click(function () {
+            $("#fechaFin").css("border-color", "#ccc");
+        });
+        $("#servicio").click(function () {
+            $("#servicio").css("border-color", "#ccc");
         });
         $("#telefono").click(function () {
             $("#telefono").css("border-color", "#ccc");
         });
-        $("#nombreProv").click(function () {
-            $("#direc").css("border-color", "#ccc");
+        $("#admin").click(function () {
+            $("#admin").css("border-color", "#ccc");
         });
     });
     //    });

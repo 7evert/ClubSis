@@ -3,6 +3,7 @@ package com.clubsis.model.sede;
 import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.producto.OrdenCompra;
+import com.clubsis.model.producto.Producto;
 import com.clubsis.model.producto.Proveedor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -47,6 +48,9 @@ public class Sede {
 
     @ManyToMany
     private Set<Concesion> concesiones = new HashSet<>();
+
+    @ManyToMany
+    private Set<Producto> productos = new HashSet<>();
 
     protected Sede() {
     }

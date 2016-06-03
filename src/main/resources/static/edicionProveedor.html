@@ -247,37 +247,37 @@
     <hr>
         <form id="formEditarProveedor" class="form-horizontal mitadDerecha">
         <div id="NombreProveedor" class="form-group">
-            <label class="control-label col-xs-4">Nombre Proveedor</label>
+            <label class="control-label col-xs-4">Nombre Proveedor<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="nombreProv" type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..." required/>
+                <input id="nombreProv" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
         <div id="RUC" class="form-group">
-            <label class="control-label col-xs-4">RUC</label>
+            <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
             </div>
         </div>
         <div id="Descripcion" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
+            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
             </div>
         </div>
         <div id="numContacto" class="form-group">
-            <label class="control-label col-xs-4"># Contacto</label>
+            <label class="control-label col-xs-4"># Contacto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese # de contacto..." required/>
             </div>
         </div>
         <div id="Direccion" class="form-group">
-            <label class="control-label col-xs-4">Direccion</label>
+            <label class="control-label col-xs-4">Direccion<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
+            <label for="estadoProveedor" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
                 <select class="form-control" id="estadoProveedor"  required>
                     <option>INHABILITADO</option>

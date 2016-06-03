@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis - Administrar Talleres</title>
+    <title>ClubSis - Mantenimiento Concesiones</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
@@ -30,6 +30,7 @@
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
+
         .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
@@ -38,9 +39,11 @@
             background-color: #ededed;
             border-color: #ededed;
         }
+
         .icono {
             width: 19px;
         }
+
         h4 {
             background: #008D34;
             color: white;
@@ -50,11 +53,11 @@
             padding-bottom: 2px;
             margin-top: 0px;
         }
+
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
-
         .centered1 {
             margin-right: 0px;
         }
@@ -63,22 +66,19 @@
             margin-right: 510px;
         }
         .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
-
     </style>
 </head>
-<body ng-controller="AcademiaController">
+<body ng-controller="ConcesionController">
 <script type="text/javascript">
-    function edicionTaller(){
-        var id = event.target.parentNode.getAttribute("data-idTaller-modificar");
-        location.href = "VerTaller.html?id=" + id;
+    function edicionConcesion(){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "edicionConcesion.html?id=" + id;
     }
     function accionEliminar() {
-        var id = event.target.parentNode.getAttribute("data-idTaller-eliminar");
-        console.log("Accion:");
-        console.log(id);
+        var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
-            text: '¿Está seguro de que desea inhabilitar el taller?',
+            text: '¿Está seguro de que desea eliminar esta concesión ?',
             type: 'warning',
             buttons: [
                 {
@@ -98,7 +98,6 @@
         });
     }
 </script>
-
 <script type="text/javascript">
     //app script
     var app = angular.module('app', []);
@@ -107,29 +106,26 @@
 <script type="text/javascript">
     var app = angular.module('app', []);
     var funciones={};
-    app.controller('AcademiaController', function ($scope, $http) {
-        $http.get('/api/academias').success(function (data) {
+    app.controller('ConcesionController', function ($scope, $http) {
+        $http.get('/api/concesiones').success(function (data) {
 //            alert("2");
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
             console.log(data);
+
         })
         funciones.eliminar=(function (id) {
-            console.log("Quieres eliminar?");
-            //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-            console.log(id);
-            $http.get('/api/academias/' + id).success(function (data2, status) {
-                console.log(data2);
-                data2.estadoAcademia = 0;
-                $http.put("/api/academias/" + id, data2).success(function (data3, status) {
+            $http.get('/api/concesiones/' + id).success(function (data2, status) {
+                data2.estadoConcesion = 0;
+                $http.put("/api/concesiones/" + data2.id, data2).success(function (data3, status) {
                     setTimeout(function () {
-                        location.href = "administrarTalleres2.html"
+                        location.href = "administrarConcesiones.html"
                     }, 1000);
-//                    alert("Este academia ya no esta habilitado");
-//                    location.href = "administrarTalleres2.html";
                 });
             });
         })
+
+
     });
 </script>
 <div id="headerAdministrador"></div>
@@ -139,29 +135,36 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE TALLERES
-            <a href="registrarTaller.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir
-                Taller</a>
+            ADMINISTRACIÓN DE CONCESIONES
+            <a href=registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+                Concesión </a>
         </h3>
+
     </div>
     <hr>
-    <!--<h4>CONSULTA DE TALLERES</h4>-->
+    <!--<h4>CONSULTA DE PROVEEDORES</h4>-->
 
     <!--<form class="form-horizontal">-->
     <!--<div class="row">-->
-
-
-
     <!--<div class="col-sm-6 col-lg-5">-->
     <!--<div class="form-group">-->
     <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
     <!--<div class="col-md-8">-->
-    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
-    <!--</div>-->
+    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del Proveedor">-->
     <!--</div>-->
     <!--</div>-->
 
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Descripción</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="descripcion" placeholder="Palabra Clave">-->
+    <!--</div>-->
+    <!--</div>-->
 
+    <!--</div>-->
+
+    <!--<div class="col-sm-6 col-lg-12">-->
+    <!--</div>-->
     <!--<div class="col-sm-7 col-lg-7">-->
     <!--</div>-->
     <!--<div class="col-sm-5 col-lg-5">-->
@@ -172,18 +175,17 @@
     <!--</div>-->
     <!--</div>-->
     <!--</div>-->
-    <h4>LISTA DE TALLERES</h4>
-    <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+    <h4>LISTA DE CONCESIONES REGISTRADAS</h4>
+    <div class="rowchangeg" style="width: 1000px; margin-left: 0px; ">
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
     <br>
     <div class="leyenda">
         <span>Leyenda: </span>
-        <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
-        <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
-        <!--|-->
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
+        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Concesión
+        |
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Concesión
     </div>
     </form>
 </div>
@@ -205,19 +207,24 @@
 <script src="js/principal.js"></script>
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
+
     $("#jqGrid").jqGrid({
-        url: '/api/academias',
+        url: '/api/concesiones',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Nombre','Descripción','Estado','Acciones'], //define column names
+        colNames:['Número','Razón Social','RUC','Servicios','Administrador','Estado Concesión', 'Acciones'], //define column names
         colModel:[
-            {name:'id', index:'id', key: true, width:50},
-            {name:'nombre', index:'nombre', width:100},
-            {name:'descripcion', index:'descripcion',width:300},
-            {name:'estadoAcademia', index:'estadoAcademia', width:100},
+            {name:'id', index:'id', align:'center', key: true, width:50},
+            {name:'razonSocial', index:'razonSocial', align:'center', width:150},
+            {name:'ruc', index:'ruc', align:'center', width:100},
+            //{name:'fechaInicio', index:'fechaInicio',width:300},
+            //{name:'fechaVencimiento', index:'fechaVencimiento',align:'center', width:110},
+            {name:'servicios', index:'servicios', width:220},
+            {name:'administrador', index:'administrador', align:'center', width:100},
+            {name:'estadoConcesion', index:'estadoConcesion', align:'center', width:100},
             {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -229,17 +236,16 @@
             for (i = 0; i <= rowIds.length; i++) {//iterate over each row
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
                 //set background style if ColumnValue == true
-                if (rowData['estadoAcademia'] == "INHABILITADO") {
+                if (rowData['estadoConcesion'] == "INHABILITADO") {
                     $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
-                } //if
+                }
             }
-            //console.log("salio");
         }
-//        loadComplete:function(){
-//            console.log("salio");
-//        }
     });
-    $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    $('#jqGrid').jqGrid('setGridWidth', '1150');
+
+
     $.extend(true, $.jgrid.edit, {
         recreateForm: true,
         beforeShowForm: function ($form) {
@@ -250,12 +256,16 @@
             });
         }
     });
+
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="edicionTaller();return false;" id="bt1" class="btn btn-warning" data-idTaller-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#" onclick="accionEliminar();return false;" id="bt2"  class="btn btn-warning" data-idTaller-eliminar="' + rowdata['id'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+
+        acciones = '<a href="#" onclick="edicionConcesion();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
+
     }
+
     jQuery("#bt1").click( function() {
         jQuery("#jqGrid").jqGrid('editRow',"13");
         console.log(data);

@@ -246,31 +246,31 @@
 
 
     function accionInhabilitar() {
-            var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
-            console.log("Accion:");
-            console.log(id);
+        var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+        console.log("Accion:");
+        console.log(id);
 
 
-            $.noty.closeAll();
-            noty({
-                text: '¿Está seguro de que desea inhabilitar la clase?',
-                type: 'warning',
-                buttons: [
-                    {
-                        addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
-                        Notificaciones.hideAll();
-                        funciones.eliminar(id);
-                        Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
-                        $noty.close();
-                    }
-                    },
-                    {
-                        addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
-                        $noty.close();
-                    }
-                    }
-                ]
-            });
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea inhabilitar la clase?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    funciones.eliminar(id);
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
 
     }
 
@@ -307,7 +307,7 @@
     var app = angular.module('app', []);
 </script>
 
-<div id="headerAdministrador"></div>
+<div id="headerUsuario"></div>
 <div class="container">
 
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -315,20 +315,20 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE TALLERES
-            <a href="administrarTalleres2.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Regresar</a>
+            RESULTADOS DEL TALLER SELECCIONADO
+            <a href="consultarTalleres.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Regresar</a>
         </h3>
     </div>
     <hr>
-    <h4>EDICIÓN DEL TALLER SELECCIONADO</h4>
+    <h4>DATOS DEL TALLER SELECCIONADO</h4>
 
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio"> *</span></label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
                     <div class="col-md-8">
-                        <input type="text" id="nombre" class="form-control col-xs-8" ng-model="nombre" placeholder="Escriba el nombre..." required/>
+                        <input type="text" id="nombre" class="form-control col-xs-8" readonly ng-model="nombre" placeholder="Escriba el nombre..." required/>
                     </div>
                 </div>
             </div>
@@ -342,9 +342,9 @@
             <!--</div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="estadoAcademia" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
+                    <label for="estadoAcademia" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="estadoAcademia"  required>
+                        <select class="form-control" id="estadoAcademia" readonly required>
                             <option>INHABILITADO</option>
                             <option>HABILITADO</option>
                         </select>
@@ -354,19 +354,19 @@
 
             <div class="col-sm-12 col-lg-10">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-2 control-label">Descripción<span class="obligatorio"> *</span></label>
+                    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
                     <div class="col-md-10">
-                        <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
+                        <textarea id="descripcion" ng-model="descripcion" readonly class="form-control" rows="4"></textarea>
                     </div>
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
             </div>
-            <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
-                    <a href="javascript:void(0)" class="btn btn-primary" class="btn btn-primary" id="guardar">Actualizar</a>
-                </div>
-            </div>
+            <!--<div class="col-sm-5 col-lg-5">-->
+                <!--<div class="form-group" style="margin-left: 110px;">-->
+                    <!--<a href="javascript:void(0)" class="btn btn-primary" class="btn btn-primary" id="guardar">Actualizar</a>-->
+                <!--</div>-->
+            <!--</div>-->
 
         </div>
         <h4>CLASES DEL TALLER SELECCIONADO</h4>
@@ -376,17 +376,17 @@
             <div id="jqGridPager"></div>
         </div>
         <br>
-        <div class="col-sm-5 col-lg-5">
-            <div class="form-group" style="margin-left: 110px;">
-                <a href="#" onclick="añadirDatosTaller();return false;" class="btn btn-primary" id="nuevo">Agregar Nueva Clase</a>
-            </div>
-        </div>
-        <br>
+        <!--<div class="col-sm-5 col-lg-5">-->
+            <!--<div class="form-group" style="margin-left: 110px;">-->
+                <!--<a href="#" onclick="añadirDatosTaller();return false;" class="btn btn-primary" id="nuevo">Agregar Nueva Clase</a>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<br>-->
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-reprogramar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Horarios De La Clase|
-            <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar
+            <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Inscribirse
+            <!--<span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar-->
         </div>
         <br>
 
@@ -399,11 +399,11 @@
         </div>
         <br>
 
-        <div class="leyenda">
-            <span>Leyenda: </span>
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Editar|
-            <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Inhabilitar
-        </div>
+        <!--<div class="leyenda">-->
+            <!--<span>Leyenda: </span>-->
+            <!--<span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Editar|-->
+            <!--<span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Inhabilitar-->
+        <!--</div>-->
     </form>
 </div>
 <br>
@@ -433,9 +433,9 @@
     var idcla = 0;
 
 
-//    function idhorario(horario){
-//        idhor = horario;
-//    }
+    //    function idhorario(horario){
+    //        idhor = horario;
+    //    }
     var id = getID();
     $("#jqGrid").jqGrid({
         url: '/api/infoAcademia/' + id,
@@ -480,7 +480,7 @@
         idcic = idclass;
         if (idclass > 0)
         {idcla = idclass;
-        idcic = idclass;
+            idcic = idclass;
         }
         console.log(idcla);
         $('#jqGrid1').jqGrid('clearGridData');
@@ -497,7 +497,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'Si no muestra resultados, por favor seleccione una clase.',
-        colNames:['#','Día','Estado','Hora Inicio','Hora Fin','Instalación','Acciones'], //define column names
+        colNames:['#','Día','Estado','Hora Inicio','Hora Fin','Instalación'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'dia', index:'dia', width:100},
@@ -505,7 +505,7 @@
             {name:'horaInicio', index:'horaInicio', width:100},
             {name:'horaFin', index:'horaFin', width:100},
             {name:'instalacion.nombre', index:'instalacion.nombre', width:100},
-            {name: 'acciones', width: 80, align: 'center', formatter: acciones2},
+  //          {name: 'acciones', width: 80, align: 'center', formatter: acciones2},
         ],
         viewrecords: true,
         height: 80,
@@ -531,9 +531,9 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
         acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
-                '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Clase"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
-        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
+                '<a href="#" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Inscribirse"><img src="img/Iconos/modificar.png" class="icono"></a>';
+//                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
+//                '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
         return acciones;
     }
     function acciones2(cellValue, options, rowdata, action) {

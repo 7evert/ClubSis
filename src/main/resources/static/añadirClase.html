@@ -25,6 +25,53 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
 
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+
     <script type="text/javascript">
         var idacademia = 0;
         var idciclo = 0;
@@ -173,43 +220,43 @@
     <hr>
     <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
         <div id="NivelTaller" class="form-group">
-            <label class="control-label col-xs-4">Nivel</label>
+            <label class="control-label col-xs-4">Nivel<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="nivel" type="text" class="form-control col-xs-8" placeholder="Escriba el nivel..." required/>
             </div>
         </div>
         <div id="rangoEdadTaller" class="form-group">
-            <label class="control-label col-xs-4">Rango Edad</label>
+            <label class="control-label col-xs-4">Rango Edad<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="rangoEdad" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el rango de edad..."required/>
             </div>
         </div>
         <div id="precioCicloTaller" class="form-group">
-            <label class="control-label col-xs-4">Precio Ciclo</label>
+            <label class="control-label col-xs-4">Precio Ciclo<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="precioCiclo" type="text" class="form-control col-xs-8" placeholder="Ingrese el precio por ciclo..." required/>
             </div>
         </div>
         <div id="precioMesTaller" class="form-group">
-            <label class="control-label col-xs-4">Precio Mes</label>
+            <label class="control-label col-xs-4">Precio Mes<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="precioMes" type="text" class="form-control col-xs-8" placeholder="Ingrese el precio por mes..." required/>
             </div>
         </div>
         <div id="capacidadTaller" class="form-group">
-            <label class="control-label col-xs-4">Capacidad</label>
+            <label class="control-label col-xs-4">Capacidad<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="capacidad" type="text" class="form-control col-xs-8" placeholder="Ingrese la capacidad del taller..." required/>
             </div>
         </div>
         <div id="profesorTaller" class="form-group">
-            <label class="control-label col-xs-4">Profesor</label>
+            <label class="control-label col-xs-4">Profesor<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="profesor" type="text" class="form-control col-xs-8" placeholder="Ingrese el profesor del taller..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoClase" class="col-md-4 control-label">Estado</label>
+            <label for="estadoClase" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
                 <select class="form-control" id="estadoClase" required>
                     <option value="0">INHABILITADO</option>
