@@ -17,7 +17,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
+    <script src="js/Notificaciones.js"></script>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <style>
@@ -61,7 +61,7 @@
             return true;
         }
         function mostrarMensaje(data) {
-            alert("La modificación se realizó satisfactóriamente.");
+            Notificaciones.showNoty("La modificación se realizó satisfactóriamente.");
         }
         function cancelar() {
             location.href = "verSocio.html?idSocio=" + getID();
@@ -116,7 +116,7 @@
     <form class="form-horizontal">
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="codigoSocio" class="col-md-5 control-label">Código del Socio(*): </label>
+                <label for="codigoSocio" class="col-md-5 control-label">Código del Socio<span class="obligatorio">*</span></label>
                 <div class="col-md-6">
                     <input id="codigoSocio" disabled class="form-control">
                     </input>
@@ -125,9 +125,9 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="estado" class="col-md-4 control-label">Estado(*): </label>
+                <label for="estado" class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>
                 <div class="col-md-7">
-                    <select id="estado" class="form-control">
+                    <select id="estado" class="form-control" disabled>
                         <option value="SUSPENDIDO">SUSPENDIDO</option>
                         <option value="ACTIVO">ACTIVO</option>
                     </select>
@@ -136,7 +136,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="codigocarnet" class="col-md-5 control-label">Codigo Carnet(*): </label>
+                <label for="codigocarnet" class="col-md-5 control-label">Codigo Carnet<span class="obligatorio">*</span></label>
                 <div class="col-md-6">
                     <input id="codigocarnet" disabled class="form-control"/>
                 </div>
@@ -144,7 +144,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="tipoMembresia" class="col-md-4 control-label">Tipo de Membresia(*): </label>
+                <label for="tipoMembresia" class="col-md-4 control-label">Membresia<span class="obligatorio">*</span></label>
                 <div class="col-md-7">
                     <select id="tipoMembresia" class="form-control">
                     </select>
@@ -153,7 +153,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label class="control-label col-md-5">Fecha de Registro(*): </label>
+                <label class="control-label col-md-5">Fecha de Registro<span class="obligatorio">*</span></label>
                 <div class="col-md-6">
                     <input id="fechaInscripcion" disabled class="form-control"/>
                 </div>
@@ -161,7 +161,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios.</span>
+                <span class="obligatorio" style="margin-left: 260px;">(<span class="obligatorio">*</span>) Estos campos son obligatorios.</span>
             </div>
         </div>
 

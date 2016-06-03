@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -59,6 +60,11 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
     <script type="text/javascript">
         const INHABILITADO = "INHABILITADO";
@@ -87,12 +93,12 @@
     </script>
     <script type="text/javascript">
         function mostrarMensaje(message) {
-            alert(message);
+            Notificaciones.showError(message);
         }
         function verificarDatos() {
             var mensajes = ["Nombre debe tener entre 1 y 50 caracteres.",
                 "Dirección debe tener entre 1 y 100 caracteres.",
-                "Teléfono debe tener entre 7 a 15 caracteres.",
+                "Teléfono debe tener entre 7 a 15 caracteres",
                 "Descripción debe tener entre 1 y 255 caracteres.",
                 "Nombre del administrador debe tener entre 8 y 100 caracteres.",
                 "Teléfono solo puede tener numeros, *, # y -"
@@ -146,7 +152,7 @@
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
@@ -252,13 +258,14 @@
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', "Acciones"],
+                    colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', 'Estado',"Acciones"],
                     colModel: [
                         {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
                         {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
                         {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center'},
                         {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center'},
                         {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center'},
+                        {name: 'estado', index: 'Estado', width: 10, hidden:true,editable: false, align: 'center'},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true
@@ -273,6 +280,15 @@
 
                 for (var i = 0; i < data.length; i++)
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+
+                var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+                for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                    rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                    //set background style if ColumnValue == true
+                    if (rowData['estado'] == "INHABILITADO") {
+                        $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                    } //if
+                }
             });
 
             $("#registrar").click(function () {
@@ -285,7 +301,7 @@
                     "administrador": $("#administrador").val()
                 }
                 $http.post('/api/sedes/', data).success(function (data2, status) {
-                    alert("registro Exitoso de la Sede " + data2.id);
+                    Notificaciones.showNoty("registro Exitoso de la Sede " + data2.id);
                     console.log(data2);
                     limpiar();
                     llenarEngrilla(data2);
@@ -309,7 +325,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre(*) :</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nombre" placeholder="Descripción de Sede">
                     </div>
@@ -317,7 +333,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Dirección(*) :</label>
+                    <label for="direccion" class="col-md-4 control-label">Dirección<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="direccion" placeholder="Dirección de Sede">
                     </div>
@@ -325,7 +341,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripción :</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripción</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
                     </div>
@@ -333,7 +349,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Teléfono :</label>
+                    <label for="telefono" class="col-md-4 control-label">Teléfono</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="telefono" placeholder="Solo números">
                     </div>
@@ -341,7 +357,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="administrador" class="col-md-4 control-label">Administrador :</label>
+                    <label for="administrador" class="col-md-4 control-label">Administrador</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="administrador" placeholder="">
                     </div>
@@ -349,7 +365,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Estado(*) :</label>
+                    <label class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
                             <option value="HABILITADO">HABILITADO</option>
@@ -377,6 +393,13 @@
             <div class="form-group" style="width:100%;">
                 <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%">
             </div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Mostrar Sede|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Sede|
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Sede
         </div>
     </form>
 </div>

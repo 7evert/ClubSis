@@ -51,6 +51,7 @@
             margin-bottom: 10px;
         }
     </style>
+    <script src="js/Notificaciones.js"></script>
     <script type="text/javascript">
         //igual que en MantenimientoEventos.html
         /*        var dataJSON=[
@@ -197,7 +198,7 @@
                 tarifasul.append(b[j]);
         }
         function mostrarRegYDescripcion(descripcion){
-            $("#descripcion").html("Descripcion: <br>"+descripcion);
+            $("#descripcion").html("Descripcion: <br>"+((descripcion)?descripcion:"..."));
         }
         function mostrarImagen(url){
             $("#imgEvento").attr({src:url});
@@ -223,7 +224,7 @@
                     return e.id == getID();
                 })[0];
                 if (!dataevento) {
-                    alert("Evento No Disponible");
+                    Notificaciones.showError("Evento No Disponible");
                     location.href = "MantenimientoEventos.html";
                 }
                 mostraridEvento(dataevento.id);

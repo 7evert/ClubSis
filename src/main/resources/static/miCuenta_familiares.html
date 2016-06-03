@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  ng-app="app2">
+<html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
     <title>ClubSis</title>
@@ -18,19 +18,22 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
+    <script src="js/Notificaciones.js"></script>
     <style type="text/css">
-        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
+
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-        .ui-jqgrid-resize-ltr{
+
+        .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-        .btn-warning{
+
+        .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
             padding-right: 2px;
@@ -39,56 +42,51 @@
             border-color: #ededed;
         }
 
-        .icono{
+        .icono {
             width: 19px;
         }
 
-
-        hr{
+        hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
     </style>
     <script type="text/javascript">
-        var funciones={};
+        var funciones = {};
         function getID() {
             var href = this.location.href;
             var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
-        funciones.registrarFamiliar=function(){
-            location.href="registrarFamiliaresDelSocio.html?id="+getID();
+        funciones.registrarFamiliar = function () {
+            location.href = "registrarFamiliaresDelSocio.html?id=" + getID();
         }
-        function mostrarSocio(){
-            location.href="verSocio.html?idSocio="+getID();
+        function mostrarSocio() {
+            location.href = "verSocio.html?idSocio=" + getID();
         }
-        </script>
+    </script>
     <script type="text/javascript">
-        var nroFamiliares=0;
+        var nroFamiliares = 0;
         var idFamiliar;
         var app2 = angular.module('app2', []);
         app2.controller('ListaFamiliaresController', function ($scope, $http) {
             funciones.verFamiliar = function (event) {
                 var idFamiliar = event.target.parentNode.getAttribute("data-idevento-ver");
-                location.href="verSocio.html?idSocio="+getID()+"&idFamiliar="+idFamiliar;
+                location.href = "verSocio.html?idSocio=" + getID() + "&idFamiliar=" + idFamiliar;
             };
             funciones.modificarFamiliar = function (event) {
                 var idFamiliar = event.target.parentNode.getAttribute("data-idevento-modificar");
-                location.href="modificarFamiliares.html?idSocio="+getID()+"&idFamiliar="+idFamiliar;
+                location.href = "modificarFamiliares.html?idSocio=" + getID() + "&idFamiliar=" + idFamiliar;
             };
-            funciones.eliminarFamiliar= function (event) {
+            funciones.eliminarFamiliar = function (event) {
                 idFamiliar = event.target.parentNode.getAttribute("data-idevento-eliminar");
-                $http.delete('/api/personas/'+idFamiliar+'/eliminar').success(function (data) {
-                    alert("se selimino correctamente");
-                    $('#jqGrid').jqGrid('delRowData', idFamiliar);
-                    nroFamiliares--;
-                });
+                funciones.elimnarFamiliar(event, idFamiliar);
             };
-            funciones.eliminarTodos=function() {
+            funciones.eliminarTodos = function () {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
@@ -96,33 +94,44 @@
                     $http.get('/api/sedes/').success(function (data) {
                         for (var j = 0; j < selectedIDs.length; j++) {
                             var idFamiliar = selectedIDs[j];
-                            $http.delete('/api/personas/'+idFamiliar+'/eliminar').success(function (data) {
-                                idFamiliar = selectedIDs[0];
-                                alert("se selimino correctamente");
-                                $('#jqGrid').jqGrid('delRowData', idFamiliar);
-                                nroFamiliares--;
-                            });
+                            funciones.elimnarFamiliar(event, selectedIDs[nroExito++]);
                         }
                     });
                 }
             }
-            $http.get('/api/socios/'+getID()+'/personas').success(function (data) {
+
+            funciones.elimnarFamiliar = function (event, idFamiliar) {
+                $http.delete('/api/personas/' + idFamiliar + '/eliminar').success(function (data) {
+                    Notificaciones.showNoty("se selimino correctamente");
+                    $('#jqGrid').jqGrid('delRowData', idFamiliar);
+                    nroFamiliares--;
+                });
+            }
+
+            $http.get('/api/socios/' + getID() + '/personas').success(function (data) {
                 var lastsel2;
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.','ID', 'Nombre Completo', 'DNI', 'Telefono', 'Titular', "Acciones"],
+                    colNames: ['Nro.', 'ID', 'Nombre Completo', 'DNI', 'Telefono', 'Titular', "Acciones"],
                     colModel: [
                         {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
-                        {name: 'id', index: 'ID', width: 90, editable:false,hidden:true, align: 'center'},
-                        {name: 'nombreCompleto',index: 'Nombre y Apellidos',width: 150,editable: false,align: 'center'},
+                        {name: 'id', index: 'ID', width: 90, editable: false, hidden: true, align: 'center'},
+                        {
+                            name: 'nombreCompleto',
+                            index: 'Nombre y Apellidos',
+                            width: 150,
+                            editable: false,
+                            align: 'center'
+                        },
                         {name: 'dni', index: 'DNI', width: 260, editable: false, align: 'center'},
                         {name: 'telefono', index: 'Telefono', width: 220, editable: false, align: 'center'},
                         {name: 'esTitular', index: 'Titular', width: 220, editable: false, align: 'center'},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
-                    ],
-                    multiselect: true
+                    ]
+                    /*,
+                    multiselect: true*/
                 });
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
@@ -134,8 +143,8 @@
 
                 for (var i = 0; i < data.length; i++) {
                     nroFamiliares++;
-                    data[i].nro=nroFamiliares;
-                    data[i].nombreCompleto=data[i].nombre+" "+data[i].apellidoPaterno;
+                    data[i].nro = nroFamiliares;
+                    data[i].nombreCompleto = data[i].nombre + " " + data[i].apellidoPaterno;
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
                 }
             });
@@ -150,30 +159,26 @@
         <li role="presentation"><a href="#" onclick="mostrarSocio();return false;">Datos del Socio</a></li>
         <li role="presentation"><a href="#">Perfil</a></li>
         <li role="presentation"><a href="miCuenta_cambiarClave.html">Cambiar clave</a></li>
-        <li role="presentation" class="active"><a href="#" onclick="mostrarFamiliares();return false;">Familiares asociados</a></li>
+        <li role="presentation" class="active"><a href="#" onclick="mostrarFamiliares();return false;">Familiares
+            asociados</a></li>
     </ul>
     <hr>
-    <form class="form-horizontal">
-        <div class="form-group">
-            <div class="col-sm-offset-1 col-sm-5" align="left">
-                <h4>Lista de Familiares</h4>
-                <div class="rowchangeg" style="width: 400px; margin-left: auto; margin-right: auto;">
-                    <table id="jqGrid"></table>
-                    <div id="jqGridPager"></div>
-                </div>
-            </div>
+    <h4>Lista de Familiares</h4>
+    <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+        <div class="form-group" style="width:100%;">
+            <a href="#" onclick="funciones.registrarFamiliar();return false;" class="btn btn-primary"
+               style="position:relative;left:85%;width:12%">Agregar</a>
         </div>
-        <div class="col-sm-3 col-lg-3">
-        </div>
-        <div class="col-sm-5 col-lg-5">
-            <div class="form-group" style="margin-left: 60px;">
-                <a href="#" onclick="funciones.eliminarTodos();return false;" class="btn btn-primary">Eliminar</a>
-                <a href="#" onclick="funciones.registrarFamiliar();return false;" class="btn btn-primary">Agregar</a>
-                <a href="mantenimientoSocio.html" class="btn btn-primary">Cancelar</a>
-            </div>
-        </div>
-
-    </form>
+    </div>
+    <br>
+    <div class="form-group leyenda">
+        <span>Leyenda: </span>
+        <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Mostrar Familiar|
+        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Familiar|
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Familiar
+    </div>
 </div>
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -183,38 +188,38 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-/*
-    $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI : 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
-            { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
-            { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
-            { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
-            { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 196,
-        rowNum: 7,
-        pager: "#jqGridPager"
-    });
+    /*
+     $("#jqGrid").jqGrid({
+     url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+     mtype: "GET",
+     styleUI : 'Bootstrap',
+     datatype: "jsonp",
+     gridview: true,
+     emptyrecords: 'No se encontraron resultados',
+     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+     colModel: [
+     { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
+     { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
+     { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
+     { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
+     { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
+     ],
+     viewrecords: true,
+     height: 196,
+     rowNum: 7,
+     pager: "#jqGridPager"
+     });
 
-    $('#jqGrid').jqGrid('setGridWidth', '900');
+     $('#jqGrid').jqGrid('setGridWidth', '900');
 
-    function acciones(cellValue, options, rowdata, action) {
-        var acciones = '';
+     function acciones(cellValue, options, rowdata, action) {
+     var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Familiar"><img src="img/Iconos/ver.png" class="icono"></a>'+
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Familiar"><img src="img/Iconos/modificar.png" class="icono"></a>'+
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Familiar"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-        return acciones;
-    }*/
+     acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Familiar"><img src="img/Iconos/ver.png" class="icono"></a>'+
+     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Familiar"><img src="img/Iconos/modificar.png" class="icono"></a>'+
+     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Familiar"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+     return acciones;
+     }*/
 </script>
 </body>
 </html>
