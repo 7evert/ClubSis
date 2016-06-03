@@ -326,7 +326,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio"> *</span></label>
                     <div class="col-md-8">
                         <input type="text" id="nombre" class="form-control col-xs-8" ng-model="nombre" placeholder="Escriba el nombre..." required/>
                     </div>
@@ -342,7 +342,7 @@
             <!--</div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="estadoAcademia" class="col-md-4 control-label">Estado</label>
+                    <label for="estadoAcademia" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
                     <div class="col-md-8">
                         <select class="form-control" id="estadoAcademia"  required>
                             <option>INHABILITADO</option>
@@ -354,7 +354,7 @@
 
             <div class="col-sm-12 col-lg-10">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+                    <label for="descripcion" class="col-md-2 control-label">Descripción<span class="obligatorio"> *</span></label>
                     <div class="col-md-10">
                         <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
                     </div>

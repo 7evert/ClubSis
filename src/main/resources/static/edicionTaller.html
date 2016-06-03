@@ -265,32 +265,32 @@
     <hr>
     <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
         <div id="HorarioDia" class="form-group">
-            <label class="control-label col-xs-4">Día</label>
+            <label class="control-label col-xs-4">Día<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="dia" type="text" class="form-control col-xs-8" maxlength="10" placeholder="Escriba el dia..." required/>
             </div>
         </div>
         <div id="HoraInicioHorario" class="form-group">
-            <label class="control-label col-xs-4">Hora Inicio</label>
+            <label class="control-label col-xs-4">Hora Inicio<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="horaInicio" type="datetime" class="form-control col-xs-8" maxlength="7" ng-model="ruc" placeholder="Escriba la hora de inicio..."required/>
+                <input id="horaInicio" type="time" class="form-control col-xs-8" maxlength="7" ng-model="ruc" placeholder="Escriba la hora de inicio..."required/>
             </div>
         </div>
         <div id="HoraFinHorario" class="form-group">
-            <label class="control-label col-xs-4">Hora Fin</label>
+            <label class="control-label col-xs-4">Hora Fin<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="horaFin" type="datetime" class="form-control col-xs-8" maxlength="7" placeholder="Ingrese la hora de fin..." required/>
+                <input id="horaFin" type="time" class="form-control col-xs-8" maxlength="7" placeholder="Ingrese la hora de fin..." required/>
             </div>
         </div>
         <div id="InstalacionHorario" class="form-group">
-            <label class="control-label col-xs-4">ID Instalación</label>
+            <label class="control-label col-xs-4">ID Instalación<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <input id="instalacion" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el codigo de la instalacion..." required/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="estadoHorario" class="col-md-4 control-label">Estado</label>
+            <label for="estadoHorario" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
             <div class="col-md-8">
                 <select class="form-control" id="estadoHorario"  required>
                     <option>INHABILITADO</option>
