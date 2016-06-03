@@ -23,6 +23,9 @@ public class ReservaBungalow {
     @ManyToOne
     private Bungalow bungalow;
 
+    @ManyToOne
+    private Bungalow socio;
+
     protected ReservaBungalow() {
     }
 

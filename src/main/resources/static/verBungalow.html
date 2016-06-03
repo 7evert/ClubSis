@@ -150,6 +150,7 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 180px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
                     <a href="MantenimientoBungalows.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                 </div>
             </div>
@@ -252,6 +253,63 @@
     //como estamos en el ver Postulante dissableamos todos los campos posibles
         $("select, input, textarea").attr("disabled", true);
     //    });
+
+    $("#btnRegistrar").click(function () {
+        var fechaConvertida = "";
+        if($("#fechaNacimiento").val() != "") {
+            var fecha = $scope.fechaNacimiento;
+            console.log($scope.fechaNacimiento);
+            var fechaPartida = fecha.split("/");
+            var dia = fechaPartida[0];
+            var mes = fechaPartida[1];
+            var anho = fechaPartida[2];
+            fechaConvertida = mes + '/' + dia + '/' + anho;
+        }
+        $scope.registrarBungalow = function () {
+            var data = {
+                //por preguntar
+                //idSuspension: null,
+                'nombre': $scope.nombre,
+                'apellidoPaterno': $scope.apellidoPaterno,
+                'apellidoMaterno': $scope.apellidoMaterno,
+                'tipoDocumento': $scope.tipoDocumento.valor,
+                'numeroDocumento': parseInt($scope.numeroDocumento),
+                'fechaNacimiento': Date.parse(fechaConvertida),
+                'estadoCivil': $scope.estadoCivil,
+                'numeroHijos': parseInt($scope.numeroHijos),
+                'estadoCivil': $scope.estadoCivil.valor,
+                'direccion': $scope.direccion,
+                'telefonoCasa': parseInt($scope.telefonoCasa),
+                'celular': parseInt($scope.celular),
+                'telefonoTrabajo': parseInt($scope.telefonoTrabajo),
+                'profesion': $scope.profesion,
+                'ingresosMensuales': parseFloat($scope.ingresosMensuales),
+                'nombreEmpresa': $scope.nombreEmpresa,
+                'correo': $scope.correo,
+                'fechaPostulacion': 05212003, //Estos datos los llena el back por dentro (Gerson) fecha actual
+                'esAprobado': 0, //Estos datos los llena el back por dentro (Gerson) 0: Pendiente 1:Rechazada 2:Aprobada
+                'esActivo': 1, //Estos datos los llena el back por dentro (Gerson)
+                'esPeriodoObjeciones': 0, //Estos datos los llena el back por dentro (Gerson)
+                'socios': null, //Estos datos los llena el back por dentro (Gerson)
+            };
+            console.log(data);
+            //Falta las validaciones (LOO)
+            if (!validarDatos()) {
+                $http.post('/api/postulantes', data).success(function (data) {
+                    Notificaciones.hideAll();
+                    Notificaciones.showProcesando();
+                    setTimeout(function () {
+                        location.href = "mantenimientoPostulante.html"
+                    }, 1000);
+                })
+                        .error(function (data) {
+                            //aca lo que se hara en caso falle
+                            Notificaciones.showError("Error al crear la entidad postulante");
+                            console.log("fallo");
+                        });
+            }
+        }();
+    });
 </script>
 </body>
 </html>

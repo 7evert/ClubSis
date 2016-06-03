@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+    </style>
+</head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container" id="MantenimientoPostulanteID" ng-app='appMantenimientoPostulante'
+     ng-controller="MantenimientoPostulanteController">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            ENVIO DE CONTRASEÑA
+        </h3>
+    </div>
+    <hr>
+    <form class="form-horizontal">
+        <div class="row" align="center">
+            <div>
+                <div class="form-group">
+                    <label class="control-label" align="center">Verifique el link enviado a su contraseña a su correo</label>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="form-horizontal">
+        <div class="row" align="center">
+            <div>
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="login.html" class="btn btn-primary" id="btnCancelar">Aceptar</a>
+                </div>
+            </div>
+        </div>
+        <br>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+    ////    Aun no se usa pero luego ya puede ser usada para el filtrado el angular module con sus funciones
+    var app = angular.module('appMantenimientoPostulante', []);
+    app.controller('MantenimientoPostulanteController', function ($scope, $http) {
+        $scope.postulantes = [];
+        $scope.obtenerTodosPostulantes = function () {
+            $http.get('/api/postulantes').success(function (data) {
+                $scope.postulantes = data;
+                console.log($scope.postulantes);
+            });
+        }
+        $scope.buscarPostulante = function (idPostulante) {
+            var nombre;
+            $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+                $scope.postulantes = data;
+            });
+        }
+    });
+
+    $('.icono-modificar').click(function () {
+        var idPostulante = $(this).attr('data-idPostulante-eliminar');
+        console.log("idPostulante eliminando: " + $(this).attr('data-idPostulante-eliminar'));
+    });
+
+    $('#btnLimpiar').click(function () {
+        $("#tipoDocumento").val(-1);
+        $("#estado").val(-1);
+        $("#nombre").val("");
+        $("#apellidoPaterno").val("");
+        $("#apellidoMaterno").val("");
+        $("#profesion").val("");
+    });
+
+</script>
+</body>
+</html>

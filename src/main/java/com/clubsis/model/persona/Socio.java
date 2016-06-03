@@ -60,6 +60,10 @@ public class Socio {
     @JsonIgnore
     private Set<PagoMembresia> pagosMembresia = new HashSet<>();
 
+    @OneToMany(mappedBy = "socio")
+    @JsonIgnore
+    private Set<PagoMembresia> reservaBungalow = new HashSet<>();
+
     @ManyToOne
     private TipoSocio tipo;
 
