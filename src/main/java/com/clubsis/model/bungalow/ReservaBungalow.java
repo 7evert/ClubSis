@@ -1,5 +1,7 @@
 package com.clubsis.model.bungalow;
 
+import com.clubsis.model.persona.Socio;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -24,7 +26,7 @@ public class ReservaBungalow {
     private Bungalow bungalow;
 
     @ManyToOne
-    private Bungalow socio;
+    private Socio socio;
 
     protected ReservaBungalow() {
     }

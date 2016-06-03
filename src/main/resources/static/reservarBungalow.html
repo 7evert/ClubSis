@@ -71,85 +71,26 @@
         </h3>
     </div>
     <hr>
-    <h4>DATOS DEL BUNGALOW</h4>
+    <h4>DATOS DE RESERVA</h4>
 
     <form class="form-horizontal">
         <div class="row">
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="sede" class="col-md-4 control-label">Sede<span class="obligatorio">*</span></label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="sede" name="sede" ng-model="sede">
-                        </select>
-                    </div>
+            <div class="col-xs-offset-0 col-xs-6" align="center">
+                <label for="fechaFin" class="col-md-3 control-label">Fecha Inicio<span class="obligatorio">*</span></label>
+                <div class="input-group input-append date col-md-7">
+                    <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                    <label for="fechaInicio" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="tipoBungalow" class="col-md-4 control-label">Tipo de Bungalow<span
-                            class="obligatorio">*</span></label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="tipoBungalow" name="tipoBungalow"
-                                ng-model="tipoBungalow"></select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="valoracion" class="col-md-4 control-label">Valoración<span class="obligatorio">*</span></label>
-                    <div class="col-md-8">
-                        <select id="valoracion" class="form-control" ng-model="valoracion.valor"
-                                ng-options="template.value as template.name for template in valoracion.valores">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="piso" class="col-md-4 control-label">Piso<span class="obligatorio">*</span></label>
-                    <div class="col-md-8">
-                        <select id="piso" class="form-control" ng-model="piso.valor"
-                                ng-options="template.value as template.name for template in piso.valores">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="precio" class="col-md-4 control-label">Precio<span class="obligatorio">*</span></label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="precio" id="precio" placeholder="Precio">
-                    </div>
-                    <label class="col-md-4 control-label">nuevos soles</label>
-                </div>
-            </div>
-            <div class="col-sm-12 col-lg-10">
-                <div class="form-group">
-                    <label for="caracteristicas" class="col-md-2 control-label">Características<span
-                            class="obligatorio">*</span></label>
-                    <div class="col-md-10">
-                        <textarea id="caracteristicas" ng-model="caracteristicas" class="form-control"
-                                  rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-lg-10">
-                <div class="form-group">
-                    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
-                    <div class="col-md-10">
-                        <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-lg-10">
-                <div class="form-group">
-                    <label for="urlFoto" class="col-md-2 control-label">Archivo Adjunto</label>
-                    <div class="col-md-8">
-                        <input id="urlFoto" ng-model="urlFoto" class="form-control" type="file">
-                    </div>
-                    <div class="col-md-2">
-                        <a id="btnAdjuntar" class="btn btn-primary form-control">Adjuntar</a>
-                    </div>
+            <div class="col-xs-offset-0 col-xs-3" align="center">
+                <label for="fechaFin" class="col-md-5 control-label">Fecha Fin<span class="obligatorio">*</span></label>
+                <div class="input-group input-append date col-md-7">
+                    <input ng-model=fechaFin id="fechaFin" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                    <label for="fechaFin" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">
@@ -188,6 +129,11 @@
 <script src="js/principal.js"></script>
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
+
+    $('#fechaInicio').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
     $("sede").click(
             $.getJSON("/api/sedes", null, function (data) {
                 console.log(data);
@@ -224,8 +170,21 @@
                 });
             })
     );
+
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'),parent.document.URL.length);
+    var idBungalow = ruta.substring(ruta.lastIndexOf('=')+1);
     var app = angular.module('app', []);
     app.controller('BungalowController', function ($scope, $http) {
+        $scope.socio=[];
+        $http.get('/api/socios/1').success(function (data) {
+            $scope.socio = data;
+        });
+
+        $scope.bungalow=[];
+        $http.get('/api/bungalows/'+idBungalow).success(function (data) {
+            $scope.bungalow = data;
+        });
+
         $scope.valoracion = {};
         $scope.piso = {};
         <!--<select id="tipoDocumento" class="form-control" ng-model="tipoDocumento.valor" ng-options="template.value as template.name for template in tipoDocumento.valores">-->
@@ -249,34 +208,32 @@
         $scope.piso.valor = $scope.piso.valores[0].value;
 
         $("#btnRegistrar").click(function () {
-            $scope.registrarBungalow = function () {
-                var data = {
-                    //por preguntar
-                    //idSuspension: null,
-                    'estado': 1,
-                    'descripcion': $scope.descripcion,
-                    'precio': parseFloat($scope.precio),
-                    'caracteristicas': $scope.caracteristicas,
-                    'piso': parseInt($scope.piso.valor),
-                    'valoracion': parseInt($scope.valoracion.valor),
-                    'descripcion': $scope.descripcion,
-                    'urlFoto': $scope.urlFoto,
+            var fechaConvertidaReserva = "";
+            if($("#fechaInicio").val() != "") {
+                var fecha = $scope.fechaReserva;
+                console.log($scope.fechaReserva);
+                var fechaPartida = fecha.split("/");
+                var dia = fechaPartida[0];
+                var mes = fechaPartida[1];
+                var anho = fechaPartida[2];
+                fechaConvertidaReserva = mes + '/' + dia + '/' + anho;
+            }
+
+            $scope.registrarBungalow = function (){
+                var dataReserva = {
+                    'estado': $scope.estado,
+                    'fechaReserva':Date.parse(fechaConvertidaReserva),
+                    'fechaFinal':Date.parse(fechaConvertidaReserva),
+                    'socio':$scope.socio,
+                    'bungalow':$scope.bungalow,
                 };
-                console.log(data);
-                if (!validarDatos()) {
-                    $http.post('/api/bungalows/' + $("#tipoBungalow").val() + '/' + $("#sede").val(), data).success(function (data) {
-                        console.log(data);
-                        Notificaciones.hideAll();
-                        Notificaciones.showProcesando();
-                        setTimeout(function () {
-                            location.href = "mantenimientoBungalows.html"
-                        }, 1000);
-                    })
-                            .error(function (data) {
-                                //aca lo que se hara en caso falle
-                                Notificaciones.showError("Error al crear la entidad bungalow");
-                            });
-                }
+                $http.post('/api/reservasbungalow', data).success(function (dataReserva) {
+                    Notificaciones.hideAll();
+                    Notificaciones.showProcesando();
+                    setTimeout(function () {
+                        location.href = "verBungalow.html"
+                    }, 1000);
+                })
             }();
         });
     });
