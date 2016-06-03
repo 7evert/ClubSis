@@ -14,7 +14,9 @@ public class Rol {
     @Id
     @GeneratedValue
     private Integer id;
+    private String nombre;
     private String descripcion;
+    private Boolean esActivo;
 
     @ManyToOne
     private Club club;
@@ -26,9 +28,11 @@ public class Rol {
     protected Rol() {
     }
 
-    public Rol(Integer id, String descripcion) {
+    public Rol(Integer id,String nombre,Boolean esActivo, String descripcion) {
         this.id = id;
+        this.nombre=nombre;
         this.descripcion = descripcion;
+        this.esActivo=esActivo;
     }
 
     public Integer getId() {
@@ -53,5 +57,21 @@ public class Rol {
 
     public void setPermisos(Set<Permiso> permisos) {
         this.permisos = permisos;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Boolean getEsActivo() {
+        return esActivo;
+    }
+
+    public void setEsActivo(Boolean esActivo) {
+        this.esActivo = esActivo;
     }
 }
