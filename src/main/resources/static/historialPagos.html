@@ -90,7 +90,7 @@
                     emptyrecords: 'No se encontraron resultados',
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
-                        { label: 'id', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Codigo', name: 'id', key: true,align :'center', width: 75},
                         { label: 'Tipo pago', name: 'tipoPago', align: 'center', width: 100 },
                         { label: 'Importe (S/.)', name: 'montoTotal', align: 'center', width: 150 },
                         { label: 'Estado', name: 'estadoPago', align: 'center', width: 100 },
@@ -104,6 +104,39 @@
                     width: 900,
                     rowNum: 10,
                     pager: "#jqGridPager"
+                });
+            })
+            $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+                //datosUrl=respuesta.data;
+                //Hasta tener el id del socio logeado se usara el 1
+                idSocio=1;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.socio.id == idSocio;
+                });
+                $("#jqGrid1").jqGrid({
+
+                    data: datosUrl,
+                    mtype: "GET",
+                    styleUI : 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        { label: 'Codigo', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Nombre', name: 'nombre', align: 'center', width: 100 },
+                        { label: 'Descripcion', name: 'descripcion', align: 'center', width: 100 },
+                        { label: 'Importe (S/.)', name: 'monto', align: 'center', width: 150 },
+                        { label: 'Estado', name: 'estadoCuotaExtraordinaria', align: 'center', width: 100 },
+                        { label:'Fecha Inicio', name: 'fechaInicio', align: 'center', width: 100 },
+                        { label:'Fecha Fin', name: 'fechaFin', align: 'center', width: 100 },
+                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: "auto",
+                    width: 900,
+                    rowNum: 10,
+                    pager: "#jqGridPager1"
                 });
             })
         });
