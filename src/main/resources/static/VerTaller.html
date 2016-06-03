@@ -75,6 +75,9 @@
 
     </script>
     <script type="text/javascript">
+        var idAcad = getID();
+        var idcic = 0;
+
         function llenarDatosTaller(data2) {
             $("#nombre").val(data2.nombre);
             //$("#urlFoto").val(data2.urlFoto);
@@ -145,9 +148,27 @@
                     $http.put("/api/clases/" + data2.id, data2).success(function (data3, status) {
                         //alert("Esta clase ya no esta habilitada");
                         location.href = "VerTaller.html?id=" + ref;
+
                     });
                 });
-         })
+            })
+
+            funciones.eliminarHorario=(function (id) {
+                var ref = getID();
+                console.log("Quieres eliminar?");
+                //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+                console.log(id);
+                $http.get('/api/horarios/' + id).success(function (data2, status) {
+                    console.log(data2);
+                    data2.estadoHorario= 0;
+                    $http.put("/api/horarios/" + data2.id, data2).success(function (data3, status) {
+                        //alert("Esta clase ya no esta habilitada");
+                        //location.href = "VerTaller.html?id=" + ref;
+                    });
+                });
+                Horarios();
+
+            })
 
             function validarDatos() {
                 var nombre = $("#nombre").val();
@@ -194,6 +215,21 @@
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         location.href = "edicionDatosTaller.html?id=" + id;
     }
+
+    function edicionHorario(idAcademia, idclase){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "edicionTaller.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+
+
+    }
+
+    function añadirHorario(idAcademia, idclase){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "añadirHorarioClase.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+
+
+    }
+
     function accionEliminar() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         console.log("Accion:");
@@ -207,7 +243,38 @@
 //                    alert("Tu actualizacion fue exitosa");
         location.href = "añadirClase.html?id=" + id;
     }
+
+
     function accionInhabilitar() {
+            var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+            console.log("Accion:");
+            console.log(id);
+
+
+            $.noty.closeAll();
+            noty({
+                text: '¿Está seguro de que desea inhabilitar la clase?',
+                type: 'warning',
+                buttons: [
+                    {
+                        addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                        Notificaciones.hideAll();
+                        funciones.eliminar(id);
+                        Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                        $noty.close();
+                    }
+                    },
+                    {
+                        addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                        $noty.close();
+                    }
+                    }
+                ]
+            });
+
+    }
+
+    function accionInhabilitarHorario() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         console.log("Accion:");
         console.log(id);
@@ -215,13 +282,13 @@
 
         $.noty.closeAll();
         noty({
-            text: '¿Está seguro de que desea inhabilitar la clase?',
+            text: '¿Está seguro de que desea inhabilitar el horario?',
             type: 'warning',
             buttons: [
                 {
                     addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
                     Notificaciones.hideAll();
-                    funciones.eliminar(id);
+                    funciones.eliminarHorario(id);
                     Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
                     $noty.close();
                 }
@@ -363,10 +430,12 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     var idhor = 0;
+    var idcla = 0;
 
-    function idhorario(horario){
-        idhor = horario;
-    }
+
+//    function idhorario(horario){
+//        idhor = horario;
+//    }
     var id = getID();
     $("#jqGrid").jqGrid({
         url: '/api/infoAcademia/' + id,
@@ -381,11 +450,11 @@
             {name:'capacidad', index:'capacidad',width:100},
             {name:'estadoClase', index:'estadoClase', width:100},
             {name:'nivel', index:'nivel', width:100},
-            {name:'precioCiclo', index:'precioCiclo', width:100},
-            {name:'precioMes', index:'precioMes', width:100},
+            {name:'precioCiclo', index:'precioCiclo', width:80},
+            {name:'precioMes', index:'precioMes', width:80},
             {name:'profesor', index:'profesor', width:100},
             {name:'rangoEdad', index:'rangoEdad', width:100},
-            {name: 'acciones', width: 80, align: 'center', formatter: acciones},
+            {name: 'acciones', width: 120, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
         height: 100,
@@ -405,9 +474,24 @@
     });
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
+    function Horarios() {
+        var idclass = event.target.parentNode.getAttribute("data-idEvento-horario");
+        console.log(idclass);
+        idcic = idclass;
+        if (idclass > 0)
+        {idcla = idclass;
+        idcic = idclass;
+        }
+        console.log(idcla);
+        $('#jqGrid1').jqGrid('clearGridData');
+        //jQuery('#jqGrid1').trigger('reloadGrid');
+        $('#jqGrid1').setGridParam({url: '/api/infoClase/' + idcla,page:1});
+        $('#jqGrid1').jqGrid('setGridWidth', '900');
+        jQuery('#jqGrid1').trigger('reloadGrid');
+    }
 
     $("#jqGrid1").jqGrid({
-        url: '/api/infoClase/' + id,
+        url: '/api/infoClase/' + idcla,
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
@@ -428,21 +512,34 @@
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
-            console.log("salio");
+            var rowIds = $("#jqGrid1").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid1").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoHorario'] == "INHABILITADO") {
+                    $("#jqGrid1").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+            //console.log("salio");
         }
     });
     $('#jqGrid1').jqGrid('setGridWidth', '900');
+
+
+
+
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones ='<a href="#" id="bt0"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
+        acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
                 '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Clase"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
+        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
         return acciones;
     }
     function acciones2(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Horario"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Horario" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Horario"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#" onclick="accionInhabilitarHorario();return false;"  id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Horario" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
 
         return acciones;
     }
