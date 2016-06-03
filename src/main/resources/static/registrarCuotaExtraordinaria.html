@@ -91,27 +91,27 @@
     <h4>REGISTRO DE CUOTA EXTRAORDINARIA</h4>
     <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
         <div class="form-group">
-            <label class="col-xs-5 control-label">Nombre</label>
+            <label class="col-xs-5 control-label">Nombre<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <input type="text" ng-model="ngNombre"  autofocus="autofocus" placeholder="Nombre de la cuota" class="form-control "/>
+                <input type="text" maxlength="100" ng-model="ngNombre"  autofocus="autofocus" placeholder="Nombre de la cuota" class="form-control "/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">Descripcion</label>
+            <label class="col-xs-5 control-label">Descripcion<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
                 <!--<textarea class="form-control" ng-model="des" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>-->
-                <input type="text" ng-model="descripcion" placeholder="Descripcion" class="form-control validate[required]"/>
+                <input type="text" maxlength="100" ng-model="descripcion" placeholder="Descripcion" class="form-control validate[required]"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">Monto</label>
+            <label class="col-xs-5 control-label">Monto<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
                 <!--<textarea class="form-control" ng-model="des" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>-->
                 <input type="text" ng-model="monto" placeholder="monto" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-5" >Fecha de Inicio</label>
+            <label class="control-label col-xs-5" >Fecha de Inicio<span class="obligatorio">*</span></label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
                     <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" required/>
@@ -121,7 +121,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-5">Fecha de Fin</label>
+            <label class="control-label col-xs-5">Fecha de Fin<span class="obligatorio">*</span></label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
                     <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6"/>
