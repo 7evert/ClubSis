@@ -41,4 +41,9 @@ public class PagoController {
         return servicioPagos.anularPago(id);
     }
 
+    @RequestMapping(value = "/{id}/pagar", method = RequestMethod.POST)
+    public Pago realizarPago(@PathVariable Integer id){
+        return servicioPagos.realizarPago(id);
+    }
+
 }

@@ -151,6 +151,17 @@ public class ServicioPagos {
         return cuotaExtraordinariaRepository.saveAndFlush(cuota);
     }
 
+    public Pago realizarPago(Integer idPago){
+        Pago pago= pagoRepository.findOne(idPago);
+        pago.setEstadoPago(EstadoPago.PAGADO);
+        return pagoRepository.saveAndFlush(pago);
+    }
+
+    public CuotaExtraordinaria pagarCuotaExtraordinaria(Integer idCuota){
+        CuotaExtraordinaria cuota= cuotaExtraordinariaRepository.findOne(idCuota);
+        cuota.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.PAGADA);
+        return cuotaExtraordinariaRepository.saveAndFlush(cuota);
+    }
 
     //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
     @Scheduled(cron="0 0 0 1 * ?")// primer dia de cada mes
