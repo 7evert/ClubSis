@@ -4,7 +4,7 @@
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
 
-    <title>Bungalow Informacion</title>
+    <title>Evento Informacion</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -158,6 +158,9 @@
             }
         ];
 
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
+        }
 
         function getID() {
             var href = this.location.href;
@@ -180,10 +183,10 @@
         };
 
         function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
-            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
-            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
+            $("#fechaInicio").html(new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
+            $("#fechaFin").html(new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
+            $("#fechaInicioInscripcion").html(new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
+            $("#fechaFinInscripcion").html(new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
         }
         function mostrarTarifas(tarifas){
             var b=new Array();
@@ -269,11 +272,13 @@
                     });
                     var tarreg=new Array();
                     $http.get('api/tarifaeventos').success(function (data3) {
+                        var cant=0;
                         for(var i=0;i<data3.length;i++){
-                            console.log(data3[i].eventos.id+" "+dataevento.id)
-                            if(data3[i].eventos.id==dataevento.id){
+                            //console.log(data3[i].eventos.id+" "+dataevento.id)
+                            if(data3[i].eventos && data3[i].eventos.id==dataevento.id){
                                 for(var j=0;j<data.length;j++){
                                     if(data3[i].tarifaeventos.id==data[j].id){
+                                        cant++;
                                         data[j].UsarTar="Yes";
                                         data[j].precio=data3[i].precio;
                                         jQuery("#jqGrid").addRowData(data[j].id, data[j]);
@@ -282,6 +287,7 @@
                                 }
                             }
                         }
+                        if(cant==0){$("#Tarifas").addClass("hidden");}
                         $("#lui_jqGrid").addClass("hidden");
                     });
 
@@ -323,7 +329,7 @@
             <div id="BungTipo2" class="show">
                 <img id="imgEvento" class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
             </div>
-            <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+            <div id="Tarifas" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
                 <div><h1>Tarifas</h1></div>
                 <table id="jqGrid"></table>
                 <div id="jqGridPager"></div>

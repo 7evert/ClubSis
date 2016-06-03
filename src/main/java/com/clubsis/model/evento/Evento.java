@@ -25,7 +25,6 @@ public class Evento {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
     private EstadoEvento estado;
-    private String reglamento;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date fechaInicioInscripcion;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
@@ -35,18 +34,23 @@ public class Evento {
     private Integer isPublico;
     private String nombre;
     private Integer capacidad;
+    private double descuento;
 
     @JsonIgnore
     @ManyToMany
     private Set<Empresa> empresas = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos",cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventos")
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Invitado> invitados = new HashSet<Invitado>(0);
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private Set<InvitadoEvento> invitadoeventos = new HashSet<InvitadoEvento>(0);
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private Set<PersonaEvento> personaeventos = new HashSet<>(0);
 
     // este es el OWNER de la relación con sede
     @ManyToOne
@@ -55,12 +59,11 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Invitado> invitados, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Set<PersonaEvento> personaeventos, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.reglamento = reglamento;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
         this.url = url;
@@ -68,9 +71,11 @@ public class Evento {
         this.isPublico = isPublico;
         this.nombre = nombre;
         this.capacidad = capacidad;
+        this.descuento = descuento;
         this.empresas = empresas;
         this.tarifaxEventos = tarifaxEventos;
-        this.invitados = invitados;
+        this.invitadoeventos = invitadoeventos;
+        this.personaeventos = personaeventos;
         this.sede = sede;
     }
 
@@ -112,14 +117,6 @@ public class Evento {
 
     public void setEstado(EstadoEvento estado) {
         this.estado = estado;
-    }
-
-    public String getReglamento() {
-        return reglamento;
-    }
-
-    public void setReglamento(String reglamento) {
-        this.reglamento = reglamento;
     }
 
     public Date getFechaInicioInscripcion() {
@@ -178,6 +175,14 @@ public class Evento {
         this.capacidad = capacidad;
     }
 
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
+
     public Set<Empresa> getEmpresas() {
         return empresas;
     }
@@ -194,12 +199,20 @@ public class Evento {
         this.tarifaxEventos = tarifaxEventos;
     }
 
-    public Set<Invitado> getInvitados() {
-        return invitados;
+    public Set<InvitadoEvento> getInvitadoeventos() {
+        return invitadoeventos;
     }
 
-    public void setInvitados(Set<Invitado> invitados) {
-        this.invitados = invitados;
+    public void setInvitadoeventos(Set<InvitadoEvento> invitadoeventos) {
+        this.invitadoeventos = invitadoeventos;
+    }
+
+    public Set<PersonaEvento> getPersonaeventos() {
+        return personaeventos;
+    }
+
+    public void setPersonaeventos(Set<PersonaEvento> personaeventos) {
+        this.personaeventos = personaeventos;
     }
 
     public Sede getSede() {

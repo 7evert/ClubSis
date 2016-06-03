@@ -35,6 +35,11 @@ public class SedeController {
     @RequestMapping(method = RequestMethod.POST)
     public Sede create(@RequestBody Sede sede) { return servicioSedes.crearSede(sede); }
 
+    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    public Sede update(@PathVariable Integer id, @RequestBody Sede sede) {
+        return servicioSedes.actualizarSede(id,sede);
+
+    }
  /*   @RequestMapping(value="/{id}/eventos/",method = RequestMethod.PUT)
     public Evento agregarEventoNuevo(@PathVariable int id, @RequestBody Evento evento){
         Sede sede = servicioSedes.buscarSede(id);

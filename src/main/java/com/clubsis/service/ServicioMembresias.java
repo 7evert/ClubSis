@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.RegistrationBean;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 
@@ -52,10 +56,14 @@ public class ServicioMembresias {
 
     public Persona actualizarPersona(Integer id, Persona persona){
         Persona personaExistente = personaRepository.findOne(id);
+        persona.setSocio(personaExistente.getSocio());
         BeanUtils.copyProperties(persona,personaExistente);
+
         return personaRepository.saveAndFlush(personaExistente);
     }
-
+    public void eliminarPersona(Integer id){
+        personaRepository.delete(id);
+    }
     //Usuario
     public List<Usuario> mostrarUsuarios(){ return usuarioRepository.findAll(); }
     public Usuario buscarUsuario(Integer id) {return usuarioRepository.findOne(id);}
@@ -71,13 +79,20 @@ public class ServicioMembresias {
     //Socio
     public List<Socio> mostrarSocios(){return socioRepository.findAll();}
     public Socio buscarSocio(Integer id){return socioRepository.findOne(id);}
-    public Socio crearSocio(Socio socio){return socioRepository.saveAndFlush(socio);}
+    public Socio crearSocio(Socio socio){
+        return socioRepository.saveAndFlush(socio);
+    }
 
-    public Socio actualizarSocio(Integer id, Socio socio){
+    public Socio actualizarSocio(Integer id, Integer idTipo, Socio socio){
         Socio socioExistente= socioRepository.findOne(id);
-        BeanUtils.copyProperties(socio,socioExistente);
+        TipoSocio tipo = tipoSocioRepository.findOne(idTipo);
+        socioExistente.setTipo(tipo);
+        socioExistente.setFechaInscripcion(socio.getFechaInscripcion());
+        socioExistente.setCodigoCarnet(socio.getCodigoCarnet());
+        socioExistente.setEstado(socio.getEstado());
         return socioRepository.saveAndFlush(socioExistente);
     }
+
 
     //Tipo Socio
     public List<TipoSocio> mostrarTiposSocios(){return tipoSocioRepository.findAll();}
@@ -123,7 +138,7 @@ public class ServicioMembresias {
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,
+                postulanteExistente.getNumeroDocumento(), "",Boolean.TRUE,null,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }

@@ -15,6 +15,7 @@ public class TipoSocio {
     @Id
     @GeneratedValue
     private Integer id;
+
     private String nombre;
     private String descripcion;
     private Double costoMembresia;
@@ -22,8 +23,8 @@ public class TipoSocio {
     private Double costoInicial;
     private Double ingresoMinimo;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
     private Set<Socio> socios;
 
     protected TipoSocio() {

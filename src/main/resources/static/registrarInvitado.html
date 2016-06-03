@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>Registrar Invitado</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -42,19 +42,23 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
     </style>
     <script type="text/javascript">
+        var funciones = {};
+        var nroInv = 0;
+        var nroSocios = 0;
+        var tarifasPrecios = {};
         function limpiarFormulario() {
             $("#nombre").val("");
             $("#apellidoPat").val("");
             $("#apellidoMat").val("");
-            $("#tipoDoc").val("");
+            $("#tipoDoc").val(0);
             $("#nroDoc").val("");
             //$("#exonerado").val(0);
             $("#ingresoInv").val(0);
-            $("#date-picker-TiempoInicio").val("");
-            $("#date-picker-TiempoFin").val("");
-            $("#password").val("");
         }
         function getIDSocioYEvento() {
             var href = this.location.href;
@@ -62,90 +66,170 @@
             return str ? [str[1], str[2]] : undefined;
         }
 
-        function verInvitado() {
+        function verInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-ver");
-            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
+            location.href = "informacionInvitado.html?id=" + id + "&idEvento=" + idevento;
         }
-        function modificarInvitado() {
+        function modificarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-modificar");
-            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
+            location.href = "modificarInvitado.html?id=" + id + "&idEvento=" + idevento;
         }
-        function eliminarInvitado() {
+        function eliminarInvitado(event) {
             var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
-            location.href = "modificarInvitado.html?id=" + id+"&idEvento="+idevento;
+            funciones.eliminarInvitado(event, id);
         }
 
-        function mostrarMensaje(message){
+        function verFamiliar(event) {
+            var id = event.target.parentNode.getAttribute("data-idevento-ver");
+            id = jQuery('#jqGrid1').jqGrid('getRowData', id).idpersona;
+            location.href = "verSocio.html?idSocio=" + idsocio + "&idFamiliar=" + id;
+        }
+        function eliminarFamiliar(event) {
+            var id = event.target.parentNode.getAttribute("data-idevento-eliminar");
+            funciones.eliminarAsociado(event, id);
+        }
+
+        function mostrarMensaje(message) {
             alert(message);
         }
-        function verificarDatos(){
-            var mensajes=["Nombre debe tener entre 1 y 50 letras",
+        function verificarDatos() {
+            var mensajes = ["Nombre debe tener entre 1 y 50 letras",
                 "Apellido Paterno debe tener entre 1 y 50 letras",
                 "Apellido Materno debe tener entre 1 y 50 letras",
-                "Tipoc Documento debe tener entre 1 y 50 letras",
-                "Numero de Documento debe ser un numero entero entre 8 y 25 numeros",
-                "fecha Inicio debe ser una fecha Valida",
-                "fecha Fin debe ser una fecha Valida",
-                "fecha de Inicio debe ser antes o igual a fecha Fin"
+                "Debe elegir Tipo de Documento",
+                "Numero de Documento debe ser un numero entero menor a 10 digitos"
             ];
-            var ver=[],i=0;
-            ver[i++]=$("#nombre").val().length<50&&$("#nombre").val().length>0
-            ver[i++]=$("#apellidoPat").val().length<50&&$("#apellidoPat").val().length>0
-            ver[i++]=$("#apellidoMat").val().length<50&&$("#apellidoMat").val().length>0
-            ver[i++]=$("#tipoDoc").val().length<50&&$("#tipoDoc").val().length>0
-            ver[i++]=($("#nroDoc").val()%1===0) && parseInt($("#nroDoc").val())>=0 && ($("#nroDoc").val()/Math.pow(10,7)>1) && ($("#nroDoc").val()/Math.pow(10,25)<1);
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
-            ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
-            ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);
-            for(var j=0;j<i;j++)
-                if(ver[j]==false) {
+            var ver = [], i = 0;
+            ver[i++] = $("#nombre").val().length < 50 && $("#nombre").val().length > 0;
+            ver[i++] = $("#apellidoPat").val().length < 50 && $("#apellidoPat").val().length > 0;
+            ver[i++] = $("#apellidoMat").val()=="" || $("#apellidoMat").val().length < 50 && $("#apellidoMat").val().length > 0;
+            ver[i++] = $("#tipoDoc").val() != 0;
+            ver[i++] = ($("#nroDoc").val() % 1 === 0) && parseInt($("#nroDoc").val()) >= 0 && ($("#nroDoc").val() / Math.pow(10, 10) < 1);
+            /*ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
+             ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
+             ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);*/
+
+            for (var j = 0; j < i; j++)
+                if (ver[j] == false) {
                     mostrarMensaje(mensajes[j]);
                     return false;
                 }
             return true;
         }
+        function mensajeAsociado(dataAsociado) {
+            console.log("El registro del Socio "+dataAsociado.nombre+" fue exitoso");
+        }
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        var ids,idsocio,idevento;
+        var ids, idsocio, idevento, selectedIDs;
         app2.controller('RegistroInvitadoController', function ($scope, $http) {
             ids = getIDSocioYEvento();
-            idsocio = ids?ids[0]:ids;
-            idevento = ids?ids[1]:ids;
+            idsocio = ids ? ids[0] : ids;
+            idevento = ids ? ids[1] : ids;
+
             if (idsocio == undefined || idevento == undefined) {
-                location.href="participarEvento.html?id"+idevento;
+                location.href = "participarEvento.html?id" + idevento;
+            }
+
+            funciones.eliminarInvitado = function (event, idInvEvento) {
+                $http.delete('/api/invitadoeventos/' + idInvEvento + '/eliminar').success(function (data) {
+                    //console.log("eliminado " + idInvEvento);
+                    $('#jqGrid').jqGrid('delRowData', idInvEvento);
+                    nroInv--;
+                });
+            };
+
+            funciones.eliminarAsociado = function (event, id) {
+                $http.delete('/api/personaeventos/' + id + '/eliminar').success(function (data) {
+                    //mostrarMensaje("eliminado Entrada Socio " + id);
+                    $('#jqGrid1').jqGrid('delRowData', id);
+                    nroSocios--;
+                });
             }
 
             $http.get('/api/tarifas').success(function (data) {
                 $http.get('api/tarifaeventos').success(function (data3) {
-                    for(var i=0;i<data3.length;i++){
+                    var cambio =false;
+                    console.log(data3);
+                    for (var i = 0; i < data3.length; i++) {
                         //console.log(data3[i].eventos.id+" "+dataevento.id)
-                        if(data3[i].eventos.id==idevento){
-                            for(var j=0;j<data.length;j++){
-                                if(data3[i].tarifaeventos.id==data[j].id){
-                                    $("#tipoTarifa").append($("<option></option>").attr({value:data[j].nombre}).html(data[j].nombre));
+                        if (!cambio && data3[i].eventos && data3[i].eventos.id == idevento) {
+                            cambio=true;
+                            $("#Titulo").html($("#Titulo").html() +" "+ data3[i].eventos.nombre);
+                        }
+                        if (data3[i].eventos && data3[i].eventos.id == idevento) {
+                            for (var j = 0; j < data.length; j++) {
+                                if (data3[i].tarifaeventos.id == data[j].id) {
+                                    $("#tipoTarifa").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre + " - S/." + data3[i].precio));
+                                    $("#tipoTarifa1").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre + " - S/." + data3[i].precio));
+                                    tarifasPrecios[data[j].nombre] = data3[i].precio;
                                 }
                             }
                         }
                     }
+                    funciones.obtenerInvitados();
+                    funciones.obteniendoPersonas();
                 });
             });
 
-            $http.get('/api/invitados').success(function (data2, status) {
-                //var data2 = guest;
-                console.log(JSON.stringify(data2));
-                for(var i=0;i<data2.length;i++) {
-                    for(var j=0;j<data2[i].eventos.length;j++){
-                        if((idsocio==data2[i].socio.id) && (idevento==data2[i].eventos[j].id)) {
-                            var data = {id: data2[i].id, nombre: data2[i].nombres, nroDoc: data2[i].numeroDocumento};
+            funciones.obtenerInvitados = function () {
+                $http.get('/api/invitadoeventos').success(function (data3, status) {
+                    console.log(data3);
+                    for (var i = 0; i < data3.length; i++) {
+                        if (data3[i].evento && data3[i].evento.id == idevento && idsocio == data3[i].invitado.socio.id) {
+                            nroInv++;
+                            var data = {
+                                nro: nroInv,
+                                id: data3[i].id,
+                                nombre: data3[i].invitado.nombres,
+                                nroDoc: data3[i].invitado.numeroDocumento,
+                                tarifa: data3[i].tipo,
+                                costo: tarifasPrecios[data3[i].tipo]
+                            };
                             jQuery("#jqGrid").addRowData(data.id, data);
                         }
                     }
-                }
+                });
+            }
+
+            $http.get('/api/socios/' + idsocio + '/personas').success(function (dataFamiliares) {
+                var elemMiembros = $("#asociado");
+                for (var i = 0; i < dataFamiliares.length; i++)
+                    elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
             });
 
-            $("#addGuest").click(function () {
-                if(!verificarDatos())return;
+            funciones.obteniendoPersonas = function () {
+                $http.get('/api/personaeventos').success(function (data3, status) {
+                    console.log(data3);
+                    for (var i = 0; i < data3.length; i++) {
+                        if (data3[i].evento && data3[i].evento.id == idevento && data3[i].persona && idsocio == data3[i].persona.socio.id) {
+                            nroSocios++;
+                            var data = {
+                                nro: nroSocios,
+                                id: data3[i].id,
+                                idpersona: data3[i].persona.id,
+                                nombre: data3[i].persona.nombre,
+                                nroDoc: data3[i].persona.numeroDocumento,
+                                tarifa: data3[i].tipo,
+                                costo: tarifasPrecios[data3[i].tipo]
+                            };
+                            jQuery("#jqGrid1").addRowData(data.id, data);
+                        }
+                    }
+                });
+            }
+
+            $("#addGuest").click(function (event) {
+                if (!$("#formAsociado").hasClass("hidden") || $("#formInvitado").hasClass("hidden")) {
+                    mostrarMensaje("Presione el boton \"Formulario Invitado\" para agregar los datos de Invitado");
+                    return;
+                }
+                $(event.target).prop("disabled", true);
+                if (!verificarDatos()) {
+                    $(event.target).prop("disabled", false);
+                    return;
+                }
                 var guest = {
                     nombres: $("#nombre").val(),
                     apellidoPaterno: $("#apellidoPat").val(),
@@ -153,26 +237,115 @@
                     tipoDocumento: $("#tipoDoc").val(),
                     numeroDocumento: parseInt($("#nroDoc").val()),
                     //esExoneradoPago: parseInt($("#exonerado").val()),
-                    ingresoInvitado: parseInt($("#ingresoInv").val()),
-                    fechaVisita: Date.parse($("#date-picker-TiempoInicio")[0].value),
-                    fechaSalida: Date.parse($("#date-picker-TiempoFin")[0].value)
+                    ingresoInvitado: parseInt($("#ingresoInv").val())
                 };
                 console.log(JSON.stringify(guest));
-                $http.post('/api/invitados/' + idevento+"/"+idsocio+"/eventos",guest).success(function (data2, status) {
+                $http.post('/api/invitados/' + idsocio + "/eventos", guest).success(function (dataInvitado, status) {
                     //$http.get('/api/sedes', guest).success(function (data2, status) {
                     //var data2 = guest;
-                    console.log(JSON.stringify(data2));
-                    limpiarFormulario();
-                    alert("Se registro al invitado exitosamente");
-                    var data = {id: data2.id, nombre: data2.nombres, nroDoc: data2.numeroDocumento};
-                    jQuery("#jqGrid").addRowData(data.id, data);
+                    console.log(JSON.stringify(dataInvitado));
+                    var data = {"tipo": $("#tipoTarifa").val()};
+                    $http.post('/api/invitadoeventos/' + dataInvitado.id + "/" + idevento + "/eventos", data).success(function (datosinvitadoevento, status) {
+                        limpiarFormulario();
+                        nroInv++;
+                        alert("Se registro al invitado fue exitoso");
+                        var data = {
+                            nro: nroInv,
+                            id: datosinvitadoevento.id,
+                            nombre: dataInvitado.nombres,
+                            nroDoc: dataInvitado.numeroDocumento,
+                            tarifa: datosinvitadoevento.tipo,
+                            costo: tarifasPrecios[datosinvitadoevento.tipo]
+                        };
+                        //console.log(data);
+                        jQuery("#jqGrid").addRowData(data.id, data);
+                        $(event.target).prop("disabled", false);
+                    }).error(function () {
+                        $(event.target).prop("disabled", false);
+                    });
+                }).error(function () {
+                    $(event.target).prop("disabled", true);
                 });
             });
+
+            $("#eliminar").click(function (event) {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey);
+                else {
+                    selectedIDs = grid.getGridParam("selarrrow");
+                    for (var j = 0; j < selectedIDs.length; j++) {
+                        idInvEvento = selectedIDs[j];
+                        funciones.eliminarInvitado(event, idInvEvento);
+                    }
+                }
+                var grid = $("#jqGrid1");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey)
+                    alert("Seleccionar en las listas las personas que ya no participaran");
+                else {
+                    selectedIDs = grid.getGridParam("selarrrow");
+                    for (var j = 0; j < selectedIDs.length; j++) {
+                        idInvEvento = selectedIDs[j];
+                        funciones.eliminarAsociado(event, idInvEvento);
+                    }
+                }
+            });
+
             $("#terminar").click(function () {
-                location.href = "generarPagoEvento.html?idSocio="+idsocio+"&idEvento="+idevento;
+                location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
             });
             $("#cancelar").click(function () {
                 location.href = "MantenimientoEventos.html";
+            });
+
+
+            $("#mostrarFormInvitado").click(function (event) {
+                $("#formInvitado").removeClass("hidden");
+                $("#formAsociado").addClass("hidden");
+            });
+            $("#mostrarFormAsociado").click(function (event) {
+                $("#formInvitado").addClass("hidden");
+                $("#formAsociado").removeClass("hidden");
+            });
+
+            $("#addSocio").click(function (event) {
+                if (!$("#formInvitado").hasClass("hidden") || $("#formAsociado").hasClass("hidden")) {
+                    mostrarMensaje("Presione el boton \"Formulario Asociado\" para agregar a un Asociado");
+                    return;
+                }
+                $(event.target).prop("disabled", true);
+                var idAsociado = $('#asociado').val();
+                var entrada = {"tipo": $("#tipoTarifa1").val()};
+                var ids = jQuery("#jqGrid1").jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++) {
+                    var rowId = ids[i];
+                    var rowData = jQuery('#jqGrid1').jqGrid('getRowData', rowId);
+                    if (rowData.idpersona == idAsociado) {
+                        console.log('/api/personaeventos/' + idAsociado + "/" + idevento + "/eventos");
+                        mostrarMensaje("Ya tienes registrado este Socio");
+                    }
+                }
+                console.log('/api/personaeventos/' + idAsociado + "/" + idevento + "/eventos");
+                $http.post('/api/personaeventos/' + idAsociado + "/" + idevento + "/eventos", entrada).success(function (dataAsociado, status) {
+                    mensajeAsociado(dataAsociado);
+                    limpiarFormulario();
+                    nroSocios++;
+                    var data = {
+                        nro: nroSocios,
+                        id: dataAsociado.id,
+                        idpersona: dataAsociado.persona.id,
+                        nombre: dataAsociado.persona.nombre,
+                        nroDoc: dataAsociado.persona.numeroDocumento,
+                        tarifa: dataAsociado.tipo,
+                        costo: tarifasPrecios[dataAsociado.tipo]
+                    };
+                    jQuery("#jqGrid1").addRowData(data.id, data);
+                    $(event.target).prop("disabled", false);
+                }).error(function () {
+                    $(event.target).prop("disabled", false);
+                });
+
             });
         });
     </script>
@@ -183,108 +356,125 @@
     <div id="wrap">
         <div class="main">
             <div class="container">
-                <h2>Registro de Invitados</h2>
+                <h2 id="Titulo">Registro al Evento</h2>
                 <hr>
+                <input id="mostrarFormInvitado" class="btn btn-primary" value="Formulario Invitado" style="width:15%;margin-left:10%;">
+                <input id="mostrarFormAsociado" class="btn btn-primary" value="Formulario Asociado" style="width:15%;">
                 <div class="row">
                     <div>
-                        <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form">
-                            <div class="form-group">
-                                <label class="col-xs-5 control-label">Nombre(s)</label>
-                                <div class="col-xs-7">
-                                    <input id="nombre" type="text" name="nombre" maxlength="30" autofocus="autofocus"
-                                           tabindex="1" autocomplete="off" placeholder=""
-                                           class="form-control validate[required]"/>
+                        <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form" style="position:relative;top:20px;">
+                            <div id="formInvitado"  style="position:relative;top:10px;">
+                                <div>
+                                    <label style="font-size:17pt;">Datos del Invitado</label>
+                                    <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-5 control-label">Apellido Paterno</label>
-                                <div class="col-xs-7">
-                                    <input id="apellidoPat" type="text" name="apellPat" maxlength="30"
-                                           autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
-                                           class="form-control validate[required]"/>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Nombre(s)<span class="obligatorio">*</span></label>
+                                    <div class="col-xs-7">
+                                        <input id="nombre" type="text" name="nombre" maxlength="30"
+                                               autofocus="autofocus"
+                                               tabindex="1" autocomplete="off" placeholder=""
+                                               class="form-control validate[required]"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-5 control-label">Apellidos Materno</label>
-                                <div class="col-xs-7">
-                                    <input id="apellidoMat" type="text" name="apellMat" maxlength="30"
-                                           autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
-                                           class="form-control validate[required]"/>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Apellido Paterno<span class="obligatorio">*</span></label>
+                                    <div class="col-xs-7">
+                                        <input id="apellidoPat" type="text" name="apellPat" maxlength="30"
+                                               autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
+                                               class="form-control validate[required]"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-5 control-label">Tipo de Documento</label>
-                                <div class="col-xs-7">
-                                    <input id="tipoDoc" type="text" name="tipoDoc" maxlength="30" autofocus="autofocus"
-                                           tabindex="1" autocomplete="off" placeholder=""
-                                           class="form-control validate[required]"/>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Apellidos Materno</label>
+                                    <div class="col-xs-7">
+                                        <input id="apellidoMat" type="text" name="apellMat" maxlength="30"
+                                               autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
+                                               class="form-control validate[required]"/>
+                                    </div>
                                 </div>
-                                <!--<div class="col-xs-7">
-                                    <select class="form-control" id="tipoDocumento">
-                                        <option>DNI</option>
-                                        <option>Carnet de extranjería</option>
-                                    </select>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Tipo de Documento<span class="obligatorio">*</span></label>
+                                    <div class="col-xs-7">
+                                        <select class="form-control" id="tipoDoc">
+                                            <option value="0">Elegir</option>
+                                            <option value="DNI">DNI</option>
+                                            <option value="Pasaporte">Pasaporte</option>
+                                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                                        </select>
+                                    </div>
+                                    <!--<div class="col-xs-7">
+                                        <select class="form-control" id="tipoDocumento">
+                                            <option>DNI</option>
+                                            <option>Carnet de extranjería</option>
+                                        </select>
+                                    </div>-->
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">N° de Documento<span class="obligatorio">*</span></label>
+                                    <div class="col-xs-7">
+                                        <input id="nroDoc" type="text" name="dni" maxlength="15" autofocus="autofocus"
+                                               tabindex="1" autocomplete="off" placeholder=""
+                                               class="form-control validate[required]"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Tipo de Entrada<span class="obligatorio">*</span></label>
+                                    <div class="col-xs-7">
+                                        <select class="form-control" id="tipoTarifa">
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">
+                                    <label class="col-xs-5 control-label">Ingreso Invitado</label>
+                                    <div class="col-xs-7">
+                                        <select class="form-control" id="ingresoInv">
+                                            <option value="0">No</option>
+                                            <option value="1">Si</option>
+                                        </select>
+                                    </div>
                                 </div>-->
                             </div>
-                            <div class="form-group">
-                                <label class="col-xs-5 control-label">N° de Documento</label>
-                                <div class="col-xs-7">
-                                    <input id="nroDoc" type="text" name="dni" maxlength="15" autofocus="autofocus"
-                                           tabindex="1" autocomplete="off" placeholder=""
-                                           class="form-control validate[required]"/>
+                            <!------------------------------------------------------- -->
+                            <div class="hidden" id="formAsociado" style="position:relative;top:10px;">
+                                <div>
+                                    <label style="font-size:17pt;">Datos del Socio</label>
+                                    <input id="addSocio" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-5">Fecha de Entrada</label>
-                                <div class="col-xs-7 date">
-                                    <div class="input-group input-append date">
-                                        <input id="date-picker-TiempoInicio" type="text"
-                                               class="date-picker form-control col-xs-6"/>
-                                        <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span
-                                                class="glyphicon glyphicon-calendar"></span>
-                                        </label>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Asociado</label>
+                                    <div class="col-xs-7">
+                                        <select class="form-control" id="asociado">
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-5">Fecha de Salida</label>
-                                <div class="col-xs-7 date">
-                                    <div class="input-group input-append date">
-                                        <input id="date-picker-TiempoFin" type="text"
-                                               class="date-picker form-control col-xs-6"/>
-                                        <label for="date-picker-TiempoFin" class="input-group-addon btn"><span
-                                                class="glyphicon glyphicon-calendar"></span>
-                                        </label>
+                                <div class="form-group">
+                                    <label class="col-xs-5 control-label">Tipo</label>
+                                    <div class="col-xs-7">
+                                        <select class="form-control" id="tipoTarifa1">
+                                        </select>
                                     </div>
                                 </div>
+                                <!--<div class="col-xs-offset-5 col-xs-9">
+                                    <input id="addSocio" class="btn btn-primary" value="Añadir" style="width:30%">
+                                </div>-->
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-5">Tipo</label>
-                                <select class="col-xs-3" id="tipoTarifa">
-                                </select>
-                                <label class="control-label col-xs-2">Ingreso Invitado</label>
-                                <select class="col-xs-2" id="ingresoInv">
-                                    <option value="0">No</option>
-                                    <option value="1">Si</option>
-                                </select>
-                            </div>
-                            <!--
-                            <div class="form-group">
-                                <label class="col-xs-5 control-label">Confirmar contraseña</label>
-                                <div class="col-xs-7">
-                                    <input id="password" type="password" name="clave" maxlength="15"
-                                           autofocus="autofocus"
-                                           tabindex="2" placeholder="Password" class="form-control validate[required]"/>
-                                </div>
-                            </div>-->
-                            <div class="col-xs-offset-5 col-xs-9">
-                                <input id="addGuest" class="btn btn-primary" value="Añadir">
-                                <input id="terminar" class="btn btn-default" value="Terminar y Confirmar">
-                                <input id="cancelar" class="btn btn-default" value="cancelar">
+
+                            <!---------------------------------- ----------------------------------------------------->
+                            <div align="left" style="position:relative;top:60px;">
+                                <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
+                                <input id="terminar" class="btn btn-primary" value="Confirmar" style="width:30%">
+                                <input id="cancelar" class="btn btn-primary" value="Eventos" style="width:30%">
                             </div>
                         </form>
+                        <!---------------------- -------------------------------------------------------- -->
                     </div>
-                    <div class="col-sm-offset-1 col-sm-5" align="left">
+                    <div class="col-sm-offset-1 col-sm-5" align="left" style="position:relative;top:-40px;">
+                        <h4>Lista de Socios:</h4>
+                        <div class="rowchangeg" style="width: 400px; margin-left: auto; margin-right: auto;">
+                            <table id="jqGrid1"></table>
+                            <div id="jqGridPager1"></div>
+                        </div>
                         <h4>Lista de invitados:</h4>
                         <div class="rowchangeg" style="width: 400px; margin-left: auto; margin-right: auto;">
                             <table id="jqGrid"></table>
@@ -306,62 +496,55 @@
 <script type="text/javascript">
 
     var lastsel2;
+    jQuery("#jqGrid1").jqGrid({
+        datatype: "local",
+        height: 200,
+        colNames: ['Nro', 'Id', 'Id Persona', 'Nombre', 'Nro. Doc.', 'Tipo', 'Costo', 'Acciones'],
+        colModel: [
+            {name: 'nro', index: 'nro', width: 30, editable: false},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
+            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 10, editable: false},
+            {name: 'nombre', index: 'nombre', width: 150, editable: false},
+            {name: 'nroDoc', index: 'Nro. Doc.', width: 60, editable: false},
+            {name: 'tarifa', index: 'Tipo', width: 60, editable: false},
+            {name: 'costo', index: 'Costo', width: 60, editable: false},
+            {name: 'acciones', width: 120, align: 'center', formatter: acciones1}
+        ],
+        multiselect: true
+    });
+    function acciones1(cellValue, options, rowdata, action) {
+        var acciones = '';
+        acciones = '<a href="#" onclick="verFamiliar(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Familiar"><img src="img/Iconos/ver.png" class="icono"/>' +
+                '<a href="#" onclick="eliminarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Familiar"><img src="img/Iconos/eliminar.png" class="icono"/>';
+        return acciones;
+    }
+
+    var lastsel2;
     jQuery("#jqGrid").jqGrid({
         datatype: "local",
-        height: 300,
-        colNames: ['Id', 'Nombre', 'Nro. Doc.', 'Acciones'],
+        height: 200,
+        colNames: ['Nro', 'Id', 'Nombre', 'Nro. Doc.', 'Tipo', 'Costo', 'Acciones'],
         colModel: [
-            {name: 'Id', index: 'id', hidden: true, width: 10, editable: false},
+            {name: 'nro', index: 'nro', width: 30, editable: false},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
             {name: 'nombre', index: 'nombre', width: 150, editable: false},
             {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false},
+            {name: 'tarifa', index: 'Tipo', width: 60, editable: false},
+            {name: 'costo', index: 'Costo', width: 60, editable: false},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones}
-        ]
+        ],
+        multiselect: true
     });
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="verInvitado();return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"/>' +
-                '<a  href="#" onclick="modificarInvitado();return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                '<a href="#" onclick="eliminarInvitado();return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
+        acciones = '<a href="#" onclick="verInvitado(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"/>' +
+                '<a  href="#" onclick="modificarInvitado(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"/>' +
+                '<a href="#" onclick="eliminarInvitado(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
         return acciones;
     }
 </script>
 <script type="text/javascript">
-    /*
-     $("#jqGrid").jqGrid({
-     url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-     mtype: "GET",
-     styleUI : 'Bootstrap',
-     datatype: "jsonp",
-     gridview: true,
-     emptyrecords: 'No se encontraron resultados',
-     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-     colModel: [
-     { label: 'idInvitado', name: 'idInvitado', key: true, hidden: true, width: 1},
-     { label: 'N°', name: 'OrderID', align: 'center', width: 7 },
-     { label: 'Nombre', name: 'ShipName', align: 'center', width: 40 },
-     { label:'N° Documento', name: 'OrderID', align: 'center', width: 20 },
-     { label:'Acciones', name: 'acciones', width: 20, align: 'center', formatter: acciones},
-     ],
-     viewrecords: true,
-     height: 196,
-     rowNum: 7,
-     pager: "#jqGridPager"
-     });
-
-     $('#jqGrid').jqGrid('setGridWidth', '400');
-
-     function acciones(cellValue, options, rowdata, action) {
-     var acciones = '';
-
-     acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"></a>'+
-     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="'  +rowdata['idProducto']+ '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"></a>'+
-     '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="'  +rowdata['idProducto']+ '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-     return acciones;
-     }*/
-</script>
-<script type="text/javascript">
     $(".date-picker").datepicker();
 </script>
-
 </body>
 </html>

@@ -32,12 +32,12 @@ public class Socio {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Invitado> invitados =new HashSet<Invitado>();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "socio")
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "socio")
     private Set<Persona> personas =new HashSet<Persona>();
 
-    @OneToMany(mappedBy="id.socio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
+    @OneToMany(mappedBy="id.socio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
 
     @JsonIgnore

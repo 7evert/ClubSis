@@ -1,10 +1,12 @@
 package com.clubsis.model.persona;
 
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.evento.InvitadoEvento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,38 +21,30 @@ public class Invitado {
     private Integer id;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
-    private Date fechaVisita;
     private String tipoDocumento;
     private Integer numeroDocumento;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
-    private Date fechaSalida;
     private String nombres;
     private Boolean ingresoInvitado;
 
-
-
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Evento> eventos= new HashSet<Evento>(0);
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "invitado")
+    private Set<InvitadoEvento> invitadoEventos= new HashSet<InvitadoEvento>(0);
 
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, Date fechaVisita, String apellidoMaterno, Integer numeroDocumento, String tipoDocumento, Date fechaSalida, Set<Evento> eventos, Socio socio, Boolean ingresoInvitado, String nombres) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, String nombres, Boolean ingresoInvitado, Socio socio, Set<InvitadoEvento> invitadoEventos) {
         this.apellidoPaterno = apellidoPaterno;
-        this.fechaVisita = fechaVisita;
         this.apellidoMaterno = apellidoMaterno;
-        this.numeroDocumento = numeroDocumento;
         this.tipoDocumento = tipoDocumento;
-        this.fechaSalida = fechaSalida;
-        this.eventos = eventos;
-        this.socio = socio;
-        this.ingresoInvitado = ingresoInvitado;
+        this.numeroDocumento = numeroDocumento;
         this.nombres = nombres;
+        this.ingresoInvitado = ingresoInvitado;
+        this.socio = socio;
+        this.invitadoEventos = invitadoEventos;
     }
 
     public Integer getId() {
@@ -77,14 +71,6 @@ public class Invitado {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Date getFechaVisita() {
-        return fechaVisita;
-    }
-
-    public void setFechaVisita(Date fechaVisita) {
-        this.fechaVisita = fechaVisita;
-    }
-
     public String getTipoDocumento() {
         return tipoDocumento;
     }
@@ -99,14 +85,6 @@ public class Invitado {
 
     public void setNumeroDocumento(Integer numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
-    }
-
-    public Date getFechaSalida() {
-        return fechaSalida;
-    }
-
-    public void setFechaSalida(Date fechaSalida) {
-        this.fechaSalida = fechaSalida;
     }
 
     public String getNombres() {
@@ -133,11 +111,11 @@ public class Invitado {
         this.socio = socio;
     }
 
-    public Set<Evento> getEventos() {
-        return eventos;
+    public Set<InvitadoEvento> getInvitadoEventos() {
+        return invitadoEventos;
     }
 
-    public void setEventos(Set<Evento> eventos) {
-        this.eventos = eventos;
+    public void setInvitadoEventos(Set<InvitadoEvento> invitadoEventos) {
+        this.invitadoEventos = invitadoEventos;
     }
 }

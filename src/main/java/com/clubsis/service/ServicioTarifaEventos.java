@@ -22,12 +22,18 @@ public class ServicioTarifaEventos {
     }
     public TarifaEvento buscarTarifasEventos(Integer id){return tarifaxEventoRepository.findOne(id);}
     public TarifaEvento crearTarifaEventos(TarifaEvento tarifaEvento){
-        System.out.println(" 2 ");
         return tarifaxEventoRepository.saveAndFlush(tarifaEvento);
     }
-    public TarifaEvento actualizarTarifaEventos(Integer id, TarifaEvento tarifaEvento){
-        TarifaEvento tarifaEventoexistente= tarifaxEventoRepository.findOne(id);
-        BeanUtils.copyProperties(tarifaEvento,tarifaEventoexistente);
-        return tarifaxEventoRepository.saveAndFlush(tarifaEventoexistente);
+    public TarifaEvento actualizarTarifaEventos(Integer id, TarifaEvento tarifaEvento) {
+        TarifaEvento tarifaEventoexistente = tarifaxEventoRepository.findOne(id);
+        if (tarifaEventoexistente != null) {
+            tarifaEventoexistente.setPrecio(tarifaEvento.getPrecio());
+            return tarifaxEventoRepository.saveAndFlush(tarifaEventoexistente);
+        }else{
+            return crearTarifaEventos(tarifaEvento);
+        }
+    }
+    public void eliminarTarifaEvento(Integer id){
+        tarifaxEventoRepository.delete(id);
     }
 }

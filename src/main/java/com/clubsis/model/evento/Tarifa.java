@@ -21,11 +21,9 @@ public class Tarifa {
 
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="tarifaeventos",cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="tarifaeventos")
     private Set<TarifaEvento> tarifaxEventos = new HashSet<TarifaEvento>(0);
 
-    @ManyToMany
-    private Set<Evento> eventos = new HashSet<Evento>();
 
     protected Tarifa() {
     }

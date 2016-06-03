@@ -1,6 +1,7 @@
 package com.clubsis.controller.persona;
 
 import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
 import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,21 @@ public class PersonaController {
         return servicioMembresias.buscarPersona(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Persona create(@RequestBody Persona persona){
+
+    @RequestMapping(value="/{idSocio}/crear",method = RequestMethod.POST)
+    public Persona create(@PathVariable Integer idSocio,@RequestBody Persona persona){
+        Socio socio = servicioMembresias.buscarSocio(idSocio);
+        persona.setSocio(socio);
         return servicioMembresias.crearPersona(persona);
     }
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/actualizar", method = RequestMethod.PUT)
     public Persona update(@PathVariable Integer id, @RequestBody Persona persona){
         return servicioMembresias.actualizarPersona(id,persona);
+    }
+
+    @RequestMapping(value="/{id}/eliminar",method=RequestMethod.DELETE)
+    public void delete(@PathVariable Integer id){
+        servicioMembresias.eliminarPersona(id);
     }
 }
 

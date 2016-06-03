@@ -70,18 +70,19 @@
             alert(message);
         }
         function verificarDatos(){
-            var mensajes=["Nombre debe tener entre 1 y 50 caracteres",
-                "Descripcion debe tener entre 1 y 100 caracteres",
-                "fechaEntrada debe ser una fecha válida",
-                "fechaSalida debe ser una fecha válida",
-                "fecha fnicio de Inscripcion debe ser una fecha válida",
-                "fecha fin de Inscripcion debe ser una fecha válida",
-                "capacidad debe ser un numero entero",
-                "fecha de inscripcion debe ser antes de fecha inicio",
-                "fecha de fin de inscripcion debe ser antes de fecha inicoi",
-                "fecha de inicio debe ser antes o igual a fecha fin",
-                "Todas las tarifas deben ser mayores a 0"
-            ]
+            var mensajes=["Nombre debe tener entre 1 y 50 caracteres",//0
+                "Descripcion debe tener entre 1 y 100 caracteres",//1
+                "fechaEntrada debe ser una fecha válida",//2
+                "fechaSalida debe ser una fecha válida",//3
+                "fecha fnicio de Inscripcion debe ser una fecha válida",//4
+                "fecha fin de Inscripcion debe ser una fecha válida",//5
+                "capacidad debe ser un numero entero",//6
+                "fecha de inscripcion inicio debe ser a partir de hoy",//7
+                "fecha de fin de inscripcion debe ser a partir de fecha inicio inscripcion",//8
+                "fecha inicio de ser a partir de fecha fin de Inscripcion",//9
+                "fecha fin debe ser a partir de fecha inicio",//10
+                "Todas las tarifas deben ser mayores a 0"//11
+            ];
             var ver=[];
             ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
             ver[1]=$("#descripcion").val().length>0&&$("#descripcion").val().length<100;
@@ -90,17 +91,17 @@
             ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
             ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
             ver[6]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;;
-            ver[7]=Date.parse($("#date-picker-DiaEntrada")[0].value)>Date.parse($("#date-picker-InicioInscripcion")[0].value);
-            ver[8]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
-            ver[9]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
-            ver[10]=true;
+            ver[7]=Date.parse($("#date-picker-InicioInscripcion")[0].value)-new Date()>-(24*60*60*1000);
+            ver[8]=Date.parse($("#date-picker-InicioInscripcion")[0].value)<=Date.parse($("#date-picker-FinInscripcion")[0].value);
+            ver[9]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
+            ver[10]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
+            ver[11]=true;
             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
             for (var i = 0,vez=0; i < ids.length; i++) {
                 var rowId = ids[i];
                 var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
-                //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
                 if (rowData.UsarTar == "Yes") {
-                    ver[10]=ver[10]&&(isNaN(parseFloat(rowData.precio))==false&&(parseFloat(rowData.precio)>0));
+                    ver[11]=ver[11]&&(isNaN(parseFloat(rowData.precio))==false&&(parseFloat(rowData.precio)>0));
                 }
             }
             for(var i=0;i<ver.length;i++)
@@ -114,6 +115,15 @@
             alert("Su evento "+id+" se registro exitosamente");
             location.href="EventInformacion.html?id="+id;
         }
+
+        function addActionGratuito(){
+            $("select#isGratuito").change(function(){
+                if($(this).val()==1)
+                    $("#Tarifas").addClass("hidden")
+                else
+                    $("#Tarifas").removeClass("hidden");
+            });
+        }
     </script>
     <script type="text/javascript">
         //app script
@@ -122,7 +132,7 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
-            var estados=[{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
+            var estados=[{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"},{v:"INHABILITADO"}];
             var estadosElem=$("#estado");
             for(var i=0;i<estados.length;i++)
                 estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
@@ -135,8 +145,14 @@
                     sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
             });
 
+            addActionGratuito();
+
             $("#Guardar").click(function () {
-                if(!verificarDatos())return;
+                $( "#Guardar" ).prop( "disabled", true );
+                if(!verificarDatos()){
+                    $( "#Guardar" ).prop( "disabled", false );
+                    return;
+                }
                 var data = {
                     "url": "img/Eventos/newYear.jpg",
                     "nombre": $("#nombre").val(),
@@ -155,6 +171,7 @@
                 $http.post('/api/eventos/' + idSede,data).success(function (data2, status) {
                     console.log(data2.id+" "+data2.nombre);
                     mensajeRegistroExitoso(data2.id);
+                    if(data2.isGratuito==1){return;}
                     var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
                     for (var i = 0,vez=0; i < ids.length; i++) {
                         var rowId = ids[i];
@@ -170,7 +187,8 @@
                             });
                         }
                     }
-
+                }).error(function(){
+                    $( "#Guardar" ).prop( "disabled", false );
                 });
             });
             $http.get('/api/tarifas').success(function (data) {
@@ -179,9 +197,9 @@
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
                     height: 50*(data.legth+1),
-                    colNames:['ID','Tarifa', 'Usar Tarifa', 'Precio'],
+                    colNames:['Tipo','Tarifa', 'Usar Tarifa', 'Precio'],
                     colModel:[
-                        {name:'id',index:'id', width:90, sorttype:"int"},
+                        {name:'id',index:'Tipo', width:90, sorttype:"int"},
                         {name:'nombre',index:'nombre', width:150,editable: false},
                         {name:'UsarTar',index:'UsarTar', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},
                         {name:'precio',index:'precio', width:120,editable: true, editoptions:{size:"20",maxlength:"30"}}
@@ -207,7 +225,6 @@
                     data[i].precio="0";
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
                 }
-                data.push({id:-1,nombre:"Click para terminar"});
                 jQuery("#jqGrid").addRowData(data[data.length-1].id, data[i]);
             });
 
@@ -326,8 +343,8 @@
                  style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
                  src="img/Eventos/newYear.jpg">
         </div>
-        <div class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
-            <div><h1>Tarifas</h1> (haga click para agregar)</div>
+        <div id="Tarifas" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+            <div><h1>Tarifas</h1> (Seleccione su tarifa en la grilla y edite el precio)</div>
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>

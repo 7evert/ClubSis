@@ -2,6 +2,7 @@ package com.clubsis.service;
 
 import com.clubsis.model.sede.Sede;
 import com.clubsis.repository.sede.SedeRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +24,10 @@ public class ServicioSedes {
         return sedeRepository.saveAndFlush(sede);
     }
     public Sede buscarSede(Integer id){  return sedeRepository.findOne(id);}
+
+    public Sede actualizarSede(Integer id, Sede sede){
+        Sede sedeExistente =  sedeRepository.findOne(id);
+        BeanUtils.copyProperties(sede,sedeExistente);
+        return sedeRepository.saveAndFlush(sedeExistente);
+    }
 }

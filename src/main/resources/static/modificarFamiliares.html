@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis-Registrar Familiares</title>
+    <title>ClubSis-Modificar Familiares</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
@@ -41,35 +41,42 @@
     </style>
     <script type="text/javascript">
         var funciones = {};
-        function getID() {
-            var href = this.location.href;
-            var str = href.match(/\?id\=(\d+)/);
-            return str ? str[1] : str;
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
         }
+        function getIDSocioYFamiliar() {
+            var href = this.location.href;
+            var str = href.match(/\?idSocio\=(\d+)&idFamiliar\=(\d+)/);
+            return str ? [str[1], str[2]] : undefined;
+        }
+        funciones.mostrarFamiliar=function(){
+            var idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
+            var idFamiliar=getIDSocioYFamiliar()?getIDSocioYFamiliar()[1]:undefined;
+            location.href="verSocio.html?idSocio="+idSocio+"&idFamiliar="+idFamiliar;
+        }
+        funciones.mostrarFamiliares = function () {
+            var idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
+            location.href = "miCuenta_familiares.html?id=" + idSocio;
+        };
         function mostrarMensaje(s){
             alert(s);
         }
         function mostrarMensajeExitoso(data) {
             alert("se registro exitosamente al familiar " + data.nombre);
         }
-        function llenarCampos(data, dataTitular) {
-            $("#socio").html(fechstr);
-            $("#titular").html(fechstr);
-            $("#tipoDocumento").html("DNI");//$("#tipoDocumento").val(data.tipoDocumento);
-            $("#numeroDocumento").html(dataTitular.dni);
-            $("#nombre").html(dataTitular.nombre);
-            $("#apellidoPaterno").html(dataTitular.apellidoPaterno);
-            $("#apellidoMaterno").html(dataTitular.apellidoMaterno);
-            $("#telefono").html(dataTitular.telefono);
-
-            var fechstr = dataTitular.fechaNacimiento ? (new Date(dataTitular.fechaNacimiento).ddmmyyyy()) : "";
-            $("#fechaNacimiento").html(fechstr);
-            $("#direccion").html(dataTitular.direccion);
-            $("#correo").html(dataTitular.correo);
-            $("#esTitular").html(dataTitular.esTitular ? "SI" : "NO");
-            //$("#esTitular").val(+dataTitular.esTitular);
-            $("#tipo").html(dataTitular.tipo ? dataTitular.tipo : "");
-            $("#usuario").html(dataTitular.usuario ? dataTitular.usuario : "");
+        function llenarCampos(data, titular,familiar) {
+            $("#socio").val(data.codigoCarnet);
+            $("#titular").val(titular.nombre + " " + titular.apellidoPaterno);
+            $("#tipoDocumento").val(familiar.tipoDocumento);//$("#tipoDocumento").val(data.tipoDocumento);
+            $("#numeroDocumento").val(familiar.numeroDocumento);
+            $("#nombre").val(familiar.nombre);
+            $("#apellidoPaterno").val(familiar.apellidoPaterno);
+            $("#apellidoMaterno").val(familiar.apellidoMaterno);
+            $("#telefono").val(familiar.telefono);
+            $("#date-picker-FechaNacimiento").datepicker("setDate", new Date(validateDateInAllBrowsers(familiar.fechaNacimiento)));
+            $("#direccion").val(familiar.direccion);
+            $("#correo").val(familiar.correo);
+            $("#esTitular").val(+familiar.esTitular);
         }
         function limpiar() {
             $("#tipoDocumento").val(0);
@@ -85,16 +92,16 @@
             $("#date-picker-FechaNacimiento")[0].value="";
         }
         function verificarDatos() {
-            var mensajes = ["Nombre debe tener entre 1 y 50 letras.",
-                "Apellido Paterno debe tener entre 1 y 50 letras.",
-                "Apellido Materno debe tener entre 1 y 50 letras.",
-                "Debe elegir algun tipo de documento.",
-                "El número de documento debe ser un número.",
-                "La dirección debe tener como máximo 50 caracteres.",
-                "El correo.debe tener como máximo 30 caracteres.",
-                "El teléfono debe contener solo alfanumericos y/o *#.",
-                "La fecha de nacimiento debe ser fecha valida.",
-                "La fecha de nacimiento debe ser antes de hoy."
+            var mensajes = ["Nombre debe tener entre 1 y 50 letras",
+                "Apellido Paterno debe tener entre 1 y 50 letras",
+                "Apellido Materno debe tener entre 1 y 50 letras",
+                "Debe elegir algun tipo de documento",
+                "Numero Documento debe ser un Numero",
+                "La direccion debe tener como maximo 50 caracteres",
+                "el correo.debe tener como maximo 30 caracteres",
+                "el telefono debe contener solo letras alfanumericos y/o *#",
+                "La fecha de Nacimiento debe ser fecha valida",
+                "La fecha de nacimiento debe ser antes de hoy"
             ];
             var ver = [], i = 0;
             ver[i++] = $("#nombre").val().length < 50 && $("#nombre").val().length > 0;
@@ -114,29 +121,30 @@
                 }
             return true;
         }
-        funciones.mostrarFamiliares = function () {
-            location.href = "miCuenta_familiares.html?id=" + getID();
-        };
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        app2.controller('registroFamiliar', function ($scope, $http) {
-            $http.get('/api/socios/' + getID()).success(function (data) {
-                $http.get('/api/socios/' + getID() + '/personas').success(function (dataPersonas) {
+        var familiar,idSocio,idFamiliar,dataTitular ;
+        app2.controller('modificacionFamiliar', function ($scope, $http) {
+            idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
+            idFamiliar=getIDSocioYFamiliar()?getIDSocioYFamiliar()[1]:undefined;
+            $http.get('/api/socios/' + idSocio).success(function (data) {
+                $http.get('/api/socios/' + idSocio + '/personas').success(function (dataPersonas) {
                     dataTitular = $.grep(dataPersonas, function (e) {
                         return e.esTitular == true;
                     })[0];
-                    if (dataTitular) {
-                        $("#socio").val(data.codigoCarnet);
-                        $("#titular").val(dataTitular.nombre + " " + dataTitular.apellidoPaterno);
+                    familiar = $.grep(dataPersonas, function (e) {
+                        return e.id == idFamiliar;
+                    })[0];
+                    if (familiar) {
+                        llenarCampos(data, dataTitular,familiar);
                     }
                 });
             });
-            funciones.registrarFamiliar = function () {
+            funciones.modificarFamiliar= function () {
                 verificarDatos();
-                var socio = $("#socio").val();
-                var titular = $("#titular").val();
                 var persona = {
+                    "id":idFamiliar,
                     "tipoDocumento": $("#tipoDocumento").val(),
                     "numeroDocumento": parseInt($("#numeroDocumento").val()),
                     "nombre": $("#nombre").val(),
@@ -148,27 +156,27 @@
                     "correo": $("#correo").val(),
                     "esTitular": parseInt($("#esTitular").val())//numero
                 };
-                console.log('/api/personas/' + getID() + '/crear');
+                console.log('/api/personas/' + idFamiliar + '/actualizar');
                 console.log(JSON.stringify(persona));
-                $http.post('/api/personas/' + getID() + '/crear', persona).success(function (data) {
+                $http.put('/api/personas/' + idFamiliar + '/actualizar', persona).success(function (data) {
                     mostrarMensajeExitoso(data);
-                    limpiar();
+                    funciones.mostrarFamiliar();
                 });
             };
         });
     </script>
 </head>
-<body ng-controller="registroFamiliar">
+<body ng-controller="modificacionFamiliar">
 <div id="headerUsuario"></div>
 <div class="container">
-    <h3>REGISTRO DE UN NUEVO FAMILIAR DEL SOCIO</h3>
+    <h3>MODIFICACION DE FAMILIAR DEL SOCIO</h3>
     <hr>
     <h4>DATOS DEL FAMILIAR DEL SOCIO</h4>
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="socio" class="col-md-4 control-label">Socio(*): </label>
+                    <label for="socio" class="col-md-4 control-label">Socio</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="socio" disabled>
                     </div>
@@ -176,7 +184,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="titular" class="col-md-4 control-label">Titular(*): </label>
+                    <label for="titular" class="col-md-4 control-label">Titular</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="titular" disabled>
                     </div>
@@ -184,7 +192,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="esTitular" class="col-md-4 control-label">Es Titular(*): </label>
+                    <label for="esTitular" class="col-md-4 control-label">Es Titular</label>
                     <div class="col-md-8">
                         <select id="esTitular" class="form-control">
                             <option value="0">Titular</option>
@@ -195,7 +203,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombres(*): </label>
+                    <label for="nombre" class="col-md-4 control-label">Nombres</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nombre" placeholder="NOMBRES">
                     </div>
@@ -203,7 +211,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno(*): </label>
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoPaterno" placeholder="Precio">
                     </div>
@@ -211,7 +219,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno(*): </label>
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoMaterno" placeholder="Precio">
                     </div>
@@ -219,7 +227,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo Documento(*): </label>
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo Documento</label>
                     <div class="col-md-8">
                         <select id="tipoDocumento" class="form-control">
                             <option value="0">Elegir</option>
@@ -232,7 +240,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="numeroDocumento" class="col-md-4 control-label">Nro. Documento(*): </label>
+                    <label for="numeroDocumento" class="col-md-4 control-label">Nro. Documento</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="numeroDocumento" placeholder="919191">
                     </div>
@@ -240,7 +248,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion :</label>
+                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="direccion" placeholder="Precio">
                     </div>
@@ -248,7 +256,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="correo" class="col-md-4 control-label">Correo :</label>
+                    <label for="correo" class="col-md-4 control-label">Correo</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="correo" placeholder="...@....com">
                     </div>
@@ -256,7 +264,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Teléfono :</label>
+                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="telefono" placeholder="....">
                     </div>
@@ -264,7 +272,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="control-label col-md-4">Fecha de Nacimiento :</label>
+                    <label class="control-label col-md-4">Fecha de Nacimiento</label>
                     <div class="input-group input-append date col-md-8">
                         <input id="date-picker-FechaNacimiento" type="text"
                                class="date-picker form-control col-xs-6"/>
@@ -278,10 +286,9 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 95px;">
-                    <a href="#" onclick="funciones.registrarFamiliar();return false;" class="btn btn-primary">Registrar
-                        Familiar</a>
-                    <a href="#" onclick="funciones.mostrarFamiliares();return false;" class="btn btn-primary">Lista
-                        Familiares</a>
+                    <a href="#" onclick="funciones.modificarFamiliar();return false;" class="btn btn-primary">Modificar Familiar</a>
+                    <a href="#" onclick="funciones.mostrarFamiliar();return false;" class="btn btn-primary">Mostrar Familiar</a>
+                    <a href="#" onclick="funciones.mostrarFamiliares();return false;" class="btn btn-primary">Lista Familiares</a>
                 </div>
             </div>
         </div>

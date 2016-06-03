@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -10,6 +10,17 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -54,8 +65,99 @@
             margin-bottom: 10px;
         }
     </style>
+    <script type="text/javascript">
+        var funciones={};
+        funciones.verSocio=function(event){
+            var idSocio=event.target.parentNode.getAttribute("data-idevento-ver");;
+            location.href="verSocio.html?idSocio="+idSocio;
+        }
+        funciones.modificarSocio=function(event){
+            var idSocio=event.target.parentNode.getAttribute("data-idevento-modificar");;
+            location.href="editarSocio.html?id="+idSocio;
+        }
+        funciones.sancionarSocio=function(event){
+            var idSocio=event.target.parentNode.getAttribute("data-idevento-sancionar");;
+            location.href="registrarMulta.html?id="+idSocio;
+        }
+        function mostrarSuspencion(socio){
+            console.log("se deshabilito correctamente al socio "+socio.id);
+        }
+    </script>
+    <script type="text/javascript">
+        var nroSocios=0;
+        var app2 = angular.module('app2', []);
+        app2.controller('mantenimientoSocioController', function ($scope, $http) {
+            $http.get('/api/socios/').success(function (data) {
+                var lastsel2;
+                jQuery("#jqGrid").jqGrid({
+                    datatype: "local",
+                    styleUI: 'Bootstrap',
+                    height: 50 * (data.legth + 1),
+                    colNames: ['Nro.','ID', 'Carnet', 'Membresia', 'Estado', 'Titular', "Acciones"],
+                    colModel: [
+                        {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
+                        {name: 'id', index: 'ID', width: 90, editable:false,hidden:true, align: 'center'},
+                        {name: 'codigoCarnet',index: 'Carnet',width: 150,editable: false,align: 'center'},
+                        {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center'},
+                        {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center'},
+                        {name: 'nombreTit', index: 'Titular', width: 220, editable: false, align: 'center'},
+                        {name: 'acciones', width: 120, align: 'center', formatter: acciones}
+                    ],
+                    multiselect: true
+                });
+                function acciones(cellValue, options, rowdata, action) {
+                    var acciones = '';
+                    acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
+                            '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
+                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
+                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                    return acciones;
+                }
+                for (var i = 0; i < data.length; i++) {
+                    $http.get('/api/socios/'+data[i].id+'/personaasociada').success(function (dataPersona){
+                        data[nroSocios].nro=nroSocios+1;
+                        data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
+                        if(dataPersona)
+                            data[nroSocios].nombreTit=dataPersona.nombre;
+                        console.log(JSON.stringify(dataPersona));
+                        jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
+                        nroSocios++;
+                    }).error(function(){
+                        data[nroSocios].nro=nroSocios+1;
+                        data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
+                        jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
+                        nroSocios++;
+                    })
+                }
+                funciones.SuspenderSocio=function(event){
+                    var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
+                    var dataSocio= {"id":idSocio};
+                    $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
+                        mostrarSuspencion(socio);
+                    });
+                }
+            });
+            funciones.eliminar=function() {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey)
+                    alert("No hay postulante seleccionado");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var nroExito = 0;
+                    for (var j = 0; j < selectedIDs.length; j++) {
+                        var idSocio = selectedIDs[j];
+                        $http.delete('/api/socios/'+idSocio+'/inhabilitar').success(function (data) {
+                            mostrarSuspencion(data);
+                        });
+                    }
+                }
+            }
+        });
+    </script>
 </head>
-<body>
+<body ng-controller="mantenimientoSocioController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -75,7 +177,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio</label>
+                    <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="tipoSocio">
                             <option>Elegir</option>
@@ -88,7 +190,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="estado" class="col-md-4 control-label">Estado</label>
+                    <label for="estado" class="col-md-4 control-label">Estado :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
                             <option>Elegir</option>
@@ -102,7 +204,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento</label>
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="tipoDocumento">
                             <option>Elegir</option>
@@ -115,7 +217,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nroDocumento" class="col-md-4 control-label">N° de documento</label>
+                    <label for="nroDocumento" class="col-md-4 control-label">N° de documento :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nroDocumento" placeholder="DNI del socio">
                     </div>
@@ -123,7 +225,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombres</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombres :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nombre" placeholder="Nombres del socio">
                     </div>
@@ -131,7 +233,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido paterno</label>
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoPaterno"
                                placeholder="Apellido parteno del socio">
@@ -140,7 +242,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido materno</label>
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoMaterno"
                                placeholder="Apellido materno del socio">
@@ -149,7 +251,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="titular" class="col-md-4 control-label">¿Es titular?</label>
+                    <label for="titular" class="col-md-4 control-label">¿Es titular? :</label>
                     <div class="radio col-md-3">
                         <label><input type="radio" name="optradio">Si</label>
                     </div>
@@ -174,6 +276,9 @@
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
+            <div class="form-group" style="margin-left: 110px;">
+                <a href="#" onclick="funciones.eliminar();return false;" class="btn btn-primary" id="Suspender">Suspender</a>
+            </div>
         </div>
         <br>
         <div class="leyenda">
@@ -196,43 +301,5 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
-<script type="text/javascript">
-
-    $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI: 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            {label: 'idSocio', name: 'idSocio', key: true, hidden: true, width: 75},
-            {label: 'N°', name: 'OrderID', align: 'center', width: 40},
-            {label: 'N° de Documento', name: 'OrderID', align: 'center', width: 150},
-            {label: 'Tipo de Documetno', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Nombres', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Apellido Paterno', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Apellido Materno', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Tipo de Socio', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 400,
-        rowNum: 20,
-        pager: "#jqGridPager"
-    });
-
-    $('#jqGrid').jqGrid('setGridWidth', '900');
-
-    function acciones(cellValue, options, rowdata, action) {
-        var acciones = '';
-
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idSocio'] + '" title="Ver Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"></a>';
-        return acciones;
-    }
-</script>
 </body>
 </html>

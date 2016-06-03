@@ -13,7 +13,27 @@
     <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
     <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+    <style type="text/css">
+        input[type='checkbox'].textboxbigger {
+            -webkit-appearance:none;
+            width:30px;
+            height:30px;
+            background:white;
+            border-radius:5px;
+            border:2px solid #555;
+        }
+        input[type='checkbox']:checked {
+            background: #abd;
+        }
+        .inhabilitar{
+            background-color: #fff866;
+        }
+    </style>
     <script type="text/javascript">
+        function validateDateInAllBrowsers(cad){
+            return cad?cad.replace(" ","T")+"Z":cad;
+        }
+
         Date.prototype.ddmmyyyy = function () {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
@@ -56,6 +76,10 @@
             location.href = "registrarEvento.html";
             event.preventDefault();
         }
+
+        function Suspender(e){
+            funciones.suspender(e);
+        }
         var funcion={};
         var funciones = [Ver, Participar, Editar, Eliminar];
 
@@ -64,110 +88,11 @@
         var accionesXElemento = [
             /*ver,editar,eliminar,reservar,registrar*/
             //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-            ["Ver", "Participar", "Editar", "Eliminar"],//ADIMINISTRADOR
+            ["Ver", "Participar", "Editar", "Suspender"],//ADIMINISTRADOR
             //["Reservar","Anular","Modificar"],//usuario:Administradio
             ["Ver", "Participar"]];//usuario:Socio
-        var accionAgregar = [["Registrar"],//usuario:ADMINISTRADOR
+        var accionAgregar = [["Suspender"],//usuario:ADMINISTRADOR
             []];//usuario:Socio
-        var dataJSON = [
-            {
-                id: 0,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            },
-            {
-                id: 1,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            },
-
-            {
-                id: 2,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            }
-        ];
     </script>
     <script type="text/javascript">
         function contieneCadenaItem(item,cad){
@@ -200,6 +125,25 @@
         function displayNone(item){
             $("#"+item.id).attr({style:"display:none;"});
         }
+
+        function appearTextBoxToEliminate(){
+            var lista=document.getElementsByClassName("list-group-item");
+            var top=$("#topMostrar").append($('<input type="checkbox" class="textboxbigger pull-right" id="maintextbox" value="all">'));
+            for(var i=0;i<lista.length-1;i++) {
+                a = lista[i];
+                var id=a.getAttribute("id");;
+                a.childNodes[0].appendChild($(' <input type="checkbox" class="textboxbigger" value="'+ id+'" style="position:absolute;top:10px;right:20px;">')[0]);
+            }
+        }
+        function deshabilitarEvento(i){
+            $($("#"+i)[0].children[0]).addClass("inhabilitar");
+        }
+        function deshabilitarEstilos(eventos){
+            for(var i=0;i<eventos.length;i++){
+                if(eventos[i].estado=="INHABILITADO")
+                    deshabilitarEvento(eventos[i].id);
+            }
+        }
     </script>
     <script type="text/javascript">
         //app script
@@ -215,24 +159,50 @@
                 //DATAEVENTOS = dataJSON;
                 console.log(JSON.stringify(data));
                 llenarListaBungalows1(DATAEVENTOS);
-                cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
+                appearTextBoxToEliminate();
+                cambiarDeUsuario(accionesXElemento, administrador, Suspender, funciones);
+                deshabilitarEstilos(DATAEVENTOS);
                 mostrarNext5();
-                var eliminar=$("button");
-                for(var i=0;i<eliminar.length;i++)
-                    if($("button")[i].value=="Eliminar")
-                        $($("button")[i]).attr({style:'display:none;'});
-                funcion.Eliminar=function(e){
-                    location.href = "loginUsuario.html";
-                    /*event.preventDefault();
-                    DATAEVENTOS[getID(e.target)].estado="INHABILITADO";
-                    console.log(JSON.stringify(DATAEVENTOS[getID(e.target)-1]));
-                    $http.put('/api/eventos/'+getID(e.target),DATAEVENTOS[getID(e.target)]).success(function (data) {
-
-                    });*/
+                $('#maintextbox').click(function() {
+                    var lista=$(".textboxbigger");
+                    for(var i=0;i<lista.length;i++)
+                        if(!$("#"+lista[i].getAttribute("value")).hasClass("hidden"))
+                            lista[i].checked=this.checked;
+                });
+                funciones.suspender=function(e){
+                        /*$("#Deshabilitar").click(function(event){*/
+                    var lista=$(".textboxbigger"),id;
+                    lista[0].checked=false;
+                    for(var i=0;i<lista.length;i++){
+                        id=lista[i].getAttribute("value");
+                        if(id!="all" && lista[i].checked){
+                            deshabilitarEvento(i);
+                            lista[i].checked=false;
+                            $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
+                                console.log("se deshabilito el evento "+data.nombre);
+                            }).error(function(){
+                                console.log("No se pudo deshabilitar el evento ");
+                            });
+                        }
+                    }
+                };
+                funcion.Eliminar=function(event){
+                    //location.href = "loginUsuario.html";
+                    event.preventDefault();
+                    dataevento = $.grep(DATAEVENTOS, function (e) {
+                        return e.id == getID(event.target);
+                    })[0];
+                    dataevento.estado="INHABILITADO";
+                    dataevento.sede={"id":dataevento.sede.id};
+                    console.log(JSON.stringify(dataevento));
+                    $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
+                        deshabilitarEvento(data.id);
+                        console.log(data);
+                    });
                 }
             });
 
-            var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"}];
+            var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"},{v:"INHABILITADO"}];
             var estadosElem=$("#estado");
             for(var i=0;i<estados.length;i++)
                 estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
@@ -265,6 +235,9 @@
             $("#Limpiar").click(function(){
                 limpiarFiltradoEvento();
             });
+            $("#registrar").click(function(e){
+                Agregar(e);
+            })
         });
     </script>
 </head>
@@ -275,8 +248,9 @@
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
     <div>
         <div class="form-group"><!--filtrado-->
-            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">
+            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;height:45px;">
                 CONSULTA DE EVENTOS
+                <button id="registrar" class="btn btn-primary pull-right">Registrar</button>
                 <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
             </h4>
 
@@ -457,7 +431,7 @@
         var b = new Array();
         b[0] = retornaTitulo1(nombre);
         b[1] = $('<p></p>').html("Evento " + id);
-        b[2] = retornaSedes1(sede.nombre);
+        b[2] = retornaSedes1(sede?sede.nombre:"");
         b[3] = $('<h3></h3>').html(((isPublico) ? "Publico" : "Privado") + ((isGratuito) ? " y Gratuito" : ""));
         for (var j = 0; j < b.length; j++)
             panelInfo.append(b[j]);
@@ -492,10 +466,10 @@
     function retornaMasCaracteristicas1(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
         var div = $('<div></div>');
         var b = new Array();
-        b[0] = $("<h4></h4>").html("Inicio de Inscripciones: " + new Date(inicioInscripciones).ddmmyyyy());
-        b[1] = $("<h4></h4>").html("Fin de Inscripciones: " + new Date(finInscipciones).ddmmyyyy());
-        b[2] = $("<h4></h4>").html("Fecha Inicio: " + new Date(fechaInicio).ddmmyyyy());
-        b[3] = $("<h4></h4>").html("Fecha Fin: " + new Date(fechaFin).ddmmyyyy());
+        b[0] = $("<h4></h4>").html("Inicio de Inscripciones: " + new Date(validateDateInAllBrowsers(inicioInscripciones)).ddmmyyyy());
+        b[1] = $("<h4></h4>").html("Fin de Inscripciones: " + new Date(validateDateInAllBrowsers(finInscipciones)).ddmmyyyy());
+        b[2] = $("<h4></h4>").html("Fecha Inicio: " + new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
+        b[3] = $("<h4></h4>").html("Fecha Fin: " + new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
         for (var j = 0; j < b.length; j++)
             div.append(b[j]);
         return div;
@@ -515,4 +489,3 @@
 </script>
 </body>
 </html>
-

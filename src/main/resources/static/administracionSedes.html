@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis</title>
+    <title>Administracion De Sedes</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -11,23 +11,28 @@
     <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
-        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
+
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-        .ui-jqgrid-resize-ltr{
+
+        .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-        .btn-warning{
+
+        .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
             padding-right: 2px;
@@ -36,11 +41,11 @@
             border-color: #ededed;
         }
 
-        .   {
+        . {
             width: 19px;
         }
 
-        h4{
+        h4 {
             background: #008D34;
             color: white;
             padding-left: 30px;
@@ -50,44 +55,57 @@
             margin-top: 0px;
         }
 
-        hr{
+        hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
     </style>
     <script type="text/javascript">
-        function limpiar(){
+        const INHABILITADO = "INHABILITADO";
+        const HABILITADO = "HABILITADO";
+        function limpiar() {
             $("#nombre").val("");
             $("#direccion").val("");
             $("#descripcion").val("");
             $("#telefono").val("");
             $("#administrador").val("");
+            $("#estado").val("");
         }
-        function llenarEngrilla(data){
+        function llenarDatosEnLabels(sede) {
+            $("#nombre").val(sede.nombre);
+            $("#direccion").val(sede.direccion);
+            $("#descripcion").val(sede.descripcion);
+            $("#telefono").val(sede.telefono);
+            $("#administrador").val(sede.administrador);
+            $("#estado").val(sede.estado);
+        }
+        function llenarEngrilla(data) {
             jQuery("#jqGrid").addRowData(data.id, data);
         }
+        var funciones = {};
+
     </script>
     <script type="text/javascript">
-        function mostrarMensaje(message){
+        function mostrarMensaje(message) {
             alert(message);
         }
         function verificarDatos() {
-            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
-                "Direccion debe tener entre 1 y 100 caracteres",
-                "Telefono debe tener entre 7 a 15 caracteres",
-                "Descripcion debe tneer entre 1 y 255 caracteres",
-                "Administrador debe tneer entre 8 y 100 caracteres",
-                "Telefono solo puede tener numeros, *, # y -"
+            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres.",
+                "Dirección debe tener entre 1 y 100 caracteres.",
+                "Teléfono debe tener entre 7 a 15 caracteres.",
+                "Descripción debe tener entre 1 y 255 caracteres.",
+                "Nombre del administrador debe tener entre 8 y 100 caracteres.",
+                "Teléfono solo puede tener numeros, *, # y -"
             ]
-            var ver=[];
-            ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
-            ver[1]=$("#direccion").val().length>0&&$("#direccion").val().length<100;
-            ver[2]=$("#telefono").val().length>=7&&$("#telefono").val().length<=15;
-            ver[3]=$("#descripcion").val().length>0&&$("#descripcion").val().length<255;
-            ver[4]=$("#administrador").val().length>8&&$("#administrador").val().length<100;
-            ver[5]=$("#telefono").val().match(/[^0-9*#-]/)==null;
-            for(var i=0;i<ver.length;i++)
-                if(ver[i]==false) {
+            var ver = [];
+            ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
+            ver[1] = $("#direccion").val().length > 0 && $("#direccion").val().length < 100;
+            ver[2] = $("#telefono").val().length >= 7 && $("#telefono").val().length <= 15;
+            ver[3] = $("#descripcion").val().length > 0 && $("#descripcion").val().length < 255;
+            ver[4] = $("#administrador").val().length > 8 && $("#administrador").val().length < 100;
+            ver[5] = $("#telefono").val().match(/[^0-9*#-]/) == null;
+            for (var i = 0; i < ver.length; i++)
+                if (ver[i] == false) {
                     mostrarMensaje(mensajes[i]);
                     return false;
                 }
@@ -95,46 +113,189 @@
         }
         var app2 = angular.module('app2', []);
         app2.controller('administracionSedesController', function ($scope, $http) {
+            funciones.verSede = function (event) {
+                var idSede = event.target.parentNode.getAttribute("data-idevento-ver");
+                $http.get('/api/sedes/').success(function (data) {
+                    for (var i = 0; i < data.length; i++)
+                        if (data[i].id == idSede) {
+                            console.log("SedeObtenida: " + data[i]);
+                            //mostrarSede(data[i]);
+                            break;
+                        }
+                });
+            };
+            funciones.modificarSede = function (event) {
+                var idSede = event.target.parentNode.getAttribute("data-idevento-modificar");
+                $http.get('/api/sedes/').success(function (data) {
+                    for (var i = 0; i < data.length; i++)
+                        if (data[i].id == idSede) {
+                            console.log("sedeObtuvida: " + data[i]);
+                            $("#titulo").html("Modificacion de Sede");
+                            $("#registrar").addClass("hidden");
+                            $("#limpiar").addClass("hidden");
+                            $("#modificar").removeClass("hidden");
+                            $("#cancelar").removeClass("hidden");
+                            funciones.idSedeAModificar = idSede;
+                            llenarDatosEnLabels(data[i]);
+                            break;
+                        }
+                });
+            };
+
+            $("#deshabilitar").click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey)
+                    alert("No hay postulante seleccionado");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var nroExito=0;
+                    $http.get('/api/sedes/').success(function (data) {
+                        for (var j = 0; j < selectedIDs.length; j++) {
+                            var idSede = selectedIDs[j];
+                            for (var i = 0; i < data.length; i++)
+                                if (data[i].id == idSede) {
+                                    var sede = data[i];
+                                    var dataSede = {
+                                        "id": sede.id,
+                                        "nombre": sede.nombre,
+                                        "direccion": sede.direccion,
+                                        "telefono": sede.telefono,
+                                        "descripcion": sede.descripcion,
+                                        "administrador": sede.administrador,
+                                        "estado": INHABILITADO
+                                    };
+                                    $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
+                                        console.log("Inhabilitado: " + dataInhabilitadaSede.nombre);
+                                        nroExito++;
+                                        if(nroExito==selectedIDs.length){
+                                            jQuery("#jqGrid").trigger('reloadGrid');
+                                        }
+                                    }).error(function (data2) {
+                                        mensaje = "No se pudo dehabilitar sede.";
+                                    });
+                                    break;
+                                }
+                        }
+                    });
+                }
+            });
+            $("#cancelar").click(function () {
+                if (funciones.idSedeAModificar) {
+                    funciones.idSedeAModificar = undefined;
+                    $("#titulo").html("REGISTRO SEDES");
+                    $("#registrar").removeClass("hidden");
+                    $("#limpiar").removeClass("hidden");
+                    $("#modificar").addClass("hidden");
+                    $("#cancelar").addClass("hidden");
+                    limpiar();
+                    jQuery("#jqGrid").trigger('reloadGrid');
+                }
+            });
+
+            $("#modificar").click(function () {
+                if (funciones.idSedeAModificar) {
+                    var dataSede = {
+                        "id": funciones.idSedeAModificar,
+                        "nombre": $("#nombre").val(),
+                        "direccion": $("#direccion").val(),
+                        "telefono": $("#telefono").val(),
+                        "descripcion": $("#descripcion").val(),
+                        "administrador": $("#administrador").val(),
+                        "estado": $("#estado").val()
+                    };
+                    $http.put('/api/sedes/' + dataSede.id, dataSede).success(function (datamodificadaSede) {
+                        console.log("Modificado: " + datamodificadaSede);
+                        $('#jqGrid').jqGrid('setRowData', datamodificadaSede.id, datamodificadaSede);
+                        /*location.href="administracionSedes.html"*/
+                        funciones.idSedeAModificar = undefined;
+                        $("#titulo").html("REGISTRO SEDES");
+                        $("#registrar").removeClass("hidden");
+                        $("#limpiar").removeClass("hidden");
+                        $("#modificar").addClass("hidden");
+                        $("#cancelar").addClass("hidden");
+                        limpiar();
+                        jQuery("#jqGrid").trigger('reloadGrid');
+                    });
+                }
+            });
+
+            funciones.inhabilitarSede = function (event) {
+                var idSede = event.target.parentNode.getAttribute("data-idevento-eliminar");
+                $http.get('/api/sedes/').success(function (data) {
+                    for (var i = 0; i < data.length; i++)
+                        if (data[i].id == idSede) {
+                            var sede = data[i];
+                            var dataSede = {
+                                "id": sede.id,
+                                "nombre": sede.nombre,
+                                "direccion": sede.direccion,
+                                "telefono": sede.telefono,
+                                "descripcion": sede.descripcion,
+                                "administrador": sede.administrador,
+                                "estado": INHABILITADO
+                            };
+                            jQuery("#jqGrid").trigger('reloadGrid');
+                            $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
+                                console.log("Inhabilitado: " + dataInhabilitadaSede);
+                            });
+                            break;
+                        }
+                });
+
+            };
+
             $http.get('/api/sedes').success(function (data) {
                 var lastsel2;
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
-                    styleUI : 'Bootstrap',
-                    height: 50*(data.legth+1),
-                    colNames:['ID','Nombre', 'Direccion','Telefono', 'Descripcion'],
-                    colModel:[
-                        {name:'id',index:'id', width:90, sorttype:"int"},
-                        {name:'nombre',index:'nombre', width:150,editable: false},
-                        {name:'direccion',index:'direccion', width:260, editable: false},
-                        {name:'telefono',index:'telefono', width:220,editable: false},
-                        {name:'descripcion',index:'descripcion', width:220,editable: false}
-                    ]
+                    styleUI: 'Bootstrap',
+                    height: 50 * (data.legth + 1),
+                    colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', "Acciones"],
+                    colModel: [
+                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
+                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center'},
+                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center'},
+                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center'},
+                        {name: 'acciones', width: 120, align: 'center', formatter: acciones}
+                    ],
+                    multiselect: true
                 });
-                for(var i=0;i<data.length;i++)
+                function acciones(cellValue, options, rowdata, action) {
+                    var acciones = '';
+                    acciones = '<a href="#" onclick="funciones.verSede(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Sede"><img src="img/Iconos/ver.png" class="icono"/>' +
+                            '<a  href="#" onclick="funciones.modificarSede(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Sede"><img src="img/Iconos/modificar.png" class="icono"/>' +
+                            '<a href="#" onclick="funciones.inhabilitarSede(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Sede"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                    return acciones;
+                }
+
+                for (var i = 0; i < data.length; i++)
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
             });
 
-            $("#registrar").click(function(){
-                if(!verificarDatos())return;
-                var data={
-                    "nombre":$("#nombre").val(),
-                    "direccion":$("#direccion").val(),
-                    "telefono":$("#telefono").val(),
-                    "descripcion":$("#descripcion").val(),
-                    "administrador":$("#administrador").val()
+            $("#registrar").click(function () {
+                if (!verificarDatos())return;
+                var data = {
+                    "nombre": $("#nombre").val(),
+                    "direccion": $("#direccion").val(),
+                    "telefono": $("#telefono").val(),
+                    "descripcion": $("#descripcion").val(),
+                    "administrador": $("#administrador").val()
                 }
-                $http.post('/api/sedes/',data).success(function (data2, status) {
-                    alert("registro Exitoso de la Sede "+data2.id);
+                $http.post('/api/sedes/', data).success(function (data2, status) {
+                    alert("registro Exitoso de la Sede " + data2.id);
                     console.log(data2);
                     limpiar();
                     llenarEngrilla(data2);
+                    jQuery("#jqGrid").trigger('reloadGrid');
                 });
             });
 
-            $("#limpiar").click(function(){
+            $("#limpiar").click(function () {
                 limpiar();
             });
-
         });
     </script>
 </head>
@@ -144,53 +305,56 @@
     <h2>Sede</h2>
     <hr>
     <form class="form-horizontal">
-        <h4>REGISTRO SEDES</h4>
+        <h4 id="titulo">REGISTRO SEDES</h4>
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre(*) :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Descripcion de Sede">
+                        <input type="text" class="form-control" id="nombre" placeholder="Descripción de Sede">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
+                    <label for="direccion" class="col-md-4 control-label">Dirección(*) :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="direccion" placeholder="Direccion de Sede">
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección de Sede">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripción :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
+                        <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <label for="telefono" class="col-md-4 control-label">Teléfono :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="telefono" placeholder="solo numeros">
+                        <input type="text" class="form-control" id="telefono" placeholder="Solo números">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="administrador" class="col-md-4 control-label">Administrador</label>
+                    <label for="administrador" class="col-md-4 control-label">Administrador :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="administrador" placeholder="">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5 invisible">
+            <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
+                    <label class="col-md-4 control-label">Estado(*) :</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" placeholder="">
+                        <select class="form-control" id="estado">
+                            <option value="HABILITADO">HABILITADO</option>
+                            <option value="INHABILITADO">INHABILITADO</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -198,14 +362,21 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 60px;">
+                    <input id="modificar" class="hidden btn btn-primary" type="" class="btn btn-primary"
+                           value="Modificar" style="width:22%">
+                    <input id="cancelar" class="hidden btn btn-primary" type="" class="btn btn-primary"
+                           value="Cancelar" style="width:22%">
                     <input id="registrar" type="" class="btn btn-primary" value="Registrar" style="width:22%">
                     <input id="limpiar" type="" class="btn btn-primary" value="Limpiar" style="width:22%">
                 </div>
             </div>
         </div>
         <h4>RESULTADOS DE BÚSQUEDA</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
+            <div class="form-group" style="width:100%;">
+                <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%">
+            </div>
         </div>
     </form>
 </div>
@@ -213,8 +384,8 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="js/principal.js"></script>
 </body>
 </html>
