@@ -150,14 +150,14 @@
                     <label for="numeroHijos" class="col-md-5 control-label">N° de hijos<span class="obligatorio">*</span></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" ng-model="numeroHijos" id="numeroHijos"
-                               placeholder="Cantidad de hijos">
+                               placeholder="Cantidad de hijos" maxlength="2">
                     </div>
                     <label for="numeroHijos" class="control-label" style="margin-left: 24px;">hijos</label>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="telefonoCasa" class="col-md-5 control-label">Telefono de casa<span class="obligatorio">*</span></label>
+                    <label for="telefonoCasa" class="col-md-5 control-label">Teléfono de casa<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="telefonoCasa" id="telefonoCasa"
                                placeholder="Numero de teléfono de casa" maxlength="10">
@@ -175,7 +175,7 @@
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="telefonoTrabajo" class="col-md-5 control-label">Telefono de trabajo</label>
+                    <label for="telefonoTrabajo" class="col-md-5 control-label">Teléfono de trabajo</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="telefonoTrabajo" id="telefonoTrabajo"
                                placeholder="Numero de teléfono de trabajo" maxlength="10">
@@ -332,8 +332,8 @@
                 //Falta las validaciones (LOO)
                 if (!validarDatos()) {
                     $http.post('/api/postulantes', data).success(function (data) {
-                        Notificaciones.showProcesando();
                         Notificaciones.hideAll();
+                        Notificaciones.showProcesando();
                         setTimeout(function () {
                             location.href = "mantenimientoPostulante.html"
                         }, 1000);
@@ -364,12 +364,19 @@
             var ingresosMensuales = $("#ingresosMensuales").val();
             var direccion = $("#direccion").val();
             var nombreEmpresa = $("#nombreEmpresa").val();
+            var telefonoTrabajo = $("#telefonoTrabajo").val();
+            var celular = $("#celular").val();
 
             if (tipoDocumento == -1) {
                 Notificaciones.showError('Tipo de documento requerido');
                 $("#tipoDocumento").css("border-color", "red");
                 return true;
-            } else if (!numeroDocumento) {
+            } else if (!numeroDocumento || parseInt(numeroDocumento)<0) {
+                if(parseInt(numeroDocumento)<0){
+                    Notificaciones.showError('El numero de documento no puede ser un valor negativo.');
+                    $("#numeroDocumento").css("border-color", "red");
+                    return true;
+                }
                 Notificaciones.showError('Numero de documento requerido');
                 $("#numeroDocumento").css("border-color", "red");
                 return true;
@@ -396,14 +403,38 @@
                 Notificaciones.showError('Fecha de nacimiento requerido');
                 $("#fechaNacimiento").css("border-color", "red");
                 return true;
-            }else if (!numeroHijos) {
+            }else if (!numeroHijos || parseInt(numeroHijos)<0) {
+                if(parseInt(numeroHijos)<0){
+                    Notificaciones.showError('El numero de hijos no puede ser un valor negativo.');
+                    $("#numeroHijos").css("border-color", "red");
+                    return true;
+                }
                 Notificaciones.showError('Numero de hijos requerido');
                 $("#numeroHijos").css("border-color", "red");
                 return true;
-            }else if (!telefonoCasa) {
+            }else if (!telefonoCasa || parseInt(telefonoCasa)<0) {
+                if(parseInt(telefonoCasa)<0){
+                    Notificaciones.showError('El telefono de casa no puede ser un valor negativo.');
+                    $("#telefonoCasa").css("border-color", "red");
+                    return true;
+                }
                 Notificaciones.showError('Telefono de casa requerido');
                 $("#telefonoCasa").css("border-color", "red");
                 return true;
+            }
+            else if (parseInt(telefonoTrabajo)<0) {
+                if(parseInt(telefonoTrabajo)<0){
+                    Notificaciones.showError('El telefono de trabajo no puede ser un valor negativo.');
+                    $("#telefonoTrabajo").css("border-color", "red");
+                    return true;
+                }
+            }
+            else if (parseInt(celular)<0) {
+                if(parseInt(celular)<0){
+                    Notificaciones.showError('El celular no puede ser un valor negativo.');
+                    $("#celular").css("border-color", "red");
+                    return true;
+                }
             }
             else if (!profesion) {
                 Notificaciones.showError('Profesión requerido');
@@ -413,7 +444,12 @@
                 Notificaciones.showError('Correo requerido');
                 $("#correo").css("border-color", "red");
                 return true;
-            }else if (!ingresosMensuales) {
+            }else if (!ingresosMensuales || parseInt(ingresosMensuales)<0) {
+                if(parseInt(ingresosMensuales)<0){
+                    Notificaciones.showError('Su ingreso mensual no puede ser un valor negativo.');
+                    $("#ingresosMensuales").css("border-color", "red");
+                    return true;
+                }
                 Notificaciones.showError('Ingreso mensual requerido');
                 $("#ingresosMensuales").css("border-color", "red");
                 return true;
@@ -484,6 +520,15 @@
         $("#nombreEmpresa").click(function () {
             $("#nombreEmpresa").css("border-color", "#ccc");
         });
+
+        $("#telefonoTrabajo").click(function () {
+            $("#telefonoTrabajo").css("border-color", "#ccc");
+        });
+
+        $("#celular").click(function () {
+            $("#celular").css("border-color", "#ccc");
+        });
+
     });
     //    });
 </script>

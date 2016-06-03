@@ -61,21 +61,16 @@
         .centered2 {
             margin-right: 510px;
         }
-
-        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
 <body>
+
 <div id="headerAdministrador"></div>
-<div class="container">
-    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
-    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
-    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+<div class="container" id="sedeID" ng-app='appSede'
+     ng-controller="SedeController">
     <div>
         <h3>
-            ADMINISTRACIÓN DE BUNGALOW
-            <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir
-                Bungalow</a>
+            LISTADO DE BUNGALOWS
         </h3>
     </div>
     <hr>
@@ -87,12 +82,7 @@
                 <div class="form-group">
                     <label for="tipo" class="col-md-4 control-label">Sede</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="sede">
-                            <option>Elegir</option>
-                            <option>Chosica</option>
-                            <option>Namekusein</option>
-                            <option>Planeta del gran Kaiosama</option>
-                            <option>Planeta Tierra</option>
+                        <select class="form-control" id="sede" name="sede" ng-model="sede">
                         </select>
                     </div>
                 </div>
@@ -101,23 +91,20 @@
                 <div class="form-group">
                     <label for="tipo" class="col-md-4 control-label">Tipo</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipo">
-                            <option>Elegir</option>
-                            <option>Aseo personal</option>
-                            <option>Electrodoméstico</option>
+                        <select class="form-control" id="tipoBungalow" name="tipoBungalow"ng-model="tipoBungalow">
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="proveedor" class="col-md-4 control-label">Proveedor</label>
+                    <label for="tipo" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="proveedor">
-                            <option>Elegir</option>
-                            <option>Gloria</option>
-                            <option>Coca-Cola</option>
-                            <option>Backus</option>
+                        <select class="form-control" id="estado">
+                            <option value="-1">Elegir</option>
+                            <option value="1">Disponible</option>
+                            <option value="2">Ocupado</option>
+                            <option value="3">En Mantenimiento</option>
                         </select>
                     </div>
                 </div>
@@ -169,10 +156,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Bungalow
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Bungalow
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
         </div>
     </form>
 </div>
@@ -186,6 +173,8 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
@@ -195,60 +184,55 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
+    var addfilter = function () {
+        var festadoFilterGroup = new $.jqx.filter();
+        festadoFilterGroup.operator = 'or';
+        var filter_or_operator = 1;
+        //var filtervalue = $(estado).val();
+        var filtervalue = '0';
+        console.log("filtra esto");
+        var filterCondition = 'contains';
+
+        var festadoFilter1 = festadoFilterGroup.createfilter('numericfilter', filtervalue, filterCondition);
+
+        festadoFilterGroup.addfilter(filter_or_operator, festadoFilter1);
+
+        $("#jqGrid").jqGrid('addfilter', 'piso', festadoFilterGroup);
+
+        $("#jqGrid").jqGrid('applyfilters');
+    }
+
     $("#jqGrid").jqGrid({
         url: '/api/bungalows', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
+        filterable: true,
+        sortable: true,
+        ready: function () {
+            console.log("no entra");
+            addfilter();
+        },
+        autoshowfiltericon: true,
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-//    @Id
-//    @GeneratedValue
-//    private Integer id;
-//    private EstadoBungalow estado; //libre, en mantenimiento, ocupado, no irá en el formulario
-//    private Double precio;
-//    private String caracteristicas;
-//    private Integer piso;
-//    private Integer valoracion;
-//    private String urlFoto;
-//    private String descripcion;
-//
-//    @ManyToOne
-//    private TipoBungalow tipoBungalow; // necesario (composición)
-//
-//    @ManyToOne
-//    private Sede sede; // necesaria (composición)
-//
-//    @OneToMany(mappedBy = "bungalow")
-//    @JsonIgnore
-//    private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
             {index: 'id', name: 'id', align: 'center', width: 75},
-            {index: 'precio', name: 'precio', align: 'center', width: 60},
-            {index: 'piso', name: 'piso', align: 'center', width: 70},
+            {index: 'precio', name: 'precio', align: 'center', width: 40},
+            {index: 'piso', name: 'piso', align: 'center', width: 150},
             {index: 'valoracion', name: 'valoracion', align: 'center', width: 150},
-            {index: 'tipoBungalow.nombre', name: 'tipoBungalow.nombre', align: 'center', width: 150},
-            {index: 'sede.nombre', name: 'sede.nombre', align: 'center', width: 150},
             {index: 'estado', name: 'estado', align: 'center', width: 150},
             {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoracion', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
+            'N° Bungalow', 'Precio', 'Piso', 'Valoracion','Estado', 'Acciones',
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
-            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
-            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
-                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
-                //set background style if ColumnValue == true
-                if (rowData['estado'] == "INHABILITADO") {
-                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
-                } //if
-            }
+            console.log("we can say gg");
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
             for (i = 1; i < cantFilas+cantFilas*4; i++) {
@@ -263,21 +247,22 @@
                     rowData.valoracion = '4 estrellas';
                 else if (rowData.valoracion == "5")
                     rowData.valoracion = '5 estrellas';
+
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
-            $('.icono-modificar').click(function () {
+           /* $('.icono-modificar').click(function () {
 //                alert("Modificando bungalow");
                 var idBungalow = $(this).attr('data-idBungalow-modificar');
                 console.log("Id bungalow modificando: " + $(this).attr('data-idBungalow-modificar'));
                 window.location = 'editarBungalow.html?id=' + idBungalow;
-            });
+            });*/
             $('.icono-ver').click(function () {
 //                alert("Ver bungalow");
                 var idBungalow = $(this).attr('data-idBungalow-ver');
                 console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));
                 window.location = 'verBungalow.html?id=' + idBungalow;
             });
-            $('.icono-eliminar').click(function () {
+            /*$('.icono-eliminar').click(function () {
                 var idBungalow = $(this).attr('data-idBungalow-eliminar');
                 console.log("Id bungalow eliminando: " + $(this).attr('data-idBungalow-eliminar'));
                 $.noty.closeAll();
@@ -316,17 +301,60 @@
                         }
                     ]
                 });
-            });
+            });*/
         }
     });
+
+    //jQuery("#jqGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+
+    <!--Sedes-->
+    $("sede").click(
+            $.getJSON("/api/sedes", null, function (data) {
+                console.log(data);
+                $("#sede option").remove(); // Remove all <option> child tags.
+                $("#sede").append( // Append an object to the inside of the select box
+                        $("<option></option>") // Yes you can do this.
+                                .text("Elegir")
+                                .val(-1)
+                );
+                $.each(data, function (index, item) { // Iterates through a collection
+                    $("#sede").append( // Append an object to the inside of the select box
+                            $("<option></option>") // Yes you can do this.
+                                    .text(item.nombre)
+                                    .val(item.id)
+                    );
+                });
+            })
+    );
+
+    <!--TipoBunaglow-->
+    $("tipoBungalow").click(
+            $.getJSON("/api/tiposbungalow", null, function (data) {
+                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
+                $("#tipoBungalow").append( // Append an object to the inside of the select box
+                        $("<option></option>") // Yes you can do this.
+                                .text("Elegir")
+                                .val(-1)
+                );
+                console.log(data);
+                $.each(data, function (index, item) { // Iterates through a collection
+                    $("#tipoBungalow").append( // Append an object to the inside of the select box
+                            $("<option></option>") // Yes you can do this.
+                                    .text(item.nombre)
+                                    .val(item.id)
+                    );
+                });
+            })
+    );
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
         acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['id'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['id'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['id'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' /*+
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['id'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>'*/
+                ;
         return acciones;
     }
 </script>

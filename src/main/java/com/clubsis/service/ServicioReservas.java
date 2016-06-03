@@ -36,13 +36,14 @@ public class ServicioReservas {
     // Bungalow
 
     public List<Bungalow> mostrarBungalows() {
-        List<Bungalow> bungalows = bungalowRepository.findAll();
-        List<Bungalow> bungalowsFiltrados = new ArrayList<Bungalow>();
-        for(Bungalow item : bungalows){
-            if(item.getEstado().toString().contentEquals("DISPONIBLE"))
-                bungalowsFiltrados.add(item);
-        }
-        return bungalowsFiltrados;
+//        List<Bungalow> bungalows = bungalowRepository.findAll();
+//        List<Bungalow> bungalowsFiltrados = new ArrayList<Bungalow>();
+//        for(Bungalow item : bungalows){
+//            if(item.getEstado().toString().contentEquals("DISPONIBLE"))
+//                bungalowsFiltrados.add(item);
+//        }
+//        return bungalowsFiltrados;
+        return bungalowRepository.findAll();
     }
 
     public Bungalow crearBungalow(Bungalow bungalow) {
