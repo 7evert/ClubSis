@@ -249,7 +249,7 @@
                     $http.post('/api/invitadoeventos/' + dataInvitado.id + "/" + idevento + "/eventos", data).success(function (datosinvitadoevento, status) {
                         limpiarFormulario();
                         nroInv++;
-                        Notificaciones.showNoty("Se registro al invitado fue exitoso");
+                        Notificaciones.showNoty("El registro del invitado fue exitoso");
                         var data = {
                             nro: nroInv,
                             id: datosinvitadoevento.id,
@@ -555,6 +555,12 @@
         return acciones;
     }
 </script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>
