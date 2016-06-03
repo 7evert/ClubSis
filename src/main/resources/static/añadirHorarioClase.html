@@ -25,15 +25,69 @@
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
 
-    <script type="text/javascript">
-        var idclase = 0;
-        var idacademia = 0;
-
-        function getID() {
-            var href = this.location.href;
-            var str = href.match(/\?id\=(\d+)/);
-            return str ? str[1] : str;
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
         }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var idacademia = 0;
+        var idciclo = 0;
+
+        //        function getID() {
+        //            var href = this.location.href;
+        //            var str = href.match(/\?id\=(\d+)/);
+        //            return str ? str[1] : str;
+        //        }
+
+        function getIDSocioYEvento() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)&idClase\=(\d+)&idAcademia\=(\d+)/);
+            return str ? [str[1], str[2], str[3]] : undefined;
+        }
+
         function mostraridEvento(id){
             $("#idEvento").html("Evento Numero "+id);
         }
@@ -73,70 +127,132 @@
         function mostrarSede(sede){
             $("#sede").html(sede.nombre);
         }
+
     </script>
     <script type="text/javascript">
+        var idCiclo;
+        var idAcademia;
+
 //        function llenarDatosTaller(data2) {
-//            $("#nivel").val(data2.nivel);
-//            $("#rangoEdad").val(data2.rangoEdad);
-//            $("#precioMes").val(data2.precioMes);
-//            $("#precioCiclo").val(data2.precioCiclo);
-//            $("#capacidad").val(data2.capacidad);
-//            $("#profesor").val(data2.profesor);
-//            $("#estadoProveedor").val(data2.estadoProveedor + 0);
-            /*
-             for(var i = 0; i < data2.length; i++){
-             $("#nivel").val(data2[i].nivel);
-             $("#rangoEdad").val(data2[i].rangoEdad);
-             $("#precioMes").val(data2[i].precioMes);
-             $("#precioCiclo").val(data2[i].precioCiclo);
-             $("#capacidad").val(data2[i].capacidad);
-             $("#profesor").val(data2[i].profesor);
-             $("#estadoProveedor").val(data2.estadoProveedor+0);}
-             */
-   //     }
-        function getDatosTaller(id, ciclo, academia) {
+//            $("#dia").val(data2.dia);
+//            $("#horaInicio").val(data2.horaInicio);
+//            $("#horaFin").val(data2.horaFin);
+//            $("#estadoHorario").val(data2.estadoHorario);
+//            $("#instalacion").val(data2.instalacion["id"]);
+//
+//            /*
+//             for(var i = 0; i < data2.length; i++){
+//             $("#nivel").val(data2[i].nivel);
+//             $("#rangoEdad").val(data2[i].rangoEdad);
+//             $("#precioMes").val(data2[i].precioMes);
+//             $("#precioCiclo").val(data2[i].precioCiclo);
+//             $("#capacidad").val(data2[i].capacidad);
+//             $("#profesor").val(data2[i].profesor);
+//             $("#estadoProveedor").val(data2.estadoProveedor+0);}
+//             */
+//        }
+        function getDatosTaller(id) {
             return {
-                id: id,
-                nivel: $("#nivel").val(),
+
+                dia: $("#dia").val(),
                 rangoEdad: $("#rangoEdad").val(),
-                precioMes: $("#precioMes").val(),
-                precioCiclo: $("#precioCiclo").val(),
-                capacidad: $("#capacidad").val(),
-                profesor: $("#profesor").val(),
-                estadoClase: parseInt($("#estadoClase").val()),
-                ciclo: {id: ciclo},
-                academia:{id:academia}
+                horaInicio: $("#horaInicio").val(),
+                horaFin: $("#horaFin").val(),
+                estadoHorario: $("#estadoHorario").val(),
+                instalacion: {id: $("#instalacion").val()},
+                clase: {id: id}
             };
         }
 
         var app2 = angular.module('app2', []);
         app2.controller('edicionTallerController', function ($scope, $http) {
-            var id = getID();
-            var idCiclo;
-            var idAcademia;
+
+            var ids, id, idClac, idAcad;
+            ids = getIDSocioYEvento();
+            id = ids ? ids[0] : ids;
+            idClac = ids ? ids[1] : ids;
+            idAcad = ids ? ids[2] : ids;
+
             console.log(id);
-//            if (id == undefined) {
-//                location.href = "VerTaller.html"
-//            }
-            $http.get('/api/clases/' + id).success(function (data2, status) {
-                llenarDatosTaller(data2);
-                console.log(data2);
-                idCiclo = data2.ciclo ["id"];
-                idAcademia = data2.academia["id"];
-                console.log(idCiclo);
-            });
+            if (id == undefined) {
+                location.href = "VerTaller.html"
+            }
+//            $http.get('/api/horarios/' + id).success(function (data2, status) {
+//                llenarDatosTaller(data2);
+//
+//            });
 
             $("#guardar").click(function () {
-                var data = getDatosTaller(id, idCiclo, idAcademia);
+                var data = getDatosTaller(id);
                 console.log(JSON.stringify(data));
-                $http.put("/api/clases/" + data.id, data).success(function (data2, status) {
-                    alert("Tu actualizacion fue exitosa");
-                    location.href = "VerTaller.html?id=" + idAcademia;
-                });
+
+                if(!validarDatos()){
+                    $http.post("/api/horarios", data).success(function (data2, status) {
+                        //alert("Tu actualizacion fue exitosa");
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + idAcad
+                        }, 1000);
+                        //location.href = "administrarProveedores1.html";
+                    }).error(function (data) {
+                        //aca lo que se hara en caso falle
+                        Notificaciones.showError("Error al editar horario");
+                        console.log("fallo");
+                    });
+
+                }
             });
             $("#cancelar").click(function () {
-                location.href = "VerTaller.html?id=" + idAcademia;
+                location.href = "VerTaller.html?id=" + idAcad;
             });
+
+            function validarDatos() {
+                var dia=$("#dia").val();
+                var horaInicio= $("#horaInicio").val();
+                var horaFin = $("#horaFin").val();
+                var instalacion= $("#instalacion").val();
+
+
+                if(!dia){
+                    console.log($("#dia").val());
+                    Notificaciones.showError('Debe insertar un dia');
+                    $("#dia").css("border-color", "red");
+                    return true;
+                }
+                else if(!horaInicio){
+                    Notificaciones.showError('Se necesita una hora de inicio');
+                    $("#horaInicio").css("border-color", "red");
+                    return true;
+                }
+                else if(!horaFin){
+                    Notificaciones.showError('Se necesita una hora de fin');
+                    $("#horaFin").css("border-color", "red");
+                    return true;
+                }
+                else if(!instalacion){
+                    Notificaciones.showError('Debe ingresar el ID de la instalación');
+                    $("#instalacion").css("border-color", "red");
+                    return true;
+                }
+
+
+
+                return false;
+            }
+            $("#dia").click(function () {
+                $("#dia").css("border-color", "#ccc");
+            });
+            $("#horaInicio").click(function () {
+                $("#horaInicio").css("border-color", "#ccc");
+            });
+            $("#horaFin").click(function () {
+                $("#horaFin").css("border-color", "#ccc");
+            });
+            $("#instalacion").click(function () {
+                $("#instalacion").css("border-color", "#ccc");
+            });
+
         });
     </script>
 </head>
@@ -145,52 +261,40 @@
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Añadir Horario De Clase</h2>
+    <h2>Edición Datos del Taller</h2>
     <hr>
-    <form id="formAñadirHorarioClase" class="form-horizontal mitadDerecha">
-        <div id="DiaClase" class="form-group">
+    <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
+        <div id="HorarioDia" class="form-group">
             <label class="control-label col-xs-4">Día</label>
             <div class="input-group col-xs-8">
-                <input id="dia" type="text" class="form-control col-xs-8" placeholder="Escriba el día..." required/>
+                <input id="dia" type="text" class="form-control col-xs-8" maxlength="20" placeholder="Escriba el dia..." required/>
             </div>
         </div>
-        <div class="form-group">
-            <label for="estadoHorario" class="col-md-4 control-label">Estado</label>
-            <div class="col-md-8">
-                <select class="form-control" id="estadoHorario"  required>
-                    <option value="0">INHABILITADO</option>
-                    <option value="1">HABILITADO</option>
-                </select>
-            </div>
-        </div>
-        <div id="HoraInicioClase" class="form-group">
-            <label class="control-label col-xs-4">Rango Edad</label>
+        <div id="HoraInicioHorario" class="form-group">
+            <label class="control-label col-xs-4">Hora Inicio</label>
             <div class="input-group col-xs-8">
-                <input id="horaInicio" type="text" class="form-control col-xs-8"  placeholder="Escriba la hora de inicio..."required/>
+                <input id="horaInicio" type="datetime" class="form-control col-xs-8" maxlength="30" ng-model="ruc" placeholder="Escriba la hora de inicio..."required/>
             </div>
         </div>
-        <div id="HoraFinClase" class="form-group">
-            <label class="control-label col-xs-4">Precio Ciclo</label>
+        <div id="HoraFinHorario" class="form-group">
+            <label class="control-label col-xs-4">Hora Fin</label>
             <div class="input-group col-xs-8">
-                <input id="horaFin" type="text" class="form-control col-xs-8" placeholder="Escriba la hora de fin..." required/>
+                <input id="horaFin" type="datetime" class="form-control col-xs-8" maxlength="30" placeholder="Ingrese la hora de fin..." required/>
+            </div>
+        </div>
+        <div id="InstalacionHorario" class="form-group">
+            <label class="control-label col-xs-4">ID Instalación</label>
+            <div class="input-group col-xs-8">
+                <input id="instalacion" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el codigo de la instalacion..." required/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="Sede" class="col-md-4 control-label">Sede</label>
+            <label for="estadoHorario" class="col-md-4 control-label">Estado</label>
             <div class="col-md-8">
-                <select class="form-control" id="sede"  required>
-                    <option value="0">Perú</option>
-                    <option value="1">New York</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="instalacion" class="col-md-4 control-label">Instalación</label>
-            <div class="col-md-8">
-                <select class="form-control" id="instalacion"  required>
-                    <option value="0">Aqui</option>
-                    <option value="1">O Allá</option>
+                <select class="form-control" id="estadoHorario"  required>
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
                 </select>
             </div>
         </div>
@@ -208,7 +312,13 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>
