@@ -202,26 +202,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-//    @Id
-//    @GeneratedValue
-//    private Integer id;
-//    private EstadoBungalow estado; //libre, en mantenimiento, ocupado, no irá en el formulario
-//    private Double precio;
-//    private String caracteristicas;
-//    private Integer piso;
-//    private Integer valoracion;
-//    private String urlFoto;
-//    private String descripcion;
-//
-//    @ManyToOne
-//    private TipoBungalow tipoBungalow; // necesario (composición)
-//
-//    @ManyToOne
-//    private Sede sede; // necesaria (composición)
-//
-//    @OneToMany(mappedBy = "bungalow")
-//    @JsonIgnore
-//    private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
+
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
             {index: 'id', name: 'id', align: 'center', width: 75},

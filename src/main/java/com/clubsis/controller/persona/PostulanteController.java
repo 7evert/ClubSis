@@ -1,5 +1,6 @@
 package com.clubsis.controller.persona;
 
+import com.clubsis.model.persona.EstadoPostulante;
 import com.clubsis.model.persona.Postulante;
 import com.clubsis.service.ServicioMembresias;
 import com.clubsis.service.ServicioPostulante;
