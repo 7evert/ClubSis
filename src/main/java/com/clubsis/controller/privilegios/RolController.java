@@ -1,10 +1,10 @@
 package com.clubsis.controller.privilegios;
 
-import com.clubsis.model.persona.Socio;
 import com.clubsis.model.privilegio.Permiso;
 import com.clubsis.model.privilegio.Rol;
 import com.clubsis.service.ServicioRol;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("api/rols")
+@RequestMapping("api/roles")
 public class RolController {
     @Autowired
     ServicioRol servicioRol;
@@ -37,14 +37,22 @@ public class RolController {
        //     return null;
     }
 
-    @RequestMapping(value = "/{rolId}", method = RequestMethod.PUT)
-    public Rol update(@PathVariable Integer rolId, @RequestBody Rol rol){
-        return servicioRol.actualizarRol(rolId,rol);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Rol update(@PathVariable Integer id, @RequestBody Rol rol) {
+        return servicioRol.actualizarRol(id, rol);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Rol> list() {
         return servicioRol.mostrarRols();
+    }
+
+    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+    public Integer eliminarRol(Model model, @RequestParam(value = "id") Integer idRol) {
+        Rol rol = servicioRol.buscarRol(idRol);
+        rol.setEsActivo(false);
+        servicioRol.actualizarRol(idRol,rol);
+        return 1;
     }
 
     @RequestMapping(value = "/crearPerm/{rolId}", method = RequestMethod.POST)

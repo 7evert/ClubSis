@@ -2,12 +2,14 @@ package com.clubsis.service;
 
 import com.clubsis.model.privilegio.Permiso;
 import com.clubsis.model.privilegio.Rol;
+import com.clubsis.model.sede.Instalacion;
 import com.clubsis.repository.privilegios.PermisoRepository;
 import com.clubsis.repository.privilegios.RolRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public class ServicioRol {
     @Autowired
     private PermisoRepository permisoRepository;
 
-    private Rol rolExistente;
+
     private Permiso perExistente;
 
     public Rol buscarRol(Integer id) {return rolRepository.findOne(id);}
@@ -29,13 +31,20 @@ public class ServicioRol {
     public Rol crearRol(Rol rol) {return rolRepository.saveAndFlush(rol);}
 
     public Rol actualizarRol(Integer id, Rol rol) {
-        rolExistente = rolRepository.findOne(id);
+        Rol rolExistente = rolRepository.findOne(id);
         BeanUtils.copyProperties(rol,rolExistente);
         return rolRepository.saveAndFlush(rolExistente);
     }
 
     public List<Rol> mostrarRols(){
-        return rolRepository.findAll();
+        List<Rol> roles=rolRepository.findAll();
+        List<Rol> rolesFiltrados = new ArrayList<Rol>();
+        for(Rol rol : roles){
+            if(rol.getEsActivo())
+                rolesFiltrados.add(rol);
+        }
+        return rolesFiltrados;
+
     }
 
 
@@ -50,7 +59,7 @@ public class ServicioRol {
 
     public Permiso actualizarPermisio(Integer id, Permiso per) {
         perExistente = permisoRepository.findOne(id);
-        BeanUtils.copyProperties(per,rolExistente);
+        BeanUtils.copyProperties(per,perExistente);
         return permisoRepository.saveAndFlush(per);
     }
 
