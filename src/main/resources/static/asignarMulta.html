@@ -29,30 +29,45 @@
             margin-bottom: 10px;
         }
     </style>
+    <script>
+        function getIDSocio(href) {
+            href=this.location.href;;
+            var str = href.match(/\?idSocio\=(\d+)/);
+            return str ? str[1] : str;
+        }
+    </script>
     <script type="text/javascript">
 
         var appMultas = angular.module('appMultas', []);
-        var socioResp,persona;
+        var socioResp,persona,listMultas,idMulta;
         appMultas.controller('MultaController', function ($scope, $http) {
-            $scope.registrarMulta =function (){
-                //if(!verificarDatos())return;
-                var data = {
-                    //por preguntar
-                    "nombre": $scope.ngNombre,
-                    "descripcion": $scope.descripcion,
-                    "costo": parseFloat($scope.monto)
-                };
 
-                $http.post('/api/multas', data).success(function (data2 ) {
-                    //happy end
-                    //$scope.PostDataResponse = data;
+            $http.get('/api/socios/'+getIDSocio()).then(function (respuesta) {
+                socioResp=respuesta.data;
+            });
+            $http.get('/api/socios/'+getIDSocio()+'/personas').then(function (respuesta) {
+                persona=respuesta.data;
+                $scope.ngSocio=persona.nombre+" "+persona.apellidoPaterno;
+            });
+            $http.get('/api/multas').then(function (respuesta) {
+                listMultas=respuesta.data;
+
+                $scope.multas={
+                    repeatSelect: null,
+                    availableOptions: listMultas
+                }
+            });
+            $scope.asignarMulta =function (){
+                //if(!verificarDatos())return;
+                idMulta=$scope.multas.repeatSelect;
+                $http.post('/api/multas/'+getIDSocio()+'/'+idMulta).success(function (data2 ) {
                     console.log(JSON.stringify(data2));
-                    alert("Tu registro de nueva multa se realizó exitosamente.");
-                    window.location="registrarMulta.html"
+                    alert("Se multó al socio satisfactoriamente.");
+                    window.location="loginAdministrador.html"
                 })
                         .error(function (data2) {
                             console.log(JSON.stringify(data2));
-                            alert("Tu registro de nueva multa no se pudo realizar.");
+                            alert("No se pudo multar al socio.");
                         });
             };
         });
@@ -66,30 +81,26 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <h2>Penalidades</h2>
     <hr>
-    <h4>REGISTRO DE MULTA</h4>
+    <h4>ASIGNAR MULTA</h4>
     <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
         <div class="form-group">
-            <label class="col-xs-5 control-label">Nombre Multa</label>
+            <label class="col-xs-5 control-label">Nombre Socio</label>
             <div class="col-xs-7">
-                <input type="text" ng-model="ngNombre" placeholder="Nombre de la multa" class="form-control "/>
+                <input type="text" ng-model="ngSocio" placeholder="Nombre de la multa" disabled class="form-control "/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">Descripcion</label>
+            <label class="col-xs-5 control-label">Nombr de la multa</label>
             <div class="col-xs-7">
-                <input type="text" ng-model="descripcion" placeholder="Descripcion" class="form-control "/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-5 control-label">Monto</label>
-            <div class="col-xs-7">
-                <input type="text" ng-model="monto" placeholder="Monto" class="form-control "/>
+                <select class="form-control" name="repeatSelect" id="repeatSelect" ng-model="multas.repeatSelect">
+                    <option ng-repeat="option in multas.availableOptions" value="{{option.id}}">{{option.nombre}}</option>
+                </select>
             </div>
         </div>
         <div class="col-sm-5 col-lg-5">
         </div>
         <div class="col-sm-5 col-lg-5" style="margin-left: 100px;">
-            <button ng-click="registrarMulta()" class="btn btn-primary">Registrar</button>
+            <button ng-click="asignarMulta()" class="btn btn-primary">Registrar</button>
             <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
         </div>
     </form>

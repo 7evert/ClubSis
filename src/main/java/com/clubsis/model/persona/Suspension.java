@@ -21,6 +21,8 @@ public class Suspension {
     private Date fechaRespuesta;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaAnulacion;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date fechaFin;
     private String motivoSuspension;
 
     @ManyToOne
@@ -29,11 +31,12 @@ public class Suspension {
     protected Suspension() {
     }
 
-    public Suspension(EstadoSuspension estado, Date fechaSolicitud, Date fechaRespuesta, Date fechaAnulacion, String motivoSuspension, Socio socio) {
+    public Suspension(EstadoSuspension estado, Date fechaSolicitud, Date fechaRespuesta, Date fechaAnulacion, Date fechaFin, String motivoSuspension, Socio socio) {
         this.estado = estado;
         this.fechaSolicitud = fechaSolicitud;
         this.fechaRespuesta = fechaRespuesta;
         this.fechaAnulacion = fechaAnulacion;
+        this.fechaFin = fechaFin;
         this.motivoSuspension = motivoSuspension;
         this.socio = socio;
     }
@@ -92,5 +95,14 @@ public class Suspension {
 
     public void setSocio(Socio socio) {
         this.socio = socio;
+    }
+
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
     }
 }
