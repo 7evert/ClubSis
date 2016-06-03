@@ -234,16 +234,27 @@
             {index: 'celular', name: 'celular', align: 'center', width: 70},
             {index: 'profesion', name: 'profesion', align: 'center', width: 70},
             {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 70},
-            {index: 'acciones', name: 'acciones', width: 80, align: 'center', formatter: acciones}
+            {index: 'acciones', name: 'acciones', width: 80, align: 'center', formatter: acciones},
+            {index: 'eliminados', name: 'eliminados', width: 20, align: 'center', formatter: eliminados}
         ],
         colNames: [
-            'idPostulante', 'Nombres', 'Apellido Paterno', 'Apellido Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado', 'Acciones'
+            'idPostulante', 'Nombres', 'Apellido Paterno', 'Apellido Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado', 'Acciones', ' '
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
+            var idsEliminar = [];
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estado'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
             for (i = 1; i < cantFilas+cantFilas*4; i++) {
@@ -265,6 +276,13 @@
                 var idPostulante = $(this).attr('data-idPostulante-ver');
                 window.location = 'verPostulante.html?id=' + idPostulante;
 
+            });
+            $('.eliminarMultiple').click(function () {
+                if($(this).is(':checked')) {
+                    var idPostulante = $(this).attr('data-idPostulante-eliminarMultiple');
+                    alert(idPostulante);
+                }
+//                window.location = 'verPostulante.html?id=' + idPostulante;
             });
             $('.icono-eliminar').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-eliminar');
@@ -319,6 +337,12 @@
                 '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
+    }
+
+    function eliminados(cellValue, options, rowdata, action) {
+        var eliminados = '';
+        eliminados = '<input href="javascript:void(0)" class="eliminarMultiple" data-idPostulante-eliminarMultiple="' + rowdata['id'] + '" title="Ver Bungalow" type="checkbox" value="">';
+        return eliminados;
     }
 
     $('#btnLimpiar').click(function () {
