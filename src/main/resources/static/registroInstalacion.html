@@ -11,8 +11,11 @@
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
-
-
+    <style type="text/css">
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -22,6 +25,11 @@
     <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
     <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
     <script src="js/principal.js"></script>
     <script src="js/Notificaciones.js"></script>
 
@@ -29,7 +37,7 @@
 <body ng-controller="InstalacionController">
 <div id="headerAdministrador"></div>
 <div class="container">
-    <h2>Registro Instalacion</h2>
+    <h2>Registro Instalación</h2>
     <hr>
     <form id="formReservaInstalacion" class="form-horizontal mitadDerecha">
         <div id="nombreInstalacion" class="form-group">
@@ -38,28 +46,25 @@
                 <input ng-model="nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Cancha de tenis,cancha de voley, o etc ..."/>
             </div>
         </div>
-        <div id="escogerSedeInstalacions" class="form-group">
+
+         <div id="escogerSedeInstalaciones" class="form-group">
             <label class="control-label col-xs-4">Sede<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <select ng-model="instalaciones.sede.id" id="sede" class="form-control col-xs-8">
-                    <option  value="0">Elegir</option>
-                    <option value="1">Playa</option>
-                    <option value="2">Campo</option>
-                    <option value="3">Ciudad</option>
+                <select  id="sede" class="form-control col-xs-8">
+                    <option value="-1" selected>Elegir</option>
                 </select>
             </div>
         </div>
 
-        <!--
-        <div id="escogerSedeInstalacion" class="form-group">
-            <label class="control-label col-xs-4">Sede<span class="obligatorio">*</span></label>
+        <div id="escogerTipoInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Tipo<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <select ng-model="sedes.repeatSelect" id="sede" class="form-control col-xs-8">
-                    <option ng-repeat="option in sedes.availableOptions" value="{{option.id}}">{{option.name}}</option>
+                <select  id="tipo" class="form-control col-xs-8">
+                    <option value="-1" selected>Elegir</option>
                 </select>
             </div>
         </div>
--->
+
         <div id="precioReservaInstalacion" class="form-group">
             <label class="control-label col-xs-4">Precio Reserva<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
@@ -107,25 +112,51 @@
     $(".date-picker").datepicker();
     var app = angular.module('app', []);
     app.controller('InstalacionController', function ($scope, $http) {
-        $("#btnRegistrar").click(function () {
+        var sedes;
+        $http.get('/api/sedes').success(function (data) {
+            sedes=data;
+            sedesElem=$("#sede");
+            for(var i=0;i<data.length;i++)
+                sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+        })
 
+        var tipos;
+        $http.get('/api/tipoInstalaciones').success(function (data) {
+            tipos=data;
+            tiposElem=$("#tipo");
+            for(var i=0;i<data.length;i++)
+                tiposElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+        })
+        $("#btnRegistrar").click(function () {
+                var idSede=$("#sede").val();
+                var sedeSeleccionada;
+                for(var i=0;i<sedes.length;i++)
+                    if(sedes[i].id==idSede){
+                        sedeSeleccionada=sedes[i];
+                    }
+                var idTipo=$("#tipo").val();
+                var tipoSeleccionado;
+                for(var i=0;i<tipos.length;i++)
+                    if(tipos[i].id==idTipo){
+                        tipoSeleccionado=tipos[i];
+                }
                 var data = {
                     'nombre': $scope.nombre,
                     'caracteristicas': $scope.caracteristicas,
                     'referencia': $scope.referencia,
                     'capacidad': parseInt($scope.capacidad),
                     'precioReserva': parseFloat($scope.precioReserva),
-                    'estado': 'Habilitado',
-                    'sede': $scope.sede,
+                    'estado': parseInt(1), //0:Deshabilitada 1:Habilitada
+                    'sede':sedeSeleccionada,
+                    'tipo':tipoSeleccionado,
                 };
 
-//
                 console.log(data);
-
+                if(validarDatos()){
                     $http.post('/api/instalaciones', data).success(function (data) {
 
-                        //Notificaciones.showProcesando();
-                        //Notificaciones.hideAll();
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
                         window.location = "mantenimientoInstalaciones.html";
 
                     })
@@ -133,37 +164,40 @@
                                 Notificaciones.showError("Error al crear la instalación.");
                                 console.log("fallo");
                             });
+                }
         });
     });
-    /*
-    app.controller('SedeController',function($scope,$http){
-        $scope.sedes=[];
-        $http.get('/api/sedes').success(function (data) {
-            $scope.sedes=data;
-        })
-    });*/
 
-/*
+
+
     function validarDatos() {
         var nombre = $("#nombre").val();
         var capacidad = $("#capacidad").val();
         var precioReserva = $("#precioReserva").val();
-
+        var sede = $("#sede").val();
+        var tipo=$("#tipo").val();
         if (!nombre) {
             Notificaciones.showError('Nombre requerido');
             $("#nombre").css("border-color", "red");
-            return true;
-        } else if (!capacidad) {
-            Notificaciones.showError('Capacidad requerida');
-            $("#capacidad").css("border-color", "red");
-            return true;
+            return false;
+        } else if(sede==-1){
+            Notificaciones.showError('Sede requerida');
+            $("#sede").css("border-color", "red");
+            return false;
+        } else if(tipo==-1){
+            Notificaciones.showError('Tipo requerido');
+            $("#tipo").css("border-color", "red");
+            return false;
         }else if (!precioReserva) {
             Notificaciones.showError('Precio de reserva requerido');
             $("#precioReserva").css("border-color", "red");
-            return true;
+            return false;
+        } else if (!capacidad) {
+            Notificaciones.showError('Capacidad requerida');
+            $("#capacidad").css("border-color", "red");
+            return false;
         }
-
-        return false;
+        return true;
     }
 
 
@@ -178,8 +212,13 @@
     $("#precioReserva").click(function () {
         $("#precioReserva").css("border-color", "#ccc");
     });
+    $("#sede").click(function () {
+        $("#sede").css("border-color", "#ccc");
+    });
+    $("#tipo").click(function () {
+        $("#tipo").css("border-color", "#ccc");
+    });
 
-*/
 
 </script>
 </body>

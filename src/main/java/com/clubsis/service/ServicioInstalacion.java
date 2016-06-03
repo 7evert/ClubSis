@@ -1,13 +1,14 @@
 package com.clubsis.service;
 
-import com.clubsis.model.persona.Postulante;
+
 import com.clubsis.model.sede.Instalacion;
-import com.clubsis.repository.persona.PostulanteRepository;
 import com.clubsis.repository.sede.InstalacionRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,15 @@ public class ServicioInstalacion {
     @Autowired
     private InstalacionRepository instalacionRepository;
 
-    public List<Instalacion> mostrarInstalaciones(){ return instalacionRepository.findAll(); }
+    public List<Instalacion> mostrarInstalaciones(){
+        List<Instalacion> instalaciones=instalacionRepository.findAll();
+        List<Instalacion> instalacionesFiltradas = new ArrayList<Instalacion>();
+        for(Instalacion instalacion : instalaciones){
+            if(!instalacion.getEstado().equals(2))//0:Deshabilitada 1:Habilitada 2:Eliminado
+                instalacionesFiltradas.add(instalacion);
+        }
+        return instalacionesFiltradas;
+    }
     public Instalacion buscarInstalaciones(Integer id) {return instalacionRepository.findOne(id);}
     public Instalacion crearInstalacion(Instalacion instalacion) {return instalacionRepository.saveAndFlush(instalacion);}
 

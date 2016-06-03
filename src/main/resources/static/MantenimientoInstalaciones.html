@@ -6,30 +6,36 @@
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
 
             <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
-            <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
-            <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
             <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+            <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+            <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+            <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+            <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
             <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
             <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
-            <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
-
             <script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
             <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
             <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
             <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
             <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
-            <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
             <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
             <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+            <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+            <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+            <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+            <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+            <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+            <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+            <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
             <script src="js/principal.js"></script>
+            <script src="js/Notificaciones.js"></script>
 
 
 
         </head>
-<body>
+<body ng-controller="InstalacionController">
 <div id="headerAdministrador"></div>
     <div class="container">
         <div>
@@ -45,42 +51,31 @@
                     <div class="row">
                         <div class="col-sm-6 col-lg-5">
                             <div class="form-group">
-                                <label for="tipo" class="col-md-4 control-label">Sede</label>
+                                <label  class="col-md-4 control-label">Sede</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" id="sede">
+                                    <select  id="sedeFiltrado" class="form-control">
+                                        <option value="-1" selected>Elegir</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Estado</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" id="estadoFiltro">
                                         <option>Elegir</option>
-                                        <option value="1">Playa</option>
-                                        <option value="2">Campo</option>
-                                        <option value="3">Ciudad</option>
+                                        <option value="Habilitado">Habilitado</option>
+                                        <option value="Deshabilitado">Deshabilitado</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-5">
                             <div class="form-group">
-                                <label for="tipo" class="col-md-4 control-label">Estado</label>
-                                <div class="col-md-8">
-                                    <select class="form-control" id="tipo">
-                                        <option>Seleccione un estado</option>
-                                        <option>Habilitado</option>
-                                        <option>Deshabilitado</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-5">
-                            <div class="form-group">
-                                <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                                <label  class="col-md-4 control-label">Nombre</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="nombre" placeholder="Nombre de instalación">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-5">
-                            <div class="form-group">
-                                <label for="descripcion" class="col-md-4 control-label">Descripción</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="descripcion" placeholder="Palabra clave de descripción de Instalación">
                                 </div>
                             </div>
                         </div>
@@ -112,8 +107,8 @@
                         </div>
                         <div class="col-sm-5 col-lg-5">
                             <div class="form-group" style="margin-left: 60px;">
-                                <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                                <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                                <a href="javascript:void(0)" id="Buscar" class="btn btn-primary">Buscar</a>
+                                <a href="javascript:void(0)" id="Limpiar" class="btn btn-primary">Limpiar</a>
 
                             </div>
                         </div>
@@ -145,23 +140,26 @@
         $(".date-picker").datepicker();
 
         var app=angular.module('app',[]);
-        app.controller('InstalacionesController', function ($scope, $http) {
+        app.controller('InstalacionController', function ($scope, $http) {
+            var sedes;
+            $http.get('/api/sedes').success(function (data) {
+                sedes=data;
+                sedesElem=$("#sedeFiltrado");
+                for(var i=0;i<data.length;i++)
+                    sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+            })
             $http.get('/api/instalaciones').success(function (data) {
-                console.log(JSON.stringify(data));
             });
             $("#Buscar").click(function(){
-                var data=[];
-                var data2=datainstalaciones;
-                $.each(data2, function(i, item) {
-                    displayNone(item);
-                    if(!filtrarInstalacion(item))
-                        displayNone(item);
-                    console.log(i);
-                });
+
             });
 
             $("#Limpiar").click(function(){
-                limpiarFiltradoInstalacion();
+                $("#sedeFiltrado").val(-1);
+                $("#estadoFiltrado").val(-1);
+                $("#nombre").val("");
+                $("#date-picker-DiaEntrada").val("");
+                $("#date-picker-DiaSalida").val("");
             });
         });
 
@@ -189,6 +187,19 @@
     rowNum: 20,
     pager: "#jqGridPager",
     loadComplete: function () {
+        var cantFilas = $("#jqGrid").getGridParam("reccount");
+        console.log(cantFilas);
+        for (i = 1; i < cantFilas+cantFilas*4; i++) {
+            var rowData = $('#jqGrid').jqGrid('getRowData', i);
+            console.log(rowData);
+            //0:Deshabilitada 1:Habilitada 2:Eliminado
+            if (rowData.estado == "0")
+                rowData.estado = 'Deshabilitada';
+            else if (rowData.estado == "1")
+                rowData.estado = 'Habilitada';
+            $('#jqGrid').jqGrid('setRowData', i, rowData);
+        }
+
     $('.icono-ver').click(function () {
 
     var idInstalacion = $(this).attr('data-idInstalacion-ver');
@@ -211,7 +222,7 @@
                     //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
                     //Simplemente se le cambiara el estado
                     $.post('/api/instalaciones/eliminar',
-                            {idInstalacion: idInstalacion},
+                            {id:idInstalacion},
                             function (response) {
                                 if (!response.error) {
                                     Notificaciones.hideAll();
@@ -242,6 +253,8 @@
         window.location='edicionInstalacion.html?id='+idInstalacion;
 
     });
+
+
     }
     });
 

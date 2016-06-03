@@ -6,10 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Set;
 import com.clubsis.model.clase.Horario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -25,15 +21,11 @@ public class Instalacion {
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
-    private String estado;
+    private Integer estado;//0:Deshabilitada 1:Habilitada 2:Eliminado
 
     @ManyToOne
     private Sede sede; // necesaria (composición)
-/*
-    @OneToMany(fetch=FetchType.EAGER,mappedBy = "instalacion")
-    @JsonIgnore
-    private Set<Horario> horarios;
-*/
+
     @OneToMany(mappedBy = "instalacion")
     @JsonIgnore
     private Set<ReservaInstalacion> reservaInstalacionSet; // no es necesario al inicio (vacío)
@@ -46,6 +38,9 @@ public class Instalacion {
     @JsonIgnore
     private Set<ReservaInstalacion> reservas;
 
+    @ManyToOne
+    private TipoInstalacion tipo;
+
     @OneToMany(mappedBy = "instalacion")
     @JsonIgnore
     private Set<Pago> pago;
@@ -54,16 +49,18 @@ public class Instalacion {
     }
 
     public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, String estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, Set<Pago> pago) {
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, Integer estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Sede sede1, Set<ReservaInstalacion> reservas,TipoInstalacion tipo) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
-        this.estado = estado;
+        this.setEstado(estado);
         this.sede = sede;
         this.reservaInstalacionSet = reservaInstalacionSet;
         this.horarios = horarios;
         this.reservas = reservas;
+        this.tipo=tipo;
         this.pago = pago;
     }
 
@@ -115,14 +112,6 @@ public class Instalacion {
         this.precioReserva = precioReserva;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public Sede getSede() {
         return sede;
     }
@@ -161,5 +150,22 @@ public class Instalacion {
 
     public void setPago(Set<Pago> pago) {
         this.pago = pago;
+    }
+
+    public Integer getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Integer estado) {
+        this.estado = estado;
+    }
+
+
+    public TipoInstalacion getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoInstalacion tipo) {
+        this.tipo = tipo;
     }
 }

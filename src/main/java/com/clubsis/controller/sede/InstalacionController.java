@@ -4,6 +4,7 @@ package com.clubsis.controller.sede;
 import com.clubsis.model.sede.Instalacion;
 import com.clubsis.service.ServicioInstalacion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,12 @@ public class InstalacionController {
     public Instalacion update(@PathVariable Integer id, @RequestBody Instalacion instalacion) {
         return servicioInstalacion.actualizarInstalacion(id, instalacion);
     }
-
+    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+    public Integer eliminarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
+        Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
+        instalacion.setEstado(2);//0:Deshabilitada 1:Habilitada 2:Eliminado
+        servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
+        return 1;
+    }
 
 }
