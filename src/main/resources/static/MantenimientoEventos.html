@@ -76,6 +76,10 @@
             location.href = "registrarEvento.html";
             event.preventDefault();
         }
+
+        function Suspender(e){
+            funciones.suspender(e);
+        }
         var funcion={};
         var funciones = [Ver, Participar, Editar, Eliminar];
 
@@ -84,10 +88,10 @@
         var accionesXElemento = [
             /*ver,editar,eliminar,reservar,registrar*/
             //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-            ["Ver", "Participar", "Editar", "Eliminar"],//ADIMINISTRADOR
+            ["Ver", "Participar", "Editar", "Suspender"],//ADIMINISTRADOR
             //["Reservar","Anular","Modificar"],//usuario:Administradio
             ["Ver", "Participar"]];//usuario:Socio
-        var accionAgregar = [["Registrar"],//usuario:ADMINISTRADOR
+        var accionAgregar = [["Suspender"],//usuario:ADMINISTRADOR
             []];//usuario:Socio
     </script>
     <script type="text/javascript">
@@ -156,7 +160,7 @@
                 console.log(JSON.stringify(data));
                 llenarListaBungalows1(DATAEVENTOS);
                 appearTextBoxToEliminate();
-                cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
+                cambiarDeUsuario(accionesXElemento, administrador, Suspender, funciones);
                 deshabilitarEstilos(DATAEVENTOS);
                 mostrarNext5();
                 $('#maintextbox').click(function() {
@@ -165,7 +169,8 @@
                         if(!$("#"+lista[i].getAttribute("value")).hasClass("hidden"))
                             lista[i].checked=this.checked;
                 });
-                $("#Deshabilitar").click(function(event){
+                funciones.suspender=function(e){
+                        /*$("#Deshabilitar").click(function(event){*/
                     var lista=$(".textboxbigger"),id;
                     lista[0].checked=false;
                     for(var i=0;i<lista.length;i++){
@@ -180,7 +185,7 @@
                             });
                         }
                     }
-                });
+                };
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
@@ -230,6 +235,9 @@
             $("#Limpiar").click(function(){
                 limpiarFiltradoEvento();
             });
+            $("#registrar").click(function(e){
+                Agregar(e);
+            })
         });
     </script>
 </head>
@@ -240,8 +248,9 @@
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
     <div>
         <div class="form-group"><!--filtrado-->
-            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">
+            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;height:45px;">
                 CONSULTA DE EVENTOS
+                <button id="registrar" class="btn btn-primary pull-right">Registrar</button>
                 <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
             </h4>
 
@@ -314,7 +323,6 @@
                     </div>
                     <div class="col-sm-5 col-lg-5">
                         <div class="form-group" style="margin-left: 60px;">
-                            <button id="Deshabilitar" class="btn btn-primary">Deshabilitar</button>
                             <button id="Buscar" class="btn btn-primary">Buscar</button>
                             <button id="Limpiar" class="btn btn-primary">Limpiar</button>
                             <!--Opcional-->

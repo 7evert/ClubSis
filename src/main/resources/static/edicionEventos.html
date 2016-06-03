@@ -63,6 +63,9 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
     </style>
     <script type="text/javascript">
         function validateDateInAllBrowsers(cad){
@@ -74,27 +77,27 @@
         }
         function verificarDatos(){
             var mensajes=["Nombre debe tener entre 1 y 50 caracteres",//0
-                "Descripcion debe tener entre 1 y 100 caracteres",//1
-                "fechaEntrada debe ser una fecha válida",//2
-                "fechaSalida debe ser una fecha válida",//3
-                "fecha fnicio de Inscripcion debe ser una fecha válida",//4
-                "fecha fin de Inscripcion debe ser una fecha válida",//5
-                "capacidad debe ser un numero entero",//6
-                "fecha de fin de inscripcion debe ser a partir de fecha inicio inscripcion",//7
-                "fecha inicio de ser a partir de fecha fin de Inscripcion",//8
-                "fecha fin debe ser a partir de fecha inicio",//9
+                "Descripción debe tener entre 1 y 100 caracteres",//1
+                "La fecha de Entrada debe ser una fecha válida",//2
+                "La fecha de Salida debe ser una fecha válida",//3
+                "La fecha de Inicio de Inscripción debe ser una fecha válida",//4
+                "La fecha fin de Inscripción debe ser una fecha válida",//5
+                "La capacidad debe ser un número entero",//6
+                "La fecha de fin de Inscripción debe ser a después de fecha inicio Inscripción",//7
+                "La fecha inicio debe ser después de fecha fin de Inscripción",//8
+                "fecha fin debe ser después de fecha inicio",//9
                 "Todas las tarifas deben ser mayores a 0"//10
             ];
             var ver=[];
             ver[0]=$("#nombre").val().length>0&&$("#nombre").val().length<50;
-            ver[1]=$("#descripcion").val().length>0&&$("#descripcion").val().length<100;
+            ver[1]=$("#descripcion").val()=="" || ($("#descripcion").val().length>0&&$("#descripcion").val().length<100);
             ver[2]=isNaN(Date.parse($("#date-picker-DiaEntrada")[0].value))==false;
             ver[3]=isNaN(Date.parse($("#date-picker-DiaSalida")[0].value))==false;
-            ver[4]=isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
-            ver[5]=isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
-            ver[6]=$("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0;;
-            ver[7]=Date.parse($("#date-picker-InicioInscripcion")[0].value)<=Date.parse($("#date-picker-FinInscripcion")[0].value);
-            ver[8]=Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
+            ver[4]=$("#date-picker-InicioInscripcion")[0].value=="" || isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value))==false;
+            ver[5]=$("#date-picker-FinInscripcion")[0].value=="" || isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value))==false;
+            ver[6]=($("#capacidad").val()=="") || ($("#capacidad").val() % 1 === 0  && ($("#capacidad").val()/Math.pow(10,8)<1) && $("#capacidad").val()>0);;
+            ver[7]=$("#date-picker-FinInscripcion")[0].value=="" || $("#date-picker-InicioInscripcion")[0].value=="" || Date.parse($("#date-picker-InicioInscripcion")[0].value)<=Date.parse($("#date-picker-FinInscripcion")[0].value);
+            ver[8]=$("#date-picker-FinInscripcion")[0].value=="" || Date.parse($("#date-picker-DiaEntrada")[0].value)>=Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9]=Date.parse($("#date-picker-DiaSalida")[0].value)>=Date.parse($("#date-picker-DiaEntrada")[0].value);
             ver[10]=true;
             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
@@ -118,7 +121,7 @@
             return str ? str[1] : str;
         }
         function completaridEvento(id) {
-            $("#idEvento").html("Edicion de Evento " + id);
+            $("#idEvento").html("Edición de Evento " + id);
         }
         function completarNombre(nombre) {
             $("#nombre").attr({value: nombre});
@@ -351,24 +354,24 @@
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2 id="idEvento">Edicion Evento</h2>
+    <h2 id="idEvento">Edición Evento</h2>
     <hr>
     <form id="formReservaBungalows" class="form-horizontal mitadDerecha">
         <div id="nombreBungalow" class="form-group">
-            <label class="control-label col-xs-4">Nombre Evento</label>
+            <label class="control-label col-xs-4">Nombre Evento<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
                 <input id="nombre" type="text" class="form-control col-xs-8" value="Feliz Año 2016"/>
             </div>
         </div>
         <div id="escogerSedeBungalows" class="form-group">
-            <label id="admSede" class="control-label col-xs-4">Escoger Sede</label>
+            <label id="admSede" class="control-label col-xs-4">Escoger Sede<span class="obligatorio">*</span></label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="sede">
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-4">Estado</label>
+            <label class="control-label col-xs-4">Estado<span class="obligatorio">*</span></label>
             <div class="col-xs-8">
                 <select class="form-control col-xs-8" id="estado">
                 </select>
@@ -376,7 +379,7 @@
         </div>
         <div class="col-sm-12 col-lg-12">
             <div class="form-group">
-                <label class="control-label col-md-4">Inicio</label>
+                <label class="control-label col-md-4">Inicio<span class="obligatorio">*</span></label>
                 <div class="input-group input-append date col-md-8">
                     <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
@@ -387,7 +390,7 @@
         </div>
         <div class="col-sm-12 col-lg-12">
             <div class="form-group">
-                <label class="control-label col-md-4">Fin</label>
+                <label class="control-label col-md-4">Fin<span class="obligatorio">*</span></label>
                 <div class="input-group input-append date col-md-8">
                     <input id="date-picker-DiaSalida" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
@@ -398,7 +401,7 @@
         </div>
         <div class="col-sm-12 col-lg-12">
             <div class="form-group">
-                <label class="control-label col-md-4">Inicio de Inscripcion</label>
+                <label class="control-label col-md-4">Inicio de Inscripción</label>
                 <div class="input-group input-append date col-md-8">
                     <input id="date-picker-InicioInscripcion" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
@@ -409,7 +412,7 @@
         </div>
         <div class="col-sm-12 col-lg-12">
             <div class="form-group">
-                <label class="control-label col-md-4">Fin de Inscripcion</label>
+                <label class="control-label col-md-4">Fin de Inscripción</label>
                 <div class="input-group input-append date col-md-8">
                     <input id="date-picker-FinInscripcion" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
@@ -425,18 +428,18 @@
             </div>
         </div>
         <div id="Descripcion1" class="form-group">
-            <label class="control-label col-xs-4">Descripcion</label>
+            <label class="control-label col-xs-4">Descripción</label>
             <div class="input-group col-xs-8">
                 <input id="descripcion" type="text" class="form-control col-xs-8" placeholder="describir el evento"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-4">Gratuito</label>
+            <label class="control-label col-xs-4">Gratuito<span class="obligatorio">*</span></label>
             <select class="col-xs-2" id="isGratuito">
                 <option value="0">No</option>
                 <option value="1">Si</option>
             </select>
-            <label class="control-label col-xs-3">Publico</label>
+            <label class="control-label col-xs-3">Público<span class="obligatorio">*</span></label>
             <select class="col-xs-2" id="isPublico">
                 <option value="0">No</option>
                 <option value="1">Si</option>

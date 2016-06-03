@@ -55,7 +55,7 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
             class: 'pull-right',
             id:'accionAgregar',
             style:'width:108px;'
-        }).append('<input tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista" style="width:108px;">').appendTo("#topMostrar");
+        }).append('<input tabindex="3" value=\"'+accionAgregar[tipoUsuario]+'\" class="btn btn-primary rght-box accionLista" style="width:108px;margin-right:10px;">').appendTo("#topMostrar");
         b[0].onclick=agregar;
     }
 }
