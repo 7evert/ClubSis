@@ -48,19 +48,18 @@ public class Instalacion {
     protected Instalacion() {
     }
 
-    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, String estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, Set<Pago> pago) {
-    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, Integer estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Sede sede1, Set<ReservaInstalacion> reservas,TipoInstalacion tipo) {
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, Integer estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo, Set<Pago> pago) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
-        this.setEstado(estado);
+        this.estado = estado;
         this.sede = sede;
         this.reservaInstalacionSet = reservaInstalacionSet;
         this.horarios = horarios;
         this.reservas = reservas;
-        this.tipo=tipo;
+        this.tipo = tipo;
         this.pago = pago;
     }
 
@@ -112,20 +111,20 @@ public class Instalacion {
         this.precioReserva = precioReserva;
     }
 
+    public Integer getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Integer estado) {
+        this.estado = estado;
+    }
+
     public Sede getSede() {
         return sede;
     }
 
     public void setSede(Sede sede) {
         this.sede = sede;
-    }
-
-    public Set<ReservaInstalacion> getReservas() {
-        return reservas;
-    }
-
-    public void setReservas(Set<ReservaInstalacion> reservas) {
-        this.reservas = reservas;
     }
 
     public Set<ReservaInstalacion> getReservaInstalacionSet() {
@@ -144,22 +143,13 @@ public class Instalacion {
         this.horarios = horarios;
     }
 
-    public Set<Pago> getPago() {
-        return pago;
+    public Set<ReservaInstalacion> getReservas() {
+        return reservas;
     }
 
-    public void setPago(Set<Pago> pago) {
-        this.pago = pago;
+    public void setReservas(Set<ReservaInstalacion> reservas) {
+        this.reservas = reservas;
     }
-
-    public Integer getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Integer estado) {
-        this.estado = estado;
-    }
-
 
     public TipoInstalacion getTipo() {
         return tipo;
@@ -167,5 +157,13 @@ public class Instalacion {
 
     public void setTipo(TipoInstalacion tipo) {
         this.tipo = tipo;
+    }
+
+    public Set<Pago> getPago() {
+        return pago;
+    }
+
+    public void setPago(Set<Pago> pago) {
+        this.pago = pago;
     }
 }
