@@ -20,6 +20,13 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
+
+    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
     <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
@@ -64,47 +71,92 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
-        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
+
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
+        }
     </style>
     <script type="text/javascript">
-        var funciones={};
-        funciones.verSocio=function(event){
-            var idSocio=event.target.parentNode.getAttribute("data-idevento-ver");;
-            location.href="verSocio.html?idSocio="+idSocio;
+        var funciones = {};
+        funciones.verSocio = function (event) {
+            var idSocio = event.target.parentNode.getAttribute("data-idevento-ver");
+            ;
+            location.href = "verSocio.html?idSocio=" + idSocio;
         }
-        funciones.modificarSocio=function(event){
-            var idSocio=event.target.parentNode.getAttribute("data-idevento-modificar");;
-            location.href="editarSocio.html?id="+idSocio;
+        funciones.modificarSocio = function (event) {
+            var idSocio = event.target.parentNode.getAttribute("data-idevento-modificar");
+            ;
+            location.href = "editarSocio.html?id=" + idSocio;
         }
-        funciones.sancionarSocio=function(event){
-            var idSocio=event.target.parentNode.getAttribute("data-idevento-sancionar");;
-            location.href="asignarMulta.html?id="+idSocio;
+        funciones.sancionarSocio = function (event) {
+            var idSocio = event.target.parentNode.getAttribute("data-idevento-sancionar");
+            ;
+            location.href = "asignarMulta.html?id=" + idSocio;
         }
-        function mostrarSuspencion(socio){
-            console.log("se deshabilito correctamente al socio "+socio.id);
+        function mostrarSuspencion(socio) {
+            console.log("se deshabilito correctamente al socio " + socio.id);
         }
-        funciones.buscar=function(){
-
+        function contieneCadenaItem(item, cad,est,tipo) {
+            var palabras = cad.split(" ");
+            var ver = false;
+            if(cad=="")ver=true;
+            else
+                for (var i = 0; i < palabras.length; i++)
+                    ver = (ver || (item.nombreTit.indexOf(palabras[i]) >= 0));
+            ver = (ver && (tipo==0 || item.tiponombre==tipo) && (est==0 || item.estado==est));
+            return ver;
         }
-        funciones.limpiar=function(){
+        function llenarCampos(tipoSocios) {
+            var elemtipoSocios = $("#tipomembresia");
+            for (var i = 0; i < tipoSocios.length; i++)
+                elemtipoSocios.append($("<option></option>").attr({value: tipoSocios[i].nombre}).html(tipoSocios[i].nombre));
+        }
+        funciones.buscar = function () {
+            var str = $("#nombre").val();
+            var est = $("#estado").val();
+            var tipo = $("#tipomembresia").val();
+            /****************************************/
+            var ver;
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                ver = false;
+                if (contieneCadenaItem(rowData, str,est,tipo)) {
+                    //showrow
+                    $("#" + rowId).show();
+                }
+                else {
+                    $("#" + rowId).hide();
+                    //hiderow
+                }
+            }
+            /****************************/
+        }
+        funciones.limpiar = function () {
             $("#nombre").val("");
         }
     </script>
     <script type="text/javascript">
-        var nroSocios=0;
+        var nroSocios = 0;
         var app2 = angular.module('app2', []);
         app2.controller('mantenimientoSocioController', function ($scope, $http) {
+            $http.get('/api/tiposocios/').success(function (tipoSocios) {
+                llenarCampos(tipoSocios);
+            });
             $http.get('/api/socios/').success(function (data) {
                 var lastsel2;
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.','ID', 'Carnet', 'Membresia', 'Estado', 'Titular', "Acciones"],
+                    colNames: ['Nro.', 'ID', 'Carnet', 'Membresia', 'Estado', 'Titular', "Acciones"],
                     colModel: [
                         {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
-                        {name: 'id', index: 'ID', width: 90, editable:false,hidden:true, align: 'center'},
-                        {name: 'codigoCarnet',index: 'Carnet',width: 150,editable: false,align: 'center'},
+                        {name: 'id', index: 'ID', width: 90, editable: false, hidden: true, align: 'center'},
+                        {name: 'codigoCarnet', index: 'Carnet', width: 150, editable: false, align: 'center'},
                         {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center'},
                         {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center'},
                         {name: 'nombreTit', index: 'Nombre Titular', width: 220, editable: false, align: 'center'},
@@ -117,38 +169,39 @@
                     acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>'
-                            //+                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                    //+                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
                     return acciones;
                 }
+
                 for (var i = 0; i < data.length; i++) {
-                    $http.get('/api/socios/'+data[i].id+'/personaasociada').success(function (dataPersona){
-                        data[nroSocios].nro=nroSocios+1;
-                        data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
-                        if(dataPersona)
-                            data[nroSocios].nombreTit=dataPersona.nombre;
+                    $http.get('/api/socios/' + data[i].id + '/personaasociada').success(function (dataPersona) {
+                        data[nroSocios].nro = nroSocios + 1;
+                        data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
+                        if (dataPersona)
+                            data[nroSocios].nombreTit = dataPersona.nombre;
                         console.log(JSON.stringify(dataPersona));
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
-                        $("#jqGrid").jqGrid('setRowData',data[nroSocios].id , false, "myAltRowClassEven");
+                        $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
                         nroSocios++;
-                    }).error(function(){
-                        data[nroSocios].nro=nroSocios+1;
-                        data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
+                    }).error(function () {
+                        data[nroSocios].nro = nroSocios + 1;
+                        data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
-                        $("#jqGrid").jqGrid('setRowData',data[nroSocios].id , false, "myAltRowClassEven");
+                        $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
                         nroSocios++;
                     })
                 }
 
                 /*funciones.SuspenderSocio=function(event){
-                    var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
-                    var dataSocio= {"id":idSocio};
-                    $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
-                        mostrarSuspencion(socio);
-                        location.reload();
-                    });
-                }*/
+                 var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
+                 var dataSocio= {"id":idSocio};
+                 $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
+                 mostrarSuspencion(socio);
+                 location.reload();
+                 });
+                 }*/
             });
-            funciones.eliminar=function() {
+            funciones.eliminar = function () {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey)
@@ -159,7 +212,7 @@
                     var nroExito = 0;
                     for (var j = 0; j < selectedIDs.length; j++) {
                         var idSocio = selectedIDs[j];
-                        $http.put('/api/socios/'+idSocio+'/inhabilitar').success(function (data) {
+                        $http.put('/api/socios/' + idSocio + '/inhabilitar').success(function (data) {
                             mostrarSuspencion(data);
                             location.reload();
                         });
@@ -187,15 +240,12 @@
 
     <form class="form-horizontal">
         <div class="row">
-            <!--<div class="col-sm-6 col-lg-5">
+            <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio :</label>
+                    <label for="tipomembresia" class="col-md-4 control-label">Membresia</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipoSocio">
-                            <option>Elegir</option>
-                            <option>Normal</option>
-                            <option>Vitalicio</option>
-                            <option>Eterno</option>
+                        <select class="form-control" id="tipomembresia">
+                            <option value="0">Elegir</option>
                         </select>
                     </div>
                 </div>
@@ -205,15 +255,13 @@
                     <label for="estado" class="col-md-4 control-label">Estado :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
-                            <option>Elegir</option>
-                            <option>Activo</option>
-                            <option>Inactivo</option>
-                            <option>Sancionado</option>
-                            <option>Expulsado</option>
+                            <option value="0">Elegir</option>
+                            <option value="SUSPENDIDO">SUSPENDIDO</option>
+                            <option value="ACTIVO">ACTIVO</option>
                         </select>
                     </div>
                 </div>
-            </div>
+            </div><!--
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento :</label>
@@ -280,7 +328,8 @@
                 <div class="form-group" style="margin-left: 110px;">
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="#" onclick="funciones.buscar();return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    <a href="#" onclick="funciones.buscar();return false;" class="btn btn-primary"
+                       id="btnBuscar">Buscar</a>
                 </div>
             </div>
         </div>
