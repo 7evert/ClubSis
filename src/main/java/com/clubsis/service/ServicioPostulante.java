@@ -19,13 +19,14 @@ public class ServicioPostulante {
 
     //Postulante
     public List<Postulante> mostrarPostulantes(){
-        List<Postulante> postulantes = postulanteRepository.findAll();
-        List<Postulante> postulanteFiltrados = new ArrayList<Postulante>();
-        for(Postulante item : postulantes){
-            if(item.getEsActivo()==true)
-                postulanteFiltrados.add(item);
-        }
-        return postulanteFiltrados;
+//        List<Postulante> postulantes = postulanteRepository.findAll();
+//        List<Postulante> postulanteFiltrados = new ArrayList<Postulante>();
+//        for(Postulante item : postulantes){
+//            if(item.getEsActivo()==true)
+//                postulanteFiltrados.add(item);
+//        }
+//        return postulanteFiltrados;
+        return postulanteRepository.findAll();
     }
     public Postulante buscarPostulante(Integer id) {return postulanteRepository.findOne(id);}
     public Postulante crearPostulante(Postulante postulante) {return postulanteRepository.saveAndFlush(postulante);}

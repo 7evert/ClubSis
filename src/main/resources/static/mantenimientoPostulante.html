@@ -61,6 +61,12 @@
         .centered2 {
             margin-right: 510px;
         }
+
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -73,8 +79,8 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE SOLICITUD DE POSTULANTE
-                <a href="registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
-                    Postulante</a>
+            <a href="registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
+                Postulante</a>
         </h3>
     </div>
     <hr>
@@ -145,7 +151,10 @@
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
+                <div class="form-group" style="margin-left: 30px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
+                       style="visibility: visible">Eliminar</a>
+                    <!--style="visibility: hidden">Eliminar</a>-->
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
@@ -206,10 +215,6 @@
         }
     });
 
-    $('#getDataSede').click(fucntion(){
-
-    });
-
     $('.icono-modificar').click(function () {
         var idPostulante = $(this).attr('data-idPostulante-eliminar');
         console.log("idPostulante eliminando: " + $(this).attr('data-idPostulante-eliminar'));
@@ -227,37 +232,30 @@
         colModel: [
             {label: 'id', name: 'id', hidden: true, width: 75},
             {index: 'nombre', name: 'nombre', align: 'center', width: 90},
-            {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 70},
-            {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 70},
-            {index: 'tipoDocumento', sortable: true, name: 'tipoDocumento', align: 'center', width: 95},
-            {index: 'numeroDocumento', name: 'numeroDocumento', align: 'center', width: 70},
+            {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 90},
+            {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 90},
+            {index: 'tipoDocumento', sortable: true, name: 'tipoDocumento', align: 'center', width: 100},
+            {index: 'numeroDocumento', name: 'numeroDocumento', align: 'center', width: 75},
             {index: 'celular', name: 'celular', align: 'center', width: 70},
             {index: 'profesion', name: 'profesion', align: 'center', width: 70},
-            {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 70},
+            {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 90},
+            {index: 'esActivo', name: 'esActivo', align: 'center', width: 70},
             {index: 'acciones', name: 'acciones', width: 80, align: 'center', formatter: acciones},
-            {index: 'eliminados', name: 'eliminados', width: 20, align: 'center', formatter: eliminados}
+//            {index: 'eliminados', name: 'eliminados', width: 20, align: 'center', formatter: eliminados}
         ],
         colNames: [
-            'idPostulante', 'Nombres', 'Apellido Paterno', 'Apellido Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado', 'Acciones', ' '
+            'idPostulante', 'Nombres', 'Ap. Paterno', 'Ap. Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado Postulante', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
+        multiselect: true,
         pager: "#jqGridPager",
         loadComplete: function () {
-            var idsEliminar = [];
-            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
-            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
-                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
-                //set background style if ColumnValue == true
-                if (rowData['estado'] == "INHABILITADO") {
-                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
-                } //if
-            }
 
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
-            for (i = 1; i < cantFilas+cantFilas*4; i++) {
+            for (i = 1; i < cantFilas + cantFilas * 4; i++) {
                 var rowData = $('#jqGrid').jqGrid('getRowData', i);
                 console.log(rowData);
                 //0: Pendiente 1:Rechazada 2:Aprobada
@@ -269,21 +267,80 @@
                     rowData.esAprobado = 'Aprobada';
                 if (rowData.celular == "")
                     rowData.celular = '-';
+                if (rowData.esActivo == "true")
+                    rowData.esActivo = 'HABILITADO';
+                else if (rowData.esActivo == "false")
+                    rowData.esActivo = 'INHABILITADO';
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
+
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['esActivo'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+
+//            $('.cbox').click(function () {
+//                var myGrid = $('#jqGrid');
+//                var selectedRowId = myGrid.jqGrid('getGridParam', 'selrow');
+//                var cellValue = myGrid.jqGrid('getCell', selectedRowId, 'columnName');
+//                console.log("cbox");
+//                console.log(cellValue);
+//                var condicionMultiple = $('.cbox').prop('checked');
+////                var condicionMultiple2 = $("#jqg_jqGrid_" + $(this.id).val()).prop('checked');
+//                console.log(condicionMultiple);
+////                console.log(condicionMultiple2);
+//                if (condicionMultiple == true || cellValue == false) {
+//                    $("#btnEliminarMultiples").css("visibility", "visible");
+//                }
+//                else
+//                    $("#btnEliminarMultiples").css("visibility", "hidden");
+//            });
+
+            $('#btnEliminarMultiples').click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    Notificaciones.showError("No hay bungalow seleccionado(s) a eliminar");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje = "Han sido eliminados las solicitudes de postulantes seleccionadas satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data = selectedIDs[i];
+                        console.log("Entro Eliminar x");
+                        $.post('/api/postulantes/eliminar',
+                                {idPostulante: data},
+                                function (response) {
+                                    if (!response.error) {
+
+                                    } else {
+                                        Noty.hideAll();
+                                        mensaje = "No se pudo rechazar las solicitudes de postulantes seleccionadas";
+                                    }
+                                });
+                        result += selectedIDs[i] + ",";
+                    }
+                    Notificaciones.showNoty(mensaje);
+                    setTimeout(function () {
+                        location.href = "mantenimientoPostulante.html"
+                    }, 1000);
+                    Notificaciones.showNoty(mensaje);
+                    window.location = "mantenimientoPostulante.html";
+                }
+            });
+
             //var funcionesAngular = angular.element(document.getElementById('MantenimientoPostulanteID')).scope();
             $('.icono-ver').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-ver');
                 window.location = 'verPostulante.html?id=' + idPostulante;
 
             });
-            $('.eliminarMultiple').click(function () {
-                if($(this).is(':checked')) {
-                    var idPostulante = $(this).attr('data-idPostulante-eliminarMultiple');
-                    alert(idPostulante);
-                }
-//                window.location = 'verPostulante.html?id=' + idPostulante;
-            });
+
             $('.icono-eliminar').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-eliminar');
                 $.noty.closeAll();
@@ -303,7 +360,7 @@
                                         if (!response.error) {
                                             Notificaciones.hideAll();
                                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
-                                            $('#grid').trigger('reloadGrid');
+                                            $('#jqGrid').trigger('reloadGrid');
                                             setTimeout(function () {
                                                 location.href = "mantenimientoPostulante.html"
                                             }, 1000);
@@ -338,12 +395,12 @@
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
-
-    function eliminados(cellValue, options, rowdata, action) {
-        var eliminados = '';
-        eliminados = '<input href="javascript:void(0)" class="eliminarMultiple" data-idPostulante-eliminarMultiple="' + rowdata['id'] + '" title="Ver Bungalow" type="checkbox" value="">';
-        return eliminados;
-    }
+    //
+    //    function eliminados(cellValue, options, rowdata, action) {
+    //        var eliminados = '';
+    //        eliminados = '<input href="javascript:void(0)" class="eliminarMultiple" data-idPostulante-eliminarMultiple="' + rowdata['id'] + '" title="Ver Bungalow" type="checkbox" value="">';
+    //        return eliminados;
+    //    }
 
     $('#btnLimpiar').click(function () {
         $("#tipoDocumento").val(-1);
