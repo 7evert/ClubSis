@@ -152,8 +152,8 @@ public class ServicioPagos {
     }
 
 
-    //@Scheduled(cron="0 0/1 * 1/1 * ? *")// cada minuto
-    //@Scheduled(cron="0 0 0 1 1/1 ? *")// primer dia de cada mes
+    //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
+    @Scheduled(cron="0 0 0 1 * ?")// primer dia de cada mes
     public void crearPagosMembresia(){
         List<Socio> socios=socioRepository.findAll();
         Date fechaFinal = new Date();
@@ -168,10 +168,9 @@ public class ServicioPagos {
         }
     }
 
-    //TODO: Preguntar sobre como hacer para el scheduled faltan dependencias en el pom o se puede hacer otra cosa
 
-    //@Scheduled(cron="0 0/1 * 1/1 * ? *")// cada minuto
-    //@Scheduled(cron="0 0 0 1/1 * ? *")// cada dia
+    //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
+    @Scheduled(cron="0 0 0 * * ?")// cada dia
     public void actualizarPagos(){
         List<Pago> pagos=pagoRepository.findAll();
         for(Pago item:pagos){
@@ -180,6 +179,15 @@ public class ServicioPagos {
                 pagoRepository.saveAndFlush(item);
             }
         }
+        List<CuotaExtraordinaria> cuotas=cuotaExtraordinariaRepository.findAll();
+        for(CuotaExtraordinaria item:cuotas){
+            if(item.getFechaFin().before(new Date()) && item.getEstadoCuotaExtraordinaria()==EstadoCuotaExtraordinaria.REGISTRADA){
+                item.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.VENCIDA);
+                cuotaExtraordinariaRepository.saveAndFlush(item);
+            }
+
+        }
+
     }
 
 
