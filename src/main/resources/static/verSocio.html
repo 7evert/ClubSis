@@ -100,8 +100,9 @@
                     })[0];
                     if (!dataTitular) {
                         alert("No existe Titular");
+                        llenarCampos(data, {});
                     }
-                    llenarCampos(data, {});
+                    llenarCampos(data, dataTitular);
                     $http.get('/api/socios/' + idSocio + '/personas').success(function (dataFamiliares) {
                         var elemMiembros = $("#miembro");
                         for (var i = 0; i < dataFamiliares.length; i++)

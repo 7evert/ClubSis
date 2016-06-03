@@ -25,6 +25,9 @@
         input[type='checkbox']:checked {
             background: #abd;
         }
+        .inhabilitar{
+            background-color: #fff866;
+        }
     </style>
     <script type="text/javascript">
         function validateDateInAllBrowsers(cad){
@@ -86,105 +89,6 @@
             ["Ver", "Participar"]];//usuario:Socio
         var accionAgregar = [["Registrar"],//usuario:ADMINISTRADOR
             []];//usuario:Socio
-        var dataJSON = [
-            {
-                id: 0,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            },
-            {
-                id: 1,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            },
-
-            {
-                id: 2,
-                descripcion: "asd",
-                fechaInicio: "2016-05-18 02:06:30",
-                fechaFin: "2016-05-18 02:06:30",
-                reglamento: "....",
-                estado: "En espera",
-                fechaInicioInscripcion: "2016-05-18 02:06:30",
-                fechaFinInscripcion: "2016-05-18 02:06:30",
-                url: "img/Eventos/newYear.jpg",
-                isGratuito: 0,
-                isPublico: 1,
-                nombre: "Feliz Año Nuevo 2016",
-                tarifaEventos: [{
-                    id: 1,
-                    descripcion: "a",
-                    precio: 0.00,
-                    nombre: "b"
-                },
-                    {
-                        id: 2,
-                        descripcion: "c",
-                        precio: 1.00,
-                        nombre: "d"
-                    }],
-                sede: {
-                    id: 0,
-                    nombre: "Chorrillos",
-                    direccion: "av",
-                    descripcion:"sasdas"
-                }
-            }
-        ];
     </script>
     <script type="text/javascript">
         function contieneCadenaItem(item,cad){
@@ -227,6 +131,15 @@
                 a.childNodes[0].appendChild($(' <input type="checkbox" class="textboxbigger" value="'+ id+'" style="position:absolute;top:10px;right:20px;">')[0]);
             }
         }
+        function deshabilitarEvento(i){
+            $($("#"+i)[0].children[0]).addClass("inhabilitar");
+        }
+        function deshabilitarEstilos(eventos){
+            for(var i=0;i<eventos.length;i++){
+                if(eventos[i].estado=="INHABILITADO")
+                deshabilitarEvento(eventos[i].id);
+            }
+        }
     </script>
     <script type="text/javascript">
         //app script
@@ -244,6 +157,7 @@
                 llenarListaBungalows1(DATAEVENTOS);
                 appearTextBoxToEliminate();
                 cambiarDeUsuario(accionesXElemento, administrador, Agregar, funciones);
+                deshabilitarEstilos(DATAEVENTOS);
                 mostrarNext5();
                 $('#maintextbox').click(function() {
                     var lista=$(".textboxbigger");
@@ -257,6 +171,7 @@
                     for(var i=0;i<lista.length;i++){
                         id=lista[i].getAttribute("value");
                         if(id!="all" && lista[i].checked){
+                            deshabilitarEvento(i);
                             lista[i].checked=false;
                             $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
                                 console.log("se deshabilito el evento "+data.nombre);
@@ -269,7 +184,6 @@
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
-
                     dataevento = $.grep(DATAEVENTOS, function (e) {
                         return e.id == getID(event.target);
                     })[0];
@@ -277,6 +191,7 @@
                     dataevento.sede={"id":dataevento.sede.id};
                      console.log(JSON.stringify(dataevento));
                      $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
+                         deshabilitarEvento(data.id);
                         console.log(data);
                      });
                 }
