@@ -40,7 +40,7 @@ public class SocioController {
         return servicioMembresias.crearSocio(socio);
     }
 
-
+    /*ahora?*/
     @RequestMapping(value = "/{id}/{idTipo}/actualizar", method = RequestMethod.POST)
     public Socio update(@PathVariable Integer id,@PathVariable Integer idTipo, @RequestBody Socio socio){
         return servicioMembresias.actualizarSocio(id,idTipo,socio);

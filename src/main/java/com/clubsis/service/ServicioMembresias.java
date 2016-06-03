@@ -83,6 +83,7 @@ public class ServicioMembresias {
         return socioRepository.saveAndFlush(socio);
     }
 
+    /*comitea*/
     public Socio actualizarSocio(Integer id, Integer idTipo, Socio socio){
         Socio socioExistente= socioRepository.findOne(id);
         TipoSocio tipo = tipoSocioRepository.findOne(idTipo);
