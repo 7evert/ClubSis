@@ -1,4 +1,5 @@
 package com.clubsis.model.evento;
+import com.clubsis.model.pago.Pago;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -46,6 +47,10 @@ public class Evento {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private Set<Pago> pagos = new HashSet<Pago>(0);
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
     private Set<InvitadoEvento> invitadoeventos = new HashSet<InvitadoEvento>(0);
 
     @JsonIgnore
@@ -60,22 +65,23 @@ public class Evento {
     }
 
     public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Set<PersonaEvento> personaeventos, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, String reglamento, Date fechaFinInscripcion, Date fechaInicioInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Set<Empresa> empresas, Integer capacidad, Set<TarifaEvento> tarifaxEventos, Set<Pago> pagos, Set<Invitado> invitados, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
         this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.fechaFinInscripcion = fechaFinInscripcion;
+        this.fechaInicioInscripcion = fechaInicioInscripcion;
         this.url = url;
         this.isGratuito = isGratuito;
         this.isPublico = isPublico;
         this.nombre = nombre;
-        this.capacidad = capacidad;
-        this.descuento = descuento;
         this.empresas = empresas;
+        this.capacidad = capacidad;
         this.tarifaxEventos = tarifaxEventos;
-        this.invitadoeventos = invitadoeventos;
-        this.personaeventos = personaeventos;
+        this.pagos = pagos;
+        this.invitados = invitados;
         this.sede = sede;
     }
 
@@ -221,5 +227,13 @@ public class Evento {
 
     public void setSede(Sede sede) {
         this.sede = sede;
+    }
+
+    public Set<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(Set<Pago> pagos) {
+        this.pagos = pagos;
     }
 }

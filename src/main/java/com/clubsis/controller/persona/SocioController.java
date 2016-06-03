@@ -3,9 +3,10 @@ package com.clubsis.controller.persona;
 import com.clubsis.model.pago.Pago;
 import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
+import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.Suspension;
 import com.clubsis.service.ServicioMembresias;
-import org.omg.CORBA.Request;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.RepositoryQuery;
 import org.springframework.web.bind.annotation.*;
@@ -75,6 +76,11 @@ public class SocioController {
     public Persona mostrarNombrePersona(@PathVariable Integer id) {
         List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(id).getPersonas());
         return personas.get(0);
+    }
+
+    @RequestMapping(value = "/{id}/socioPrincipal", method = RequestMethod.GET)
+    public Persona mostrarSocioPrincipal(@PathVariable Integer id) {
+        return servicioMembresias.obtenerSocioPrincipal(id);
     }
 
     @RequestMapping(value="/{idSocio}/personas",method = RequestMethod.GET)

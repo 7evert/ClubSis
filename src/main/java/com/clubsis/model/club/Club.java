@@ -4,6 +4,7 @@ package com.clubsis.model.club;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.privilegio.Permiso;
 import com.clubsis.model.privilegio.Rol;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,22 +22,19 @@ public class Club {
     private String mision;
     private String historia;
     private String urlFoto;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Oferta> ofertas;
-
-    @OneToMany(mappedBy = "club")
-    private Set<Sancion> sanciones;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Sorteo> sorteos;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<CuotaExtraordinaria> cuotasExtraordinarias;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Permiso> permisos;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<Rol> roles;
 
@@ -44,14 +42,13 @@ public class Club {
     protected Club() {
     }
 
-    public Club(String nombre, String vision, String mision, String historia, String urlFoto, Set<Oferta> ofertas, Set<Sancion> sanciones, Set<Sorteo> sorteos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Permiso> permisos, Set<Rol> roles) {
+    public Club(String nombre, String vision, String mision, String historia, String urlFoto, Set<Oferta> ofertas, Set<Sorteo> sorteos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Permiso> permisos, Set<Rol> roles) {
         this.nombre = nombre;
         this.vision = vision;
         this.mision = mision;
         this.historia = historia;
         this.urlFoto = urlFoto;
         this.ofertas = ofertas;
-        this.sanciones = sanciones;
         this.sorteos = sorteos;
         this.cuotasExtraordinarias = cuotasExtraordinarias;
         this.permisos = permisos;
@@ -112,14 +109,6 @@ public class Club {
 
     public void setOfertas(Set<Oferta> ofertas) {
         this.ofertas = ofertas;
-    }
-
-    public Set<Sancion> getSanciones() {
-        return sanciones;
-    }
-
-    public void setSanciones(Set<Sancion> sanciones) {
-        this.sanciones = sanciones;
     }
 
     public Set<Sorteo> getSorteos() {

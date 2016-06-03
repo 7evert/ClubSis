@@ -1,12 +1,11 @@
 package com.clubsis.controller.pago;
 
-import com.clubsis.model.pago.Cuota;
 import com.clubsis.model.pago.Pago;
+import com.clubsis.model.pago.TipoPago;
 import com.clubsis.service.ServicioPagos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/pagos")
 public class PagoController {
     @Autowired
-    private ServicioPagos servicioPagos;
+    ServicioPagos servicioPagos;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Pago> list() {return servicioPagos.mostrarPagos();}
@@ -26,19 +25,20 @@ public class PagoController {
         return servicioPagos.buscarPago(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    /*@RequestMapping(method = RequestMethod.POST)
     public Pago create(@RequestBody Pago pago){
-        return servicioPagos.crearPago(pago);
-    }
+        return servicioPagos.crearPago(1,1, TipoPago.INSTALACION,100.0);
+        //SE USO PARA PROBAR EL SERVICIO
+    }*/
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Pago update(@PathVariable Integer id, @RequestBody Pago pago){
         return servicioPagos.actualizarPago(id,pago);
     }
 
-    @RequestMapping(value = "/{id}/cuotas", method = RequestMethod.GET)
-    public List<Cuota> mostrarPagos(@PathVariable Integer id) {
-        return new ArrayList<>(servicioPagos.buscarPago(id).getCuotas());
+    @RequestMapping(value = "/{id}/anular", method = RequestMethod.POST)
+    public Pago anularPago(@PathVariable Integer id){
+        return servicioPagos.anularPago(id);
     }
 
 }

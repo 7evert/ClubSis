@@ -1,11 +1,15 @@
 package com.clubsis.model.pago;
 
+import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.clase.Clase;
+import com.clubsis.model.club.Multa;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
+import com.clubsis.model.sede.Instalacion;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -15,10 +19,18 @@ public class Pago {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer numeroCuotas;
+    private String descripcion;
     private Double mora;
     private Double montoTotal;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date fechaVencimiento;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaAnulacion;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date fechaRegistro;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date fechaPago;
+    private EstadoPago estadoPago;
     private TipoPago tipoPago;
 
     private String valoracion;
@@ -26,26 +38,42 @@ public class Pago {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-    @OneToMany(mappedBy = "pago")
-    private Set<Cuota> cuotas;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Evento evento;
 
-    public Pago(Integer numeroCuotas, Double mora, Double montoTotal, Date fechaAnulacion, TipoPago tipoPago, String valoracion, Socio socio, Set<Cuota> cuotas) {
-        this.numeroCuotas = numeroCuotas;
-        this.mora = mora;
-        this.montoTotal = montoTotal;
-        this.fechaAnulacion = fechaAnulacion;
-        this.tipoPago = tipoPago;
-        this.valoracion = valoracion;
-        this.socio = socio;
-        this.cuotas = cuotas;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Bungalow bungalow;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    private Evento evento;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Clase clase;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Instalacion instalacion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Multa multa;
 
     protected Pago() {
     }
 
+    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion,Multa multa) {
+        this.descripcion=descripcion;
+        this.mora = mora;
+        this.montoTotal = montoTotal;
+        this.fechaVencimiento = fechaVencimiento;
+        this.fechaAnulacion = fechaAnulacion;
+        this.fechaPago = fechaPago;
+        this.fechaRegistro = fechaRegistro;
+        this.estadoPago = estadoPago;
+        this.tipoPago = tipoPago;
+        this.valoracion = valoracion;
+        this.socio = socio;
+        this.evento = evento;
+        this.bungalow = bungalow;
+        this.clase = clase;
+        this.instalacion = instalacion;
+        this.multa=multa;
+    }
 
     public Integer getId() {
         return id;
@@ -53,14 +81,6 @@ public class Pago {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getNumeroCuotas() {
-        return numeroCuotas;
-    }
-
-    public void setNumeroCuotas(Integer numeroCuotas) {
-        this.numeroCuotas = numeroCuotas;
     }
 
     public Double getMora() {
@@ -111,11 +131,83 @@ public class Pago {
         this.socio = socio;
     }
 
-    public Set<Cuota> getCuotas() {
-        return cuotas;
+    public Date getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setCuotas(Set<Cuota> cuotas) {
-        this.cuotas = cuotas;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaPago() {
+        return fechaPago;
+    }
+
+    public void setFechaPago(Date fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public EstadoPago getEstadoPago() {
+        return estadoPago;
+    }
+
+    public void setEstadoPago(EstadoPago estadoPago) {
+        this.estadoPago = estadoPago;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public Bungalow getBungalow() {
+        return bungalow;
+    }
+
+    public void setBungalow(Bungalow bungalow) {
+        this.bungalow = bungalow;
+    }
+
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
+
+    public Instalacion getInstalacion() {
+        return instalacion;
+    }
+
+    public void setInstalacion(Instalacion instalacion) {
+        this.instalacion = instalacion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Multa getMulta() {
+        return multa;
+    }
+
+    public void setMulta(Multa multa) {
+        this.multa = multa;
     }
 }

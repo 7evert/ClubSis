@@ -1,38 +1,37 @@
 package com.clubsis.model.club;
 
+import com.clubsis.model.pago.Pago;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Created by Rodrigo López on 30/04/2016.
+ * Created by Blitz on 01/06/2016.
  */
 @Entity
-public class Sancion {
+public class Multa {
     @Id
     @GeneratedValue
     private Integer id;
     private String nombre;
     private Double costo;
     private String descripcion;
-    private Date fechaPago;
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "multa")
+    private Set<Pago> pagos =new HashSet<Pago>();
 
-    private EstadoSancion estado;
 
-    @ManyToOne
-    private Club club;
-
-    // TODO: manytomany con Socio
-
-    protected Sancion() {
+    protected Multa() {
     }
 
-    public Sancion(String nombre, Double costo, String descripcion, Date fechaPago, EstadoSancion estado, Club club) {
+    public Multa(String nombre, Double costo, String descripcion, Set<Pago> pagos) {
         this.nombre = nombre;
         this.costo = costo;
         this.descripcion = descripcion;
-        this.fechaPago = fechaPago;
-        this.estado = estado;
-        this.club = club;
+        this.pagos = pagos;
     }
 
     public Integer getId() {
@@ -67,27 +66,11 @@ public class Sancion {
         this.descripcion = descripcion;
     }
 
-    public Date getFechaPago() {
-        return fechaPago;
+    public Set<Pago> getPagos() {
+        return pagos;
     }
 
-    public void setFechaPago(Date fechaPago) {
-        this.fechaPago = fechaPago;
-    }
-
-    public EstadoSancion getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoSancion estado) {
-        this.estado = estado;
-    }
-
-    public Club getClub() {
-        return club;
-    }
-
-    public void setClub(Club club) {
-        this.club = club;
+    public void setPagos(Set<Pago> pagos) {
+        this.pagos = pagos;
     }
 }

@@ -1,18 +1,16 @@
 package com.clubsis.model.persona;
 
-import com.clubsis.model.club.Usuario;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import sun.util.PreHashedMap;
 
 import java.util.Date;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -22,11 +20,11 @@ public class Socio {
     @Id
     @GeneratedValue
     private Integer id;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaInscripcion;
     private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
-    private Integer codigoCarnet;
+    private String codigoCarnet;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
@@ -41,7 +39,7 @@ public class Socio {
     private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Pago> pagos =new HashSet<Pago>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
@@ -56,17 +54,13 @@ public class Socio {
     @JsonIgnore
     private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
 
-    @OneToMany(mappedBy = "socio")
-    @JsonIgnore
-    private Set<PagoMembresia> pagosMembresia = new HashSet<>();
-
     @ManyToOne
     private TipoSocio tipo;
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, Set<PagoMembresia> pagosMembresia, TipoSocio tipo) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, String codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, TipoSocio tipo) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
@@ -77,7 +71,6 @@ public class Socio {
         this.cuotasExtraordinarias = cuotasExtraordinarias;
         this.suspensiones = suspensiones;
         this.reservasInstalacion = reservasInstalacion;
-        this.pagosMembresia = pagosMembresia;
         this.tipo = tipo;
     }
 
@@ -105,11 +98,11 @@ public class Socio {
         this.estado = estado;
     }
 
-    public Integer getCodigoCarnet() {
+    public String getCodigoCarnet() {
         return codigoCarnet;
     }
 
-    public void setCodigoCarnet(Integer codigoCarnet) {
+    public void setCodigoCarnet(String codigoCarnet) {
         this.codigoCarnet = codigoCarnet;
     }
 
@@ -167,14 +160,6 @@ public class Socio {
 
     public void setReservasInstalacion(Set<ReservaInstalacion> reservasInstalacion) {
         this.reservasInstalacion = reservasInstalacion;
-    }
-
-    public Set<PagoMembresia> getPagosMembresia() {
-        return pagosMembresia;
-    }
-
-    public void setPagosMembresia(Set<PagoMembresia> pagosMembresia) {
-        this.pagosMembresia = pagosMembresia;
     }
 
     public TipoSocio getTipo() {
