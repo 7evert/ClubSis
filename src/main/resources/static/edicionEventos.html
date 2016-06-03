@@ -229,7 +229,7 @@
                         var idSede=dataevento.id;
                         $http.put("/api/eventos/"+idSede, data).success(function (data2, status) {
                             alert("Tu actualizacion fue exitosa");
-                            //location.href="EventInformacion.html?id="+data2.id;
+                            location.href="EventInformacion.html?id="+data2.id;
                             if(data2.isGratuito==1){return;}
                             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
                             for (var i = 0,vez=0; i < ids.length; i++) {
