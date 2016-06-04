@@ -75,7 +75,10 @@
                 //Hasta tener el id del socio logeado se usara el 1
 
                 idSocio=1;
-                var datosUrl= respuesta.data;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.estadoPago == "REGISTRADO";
+                });
+
 
                 $("#jqGrid").jqGrid({
 
