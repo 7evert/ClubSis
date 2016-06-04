@@ -119,7 +119,7 @@
                     var mensaje= "Se registro los pagos seleccionados satisfactoriamente.";
                     for (var i = 0; i < selectedIDs.length; i++) {
                         var data= selectedIDs[i];
-                        $http.put('/api/pagos/'+ data).success(function (data ) {
+                        $http.post('/api/pagos/'+ data).success(function (data ) {
                             result += selectedIDs[i] + ",";
                             flag=true
                             console.log(JSON.stringify(data));
