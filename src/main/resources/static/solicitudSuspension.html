@@ -60,7 +60,7 @@
             $http.get('/api/socios/1').then(function (respuesta) {
                 socioResp=respuesta.data;
             });
-            $http.get('/api/socios/1/personas').then(function (respuesta) {
+            $http.get('/api/socios/1/personaasociada').then(function (respuesta) {
                 persona=respuesta.data;
                 $scope.ngSocio=persona.nombre+" "+persona.apellidoPaterno;
             });
