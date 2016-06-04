@@ -150,7 +150,7 @@
                 });
             });
             funciones.modificarFamiliar= function () {
-                verificarDatos();
+                if(!verificarDatos())return;
                 var persona = {
                     "id":idFamiliar,
                     "tipoDocumento": $("#tipoDocumento").val(),

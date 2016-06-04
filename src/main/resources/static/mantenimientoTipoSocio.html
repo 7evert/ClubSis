@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
     <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
-
+    <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -90,7 +90,7 @@
             return true;
         }
         function mostrarMensaje(d){
-            alert(d)
+            Notificaciones.showError(d);
         }
         funciones.limpiar=function(){
             $("#nombre").val("");
@@ -107,7 +107,7 @@
             $('#jqGrid').jqGrid('setRowData', data.id, data);
         }
         funciones.mensaje=function(data2){
-            alert("registro Exitoso del tipoSocio" + data2.id+" "+data2.nombre);
+            Notificaciones.showNoty("registro Exitoso del tipoSocio" + data2.id+" "+data2.nombre);
         }
         function deshabilitarcampos(){
             $("#nombre").attr({disabled:true});
@@ -308,7 +308,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="ingresoMinimo" class="col-md-6 control-label">Ingreso Minimo</label>
+                    <label for="ingresoMinimo" class="col-md-4 control-label">Ingreso Minimo</label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" id="ingresoMinimo" placeholder="Cantidad mínima" style="width: 150px;">
                     </div>
@@ -317,15 +317,14 @@
             </div>
             <div class="col-sm-6 col-lg-12">
             </div>
-            <div class="col-sm-7 col-lg-7">
+            <div class="col-sm-5 col-lg-5">
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
                     <a href="#" onclick="funciones.registrarTipoSocio(event);return false;" class="btn btn-primary" id="btnRegistrar">Registrar</a>
                     <a href="#" onclick="funciones.modificarTipoSocio(event);return false;" class="btn btn-primary" id="btnModificar">Modificar</a>
-                    <a href="#" onclick="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <!--<a href="funciones.registrarTipoSocio(event);return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+                    <a href="#" onclick="location.href='loginUsuario.html'" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -354,6 +353,11 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
 </body>
 </html>
