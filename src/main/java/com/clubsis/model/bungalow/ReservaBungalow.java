@@ -31,12 +31,13 @@ public class ReservaBungalow {
     protected ReservaBungalow() {
     }
 
-    public ReservaBungalow(Date fechaReserva, Date fechaFinal, EstadoReservaBungalow estado, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow) {
+    public ReservaBungalow(Date fechaReserva, Date fechaFinal, EstadoReservaBungalow estado, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow, Socio socio) {
         this.fechaReserva = fechaReserva;
         this.fechaFinal = fechaFinal;
         this.estado = estado;
         this.serviciosBungalows = serviciosBungalows;
         this.bungalow = bungalow;
+        this.socio = socio;
     }
 
     public Integer getId() {
@@ -55,6 +56,22 @@ public class ReservaBungalow {
         this.fechaReserva = fechaReserva;
     }
 
+    public Date getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public void setFechaFinal(Date fechaFinal) {
+        this.fechaFinal = fechaFinal;
+    }
+
+    public EstadoReservaBungalow getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoReservaBungalow estado) {
+        this.estado = estado;
+    }
+
     public Set<ServicioBungalow> getServiciosBungalows() {
         return serviciosBungalows;
     }
@@ -71,19 +88,11 @@ public class ReservaBungalow {
         this.bungalow = bungalow;
     }
 
-    public Date getFechaFinal() {
-        return fechaFinal;
+    public Socio getSocio() {
+        return socio;
     }
 
-    public void setFechaFinal(Date fechaFinal) {
-        this.fechaFinal = fechaFinal;
-    }
-
-    public EstadoReservaBungalow getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoReservaBungalow estado) {
-        this.estado = estado;
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 }
