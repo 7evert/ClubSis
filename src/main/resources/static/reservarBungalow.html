@@ -76,7 +76,7 @@
     <form class="form-horizontal">
         <div class="row">
             <div class="col-xs-offset-0 col-xs-6" align="center">
-                <label for="fechaFin" class="col-md-3 control-label">Fecha Inicio<span class="obligatorio">*</span></label>
+                <label for="fechaInicio" class="col-md-3 control-label">Fecha Inicio<span class="obligatorio">*</span></label>
                 <div class="input-group input-append date col-md-7">
                     <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
                     <label for="fechaInicio" class="input-group-addon btn"><span
@@ -103,7 +103,7 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 95px;">
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
-                    <a href="MantenimientoBungalows.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="ConsultarBungalow.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -134,24 +134,10 @@
         dateFormat: 'dd/mm/yy'
     });
 
-    $("sede").click(
-            $.getJSON("/api/sedes", null, function (data) {
-                console.log(data);
-                $("#sede option").remove(); // Remove all <option> child tags.
-                $("#sede").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                $.each(data, function (index, item) { // Iterates through a collection
-                    $("#sede").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
-                    );
-                });
-            })
-    );
+    $('#fechaFin').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
     $("tipoBungalow").click(
             $.getJSON("/api/tiposbungalow", null, function (data) {
                 $("#tipoBungalow option").remove(); // Remove all <option> child tags.
@@ -173,16 +159,23 @@
 
     var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'),parent.document.URL.length);
     var idBungalow = ruta.substring(ruta.lastIndexOf('=')+1);
+    var idSocio = '1';
     var app = angular.module('app', []);
     app.controller('BungalowController', function ($scope, $http) {
         $scope.socio=[];
-        $http.get('/api/socios/1').success(function (data) {
-            $scope.socio = data;
-        });
+
+//        $http.get('/api/socios/'+idSocio).success(function (data) {
+//            $scope.socio = data;
+//            console.log(data);
+//        });
 
         $scope.bungalow=[];
         $http.get('/api/bungalows/'+idBungalow).success(function (data) {
             $scope.bungalow = data;
+            $http.get('/api/socios/'+idSocio).success(function (data) {
+                $scope.socio = data;
+                console.log(data);
+            });
         });
 
         $scope.valoracion = {};
@@ -210,8 +203,8 @@
         $("#btnRegistrar").click(function () {
             var fechaConvertidaReserva = "";
             if($("#fechaInicio").val() != "") {
-                var fecha = $scope.fechaReserva;
-                console.log($scope.fechaReserva);
+                var fecha = $scope.fechaInicio;
+                console.log(fecha);
                 var fechaPartida = fecha.split("/");
                 var dia = fechaPartida[0];
                 var mes = fechaPartida[1];
@@ -219,19 +212,19 @@
                 fechaConvertidaReserva = mes + '/' + dia + '/' + anho;
             }
 
-            $scope.registrarBungalow = function (){
+            $scope.registrarReservaBungalow = function (){
                 var dataReserva = {
-                    'estado': $scope.estado,
+                    'estado': '1',
                     'fechaReserva':Date.parse(fechaConvertidaReserva),
                     'fechaFinal':Date.parse(fechaConvertidaReserva),
                     'socio':$scope.socio,
                     'bungalow':$scope.bungalow,
                 };
-                $http.post('/api/reservasbungalow', data).success(function (dataReserva) {
+                $http.post('/api/reservasbungalow', dataReserva).success(function (dataReserva) {
                     Notificaciones.hideAll();
                     Notificaciones.showProcesando();
                     setTimeout(function () {
-                        location.href = "verBungalow.html"
+                        location.href = "ConsultarBungalow.html"
                     }, 1000);
                 })
             }();
