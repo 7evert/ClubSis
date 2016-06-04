@@ -32,7 +32,7 @@
     <script>
         function getIDSocio(href) {
             href=this.location.href;;
-            var str = href.match(/\?idSocio\=(\d+)/);
+            var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
     </script>
@@ -45,9 +45,9 @@
             $http.get('/api/socios/'+getIDSocio()).then(function (respuesta) {
                 socioResp=respuesta.data;
             });
-            $http.get('/api/socios/'+getIDSocio()+'/personas').then(function (respuesta) {
+            $http.get('/api/socios/'+getIDSocio()+'/personaasociada').then(function (respuesta) {
                 persona=respuesta.data;
-                $scope.ngSocio=persona.nombre+" "+persona.apellidoPaterno;
+                $scope.ngSocio= persona.nombre+" "+persona.apellidoPaterno;
             });
             $http.get('/api/multas').then(function (respuesta) {
                 listMultas=respuesta.data;
@@ -86,11 +86,11 @@
         <div class="form-group">
             <label class="col-xs-5 control-label">Nombre Socio</label>
             <div class="col-xs-7">
-                <input type="text" ng-model="ngSocio" placeholder="Nombre de la multa" disabled class="form-control "/>
+                <input type="text" ng-model="ngSocio" disabled class="form-control "/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">Nombr de la multa</label>
+            <label class="col-xs-5 control-label">Nombre de la multa</label>
             <div class="col-xs-7">
                 <select class="form-control" name="repeatSelect" id="repeatSelect" ng-model="multas.repeatSelect">
                     <option ng-repeat="option in multas.availableOptions" value="{{option.id}}">{{option.nombre}}</option>
