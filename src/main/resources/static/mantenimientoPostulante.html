@@ -305,7 +305,7 @@
                 var rowKey = grid.getGridParam("selrow");
 
                 if (!rowKey)
-                    Notificaciones.showError("No hay bungalow seleccionado(s) a eliminar");
+                    Notificaciones.showError("No hay solicitudes de postulantes seleccionado(s) a eliminar");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
@@ -329,8 +329,6 @@
                     setTimeout(function () {
                         location.href = "mantenimientoPostulante.html"
                     }, 1000);
-                    Notificaciones.showNoty(mensaje);
-                    window.location = "mantenimientoPostulante.html";
                 }
             });
 
