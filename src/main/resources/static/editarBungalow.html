@@ -75,6 +75,15 @@
 
     <form class="form-horizontal">
         <div class="row">
+            <!--<div class="col-sm-6 col-lg-5">-->
+                <!--<div class="form-group">-->
+                    <!--<label for="sede" class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>-->
+                    <!--<div class="col-md-8">-->
+                        <!--<select class="form-control" id="estado" name="sede" ng-model="bugalow.estado.id">-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="sede" class="col-md-4 control-label">Sede<span class="obligatorio">*</span></label>
@@ -186,6 +195,22 @@
 <script src="js/principal.js"></script>
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
+//    CREADO, DISPONIBLE, INHABILITADO, ELIMINADO
+//    $("#estado option").remove(); // Remove all <option> child tags.
+//    $("#estado").append( // Append an object to the inside of the select box
+//            $("<option></option>") // Yes you can do this.
+//                    .text("Elegir")
+//                    .val(-1)
+//    );
+//
+//    $.each(data, function (index, item) { // Iterates through a collection
+//        $("#sede").append( // Append an object to the inside of the select box
+//                $("<option></option>") // Yes you can do this.
+//                        .text(item.nombre)
+//                        .val(item.id)
+//        );
+//    });
+
     $.getJSON("/api/sedes", null, function (data) {
         console.log(data);
         $("#sede option").remove(); // Remove all <option> child tags.

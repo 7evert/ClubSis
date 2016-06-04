@@ -154,7 +154,9 @@
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
+                <div class="form-group" style="margin-left: 20px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
+                       style="visibility: visible">Eliminar</a>
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
@@ -220,6 +222,7 @@
         viewrecords: true,
         height: 400,
         rowNum: 20,
+        multiselect: true,
         pager: "#jqGridPager",
         loadComplete: function () {
             var rowIds = $("#jqGrid").jqGrid('getDataIDs');
@@ -246,6 +249,39 @@
                     rowData.valoracion = '5 estrellas';
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
+
+            $('#btnEliminarMultiples').click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    Notificaciones.showError("No hay bungalow seleccionado(s) a eliminar");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje = "Han sido eliminados los bungalows seleccionados satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data = selectedIDs[i];
+                        console.log("Entro Eliminar x");
+                        $.post('/api/bungalows/eliminar',
+                                {idBungalow: data},
+                                function (response) {
+                                    if (!response.error) {
+
+                                    } else {
+                                        Noty.hideAll();
+                                        mensaje = "No se pudo rechazar los bungalows seleccionados";
+                                    }
+                                });
+                        result += selectedIDs[i] + ",";
+                    }
+                    Notificaciones.showNoty(mensaje);
+                    setTimeout(function () {
+                        location.href = "mantenimientoBungalows.html"
+                    }, 1000);
+                }
+            });
+
             $('.icono-modificar').click(function () {
 //                alert("Modificando bungalow");
                 var idBungalow = $(this).attr('data-idBungalow-modificar');
