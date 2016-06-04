@@ -72,6 +72,7 @@
 <script type="text/javascript">
     function edicionProducto(){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        console.log(id);
         location.href = "edicionProducto.html?id=" + id;
     }
     function accionEliminar() {

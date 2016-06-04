@@ -177,9 +177,9 @@
                 var ruc= $("#numRUC").val();
                 var fechaInicio =  $("#fechaInicio").val();
                 var fechaFin =  $("#fechaFin").val();
-                var servicio = $scope.servicio;
-                var numContacto= $scope.numContacto;
-                var admin = $scope.admin;
+                var servicio = $("#servi").val();
+                var numContacto= $("#telefono").val();
+                var admin = $("#admin").val();
                 var estadoProveedor =$("#estadoProveedor").val();
 
                 if(!nombre){
@@ -204,7 +204,12 @@
                 }
                 else if(!servicio){
                     Notificaciones.showError('Servicio de la concesión requerido');
-                    $("#servicio").css("border-color", "red");
+                    $("#servi").css("border-color", "red");
+                    return true;
+                }
+                else if(!admin){
+                    Notificaciones.showError('Nombre del administrador requerido');
+                    $("#admin").css("border-color", "red");
                     return true;
                 }
                 else if(!numContacto){
@@ -293,7 +298,7 @@
         <div id="Nombre de Administrador" class="form-group">
             <label class="control-label col-xs-4">Nombre de administrador<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="admin" type="text" class="form-control col-xs-8" ng-model="admin" placeholder="Ingrese una direccion..." required/>
+                <input id="admin" type="text" class="form-control col-xs-8" ng-model="admin" placeholder="Ingrese el nombre del administrador..." required/>
             </div>
         </div>
         <div id="numContacto" class="form-group">
