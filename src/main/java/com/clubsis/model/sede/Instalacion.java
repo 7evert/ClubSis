@@ -21,7 +21,9 @@ public class Instalacion {
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
-    private Integer estado;//0:Deshabilitada 1:Habilitada 2:Eliminado
+    private Boolean esActivo;
+
+    private EstadoInstalacion estado;
 
     @ManyToOne
     private Sede sede; // necesaria (composición)
@@ -48,19 +50,20 @@ public class Instalacion {
     protected Instalacion() {
     }
 
-    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, Integer estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo, Set<Pago> pago) {
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, EstadoInstalacion estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo, Set<Pago> pago,Boolean esActivo) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.referencia = referencia;
         this.capacidad = capacidad;
         this.precioReserva = precioReserva;
-        this.estado = estado;
+        this.setEstado(estado);
         this.sede = sede;
         this.reservaInstalacionSet = reservaInstalacionSet;
         this.horarios = horarios;
         this.reservas = reservas;
         this.tipo = tipo;
         this.pago = pago;
+        this.esActivo=esActivo;
     }
 
     public Integer getId() {
@@ -111,14 +114,6 @@ public class Instalacion {
         this.precioReserva = precioReserva;
     }
 
-    public Integer getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Integer estado) {
-        this.estado = estado;
-    }
-
     public Sede getSede() {
         return sede;
     }
@@ -165,5 +160,21 @@ public class Instalacion {
 
     public void setPago(Set<Pago> pago) {
         this.pago = pago;
+    }
+
+    public EstadoInstalacion getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoInstalacion estado) {
+        this.estado = estado;
+    }
+
+    public Boolean getEsActivo() {
+        return esActivo;
+    }
+
+    public void setEsActivo(Boolean esActivo) {
+        this.esActivo = esActivo;
     }
 }

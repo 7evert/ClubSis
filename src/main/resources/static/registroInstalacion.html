@@ -127,6 +127,11 @@
             for(var i=0;i<data.length;i++)
                 tiposElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
         })
+        var estados;
+        $http.get('/api/instalaciones/getEstadoInstalacion').success(function (data) {
+            estados=data;
+            console.log(estados);
+        })
         $("#btnRegistrar").click(function () {
                 var idSede=$("#sede").val();
                 var sedeSeleccionada;
@@ -146,9 +151,10 @@
                     'referencia': $scope.referencia,
                     'capacidad': parseInt($scope.capacidad),
                     'precioReserva': parseFloat($scope.precioReserva),
-                    'estado': parseInt(1), //0:Deshabilitada 1:Habilitada
+                    'estado': estados[1],
                     'sede':sedeSeleccionada,
                     'tipo':tipoSeleccionado,
+                    'esActivo':true,
                 };
 
                 console.log(data);
