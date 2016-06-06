@@ -55,7 +55,15 @@
                     <div class="form-group">
                         <label  class="col-md-4 control-label">Nombre</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo instalación">
+                            <input type="text" class="form-control" id="nombreFiltrado" placeholder="Nombre del tipo instalación">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-5">
+                    <div class="form-group">
+                        <label  class="col-md-4 control-label">Características</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="caracteristicasFiltrado" placeholder="Palabra clave de las características de la instalación">
                         </div>
                     </div>
                 </div>
@@ -65,9 +73,8 @@
                 </div>
                 <div class="col-sm-5 col-lg-5">
                     <div class="form-group" style="margin-left: 60px;">
-                        <a href="javascript:void(0)" id="Buscar" class="btn btn-primary">Buscar</a>
+                        <a href="javascript:void(0)" onclick="funciones.buscar()" id="Buscar" class="btn btn-primary">Buscar</a>
                         <a href="javascript:void(0)" id="Limpiar" class="btn btn-primary">Limpiar</a>
-                        <a href="javascript:void(0)" id="btnEliminarMultiples" class="btn btn-primary">Eliminar</a>
                     </div>
                 </div>
             </div>
@@ -80,6 +87,14 @@
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="col-sm-10 col-lg-10">
+        </div>
+        <div class="col-sm-2 col-lg-2">
+            <div class="form-group" style="margin-left: 60px;">
+                <a href="javascript:void(0)" id="btnEliminarMultiples" class="btn btn-primary">Eliminar</a>
+            </div>
         </div>
         <br>
         <div class="leyenda">
@@ -101,12 +116,9 @@
         $http.get('/api/tipoInstalaciones').success(function (data) {
         });
 
-        $("#Buscar").click(function(){
-
-        });
-
         $("#Limpiar").click(function(){
-            $("#nombre").val("");
+            $("#nombreFiltrado").val("");
+            $("#caracteristicasFiltrado").val("");
         });
     });
 
@@ -231,6 +243,31 @@
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idTipoInstalacion-eliminar="' + rowdata['id'] + '" title="Eliminar Tipo Instalación"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
+    //Filtrado
+    var funciones={};
+
+    funciones.buscar=function(){
+        var ver;
+        var nombre=$("#nombreFiltrado").val();
+        var caracteristicas=$("#caracteristicasFiltrado").val();
+        var ids=$("#jqGrid").jqGrid('getDataIDs');
+        for(var i=0;i<ids.length;i++){
+            var rowId=ids[i];
+            var rowData=$("#jqGrid").jqGrid('getRowData',rowId);
+
+            ver=true;
+            if(nombre && (rowData.nombre.indexOf(nombre)<0)) ver=false;
+            if(caracteristicas && (rowData.caracteristicas.indexOf(caracteristicas)<0)) ver=false;
+            if(ver){
+                $("#"+rowId).show();
+            }else{
+                $("#"+rowId).hide();
+            }
+        }
+
+    }
+
+
 </script>
 <style type="text/css">
     .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
