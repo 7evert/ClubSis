@@ -33,9 +33,9 @@ public class Socio {
     @JsonIgnore
     private Set<Persona> personas =new HashSet<Persona>();
 
-    @OneToMany(mappedBy="id.socio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="socio",fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
+    private Set<SocioPostulante> postulantes=new HashSet<SocioPostulante>();
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
@@ -59,7 +59,7 @@ public class Socio {
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, String codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, TipoSocio tipo) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, String codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<SocioPostulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, TipoSocio tipo) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
@@ -121,11 +121,11 @@ public class Socio {
         this.personas = personas;
     }
 
-    public Set<Socio_Postulante> getPostulantes() {
+    public Set<SocioPostulante> getPostulantes() {
         return postulantes;
     }
 
-    public void setPostulantes(Set<Socio_Postulante> postulantes) {
+    public void setPostulantes(Set<SocioPostulante> postulantes) {
         this.postulantes = postulantes;
     }
 

@@ -39,6 +39,7 @@ public class Persona {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
 

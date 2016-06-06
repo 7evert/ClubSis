@@ -37,13 +37,13 @@ public class Postulante {
     private EstadoPostulante esAprobado;
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
-    @OneToMany(mappedBy="id.postulante",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Socio_Postulante> socios=new HashSet<Socio_Postulante>();
 
-    protected Postulante() {
-    }
+    @OneToMany(mappedBy="postulante",fetch = FetchType.EAGER)
+    private Set<SocioPostulante> socios=new HashSet<SocioPostulante>();
 
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<Socio_Postulante> socios) {
+
+
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<SocioPostulante> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -235,11 +235,11 @@ public class Postulante {
         this.esPeriodoObjeciones = esPeriodoObjeciones;
     }
 
-    public Set<Socio_Postulante> getSocios() {
+    public Set<SocioPostulante> getSocios() {
         return socios;
     }
 
-    public void setSocios(Set<Socio_Postulante> socios) {
+    public void setSocios(Set<SocioPostulante> socios) {
         this.socios = socios;
     }
 }

@@ -12,10 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -140,7 +136,7 @@ public class ServicioMembresias {
         String codigoCarnet= UUID.randomUUID().toString().replaceAll("-", "");
         Socio nuevoSocio = new Socio(
                 postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO, codigoCarnet.substring(0,12),new HashSet<Invitado>()
-                ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
+                ,new HashSet<Persona>(),new HashSet<SocioPostulante>(),new HashSet<Pago>()
                 ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
                 new HashSet<ReservaInstalacion>(),tipo);
         return nuevoSocio;
