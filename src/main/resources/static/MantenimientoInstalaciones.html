@@ -61,6 +61,16 @@
                         </div>
                         <div class="col-sm-6 col-lg-5">
                             <div class="form-group">
+                                <label  class="col-md-4 control-label">Tipo</label>
+                                <div class="col-md-8">
+                                    <select  id="tipoFiltrado" class="form-control">
+                                        <option value="-1" selected>Elegir</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
                                 <label class="col-md-4 control-label">Estado</label>
                                 <div class="col-md-8">
                                     <select class="form-control" id="estadoFiltro">
@@ -109,9 +119,9 @@
                             <div class="form-group" style="margin-left: 60px;">
                                 <a href="javascript:void(0)" id="Buscar" class="btn btn-primary">Buscar</a>
                                 <a href="javascript:void(0)" id="Limpiar" class="btn btn-primary">Limpiar</a>
-
                             </div>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -122,6 +132,16 @@
             <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
                 <table id="jqGrid"></table>
                 <div id="jqGridPager"></div>
+            </div>
+            <br>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 60px;">
+                    <a href="javascript:void(0)" id="btnEliminarMultiples" class="btn btn-primary">Eliminar</a>
+                    <a href="javascript:void(0)" id="btnHabilitarMultiples" class="btn btn-primary">Habilitar</a>
+                    <a href="javascript:void(0)" id="btnDeshabilitarMultiples" class="btn btn-primary">Deshabilitar</a>
+                </div>
             </div>
             <br>
             <div class="leyenda">
@@ -142,11 +162,18 @@
         var app=angular.module('app',[]);
         app.controller('InstalacionController', function ($scope, $http) {
             var sedes;
+            var tipos;
             $http.get('/api/sedes').success(function (data) {
                 sedes=data;
                 sedesElem=$("#sedeFiltrado");
                 for(var i=0;i<data.length;i++)
                     sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+                $http.get('/api/tipoInstalaciones').success(function (data) {
+                    tipos=data;
+                    tiposElem=$("#tipoFiltrado");
+                    for(var i=0;i<data.length;i++)
+                        tiposElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+                })
             })
             $http.get('/api/instalaciones').success(function (data) {
             });
@@ -160,6 +187,7 @@
                 $("#nombre").val("");
                 $("#date-picker-DiaEntrada").val("");
                 $("#date-picker-DiaSalida").val("");
+                $("#tipoFiltrado").val("");
             });
         });
 
@@ -185,6 +213,7 @@
     viewrecords: true,
     height: 400,
     rowNum: 20,
+    multiselect: true,
     pager: "#jqGridPager",
     loadComplete: function () {
         var cantFilas = $("#jqGrid").getGridParam("reccount");
@@ -254,9 +283,111 @@
 
     });
 
+        $('#btnEliminarMultiples').click(function () {
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
 
-    }
-    });
+            if (!rowKey)
+                Notificaciones.showError("No hay instalaciones seleccionada(s) a eliminar");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                var mensaje = "Han sido eliminados las instalaciones seleccionadas satisfactoriamente.";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    var data = selectedIDs[i];
+                    console.log("Entro Eliminar x");
+                    $.post('/api/instalaciones/eliminar',
+                            {id: data},
+                            function (response) {
+                                if (!response.error) {
+
+                                } else {
+                                    Noty.hideAll();
+                                    mensaje = "No se pudo eliminar las instalaciones seleccionadas";
+                                }
+                            });
+                    result += selectedIDs[i] + ",";
+                }
+                Notificaciones.showNoty(mensaje);
+                setTimeout(function () {
+                    location.href = "MantenimientoInstalaciones.html"
+                }, 1000);
+            }
+        });
+
+        $('#btnHabilitarMultiples').click(function () {
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError("No hay instalaciones seleccionada(s) a habilitar");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                var mensaje = "Han sido habilitadas las instalaciones seleccionadas satisfactoriamente.";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    var data = selectedIDs[i];
+                    console.log("Entro Eliminar x");
+                    $.post('/api/instalaciones/habilitar',
+                            {id: data},
+                            function (response) {
+                                if (!response.error) {
+
+                                } else {
+                                    Noty.hideAll();
+                                    mensaje = "No se pudo habilitar las instalaciones seleccionadas";
+                                }
+                            });
+                    result += selectedIDs[i] + ",";
+                }
+                Notificaciones.showNoty(mensaje);
+                setTimeout(function () {
+                    location.href = "MantenimientoInstalaciones.html"
+                }, 1000);
+            }
+        });
+        $('#btnDeshabilitarMultiples').click(function () {
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError("No hay instalaciones seleccionada(s) a deshabilitar");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                var mensaje = "Han sido deshabilitadas las instalaciones seleccionadas satisfactoriamente.";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    var data = selectedIDs[i];
+                    console.log("Entro Eliminar x");
+                    $.post('/api/instalaciones/deshabilitar',
+                            {id: data},
+                            function (response) {
+                                if (!response.error) {
+
+                                } else {
+                                    Noty.hideAll();
+                                    mensaje = "No se pudo deshabilitar las instalaciones seleccionadas";
+                                }
+                            });
+                    result += selectedIDs[i] + ",";
+                }
+                Notificaciones.showNoty(mensaje);
+                setTimeout(function () {
+                    location.href = "MantenimientoInstalaciones.html"
+                }, 1000);
+            }
+        });
+
+        var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+        for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+            rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+            //set background style if ColumnValue == true
+            if (rowData['estado'] == "Deshabilitada") {
+                $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+            } //if
+        }
+        }
+        });
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
@@ -308,6 +439,11 @@
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
+        }
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
         }
     </style>
 </body>

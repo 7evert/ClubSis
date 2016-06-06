@@ -67,7 +67,7 @@
                     <div class="form-group" style="margin-left: 60px;">
                         <a href="javascript:void(0)" id="Buscar" class="btn btn-primary">Buscar</a>
                         <a href="javascript:void(0)" id="Limpiar" class="btn btn-primary">Limpiar</a>
-
+                        <a href="javascript:void(0)" id="btnEliminarMultiples" class="btn btn-primary">Eliminar</a>
                     </div>
                 </div>
             </div>
@@ -117,6 +117,7 @@
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
+        multiselect: true,
         emptyrecords: 'No se encontraron resultados',
         colModel: [
             {index: 'id', name: 'id', hidden: true, width: 45},
@@ -186,7 +187,37 @@
                 window.location='edicionTipoInstalacion.html?id='+idTipoInstalacion;
 
             });
+            $('#btnEliminarMultiples').click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
 
+                if (!rowKey)
+                    Notificaciones.showError("No hay tipos de instalaciones a eliminar");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje = "Han sido eliminados los tipos de instalación seleccionados satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data = selectedIDs[i];
+                        console.log("Entro Eliminar x");
+                        $.post('/api/tipoInstalaciones/eliminar',
+                                {id: data},
+                                function (response) {
+                                    if (!response.error) {
+
+                                    } else {
+                                        Noty.hideAll();
+                                        mensaje = "No se pudo eliminar los tipo instalación seleccionados";
+                                    }
+                                });
+                        result += selectedIDs[i] + ",";
+                    }
+                    Notificaciones.showNoty(mensaje);
+                    setTimeout(function () {
+                        location.href = "MantenimientoTipoInstalacion.html"
+                    }, 1000);
+                }
+            });
 
         }
     });

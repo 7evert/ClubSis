@@ -45,5 +45,19 @@ public class InstalacionController {
         servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
         return 1;
     }
+    @RequestMapping(value = "/habilitar", method = RequestMethod.POST)
+    public Integer habilitarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
+        Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
+        instalacion.setEstado(1);//0:Deshabilitada 1:Habilitada 2:Eliminado
+        servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
+        return 1;
+    }
+    @RequestMapping(value = "/deshabilitar", method = RequestMethod.POST)
+    public Integer deshabilitarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
+        Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
+        instalacion.setEstado(0);//0:Deshabilitada 1:Habilitada 2:Eliminado
+        servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
+        return 1;
+    }
 
 }
