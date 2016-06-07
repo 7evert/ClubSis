@@ -54,7 +54,17 @@
                                 <label  class="col-md-4 control-label">Sede</label>
                                 <div class="col-md-8">
                                     <select  id="sedeFiltrado" class="form-control">
-                                        <option value="-1" selected>Elegir</option>
+                                        <option value="Elegir" selected>Elegir</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <div class="form-group">
+                                <label  class="col-md-4 control-label">Tipo</label>
+                                <div class="col-md-8">
+                                    <select  id="tipoFiltrado" class="form-control">
+                                        <option value="Elegir" selected>Elegir</option>
                                     </select>
                                 </div>
                             </div>
@@ -63,10 +73,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Estado</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" id="estadoFiltro">
-                                        <option>Elegir</option>
-                                        <option value="Habilitado">Habilitado</option>
-                                        <option value="Deshabilitado">Deshabilitado</option>
+                                    <select class="form-control" id="estadoFiltrado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados">
                                     </select>
                                 </div>
                             </div>
@@ -75,7 +82,7 @@
                             <div class="form-group">
                                 <label  class="col-md-4 control-label">Nombre</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre de instalación">
+                                    <input type="text" class="form-control" id="nombreFiltrado" placeholder="Nombre de instalación">
                                 </div>
                             </div>
                         </div>
@@ -107,11 +114,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-5">
                             <div class="form-group" style="margin-left: 60px;">
-                                <a href="javascript:void(0)" id="Buscar" class="btn btn-primary">Buscar</a>
+                                <a href="javascript:void(0)" onclick="funciones.buscar()" id="Buscar" class="btn btn-primary">Buscar</a>
                                 <a href="javascript:void(0)" id="Limpiar" class="btn btn-primary">Limpiar</a>
-
                             </div>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -122,6 +129,16 @@
             <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
                 <table id="jqGrid"></table>
                 <div id="jqGridPager"></div>
+            </div>
+            <br>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 60px;">
+                    <a href="javascript:void(0)" id="btnEliminarMultiples" class="btn btn-primary">Eliminar</a>
+                    <a href="javascript:void(0)" id="btnHabilitarMultiples" class="btn btn-primary">Habilitar</a>
+                    <a href="javascript:void(0)" id="btnDeshabilitarMultiples" class="btn btn-primary">Inhabilitar</a>
+                </div>
             </div>
             <br>
             <div class="leyenda">
@@ -142,24 +159,32 @@
         var app=angular.module('app',[]);
         app.controller('InstalacionController', function ($scope, $http) {
             var sedes;
+            var tipos;
+            $scope.estados=[];
             $http.get('/api/sedes').success(function (data) {
                 sedes=data;
                 sedesElem=$("#sedeFiltrado");
                 for(var i=0;i<data.length;i++)
-                    sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+                    sedesElem.append($("<option></option>").attr({value:data[i].nombre}).html(data[i].nombre));
+                $http.get('/api/tipoInstalaciones').success(function (data) {
+                    tipos=data;
+                    tiposElem=$("#tipoFiltrado");
+                    for(var i=0;i<data.length;i++)
+                        tiposElem.append($("<option></option>").attr({value:data[i].nombre}).html(data[i].nombre));
+                    $http.get('/api/instalaciones/getEstadoInstalacion').success(function (data) {
+                        $scope.estados=data;
+                    })
+                })
             })
             $http.get('/api/instalaciones').success(function (data) {
             });
-            $("#Buscar").click(function(){
-
-            });
-
             $("#Limpiar").click(function(){
-                $("#sedeFiltrado").val(-1);
-                $("#estadoFiltrado").val(-1);
+                $("#sedeFiltrado").val("Elegir");
+                $("#estadoFiltrado").val("");
                 $("#nombre").val("");
                 $("#date-picker-DiaEntrada").val("");
                 $("#date-picker-DiaSalida").val("");
+                $("#tipoFiltrado").val("Elegir");
             });
         });
 
@@ -174,31 +199,22 @@
     colModel: [
     {index: 'id', name: 'id', hidden: true, width: 45},
     {index: 'nombre', name: 'nombre', align: 'center', width: 200},
+    {index: 'tipo', name: 'tipo', jsonmap:'tipo.nombre' ,align: 'center', width: 100},
+    {index: 'sede', name: 'sede', jsonmap:'sede.nombre' ,align: 'center', width: 100},
     {index: 'capacidad', name: 'capacidad', align: 'center', width: 100},
     {index: 'precioReserva', name: 'precioReserva', align: 'center', width: 100},
     {index: 'estado', name: 'estado', align: 'center', width: 100},
     {index: 'Acciones', name: 'Acciones', width: 150, align: 'center', formatter: acciones}
     ],
     colNames: [
-    'idInstalacion', 'Nombre','Capacidad','Precio Reserva','Estado','Acciones'
+    'idInstalacion', 'Nombre','Tipo','Sede','Capacidad','Precio Reserva','Estado','Acciones'
     ],
     viewrecords: true,
     height: 400,
     rowNum: 20,
+    multiselect: true,
     pager: "#jqGridPager",
     loadComplete: function () {
-        var cantFilas = $("#jqGrid").getGridParam("reccount");
-        console.log(cantFilas);
-        for (i = 1; i < cantFilas+cantFilas*4; i++) {
-            var rowData = $('#jqGrid').jqGrid('getRowData', i);
-            console.log(rowData);
-            //0:Deshabilitada 1:Habilitada 2:Eliminado
-            if (rowData.estado == "0")
-                rowData.estado = 'Deshabilitada';
-            else if (rowData.estado == "1")
-                rowData.estado = 'Habilitada';
-            $('#jqGrid').jqGrid('setRowData', i, rowData);
-        }
 
     $('.icono-ver').click(function () {
 
@@ -254,9 +270,111 @@
 
     });
 
+        $('#btnEliminarMultiples').click(function () {
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
 
-    }
-    });
+            if (!rowKey)
+                Notificaciones.showError("No hay instalaciones seleccionada(s) a eliminar");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                var mensaje = "Han sido eliminados las instalaciones seleccionadas satisfactoriamente.";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    var data = selectedIDs[i];
+                    console.log("Entro Eliminar x");
+                    $.post('/api/instalaciones/eliminar',
+                            {id: data},
+                            function (response) {
+                                if (!response.error) {
+
+                                } else {
+                                    Noty.hideAll();
+                                    mensaje = "No se pudo eliminar las instalaciones seleccionadas";
+                                }
+                            });
+                    result += selectedIDs[i] + ",";
+                }
+                Notificaciones.showNoty(mensaje);
+                setTimeout(function () {
+                    location.href = "MantenimientoInstalaciones.html"
+                }, 1000);
+            }
+        });
+
+        $('#btnHabilitarMultiples').click(function () {
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError("No hay instalaciones seleccionada(s) a habilitar");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                var mensaje = "Han sido habilitadas las instalaciones seleccionadas satisfactoriamente.";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    var data = selectedIDs[i];
+                    console.log("Entro Eliminar x");
+                    $.post('/api/instalaciones/habilitar',
+                            {id: data},
+                            function (response) {
+                                if (!response.error) {
+
+                                } else {
+                                    Noty.hideAll();
+                                    mensaje = "No se pudo habilitar las instalaciones seleccionadas";
+                                }
+                            });
+                    result += selectedIDs[i] + ",";
+                }
+                Notificaciones.showNoty(mensaje);
+                setTimeout(function () {
+                    location.href = "MantenimientoInstalaciones.html"
+                }, 1000);
+            }
+        });
+        $('#btnDeshabilitarMultiples').click(function () {
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError("No hay instalaciones seleccionada(s) a deshabilitar");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                var mensaje = "Han sido deshabilitadas las instalaciones seleccionadas satisfactoriamente.";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    var data = selectedIDs[i];
+                    console.log("Entro Eliminar x");
+                    $.post('/api/instalaciones/inhabilitar',
+                            {id: data},
+                            function (response) {
+                                if (!response.error) {
+
+                                } else {
+                                    Noty.hideAll();
+                                    mensaje = "No se pudo deshabilitar las instalaciones seleccionadas";
+                                }
+                            });
+                    result += selectedIDs[i] + ",";
+                }
+                Notificaciones.showNoty(mensaje);
+                setTimeout(function () {
+                    location.href = "MantenimientoInstalaciones.html"
+                }, 1000);
+            }
+        });
+
+        var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+        for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+            rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+            //set background style if ColumnValue == true
+            if (rowData['estado'] == 'Inhabilitado') {
+                $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+            } //if
+        }
+        }
+        });
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
@@ -267,6 +385,36 @@
     '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idInstalacion-eliminar="' + rowdata['id'] + '" title="Eliminar Instalacion"><img src="img/Iconos/eliminar.png" class="icono"></a>';
     return acciones;
     }
+
+        //Filtrado
+        var funciones={};
+
+        funciones.buscar=function(){
+            var ver;
+            var sede=$("#sedeFiltrado").val();
+            var tipo=$("#tipoFiltrado").val();
+            var estado=$("#estadoFiltrado").val();
+            var estado=estado.substring(estado.indexOf(":")+1);
+            var nombre=$("#nombreFiltrado").val();
+            var ids=$("#jqGrid").jqGrid('getDataIDs');
+            for(var i=0;i<ids.length;i++){
+                var rowId=ids[i];
+                var rowData=$("#jqGrid").jqGrid('getRowData',rowId);
+
+                ver=true;
+                if((sede!='Elegir') && (rowData.sede!=sede)) ver=false;
+                if((tipo!="Elegir") && (rowData.tipo!=tipo)) ver=false;
+                if((estado!='?') && (rowData.estado!=estado)) ver=false;
+                if(nombre && (rowData.nombre.indexOf(nombre)<0)) ver=false;
+
+                if(ver){
+                    $("#"+rowId).show();
+                }else{
+                    $("#"+rowId).hide();
+                }
+            }
+
+        }
     </script>
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
@@ -308,6 +456,11 @@
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
+        }
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
         }
     </style>
 </body>

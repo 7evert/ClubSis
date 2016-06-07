@@ -1,6 +1,7 @@
 package com.clubsis.service;
 
 
+import com.clubsis.model.sede.EstadoInstalacion;
 import com.clubsis.model.sede.Instalacion;
 import com.clubsis.repository.sede.InstalacionRepository;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +24,7 @@ public class ServicioInstalacion {
         List<Instalacion> instalaciones=instalacionRepository.findAll();
         List<Instalacion> instalacionesFiltradas = new ArrayList<Instalacion>();
         for(Instalacion instalacion : instalaciones){
-            if(!instalacion.getEstado().equals(2))//0:Deshabilitada 1:Habilitada 2:Eliminado
+            if(instalacion.getEsActivo())
                 instalacionesFiltradas.add(instalacion);
         }
         return instalacionesFiltradas;
@@ -36,5 +37,9 @@ public class ServicioInstalacion {
         BeanUtils.copyProperties(instalacion,instalacionExistente);
         return instalacionRepository.saveAndFlush(instalacionExistente);
 
+    }
+
+    public EstadoInstalacion[] getEstadoInstalacion(){
+        return EstadoInstalacion.values();
     }
 }
