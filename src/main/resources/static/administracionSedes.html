@@ -265,12 +265,12 @@
                     height: 50 * (data.legth + 1),
                     colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', 'Estado',"Acciones"],
                     colModel: [
-                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
-                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
-                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center'},
-                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center'},
-                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center'},
-                        {name: 'estado', index: 'Estado', width: 10, hidden:true,editable: false, align: 'center'},
+                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
+                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center',sortable:true},
+                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'estado', index: 'Estado', width: 10, hidden:true,editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true

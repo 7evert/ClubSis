@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container" id="MantenimientoPostulanteID" ng-app='appMantenimientoPostulante'
+     ng-controller="MantenimientoPostulanteController">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            ADMINISTRACIÓN DE SOLICITUD DE POSTULANTE
+            <a href="registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
+                Postulante</a>
+        </h3>
+    </div>
+    <hr>
+    <h4>CONSULTA DE SOLICITUD DE POSTULANTE</h4>
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="tipoDocumento">
+                            <option value="-1">Elegir</option>
+                            <option value="DNI">DNI</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="estado" class="col-md-4 control-label">Estado</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="estado">
+                            <option value="-1">Elegir</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Rechazada">Rechazada</option>
+                            <option value="Aprobada">Aprobada</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del postulante">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido paterno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="apellidoPaterno"
+                               placeholder="Apellido paterno del postulante">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido materno</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="apellidoMaterno"
+                               placeholder="Apellido materno del postulante">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="profesion" class="col-md-4 control-label">Profesión</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="profesion"
+                               placeholder="Profesión del postulante">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 30px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
+                       style="visibility: visible">Eliminar</a>
+                    <!--style="visibility: hidden">Eliminar</a>-->
+                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                </div>
+            </div>
+        </div>
+        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Postulante|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Postulante|
+            <span class="icono-reprogramar"><img src="img/Iconos/opinion.png" class="icono"></span> Registrar Opinión|
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Postulante
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+    ////    Aun no se usa pero luego ya puede ser usada para el filtrado el angular module con sus funciones
+    var funciones={};
+    var app = angular.module('appMantenimientoPostulante', []);
+    app.controller('MantenimientoPostulanteController', function ($scope, $http) {
+        $scope.postulantes = [];
+        $scope.obtenerTodosPostulantes = function () {
+            $http.get('/api/postulantes').success(function (data) {
+                $scope.postulantes = data;
+                console.log($scope.postulantes);
+            });
+        }
+        $scope.buscarPostulante = function (idPostulante) {
+            var nombre;
+            $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+                $scope.postulantes = data;
+            });
+        }
+        funciones.getIDSocio=function () {
+            var href = window.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+    });
+
+    $('.icono-modificar').click(function () {
+        var idPostulante = $(this).attr('data-idPostulante-eliminar');
+        console.log("idPostulante eliminando: " + $(this).attr('data-idPostulante-eliminar'));
+    });
+
+    $("#jqGrid").jqGrid({
+        url: 'api/postulantes', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "json",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        loadonce: true,
+        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+        colModel: [
+            {label: 'id', name: 'id', hidden: true, width: 75},
+            {index: 'nombre', name: 'nombre', align: 'center', width: 90},
+            {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 90},
+            {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 90},
+            {index: 'tipoDocumento', sortable: true, name: 'tipoDocumento', align: 'center', width: 100},
+            {index: 'numeroDocumento', name: 'numeroDocumento', align: 'center', width: 75},
+            {index: 'celular', name: 'celular', align: 'center', width: 70},
+            {index: 'profesion', name: 'profesion', align: 'center', width: 70},
+            {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 90},
+            {index: 'esActivo', name: 'esActivo', align: 'center', width: 70},
+            {index: 'acciones', name: 'acciones', width: 80, align: 'center', formatter: acciones},
+//            {index: 'eliminados', name: 'eliminados', width: 20, align: 'center', formatter: eliminados}
+        ],
+        colNames: [
+            'idPostulante', 'Nombres', 'Ap. Paterno', 'Ap. Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado Postulante', 'Estado', 'Acciones'
+        ],
+        viewrecords: true,
+        height: 400,
+        rowNum: 20,
+        multiselect: true,
+        pager: "#jqGridPager",
+        loadComplete: function () {
+
+            var cantFilas = $("#jqGrid").getGridParam("reccount");
+            console.log(cantFilas);
+            for (i = 1; i < cantFilas + cantFilas * 4; i++) {
+                var rowData = $('#jqGrid').jqGrid('getRowData', i);
+                console.log(rowData);
+                //0: Pendiente 1:Rechazada 2:Aprobada
+                if (rowData.esAprobado == "0")
+                    rowData.esAprobado = 'Pendiente';
+                else if (rowData.esAprobado == "1")
+                    rowData.esAprobado = 'Rechazada';
+                else if (rowData.esAprobado == "2")
+                    rowData.esAprobado = 'Aprobada';
+                if (rowData.celular == "")
+                    rowData.celular = '-';
+                if (rowData.esActivo == "true")
+                    rowData.esActivo = 'HABILITADO';
+                else if (rowData.esActivo == "false")
+                    rowData.esActivo = 'INHABILITADO';
+                $('#jqGrid').jqGrid('setRowData', i, rowData);
+            }
+
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['esActivo'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+
+//            $('.cbox').click(function () {
+//                var myGrid = $('#jqGrid');
+//                var selectedRowId = myGrid.jqGrid('getGridParam', 'selrow');
+//                var cellValue = myGrid.jqGrid('getCell', selectedRowId, 'columnName');
+//                console.log("cbox");
+//                console.log(cellValue);
+//                var condicionMultiple = $('.cbox').prop('checked');
+////                var condicionMultiple2 = $("#jqg_jqGrid_" + $(this.id).val()).prop('checked');
+//                console.log(condicionMultiple);
+////                console.log(condicionMultiple2);
+//                if (condicionMultiple == true || cellValue == false) {
+//                    $("#btnEliminarMultiples").css("visibility", "visible");
+//                }
+//                else
+//                    $("#btnEliminarMultiples").css("visibility", "hidden");
+//            });
+
+            $('#btnEliminarMultiples').click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    Notificaciones.showError("No hay solicitudes de postulantes seleccionado(s) a eliminar");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje = "Han sido eliminados las solicitudes de postulantes seleccionadas satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data = selectedIDs[i];
+                        console.log("Entro Eliminar x");
+                        $.post('/api/postulantes/eliminar',
+                                {idPostulante: data},
+                                function (response) {
+                                    if (!response.error) {
+
+                                    } else {
+                                        Noty.hideAll();
+                                        mensaje = "No se pudo rechazar las solicitudes de postulantes seleccionadas";
+                                    }
+                                });
+                        result += selectedIDs[i] + ",";
+                    }
+                    Notificaciones.showNoty(mensaje);
+                    setTimeout(function () {
+                        location.href = "mantenimientoPostulante.html"
+                    }, 1000);
+                }
+            });
+
+            //var funcionesAngular = angular.element(document.getElementById('MantenimientoPostulanteID')).scope();
+            $('.icono-ver').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-ver');
+                window.location = 'verPostulante.html?id=' + idPostulante;
+
+            });
+
+            $('.icono-eliminar').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-eliminar');
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea eliminar al postulante?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                            //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
+                            //Simplemente se le cambiara el estado
+                            $.post('/api/postulantes/eliminar',
+                                    {idPostulante: idPostulante},
+                                    function (response) {
+                                        if (!response.error) {
+                                            Notificaciones.hideAll();
+                                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                                            $('#jqGrid').trigger('reloadGrid');
+                                            setTimeout(function () {
+                                                location.href = "mantenimientoPostulante.html"
+                                            }, 1000);
+                                        } else {
+                                            Noty.hideAll();
+                                            Noty.showError(response.mensaje, false, 3000);
+                                        }
+                                    });
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
+            });
+            $('.icono-modificar').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-modificar');
+                window.location = 'editarPostulante.html?id=' + idPostulante;
+            });
+            $('.icono-opinion').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-Opinion');
+                window.location = 'registrarOpinionPostulante.html?idPostulante=' + idPostulante + '&idSocio=' + funciones.getIDSocio();
+            });
+        }
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '900');
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+        acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idPostulante-ver="' + rowdata['id'] + '" title="Ver Postulante"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-opinion" data-idPostulante-Opinion="' + rowdata['id'] + '" title="Registrar Opinion"><img src="img/Iconos/opinion.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        return acciones;
+    }
+    //
+    //    function eliminados(cellValue, options, rowdata, action) {
+    //        var eliminados = '';
+    //        eliminados = '<input href="javascript:void(0)" class="eliminarMultiple" data-idPostulante-eliminarMultiple="' + rowdata['id'] + '" title="Ver Bungalow" type="checkbox" value="">';
+    //        return eliminados;
+    //    }
+
+    $('#btnLimpiar').click(function () {
+        $("#tipoDocumento").val(-1);
+        $("#estado").val(-1);
+        $("#nombre").val("");
+        $("#apellidoPaterno").val("");
+        $("#apellidoMaterno").val("");
+        $("#profesion").val("");
+    });
+
+</script>
+</body>
+</html>
