@@ -2,6 +2,7 @@ package com.clubsis.model.club;
 
 import com.clubsis.model.persona.Persona;
 import com.clubsis.model.privilegio.Rol;
+import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -28,16 +29,20 @@ public class Usuario {
     @ManyToOne
     private Rol rol;
 
+    @ManyToMany
+    private Set<Sede> sedes;
+
     public Usuario() {
     }
 
-    public Usuario(String contraseña, Integer dni, Boolean esActivo, String nombreUsuario, Persona persona) {
-
+    public Usuario(String contraseña, Integer dni, Boolean esActivo, String nombreUsuario, Persona persona, Rol rol, Set<Sede> sedes) {
         this.contraseña = contraseña;
         this.dni = dni;
         this.esActivo = esActivo;
         this.nombreUsuario = nombreUsuario;
         this.persona = persona;
+        this.rol = rol;
+        this.sedes = sedes;
     }
 
     public Integer getId() {
@@ -88,8 +93,19 @@ public class Usuario {
         this.persona = persona;
     }
 
-    @Override
-    public String toString() {
-        return nombreUsuario;
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Set<Sede> getSedes() {
+        return sedes;
+    }
+
+    public void setSedes(Set<Sede> sedes) {
+        this.sedes = sedes;
     }
 }

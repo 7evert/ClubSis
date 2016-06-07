@@ -26,7 +26,7 @@ public class ServicioUsuario {
     public List<Usuario> mostrarUsuarios(){
         return usuarioRepository.findAll().stream().filter(usuario -> usuario.getEsActivo()).collect(Collectors.toList());
     }
-    public Usuario buscarUsuarios(Integer id) {return usuarioRepository.findOne(id);}
+    public Usuario buscarUsuario(Integer id) {return usuarioRepository.findOne(id);}
     public Usuario crearUsuario(Usuario usuario) {return usuarioRepository.saveAndFlush(usuario);}
 
     public Usuario actualizarUsuario(Integer id, Usuario usuario){

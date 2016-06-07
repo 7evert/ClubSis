@@ -3,15 +3,15 @@ package com.clubsis.controller.club;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.club.UsuarioDTO;
 import com.clubsis.model.persona.Persona;
+import com.clubsis.model.sede.Sede;
 import com.clubsis.service.ServicioMembresias;
 import com.clubsis.service.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sebastian on 07-Jun-16.
@@ -55,5 +55,12 @@ public class UsuarioController {
 
         servicioMembresias.crearPersona(persona);
         servicioUsuario.crearUsuario(usuario);
+    }
+
+    @RequestMapping(value = "{idUsuario}/listaSedes", method = RequestMethod.POST)
+    public Set<Sede> crearListaSedes(@PathVariable Integer idUsuario, @RequestBody Set<Sede> sedes) {
+        Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);
+        usuario.getSedes().addAll(sedes);
+        return usuario.getSedes();
     }
 }
