@@ -14,12 +14,10 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("api/roles")
+@RequestMapping("/api/roles")
 public class RolController {
     @Autowired
-    ServicioRol servicioRol;
-
-
+    private ServicioRol servicioRol;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Rol get(@PathVariable Integer id){
@@ -29,12 +27,7 @@ public class RolController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Rol create(@RequestBody Rol rol) {
-
-        //validating that there is no duplicate course
-        //if(servicioRol.buscarRol(rol.getIdRol()) == null)
-             return servicioRol.crearRol(rol);
-       // else
-       //     return null;
+        return servicioRol.crearRol(rol);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
