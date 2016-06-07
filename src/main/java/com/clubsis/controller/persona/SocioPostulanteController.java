@@ -1,6 +1,10 @@
 package com.clubsis.controller.persona;
 
+import com.clubsis.model.persona.Postulante;
+import com.clubsis.model.persona.Socio;
 import com.clubsis.model.persona.SocioPostulante;
+import com.clubsis.service.ServicioMembresias;
+import com.clubsis.service.ServicioPostulante;
 import com.clubsis.service.ServicioSocioPostulante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +20,12 @@ public class SocioPostulanteController {
     @Autowired
     private ServicioSocioPostulante servicioMembresias;
 
+    @Autowired
+    private ServicioMembresias servicioMembresia;
+
+    @Autowired
+    private ServicioPostulante servicioPostulante;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<SocioPostulante> list() {
         return servicioMembresias.mostrarSocioPostulantes();
@@ -26,9 +36,13 @@ public class SocioPostulanteController {
         return servicioMembresias.buscarSocioPostulante(id);
     }
 
-    @RequestMapping(value="/{id}/crear",method = RequestMethod.POST)
-    public SocioPostulante create(@PathVariable Integer id, @RequestBody SocioPostulante sociopostulante) {
-        return servicioMembresias.crearSocioPostulante(sociopostulante);
+    @RequestMapping(value="/{idSocio}/{idPostulante}//crear",method = RequestMethod.POST)
+    public SocioPostulante create(@PathVariable Integer idSocio, @PathVariable Integer idPostulante,@RequestBody SocioPostulante sociopostulante) {
+        Socio socio = servicioMembresia.buscarSocio(idSocio);
+        Postulante postulante =servicioPostulante.buscarPostulante(idPostulante);
+        String observacion = sociopostulante.getObservaciones();
+        SocioPostulante tmp = new SocioPostulante(observacion,socio,postulante);
+        return servicioMembresias.crearSocioPostulante(tmp);
     }
 
     /*ahora?*/
@@ -36,4 +50,7 @@ public class SocioPostulanteController {
     public SocioPostulante update(@PathVariable Integer id,@RequestBody SocioPostulante socio) {
         return servicioMembresias.actualizarSocioPostulante(id, socio);
     }
+
+   // @RequestMapping(value ="/{idSocio}/actualizar",method=RequestMethod.GET)
+
 }
