@@ -39,6 +39,7 @@ public class Persona {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
+    @OneToOne(mappedBy = "persona")
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ServicioUsuario {
@@ -18,13 +19,7 @@ public class ServicioUsuario {
     private UsuarioRepository usuarioRepository;
 
     public List<Usuario> mostrarUsuarios(){
-        List<Usuario> usuarios=usuarioRepository.findAll();
-        List<Usuario> usuariosFiltrados = new ArrayList<Usuario>();
-        for(Usuario usuario : usuarios){
-            if(usuario.getEsActivo())
-                usuariosFiltrados.add(usuario);
-        }
-        return usuariosFiltrados;
+        return usuarioRepository.findAll().stream().filter(usuario -> usuario.getEsActivo()).collect(Collectors.toList());
     }
     public Usuario buscarUsuarios(Integer id) {return usuarioRepository.findOne(id);}
     public Usuario crearUsuario(Usuario usuario) {return usuarioRepository.saveAndFlush(usuario);}
@@ -33,6 +28,5 @@ public class ServicioUsuario {
         Usuario usuarioExistente = usuarioRepository.findOne(id);
         BeanUtils.copyProperties(usuario,usuarioExistente);
         return usuarioRepository.saveAndFlush(usuarioExistente);
-
     }
 }

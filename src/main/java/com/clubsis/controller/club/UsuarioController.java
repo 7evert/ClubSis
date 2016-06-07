@@ -3,10 +3,15 @@ package com.clubsis.controller.club;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.club.UsuarioDTO;
 import com.clubsis.model.persona.Persona;
+import com.clubsis.service.ServicioMembresias;
+import com.clubsis.service.ServicioUsuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by Sebastian on 07-Jun-16.
@@ -15,6 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/usuarios")
 public class UsuarioController {
+
+    @Autowired
+    private ServicioUsuario servicioUsuario;
+
+    @Autowired
+    private ServicioMembresias servicioMembresias;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Usuario> list() {
+        return servicioUsuario.mostrarUsuarios();
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public void crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
@@ -33,6 +49,8 @@ public class UsuarioController {
         persona.setNombre(usuarioDTO.getNombre());
         persona.setTelefono(usuarioDTO.getTelefono());
         usuario.setPersona(persona);
-        persona.setUsuario(usuario);
+
+        servicioMembresias.crearPersona(persona);
+        servicioUsuario.crearUsuario(usuario);
     }
 }
