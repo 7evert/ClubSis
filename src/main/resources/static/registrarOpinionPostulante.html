@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app3">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+    <style type="text/css">
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        function getIDPostulanteySocio() {
+            var href = this.location.href;
+            var str = href.match(/\?idPostulante\=(\d+)&idSocio\=(\d+)/);
+            return str ? [str[1], str[2]] : undefined;
+        }
+        function llenarDatosPostulante(data){
+            $("#postulante").val(data.nombre+" "+data.apellidoPaterno);
+        }
+        function mostrarMensaje(m){
+            Notificaciones.showError(m);
+        }
+        function verificarDatos(){
+            var mensajes=["El comentario debe tener como minimo 15 caracteres",
+                "El comentario debe tener como maximo 255 caracteres"
+            ];
+            var ver=[],i=0;
+            var str=$("#comentario").val();
+            ver[i++]=str && str.length>15;
+            ver[i++]=str && str.length<255;
+            for(var j=0;j<i;j++)
+                if(ver[j]==false) {
+                    mostrarMensaje(mensajes[j]);
+                    return false;
+                }
+            return true;
+        }
+    </script>
+    <script type="text/javascript">
+
+        var app3 = angular.module('app3', []);
+        var idSocio,idPostulante;
+        app3.controller('OpinionPostulante', function ($scope, $http) {
+            var ids=getIDPostulanteySocio();
+            idSocio= ids ? ids[0] : ids;
+            idPostulante = ids ? ids[1] : ids;
+            if(!idSocio || !idPostulante){
+                Notificaciones.showError("No se encuentra ni socio ni postulante");
+            }
+            $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+                llenarDatosPostulante(data);
+            });
+            $scope.enviarOpinion = function () {
+                if(!verificarDatos())return;
+                var data = {
+                    "idSocio": idSocio,
+                    "idPostulante": idPostulante,
+                    "opinion":$("#comentario").val()
+                };
+                console.log("here-> "+ JSON.stringify(data));
+                $http.post('/api/opinion', data).success(function (data2) {
+                    console.log(JSON.stringify(data2));
+                    Notificaciones.showNoty("Su registro fue exitoso");
+                }).error(function (data2) {
+                    console.log(JSON.stringify(data2));
+                    Notificaciones.showError("No se pudo registrar tu Opinión.");
+                });
+            };
+        });
+    </script>
+</head>
+<body ng-controller="OpinionPostulante">
+<div id="headerUsuario"></div>
+<div class="container">
+    <h2>Postulante</h2>
+    <hr>
+    <h4>REGISTRO DE OPINION DE POSTULANTE</h4>
+    <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Postulante:</label>
+            <div class="col-xs-7">
+                <input type="text" id="postulante" disabled placeholder="" class="form-control "/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Comentarios:</label>
+            <div class="col-xs-7">
+                <textarea class="form-control" ng-model="motivo" maxlength="250" rows="5" id="comentario"
+                          placeholder="Ingresar Comentarios sobre el postulante..."></textarea>
+                <!--<input type="text" name="motivo" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>-->
+            </div>
+        </div>
+        <div class="col-xs-offset-5 col-xs-9">
+            <button ng-click="enviarOpinion()" class="btn btn-primary">Registrar</button>
+            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        </div>
+    </form>
+
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/principal.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
+
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+
+</body>
+</html>
