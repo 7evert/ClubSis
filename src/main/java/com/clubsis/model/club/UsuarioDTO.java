@@ -21,6 +21,15 @@ public class UsuarioDTO {
     private String telefono;
     private Boolean esTitular;
 
+    private Boolean esActivo;
+
+    public Boolean getEsActivo() {
+        return esActivo;
+    }
+
+    public void setEsActivo(Boolean esActivo) {
+        this.esActivo = esActivo;
+    }
 
     public String getContraseña() {
         return contraseña;

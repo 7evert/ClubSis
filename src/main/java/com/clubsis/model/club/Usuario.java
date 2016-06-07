@@ -88,4 +88,8 @@ public class Usuario {
         this.persona = persona;
     }
 
+    @Override
+    public String toString() {
+        return nombreUsuario;
+    }
 }

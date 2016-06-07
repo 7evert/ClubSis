@@ -5,6 +5,8 @@ package com.clubsis.service;
  */
 import com.clubsis.model.club.Usuario;
 import com.clubsis.repository.club.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class ServicioUsuario {
+
+    private static Logger logger = LoggerFactory.getLogger(ServicioUsuario.class);
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     public List<Usuario> mostrarUsuarios(){
+//        List<Usuario> total = usuarioRepository.findAll();
+//        List<Usuario> lista = new ArrayList<>();
+//        logger.info(Integer.toString(total.size()));
+//        for (Usuario usuario : total) {
+//            logger.info(usuario.toString());
+//            if (usuario.getEsActivo()) {
+//                lista.add(usuario);
+//            }
+//        }
+//        return lista;
         return usuarioRepository.findAll().stream().filter(usuario -> usuario.getEsActivo()).collect(Collectors.toList());
     }
     public Usuario buscarUsuarios(Integer id) {return usuarioRepository.findOne(id);}

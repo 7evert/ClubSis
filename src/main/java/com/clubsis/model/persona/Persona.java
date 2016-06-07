@@ -40,6 +40,7 @@ public class Persona {
     private Socio socio;
 
     @OneToOne(mappedBy = "persona")
+    @JsonIgnore
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")

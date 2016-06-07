@@ -38,6 +38,8 @@ public class UsuarioController {
         usuario.setDni(usuarioDTO.getDni());
         usuario.setContraseña(usuarioDTO.getContraseña());
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        usuario.setEsActivo(usuarioDTO.getEsActivo());
+
         Persona persona = new Persona();
         persona.setDni(usuarioDTO.getDni());
         persona.setApellidoMaterno(usuarioDTO.getApellidoMaterno());
@@ -48,6 +50,7 @@ public class UsuarioController {
         persona.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
         persona.setNombre(usuarioDTO.getNombre());
         persona.setTelefono(usuarioDTO.getTelefono());
+
         usuario.setPersona(persona);
 
         servicioMembresias.crearPersona(persona);
