@@ -19,9 +19,6 @@ public class Rol {
     private String descripcion;
     private Boolean esActivo;
 
-    @ManyToOne
-    private Club club;
-
     @OneToMany(mappedBy ="rol")
     private Set<Usuario> usuarios;
 
@@ -29,15 +26,6 @@ public class Rol {
     private Set<Permiso> permisos;
 
     protected Rol() {
-    }
-
-    public Rol(String nombre, String descripcion, Boolean esActivo, Club club, Set<Usuario> usuarios, Set<Permiso> permisos) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.esActivo = esActivo;
-        this.club = club;
-        this.usuarios = usuarios;
-        this.permisos = permisos;
     }
 
     public Integer getId() {
@@ -70,14 +58,6 @@ public class Rol {
 
     public void setEsActivo(Boolean esActivo) {
         this.esActivo = esActivo;
-    }
-
-    public Club getClub() {
-        return club;
-    }
-
-    public void setClub(Club club) {
-        this.club = club;
     }
 
     public Set<Usuario> getUsuarios() {

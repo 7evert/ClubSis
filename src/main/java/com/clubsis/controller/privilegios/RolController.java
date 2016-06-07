@@ -34,10 +34,4 @@ public class RolController {
         return servicioRol.actualizarRol(id, rol);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Rol> list() {
-        return servicioRol.mostrarRols();
-    }
-
-
 }
