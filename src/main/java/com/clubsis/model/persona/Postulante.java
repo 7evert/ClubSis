@@ -41,8 +41,9 @@ public class Postulante {
     @OneToMany(mappedBy="postulante",fetch = FetchType.EAGER)
     private Set<SocioPostulante> socios=new HashSet<SocioPostulante>();
 
+    protected Postulante(){
 
-
+    }
     public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<SocioPostulante> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
