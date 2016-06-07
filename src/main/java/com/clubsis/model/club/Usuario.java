@@ -16,18 +16,21 @@ public class Usuario {
     private Integer id;
     private String contraseña;
     private Integer dni;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy ="usuario")
-    private Set<Persona> personas; // no se que nombre ponerle
 
-    protected Usuario() {
+    // Mayra quiere esto
+    private String nombreUsuario;
+
+    private Persona persona;
+
+    public Usuario() {
     }
 
-    public Usuario(String contraseña, Set<Persona> personas, Integer dni) {
+    public Usuario(String contraseña, Integer dni, String nombreUsuario, Persona persona) {
         this.contraseña = contraseña;
-        this.personas = personas;
         this.dni = dni;
+        this.nombreUsuario = nombreUsuario;
+        this.persona = persona;
     }
-
 
     public Integer getId() {
         return id;
@@ -53,11 +56,19 @@ public class Usuario {
         this.dni = dni;
     }
 
-    public Set<Persona> getPersonas() {
-        return personas;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 }

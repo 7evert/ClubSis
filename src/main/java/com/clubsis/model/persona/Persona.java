@@ -39,13 +39,12 @@ public class Persona {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
 
-    protected Persona() {
+    public Persona() {
     }
 
     public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, String telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
