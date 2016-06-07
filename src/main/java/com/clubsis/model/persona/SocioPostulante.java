@@ -24,7 +24,9 @@ public class SocioPostulante {
     @JoinColumn(name = "postulante_id")
     private Postulante postulante;
 
-
+    protected SocioPostulante (){
+        
+    }
     public SocioPostulante(String observaciones, Socio socio, Postulante postulante) {
         this.observaciones = observaciones;
         this.socio = socio;
