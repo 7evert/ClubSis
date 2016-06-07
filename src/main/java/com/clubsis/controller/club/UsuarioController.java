@@ -58,9 +58,9 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "{idUsuario}/listaSedes", method = RequestMethod.POST)
-    public Set<Sede> crearListaSedes(@PathVariable Integer idUsuario, @RequestBody Set<Sede> sedes) {
+    public void crearListaSedes(@PathVariable Integer idUsuario, @RequestBody Set<Sede> sedes) {
         Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);
         usuario.getSedes().addAll(sedes);
-        return usuario.getSedes();
+        servicioUsuario.crearUsuario(usuario);
     }
 }
