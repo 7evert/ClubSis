@@ -1,6 +1,7 @@
 package com.clubsis.model.persona;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -38,6 +39,7 @@ public class Postulante {
     private Boolean esActivo;
     private Boolean esPeriodoObjeciones;
 
+    @JsonIgnore
     @OneToMany(mappedBy="postulante",fetch = FetchType.EAGER)
     private Set<SocioPostulante> socios=new HashSet<SocioPostulante>();
 

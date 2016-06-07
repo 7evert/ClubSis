@@ -25,7 +25,7 @@ public class SocioPostulante {
     private Postulante postulante;
 
     protected SocioPostulante (){
-        
+
     }
     public SocioPostulante(String observaciones, Socio socio, Postulante postulante) {
         this.observaciones = observaciones;

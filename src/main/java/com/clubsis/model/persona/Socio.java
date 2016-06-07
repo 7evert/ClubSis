@@ -33,8 +33,8 @@ public class Socio {
     @JsonIgnore
     private Set<Persona> personas =new HashSet<Persona>();
 
-    @OneToMany(mappedBy="socio",fetch = FetchType.EAGER)
     @JsonIgnore
+    @OneToMany(mappedBy="socio",fetch = FetchType.EAGER)
     private Set<SocioPostulante> postulantes=new HashSet<SocioPostulante>();
 
     @JsonIgnore

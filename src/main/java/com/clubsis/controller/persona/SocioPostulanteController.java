@@ -51,6 +51,14 @@ public class SocioPostulanteController {
         return servicioMembresias.actualizarSocioPostulante(id, socio);
     }
 
-   // @RequestMapping(value ="/{idSocio}/actualizar",method=RequestMethod.GET)
+    @RequestMapping(value ="/{idPostulante}/retornar",method= RequestMethod.GET)
+    public List<String> getObservaciones(@PathVariable Integer idPostulante){
+        return servicioMembresias.getObservaciones(idPostulante);
+    }
+
+    @RequestMapping(value ="/{idPostulante}/socios",method= RequestMethod.GET)
+    public List<Socio> getSocios(@PathVariable Integer idPostulante){
+        return servicioMembresias.getSocios(idPostulante);
+    }
 
 }
