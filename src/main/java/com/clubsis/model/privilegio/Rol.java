@@ -22,22 +22,22 @@ public class Rol {
     @ManyToOne
     private Club club;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy ="rol")
-    private Set<Usuario> usuarios; // no se que nombre ponerle
+    @OneToMany(mappedBy ="rol")
+    private Set<Usuario> usuarios;
 
-    @OneToMany(fetch= FetchType.EAGER, mappedBy= "rol")
-    @JsonIgnore
+    @ManyToMany
     private Set<Permiso> permisos;
 
     protected Rol() {
     }
 
-    public Rol(Integer id,String nombre,Boolean esActivo, String descripcion,Set<Permiso> permisos) {
-        this.id = id;
-        this.nombre=nombre;
+    public Rol(String nombre, String descripcion, Boolean esActivo, Club club, Set<Usuario> usuarios, Set<Permiso> permisos) {
+        this.nombre = nombre;
         this.descripcion = descripcion;
-        this.esActivo=esActivo;
-        this.permisos=permisos;
+        this.esActivo = esActivo;
+        this.club = club;
+        this.usuarios = usuarios;
+        this.permisos = permisos;
     }
 
     public Integer getId() {
@@ -48,22 +48,6 @@ public class Rol {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Set<Permiso> getPermisos() {
-        return permisos;
-    }
-
-    public void setPermisos(Set<Permiso> permisos) {
-        this.permisos = permisos;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -72,11 +56,43 @@ public class Rol {
         this.nombre = nombre;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Boolean getEsActivo() {
         return esActivo;
     }
 
     public void setEsActivo(Boolean esActivo) {
         this.esActivo = esActivo;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Set<Permiso> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(Set<Permiso> permisos) {
+        this.permisos = permisos;
     }
 }

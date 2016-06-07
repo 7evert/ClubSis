@@ -32,9 +32,6 @@ public class ServicioMembresias {
     private PostulanteRepository postulanteRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private SocioRepository socioRepository;
 
     @Autowired
@@ -58,17 +55,6 @@ public class ServicioMembresias {
     public void eliminarPersona(Integer id){
         personaRepository.delete(id);
     }
-    //Usuario
-    public List<Usuario> mostrarUsuarios(){ return usuarioRepository.findAll(); }
-    public Usuario buscarUsuario(Integer id) {return usuarioRepository.findOne(id);}
-    public Usuario crearUsuario(Usuario usuario) {return usuarioRepository.saveAndFlush(usuario);}
-
-    public Usuario actualizarUsuario(Integer id, Usuario usuario){
-        Usuario usuarioExistente =usuarioRepository.findOne(id);
-        BeanUtils.copyProperties(usuario,usuarioExistente);
-        return usuarioRepository.saveAndFlush(usuarioExistente);
-    }
-
 
     //Socio
     public List<Socio> mostrarSocios(){return socioRepository.findAll();}

@@ -23,7 +23,6 @@ public class ServicioRol {
     @Autowired
     private PermisoRepository permisoRepository;
 
-
     private Permiso perExistente;
 
     public Rol buscarRol(Integer id) {return rolRepository.findOne(id);}
@@ -34,43 +33,5 @@ public class ServicioRol {
         Rol rolExistente = rolRepository.findOne(id);
         BeanUtils.copyProperties(rol,rolExistente);
         return rolRepository.saveAndFlush(rolExistente);
-    }
-
-    public List<Rol> mostrarRols(){
-        List<Rol> roles=rolRepository.findAll();
-        List<Rol> rolesFiltrados = new ArrayList<Rol>();
-        for(Rol rol : roles){
-            if(rol.getEsActivo())
-                rolesFiltrados.add(rol);
-        }
-        return rolesFiltrados;
-
-    }
-
-
-    //Permiso
-
-
-    public Permiso buscarPermisio(Integer id) {return permisoRepository.findOne(id);}
-
-    public Permiso creaerPermisio(Permiso per) {
-        return permisoRepository.saveAndFlush(per);
-    }
-
-    public Permiso actualizarPermisio(Integer id, Permiso per) {
-        perExistente = permisoRepository.findOne(id);
-        BeanUtils.copyProperties(per,perExistente);
-        return permisoRepository.saveAndFlush(per);
-    }
-
-    public List<Permiso> mostarPermisio(Rol r){
-        List<Permiso> results = permisoRepository.findAll();
-
-        for(Permiso pe : results){
-            if (!pe.getRol().equals(r)){
-                results.remove(pe);
-            }
-        }
-        return results;
     }
 }
