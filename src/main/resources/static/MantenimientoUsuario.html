@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Mantenimiento Usuarios</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
+    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
+    <script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
+    <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+    <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+    <script src="js/principal.js"></script>
+    <script src="js/Notificaciones.js"></script>
+
+
+
+</head>
+<body ng-controller="UsuarioController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <div>
+        <h3>
+            ADMINISTRACIÓN DE USUARIOS
+            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='registrarUsuario.html';">Registrar</a>
+        </h3>
+    </div>
+    <div class="form-group">
+        <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;">CONSULTA DE USUARIOS </h4>
+
+        <form class="form-horizontal">
+            <div class="row">
+
+
+                <div class="col-sm-6 col-lg-5">
+                    <div class="form-group">
+                        <label  class="col-md-4 control-label">Nombre de usuario</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="usuarioFiltrado" placeholder="Nombre del usuario">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-7 col-lg-7">
+                </div>
+                <div class="col-sm-5 col-lg-5">
+                    <div class="form-group" style="margin-left: 60px;">
+                        <a href="javascript:void(0)" id="Buscar" class="btn btn-primary">Buscar</a>
+                        <a href="javascript:void(0)" id="Limpiar" class="btn btn-primary">Limpiar</a>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div>
+        <h4>RESULTADOS DE BÚSQUEDA</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Usuario
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Usuario
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Usuario
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+
+    var app=angular.module('app',[]);
+    app.controller('UsuarioController', function ($scope, $http) {
+        $http.get('/api/usuarios').success(function (data) {
+        });
+
+        $("#Buscar").click(function(){
+
+        });
+
+        $("#Limpiar").click(function(){
+            $("#usuarioFiltrado").val("");
+            $("#rolFiltrado").val("");
+
+        });
+    });
+
+
+    $("#jqGrid").jqGrid({
+        url: '/api/usuarios',
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "json",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        colModel: [
+            {index: 'id', name: 'id', hidden: true, width: 45},
+            {index: 'nombre', name: 'nombre', align: 'center', width: 400},
+            {index: 'Acciones', name: 'Acciones', width: 150, align: 'center', formatter: acciones}
+        ],
+        colNames: [
+            'id', 'Nombre','Acciones'
+        ],
+        viewrecords: true,
+        height: 400,
+        rowNum: 20,
+        pager: "#jqGridPager",
+        loadComplete: function () {
+
+            $('.icono-ver').click(function () {
+
+                var idUsuario = $(this).attr('data-idUsuario-ver');
+                console.log("idUsuario " + $(this).attr('data-idUsuario-ver'));
+                window.location='UsuarioInformacion.html?id='+idRol;
+
+            });
+            $('.icono-eliminar').click(function () {
+                var idUsuario = $(this).attr('data-idUsuario-eliminar');
+                console.log("idUsuario eliminando: " + $(this).attr('data-idUsuario-eliminar'));
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea eliminar el usuario?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                            //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
+                            //Simplemente se le cambiara el estado
+                            $.post('/api/usuarios/eliminar',
+                                    {id:idUsuario},
+                                    function (response) {
+                                        if (!response.error) {
+                                            Notificaciones.hideAll();
+                                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                                            $('#grid').trigger('reloadGrid');
+                                            setTimeout(function () {
+                                                location.href = "MantenimientoUsuario.html"
+                                            }, 1000);
+                                        } else {
+                                            Noty.hideAll();
+                                            Noty.showError(response.mensaje, false, 3000);
+                                        }
+                                    });
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
+            });
+            $('.icono-modificar').click(function () {
+                var idUsuario = $(this).attr('data-idUsuario-modificar');
+                console.log("idUsuario modificado: " + $(this).attr('data-idUsuario-modificar'));
+                window.location='edicionUsuario.html?id='+idUsuario;
+
+            });
+
+
+        }
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '900');
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+        acciones = '<a href="javascript:void(0)"  ng-click="handleClick()" class="btn btn-warning icono-ver" data-idUsuario-ver="' + rowdata['id'] + '" title="Ver Usuario"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idUsuario-modificar="' + rowdata['id'] + '" title="Modificar Usuario"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idUsuario-eliminar="' + rowdata['id'] + '" title="Eliminar Usuario"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        return acciones;
+    }
+</script>
+<style type="text/css">
+    .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+        background: #008D34;
+    }
+
+    .ui-jqgrid-sortable {
+        color: azure;
+        background-color: #008D34;
+    }
+
+    .ui-jqgrid-resize-ltr {
+        background-color: #008D34;
+    }
+
+    .btn-warning {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-right: 2px;
+        padding-left: 2px;
+        background-color: #ededed;
+        border-color: #ededed;
+    }
+
+    .icono {
+        width: 19px;
+    }
+
+    h4 {
+        background: #008D34;
+        color: white;
+        padding-left: 30px;
+        margin-left: 0px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        margin-top: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+</style>
+</body>
+</html>

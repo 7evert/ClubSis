@@ -1,6 +1,7 @@
 package com.clubsis.model.privilegio;
 
 import com.clubsis.model.club.Club;
+import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,6 +22,9 @@ public class Rol {
     @ManyToOne
     private Club club;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy ="rol")
+    private Set<Usuario> usuarios; // no se que nombre ponerle
+
     @OneToMany(fetch= FetchType.EAGER, mappedBy= "rol")
     @JsonIgnore
     private Set<Permiso> permisos;
@@ -28,11 +32,12 @@ public class Rol {
     protected Rol() {
     }
 
-    public Rol(Integer id,String nombre,Boolean esActivo, String descripcion) {
+    public Rol(Integer id,String nombre,Boolean esActivo, String descripcion,Set<Permiso> permisos) {
         this.id = id;
         this.nombre=nombre;
         this.descripcion = descripcion;
         this.esActivo=esActivo;
+        this.permisos=permisos;
     }
 
     public Integer getId() {
