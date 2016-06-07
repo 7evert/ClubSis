@@ -16,6 +16,7 @@ public class Postulante {
     @Id
     @GeneratedValue
     private Integer id;
+
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;

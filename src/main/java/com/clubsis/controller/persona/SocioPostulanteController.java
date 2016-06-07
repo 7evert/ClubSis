@@ -36,7 +36,7 @@ public class SocioPostulanteController {
         return servicioMembresias.buscarSocioPostulante(id);
     }
 
-    @RequestMapping(value="/{idSocio}/{idPostulante}//crear",method = RequestMethod.POST)
+    @RequestMapping(value="/{idSocio}/{idPostulante}/crear",method = RequestMethod.POST)
     public SocioPostulante create(@PathVariable Integer idSocio, @PathVariable Integer idPostulante,@RequestBody SocioPostulante sociopostulante) {
         Socio socio = servicioMembresia.buscarSocio(idSocio);
         Postulante postulante =servicioPostulante.buscarPostulante(idPostulante);
