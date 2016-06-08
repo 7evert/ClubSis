@@ -28,15 +28,19 @@ public class Producto {
 
     @ManyToMany
     private Set<OrdenCompra> ordenes = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "productos")
+/*
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "productos")
     @JsonIgnore
     private Set<Sede> sedes = new HashSet<>();
+*/
+    @OneToMany(mappedBy="id.producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Producto_Sede> sedes=new HashSet<Producto_Sede>();
 
     protected Producto() {
     }
 
-    public Producto(String descripcion, String nombre, Double precioVentaUnitario, EstadoProducto estadoProducto, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Sede> sedes) {
+    public Producto(String descripcion, String nombre, Double precioVentaUnitario, EstadoProducto estadoProducto, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Producto_Sede> sedes) {
         this.descripcion = descripcion;
         this.nombre = nombre;
         this.precioVentaUnitario = precioVentaUnitario;
@@ -102,11 +106,11 @@ public class Producto {
         this.ordenes = ordenes;
     }
 
-    public Set<Sede> getSedes() {
+    public Set<Producto_Sede> getSedes() {
         return sedes;
     }
 
-    public void setSedes(Set<Sede> sedes) {
+    public void setSedes(Set<Producto_Sede> sedes) {
         this.sedes = sedes;
     }
 }

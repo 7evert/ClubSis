@@ -4,6 +4,7 @@ import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.producto.OrdenCompra;
 import com.clubsis.model.producto.Producto;
+import com.clubsis.model.producto.Producto_Sede;
 import com.clubsis.model.producto.Proveedor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,13 +50,19 @@ public class Sede {
     @ManyToMany
     private Set<Concesion> concesiones = new HashSet<>();
 
-    @ManyToMany
-    private Set<Producto> productos = new HashSet<>();
+    @OneToMany(mappedBy="id.sede",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Producto_Sede> productos =new HashSet<Producto_Sede>();
 
+    /*
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Producto> productos = new HashSet<>();
+*/
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, EstadoSede estado, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones) {
+    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, EstadoSede estado, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones, Set<Concesion> concesiones, Set<Producto_Sede> productos) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
@@ -67,6 +74,8 @@ public class Sede {
         this.proveedores = proveedores;
         this.ordenes = ordenes;
         this.instalaciones = instalaciones;
+        this.concesiones = concesiones;
+        this.productos = productos;
     }
 
     public Integer getId() {
@@ -163,5 +172,21 @@ public class Sede {
 
     public void setInstalaciones(Set<Instalacion> instalaciones) {
         this.instalaciones = instalaciones;
+    }
+
+    public Set<Concesion> getConcesiones() {
+        return concesiones;
+    }
+
+    public void setConcesiones(Set<Concesion> concesiones) {
+        this.concesiones = concesiones;
+    }
+
+    public Set<Producto_Sede> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Set<Producto_Sede> productos) {
+        this.productos = productos;
     }
 }
