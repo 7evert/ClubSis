@@ -62,7 +62,7 @@ public class Sede {
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, EstadoSede estado, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones, Set<Concesion> concesiones, Set<Producto_Sede> productos) {
+    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, EstadoSede estado, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones, Set<Concesion> concesiones, Set<Producto_Sede> productos, Set<Usuario> usuarios) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
@@ -76,6 +76,7 @@ public class Sede {
         this.instalaciones = instalaciones;
         this.concesiones = concesiones;
         this.productos = productos;
+        this.usuarios = usuarios;
     }
 
     public Integer getId() {
@@ -188,5 +189,13 @@ public class Sede {
 
     public void setProductos(Set<Producto_Sede> productos) {
         this.productos = productos;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }
