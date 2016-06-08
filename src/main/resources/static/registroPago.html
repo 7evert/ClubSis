@@ -90,7 +90,7 @@
                     emptyrecords: 'No se encontraron resultados',
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
-                        { label: 'id', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Código Pago', name: 'id', key: true,align :'center', width: 75},
                         { label: 'Tipo pago', name: 'tipoPago', align: 'center', width: 100 },
                         { label: 'Importe (S/.)', name: 'montoTotal', align: 'center', width: 150 },
                         { label: 'Estado', name: 'estadoPago', align: 'center', width: 100 },
@@ -119,7 +119,7 @@
                     var mensaje= "Se registro los pagos seleccionados satisfactoriamente.";
                     for (var i = 0; i < selectedIDs.length; i++) {
                         var data= selectedIDs[i];
-                        $http.post('/api/pagos/'+ data).success(function (data ) {
+                        $http.post('/api/pagos/'+ data+'/pagar').success(function (data ) {
                             result += selectedIDs[i] + ",";
                             flag=true
                             console.log(JSON.stringify(data));

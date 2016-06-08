@@ -90,14 +90,14 @@
                     emptyrecords: 'No se encontraron resultados',
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
-                        { label: 'Codigo', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Codigo Pago', name: 'id', key: true,align :'center', width: 75},
                         { label: 'Tipo pago', name: 'tipoPago', align: 'center', width: 100 },
                         { label: 'Importe (S/.)', name: 'montoTotal', align: 'center', width: 150 },
                         { label: 'Estado', name: 'estadoPago', align: 'center', width: 100 },
                         { label:'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
                         { label:'Fecha Pago', name: 'fechaPago', align: 'center', width: 100 },
                         { label:'Fecha Anulacion', name: 'fechaAnulacion', align: 'center', width: 100 },
-                        { label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
                     ],
                     viewrecords: true,
                     height: "auto",
@@ -123,7 +123,7 @@
                     emptyrecords: 'No se encontraron resultados',
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
-                        { label: 'Codigo', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Codigo Cuota', name: 'id', key: true,align :'center', width: 75},
                         { label: 'Nombre', name: 'nombre', align: 'center', width: 100 },
                         { label: 'Descripcion', name: 'descripcion', align: 'center', width: 100 },
                         { label: 'Importe (S/.)', name: 'monto', align: 'center', width: 150 },
