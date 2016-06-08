@@ -1,18 +1,23 @@
 package com.clubsis.model.club;
 
 import com.clubsis.model.persona.Persona;
+import com.clubsis.model.privilegio.Permiso;
 import com.clubsis.model.privilegio.Rol;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
@@ -107,5 +112,48 @@ public class Usuario {
 
     public void setSedes(Set<Sede> sedes) {
         this.sedes = sedes;
+    }
+
+    @Transient
+    public Set<Permiso> getPermisos() {
+        return rol.getPermisos();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(rol);
+        authorities.addAll(getPermisos());
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return contraseña;
+    }
+
+    @Override
+    public String getUsername() {
+        return nombreUsuario;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return esActivo;
     }
 }

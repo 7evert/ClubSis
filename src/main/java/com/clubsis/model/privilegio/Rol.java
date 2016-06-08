@@ -3,15 +3,17 @@ package com.clubsis.model.privilegio;
 import com.clubsis.model.club.Club;
 import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
  */
 @Entity
-public class Rol {
+public class Rol implements Serializable, GrantedAuthority {
     @Id
     @GeneratedValue
     private Integer id;
@@ -74,5 +76,10 @@ public class Rol {
 
     public void setPermisos(Set<Permiso> permisos) {
         this.permisos = permisos;
+    }
+
+    @Override
+    public String getAuthority() {
+        return nombre;
     }
 }

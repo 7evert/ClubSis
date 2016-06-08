@@ -6,4 +6,5 @@ import com.clubsis.model.privilegio.Rol;
  * Created by Lati on 24.05.2016.
  */
 public interface RolRepository extends JpaRepository<Rol, Integer> {
+    Rol findByNombre(String nombre);
 }

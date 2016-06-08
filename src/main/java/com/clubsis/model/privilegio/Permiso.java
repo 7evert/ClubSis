@@ -1,6 +1,7 @@
 package com.clubsis.model.privilegio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import java.util.Set;
  * Created by Juan Tenorio on 29/4/2016.
  */
 @Entity
-public class Permiso {
+public class Permiso implements GrantedAuthority {
     @Id
     @GeneratedValue
     private Integer id;
@@ -63,5 +64,10 @@ public class Permiso {
 
     public void setRoles(Set<Rol> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String getAuthority() {
+        return nombre;
     }
 }
