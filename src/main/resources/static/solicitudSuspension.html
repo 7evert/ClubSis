@@ -74,7 +74,8 @@
             ver[2]=true;
             for(var i=0;i<ver.length;i++)
                 if(ver[i]==false) {
-                    alert(mensajes[i]);
+                    Notificaciones.showError(mensajes[i]);
+                    //alert(mensajes[i]);
                     return false;
                 }
             return true;
@@ -103,74 +104,27 @@
                     "motivoSuspension": $scope.motivo,
                     "socio": socioResp
                 };
-                if(!validarDatos()) {
                     $http.post('/api/suspensiones', data).success(function (data2) {
                                 Notificaciones.showProcesando();
                                 Notificaciones.hideAll();
+                                Notificaciones.showNoty("Se registro exitosamente su soliitud de suspensión");
                                 setTimeout(function () {
-                                    location.href = "loginUsuario.html"
+                                    location.href = "solicitudSuspension.html"
                                 }, 1000);
                             })
                             .error(function (data2) {
                                 Notificaciones.showError("Tu registro de suspension no se pudo realizar.");
                                 console.log("fallo");
-                                alert();
                             });
-                }
             };
-            function validarDatos() {
-                var nombre=$scope.nombre;
-                var ruc= $scope.ruc;
-                var descripcion = $scope.descripcion;
-                var numContacto= $scope.numContacto;
-                var direccion = $scope.direccion;
-                var estadoProveedor =$("#estadoProveedor").val();
-
-                if(!nombre){
-                    //alert("No hay nombre");
-                    console.log("No hay nombre");
-                    Notificaciones.showError('Nombre de proveedor requerido');
-                    $("#nombreProv").css("border-color", "red");
-                    return true;
-                }
-                else if(!ruc){
-                    Notificaciones.showError('RUC requerido');
-                    $("#numRUC").css("border-color", "red");
-                    return true;
-                }
-                else if(!descripcion){
-                    Notificaciones.showError('Descripción del rubro del proveedor requerido');
-                    $("#descripcion").css("border-color", "red");
-                    return true;
-                }
-                else if(!numContacto){
-                    Notificaciones.showError('Número de contacto requerido');
-                    $("#telefono").css("border-color", "red");
-                    return true;
-                }
-                else if(!direccion){
-                    Notificaciones.showError('Dirección requerida');
-                    $("#direc").css("border-color", "red");
-                    return true;
-                }
-
-                return false;
-            }
-
             $("#motivo").click(function () {
                 $("#motivo").css("border-color", "#ccc");
             });
             $("#date-picker-TiempoInicio").click(function () {
                 $("#date-picker-TiempoInicio").css("border-color", "#ccc");
             });
-            $("#descripcion").click(function () {
-                $("#descripcion").css("border-color", "#ccc");
-            });
-            $("#telefono").click(function () {
-                $("#telefono").css("border-color", "#ccc");
-            });
-            $("#nombreProv").click(function () {
-                $("#direc").css("border-color", "#ccc");
+            $("#date-picker-TiempoFin").click(function () {
+                $("#date-picker-TiempoFin").css("border-color", "#ccc");
             });
         });
     </script>
@@ -200,7 +154,7 @@
             <label class="control-label col-xs-5" >Fecha de Inicio<span class="obligatorio">*</span></label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
@@ -216,10 +170,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-offset-5 col-xs-9">
-            <button ng-click="enviarSolicitud()" class="btn btn-primary">Enviar Solicitud</button>
-            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 280px;">(*) Estos campos son obligatorios</span>
+            </div>
         </div>
+        <div class="col-xs-5">
+        </div>
+        <div class="col-xs-7">
+            <div class="form-group" style="margin-left: 140px;">
+                <button ng-click="enviarSolicitud()" class="btn btn-primary">Enviar Solicitud</button>
+                <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+
     </form>
 
 </div>
@@ -236,7 +200,9 @@
 <script src="js/Notificaciones.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    $(".date-picker").datepicker();
+    $(".date-picker").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 </script>
 
 </body>
