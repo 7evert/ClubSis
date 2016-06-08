@@ -129,9 +129,9 @@
                     $http.post('/api/suspensiones', data).success(function (data2) {
                                 Notificaciones.showNoty("Se registro exitosamente su solicitud de suspensión", Notificaciones.type.SUCCESS);
 
-                                //setTimeout(function () {
-                                //  location.href = "solicitudSuspension.html"
-                                //}, 1200);
+                                setTimeout(function () {
+                                  location.href = "solicitudSuspension.html"
+                                }, 1200);
                             })
                             .error(function (data2) {
                                 Notificaciones.showError("Tu registro de suspension no se pudo realizar.");
