@@ -14,6 +14,31 @@
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
         h4{
             background: #008D34;
             color: white;
@@ -78,19 +103,75 @@
                     "motivoSuspension": $scope.motivo,
                     "socio": socioResp
                 };
-
-                $http.post('/api/suspensiones', data).success(function (data2 ) {
-                    //happy end
-                    //$scope.PostDataResponse = data;
-                    console.log(JSON.stringify(data2));
-                    alert("Tu registro de suspension fue hecha exitosamente.");
-                    window.location="loginUsuario.html"
-                })
-                        .error(function (data2) {
-                            console.log(JSON.stringify(data2));
-                            alert("Tu registro de suspension no se pudo realizar.");
-                        });
+                if(!validarDatos()) {
+                    $http.post('/api/suspensiones', data).success(function (data2) {
+                                Notificaciones.showProcesando();
+                                Notificaciones.hideAll();
+                                setTimeout(function () {
+                                    location.href = "loginUsuario.html"
+                                }, 1000);
+                            })
+                            .error(function (data2) {
+                                Notificaciones.showError("Tu registro de suspension no se pudo realizar.");
+                                console.log("fallo");
+                                alert();
+                            });
+                }
             };
+            function validarDatos() {
+                var nombre=$scope.nombre;
+                var ruc= $scope.ruc;
+                var descripcion = $scope.descripcion;
+                var numContacto= $scope.numContacto;
+                var direccion = $scope.direccion;
+                var estadoProveedor =$("#estadoProveedor").val();
+
+                if(!nombre){
+                    //alert("No hay nombre");
+                    console.log("No hay nombre");
+                    Notificaciones.showError('Nombre de proveedor requerido');
+                    $("#nombreProv").css("border-color", "red");
+                    return true;
+                }
+                else if(!ruc){
+                    Notificaciones.showError('RUC requerido');
+                    $("#numRUC").css("border-color", "red");
+                    return true;
+                }
+                else if(!descripcion){
+                    Notificaciones.showError('Descripción del rubro del proveedor requerido');
+                    $("#descripcion").css("border-color", "red");
+                    return true;
+                }
+                else if(!numContacto){
+                    Notificaciones.showError('Número de contacto requerido');
+                    $("#telefono").css("border-color", "red");
+                    return true;
+                }
+                else if(!direccion){
+                    Notificaciones.showError('Dirección requerida');
+                    $("#direc").css("border-color", "red");
+                    return true;
+                }
+
+                return false;
+            }
+
+            $("#motivo").click(function () {
+                $("#motivo").css("border-color", "#ccc");
+            });
+            $("#date-picker-TiempoInicio").click(function () {
+                $("#date-picker-TiempoInicio").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+            $("#telefono").click(function () {
+                $("#telefono").css("border-color", "#ccc");
+            });
+            $("#nombreProv").click(function () {
+                $("#direc").css("border-color", "#ccc");
+            });
         });
     </script>
 
@@ -111,7 +192,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label">Motivo<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <textarea class="form-control" ng-model="motivo" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>
+                <textarea class="form-control" ng-model="motivo" id="motivo" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>
                 <!--<input type="text" name="motivo" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>-->
             </div>
         </div>
@@ -146,6 +227,13 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/principal.js"></script>
+
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
