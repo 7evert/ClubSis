@@ -1,6 +1,5 @@
 package com.clubsis.model.privilegio;
 
-import com.clubsis.model.club.Club;
 import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,7 +18,8 @@ public class Rol {
     private String descripcion;
     private Boolean esActivo;
 
-    @OneToMany(mappedBy ="rol")
+    @OneToMany(mappedBy = "rol")
+    @JsonIgnore
     private Set<Usuario> usuarios;
 
     @ManyToMany
@@ -27,12 +27,13 @@ public class Rol {
 
     protected Rol() {
     }
-    public Rol(String nombre,String descripcion, Boolean esActivo, Set<Usuario> usuarios,Set<Permiso> permisos){
-        this.nombre=nombre;
-        this.descripcion=descripcion;
-        this.esActivo=esActivo;
-        this.usuarios=usuarios;
-        this.permisos=permisos;
+
+    public Rol(String nombre, String descripcion, Boolean esActivo, Set<Usuario> usuarios, Set<Permiso> permisos) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.esActivo = esActivo;
+        this.usuarios = usuarios;
+        this.permisos = permisos;
     }
 
 
