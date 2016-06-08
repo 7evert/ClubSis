@@ -335,10 +335,10 @@
                     $http.get('/api/socios/' + socios[i].id + '/personas').success(function (dataPersonas) {
                         var socio=socios[actual];var observacion=observaciones[actual];
                         var dataTitular = $.grep(dataPersonas, function (e) {
-                            return e.id == idFamiliar || (!idFamiliar && (e.esTitular == true));
+                            return e.id == (e.esTitular == true);
                         })[0];
                         actual++;
-                        crearObservaciones(actual, dataTitular?(dataTitular.nombre+" "+dataTitular.apellidoPaterno):("Socio "+socio.id), observacion);
+                        crearObservaciones(actual, dataTitular?(dataTitular.nombre+" "+dataTitular.apellidoPaterno):("Socio "+socio.codigoCarnet), observacion);
                     });
                 }
             });

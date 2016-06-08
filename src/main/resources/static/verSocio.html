@@ -90,40 +90,35 @@
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        var idSocio, idFamiliar;
+        var idSocio, idFamiliar,titular=null;
         app2.controller('InformacionSocioController', function ($scope, $http) {
             idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
             idFamiliar=getIDSocioYFamiliar()?getIDSocioYFamiliar()[1]:undefined;
             $http.get('/api/socios/' + idSocio).success(function (data) {
                 //data={id:1,fechaInscripcion:123123123,estado:"activo",codigoCarnet:12123,tipo:{id:1,nombre:"vitalicio"}};
-                $http.get('/api/socios/' + idSocio + '/personas').success(function (dataPersonas) {
-                    /*dataPersonas=[
-                     {id:1,nombre:"renoz",apellidoPaterno:"asd",apellidoMaterno:"morales",telefono:123123,esTitular:false,socio:{id:1},dni:12123},
-                     {id:2,nombre:"juana",apellidoPaterno:"seg",apellidoMaterno:"reaa",telefono:123123,esTitular:true,socio:{id:1},dni:123213}
-                     ];*/
-                    dataTitular = $.grep(dataPersonas, function (e) {
-                        return e.id==idFamiliar || (!idFamiliar &&(e.esTitular == true));
-                    })[0];
-                    if (!dataTitular) {
-                        Notificaciones.showError("No existe Titular");
-                        llenarCampos(data, {});
-                    }
+                $http.get('/api/socios/' + idSocio + '/personaasociada').success(function (dataTitular) {
+                    titular=dataTitular;
                     llenarCampos(data, dataTitular);
-                    $http.get('/api/socios/' + idSocio + '/personas').success(function (dataFamiliares) {
-                        var elemMiembros = $("#miembro");
-                        for (var i = 0; i < dataFamiliares.length; i++)
-                            elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
-                        if(!dataTitular)
-                            llenarCampos(data,dataFamiliares[0]?dataFamiliares[0]:{});
-                        $('#miembro').on('change', function (e) {
-                            var optionSelected = $("option:selected", this);
-                            var valueSelected = this.value;
-                            var dataFamiliar = $.grep(dataFamiliares, function (e) {
-                                return e.id == valueSelected;
-                            })[0];
-                            console.log(dataFamiliar.id);
-                            llenarCampos(data, dataFamiliar)
-                        });
+                }).error(function(){
+                    Notificaciones.showError("No existe Titular");
+                    llenarCampos(data, {});
+                });
+                $http.get('/api/socios/' + idSocio + '/personas').success(function (dataFamiliares) {
+                    if(dataFamiliares.length==0){
+                        $("#datosPersonas").addClass("hidden");
+                        return;
+                    }
+                    var elemMiembros = $("#miembro");
+                    for (var i = 0; i < dataFamiliares.length; i++)
+                        elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
+                    $('#miembro').on('change', function (e) {
+                        var optionSelected = $("option:selected", this);
+                        var valueSelected = this.value;
+                        var dataFamiliar = $.grep(dataFamiliares, function (e) {
+                            return e.id == valueSelected;
+                        })[0];
+                        console.log(dataFamiliar.id);
+                        llenarCampos(data, dataFamiliar)
                     });
                 });
             });
@@ -190,7 +185,7 @@
             </div>
         </div>
     </form>
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="datosPersonas">
         <div class="col-sm-12 col-lg-12">
             <div class="form-group">
                 <h4>Datos del Familiar<select id="miembro" class="form-control" style="width:200px;"></select></h4>

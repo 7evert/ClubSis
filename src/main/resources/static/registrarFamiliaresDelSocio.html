@@ -134,7 +134,7 @@
         var app2 = angular.module('app2', []);
         app2.controller('registroFamiliar', function ($scope, $http) {
             $http.get('/api/socios/' + getID()).success(function (data) {
-                $http.get('/api/socios/' + getID() + '/personas').success(function (dataPersonas) {
+                $http.get('/api/socios/' + getID() + '/personaasociada').success(function (dataPersonas) {
                     dataTitular = $.grep(dataPersonas, function (e) {
                         return e.esTitular == true;
                     })[0];
@@ -149,8 +149,8 @@
                 var socio = $("#socio").val();
                 var titular = $("#titular").val();
                 var persona = {
-                    "tipoDocumento": $("#tipoDocumento").val(),
-                    "numeroDocumento": parseInt($("#numeroDocumento").val()),
+                    "tipoDoc": $("#tipoDocumento").val(),
+                    "numDoc": parseInt($("#numeroDocumento").val()),
                     "nombre": $("#nombre").val(),
                     "apellidoPaterno": $("#apellidoPaterno").val(),
                     "apellidoMaterno": $("#apellidoMaterno").val(),
@@ -164,6 +164,7 @@
                 console.log(JSON.stringify(persona));
                 $http.post('/api/personas/' + getID() + '/crear', persona).success(function (data) {
                     mostrarMensajeExitoso(data);
+                    console.log(JSON.stringify(data));
                     limpiar();
                 });
             };
