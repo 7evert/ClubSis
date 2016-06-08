@@ -126,7 +126,7 @@ public class ServicioMembresias {
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), "",Boolean.TRUE,null,null,null,
+                postulanteExistente.getTipoDoc(),postulanteExistente.getNumDoc(), "",Boolean.TRUE,null,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }

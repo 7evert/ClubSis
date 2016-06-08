@@ -33,7 +33,7 @@ public class ServicioSocioPostulante {
     }
 
     public List<String> getObservaciones(Integer id){
-        List<String> observaciones = new ArrayList<String>();
+        List<String> observaciones = new ArrayList<String>(0);
         List<SocioPostulante> socioPostulantes = socioPostulanteRepository.findAll();
         for(int i=0;i<socioPostulantes.size();i++){
             SocioPostulante socioPostulante = socioPostulantes.get(i);

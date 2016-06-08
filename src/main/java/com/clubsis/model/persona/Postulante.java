@@ -20,8 +20,8 @@ public class Postulante {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private String tipoDocumento;
-    private Integer numeroDocumento;
+    private TipoDocumento tipoDoc;
+    private String numDoc;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaNacimiento;
     private String estadoCivil;
@@ -47,12 +47,13 @@ public class Postulante {
     protected Postulante(){
 
     }
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<SocioPostulante> socios) {
+
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, TipoDocumento tipoDoc, String numDoc, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<SocioPostulante> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
+        this.tipoDoc = tipoDoc;
+        this.numDoc = numDoc;
         this.fechaNacimiento = fechaNacimiento;
         this.estadoCivil = estadoCivil;
         this.numeroHijos = numeroHijos;
@@ -103,20 +104,20 @@ public class Postulante {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public String getTipoDocumento() {
-        return tipoDocumento;
+    public TipoDocumento getTipoDoc() {
+        return tipoDoc;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setTipoDoc(TipoDocumento tipoDoc) {
+        this.tipoDoc = tipoDoc;
     }
 
-    public Integer getNumeroDocumento() {
-        return numeroDocumento;
+    public String getNumDoc() {
+        return numDoc;
     }
 
-    public void setNumeroDocumento(Integer numeroDocumento) {
-        this.numeroDocumento = numeroDocumento;
+    public void setNumDoc(String numDoc) {
+        this.numDoc = numDoc;
     }
 
     public Date getFechaNacimiento() {
