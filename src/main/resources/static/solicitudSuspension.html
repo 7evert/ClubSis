@@ -105,12 +105,11 @@
                     "socio": socioResp
                 };
                     $http.post('/api/suspensiones', data).success(function (data2) {
-                                Notificaciones.showProcesando();
-                                Notificaciones.hideAll();
-                                Notificaciones.showNoty("Se registro exitosamente su soliitud de suspensión");
+                                Notificaciones.showNoty("Se registro exitosamente su solicitud de suspensión", Notificaciones.type.SUCCESS);
+
                                 setTimeout(function () {
                                     location.href = "solicitudSuspension.html"
-                                }, 1000);
+                                }, 1200);
                             })
                             .error(function (data2) {
                                 Notificaciones.showError("Tu registro de suspension no se pudo realizar.");
