@@ -33,12 +33,56 @@
         }
     </style>
     <script type="text/javascript">
+        $('.number').keypress(function(event) {
+            if (event.which != 46 && (event.which < 47 || event.which > 59))
+            {
+                event.preventDefault();
+                if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
+                    event.preventDefault();
+                }
+            }
+        });
+        function verificarDatos(){
+            var nombre=$("#nombre").val();;
+            var descripcion = $("#descripcion").val();;
+            var monto= $("#monto").val();;
 
+            if(!nombre){
+                Notificaciones.showError('Nombre de multa requerido');
+                $("#nombreProv").css("border-color", "red");
+                return true;
+            }
+            else if(!descripcion){
+                Notificaciones.showError('Descripción de multa requerido');
+                $("#descripcion").css("border-color", "red");
+                return true;
+            }
+            else if(!monto){
+                Notificaciones.showError('Monto de la multa requerido');
+                $("#monto").css("border-color", "red");
+                if(parseFloat(monto)<0){
+                    Notificaciones.showError('Monto de la multa inválido');
+                }
+                return true;
+            }
+            return false;
+        }
+        $("#nombre").click(function () {
+            $("#nombre").css("border-color", "#ccc");
+        });
+        $("#descripcion").click(function () {
+            $("#descripcion").css("border-color", "#ccc");
+        });
+        $("#monto").click(function () {
+            $("#monto").css("border-color", "#ccc");
+        });
+        </script>
+    <script type="text/javascript">
         var appMultas = angular.module('appMultas', []);
         var socioResp,persona;
         appMultas.controller('MultaController', function ($scope, $http) {
             $scope.registrarMulta =function (){
-                //if(!verificarDatos())return;
+                if(verificarDatos())return;
                 var data = {
                     //por preguntar
                     "nombre": $scope.ngNombre,
@@ -50,14 +94,17 @@
                     //happy end
                     //$scope.PostDataResponse = data;
                     console.log(JSON.stringify(data2));
-                    alert("Tu registro de nueva multa se realizó exitosamente.");
-                    window.location="registrarMulta.html"
+                    Notificaciones.showNoty("Tu registro de nueva multa se realizó exitosamente.", Notificaciones.type.SUCCESS);
+                    setTimeout(function () {
+                        location.href = "registrarMulta.html"
+                    }, 1200);
                 })
                         .error(function (data2) {
                             console.log(JSON.stringify(data2));
-                            alert("Tu registro de nueva multa no se pudo realizar.");
+                            Notificaciones.showError("No se pudo registrar la multa.");
                         });
             };
+
         });
     </script>
 </head>
@@ -70,23 +117,24 @@
     <h2>Penalidades</h2>
     <hr>
     <h4>REGISTRO DE MULTA</h4>
+    {{hola}}
     <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
         <div class="form-group">
             <label class="col-xs-5 control-label">Nombre Multa<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <input type="text"  maxlength="50" ng-model="ngNombre" placeholder="Nombre de la multa" class="form-control "/>
+                <input type="text" id="nombre"  maxlength="50" ng-model="ngNombre" placeholder="Nombre de la multa" class="form-control "/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-5 control-label">Descripcion<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <input type="text"  maxlength="50" ng-model="descripcion" placeholder="Descripcion" class="form-control "/>
+                <input type="text" id="descripcion" maxlength="50" ng-model="descripcion" placeholder="Descripcion" class="form-control "/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-5 control-label">Monto<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <input type="text" ng-model="monto" placeholder="Monto" class="form-control "/>
+                <input type="text" id="monto" ng-model="monto" placeholder="" class="number form-control"/>
             </div>
         </div>
         <div class="col-sm-5 col-lg-5">
@@ -102,6 +150,12 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script src="js/principal.js"></script>
 </body>
 </html>
