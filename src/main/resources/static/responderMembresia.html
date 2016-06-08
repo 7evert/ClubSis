@@ -136,7 +136,7 @@
                 var rowKey = grid.getGridParam("selrow");
 
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionados");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
@@ -145,16 +145,18 @@
                         var data= selectedIDs[i];
                         $http.post('/api/membresias/'+ data+'/rechazar').success(function (data ) {
                             result += selectedIDs[i] + ",";
-                            flag=true
-                            console.log(JSON.stringify(data));
+                            Notificaciones.showNoty('Se rechazó su membresía del postulante '+data+' satisfactoriamente', Notificaciones.type.SUCCESS);
+                            setTimeout(700);
                         }).error(function (data2) {
                             console.log(JSON.stringify(data));
-                            mensaje="No se pudo rechazar las solicitudes seleccionadas";
+                            Notificaciones.showError("No se pudo rechazar las solicitudes seleccionadas");
+
                         });
                         result += selectedIDs[i] + ",";
                     }
-                    alert(mensaje);
-                    window.location="responderMembresia.html";
+                    setTimeout(function () {
+                        location.href = "responderMembresia.html"
+                    }, 1200);
                 }
             }
             $scope.enviarAprobacion =function (){
@@ -162,7 +164,7 @@
                 var rowKey = grid.getGridParam("selrow");
 
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionados");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
@@ -171,16 +173,16 @@
                         var data= selectedIDs[i];
                         $http.post('/api/membresias/'+ data+'/aprobar').success(function (data ) {
                             result += selectedIDs[i] + ",";
-                            flag=true
-                            console.log(JSON.stringify(data));
+                            Notificaciones.showNoty('Se aprobó su membresía del postulante '+data+' satisfactoriamente', Notificaciones.type.SUCCESS);
+                            setTimeout(700);
                         }).error(function (data2) {
-                            console.log(JSON.stringify(data));
-                            mensaje="Tu aprobacion de membresa de no se pudo realizar.";
+                            Notificaciones.showError("Tu aprobación de membresa de no se pudo realizar.");
                         });
                         result += selectedIDs[i] + ",";
                     }
-                        alert(mensaje);
-                        window.location="responderMembresia.html";
+                    setTimeout(function () {
+                        location.href = "responderMembresia.html"
+                    }, 1200);
                 }
             }
         });
@@ -278,6 +280,12 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
 
