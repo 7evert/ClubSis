@@ -24,6 +24,9 @@ public class RolController {
         return servicioRol.buscarRol(id);
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Rol> list() {return servicioRol.mostrarRoles();}
+
     @RequestMapping(method = RequestMethod.POST)
     public Rol create(@RequestBody Rol rol) {
         return servicioRol.crearRol(rol);

@@ -36,6 +36,7 @@
 </head>
 <body ng-controller="UsuarioController">
 <div id="headerAdministrador"></div>
+
 <div class="container">
     <h2>Registro Usuario</h2>
     <hr>
@@ -44,13 +45,13 @@
             <div class="form-group">
                 <label class="control-label col-xs-4">Nombre de usuario<span class="obligatorio">*</span></label>
                 <div class="input-group col-xs-8">
-                    <input  id="nombreUsuario" type="text" class="form-control col-xs-8" placeholder="Nombre del usuario"/>
+                    <input  ng-model="nombreUsuario" id="nombreUsuario" type="text" class="form-control col-xs-8" placeholder="Nombre del usuario"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-4">Contraseña<span class="obligatorio">*</span></label>
                 <div class="input-group col-xs-8">
-                    <input  id="contraseña" type="text" class="form-control col-xs-8" placeholder="Contraseña del usuario"/>
+                   <input  ng-model="contrasenha" id="contraseña"  type="text" class="form-control col-xs-8" placeholder="Contraseña del usuario"/>
                 </div>
             </div>
 
@@ -157,8 +158,9 @@
                 <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
             </div>
         </div>
-
+    </form>
 </div>
+
 <div id="footer"></div>
 
 <script type="text/javascript">
@@ -167,16 +169,18 @@
     $('#fechaNacimiento').datepicker({
         dateFormat: 'dd/mm/yy'
     });
+
+   var sedes;
     var app = angular.module('app', []);
     app.controller('UsuarioController', function ($scope, $http) {
-        var sedes;
+
         $http.get('/api/sedes').success(function (data) {
             sedes=data;
             sedesElem=$("#sede");
             for(var i=0;i<data.length;i++){
-                sedesElem.append($("<input>").attr({type: 'checkbox',id:data[i].id,value:data[i].id ,name:data[i].nombre})).append(data[i].nombre).append('<br />');
+                sedesElem.append($("<input>").attr({type: 'checkbox',id:"sede"+data[i].id,value:data[i].id ,name:data[i].nombre})).append(data[i].nombre).append('<br />');
             }
-        })
+        });
         var roles;
         $http.get('/api/roles').success(function (data) {
             roles=data;
@@ -184,7 +188,7 @@
             for(var i=0;i<data.length;i++){
                 rolesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
             }
-        })
+        });
 
         $("#btnRegistrar").click(function () {
             var idRol=$("#rol").val();
@@ -192,48 +196,72 @@
             for(var i=0;i<roles.length;i++)
                 if(roles[i].id==idRol){
                     rolSeleccionado=roles[i];
+                    break;
                 }
-            /* var fechaConvertida = "";
-             if($("#fechaNacimiento").val() != "") {
-             var fecha = $scope.fechaNacimiento;
-             console.log($scope.fechaNacimiento);
-             var fechaPartida = fecha.split('/');
-             var dia = fechaPartida[0];
-             var mes = fechaPartida[1];
-             var anho = fechaPartida[2];
-             fechaConvertida = mes + '/' + dia + '/' + anho;
-             }*/
+
+            var sedesSeleccionadas=[];
+            console.log(sedes);
+            var j=0;
+            $("input:checkbox:checked").each(function(){
+                console.log(this.value);
+                for(var i=0;i<sedes.length;i++){
+                    if(sedes[i].id==this.value){
+                        sedesSeleccionadas[j]=sedes[i];
+                        j++;
+                        break;
+                    }
+                }
+            });
+
+
+            var fechaConvertida = "";
+            var fecha = $("#fechaNacimiento").val();
+             if(fecha) {
+                 var fechaPartida = fecha.split('/');
+                 var dia = fechaPartida[0];
+                 var mes = fechaPartida[1];
+                 var anho = fechaPartida[2];
+                 fechaConvertida = mes + '/' + dia + '/' + anho;
+             }
             var data = {
-                'nombreUsuario': $("#nombreUsuario").val(),
-                'contraseña':  $("#contraseña").val(),
-                //'rol':rolSeleccionado,
+                'nombreUsuario':$scope.nombreUsuario,
+                'contraseña': $scope.contrasenha,
                 'nombre': $scope.nombre,
                 'apellidoPaterno': $scope.apellidoPaterno,
                 'apellidoMaterno': $scope.apellidoMaterno,
                 'dni': parseInt($scope.dni),
-                //'fechaNacimiento': Date.parse(fechaConvertida),
+                'fechaNacimiento': Date.parse(fechaConvertida),
                 'direccion': $scope.direccion,
                 'telefono': parseInt($scope.telefono),
                 'correo': $scope.correo,
                 'esTitular':false,
                 'esActivo':true,
+                'rol':rolSeleccionado,
+                'sede':sedesSeleccionadas,
             };
-           // if(validarDatos()){
-                $http.post('/api/usuarios', data).success(function (dataUsuario) {
+            console.log(data);
+            if(validarDatos()){
+                $http.post('/api/usuarios', data).success(function (data) {
                 })
-                        .error(function (dataUsuario) {
+                        .error(function (data) {
                             Notificaciones.showError("Error al crear el usuario.");
-                            console.log("fallo");
                         });
 
                 Notificaciones.showProcesando();
                 Notificaciones.hideAll();
                 window.location = "mantenimientoUsuario.html";
-          //  }
+           }
         });
     });
 
+    function validarSede(){
+        var numSedes=0;
+        numSedes=$("input:checkbox:checked").size();
+        console.log(numSedes);
+        if(numSedes==0) return false;
+        else return true;
 
+    }
 
     function validarDatos() {
         var nombreUsuario = $("#nombreUsuario").val();
@@ -245,7 +273,7 @@
         var apellidoMaterno= $("#apellidoMaterno").val();
         var dni= $("#dni").val();
         var fechaNacimiento= $("#fechaNacimiento").val();
-
+        console.log("validacion"+fechaNacimiento);
         if (!nombreUsuario) {
             Notificaciones.showError('Nombre de usuario requerido');
             $("#nombreUsuario").css("border-color", "red");
@@ -258,12 +286,18 @@
             Notificaciones.showError('Contraseña requerida');
             $("#contraseñaConfirmacion").css("border-color", "red");
             return false;
+        }else if (contraseña!=contraseñaConfirmacion) {
+            Notificaciones.showError('Las contraseñas no coinciden');
+            $("#contraseña").css("border-color", "red");
+            $("#contraseñaConfirmacion").css("border-color", "red");
+            return false;
         }else if (rol==-1) {
             Notificaciones.showError('Rol requerido');
             $("#rol").css("border-color", "red");
             return false;
-        }else if(sede){
-
+        }else if(!validarSede()){
+            Notificaciones.showError('Sede requerida');
+            return false;
         }else if (!nombre) {
             Notificaciones.showError('Nombre requerido');
             $("#nombre").css("border-color", "red");
@@ -278,7 +312,7 @@
             return false;
         }else if (!dni) {
             Notificaciones.showError('DNI requerido');
-            $("#v").css("border-color", "red");
+            $("#dni").css("border-color", "red");
             return false;
         }else if (!fechaNacimiento) {
             Notificaciones.showError('Fecha de nacimiento requerida');
