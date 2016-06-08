@@ -102,26 +102,44 @@
                     pager: "#jqGridPager"
                 });
             })
-            $scope.fitrado =function (){
+            $scope.estado = {};
+
+            $scope.estado.valores = [
+                {'name': 'TODOS', 'value': 'TODOS'},
+                {'name': 'REGISTRADO', 'value': 'REGISTRADO'},
+                {'name': 'VENCIDO', 'value': 'VENCIDO'},
+                {'name': 'PAGADO', 'value': 'PAGADO'},
+                {'name': 'ANULADO', 'value': 'ANULADO'}
+            ];
+            $scope.estado.valor = $scope.estado.valores[0].value;
+            $("#btnBuscar").click(function (){
                 $http.get('/api/pagos').then(function (respuesta) {
                     datosUrl = respuesta.data;
                 });
 
-                var datosFiltr,codigoFilt;
+                var datosFiltr,codigoFilt,estadoFilt;
                 codigoFilt=$scope.ngCodigo;
-                datosFiltr= $.grep(datosUrl, function (element, index) {
-                    return element.socio.id == codigoFilt;
-                });
-                datosUrl=datosFiltr;
-
+                if(codigoFilt){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.socio.codigoCarnet == codigoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                estadoFilt=$scope.estado.valor;
+                if(estadoFilt!="TODOS"){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.estadoPago == estadoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
                 $('#jqGrid').jqGrid('clearGridData');
                 $('#jqGrid').setGridParam({data:datosUrl});
                 $('#jqGrid').trigger( 'reloadGrid' );
-                alert("Cae");
-            }
+            });
         });
     </script>
-
+    <script type="text/javascript">
+    </script>
 </head>
 <body>
 <div id="headerAdministrador"></div>
@@ -134,9 +152,9 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Codigo Socio</label>
+                    <label class="col-md-4 control-label">Código Carnet</label>
                     <div class="col-md-8">
-                        <input type="text" ng-model="ngCodigo" class="form-control" placeholder="Codigo del Socio">
+                        <input type="text" ng-model="ngCodigo" class="form-control" placeholder="Codigo de Carnet del Socio">
                     </div>
                 </div>
             </div>
@@ -144,11 +162,8 @@
                 <div class="form-group">
                     <label for="estado" class="col-md-4 control-label">Estado del Pago</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="estado">
-                            <option>REGISTRADO</option>
-                            <option>VENCIDO</option>
-                            <option>PAGADO</option>
-                            <option>ANULADO</option>
+                        <select id="estado" class="form-control" ng-model="estado.valor"
+                                ng-options="template.value as template.name for template in estado.valores">
                         </select>
                     </div>
                 </div>
@@ -168,7 +183,7 @@
 
     <form class="form-horizontal">
         <h4>LISTA DE PAGOS</h4>
-        <h5>Listado de los pagos de membresía:</h5>
+        <h5>Listado de los pagos:</h5>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
