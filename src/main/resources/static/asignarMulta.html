@@ -28,6 +28,9 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
     </style>
     <script>
         function getIDSocio(href) {
@@ -62,13 +65,14 @@
                 idMulta=$scope.multas.repeatSelect;
                 $http.post('/api/multas/'+getIDSocio()+'/'+idMulta).success(function (data2 ) {
                     console.log(JSON.stringify(data2));
-                    alert("Se multó al socio satisfactoriamente.");
-                    window.location="loginAdministrador.html"
-                })
-                        .error(function (data2) {
-                            console.log(JSON.stringify(data2));
-                            alert("No se pudo multar al socio.");
-                        });
+                    Notificaciones.showNoty("Se multó al socio satisfactoriamente.", Notificaciones.type.SUCCESS);
+                    setTimeout(function () {
+                        location.href = "loginAdministrador.html"
+                    }, 1200);
+                }).error(function (data2) {
+                        Notificaciones.showError("No se pudo multar al socio.")
+                        console.log("fallo");
+                    });
             };
         });
     </script>
@@ -90,18 +94,25 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">Nombre de la multa</label>
+            <label class="col-xs-5 control-label">Nombre de la multa<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
                 <select class="form-control" name="repeatSelect" id="repeatSelect" ng-model="multas.repeatSelect">
                     <option ng-repeat="option in multas.availableOptions" value="{{option.id}}">{{option.nombre}}</option>
                 </select>
             </div>
         </div>
-        <div class="col-sm-5 col-lg-5">
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 280px;">(*) Estos campos son obligatorios</span>
+            </div>
         </div>
-        <div class="col-sm-5 col-lg-5" style="margin-left: 100px;">
-            <button ng-click="asignarMulta()" class="btn btn-primary">Registrar</button>
-            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        <div class="col-xs-5">
+        </div>
+        <div class="col-xs-7">
+            <div class="form-group" style="margin-left: 140px;">
+                <button ng-click="asignarMulta()" class="btn btn-primary">Registrar</button>
+                <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
         </div>
     </form>
 </div>
@@ -111,5 +122,11 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 </body>
 </html>
