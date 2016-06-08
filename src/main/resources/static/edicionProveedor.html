@@ -232,7 +232,7 @@
             $("#telefono").click(function () {
                 $("#telefono").css("border-color", "#ccc");
             });
-            $("#nombreProv").click(function () {
+            $("#direc").click(function () {
                 $("#direc").css("border-color", "#ccc");
             });
         });
@@ -255,7 +255,7 @@
         <div id="RUC" class="form-group">
             <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
+                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="15" placeholder="Escriba el RUC..."required/>
             </div>
         </div>
         <div id="Descripcion" class="form-group">
