@@ -16,11 +16,6 @@
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
-    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
     <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
@@ -129,8 +124,14 @@
                 $http.get('/api/sedes/').success(function (data) {
                     for (var i = 0; i < data.length; i++)
                         if (data[i].id == idSede) {
+                            funciones.idSedeVer=idSede;
                             console.log("SedeObtenida: " + data[i]);
-                            //mostrarSede(data[i]);
+                            llenarDatosEnLabels(data[i]);
+                            $("select.form-control, input.form-control").attr("disabled", true);
+                            $("#registrar").addClass("hidden");
+                            $("#limpiar").addClass("hidden");
+                            $("#modificar").addClass("hidden");
+                            $("#cancelar").removeClass("hidden");
                             break;
                         }
                 });
@@ -142,6 +143,7 @@
                         if (data[i].id == idSede) {
                             console.log("sedeObtuvida: " + data[i]);
                             $("#titulo").html("Modificacion de Sede");
+                            $("select.form-control, input.form-control").attr("disabled", false);
                             $("#registrar").addClass("hidden");
                             $("#limpiar").addClass("hidden");
                             $("#modificar").removeClass("hidden");
@@ -193,9 +195,11 @@
                 }
             });
             $("#cancelar").click(function () {
-                if (funciones.idSedeAModificar) {
+                if (funciones.idSedeAModificar || funciones.idSedeVer) {
                     funciones.idSedeAModificar = undefined;
+                    funciones.idSedeVer=undefined;
                     $("#titulo").html("REGISTRO SEDES");
+                    $("select.form-control, input.form-control").attr("disabled", false);
                     $("#registrar").removeClass("hidden");
                     $("#limpiar").removeClass("hidden");
                     $("#modificar").addClass("hidden");
@@ -265,12 +269,12 @@
                     height: 50 * (data.legth + 1),
                     colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', 'Estado',"Acciones"],
                     colModel: [
-                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
-                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
-                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center'},
-                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center'},
-                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center'},
-                        {name: 'estado', index: 'Estado', width: 10, hidden:true,editable: false, align: 'center'},
+                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
+                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center',sortable:true},
+                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'estado', index: 'Estado', width: 10, hidden:true,editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true
@@ -315,6 +319,7 @@
             });
 
             $("#limpiar").click(function () {
+                $("select.form-control, input.form-control").attr("disabled", false);
                 limpiar();
             });
         });
@@ -332,7 +337,7 @@
                 <div class="form-group">
                     <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Descripción de Sede">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre de Sede">
                     </div>
                 </div>
             </div>
@@ -414,6 +419,11 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
 </body>
 </html>

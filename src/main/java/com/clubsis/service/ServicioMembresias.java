@@ -12,10 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -130,7 +126,7 @@ public class ServicioMembresias {
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), "",Boolean.TRUE,null,null,null,
+                postulanteExistente.getTipoDoc(),postulanteExistente.getNumDoc(), "",Boolean.TRUE,null,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }
@@ -140,7 +136,7 @@ public class ServicioMembresias {
         String codigoCarnet= UUID.randomUUID().toString().replaceAll("-", "");
         Socio nuevoSocio = new Socio(
                 postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO, codigoCarnet.substring(0,12),new HashSet<Invitado>()
-                ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
+                ,new HashSet<Persona>(),new HashSet<SocioPostulante>(),new HashSet<Pago>()
                 ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
                 new HashSet<ReservaInstalacion>(),tipo);
         return nuevoSocio;
