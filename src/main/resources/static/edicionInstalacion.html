@@ -64,6 +64,15 @@
             </div>
         </div>
 
+        <div id="escogerEstadoInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Estado<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <select class="form-control col-xs-8" id="estado" data-ng-model="instalaciones.estado" data-ng-options="estado for (id, estado) in estados">
+                    <option value="-1" selected>Elegir</option>
+                </select>
+            </div>
+        </div>
+
         <div id="precioInstalacion" class="form-group">
             <label class="control-label col-xs-4">Precio Reserva<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
@@ -113,15 +122,20 @@
     var app = angular.module('app', []);
     app.controller('InstalacionController', function ($scope, $http) {
         $scope.instalaciones=[];
+        $scope.estados=[];
         var idSede;
         var idTipo;
+        var idEstado;
+        var sedes;
+        var tipos;
         $http.get('/api/instalaciones/'+idInstalacion).success(function (data) {
             $scope.instalaciones=data;
             idSede=data.sede.id;
             idTipo=data.tipo.id;
+            idEstado=data.estado;
             console.log(data);
 
-            var sedes;
+
             $http.get('/api/sedes').success(function (data) {
                 sedes=data;
                 sedesElem=$("#sede");
@@ -129,20 +143,21 @@
                     sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
                 $("#sede").val(idSede);
 
-                var tipos;
+
                 $http.get('/api/tipoInstalaciones').success(function (data) {
                     tipos=data;
                     tiposElem=$("#tipo");
                     for(var i=0;i<data.length;i++)
                         tiposElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
                     $("#tipo").val(idTipo);
+
+                    $http.get('/api/instalaciones/getEstadoInstalacion').success(function (data) {
+                        $scope.estados=data;
+                        $("#estado").val(idEstado);
+                    })
                 })
             })
         });
-
-
-
-
 
         $("#btnGuardar").click(function () {
                 var idSedeMod=$("#sede").val();
@@ -167,6 +182,7 @@
                     'estado': $scope.instalaciones.estado,
                     'sede':sedeSeleccionada,
                     'tipo':tipoSeleccionado,
+                    'esActivo':true,
                 };
             if(validarDatos()) {
                 $http.put('/api/instalaciones/' + idInstalacion, data).success(function (data) {
@@ -204,6 +220,10 @@
             Notificaciones.showError('Tipo requerido');
             $("#tipo").css("border-color", "red");
             return false;
+        }else if(estado==-1){
+            Notificaciones.showError('Estado requerido');
+            $("#estado").css("border-color", "red");
+            return false;
         }else if (!precioReserva) {
             Notificaciones.showError('Precio de reserva requerido');
             $("#precioReserva").css("border-color", "red");
@@ -233,6 +253,9 @@
     });
     $("#tipo").click(function () {
         $("#tipo").css("border-color", "#ccc");
+    });
+    $("#estado").click(function () {
+        $("#estado").css("border-color", "#ccc");
     });
 </script>
 </body>

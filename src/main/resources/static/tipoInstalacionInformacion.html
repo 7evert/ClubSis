@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Rol Información</title>
+    <title>Tipo Instalación Información</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
 
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
@@ -26,27 +26,27 @@
     <script src="js/principal.js"></script>
 
 </head>
-<body ng-controller="RolController">
+<body ng-controller="TipoInstalacionController">
 <div id="headerAdministrador"></div>
 <div class="container">
-    <form id="formVerRol" class="form-horizontal mitadDerecha">
+    <form id="formVerTipoInstalacions" class="form-horizontal mitadDerecha">
 
-        <div id="nombreRol" class="form-group">
+        <div id="nombreTipoInstalacion" class="form-group">
             <label class="control-label col-xs-4">Nombre<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="roles.nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Administrador,Responsable de Bungalows,..."/>
+                <input ng-model="tipoInstalaciones.nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Cancha,Auditorio,..."/>
             </div>
         </div>
 
-        <div id="DescripcionRol" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
+        <div id="caracteristicasTipoInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Características</label>
             <div class="input-group col-xs-8">
-                <input ng-model="roles.descripcion" id="descripcion" type="text" class="form-control col-xs-8"  placeholder="Descripción" />
+                <input ng-model="tipoInstalaciones.caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8"  placeholder="Características" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <a href="MantenimientoRol.html" class="btn btn-primary" id="btnRegresar" style="margin-left: 50px;">Regresar</a>
+                <a href="MantenimientoTipoInstalacion.html" class="btn btn-primary" id="btnRegresar" style="margin-left: 50px;">Regresar</a>
             </div>
         </div>
     </form>
@@ -54,14 +54,14 @@
 <div id="footer"></div>
 <script type="text/javascript">
     var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
-    var idRol = ruta.substring(ruta.lastIndexOf('=') + 1);
-    console.log(idRol);
+    var idTipoInstalacion = ruta.substring(ruta.lastIndexOf('=') + 1);
+    console.log(idTipoInstalacion);
     $(".date-picker").datepicker();
     var app = angular.module('app', []);
-    app.controller('RolController', function ($scope, $http) {
-        $scope.roles=[];
-        $http.get('/api/roles/'+idRol).success(function (data) {
-            $scope.roles=data;
+    app.controller('TipoInstalacionController', function ($scope, $http) {
+        $scope.tipoInstalaciones=[];
+        $http.get('/api/tipoInstalaciones/'+idTipoInstalacion).success(function (data) {
+            $scope.tipoInstalaciones=data;
         });
     });
     $("select, input").attr("disabled", true);

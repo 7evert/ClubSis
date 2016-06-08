@@ -1,6 +1,7 @@
 package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.producto.OrdenCompra;
 import com.clubsis.model.producto.Producto;
@@ -54,11 +55,10 @@ public class Sede {
     @JsonIgnore
     private Set<Producto_Sede> productos =new HashSet<Producto_Sede>();
 
-    /*
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "sedes")
     @JsonIgnore
-    private Set<Producto> productos = new HashSet<>();
-*/
+    private Set<Usuario> usuarios;
+
     protected Sede() {
     }
 

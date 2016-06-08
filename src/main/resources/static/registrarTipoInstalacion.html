@@ -2,20 +2,20 @@
 <html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <title>Rol Edicion</title>
+    <title>Tipo Instalación Registro</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
 
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
     <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <style type="text/css">
         .obligatorio {
             color: #FF0000;
         }
     </style>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -32,86 +32,82 @@
     <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
     <script src="js/principal.js"></script>
     <script src="js/Notificaciones.js"></script>
+
 </head>
-<body ng-controller="RolController">
+<body ng-controller="TipoInstalacionController">
+<div id="headerAdministrador"></div>
 <div class="container">
-    <div id="headerAdministrador"></div>
-    <h2>Edición de Rol</h2>
+    <h2>Registro Tipo Instalación</h2>
     <hr>
-    <form id="formEdicionRol" class="form-horizontal mitadDerecha">
-        <div id="nombreRol" class="form-group">
+    <form id="formReservaTipoInstalacion" class="form-horizontal mitadDerecha">
+        <div id="nombreTipoInstalacion" class="form-group">
             <label class="control-label col-xs-4">Nombre<span class="obligatorio">*</span></label>
             <div class="input-group col-xs-8">
-                <input ng-model="roles.nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Administrador,Responsable de Bungalows,..."/>
+                <input ng-model="nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Cancha,Auditorio,..."/>
             </div>
         </div>
 
-        <div id="DescripcionRol" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
+
+        <div id="caracteristicasTipoInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Características</label>
             <div class="input-group col-xs-8">
-                <input ng-model="roles.descripcion" id="descripcion" type="text" class="form-control col-xs-8"  placeholder="Descripción" />
+                <input ng-model="caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8" placeholder="Características del tipo instalación"/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <a href="javascript:void(0)" class="btn btn-primary" id="btnGuardar">Guardar</a>
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoRol.html';">
+                <input type="" class="btn btn-primary" id="btnRegistrar" value="Registrar" style="width:22%" >
+                <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoTipoInstalacion.html';">
             </div>
         </div>
     </form>
     <!--
     <div id="detallesBungalows" class="mitadDerecha">
         <div id="BungTipo2" class="show">
-            <img class="imgInstalacion" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="/img/Instalaciones/campoFutbolSintectico.jpg">
+            <img class="imgBungalow" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="img/Bungalows/draganddrop.jpg">
         </div>
         <div></div>
     </div>
     -->
+
 </div>
 <div id="footer"></div>
+
 <script type="text/javascript">
     $(".date-picker").datepicker();
-    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
-    var idRol = ruta.substring(ruta.lastIndexOf('=') + 1);
-
     var app = angular.module('app', []);
-    app.controller('RolController', function ($scope, $http) {
-        $scope.roles=[];
+    app.controller('TipoInstalacionController', function ($scope, $http) {
 
-        $http.get('/api/roles/'+idRol).success(function (data) {
-            $scope.roles=data;
-        });
+        $("#btnRegistrar").click(function () {
 
+            var data = {
+                'nombre': $scope.nombre,
+                'caracteristicas': $scope.caracteristicas,
+                'esActivo':true,
+            };
 
-        $("#btnGuardar").click(function () {
-                var data = {
-                    'id':idRol,
-                    'nombre': $scope.roles.nombre,
-                    'descripcion': $scope.roles.descripcion,
-                    'esActivo': $scope.roles.esActivo,
-                };
             console.log(data);
-            if(validarDatos()) {
-                $http.put('/api/roles/' + idRol, data).success(function (data) {
+            if(validarDatos()){
+                $http.post('/api/tipoInstalaciones', data).success(function (data) {
 
                     Notificaciones.showProcesando();
                     Notificaciones.hideAll();
-                    window.location = "mantenimientoRol.html";
+                    window.location = "mantenimientoTipoInstalacion.html";
 
                 })
                         .error(function (data) {
-                            Notificaciones.showError("Error al crear el rol.");
+                            Notificaciones.showError("Error al crear el tipo de instalación.");
                             console.log("fallo");
                         });
             }
-            });
-
+        });
     });
+
 
 
     function validarDatos() {
         var nombre = $("#nombre").val();
-        var descripcion = $("#descripcion").val();
+
 
         if (!nombre) {
             Notificaciones.showError('Nombre requerido');
@@ -125,7 +121,6 @@
     $("#nombre").click(function () {
         $("#nombre").css("border-color", "#ccc");
     });
-
 
 
 

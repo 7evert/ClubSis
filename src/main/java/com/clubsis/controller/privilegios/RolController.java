@@ -14,27 +14,19 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("api/roles")
+@RequestMapping("/api/roles")
 public class RolController {
     @Autowired
-    ServicioRol servicioRol;
-
-
+    private ServicioRol servicioRol;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Rol get(@PathVariable Integer id){
         return servicioRol.buscarRol(id);
     }
 
-
     @RequestMapping(method = RequestMethod.POST)
     public Rol create(@RequestBody Rol rol) {
-
-        //validating that there is no duplicate course
-        //if(servicioRol.buscarRol(rol.getIdRol()) == null)
-             return servicioRol.crearRol(rol);
-       // else
-       //     return null;
+        return servicioRol.crearRol(rol);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
@@ -42,39 +34,4 @@ public class RolController {
         return servicioRol.actualizarRol(id, rol);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Rol> list() {
-        return servicioRol.mostrarRols();
-    }
-
-    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
-    public Integer eliminarRol(Model model, @RequestParam(value = "id") Integer idRol) {
-        Rol rol = servicioRol.buscarRol(idRol);
-        rol.setEsActivo(false);
-        servicioRol.actualizarRol(idRol,rol);
-        return 1;
-    }
-
-    @RequestMapping(value = "/crearPerm/{rolId}", method = RequestMethod.POST)
-    public Permiso createPermision(@PathVariable Integer rolId, @RequestBody Permiso permiso){
-        permiso.setRol(servicioRol.buscarRol(rolId));
-        return servicioRol.creaerPermisio(permiso);
-    }
-
-    @RequestMapping(value = "/getPerm/{permId}", method = RequestMethod.GET)
-    public Permiso getPermisionByID(@PathVariable Integer permId){
-        return servicioRol.buscarPermisio(permId);
-    }
-
-
-        @RequestMapping(value = "/updatePerm/{id}", method = RequestMethod.PUT)
-    public Permiso update(@PathVariable Integer id, @RequestBody Permiso permiso){
-        return servicioRol.actualizarPermisio(id,permiso);
-    }
-
-    //Getting all Permissions of a Role by Rol ID
-    @RequestMapping(value = "/getPerm/{rolId}", method = RequestMethod.GET)
-    public List<Permiso> permisionList(@PathVariable Integer rolId) {
-        return servicioRol.mostarPermisio(servicioRol.buscarRol(rolId));
-    }
 }

@@ -1,6 +1,7 @@
 package com.clubsis.model.privilegio;
 
 import com.clubsis.model.club.Club;
+import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,21 +19,13 @@ public class Rol {
     private String descripcion;
     private Boolean esActivo;
 
-    @ManyToOne
-    private Club club;
+    @OneToMany(mappedBy ="rol")
+    private Set<Usuario> usuarios;
 
-    @OneToMany(fetch= FetchType.EAGER, mappedBy= "rol")
-    @JsonIgnore
+    @ManyToMany
     private Set<Permiso> permisos;
 
     protected Rol() {
-    }
-
-    public Rol(Integer id,String nombre,Boolean esActivo, String descripcion) {
-        this.id = id;
-        this.nombre=nombre;
-        this.descripcion = descripcion;
-        this.esActivo=esActivo;
     }
 
     public Integer getId() {
@@ -43,22 +36,6 @@ public class Rol {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Set<Permiso> getPermisos() {
-        return permisos;
-    }
-
-    public void setPermisos(Set<Permiso> permisos) {
-        this.permisos = permisos;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -67,11 +44,35 @@ public class Rol {
         this.nombre = nombre;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Boolean getEsActivo() {
         return esActivo;
     }
 
     public void setEsActivo(Boolean esActivo) {
         this.esActivo = esActivo;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Set<Permiso> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(Set<Permiso> permisos) {
+        this.permisos = permisos;
     }
 }

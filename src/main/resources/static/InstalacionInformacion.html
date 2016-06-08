@@ -48,6 +48,14 @@
                 <input ng-model="instalaciones.tipo.nombre" id="tipo" type="text" class="form-control col-xs-8"/>
             </div>
         </div>
+
+        <div id="escogerEstadoInstalacions" class="form-group">
+            <label class="control-label col-xs-4">Estado</label>
+            <div class="input-group col-xs-8">
+                <input ng-model="instalaciones.estado" id="estado" type="text" class="form-control col-xs-8"/>
+            </div>
+        </div>
+
         <div id="precioInstalacion" class="form-group">
             <label class="control-label col-xs-4">Precio Reserva</label>
             <div class="input-group col-xs-8">
@@ -90,9 +98,6 @@
         $scope.instalaciones=[];
         $http.get('/api/instalaciones/'+idInstalacion).success(function (data) {
             $scope.instalaciones=data;
-            //0:Deshabilitada 1:Habilitada 2:Eliminado
-            $scope.instalaciones.estado=($scope.instalaciones.estado==0)?"Deshabilitada":"Habilitada";
-            console.log(data);
         });
     });
     $("select, input").attr("disabled", true);
