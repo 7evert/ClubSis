@@ -49,7 +49,7 @@
 
             if(!nombre){
                 Notificaciones.showError('Nombre de multa requerido');
-                $("#nombreProv").css("border-color", "red");
+                $("#nombre").css("border-color", "red");
                 return true;
             }
             else if(!descripcion){
@@ -67,15 +67,7 @@
             }
             return false;
         }
-        $("#nombre").click(function () {
-            $("#nombre").css("border-color", "#ccc");
-        });
-        $("#descripcion").click(function () {
-            $("#descripcion").css("border-color", "#ccc");
-        });
-        $("#monto").click(function () {
-            $("#monto").css("border-color", "#ccc");
-        });
+
         </script>
     <script type="text/javascript">
         var appMultas = angular.module('appMultas', []);
@@ -104,7 +96,15 @@
                             Notificaciones.showError("No se pudo registrar la multa.");
                         });
             };
-
+            $("#nombre").click(function () {
+                $("#nombre").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+            $("#monto").click(function () {
+                $("#monto").css("border-color", "#ccc");
+            });
         });
     </script>
 </head>
