@@ -101,6 +101,40 @@
                     pager: "#jqGridPager"
                 });
             })
+            $scope.estado = {};
+
+            $scope.estado.valores = [
+                {'name': 'TODOS', 'value': 'TODOS'},
+                {'name': 'REGISTRADA', 'value': 'REGISTRADA'},
+                {'name': 'VENCIDA', 'value': 'VENCIDA'},
+                {'name': 'PAGADA', 'value': 'PAGADA'},
+                {'name': 'ANULADA', 'value': 'ANULADA'}
+            ];
+            $scope.estado.valor = $scope.estado.valores[0].value;
+            $("#btnBuscar").click(function (){
+                $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+                    datosUrl=respuesta.data;
+                });
+
+                var datosFiltr,codigoFilt,estadoFilt;
+                codigoFilt=$scope.ngCodigo;
+                if(codigoFilt){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.socio.codigoCarnet == codigoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                estadoFilt=$scope.estado.valor;
+                if(estadoFilt!="TODOS"){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.estadoCuotaExtraordinaria == estadoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                $('#jqGrid').jqGrid('clearGridData');
+                $('#jqGrid').setGridParam({data:datosUrl});
+                $('#jqGrid').trigger( 'reloadGrid' );
+            });
         });
     </script>
 
@@ -126,11 +160,8 @@
                 <div class="form-group">
                     <label for="estado" class="col-md-4 control-label">Estado del Pago</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="estado">
-                            <option>REGISTRADO</option>
-                            <option>VENCIDO</option>
-                            <option>PAGADO</option>
-                            <option>ANULADO</option>
+                        <select id="estado" class="form-control" ng-model="estado.valor"
+                                ng-options="template.value as template.name for template in estado.valores">
                         </select>
                     </div>
                 </div>
