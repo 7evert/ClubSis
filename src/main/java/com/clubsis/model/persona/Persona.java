@@ -29,6 +29,8 @@ public class Persona {
     private String direccion;
     private String correo;
     private Integer dni;
+    private TipoDocumento tipoDoc;
+    private String numDoc;
     private String telefono;
     private Boolean esTitular;
 
@@ -65,6 +67,22 @@ public class Persona {
         this.registroClases = registroClases;
     }
 
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, TipoDocumento tipoDoc, String numDoc, String telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.correo = correo;
+        this.tipoDoc = tipoDoc;
+        this.numDoc = numDoc;
+        this.telefono = telefono;
+        this.esTitular = esTitular;
+        this.personaEventos = personaEventos;
+        this.socio = socio;
+        this.usuario = usuario;
+        this.registroClases = registroClases;
+    }
     public Integer getId() {
         return id;
     }
@@ -175,5 +193,21 @@ public class Persona {
 
     public void setRegistroClases(Set<RegistroClase> registroClases) {
         this.registroClases = registroClases;
+    }
+
+    public TipoDocumento getTipoDoc() {
+        return tipoDoc;
+    }
+
+    public void setTipoDoc(TipoDocumento tipoDoc) {
+        this.tipoDoc = tipoDoc;
+    }
+
+    public String getNumDoc() {
+        return numDoc;
+    }
+
+    public void setNumDoc(String numDoc) {
+        this.numDoc = numDoc;
     }
 }

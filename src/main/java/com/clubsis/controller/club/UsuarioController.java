@@ -35,13 +35,13 @@ public class UsuarioController {
     @RequestMapping(method = RequestMethod.POST)
     public void crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
-        usuario.setDni(usuarioDTO.getDni());
         usuario.setContraseña(usuarioDTO.getContraseña());
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
         usuario.setEsActivo(usuarioDTO.getEsActivo());
-
+        //usuario.setRol(usuarioDTO.getRol());
         Persona persona = new Persona();
-        persona.setDni(usuarioDTO.getDni());
+        persona.setTipoDoc(usuarioDTO.getTipoDoc());
+        persona.setNumDoc(usuarioDTO.getNumDoc());
         persona.setApellidoMaterno(usuarioDTO.getApellidoMaterno());
         persona.setApellidoPaterno(usuarioDTO.getApellidoPaterno());
         persona.setCorreo(usuarioDTO.getCorreo());
