@@ -1,7 +1,8 @@
 package com.clubsis.model.club;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.clubsis.model.persona.TipoDocumento;
+import com.clubsis.model.privilegio.Rol;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
 public class UsuarioDTO {
     private String nombreUsuario;
     private String contraseña;
-    private Integer dni;
+    private Rol rol;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -20,7 +21,8 @@ public class UsuarioDTO {
     private String correo;
     private String telefono;
     private Boolean esTitular;
-
+    private TipoDocumento tipoDoc;
+    private String numDoc;
     private Boolean esActivo;
 
     public Boolean getEsActivo() {
@@ -39,13 +41,6 @@ public class UsuarioDTO {
         this.contraseña = contraseña;
     }
 
-    public Integer getDni() {
-        return dni;
-    }
-
-    public void setDni(Integer dni) {
-        this.dni = dni;
-    }
 
     public String getNombre() {
         return nombre;
@@ -117,5 +112,29 @@ public class UsuarioDTO {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public TipoDocumento getTipoDoc() {
+        return tipoDoc;
+    }
+
+    public void setTipoDoc(TipoDocumento tipoDoc) {
+        this.tipoDoc = tipoDoc;
+    }
+
+    public String getNumDoc() {
+        return numDoc;
+    }
+
+    public void setNumDoc(String numDoc) {
+        this.numDoc = numDoc;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 }

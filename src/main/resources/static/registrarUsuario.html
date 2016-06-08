@@ -102,10 +102,22 @@
             </div>
 
             <div class="form-group">
-                <label  class="col-xs-4 control-label">DNI<span class="obligatorio">*</span></label>
+                <label  class="col-xs-4 control-label">Tipo de documento<span class="obligatorio">*</span></label>
                 <div class="col-xs-8">
-                    <input type="text" class="form-control" ng-model="dni" id="dni"
-                               placeholder="Numero de DNI" maxlength="8">
+                    <select ng-model="tipoDoc" id="tipoDoc" class="form-control col-xs-8">
+                        <option value="-1" selected>Elegir</option>
+                        <option value="DNI">DNI</option>
+                        <option value="PASAPORTE">Pasaporte</option>
+                        <option value="CARNET">Carnet</option>
+                        </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label  class="col-xs-4 control-label">Número de documento<span class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="numDoc" id="numDoc"
+                               placeholder="Numero de Documento" maxlength="8">
                 </div>
             </div>
 
@@ -229,7 +241,8 @@
                 'nombre': $scope.nombre,
                 'apellidoPaterno': $scope.apellidoPaterno,
                 'apellidoMaterno': $scope.apellidoMaterno,
-                'dni': parseInt($scope.dni),
+                'tipoDoc': $scope.tipoDoc,
+                'numDoc': $scope.numDoc,
                 'fechaNacimiento': Date.parse(fechaConvertida),
                 'direccion': $scope.direccion,
                 'telefono': parseInt($scope.telefono),
@@ -271,7 +284,8 @@
         var nombre= $("#nombre").val();
         var apellidoPaterno= $("#apellidoPaterno").val();
         var apellidoMaterno= $("#apellidoMaterno").val();
-        var dni= $("#dni").val();
+        var tipoDoc= $("#tipoDoc").val();
+        var numDoc= $("#numDoc").val();
         var fechaNacimiento= $("#fechaNacimiento").val();
         console.log("validacion"+fechaNacimiento);
         if (!nombreUsuario) {
@@ -310,9 +324,13 @@
             Notificaciones.showError('Apellido materno requerido');
             $("#apellidoMaterno").css("border-color", "red");
             return false;
-        }else if (!dni) {
-            Notificaciones.showError('DNI requerido');
-            $("#dni").css("border-color", "red");
+        }else if (tipoDoc==-1) {
+            Notificaciones.showError('Tipo de documento requerido');
+            $("#tipoDoc").css("border-color", "red");
+            return false;
+        }else if (!numDoc) {
+            Notificaciones.showError('Número de documento requerido');
+            $("#numDoc").css("border-color", "red");
             return false;
         }else if (!fechaNacimiento) {
             Notificaciones.showError('Fecha de nacimiento requerida');
@@ -343,8 +361,11 @@
    $("#apellidoMaterno").click(function () {
        $("#apellidoMaterno").css("border-color", "#ccc");
    });
-   $("#dni").click(function () {
-       $("#dni").css("border-color", "#ccc");
+   $("#tipoDoc").click(function () {
+       $("#tipoDoc").css("border-color", "#ccc");
+   });
+   $("#numDoc").click(function () {
+       $("#numDoc").css("border-color", "#ccc");
    });
    $("#fechaNacimiento").click(function () {
        $("#fechaNacimiento").css("border-color", "#ccc");

@@ -27,6 +27,14 @@ public class Rol {
 
     protected Rol() {
     }
+    public Rol(String nombre,String descripcion, Boolean esActivo, Set<Usuario> usuarios,Set<Permiso> permisos){
+        this.nombre=nombre;
+        this.descripcion=descripcion;
+        this.esActivo=esActivo;
+        this.usuarios=usuarios;
+        this.permisos=permisos;
+    }
+
 
     public Integer getId() {
         return id;
