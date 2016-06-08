@@ -170,9 +170,8 @@
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Postulante|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar
-            Postulante
-            |
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Postulante|
+            <span class="icono-reprogramar"><img src="img/Iconos/opinion.png" class="icono"></span> Registrar Opinión|
             <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Postulante
         </div>
     </form>
@@ -198,6 +197,7 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     ////    Aun no se usa pero luego ya puede ser usada para el filtrado el angular module con sus funciones
+    var funciones={};
     var app = angular.module('appMantenimientoPostulante', []);
     app.controller('MantenimientoPostulanteController', function ($scope, $http) {
         $scope.postulantes = [];
@@ -212,6 +212,11 @@
             $http.get('/api/postulantes/' + idPostulante).success(function (data) {
                 $scope.postulantes = data;
             });
+        }
+        funciones.getIDSocio=function () {
+            var href = window.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
         }
     });
 
@@ -240,7 +245,7 @@
             {index: 'profesion', name: 'profesion', align: 'center', width: 70},
             {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 90},
             {index: 'esActivo', name: 'esActivo', align: 'center', width: 70},
-            {index: 'acciones', name: 'acciones', width: 80, align: 'center', formatter: acciones},
+            {index: 'acciones', name: 'acciones', width: 120, align: 'center', formatter: acciones},
 //            {index: 'eliminados', name: 'eliminados', width: 20, align: 'center', formatter: eliminados}
         ],
         colNames: [
@@ -382,6 +387,10 @@
                 var idPostulante = $(this).attr('data-idPostulante-modificar');
                 window.location = 'editarPostulante.html?id=' + idPostulante;
             });
+            $('.icono-opinion').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-Opinion');
+                window.location = 'registrarOpinionPostulante.html?idPostulante=' + idPostulante + '&idSocio=' + funciones.getIDSocio();
+            });
         }
     });
 
@@ -390,6 +399,7 @@
         var acciones = '';
         acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idPostulante-ver="' + rowdata['id'] + '" title="Ver Postulante"><img src="img/Iconos/ver.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-opinion" data-idPostulante-Opinion="' + rowdata['id'] + '" title="Registrar Opinion"><img src="img/Iconos/opinion.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }

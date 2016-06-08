@@ -63,25 +63,26 @@
         var idSocio,idPostulante;
         app3.controller('OpinionPostulante', function ($scope, $http) {
             var ids=getIDPostulanteySocio();
-            idSocio= ids ? ids[0] : ids;
-            idPostulante = ids ? ids[1] : ids;
+            idSocio= ids ? ids[1] : ids;
+            idPostulante = ids ? ids[0] : ids;
             if(!idSocio || !idPostulante){
                 Notificaciones.showError("No se encuentra ni socio ni postulante");
             }
+            console.log('/api/postulantes/' + idPostulante);
             $http.get('/api/postulantes/' + idPostulante).success(function (data) {
                 llenarDatosPostulante(data);
             });
             $scope.enviarOpinion = function () {
                 if(!verificarDatos())return;
                 var data = {
-                    "idSocio": idSocio,
-                    "idPostulante": idPostulante,
-                    "opinion":$("#comentario").val()
+                    "observaciones":$("#comentario").val()
                 };
                 console.log("here-> "+ JSON.stringify(data));
-                $http.post('/api/opinion', data).success(function (data2) {
+                console.log('/api/sociopostulantes/'+idSocio+'/'+idPostulante+'/crear');
+                $http.post('/api/sociopostulantes/'+idSocio+'/'+idPostulante+'/crear', data).success(function (data2) {
                     console.log(JSON.stringify(data2));
                     Notificaciones.showNoty("Su registro fue exitoso");
+                    location.href="mantenimientoPostulante.html?id="+idSocio;
                 }).error(function (data2) {
                     console.log(JSON.stringify(data2));
                     Notificaciones.showError("No se pudo registrar tu Opinión.");
