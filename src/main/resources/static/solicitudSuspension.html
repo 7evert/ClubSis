@@ -59,23 +59,29 @@
     </style>
     <script type="text/javascript">
         function verificarDatos(){
-            var mensajes=["La fecha de Inicio debe ser despues de hoy",
-                "Le fecha de Fin no es válida"
-            ]
             var ver=[];
-            ver[0]=Date.parse($("#date-picker-TiempoInicio")[0].value)>=Date.parse( Date());
 
-            if(isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==true){
-                ver[1]=true;
+            var fechainicio= $("#date-picker-TiempoInicio").val();
+            if(!fechainicio){
+                Notificaciones.showError("Le fecha de Inicio no es válida");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
             }
-            else{
-                ver[1]=Date.parse($("#date-picker-TiempoFin")[0].value)>=Date.parse($("#date-picker-TiempoInicio")[0].value);
+            var today= new Date().getTime();
+            fechainicio = fechainicio.split("/");
+            fechainicio = new Date(fechainicio[2], fechainicio[1] - 1, fechainicio[0]).getTime();
+            if((today - fechainicio) > 0){
+                Notificaciones.showError("La fecha de Inicio debe ser futura");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
             }
-            ver[2]=true;
-            for(var i=0;i<ver.length;i++)
-                if(ver[i]==false) {
-                    Notificaciones.showError(mensajes[i]);
-                    //alert(mensajes[i]);
+            var fechafin=$("#date-picker-TiempoFin").val();
+            if(fechafin)
+                fechafin = fechafin.split("/");
+                fechafin = new Date(fechafin[2], fechafin[1] - 1, fechafin[0]).getTime();
+                if((fechainicio - fechafin) > 0){
+                    Notificaciones.showError("Le fecha de Fin no es válida");
+                    $("#date-picker-TiempoFin").css("border-color", "red");
                     return false;
                 }
             return true;
@@ -90,32 +96,48 @@
                 persona=respuesta.data;
                 $scope.ngSocio=persona.nombre+" "+persona.apellidoPaterno;
             });
-
-            $scope.enviarSolicitud =function (){
+            $("#btnsolicitud").click(function (){
                 if(!verificarDatos())return;
-                var data = {
+                var fechaInicioConvertida="",fechaFinConvertida="";
+                if($("#date-picker-TiempoInicio").val() != "") {
+                    var fecha = $("#date-picker-TiempoInicio").val();
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    fechaInicioConvertida = mes + '/' + dia + '/' + anho;
+                }
+                if($("#date-picker-TiempoFin").val() != "") {
+                    var fecha = $("#date-picker-TiempoFin").val();
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    fechaFinConvertida = mes + '/' + dia + '/' + anho;
+                }
+                    var data = {
                         //por preguntar
-                    "estado": 0,
-                    "fechaSolicitud": "",
-                    "fechaRespuesta": "",
-                    "fechaAnulacion": "",
-                    "fechaInicio": Date.parse($("#date-picker-TiempoInicio")[0].value),
-                    "fechaFin": Date.parse($("#date-picker-TiempoFin")[0].value),
-                    "motivoSuspension": $scope.motivo,
-                    "socio": socioResp
-                };
+                        "estado": 0,
+                        "fechaSolicitud": "",
+                        "fechaRespuesta": "",
+                        "fechaAnulacion": "",
+                        "fechaInicio": Date.parse(fechaInicioConvertida),
+                        "fechaFin": Date.parse(fechaFinConvertida),
+                        "motivoSuspension": $scope.motivo,
+                        "socio": socioResp
+                    };
                     $http.post('/api/suspensiones', data).success(function (data2) {
                                 Notificaciones.showNoty("Se registro exitosamente su solicitud de suspensión", Notificaciones.type.SUCCESS);
 
-                                setTimeout(function () {
-                                    location.href = "solicitudSuspension.html"
-                                }, 1200);
+                                //setTimeout(function () {
+                                //  location.href = "solicitudSuspension.html"
+                                //}, 1200);
                             })
                             .error(function (data2) {
                                 Notificaciones.showError("Tu registro de suspension no se pudo realizar.");
                                 console.log("fallo");
                             });
-            };
+            });
             $("#motivo").click(function () {
                 $("#motivo").css("border-color", "#ccc");
             });
@@ -178,7 +200,7 @@
         </div>
         <div class="col-xs-7">
             <div class="form-group" style="margin-left: 140px;">
-                <button ng-click="enviarSolicitud()" class="btn btn-primary">Enviar Solicitud</button>
+                <a id="btnsolicitud" class="btn btn-primary">Enviar Solicitud</a>
                 <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
             </div>
         </div>
