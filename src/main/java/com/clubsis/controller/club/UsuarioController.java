@@ -41,7 +41,6 @@ public class UsuarioController {
         usuario.setEsActivo(usuarioDTO.getEsActivo());
 
         Persona persona = new Persona();
-        persona.setDni(usuarioDTO.getDni());
         persona.setApellidoMaterno(usuarioDTO.getApellidoMaterno());
         persona.setApellidoPaterno(usuarioDTO.getApellidoPaterno());
         persona.setCorreo(usuarioDTO.getCorreo());
