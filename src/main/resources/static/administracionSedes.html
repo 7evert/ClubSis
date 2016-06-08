@@ -124,8 +124,14 @@
                 $http.get('/api/sedes/').success(function (data) {
                     for (var i = 0; i < data.length; i++)
                         if (data[i].id == idSede) {
+                            funciones.idSedeVer=idSede;
                             console.log("SedeObtenida: " + data[i]);
-                            //mostrarSede(data[i]);
+                            llenarDatosEnLabels(data[i]);
+                            $("select.form-control, input.form-control").attr("disabled", true);
+                            $("#registrar").addClass("hidden");
+                            $("#limpiar").addClass("hidden");
+                            $("#modificar").addClass("hidden");
+                            $("#cancelar").removeClass("hidden");
                             break;
                         }
                 });
@@ -137,6 +143,7 @@
                         if (data[i].id == idSede) {
                             console.log("sedeObtuvida: " + data[i]);
                             $("#titulo").html("Modificacion de Sede");
+                            $("select.form-control, input.form-control").attr("disabled", false);
                             $("#registrar").addClass("hidden");
                             $("#limpiar").addClass("hidden");
                             $("#modificar").removeClass("hidden");
@@ -188,9 +195,11 @@
                 }
             });
             $("#cancelar").click(function () {
-                if (funciones.idSedeAModificar) {
+                if (funciones.idSedeAModificar || funciones.idSedeVer) {
                     funciones.idSedeAModificar = undefined;
+                    funciones.idSedeVer=undefined;
                     $("#titulo").html("REGISTRO SEDES");
+                    $("select.form-control, input.form-control").attr("disabled", false);
                     $("#registrar").removeClass("hidden");
                     $("#limpiar").removeClass("hidden");
                     $("#modificar").addClass("hidden");
@@ -310,6 +319,7 @@
             });
 
             $("#limpiar").click(function () {
+                $("select.form-control, input.form-control").attr("disabled", false);
                 limpiar();
             });
         });
@@ -327,7 +337,7 @@
                 <div class="form-group">
                     <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Descripción de Sede">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre de Sede">
                     </div>
                 </div>
             </div>

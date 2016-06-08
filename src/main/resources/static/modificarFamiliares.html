@@ -75,8 +75,8 @@
         function llenarCampos(data, titular,familiar) {
             $("#socio").val(data.codigoCarnet);
             $("#titular").val(titular?titular.nombre + " " + titular.apellidoPaterno:"");
-            $("#tipoDocumento").val(familiar.tipoDocumento);//$("#tipoDocumento").val(data.tipoDocumento);
-            $("#numeroDocumento").val(familiar.numeroDocumento);
+            $("#tipoDocumento").val(familiar.tipoDoc);//$("#tipoDocumento").val(data.tipoDocumento);
+            $("#numeroDocumento").val(familiar.numDoc);
             $("#nombre").val(familiar.nombre);
             $("#apellidoPaterno").val(familiar.apellidoPaterno);
             $("#apellidoMaterno").val(familiar.apellidoMaterno);
@@ -153,8 +153,8 @@
                 if(!verificarDatos())return;
                 var persona = {
                     "id":idFamiliar,
-                    "tipoDocumento": $("#tipoDocumento").val(),
-                    "numeroDocumento": parseInt($("#numeroDocumento").val()),
+                    "tipoDoc": $("#tipoDocumento").val(),
+                    "numDoc": parseInt($("#numeroDocumento").val()),
                     "nombre": $("#nombre").val(),
                     "apellidoPaterno": $("#apellidoPaterno").val(),
                     "apellidoMaterno": $("#apellidoMaterno").val(),
