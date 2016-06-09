@@ -328,14 +328,14 @@
                     'esPeriodoObjeciones': 0, //Estos datos los llena el back por dentro (Gerson)
                     'socios': null, //Estos datos los llena el back por dentro (Gerson)
                 };
-                console.log(data);
+                console.log(JSON.stringify(data));
                 //Falta las validaciones (LOO)
                 if (!validarDatos()) {
                     $http.post('/api/postulantes', data).success(function (data) {
                         Notificaciones.hideAll();
                         Notificaciones.showProcesando();
                         setTimeout(function () {
-                            location.href = "mantenimientoPostulante.html"
+                            ;//location.href = "mantenimientoPostulante.html"
                         }, 1000);
                     })
                             .error(function (data) {
