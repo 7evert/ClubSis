@@ -349,7 +349,10 @@
             });
 
             funciones.terminar=function() {
-                $http.post('/api/eventos/'+idsocio+'/'+idevento+'/costo').success(function (data) {location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;});
+                $http.post('/api/eventos/'+idsocio+'/'+idevento+'/costo').success(function (data) {
+                    /*location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;*/
+                    console.log(JSON.stringify(data));
+                });
                 //location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
             }
         });
