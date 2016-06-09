@@ -386,7 +386,8 @@
             <span>Leyenda: </span>
             <span class="icono-reprogramar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Horarios De La Clase|
             <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar|
+            <span class="icono-resultados"><img src="img/Iconos/añadir.png" class="icono"></span> Añadir Horario
         </div>
         <br>
 
@@ -533,7 +534,7 @@
         acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
                 '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Clase"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
-        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
+        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/añadir.png" class="icono"></a>';
         return acciones;
     }
     function acciones2(cellValue, options, rowdata, action) {
