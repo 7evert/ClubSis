@@ -94,24 +94,14 @@
     <script type="text/javascript">
         var idCiclo;
         var idAcademia;
+        var preciomes, preciociclo;
 
         function llenarDatosTaller(data2) {
-            $("#dia").val(data2.dia);
-            $("#horaInicio").val(data2.horaInicio);
-            $("#horaFin").val(data2.horaFin);
-            $("#estadoHorario").val(data2.estadoHorario);
-            $("#instalacion").val(data2.instalacion["id"]);
+            $("#codigoclase").val(data2.id);
+            $("#nombreacademia").val(data2.academia["nombre"]);
+            $("#costo").val(data2.precioMes);
 
-            /*
-             for(var i = 0; i < data2.length; i++){
-             $("#nivel").val(data2[i].nivel);
-             $("#rangoEdad").val(data2[i].rangoEdad);
-             $("#precioMes").val(data2[i].precioMes);
-             $("#precioCiclo").val(data2[i].precioCiclo);
-             $("#capacidad").val(data2[i].capacidad);
-             $("#profesor").val(data2[i].profesor);
-             $("#estadoProveedor").val(data2.estadoProveedor+0);}
-             */
+
         }
         function getDatosTaller(id, ciclo) {
             return {
@@ -136,11 +126,13 @@
             idAcad = ids ? ids[2] : ids;
 
             console.log(id);
+            console.log(idClac);
             if (id == undefined) {
-                location.href = "VerTaller.html"
+                //location.href = "VerTaller.html"
             }
-            $http.get('/api/horarios/' + id).success(function (data2, status) {
+            $http.get('/api/clases/' + idClac).success(function (data2, status) {
                 llenarDatosTaller(data2);
+
 
             });
 
@@ -219,78 +211,77 @@
     </script>
 </head>
 <body ng-controller="edicionTallerController">
-<div id="headerAdministrador"></div>
+<div id="headerUsuario"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h4>DATOS DEL SOCIO</h4>
-    <form id="formDatosSocio" class="form-horizontal mitadDerecha">
-        <div id="idSocio" class="form-group">
-            <label class="control-label col-xs-4">ID Socio<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="idsoc" type="text" class="form-control col-xs-8" maxlength="10" placeholder="Escriba el id..." required/>
+    <h4>BUSQUEDA DE PERSONA A INSCRIBIR</h4>
+    <form id="formDatosSocio" class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="codigoper" class="col-md-4 control-label">Código<span class="obligatorio"> *</span></label>
+                    <div class="col-md-8">
+                        <input type="text" id="codigoper" class="form-control col-xs-8" ng-model="nombre" placeholder="Escriba el código..." required/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="nombreSocio" class="form-group">
-            <label class="control-label col-xs-4">Nombre<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="nombreSoc" type="text" class="form-control col-xs-8" maxlength="50" ng-model="ruc" placeholder="Escriba su nombre..."required/>
+
+            <div class="col-sm-7 col-lg-7">
             </div>
-        </div>
-
-        <div id="DniSoc" class="form-group">
-            <label class="control-label col-xs-4">DNI<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="dni" type="text" class="form-control col-xs-8" maxlength="8" placeholder="Ingrese el dni..." required/>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" class="btn btn-primary" id="guardar">Buscar</a>
+                </div>
             </div>
-        </div>
 
-
-
-
-
-    <h2>Datos del taller</h2>
-    <hr>
-
-        <div id="HorarioDia" class="form-group">
-            <label class="control-label col-xs-4">Academia<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="dia" type="text" class="form-control col-xs-8" maxlength="10" placeholder="Academia" required/>
-            </div>
-        </div>
-        <div id="HoraInicioHorario" class="form-group">
-            <label class="control-label col-xs-4">Nivel<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="horaInicio" type="text" class="form-control col-xs-8" maxlength="7" ng-model="ruc" placeholder="Nivel"required/>
-            </div>
-        </div>
-        <div id="HoraFinHorario" class="form-group">
-            <label class="control-label col-xs-4">Precio<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="horaFin" type="text" class="form-control col-xs-8" maxlength="7" placeholder="Preoo" required/>
-            </div>
-        </div>
-        <div id="InstalacionHorario" class="form-group">
-            <label class="control-label col-xs-4">Profesor<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="instalacion" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Acá irá el profesor" required/>
-            </div>
         </div>
 
-        <div class="form-group">
-            <label for="estadoHorario" class="col-md-4 control-label">Pago<span class="obligatorio"> *</span></label>
-            <div class="col-md-8">
-                <select class="form-control" id="estadoHorario"  required>
-                    <option>Mes</option>
-                    <option>Ciclo</option>
-                </select>
+        <h4>RESULTADOS DE LA PERSONA</h4>
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombreper" class="col-md-4 control-label">Nombre<span class="obligatorio"> *</span></label>
+                    <div class="col-md-8">
+                        <input type="text" id="nombreper" class="form-control col-xs-8" readonly ng-model="nombre" placeholder="Escriba el código..." required/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
-                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%" >
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="dniper" class="col-md-4 control-label">DNI<span class="obligatorio"> *</span></label>
+                    <div class="col-md-8">
+                        <input type="text" id="dniper" class="form-control col-xs-8" readonly ng-model="nombre" placeholder="Escriba el código..." required/>
+                    </div>
+                </div>
+            </div></div>
+        <h4>DATOS DEL TALLER A INSCRIBIRSE</h4>
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="codigoclase" class="col-md-4 control-label">Codigo Clase</label>
+                    <div class="col-md-8">
+                        <input id="codigoclase" type="text" class="form-control col-xs-8" maxlength="10" placeholder="Academia" required/>
+                    </div>
+                </div>
             </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombreacademia" class="col-md-4 control-label">Nombre Academia</label>
+                    <div class="col-md-8">
+                        <input id="nombreacademia" type="text" class="form-control col-xs-8" maxlength="10" placeholder="Academia" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="costo" class="col-md-4 control-label">Total Pago</label>
+                    <div class="col-md-8">
+                        <input id="costo" type="text" class="form-control col-xs-8" maxlength="4" placeholder="Monto a pagar" required/>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </form>
     <!--------------------------------------------------------------------------------------------------------

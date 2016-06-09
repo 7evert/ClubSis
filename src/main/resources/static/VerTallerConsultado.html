@@ -218,14 +218,14 @@
 
     function edicionHorario(idAcademia, idclase){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "inscribirTaller.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+        location.href = "inscribirTaller.html?id=" + id + "&idClase=" + id + "&idAcademia=" +idAcademia;
 
 
     }
 
     function añadirHorario(idAcademia, idclase){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "añadirHorarioClase.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+        location.href = "añadirHorarioClase.html?id=" + id + "&idClase=" + id + "&idAcademia=" +idAcademia;
 
 
     }
