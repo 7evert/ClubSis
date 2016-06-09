@@ -143,7 +143,7 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
-            var estados = [{v: "CREADO"}, {v: "ESPERA"}, {v: "ENMARCHA"}, {v: "FINALIZADO"}, {v: "INHABILITADO"}];
+            var estados = [{v: "CREADO"}, {v: "ESPERA"}/*, {v: "ENMARCHA"}, {v: "FINALIZADO"}, {v: "INHABILITADO"}*/];
             var estadosElem = $("#estado");
             for (var i = 0; i < estados.length; i++)
                 estadosElem.append($("<option></option>").attr({value: estados[i].v}).html(estados[i].n || estados[i].v));

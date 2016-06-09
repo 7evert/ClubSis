@@ -235,6 +235,12 @@
                     Notificaciones.showError("Evento No Disponible");
                     location.href = "MantenimientoEventos.html";
                 }
+                if(dataevento.estado=="INHABILITADO"){
+                    $("#Participar").addClass("hidden");
+                    $("#Confirmar").addClass("hidden");
+                    Notificaciones.showError("El evento está Inhabilitado");
+                    location.href="EventInformacion.html?id="+getID();
+                }
                 mostraridEvento(dataevento.id);
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
@@ -243,10 +249,6 @@
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
-                if(dataevento.estado=="INHABILITADO"){
-                    $("#Participar").addClass("hidden");
-                    $("#Confirmar").addClass("hidden");
-                }
                 $("#Participar").click(function () {
                     location.href = "registrarInvitado.html?idSocio=1&idEvento="+dataevento.id;
                 });
