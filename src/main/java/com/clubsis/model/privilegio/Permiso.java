@@ -1,11 +1,12 @@
 package com.clubsis.model.privilegio;
 
-import com.clubsis.model.club.Club;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import java.util.Set;
 
 /**
  * Created by Juan Tenorio on 29/4/2016.
@@ -15,33 +16,37 @@ public class Permiso {
     @Id
     @GeneratedValue
     private Integer id;
+    private String nombre;
     private String descripcion;
 
-    //no habra relacion con permiso y sede
-    //there is not going to be a relationship between sede and permiso
-    @ManyToOne
-    private Club club;
-    @ManyToOne
-    private Rol rol;
-
+    @ManyToMany(mappedBy = "permisos")
+    @JsonIgnore
+    private Set<Rol> roles;
 
 
     protected Permiso() {
     }
 
-    public Permiso(Integer id, String descripcion) {
-        this.id= id;
+    public Permiso(String nombre, String descripcion, Set<Rol> roles) {
+        this.nombre = nombre;
         this.descripcion = descripcion;
-        this.rol = rol;
-
+        this.roles = roles;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer idPermiso) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -52,11 +57,11 @@ public class Permiso {
         this.descripcion = descripcion;
     }
 
-    public Rol getRol() {
-        return rol;
+    public Set<Rol> getRoles() {
+        return roles;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
     }
 }

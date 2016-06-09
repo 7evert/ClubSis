@@ -132,7 +132,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripción</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="descripcion"
                                placeholder="Palabra clave de descripción del producto">
@@ -163,7 +163,7 @@
                 </div>
             </div>
         </div>
-        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <h4>RESULTADOS DE BÚSQUEDA</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -203,6 +203,7 @@
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
+        loadonce: true,
         emptyrecords: 'No se encontraron resultados',
 
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
@@ -217,7 +218,7 @@
             {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoracion', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
+            'N° Bungalow', 'Precio', 'Piso', 'Valoración', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,

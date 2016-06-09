@@ -6,6 +6,7 @@ import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Multa;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.pago.*;
+import com.clubsis.model.persona.EstadoSocio;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.model.persona.TipoSocio;
 import com.clubsis.model.sede.ReservaInstalacion;
@@ -66,7 +67,12 @@ public class ServicioPagos {
     public Pago buscarPago(Integer id) {return pagoRepository.findOne(id);}
     public Pago crearPago(Integer idSocio , Integer idServicio , TipoPago tipoPago , Double monto){
         Socio socio=socioRepository.findOne(idSocio);
-        if(tipoPago==TipoPago.EVENTO){
+        Pago pagoExistente= buscarPagoExistente(socio,idServicio,tipoPago);
+        if(pagoExistente!=null){//Actualizar pago en caso exista
+            pagoExistente.setMontoTotal(monto);
+            return pagoRepository.saveAndFlush(pagoExistente);
+        }
+        else if(tipoPago==TipoPago.EVENTO){
             Evento evento= eventoRepository.findOne(idServicio);
             Pago nuevoPago = new Pago(null,null,monto,evento.getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,tipoPago,
                     null,socio,evento,null,null,null,null);
@@ -109,6 +115,28 @@ public class ServicioPagos {
         Pago pagoExistente = pagoRepository.findOne(id);
         BeanUtils.copyProperties(pago,pagoExistente);
         return pagoRepository.saveAndFlush(pagoExistente);
+    }
+
+    public Pago buscarPagoExistente(Socio socio, Integer idServicio,TipoPago tipoPago){
+        List<Pago> pagos = new ArrayList<>(socio.getPagos());
+        for(Pago item:pagos){
+            if(tipoPago==TipoPago.EVENTO){
+                if(item.getEvento().getId()==idServicio)    return item;
+            }
+            else if(tipoPago==TipoPago.BUNGALOW){
+                ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
+                if(item.getBungalow().getId()==reservaBungalow.getBungalow().getId())   return item;
+            }
+            else if(tipoPago==TipoPago.CLASE){
+                RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
+                if(item.getClase().getId()==registroClase.getClase().getId())   return item;
+            }
+            else if(tipoPago==TipoPago.INSTALACION){
+                ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
+                if(item.getInstalacion().getId()==reservaInstalacion.getInstalacion().getId())   return item;
+            }
+        }
+        return null;
     }
 
 
@@ -173,6 +201,7 @@ public class ServicioPagos {
         calendar.add(Calendar.DATE,7);
         fechaFinal.setTime(calendar.getTime().getTime());
         for(Socio item:socios){
+            if(item.getEstado()!= EstadoSocio.ACTIVO)   continue; //SOLO PAGARA MEMBRESIA UN SOCIO ACTIVO
             TipoSocio tipoSocio= item.getTipo();
             Pago nuevoPago = new Pago(null,null,tipoSocio.getCostoMembresia(),fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,item,null,null,null,null,null);
             pagoRepository.saveAndFlush(nuevoPago);

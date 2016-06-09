@@ -76,11 +76,11 @@
                 <div class="form-group">
                     <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
                     <div class="col-md-6">
-                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDocumento">
+                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDoc">
                             <option value="-1" ng-selected="selected">Elegir</option>
                             <option value="DNI">DNI</option>
-                            <option value="Pasaporte">Pasaporte</option>
-                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                            <option value="PASAPORTE">Pasaporte</option>
+                            <option value="CARNET">Carnet de extranjería</option>
                         </select>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento</label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="postulantes.numeroDocumento" id="numeroDocumento"
+                        <input type="text" class="form-control" ng-model="postulantes.numDoc" id="numeroDocumento"
                                placeholder="Numero de documento">
                     </div>
                 </div>
@@ -321,6 +321,7 @@
         $scope.postulantes = [];
         //Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
         $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+            console.log(data);
             $scope.postulantes = data;
             var fecha = $scope.postulantes.fechaNacimiento;
             var dia = fecha.split("-");

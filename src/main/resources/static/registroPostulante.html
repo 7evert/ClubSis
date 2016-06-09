@@ -96,7 +96,7 @@
                     <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-7">
                         <input type="text" class="form-control" ng-model="numeroDocumento" id="numeroDocumento"
-                               placeholder="Numero de documento" maxlength="8">
+                               placeholder="Numero de documento" maxlength="15">
                     </div>
                 </div>
             </div>
@@ -301,6 +301,11 @@
                 var anho = fechaPartida[2];
                 fechaConvertida = mes + '/' + dia + '/' + anho;
             }
+            var intTipoDocumento;
+            if($scope.tipoDocumento.valor == "DNI") intTipoDocumento = 0;
+            else if($scope.tipoDocumento.valor == "Pasaporte") intTipoDocumento = 1;
+            else if($scope.tipoDocumento.valor == "Carnet de extranjería") intTipoDocumento = 2;
+
             $scope.registrarBungalow = function () {
                 var data = {
                     //por preguntar
@@ -308,16 +313,16 @@
                     'nombre': $scope.nombre,
                     'apellidoPaterno': $scope.apellidoPaterno,
                     'apellidoMaterno': $scope.apellidoMaterno,
-                    'tipoDocumento': $scope.tipoDocumento.valor,
-                    'numeroDocumento': parseInt($scope.numeroDocumento),
+                    'tipoDoc': intTipoDocumento,
+                    'numDoc': $scope.numeroDocumento,
                     'fechaNacimiento': Date.parse(fechaConvertida),
                     'estadoCivil': $scope.estadoCivil,
                     'numeroHijos': parseInt($scope.numeroHijos),
                     'estadoCivil': $scope.estadoCivil.valor,
                     'direccion': $scope.direccion,
-                    'telefonoCasa': parseInt($scope.telefonoCasa),
-                    'celular': parseInt($scope.celular),
-                    'telefonoTrabajo': parseInt($scope.telefonoTrabajo),
+                    'telefonoCasa': $scope.telefonoCasa,
+                    'celular': $scope.celular,
+                    'telefonoTrabajo': $scope.telefonoTrabajo,
                     'profesion': $scope.profesion,
                     'ingresosMensuales': parseFloat($scope.ingresosMensuales),
                     'nombreEmpresa': $scope.nombreEmpresa,

@@ -148,10 +148,10 @@
                         <input id="urlFoto" ng-model="urlFoto" class="form-control">
                     </div>
                     <!--<div class="col-md-8">-->
-                        <!--<input id="urlFoto" ng-model="urlFoto" class="form-control" type="file">-->
+                    <!--<input id="urlFoto" ng-model="urlFoto" class="form-control" type="file">-->
                     <!--</div>-->
                     <!--<div class="col-md-2">-->
-                        <!--<a id="btnAdjuntar" class="btn btn-primary form-control">Adjuntar</a>-->
+                    <!--<a id="btnAdjuntar" class="btn btn-primary form-control">Adjuntar</a>-->
                     <!--</div>-->
                 </div>
             </div>
@@ -201,30 +201,44 @@
                                 .val(-1)
                 );
                 $.each(data, function (index, item) { // Iterates through a collection
-                    $("#sede").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
-                    );
+                    if (item.estado == "HABILITADO") {
+                        $("#sede").append( // Append an object to the inside of the select box
+                                $("<option></option>") // Yes you can do this.
+                                        .text(item.nombre)
+                                        .val(item.id)
+                        );
+                    }
                 });
             })
     );
     $("tipoBungalow").click(
             $.getJSON("/api/tiposbungalow", null, function (data) {
-                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
-                $("#tipoBungalow").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                console.log(data);
-                $.each(data, function (index, item) { // Iterates through a collection
+                if (data) {
+                    console.log(data);
+                    $("#tipoBungalow option").remove(); // Remove all <option> child tags.
                     $("#tipoBungalow").append( // Append an object to the inside of the select box
                             $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
+                                    .text("Elegir")
+                                    .val(-1)
                     );
-                });
+                    $.each(data, function (index, item) { // Iterates through a collection
+                        if (item.estado == "DISPONIBLE") {
+                            $("#tipoBungalow").append( // Append an object to the inside of the select box
+                                    $("<option></option>") // Yes you can do this.
+                                            .text(item.nombre)
+                                            .val(item.id)
+                            );
+                        }
+                    });
+                }
+                //Falta arreglar esto para que muestre un mensaje
+                else {
+                    $("#tipoBungalow").append( // Append an object to the inside of the select box
+                            $("<option></option>") // Yes you can do this.
+                                    .text("No existen tipo de bungalows, cree uno")
+                                    .val(-1)
+                    );
+                }
             })
     );
     var app = angular.module('app', []);
@@ -302,7 +316,7 @@
             Notificaciones.showError('Tipo de bungalow requerido');
             $("#tipoBungalow").css("border-color", "red");
             return true;
-        }else if (valoracion == -1) {
+        } else if (valoracion == -1) {
             Notificaciones.showError('Valoración requerida');
             $("#valoracion").css("border-color", "red");
             return true;
@@ -312,8 +326,8 @@
             $("#piso").css("border-color", "red");
             return true;
         }
-        else if (!precio || parseInt(precio)<0) {
-            if(parseInt(precio)<0){
+        else if (!precio || parseInt(precio) < 0) {
+            if (parseInt(precio) < 0) {
                 Notificaciones.showError('El precio no puede ser un valor negativo.');
                 $("#precio").css("border-color", "red");
                 return true;
@@ -321,7 +335,7 @@
             Notificaciones.showError('Precio requerido');
             $("#precio").css("border-color", "red");
             return true;
-        }else if (!caracteristicas) {
+        } else if (!caracteristicas) {
             Notificaciones.showError('Características del bungalow requerido');
             $("#caracteristicas").css("border-color", "red");
             return true;

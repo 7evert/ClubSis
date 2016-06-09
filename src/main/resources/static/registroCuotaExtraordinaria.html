@@ -74,7 +74,10 @@
                 //datosUrl=respuesta.data;
                 //Hasta tener el id del socio logeado se usara el 1
 
-                var datosUrl= respuesta.data;
+                idSocio=1;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.estadoCuotaExtraordinaria == "REGISTRADA";
+                });
 
                 $("#jqGrid").jqGrid({
 
@@ -86,7 +89,8 @@
                     emptyrecords: 'No se encontraron resultados',
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
-                        { label: 'Codigo', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Código Cuota', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Código Carnet', name: 'socio.codigoCarnet',align :'center', width: 75},
                         { label: 'Nombre', name: 'nombre', align: 'center', width: 100 },
                         { label: 'Descripcion', name: 'descripcion', align: 'center', width: 100 },
                         { label: 'Importe (S/.)', name: 'monto', align: 'center', width: 150 },
@@ -108,27 +112,61 @@
                 var rowKey = grid.getGridParam("selrow");
 
                 if (!rowKey)
-                    alert("No hay pago seleccionado");
+                    Notificaciones.showError("No hay cuota seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
                     var mensaje= "Se registro los pagos seleccionados satisfactoriamente.";
                     for (var i = 0; i < selectedIDs.length; i++) {
                         var data= selectedIDs[i];
-                        $http.put('/api/cuotasExtraordinarias/'+ data).success(function (data ) {
+                        $http.post('/api/cuotasExtraordinarias/'+ data+'/pagar').success(function (data ) {
                             result += selectedIDs[i] + ",";
-                            flag=true
-                            console.log(JSON.stringify(data));
+                            Notificaciones.showNoty("Se registro exitosamente los pagos seleccionados", Notificaciones.type.SUCCESS);
                         }).error(function (data2) {
                             console.log(JSON.stringify(data));
-                            mensaje="No se pudo registrar los pagos seleccionados";
+                            Notificaciones.showError("No se pudo registrar los pagos seleccionados");
                         });
                         result += selectedIDs[i] + ",";
                     }
-                    alert(mensaje);
-                    window.location="responderMembresia.html";
+                    setTimeout(function () {
+                        location.href = "registroCuotaExtraordinaria.html"
+                    }, 1200);
                 }
             }
+            $scope.estado = {};
+
+            $scope.estado.valores = [
+                {'name': 'TODOS', 'value': 'TODOS'},
+                {'name': 'REGISTRADA', 'value': 'REGISTRADA'},
+                {'name': 'VENCIDA', 'value': 'VENCIDA'},
+                {'name': 'PAGADA', 'value': 'PAGADA'},
+                {'name': 'ANULADA', 'value': 'ANULADA'}
+            ];
+            $scope.estado.valor = $scope.estado.valores[0].value;
+            $("#btnBuscar").click(function (){
+                $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+                    datosUrl=respuesta.data;
+                });
+
+                var datosFiltr,codigoFilt,estadoFilt;
+                codigoFilt=$scope.ngCodigo;
+                if(codigoFilt){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.socio.codigoCarnet == codigoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                estadoFilt=$scope.estado.valor;
+                if(estadoFilt!="TODOS"){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.estadoCuotaExtraordinaria == estadoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                $('#jqGrid').jqGrid('clearGridData');
+                $('#jqGrid').setGridParam({data:datosUrl});
+                $('#jqGrid').trigger( 'reloadGrid' );
+            });
         });
     </script>
 </head>
@@ -140,66 +178,41 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <h2>Registro de Pago Extraordinario</h2>
     <hr>
-    <form class="form-horizontal">
-        <h4>FILTRO DE BÚSQUEDA</h4>
+    <h4>FILTRO DE BÚSQUEDA</h4>
+    <form class="form-horizontal" id="formFiltrado">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="codigo" class="col-md-4 control-label">Código</label>
+                    <label class="col-md-4 control-label">Código Carnet</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="codigo" placeholder="Codigo del Socio">
+                        <input type="text" ng-model="ngCodigo" class="form-control" placeholder="Codigo de Carnet del Socio">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="estado" class="col-md-4 control-label">Estado del Pago</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del Socio">
+                        <select id="estado" class="form-control" ng-model="estado.valor"
+                                ng-options="template.value as template.name for template in estado.valores">
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="appPaterno" class="col-md-4 control-label">Apellido Paterno</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="appPaterno" placeholder="Apellido Paterno del Socio">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="appMaterno" class="col-md-4 control-label">Apellido Materno</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="appMaterno" placeholder="Apellido Materno del Socio">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="dni" class="col-md-4 control-label">DNI</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="dni" placeholder="DNI del Socio">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="correo" class="col-md-4 control-label">Correo</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="correo" placeholder="Correo del Socio">
-                    </div>
-                </div>
-            </div>
+
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 60px;">
-                    <a href="javascript:void(0)" class="btn btn-primary">Buscar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary">Limpiar</a>
+                <div class="form-group" style="margin-left: 105px;">
+                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <button onclick="limpiarF()" class="btn btn-primary" id="btnLimpiar">Limpiar</button>
+                    <button ng-click="fitrado()" class="btn btn-primary" id="btnBuscar">Buscar</button>
                 </div>
             </div>
         </div>
+    </form>
+
+    <form class="form-horizontal">
         <h4>RESULTADOS DE BÚSQUEDA</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
@@ -209,7 +222,7 @@
         <div class="col-sm-7 col-lg-7">
         </div>
         <div class="col-sm-5 col-lg-5">
-            <div class="form-group" style="margin-left: 60px;">
+            <div class="form-group" style="margin-left: 180px;">
                 <button ng-click="registrarPagos()" href="javascript:void(0)" class="btn btn-primary">Grabar</button>
                 <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
             </div>
@@ -223,6 +236,12 @@
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="js/principal.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     function acciones(cellValue, options, rowdata, action) {
@@ -230,7 +249,10 @@
 
         acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Pago"><img src="img/Iconos/ver.png" class="icono"></a>';
         return acciones;
-    }
+    };
+    function limpiarF() {
+        document.getElementById("formFiltrado").reset();
+    };
 
 </script>
 </body>

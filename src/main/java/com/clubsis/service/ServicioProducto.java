@@ -1,14 +1,14 @@
 package com.clubsis.service;
 
+import com.clubsis.model.producto.*;
+import com.clubsis.repository.producto.Producto_SedeRepository;
+import com.clubsis.repository.sede.SedeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.clubsis.repository.producto.ProveedorRepository;
-import com.clubsis.model.producto.Proveedor;
 import com.clubsis.repository.producto.OrdenCompraRepository;
-import com.clubsis.model.producto.OrdenCompra;
 import com.clubsis.repository.producto.ProductoRepository;
-import com.clubsis.model.producto.Producto;
 
 import java.util.List;
 
@@ -24,6 +24,10 @@ public class ServicioProducto {
     private ProductoRepository productoRepository;
     @Autowired
     private OrdenCompraRepository ordenCompraRepository;
+    @Autowired
+    private Producto_SedeRepository producto_sedeRepository;
+    @Autowired
+    private SedeRepository sedeRepository;
 
     //Proveedores
     public List<Proveedor> mostrarProveedores() {
@@ -61,6 +65,31 @@ public class ServicioProducto {
         Producto productoExistente = productoRepository.findOne(id);
         BeanUtils.copyProperties(producto, productoExistente);
         return productoRepository.saveAndFlush(productoExistente);
+    }
+
+    public List<Producto_Sede> mostrarStocks(){return producto_sedeRepository.findAll(); }
+
+    public Producto_Sede crearStockPorSede(Producto_Sede producto){
+        return producto_sedeRepository.save(producto);
+    }
+
+    public Producto_Sede crearStock(Integer idProducto,Integer idSede){
+        Producto_SedeID id = new Producto_SedeID(productoRepository.findOne(idProducto),sedeRepository.findOne(idSede));
+        Producto_Sede stock = new Producto_Sede(id,0);
+        return producto_sedeRepository.saveAndFlush(stock);
+    }
+
+    public Producto_Sede buscarStock(Integer idProducto,Integer idSede){
+        Producto_SedeID id = new Producto_SedeID(productoRepository.findOne(idProducto),sedeRepository.findOne(idSede));
+        return producto_sedeRepository.findOne(id);
+    }
+
+    public Producto_Sede actualizarStock(Integer idProducto, Integer idSede , Integer stock) {
+        //Producto productoExistente = productoRepository.findOne(id);
+        Producto_SedeID id = new Producto_SedeID(productoRepository.findOne(idProducto),sedeRepository.findOne(idSede));
+        Producto_Sede stockAnterior = producto_sedeRepository.findOne(id);
+        stockAnterior.setStock(stock);
+        return producto_sedeRepository.saveAndFlush(stockAnterior);
     }
 
     //OrdenCompra

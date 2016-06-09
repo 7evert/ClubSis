@@ -31,18 +31,11 @@ public class Club {
     @JsonIgnore
     @OneToMany(mappedBy = "club")
     private Set<CuotaExtraordinaria> cuotasExtraordinarias;
-    @JsonIgnore
-    @OneToMany(mappedBy = "club")
-    private Set<Permiso> permisos;
-    @JsonIgnore
-    @OneToMany(mappedBy = "club")
-    private Set<Rol> roles;
-
 
     protected Club() {
     }
 
-    public Club(String nombre, String vision, String mision, String historia, String urlFoto, Set<Oferta> ofertas, Set<Sorteo> sorteos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Permiso> permisos, Set<Rol> roles) {
+    public Club(String nombre, String vision, String mision, String historia, String urlFoto, Set<Oferta> ofertas, Set<Sorteo> sorteos, Set<CuotaExtraordinaria> cuotasExtraordinarias) {
         this.nombre = nombre;
         this.vision = vision;
         this.mision = mision;
@@ -51,8 +44,6 @@ public class Club {
         this.ofertas = ofertas;
         this.sorteos = sorteos;
         this.cuotasExtraordinarias = cuotasExtraordinarias;
-        this.permisos = permisos;
-        this.roles = roles;
     }
 
     public Integer getId() {
@@ -125,21 +116,5 @@ public class Club {
 
     public void setCuotasExtraordinarias(Set<CuotaExtraordinaria> cuotasExtraordinarias) {
         this.cuotasExtraordinarias = cuotasExtraordinarias;
-    }
-
-    public Set<Permiso> getPermisos() {
-        return permisos;
-    }
-
-    public void setPermisos(Set<Permiso> permisos) {
-        this.permisos = permisos;
-    }
-
-    public Set<Rol> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Rol> roles) {
-        this.roles = roles;
     }
 }

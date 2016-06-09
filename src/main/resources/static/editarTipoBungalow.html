@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body ng-controller="EditarTipoBungalowController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            REGISTRO DE TIPO DE BUNGALOW
+        </h3>
+    </div>
+    <hr>
+    <h4>DATOS DEL TIPO DE BUNGALOW</h4>
+
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group">
+                    <label for="estado" class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>
+                    <div class="col-md-8">
+                        <select id="estado" class="form-control" ng-model="estado.valor"
+                                ng-options="template.value as template.name for template in estado.valores"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio">*</span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" ng-model="tipoBungalow.nombre" id="nombre"
+                               placeholder="Nombre del tipo de bungalow" maxlength="50">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="capacidad" class="col-md-4 control-label">Capacidad<span
+                            class="obligatorio">*</span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" ng-model="tipoBungalow.capacidad" id="capacidad"
+                               placeholder="Cantidad" maxlength="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="caracteristicas" class="col-md-4 control-label">Características<span
+                            class="obligatorio">*</span></label>
+                    <div class="col-md-8">
+                        <textarea id="caracteristicas" ng-model="tipoBungalow.caracteristicas" class="form-control"
+                                  rows="12" placeholder="Características del tipo de bungalow"
+                                  maxlength="450" style="resize: none"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <span class="obligatorio" style="margin-left: 185px;">(*) Estos campos son obligatorios</span>
+                </div>
+                </br>
+                </br>
+                <a href="javascript:void(0)" class="btn btn-primary" style="position: absolute; right: 100px;"
+                   id="btnRegistrar">Registrar</a>
+                <a href="mantenimientoTipoBungalow.html" class="btn btn-primary" style="position: absolute; right: 15px;"
+                   id="btnCancelar">Cancelar</a>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <img src="/img/Bungalows/TipoBungalows/tipoBungalow.jpg"
+                     class="img-thumbnail img-responsive center-block" alt="Cinque Terre" width="330" height="320"
+                     style="margin-top:45px;">
+            </div>
+            <!--<div class="col-sm-7 col-lg-7">-->
+            <!--</div>-->
+            <!--<div class="col-sm-5 col-lg-5">-->
+            <!--<div class="form-group" style="margin-left: 95px;">-->
+            <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>-->
+            <!--<a href="MantenimientoBungalows.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+
+<script type="text/javascript">
+    function getID() {
+        var href = this.location.href;
+        var str = href.match(/\?id\=(\d+)/);
+        return str ? str[1] : str;
+    }
+
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
+    var idTipoBungalow = ruta.substring(ruta.lastIndexOf('=') + 1);
+    console.log(idTipoBungalow);
+    var app = angular.module('app', []);
+    app.controller('EditarTipoBungalowController', function ($scope, $http) {
+        $scope.estado = {};
+        //    CREADO, DISPONIBLE, INHABILITADO, ELIMINADO
+        $scope.estado.valores = [
+            {'name': 'Elegir', 'value': '-1'},
+            {'name': 'CREADO', 'value': '0'},
+            {'name': 'DISPONIBLE', 'value': '1'},
+            {'name': 'INHABILITADO', 'value': '2'},
+            {'name': 'ELIMINADO', 'value': '3'}
+        ];
+
+        $scope.estado.valor = $scope.estado.valores[0].value;
+        $scope.tipoBungalow = [];
+//        Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
+        $http.get('/api/tiposbungalow/' + idTipoBungalow).success(function (data) {
+            console.log(data);
+            $("#nombre").val(data.nombre);
+            $("#capacidad").val(data.capacidad);
+
+            if(data.estado == 'CREADO') data.estado = 0;
+            else if(data.estado == 'DISPONIBLE') data.estado = 1;
+            else if(data.estado == 'INHABILITADO') data.estado = 2;
+            else if(data.estado == 'ELIMINADO') data.estado = 3;
+
+            $scope.tipoBungalow = data;
+
+            var strEstado = "string:" + data.estado;
+            $("#estado").val(strEstado);
+            $("#caracteristicas").val(data.caracteristicas);
+            console.log($scope.bungalow);
+        });
+
+        $("#btnRegistrar").click(function () {
+            $scope.registrarTipoBungalow = function () {
+                var estadoTipoBungalow = $('#estado').val();
+                estadoTipoBungalow = estadoTipoBungalow.substring(estadoTipoBungalow.lastIndexOf(':') + 1);
+                estadoTipoBungalow = parseInt(estadoTipoBungalow);
+                var data = {
+                    //por preguntar
+                    //idSuspension: null,
+                    'nombre': $scope.tipoBungalow.nombre,
+                    'caracteristicas': $scope.tipoBungalow.caracteristicas,
+                    'capacidad': parseInt($scope.tipoBungalow.capacidad),
+                    'caracteristicas': $scope.tipoBungalow.caracteristicas,
+                    'estado': estadoTipoBungalow,
+                    'bungalows': null,
+                };
+                console.log(data);
+                if (!validarDatos()) {
+                    $http.put('/api/tiposbungalow/' + idTipoBungalow, data).success(function (data) {
+                        console.log(data);
+                        Notificaciones.hideAll();
+                        Notificaciones.showProcesando();
+                        setTimeout(function () {
+                            location.href = "mantenimientoTipoBungalow.html"
+                        }, 1000);
+                    })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al crear la entidad tipo bungalow");
+                            });
+                }
+            }();
+        });
+
+        function validarDatos() {
+            var nombre = $("#nombre").val();
+            var caracteristicas = $("#caracteristicas").val();
+            var capacidad = $("#capacidad").val();
+            var estadoTipoBungalow = $('#estado').val();
+            estadoTipoBungalow = estadoTipoBungalow.substring(estadoTipoBungalow.lastIndexOf(':') + 1);
+            estadoTipoBungalow = parseInt(estadoTipoBungalow);
+
+            if(estadoTipoBungalow==-1) {
+                Notificaciones.showError('Estado del tipo de bungalow requerido.');
+                $("#estado").css("border-color", "red");
+                return true;
+            } else if (!nombre) {
+                Notificaciones.showError('Nombre del tipo de bungalow requerido.');
+                $("#nombre").css("border-color", "red");
+                return true;
+            } else if (!capacidad || parseInt(capacidad) < 0) {
+                if (parseInt(capacidad) < 0) {
+                    Notificaciones.showError('La capacidad del tipo de bungalow no puede ser un valor negativo.');
+                    $("#capacidad").css("border-color", "red");
+                    return true;
+                }
+                Notificaciones.showError('Capacidad del tipo de bungalow requerida.');
+                $("#capacidad").css("border-color", "red");
+                return true;
+            }else if (!caracteristicas) {
+                Notificaciones.showError('Característica del tipo de bungalow requerida.');
+                $("#caracteristicas").css("border-color", "red");
+                return true;
+            }
+            return false;
+        }
+
+        $("#nombre").click(function () {
+            $("#nombre").css("border-color", "#ccc");
+        });
+        $("#caracteristicas").click(function () {
+            $("#caracteristicas").css("border-color", "#ccc");
+        });
+        $("#capacidad").click(function () {
+            $("#capacidad").css("border-color", "#ccc");
+        });
+        $("#estado").click(function () {
+            $("#estado").css("border-color", "#ccc");
+        });
+    });
+
+</script>
+</body>
+</html>
