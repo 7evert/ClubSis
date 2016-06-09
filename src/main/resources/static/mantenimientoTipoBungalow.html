@@ -73,13 +73,13 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE BUNGALOW
-            <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir
-                Bungalow</a>
+            ADMINISTRACIÓN DE TIPO DE BUNGALOW
+            <a href="registroTipoBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 830px;">Añadir
+                Tipo de Bungalow</a>
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE BUNGALOW</h4>
+    <h4>CONSULTA DE TIPO DE BUNGALOW</h4>
 
     <form class="form-horizontal">
         <div class="row">
@@ -132,7 +132,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripción</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="descripcion"
                                placeholder="Palabra clave de descripción del producto">
@@ -163,7 +163,7 @@
                 </div>
             </div>
         </div>
-        <h4>RESULTADOS DE BÚSQUEDA</h4>
+        <h4>RESULTADOS DE BUSQUEDA</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -198,7 +198,7 @@
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/bungalows', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
+        url: '/api/tiposbungalow', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
@@ -208,17 +208,15 @@
 
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
-            {index: 'id', name: 'id', align: 'center', width: 75},
-            {index: 'precio', name: 'precio', align: 'center', width: 60},
-            {index: 'piso', name: 'piso', align: 'center', width: 70},
-            {index: 'valoracion', name: 'valoracion', align: 'center', width: 150},
-            {index: 'tipoBungalow.nombre', name: 'tipoBungalow.nombre', align: 'center', width: 150},
-            {index: 'sede.nombre', name: 'sede.nombre', align: 'center', width: 150},
+            {index: 'id', name: 'id', align: 'center', hidden:true, width: 75},
+            {index: 'nombre', name: 'nombre', align: 'center', width: 130},
+            {index: 'caracteristicas', name: 'caracteristicas', align: 'center', width: 300},
+            {index: 'capacidad', name: 'capacidad', align: 'center', width: 70},
             {index: 'estado', name: 'estado', align: 'center', width: 150},
-            {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
+            {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoración', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
+            'idTipoBungalow', 'Nombre', 'Características', 'Capacidad', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
@@ -256,16 +254,17 @@
                 var rowKey = grid.getGridParam("selrow");
 
                 if (!rowKey)
-                    Notificaciones.showError("No hay bungalow seleccionado(s) a eliminar");
+                    Notificaciones.showError("No hay tipo de bungalow seleccionado(s) a eliminar");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
-                    var mensaje = "Han sido eliminados los bungalows seleccionados satisfactoriamente.";
+                    var mensaje = "Han sido eliminados los tipo de bungalows seleccionados satisfactoriamente.";
                     for (var i = 0; i < selectedIDs.length; i++) {
                         var data = selectedIDs[i];
                         console.log("Entro Eliminar x");
-                        $.post('/api/bungalows/eliminar',
-                                {idBungalow: data},
+                        console.log(data);
+                        $.post('/api/tiposbungalow/eliminar',
+                                {idTipoBungalow: data},
                                 function (response) {
                                     if (!response.error) {
 
@@ -278,26 +277,26 @@
                     }
                     Notificaciones.showNoty(mensaje);
                     setTimeout(function () {
-                        location.href = "mantenimientoBungalows.html"
+                        location.href = "mantenimientoTipoBungalow.html"
                     }, 1000);
                 }
             });
 
             $('.icono-modificar').click(function () {
 //                alert("Modificando bungalow");
-                var idBungalow = $(this).attr('data-idBungalow-modificar');
-                console.log("Id bungalow modificando: " + $(this).attr('data-idBungalow-modificar'));
-                window.location = 'editarBungalow.html?id=' + idBungalow;
+                var idBungalow = $(this).attr('data-idTipoBungalow-modificar');
+                console.log("Id bungalow modificando: " + $(this).attr('data-idTipoBungalow-modificar'));
+                window.location = 'editarTipoBungalow.html?id=' + idBungalow;
             });
             $('.icono-ver').click(function () {
 //                alert("Ver bungalow");
-                var idBungalow = $(this).attr('data-idBungalow-ver');
-                console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));
-                window.location = 'verBungalow.html?id=' + idBungalow;
+                var idBungalow = $(this).attr('data-idTipoBungalow-ver');
+                console.log("Id bungalow ver: " + $(this).attr('data-idTipoBungalow-ver'));
+                window.location = 'verTipoBungalow.html?id=' + idBungalow;
             });
             $('.icono-eliminar').click(function () {
-                var idBungalow = $(this).attr('data-idBungalow-eliminar');
-                console.log("Id bungalow eliminando: " + $(this).attr('data-idBungalow-eliminar'));
+                var idTipoBungalow = $(this).attr('data-idTipoBungalow-eliminar');
+                console.log("Id bungalow eliminando: " + $(this).attr('data-idTipoBungalow-eliminar'));
                 $.noty.closeAll();
                 noty({
                     text: '¿Está seguro de que desea eliminar el bungalow?',
@@ -309,15 +308,15 @@
                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
                             //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
                             //Simplemente se le cambiara el estado
-                            $.post('/api/bungalows/eliminar',
-                                    {idBungalow: idBungalow},
+                            $.post('/api/tiposbungalow/eliminar',
+                                    {idTipoBungalow: idTipoBungalow},
                                     function (response) {
                                         if (!response.error) {
                                             Notificaciones.hideAll();
                                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
                                             $('#grid').trigger('reloadGrid');
                                             setTimeout(function () {
-                                                location.href = "mantenimientoBungalows.html"
+                                                location.href = "mantenimientoTipoBungalow.html"
                                             }, 1000);
                                         } else {
                                             Noty.hideAll();
@@ -342,9 +341,9 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['id'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['id'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idTipoBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idTipoBungalow-modificar="' + rowdata['id'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idTipoBungalow-eliminar="' + rowdata['id'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>
