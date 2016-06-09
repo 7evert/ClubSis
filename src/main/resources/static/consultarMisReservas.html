@@ -69,11 +69,11 @@
 <div class="container">
     <div>
         <h3>
-            LISTADO DE BUNGALOWS
+            MIS RESERVAS
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE BUNGALOW</h4>
+    <h4>CONSULTA DE MIS RESERVAS</h4>
 
     <form class="form-horizontal">
         <div class="row">
@@ -99,7 +99,6 @@
                 <div class="form-group">
                     <label for="tipo" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <!--<select class="form-control" id="estado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados"></select>-->
                         <select class="form-control" id="estado">
                             <option value="-1">Elegir</option>
                             <option value="0">CREADO</option>
@@ -185,53 +184,8 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
-    var funciones = {};
-    function contieneCadenaItem(item,est) {
-        var ver = true;
-        console.log(item.estado);
-        console.log(est);
-        var valEst = "";
-        if(est == 0){
-            valEst = "CREADO";
-        }else if(est == 1){
-            valEst = "DISPONIBLE";
-        }else if(est == 2){
-            valEst = "INHABILITADO";
-        }else if(est == 3) {
-            valEst = "ELIMINADO";
-        }
-
-        if(est==-1){
-            return ver;
-        }
-        ver = (ver && (item.estado==valEst));
-        return ver;
-    }
-
-    funciones.buscar = function () {
-        //var str = $("#nombre").val();
-        var estado = $("#estado").val();
-        //var tipo = $("#tipomembresia").val();
-
-        var ver;
-        var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
-        for (var i = 0; i < ids.length; i++) {
-            var rowId = ids[i];
-            var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
-            ver = false;
-            if (contieneCadenaItem(rowData,estado)) {
-                //showrow
-                $("#" + rowId).show();
-            }
-            else {
-                $("#" + rowId).hide();
-                //hiderow
-            }
-        }
-    }
-
     $("#jqGrid").jqGrid({
-        url: '/api/bungalows', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
+        url: '/api/reservasbungalow', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
         filterable: true,
         sortable: true,
         autoshowfiltericon: true,
@@ -242,84 +196,64 @@
         emptyrecords: 'No se encontraron resultados',
         colModel: [
             {index: 'id', name: 'id', align: 'center', width: 75},
-            {index: 'precio', name: 'precio', align: 'center', width: 40},
-            {index: 'piso', name: 'piso', align: 'center', width: 150},
-            {index: 'valoracion', name: 'valoracion', align: 'center', width: 150},
-            {index: 'estado', name: 'estado', align: 'center', width: 200},
+            {index: 'estado', name: 'estado', align: 'center', width: 40},
+            {index: 'fechaReserva', name: 'fechaReserva', align: 'center', width: 150},
+            {index: 'fechaFinal', name: 'fechaFinal', align: 'center', width: 150},
+            {index: 'bungalow', name: 'bungalow', align: 'center', width: 150},
             {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoracion','Estado', 'Acciones',
+            'N° Bungalow', 'Estado', 'Fecha Inicio', 'Fecha Fin', 'Bungalow','Acciones',
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
-            var cantFilas = $("#jqGrid").getGridParam("reccount");
-            for (i = 1; i < cantFilas+cantFilas*4; i++) {
-                var rowData = $('#jqGrid').jqGrid('getRowData', i);
-                if (rowData.valoracion == "1")
-                    rowData.valoracion = '1 estrella';
-                else if (rowData.valoracion == "2")
-                    rowData.valoracion = '2 estrellas';
-                else if (rowData.valoracion == "3")
-                    rowData.valoracion = '3 estrellas';
-                else if (rowData.valoracion == "4")
-                    rowData.valoracion = '4 estrellas';
-                else if (rowData.valoracion == "5")
-                    rowData.valoracion = '5 estrellas';
-
-                $('#jqGrid').jqGrid('setRowData', i, rowData);
-            }
-
             $('.icono-ver').click(function () {
-                var idBungalow = $(this).attr('data-idBungalow-ver');
-                console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));
+                var idBungalow = $(this).attr('data-idReserva-ver');
                 window.location = 'verBungalow.html?id=' + idBungalow;
+            });
+
+            $('.icono-eliminar').click(function () {
+                var idReserva = $(this).attr('data-idReserva-eliminar');
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea anular la reserva?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Anular Reserva', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                             $.post('/api/reservasbungalow/eliminar',
+                                    {idReservaBungalow: idReserva},
+                                    function (response) {
+                                        if (!response.error) {
+                                            Notificaciones.hideAll();
+                                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                                            $('#jqGrid').trigger('reloadGrid');
+                                            setTimeout(function () {
+                                                location.href = "consultarMisReservas.html"
+                                            }, 1000);
+                                        } else {
+                                            Noty.hideAll();
+                                            Noty.showError(response.mensaje, false, 3000);
+                                        }
+                                    });
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
             });
         }
     });
-
-    <!--Sedes-->
-    $("sede").click(
-            $.getJSON("/api/sedes", null, function (data) {
-                console.log(data);
-                $("#sede option").remove(); // Remove all <option> child tags.
-                $("#sede").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                $.each(data, function (index, item) { // Iterates through a collection
-                    $("#sede").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
-                    );
-                });
-            })
-    );
-
-    <!--TipoBunaglow-->
-    $("tipoBungalow").click(
-            $.getJSON("/api/tiposbungalow", null, function (data) {
-                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
-                $("#tipoBungalow").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                console.log(data);
-                $.each(data, function (index, item) { // Iterates through a collection
-                    $("#tipoBungalow").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
-                    );
-                });
-            })
-    );
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
@@ -336,7 +270,8 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idReserva-eliminar="' + rowdata['id'] + '" title="Eliminar Reserva"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>

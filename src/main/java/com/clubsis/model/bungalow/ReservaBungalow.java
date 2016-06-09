@@ -36,7 +36,7 @@ public class ReservaBungalow {
         this.fechaFinal = fechaFinal;
         this.estado = estado;
         this.serviciosBungalows = serviciosBungalows;
-        this.bungalow = bungalow;
+        this.setBungalow(bungalow);
         this.socio = socio;
     }
 
