@@ -28,7 +28,8 @@ public class Persona {
     private Date fechaNacimiento;
     private String direccion;
     private String correo;
-    private Integer dni;
+    private TipoDocumento tipoDoc;
+    private String numDoc;
     private String telefono;
     private Boolean esTitular;
 
@@ -39,23 +40,25 @@ public class Persona {
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "persona")
+    @JsonIgnore
     private Usuario usuario;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
     private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
 
-    protected Persona() {
+    public Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, Integer dni, String telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, String direccion, String correo, TipoDocumento tipoDoc, String numDoc, String telefono, Boolean esTitular, Set<PersonaEvento> personaEventos, Socio socio, Usuario usuario, Set<RegistroClase> registroClases) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.fechaNacimiento = fechaNacimiento;
         this.direccion = direccion;
         this.correo = correo;
-        this.dni = dni;
+        this.tipoDoc = tipoDoc;
+        this.numDoc = numDoc;
         this.telefono = telefono;
         this.esTitular = esTitular;
         this.personaEventos = personaEventos;
@@ -120,12 +123,20 @@ public class Persona {
         this.correo = correo;
     }
 
-    public Integer getDni() {
-        return dni;
+    public TipoDocumento getTipoDoc() {
+        return tipoDoc;
     }
 
-    public void setDni(Integer dni) {
-        this.dni = dni;
+    public void setTipoDoc(TipoDocumento tipoDoc) {
+        this.tipoDoc = tipoDoc;
+    }
+
+    public String getNumDoc() {
+        return numDoc;
+    }
+
+    public void setNumDoc(String numDoc) {
+        this.numDoc = numDoc;
     }
 
     public String getTelefono() {

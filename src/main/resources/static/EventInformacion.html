@@ -177,7 +177,7 @@
         }
 
         function mostraridEvento(id){
-            $("#idEvento").html("Evento Numero "+id);
+            $("#idEvento").html("Evento Número "+id);
         }
         function mostrarNombre(nombre){
             $("#nombre").html(nombre);
@@ -205,7 +205,7 @@
                 tarifasul.append(b[j]);
         }
         function mostrarRegYDescripcion(descripcion){
-            $("#descripcion").html("Descripcion: <br>"+((descripcion)?descripcion:"..."));
+            $("#descripcion").html("Descripción: <br>"+((descripcion)?descripcion:"..."));
         }
         function mostrarImagen(url){
             $("#imgEvento").attr({src:url});
@@ -242,6 +242,9 @@
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
+                if(dataevento.estado=="INHABILITADO"){
+                    $("#Participar").addClass("hidden");
+                }
 
                 $("#Participar").click(function () {
                     location.href = "participarEvento.html?id="+getID();
@@ -322,7 +325,7 @@
             <div>
                 <h4>Fecha del Evento:</h4>
                 <h4><span id="fechaInicio"></span> - <span id="fechaFin"></span></h4>
-                <h4>Fechas de Inscripcion:</h4>
+                <h4>Fechas de Inscripción:</h4>
                 <h4><span id="fechaInicioInscripcion"></span> - <span id="fechaFinInscripcion"></span></h4>
             </div>
             <div><h4 id="descripcion"></h4></div>

@@ -117,10 +117,6 @@
             Notificaciones.showError('Nombre requerido');
             $("#nombre").css("border-color", "red");
             return false;
-        } else if (!descripcion) {
-            Notificaciones.showError('Descripción requerida');
-            $("#descripcion").css("border-color", "red");
-            return false;
         }
         return true;
     }
@@ -130,9 +126,6 @@
         $("#nombre").css("border-color", "#ccc");
     });
 
-    $("#descripcion").click(function () {
-        $("#descripcion").css("border-color", "#ccc");
-    });
 
 
 

@@ -37,7 +37,7 @@
 <body ng-controller="RolController">
 <div id="headerAdministrador"></div>
 <div class="container">
-    <h2>Registro Instalación</h2>
+    <h2>Registro Rol</h2>
     <hr>
     <form id="formReservaRol" class="form-horizontal mitadDerecha">
         <div id="nombreRol" class="form-group">
@@ -48,7 +48,7 @@
         </div>
 
 
-        <div id="caracteristicasInstalacion" class="form-group">
+        <div id="descripcionRol" class="form-group">
             <label class="control-label col-xs-4">Descripción</label>
             <div class="input-group col-xs-8">
                 <input ng-model="descripcion" id="descripcion" type="text" class="form-control col-xs-8" placeholder="Descripción del rol"/>
@@ -107,7 +107,6 @@
 
     function validarDatos() {
         var nombre = $("#nombre").val();
-        var capacidad = $("#descripcion").val();
 
         if (!nombre) {
             Notificaciones.showError('Nombre requerido');

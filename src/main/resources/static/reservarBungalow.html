@@ -212,11 +212,22 @@
                 fechaConvertidaReserva = mes + '/' + dia + '/' + anho;
             }
 
+            var fechaConvertidaFin = "";
+            if($("#fechaFin").val() != "") {
+                var fecha = $scope.fechaFin;
+                console.log(fecha);
+                var fechaPartida = fecha.split("/");
+                var dia = fechaPartida[0];
+                var mes = fechaPartida[1];
+                var anho = fechaPartida[2];
+                fechaConvertidaFin = mes + '/' + dia + '/' + anho;
+            }
+
             $scope.registrarReservaBungalow = function (){
                 var dataReserva = {
                     'estado': '1',
                     'fechaReserva':Date.parse(fechaConvertidaReserva),
-                    'fechaFinal':Date.parse(fechaConvertidaReserva),
+                    'fechaFinal':Date.parse(fechaConvertidaFin),
                     'socio':$scope.socio,
                     'bungalow':$scope.bungalow,
                 };

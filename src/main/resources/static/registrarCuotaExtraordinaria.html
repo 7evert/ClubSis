@@ -33,54 +33,122 @@
     </style>
     <script type="text/javascript">
         function verificarDatos(){
-            var mensajes=["La fecha de Inicio debe ser despues de hoy",
-                "Le fecha de Fin no es válida"
-            ]
-            var ver=[];
-            ver[0]=Date.parse($("#date-picker-TiempoInicio")[0].value)>=Date.parse( Date());
-
-            if(isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==true){
-                ver[1]=true;
+            var nombre=$("#nombre").val();;
+            var descripcion = $("#descripcion").val();;
+            var monto= $("#monto").val();;
+            if(!nombre){
+                Notificaciones.showError('Nombre de cuota requerido');
+                $("#nombre").css("border-color", "red");
+                return false;
             }
-            else{
-                ver[1]=Date.parse($("#date-picker-TiempoFin")[0].value)>=Date.parse($("#date-picker-TiempoInicio")[0].value);
+            if(!descripcion){
+                Notificaciones.showError('Descripción de cuota requerido');
+                $("#descripcion").css("border-color", "red");
+                return false;
             }
-            ver[2]=true;
-            for(var i=0;i<ver.length;i++)
-                if(ver[i]==false) {
-                    alert(mensajes[i]);
-                    return false;
+            if(!monto){
+                Notificaciones.showError('Monto de la multa requerido');
+                $("#monto").css("border-color", "red");
+                if(parseFloat(monto)<0){
+                    Notificaciones.showError('Monto de la multa inválido');
                 }
+                return false;
+            }
+            var fechainicio= $("#date-picker-TiempoInicio").val();
+            if(!fechainicio){
+                Notificaciones.showError("Le fecha de Inicio no es válida");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
+            }
+            var today= new Date().getTime();
+            fechainicio = fechainicio.split("/");
+            fechainicio = new Date(fechainicio[2], fechainicio[1] - 1, fechainicio[0]).getTime();
+            if((today - fechainicio) > 0){
+                Notificaciones.showError("La fecha de Inicio debe ser futura");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
+            }
+            var fechafin=$("#date-picker-TiempoFin").val();
+            if(!fechainicio){
+                Notificaciones.showError("Le fecha de Inicio no es válida");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
+            }
+            if(fechafin)
+                fechafin = fechafin.split("/");
+            fechafin = new Date(fechafin[2], fechafin[1] - 1, fechafin[0]).getTime();
+            if((fechainicio - fechafin) > 0){
+                Notificaciones.showError("Le fecha de Fin no es válida");
+                $("#date-picker-TiempoFin").css("border-color", "red");
+                return false;
+            }
             return true;
-        }
+        };
+
+    </script>
+    <script type="text/javascript">
         var appCuotaExtraordinaria = angular.module('appCuotaExtraordinaria', []);
         var socioResp,persona;
         appCuotaExtraordinaria.controller('CuotaExtraordinariaController', function ($scope, $http) {
             $scope.registrarCuota =function (){
-                //if(!verificarDatos())return;
+                if(!verificarDatos())return;
+                var fechaInicioConvertida="",fechaFinConvertida="";
+                if($("#date-picker-TiempoInicio").val() != "") {
+                    var fecha = $("#date-picker-TiempoInicio").val();
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    fechaInicioConvertida = mes + '/' + dia + '/' + anho;
+                }
+                if($("#date-picker-TiempoFin").val() != "") {
+                    var fecha = $("#date-picker-TiempoFin").val();
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    fechaFinConvertida = mes + '/' + dia + '/' + anho;
+                }
                 var data = {
                     //por preguntar
                     "nombre": $scope.ngNombre,
                     "descripcion": $scope.descripcion,
                     "monto": parseFloat($scope.monto),
-                    "fechaInicio": Date.parse($("#date-picker-TiempoInicio")[0].value),
-                    "fechaFin": Date.parse($("#date-picker-TiempoFin")[0].value),
+                    "fechaInicio": Date.parse(fechaInicioConvertida),
+                    "fechaFin": Date.parse(fechaFinConvertida),
                     "estadoCuotaExtraordinaria": 0
                 };
 
                 $http.post('/api/cuotasExtraordinarias', data).success(function (data2 ) {
                             //happy end
                             //$scope.PostDataResponse = data;
-                            console.log(JSON.stringify(data2));
-                            alert("Tu registro de cuota extraordinaria fue hecha exitosamente.");
-                            window.location="registrarCuotaExtraordinaria.html"
+                            Notificaciones.showNoty("Tu registro de cuota extraordinaria fue hecha exitosamente.", Notificaciones.type.SUCCESS);
+
+                            setTimeout(function () {
+                                location.href = "registrarCuotaExtraordinaria.html"
+                            }, 1200);
                         })
                         .error(function (data2) {
-                            console.log(JSON.stringify(data2));
-                            alert("Tu registro de cuota extraordinaria no se pudo realizar.");
+                            Notificaciones.showError("Tu registro de cuota extraordinaria no se pudo realizar.");
                         });
             };
+            $("#nombre").click(function () {
+                $("#nombre").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+            $("#monto").click(function () {
+                $("#monto").css("border-color", "#ccc");
+            });
+            $("#date-picker-TiempoInicio").click(function () {
+                $("#date-picker-TiempoInicio").css("border-color", "#ccc");
+            });
+            $("#date-picker-TiempoFin").click(function () {
+                $("#date-picker-TiempoFin").css("border-color", "#ccc");
+            });
         });
+
     </script>
 </head>
 <body>
@@ -93,28 +161,28 @@
         <div class="form-group">
             <label class="col-xs-5 control-label">Nombre<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <input type="text" maxlength="100" ng-model="ngNombre"  autofocus="autofocus" placeholder="Nombre de la cuota" class="form-control "/>
+                <input type="text" maxlength="100" id="nombre" ng-model="ngNombre"  autofocus="autofocus" placeholder="Nombre de la cuota" class="form-control "/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-5 control-label">Descripcion<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
                 <!--<textarea class="form-control" ng-model="des" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>-->
-                <input type="text" maxlength="100" ng-model="descripcion" placeholder="Descripcion" class="form-control validate[required]"/>
+                <input type="text" id="descripcion" maxlength="100" ng-model="descripcion" placeholder="Descripcion" class="form-control validate[required]"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-5 control-label">Monto<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
                 <!--<textarea class="form-control" ng-model="des" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>-->
-                <input type="text" ng-model="monto" placeholder="monto" class="form-control"/>
+                <input type="text" id="monto" ng-model="monto" placeholder="monto" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-5" >Fecha de Inicio<span class="obligatorio">*</span></label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
@@ -130,10 +198,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-offset-5 col-xs-9">
-            <button ng-click="registrarCuota()" class="btn btn-primary">Registrar</button>
-            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 280px;">(*) Estos campos son obligatorios</span>
+            </div>
         </div>
+        <div class="col-xs-5">
+        </div>
+        <div class="col-xs-7">
+            <div class="form-group" style="margin-left: 140px;">
+                <button ng-click="registrarCuota()" class="btn btn-primary">Registrar</button>
+                <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+
     </form>
 </div>
 <div id="footer"></div>
@@ -141,10 +219,18 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script src="js/principal.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    $(".date-picker").datepicker();
+    $(".date-picker").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 </script>
 </body>
 </html>

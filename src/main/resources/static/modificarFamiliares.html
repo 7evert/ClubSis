@@ -74,9 +74,9 @@
         }
         function llenarCampos(data, titular,familiar) {
             $("#socio").val(data.codigoCarnet);
-            $("#titular").val(titular.nombre + " " + titular.apellidoPaterno);
-            $("#tipoDocumento").val(familiar.tipoDocumento);//$("#tipoDocumento").val(data.tipoDocumento);
-            $("#numeroDocumento").val(familiar.numeroDocumento);
+            $("#titular").val(titular?titular.nombre + " " + titular.apellidoPaterno:"");
+            $("#tipoDocumento").val(familiar.tipoDoc);//$("#tipoDocumento").val(data.tipoDocumento);
+            $("#numeroDocumento").val(familiar.numDoc);
             $("#nombre").val(familiar.nombre);
             $("#apellidoPaterno").val(familiar.apellidoPaterno);
             $("#apellidoMaterno").val(familiar.apellidoMaterno);
@@ -150,11 +150,11 @@
                 });
             });
             funciones.modificarFamiliar= function () {
-                verificarDatos();
+                if(!verificarDatos())return;
                 var persona = {
                     "id":idFamiliar,
-                    "tipoDocumento": $("#tipoDocumento").val(),
-                    "numeroDocumento": parseInt($("#numeroDocumento").val()),
+                    "tipoDoc": $("#tipoDocumento").val(),
+                    "numDoc": parseInt($("#numeroDocumento").val()),
                     "nombre": $("#nombre").val(),
                     "apellidoPaterno": $("#apellidoPaterno").val(),
                     "apellidoMaterno": $("#apellidoMaterno").val(),
@@ -203,8 +203,8 @@
                     <label for="esTitular" class="col-md-4 control-label">Es Titular</label>
                     <div class="col-md-8">
                         <select id="esTitular" class="form-control">
-                            <option value="0">Titular</option>
-                            <option value="1">No Titular</option>
+                            <option value="1">Titular</option>
+                            <option value="0" selected>No Titular</option>
                         </select>
                     </div>
                 </div>

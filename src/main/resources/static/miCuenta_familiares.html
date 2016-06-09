@@ -18,13 +18,6 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
-    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-
     <script src="js/Notificaciones.js"></script>
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
@@ -109,8 +102,8 @@
 
             funciones.elimnarFamiliar = function (event, idFamiliar) {
                 $http.delete('/api/personas/' + idFamiliar + '/eliminar').success(function (data) {
-                    Notificaciones.showNoty("se selimino correctamente");
                     $('#jqGrid').jqGrid('delRowData', idFamiliar);
+                    Notificaciones.showNoty("Se eliminó correctamente");
                     nroFamiliares--;
                 });
             }
@@ -193,6 +186,11 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     /*

@@ -1,6 +1,7 @@
 package com.clubsis.model.sede;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.club.Usuario;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.producto.OrdenCompra;
 import com.clubsis.model.producto.Producto;
@@ -54,15 +55,14 @@ public class Sede {
     @JsonIgnore
     private Set<Producto_Sede> productos =new HashSet<Producto_Sede>();
 
-    /*
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "sedes")
     @JsonIgnore
-    private Set<Producto> productos = new HashSet<>();
-*/
+    private Set<Usuario> usuarios;
+
     protected Sede() {
     }
 
-    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, EstadoSede estado, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones, Set<Concesion> concesiones, Set<Producto_Sede> productos) {
+    public Sede(String nombre, String direccion, String descripcion, String telefono, String administrador, EstadoSede estado, Set<Bungalow> bungalows, Set<Evento> eventos, Set<Proveedor> proveedores, Set<OrdenCompra> ordenes, Set<Instalacion> instalaciones, Set<Concesion> concesiones, Set<Producto_Sede> productos, Set<Usuario> usuarios) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
@@ -76,6 +76,7 @@ public class Sede {
         this.instalaciones = instalaciones;
         this.concesiones = concesiones;
         this.productos = productos;
+        this.usuarios = usuarios;
     }
 
     public Integer getId() {
@@ -188,5 +189,13 @@ public class Sede {
 
     public void setProductos(Set<Producto_Sede> productos) {
         this.productos = productos;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }
