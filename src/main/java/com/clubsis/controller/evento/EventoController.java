@@ -62,7 +62,7 @@ public class EventoController {
     @RequestMapping(value="/{idSocio}/{idEvento}/costo",method = RequestMethod.POST)
     public Double costo(@PathVariable Integer idSocio,@PathVariable Integer idEvento){
         Double monto = servicioEvento.PagoEvento(idEvento,idSocio);
-       // servicioPagos.crearPago(idSocio,idEvento, TipoPago.EVENTO,monto);
+        servicioPagos.crearPago(idSocio,idEvento, TipoPago.EVENTO,monto);
         return monto;
     }
 
