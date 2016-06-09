@@ -27,9 +27,9 @@ public class Postulante {
     private String estadoCivil;
     private Integer numeroHijos;
     private String direccion;
-    private Integer telefonoCasa;
-    private Integer celular;
-    private Integer telefonoTrabajo;
+    private String telefonoCasa;
+    private String celular;
+    private String telefonoTrabajo;
     private String profesion;
     private Double ingresosMensuales;
     private String nombreEmpresa;
@@ -48,7 +48,7 @@ public class Postulante {
 
     }
 
-    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, TipoDocumento tipoDoc, String numDoc, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, Integer telefonoCasa, Integer celular, Integer telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<SocioPostulante> socios) {
+    public Postulante(String nombre, String apellidoPaterno, String apellidoMaterno, TipoDocumento tipoDoc, String numDoc, Date fechaNacimiento, String estadoCivil, Integer numeroHijos, String direccion, String telefonoCasa, String celular, String telefonoTrabajo, String profesion, Double ingresosMensuales, String nombreEmpresa, String correo, Date fechaPostulacion, EstadoPostulante esAprobado, Boolean esActivo, Boolean esPeriodoObjeciones, Set<SocioPostulante> socios) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -152,27 +152,27 @@ public class Postulante {
         this.direccion = direccion;
     }
 
-    public Integer getTelefonoCasa() {
+    public String getTelefonoCasa() {
         return telefonoCasa;
     }
 
-    public void setTelefonoCasa(Integer telefonoCasa) {
+    public void setTelefonoCasa(String telefonoCasa) {
         this.telefonoCasa = telefonoCasa;
     }
 
-    public Integer getCelular() {
+    public String getCelular() {
         return celular;
     }
 
-    public void setCelular(Integer celular) {
+    public void setCelular(String celular) {
         this.celular = celular;
     }
 
-    public Integer getTelefonoTrabajo() {
+    public String getTelefonoTrabajo() {
         return telefonoTrabajo;
     }
 
-    public void setTelefonoTrabajo(Integer telefonoTrabajo) {
+    public void setTelefonoTrabajo(String telefonoTrabajo) {
         this.telefonoTrabajo = telefonoTrabajo;
     }
 

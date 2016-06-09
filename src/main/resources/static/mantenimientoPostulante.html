@@ -239,8 +239,8 @@
             {index: 'nombre', name: 'nombre', align: 'center', width: 90},
             {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 90},
             {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 90},
-            {index: 'tipoDocumento', sortable: true, name: 'tipoDoc', align: 'center', width: 100},
-            {index: 'numeroDocumento', name: 'numDoc', align: 'center', width: 75},
+            {index: 'tipoDoc', sortable: true, name: 'tipoDoc', align: 'center', width: 110},
+            {index: 'numDoc', name: 'numDoc', align: 'center', width: 75},
             {index: 'celular', name: 'celular', align: 'center', width: 70},
             {index: 'profesion', name: 'profesion', align: 'center', width: 70},
             {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 90},
@@ -276,6 +276,10 @@
                     rowData.esActivo = 'HABILITADO';
                 else if (rowData.esActivo == "false")
                     rowData.esActivo = 'INHABILITADO';
+                if (rowData.tipoDoc == "PASAPORTE")
+                    rowData.tipoDoc = 'Pasaporte';
+                else if (rowData.tipoDoc == "CARNET")
+                    rowData.tipoDoc = 'Carnet de extranjería';
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
 
