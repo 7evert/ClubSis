@@ -2,6 +2,7 @@ package com.clubsis.controller.bungalow;
 
 import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.bungalow.EstadoBungalow;
+import com.clubsis.model.bungalow.EstadoReservaBungalow;
 import com.clubsis.model.bungalow.ReservaBungalow;
 import com.clubsis.model.persona.Postulante;
 import com.clubsis.service.ServicioBungalow;
@@ -53,6 +54,7 @@ public class ReservaBungalowController {
     @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
     public Integer editarReservaBungalow(Model model, @RequestParam(value = "idReservaBungalow") Integer idReservaBungalow) {
         ReservaBungalow reservaBungalow = servicioReservas.buscarReservaBungalow(idReservaBungalow);
+        reservaBungalow.setEstado(EstadoReservaBungalow.CANCELADA);
         Bungalow bungalow = reservaBungalow.getBungalow();
         bungalow.setEstado(EstadoBungalow.DISPONIBLE);
         servicioReservas.actualizarBungalow(bungalow.getId(),bungalow);
