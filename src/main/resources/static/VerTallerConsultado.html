@@ -218,7 +218,7 @@
 
     function edicionHorario(idAcademia, idclase){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "edicionTaller.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+        location.href = "inscribirTaller.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
 
 
     }
@@ -531,7 +531,7 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
         acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
-                '<a href="#" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Inscribirse"><img src="img/Iconos/modificar.png" class="icono"></a>';
+                '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Inscribirse"><img src="img/Iconos/modificar.png" class="icono"></a>';
 //                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
 //                '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
         return acciones;

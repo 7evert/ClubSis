@@ -80,11 +80,11 @@
                 <div class="form-group">
                     <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-6">
-                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDocumento">
+                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDoc">
                             <option value="-1" ng-selected="selected">Elegir</option>
                             <option value="DNI">DNI</option>
-                            <option value="Pasaporte">Pasaporte</option>
-                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                            <option value="PASAPORTE">Pasaporte</option>
+                            <option value="CARNET">Carnet de extranjería</option>
                         </select>
                     </div>
                 </div>
@@ -93,8 +93,8 @@
                 <div class="form-group">
                     <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento<span class="obligatorio">*</span></label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="postulantes.numeroDocumento" id="numeroDocumento"
-                               placeholder="Numero de documento">
+                        <input type="text" class="form-control" ng-model="postulantes.numDoc" id="numeroDocumento"
+                               placeholder="Numero de documento" maxlength="15">
                     </div>
                 </div>
             </div>
@@ -280,6 +280,7 @@
     app.controller('EditarPostulanteController', function ($scope, $http) {
         $scope.postulantes = [];
         $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+            console.log(data);
             $scope.postulantes = data;
             var fecha = $scope.postulantes.fechaNacimiento;
             var dia = fecha.split("-");
@@ -302,8 +303,8 @@
                     'nombre': $scope.postulantes.nombre,
                     'apellidoPaterno': $scope.postulantes.apellidoPaterno,
                     'apellidoMaterno': $scope.postulantes.apellidoMaterno,
-                    'tipoDocumento': $scope.postulantes.tipoDocumento,
-                    'numeroDocumento': parseInt($scope.postulantes.numeroDocumento),
+                    'tipoDoc': $scope.postulantes.tipoDoc,
+                    'numDoc': $scope.postulantes.numDoc,
                     'fechaNacimiento': Date.parse(fechaConvertida),
                     'estadoCivil': $scope.postulantes.estadoCivil,
                     'numeroHijos': parseInt($scope.postulantes.numeroHijos),

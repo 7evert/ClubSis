@@ -21,8 +21,8 @@ public class Invitado {
     private Integer id;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private String tipoDocumento;
-    private Integer numeroDocumento;
+    private TipoDocumento tipoDocumento;
+    private String numeroDocumento;
     private String nombres;
     private Boolean ingresoInvitado;
 
@@ -36,7 +36,7 @@ public class Invitado {
     protected Invitado() {
     }
 
-    public Invitado(String apellidoPaterno, String apellidoMaterno, String tipoDocumento, Integer numeroDocumento, String nombres, Boolean ingresoInvitado, Socio socio, Set<InvitadoEvento> invitadoEventos) {
+    public Invitado(String apellidoPaterno, String apellidoMaterno, TipoDocumento tipoDocumento, String numeroDocumento, String nombres, Boolean ingresoInvitado, Socio socio, Set<InvitadoEvento> invitadoEventos) {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.tipoDocumento = tipoDocumento;
@@ -71,19 +71,19 @@ public class Invitado {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public String getTipoDocumento() {
+    public TipoDocumento getTipoDocumento() {
         return tipoDocumento;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public Integer getNumeroDocumento() {
+    public String getNumeroDocumento() {
         return numeroDocumento;
     }
 
-    public void setNumeroDocumento(Integer numeroDocumento) {
+    public void setNumeroDocumento(String numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
     }
 

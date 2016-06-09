@@ -18,12 +18,6 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
 
-    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-
     <script src="js/Notificaciones.js"></script>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
@@ -88,7 +82,6 @@
             var idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
             location.href="registrarFamiliaresDelSocio.html?id="+idSocio;
         }
-        f
         var funciones={};
         funciones.sancionarSocio=function(event){
             var idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
@@ -97,40 +90,41 @@
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        var idSocio, idFamiliar;
+        var idSocio, idFamiliar,titular=null;
         app2.controller('InformacionSocioController', function ($scope, $http) {
             idSocio=getIDSocioYFamiliar()?getIDSocioYFamiliar()[0]:undefined;
             idFamiliar=getIDSocioYFamiliar()?getIDSocioYFamiliar()[1]:undefined;
             $http.get('/api/socios/' + idSocio).success(function (data) {
                 //data={id:1,fechaInscripcion:123123123,estado:"activo",codigoCarnet:12123,tipo:{id:1,nombre:"vitalicio"}};
-                $http.get('/api/socios/' + idSocio + '/personas').success(function (dataPersonas) {
-                    /*dataPersonas=[
-                     {id:1,nombre:"renoz",apellidoPaterno:"asd",apellidoMaterno:"morales",telefono:123123,esTitular:false,socio:{id:1},dni:12123},
-                     {id:2,nombre:"juana",apellidoPaterno:"seg",apellidoMaterno:"reaa",telefono:123123,esTitular:true,socio:{id:1},dni:123213}
-                     ];*/
-                    dataTitular = $.grep(dataPersonas, function (e) {
-                        return e.id==idFamiliar || (!idFamiliar &&(e.esTitular == true));
-                    })[0];
-                    if (!dataTitular) {
-                        Notificaciones.showError("No existe Titular");
-                        llenarCampos(data, {});
-                    }
+                $http.get('/api/socios/' + idSocio + '/personaasociada').success(function (dataTitular) {
+                    titular=dataTitular;
                     llenarCampos(data, dataTitular);
-                    $http.get('/api/socios/' + idSocio + '/personas').success(function (dataFamiliares) {
-                        var elemMiembros = $("#miembro");
-                        for (var i = 0; i < dataFamiliares.length; i++)
-                            elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
-                        if(!dataTitular)
-                            llenarCampos(data,dataFamiliares[0]?dataFamiliares[0]:{});
-                        $('#miembro').on('change', function (e) {
-                            var optionSelected = $("option:selected", this);
-                            var valueSelected = this.value;
-                            var dataFamiliar = $.grep(dataFamiliares, function (e) {
-                                return e.id == valueSelected;
-                            })[0];
-                            console.log(dataFamiliar.id);
-                            llenarCampos(data, dataFamiliar)
-                        });
+                }).error(function(){
+                    Notificaciones.showError("No existe Titular");
+                    llenarCampos(data, {});
+                });
+                $http.get('/api/socios/' + idSocio + '/personas').success(function (dataFamiliares) {
+                    if(dataFamiliares.length==0){
+                        $("#datosPersonas").addClass("hidden");
+                        return;
+                    }
+                    var elemMiembros = $("#miembro");
+                    for (var i = 0; i < dataFamiliares.length; i++)
+                        elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
+                    if(idFamiliar) {
+                        var dataFamiliar1 = $.grep(dataFamiliares, function (e) {
+                            return e.id == idFamiliar;
+                        })[0];
+                        llenarCampos(data, dataFamiliar1);
+                    }
+                    $('#miembro').on('change', function (e) {
+                        var optionSelected = $("option:selected", this);
+                        var valueSelected = this.value;
+                        var dataFamiliar = $.grep(dataFamiliares, function (e) {
+                            return e.id == valueSelected;
+                        })[0];
+                        console.log(dataFamiliar.id);
+                        llenarCampos(data, dataFamiliar)
                     });
                 });
             });
@@ -152,7 +146,7 @@
     <form class="form-horizontal">
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="codigoSocio" class="col-md-5 control-label">Código de Socio</label>
+                <label for="codigoSocio" class="col-md-5 control-label">Código de Socio:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" id="codigoSocio">
                     </label>
@@ -161,7 +155,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="estado" class="col-md-4 control-label">Estado</label>
+                <label for="estado" class="col-md-4 control-label">Estado:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" id="estado">
                     </label>
@@ -170,7 +164,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="codigocarnet" class="col-md-5 control-label">Código Carnet</label>
+                <label for="codigocarnet" class="col-md-5 control-label">Código Carnet:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" id="codigocarnet">
                     </label>
@@ -179,7 +173,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="tipoMembresia" class="col-md-4 control-label">Tipo de Membresía</label>
+                <label for="tipoMembresia" class="col-md-4 control-label">Tipo Membresía:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" id="tipoMembresia">
                     </label>
@@ -197,15 +191,15 @@
             </div>
         </div>
     </form>
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="datosPersonas">
         <div class="col-sm-12 col-lg-12">
             <div class="form-group">
-                <h4>Datos del Miembro <select id="miembro" class="form-control" style="width:200px;"></select></h4>
+                <h4>Datos del Familiar<select id="miembro" class="form-control" style="width:200px;"></select></h4>
             </div>
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="esTitular" class="col-md-5 control-label">Titular</label>
+                <label for="esTitular" class="col-md-5 control-label">Titular:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" id="esTitular"></label>
                     <!--<select class="form-control" id="esTitular">
@@ -217,7 +211,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="nombre" class="col-md-4 control-label">Nombres</label>
+                <label for="nombre" class="col-md-4 control-label">Nombres:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" ng-model="nombre" id="nombre"
                            placeholder="Nombre completo" maxlength="50"></label>
@@ -226,7 +220,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="apellidoPaterno" class="col-md-5 control-label">Apellido Paterno</label>
+                <label for="apellidoPaterno" class="col-md-5 control-label">Apellido Paterno:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" ng-model="apellidoPaterno" id="apellidoPaterno"
                            placeholder="Apellido paterno" maxlength="50"></label>
@@ -235,7 +229,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno</label>
+                <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" ng-model="apellidoMaterno" id="apellidoMaterno"
                            placeholder="Apellido Materno" maxlength="50"></label>
@@ -244,7 +238,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
+                <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" id="tipoDocumento"></label>
                     <!--<select class="form-control" id="tipoDocumento">
@@ -258,7 +252,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="numeroDocumento" class="col-md-4 control-label">Nro Documento</label>
+                <label for="numeroDocumento" class="col-md-4 control-label">Nro Documento:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" id="numeroDocumento"></label>
                 </div>
@@ -266,7 +260,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento</label>
+                <label for="fechaNacimiento" class="col-md-5 control-label">Fecha de Nacimiento:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" ng-model="apellidoMaterno"
                            id="fechaNacimiento"></label>
@@ -275,7 +269,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="direccion" class="col-md-4 control-label">Dirección</label>
+                <label for="direccion" class="col-md-4 control-label">Dirección:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" id="direccion">
                     </label>
@@ -285,7 +279,7 @@
 
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="correo" class="col-md-5 control-label">Correo</label>
+                <label for="correo" class="col-md-5 control-label">Correo:</label>
                 <div class="col-md-6">
                     <label type="text" class="control-label" id="correo"></label>
                 </div>
@@ -294,7 +288,7 @@
 
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="telefono" class="col-md-4 control-label">Teléfono</label>
+                <label for="telefono" class="col-md-4 control-label">Teléfono:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" id="telefono">
                     </label>
@@ -319,6 +313,11 @@
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
 </body>
 </html>

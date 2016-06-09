@@ -20,13 +20,6 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
-    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
-    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-
     <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
@@ -98,14 +91,14 @@
         function mostrarSuspencion(socio) {
             console.log("se deshabilito correctamente al socio " + socio.id);
         }
-        function contieneCadenaItem(item, cad,est,tipo) {
+        function contieneCadenaItem(item,carne, cad,est,tipo) {
             var palabras = cad.split(" ");
             var ver = false;
             if(cad=="")ver=true;
             else
                 for (var i = 0; i < palabras.length; i++)
                     ver = (ver || (item.nombreTit.indexOf(palabras[i]) >= 0));
-            ver = (ver && (tipo==0 || item.tiponombre==tipo) && (est==0 || item.estado==est));
+            ver = (ver && (tipo==0 || item.tiponombre==tipo) && (est==0 || item.estado==est) && (carne=="" || carne==item.codigoCarnet));
             return ver;
         }
         function llenarCampos(tipoSocios) {
@@ -114,6 +107,7 @@
                 elemtipoSocios.append($("<option></option>").attr({value: tipoSocios[i].nombre}).html(tipoSocios[i].nombre));
         }
         funciones.buscar = function () {
+            var carne=$("#nroCarne").val();
             var str = $("#nombre").val();
             var est = $("#estado").val();
             var tipo = $("#tipomembresia").val();
@@ -124,7 +118,7 @@
                 var rowId = ids[i];
                 var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
                 ver = false;
-                if (contieneCadenaItem(rowData, str,est,tipo)) {
+                if (contieneCadenaItem(rowData, carne,str,est,tipo)) {
                     //showrow
                     $("#" + rowId).show();
                 }
@@ -154,12 +148,12 @@
                     height: 50 * (data.legth + 1),
                     colNames: ['Nro.', 'ID', 'Carnet', 'Membresia', 'Estado', 'Titular', "Acciones"],
                     colModel: [
-                        {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
+                        {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
                         {name: 'id', index: 'ID', width: 90, editable: false, hidden: true, align: 'center'},
-                        {name: 'codigoCarnet', index: 'Carnet', width: 150, editable: false, align: 'center'},
-                        {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center'},
-                        {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center'},
-                        {name: 'nombreTit', index: 'Nombre Titular', width: 220, editable: false, align: 'center'},
+                        {name: 'codigoCarnet', index: 'Carnet', width: 150, editable: false, align: 'center',sortable:true},
+                        {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'nombreTit', index: 'Nombre Titular', width: 220, editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true
@@ -168,8 +162,7 @@
                     var acciones = '';
                     acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>'
-                    //+                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/sancionar.png" class="icono"/>'
                     return acciones;
                 }
 
@@ -219,6 +212,28 @@
                     }
                 }
             }
+            $("#nroCarne")[0].addEventListener('keypress', function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    if($(event.target).val()!="")
+                        funciones.buscar();
+                    else {
+                        Notificaciones.showError("Debe Ingresar un Numero de Carne");
+                        funciones.buscar();
+                    }
+                }
+            });
+            $("#nombre")[0].addEventListener('keypress', function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    if($(event.target).val()!="")
+                        funciones.buscar();
+                    else {
+                        Notificaciones.showError("Debe Ingresar un Nombre");
+                        funciones.buscar();
+                    }
+                }
+            });
         });
     </script>
 </head>
@@ -240,6 +255,14 @@
 
     <form class="form-horizontal">
         <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Numero de Carne:</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="nroCarne" placeholder="" autofocus="autofocus">
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="tipomembresia" class="col-md-4 control-label">Membresia</label>
@@ -346,8 +369,7 @@
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Socio|
             <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Sancionar Socio|
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Socio
+            <span class="icono-resultados"><img src="img/Iconos/sancionar.png" class="icono"></span> Sancionar Socio
         </div>
     </form>
 </div>
@@ -361,6 +383,13 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
 <script src="js/principal.js"></script>
 </body>
 </html>

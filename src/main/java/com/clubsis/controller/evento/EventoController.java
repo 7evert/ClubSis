@@ -2,8 +2,10 @@ package com.clubsis.controller.evento;
 
 import com.clubsis.model.evento.EstadoEvento;
 import com.clubsis.model.evento.Evento;
-       import com.clubsis.model.sede.Sede;
-        import com.clubsis.service.ServicioSedes;
+import com.clubsis.model.pago.TipoPago;
+import com.clubsis.model.sede.Sede;
+import com.clubsis.service.ServicioPagos;
+import com.clubsis.service.ServicioSedes;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.web.bind.annotation.*;
         import com.clubsis.model.sede.Sede;
@@ -22,7 +24,8 @@ public class EventoController {
     private ServicioEventos servicioEvento;
     @Autowired
     private ServicioSedes servicioSede;
-
+    @Autowired
+    private ServicioPagos servicioPagos;
     @RequestMapping(method=RequestMethod.GET)
     List<Evento>  list() { return servicioEvento.mostrarEventos();}
 
@@ -58,7 +61,9 @@ public class EventoController {
 
     @RequestMapping(value="/{idSocio}/{idEvento}/costo",method = RequestMethod.POST)
     public Double costo(@PathVariable Integer idSocio,@PathVariable Integer idEvento){
-        return servicioEvento.PagoEvento(idEvento,idSocio);
+        Double monto = servicioEvento.PagoEvento(idEvento,idSocio);
+        servicioPagos.crearPago(idSocio,idEvento, TipoPago.EVENTO,monto);
+        return monto;
     }
 
 }
