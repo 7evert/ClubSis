@@ -73,6 +73,12 @@ public class ServicioReservas {
         return tipoBungalowRepository.saveAndFlush(tipoBungalow);
     }
 
+    public TipoBungalow actualizarTipoBungalow(Integer id, TipoBungalow tipoBungalow) {
+        TipoBungalow bungalowExistente = tipoBungalowRepository.findOne(id);
+        tipoBungalow.setId(id);
+        BeanUtils.copyProperties(tipoBungalow, bungalowExistente);
+        return tipoBungalowRepository.saveAndFlush(bungalowExistente);
+    }
     // ReservaBungalow
 
     public List<ReservaBungalow> mostrarReservasBungalow() {
