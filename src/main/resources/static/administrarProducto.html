@@ -75,6 +75,11 @@
         console.log(id);
         location.href = "edicionProducto.html?id=" + id;
     }
+    function ingresarStock() {
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        console.log(id);
+        location.href = "ingresarStock.html?id=" + id;
+    }
     function accionEliminar() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
@@ -314,7 +319,7 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones ='<a href="#" onclick="edicionProducto();return false;"  id="bt3" class="btn btn-warning" data-idEvento-ingresar="' + rowdata['id'] + '" title="Ingresar Stock"><img src="img/Iconos/flecha-arriba.png" class="icono"></a>' +
+        acciones ='<a href="#" onclick="ingresarStock();return false;"  id="bt3" class="btn btn-warning" data-idEvento-ingresar="' + rowdata['id'] + '" title="Ingresar Stock"><img src="img/Iconos/flecha-arriba.png" class="icono"></a>' +
                 '<a href="#" onclick="edicionProducto();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Producto" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;

@@ -67,6 +67,7 @@ public class ServicioProducto {
         return productoRepository.saveAndFlush(productoExistente);
     }
 
+    //Product_Sede
     public List<Producto_Sede> mostrarStocks(){return producto_sedeRepository.findAll(); }
 
     public Producto_Sede crearStockPorSede(Producto_Sede producto){
