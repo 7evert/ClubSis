@@ -243,7 +243,10 @@
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
-
+                if(dataevento.estado=="INHABILITADO"){
+                    $("#Participar").addClass("hidden");
+                    $("#Confirmar").addClass("hidden");
+                }
                 $("#Participar").click(function () {
                     location.href = "registrarInvitado.html?idSocio=1&idEvento="+dataevento.id;
                 });

@@ -103,7 +103,7 @@
             funciones.elimnarFamiliar = function (event, idFamiliar) {
                 $http.delete('/api/personas/' + idFamiliar + '/eliminar').success(function (data) {
                     $('#jqGrid').jqGrid('delRowData', idFamiliar);
-                    Notificaciones.showNoty("se selimino correctamente");
+                    Notificaciones.showNoty("Se eliminó correctamente");
                     nroFamiliares--;
                 });
             }

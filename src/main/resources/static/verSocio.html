@@ -111,6 +111,12 @@
                     var elemMiembros = $("#miembro");
                     for (var i = 0; i < dataFamiliares.length; i++)
                         elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
+                    if(idFamiliar) {
+                        var dataFamiliar1 = $.grep(dataFamiliares, function (e) {
+                            return e.id == idFamiliar;
+                        })[0];
+                        llenarCampos(data, dataFamiliar1);
+                    }
                     $('#miembro').on('change', function (e) {
                         var optionSelected = $("option:selected", this);
                         var valueSelected = this.value;
@@ -167,7 +173,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="tipoMembresia" class="col-md-4 control-label">Tipo de Membresía:</label>
+                <label for="tipoMembresia" class="col-md-4 control-label">Tipo Membresía:</label>
                 <div class="col-md-7">
                     <label type="text" class="control-label" id="tipoMembresia">
                     </label>

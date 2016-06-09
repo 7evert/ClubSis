@@ -350,10 +350,10 @@
 
             funciones.terminar=function() {
                 $http.post('/api/eventos/'+idsocio+'/'+idevento+'/costo').success(function (data) {
-                    /*location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;*/
+                    Notificaciones.showNoty("Tu registro fue confirmado.")
                     console.log(JSON.stringify(data));
+                    location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
                 });
-                //location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
             }
         });
     </script>
@@ -374,7 +374,6 @@
                             <div id="formInvitado"  style="position:relative;top:10px;">
                                 <div>
                                     <label style="font-size:17pt;">Datos del Invitado</label>
-                                    <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-5 control-label">Nombre(s)<span class="obligatorio">*</span></label>
@@ -404,7 +403,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-5 control-label">Tipo de Documento<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
-                                        <select class="form-control" id="tipoDoc">
+                                        <select class="input-group form-control" id="tipoDoc">
                                             <option value="0">Elegir</option>
                                             <option value="DNI">DNI</option>
                                             <option value="Pasaporte">Pasaporte</option>
@@ -429,7 +428,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-5 control-label">Tipo de Entrada<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
-                                        <select class="form-control" id="tipoTarifa">
+                                        <select class="input-group form-control" id="tipoTarifa">
                                         </select>
                                     </div>
                                 </div>
@@ -469,8 +468,11 @@
                             </div>
 
                             <!---------------------------------- ----------------------------------------------------->
+                            <div align="left" style="position:relative;top:0px;">
+                                <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
+                            </div>
                             <div align="left" style="position:relative;top:60px;left:15%;">
-                                <input id="terminar" class="btn btn-primary" value="Confirmar" style="width:30%">
+                                <input id="terminar" class="btn btn-primary" value="Pagar" style="width:30%">
                                 <input id="cancelar" class="btn btn-primary" value="Eventos" style="width:30%">
                             </div>
                         </form>
@@ -488,13 +490,16 @@
                             <div id="jqGridPager"></div>
                         </div>
                         <br>
-                        <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
+
                         <br>
-                        <div class="leyenda">
-                            <span>Leyenda: </span>
-                            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver|
-                            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar|
-                            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+                        <div class="leyenda"style=" margin-left:30px;">
+                            <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
+                            <div style="float:right;">
+                                <span>Leyenda: </span>
+                                <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver|
+                                <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar|
+                                <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+                            </div>
                         </div>
                     </div>
                 </div>
