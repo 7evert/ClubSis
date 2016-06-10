@@ -70,11 +70,11 @@
 </head>
 <body ng-controller="ProveedorController">
 <script type="text/javascript">
-    function edicionProveedor(){
+    function edicionProveedor(event){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         location.href = "edicionProveedor.html?id=" + id;
     }
-    function accionEliminar() {
+    function accionEliminar(event) {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         console.log("Accion:");
         console.log(id);
@@ -322,8 +322,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionProveedor();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionProveedor(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

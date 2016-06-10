@@ -255,7 +255,7 @@
         <div id="RUC" class="form-group">
             <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="15" placeholder="Escriba el RUC..."required/>
+                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="15" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Escriba el RUC..."required/>
             </div>
         </div>
         <div id="Descripcion" class="form-group">
@@ -267,7 +267,7 @@
         <div id="numContacto" class="form-group">
             <label class="control-label col-xs-4">Número de Contacto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese número de contacto..." required/>
+                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Ingrese número de contacto..." required/>
             </div>
         </div>
         <div id="Direccion" class="form-group">

@@ -26,6 +26,11 @@ public class Producto_SedeController {
         return servicioProducto_Sede.buscarStock(idProducto,idSede);
     }
 
+    @RequestMapping(value = "/{idProducto}", method = RequestMethod.GET)
+    public List<com.clubsis.model.producto.Producto_Sede> get(@PathVariable Integer idProducto) {
+        return servicioProducto_Sede.mostrarStockPorProducto(idProducto);
+    }
+
     @RequestMapping(value = "/{idProducto}/{idSede}", method = RequestMethod.POST)
     public com.clubsis.model.producto.Producto_Sede create(@PathVariable Integer idProducto, @PathVariable Integer idSede) {
         return servicioProducto_Sede.crearStock(idProducto,idSede);

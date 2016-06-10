@@ -1,6 +1,7 @@
 package com.clubsis.service;
 
 import com.clubsis.model.producto.*;
+import com.clubsis.model.sede.Sede;
 import com.clubsis.repository.producto.Producto_SedeRepository;
 import com.clubsis.repository.sede.SedeRepository;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,7 @@ import com.clubsis.repository.producto.ProveedorRepository;
 import com.clubsis.repository.producto.OrdenCompraRepository;
 import com.clubsis.repository.producto.ProductoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,7 +56,12 @@ public class ServicioProducto {
     }
 
     public Producto crearProducto(Producto producto){
-        return productoRepository.saveAndFlush(producto);
+        List<Sede> sedes = sedeRepository.findAll();
+        Producto nuevoProducto=productoRepository.saveAndFlush(producto);
+        for (Sede item : sedes) {
+            crearStock(producto.getId(),item.getId());
+        }
+        return nuevoProducto;
     }
 
     public Producto buscarProducto(Integer id){
@@ -91,6 +98,17 @@ public class ServicioProducto {
         Producto_Sede stockAnterior = producto_sedeRepository.findOne(id);
         stockAnterior.setStock(stock);
         return producto_sedeRepository.saveAndFlush(stockAnterior);
+    }
+
+    public List<Producto_Sede> mostrarStockPorProducto(Integer idProducto){
+        List<Producto_Sede> stocks = producto_sedeRepository.findAll();
+        List<Producto_Sede> resultado = new ArrayList<Producto_Sede>();
+        for (Producto_Sede item : stocks) {
+            if(item.getProducto().getId()==idProducto){
+                resultado.add(item);
+            }
+        }
+        return resultado;
     }
 
     //OrdenCompra

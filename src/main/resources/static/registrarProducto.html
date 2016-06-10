@@ -93,7 +93,7 @@
         <div id="precioVenta" class="form-group">
             <label class="control-label col-xs-4">Precio de Venta S/.<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="precio" type="text" class="form-control col-xs-8" ng-model="precio" maxlength="9"  placeholder="Ingrese el precio de venta unitario..." required/>
+                <input id="precio" type="text" class="form-control col-xs-8" ng-model="precio" maxlength="9" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  placeholder="Ingrese el precio de venta unitario..." required/>
             </div>
         </div>
         <div class="form-group">

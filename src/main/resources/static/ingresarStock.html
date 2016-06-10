@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app2">
 <head>
     <meta charset="UTF-8">
     <title>Ingresar Stock</title>
@@ -75,20 +75,87 @@
         }
     </style>
     <script type="text/javascript">
+        function getID() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
+    </script>
+    <script type="text/javascript">
         //app script
         var app2 = angular.module('app2', []);
     </script>
     <script type="text/javascript">
+        console.log("Inicio Controller");
         app2.controller('IngresoStockController', function ($scope, $http) {
+            console.log("Get Controller");
+
+            $http.get('/api/productos/'+getID()).success(function (data3) {
+                $("#idProducto").html("Registrar Ingreso de Stock: " + data3.nombre);
+            });
 
             $http.get('/api/sedes').success(function (data1) {
                 var sedesElem = $("#sede");
-                for (var i = 0; i < data1.length; i++)
+                for (var i = 0; i < data1.length; i++){
                     sedesElem.append($("<option></option>").attr({value: data1[i].id}).html(data1[i].nombre));
+                }
             });
 
+            $("#guardar").click(function(){
+                //var data=getConcesion(id);
+                if(!validarDatos()){
+                    var rowData = jQuery('#jqGrid').jqGrid('getRowData', $("#sede").val());
+                    var nuevoStock=parseInt($("#ingreso").val())+parseInt(rowData.stock);
+                    console.log("Neuevo Stock: "+nuevoStock);
+                    $http.put("/api/stocks/"+idProducto+"/"+$("#sede").val()+"/"+nuevoStock).success(function (data2, status) {
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            $('#jqGrid').trigger( 'reloadGrid' );
+                            $("#ingreso").val('');
+                            $("#fechaInicio").val('');
+                        }, 1000);
+                    }).error(function (data) {
+                        Notificaciones.showError("Error al editar concesión");
+                    });
 
+                }
+            });
 
+            $("#cancelar").click(function () {
+                location.href = "administrarProducto.html";
+            });
+
+            function validarDatos() {
+                var sede = $("#sede").val();
+                var ingreso = $("#ingreso").val();
+                var fechaInicio = $("#fechaInicio").val();
+                if (!sede) {
+                    Notificaciones.showError('Sede requerida');
+                    $("#sede").css("border-color", "red");
+                    return true;
+                }
+                else if (!ingreso) {
+                    Notificaciones.showError('Número de unidades requerido');
+                    $("#ingreso").css("border-color", "red");
+                    return true;
+                }
+                else if (!fechaInicio) {
+                    Notificaciones.showError('Fecha de inicio de la concesión requerida');
+                    $("#fechaInicio").css("border-color", "red");
+                    return true;
+                }
+                return false;
+            }
+            $("#sede").click(function () {
+                $("#sede").css("border-color", "#ccc");
+            });
+            $("#ingreso").click(function () {
+                $("#ingreso").css("border-color", "#ccc");
+            });
+            $("#fechaInicio").click(function () {
+                $("#fechaInicio").css("border-color", "#ccc");
+            });
         });
     </script>
 </head>
@@ -104,32 +171,41 @@
         <br><br>
         <div id="escogerSede" class="form-group">
             <label id="admSede" class="control-label col-xs-4">Escoger Sede<span class="obligatorio"> *</span></label>
-            <div input-group class="col-xs-8">
-                <select class="form-control col-xs-8" id="sede">
+            <div class="input-group col-xs-8">
+                <select class="form-control" id="sede">
                 </select>
             </div>
         </div>
         <div id="stock" class="form-group">
             <label class="control-label col-xs-4">Ingreso<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="capacidad" type="text" class="form-control" value=""/>
+                <input id="ingreso" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Unidades de producto" class="form-control" value=""/>
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: -15px;">
+            <label for="fechaInicio" class="col-md-4 control-label">Fecha de Ingreso<span class="obligatorio">*</span></label>
+            <div class="input-group input-append date col-md-8">
+                <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6" placeholder="dd / mm / yyyy"/>
+                <label for="fechaInicio" class="input-group-addon btn"><span
+                        class="glyphicon glyphicon-calendar"></span>
+                </label>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
+                <span class="obligatorio" style="margin-left: 168px;">(*) Estos campos son obligatorios</span>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input id="Guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%">
-                <input id="Cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%">
+            <div class="col-xs-offset-8 col-xs-8">
+                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:25%">
+                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:25%">
             </div>
         </div>
     </form>
     <div id="detallesStocks" class="mitadDerecha">
-        <div id="Stock por Sede" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
-            <div><h1>Tarifas</h1></div>
+        <div id="stocks" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
+            <div><h1>Stocks por Sede</h1></div>
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>
@@ -148,9 +224,34 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
+</script>
+<script type="text/javascript">
+    var idProducto=getID()
+    $("#jqGrid").jqGrid({
+        url: '/api/stocks/'+idProducto,
+        mtype: "GET",
+        styleUI: 'Bootstrap',
+        datatype: "json",
+        gridview: true,
+        emptyrecords: 'No se encontraron resultados',
+        colNames:['Número','Nombre','Stock'], //define column names
+        colModel:[
+            {name:'sede.id', index:'sede.id', align:'center', key: true, width:120},
+            {name:'sede.nombre', index:'sede.nombre', align:'center', width:120},
+            {name:'stock', index:'stock',align:'center', width:120},
+        ],
+        height: 100,
+    });
+
+    $('#jqGrid').jqGrid('setGridWidth', '360');
 </script>
 </body>
 </html>
