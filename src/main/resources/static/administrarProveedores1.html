@@ -134,6 +134,57 @@
             });
         })
 
+        $scope.eliminarProveedores =function (){
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError('No hay proveedor seleccionado');
+            else {
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea eliminar este proveedor ?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            var selectedIDs = grid.getGridParam("selarrrow");
+                            var result = "";
+                            console.log(selectedIDs);
+                            for (var i = 0; i < selectedIDs.length; i++) {
+                                var id= selectedIDs[i];
+                                $http.get('/api/proveedores/'+ id).success(function (data,status ) {
+                                    result += selectedIDs[i] + ",";
+                                    flag=true
+                                    console.log(JSON.stringify(data));
+                                    data.estadoProveedor = 0;
+                                    $http.put("/api/proveedores/" + data.id, data).success(function (data3, status) {
+                                        setTimeout(function () {
+                                            location.href = "administrarProveedores1.html"
+                                        }, 1000);
+                                    });
+                                }).error(function (data2) {
+                                    console.log(JSON.stringify(data));
+                                    Notificaciones.showError('No se pudo eliminar los proveedores seleccionados');
+                                });
+
+                                console.log(result);
+                                result += selectedIDs[i] + ",";
+                            }
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
+            }
+        }
 
     });
 </script>
@@ -145,8 +196,9 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE PROVEEDORES
-            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 400px;">Añadir
                 Proveedor</a>
+            <button ng-click="eliminarProveedores()" href="javascript:void(0)" class="btn btn-primary">Eliminar Proveedor</button>
         </h3>
 
     </div>
@@ -249,7 +301,8 @@
                 } //if
             }
             //console.log("salio");
-        }
+        },
+        multiselect:true
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '1150');
