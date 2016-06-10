@@ -120,18 +120,18 @@ public class ServicioPagos {
     public Pago buscarPagoExistente(Socio socio, Integer idServicio,TipoPago tipoPago){
         List<Pago> pagos = new ArrayList<>(socio.getPagos());
         for(Pago item:pagos){
-            if(tipoPago==TipoPago.EVENTO){
+            if(tipoPago==TipoPago.EVENTO && item.getEvento()!=null){
                 if(item.getEvento().getId()==idServicio)    return item;
             }
-            else if(tipoPago==TipoPago.BUNGALOW){
+            else if(tipoPago==TipoPago.BUNGALOW && item.getReservaBungalow()!=null){
                 ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
                 if(item.getReservaBungalow().getId()==reservaBungalow.getId())   return item;
             }
-            else if(tipoPago==TipoPago.CLASE){
+            else if(tipoPago==TipoPago.CLASE && item.getRegistroClase()!=null){
                 RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
                 if(item.getRegistroClase().getId()==registroClase.getId())   return item;
             }
-            else if(tipoPago==TipoPago.INSTALACION){
+            else if(tipoPago==TipoPago.INSTALACION && item.getReservaInstalacion()!=null){
                 ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
                 if(item.getReservaInstalacion().getId()==reservaInstalacion.getId())   return item;
             }
