@@ -6,6 +6,7 @@ import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,7 +31,7 @@ public class Usuario {
     private Rol rol;
 
     @ManyToMany
-    private Set<Sede> sedes;
+    private Set<Sede> sedes =new HashSet<>();
 
     public Usuario() {
     }
