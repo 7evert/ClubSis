@@ -25,6 +25,7 @@ public class Bungalow {
     private String urlFoto;
     private String descripcion;
 
+    private EstadoBungalow estadoBungalow;
     @ManyToOne
     private TipoBungalow tipoBungalow; // necesario (composición)
 
