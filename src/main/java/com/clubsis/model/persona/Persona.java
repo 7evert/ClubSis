@@ -44,7 +44,7 @@ public class Persona {
     @JsonIgnore
     private Usuario usuario;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="personas")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy ="persona")
     private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
 
     public Persona() {

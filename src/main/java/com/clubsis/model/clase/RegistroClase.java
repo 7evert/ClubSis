@@ -24,18 +24,17 @@ public class RegistroClase {
 
     // Observación: no hay relación con Socio
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Persona> personas = new HashSet<Persona>();
+    @ManyToOne
+    private Persona persona;
 
     protected RegistroClase() {
     }
 
-    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Set<Persona> personas) {
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
         this.clase = clase;
-        this.personas = personas;
+        this.persona = persona;
     }
 
     public Integer getId() {
@@ -70,11 +69,11 @@ public class RegistroClase {
         this.clase = clase;
     }
 
-    public Set<Persona> getPersonas() {
-        return personas;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 }

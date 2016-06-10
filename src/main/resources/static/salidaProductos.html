@@ -138,20 +138,8 @@
                             console.log(data3);
                         });
                     })
-
-//                    $http.post("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
-//                        console.log("Salio");
-//                    });
                 }
             }
-//            $http.put('/api/stocks/' + id).success(function (data2, status) {
-//                data2.estadoProducto = 0;
-//                $http.put("/api/productos/" + data2.id, data2).success(function (data3, status) {
-//                    setTimeout(function () {
-//                        location.href = "administrarProducto.html"
-//                    }, 1000);
-//                });
-//            });
         })
 
         $http.get('/api/sedes').success(function (data1) {
@@ -174,11 +162,8 @@
             <hr>
             <div id="escogerSede" class="form-group">
                 <!--<div class="control-label col-xs-5"></div>-->
-                <div id="montoTotal" class="col-xs-5 form group row">
-                    <label class="form-control-label">Monto S/.</label>
-                    <div>
-                        <p id="monto" class="form-control-static"></p>
-                    </div>
+                <div id="montoTotal" class="col-xs-6 form group row">
+                    <label class="form-control-label">Monto S/.<span id="monto" class="form-control-static">0</span></label>
                 </div>
                 <label class="control-label col-xs-2">Escoger Sede</span></label>
                 <div class="col-xs-2">
@@ -291,11 +276,15 @@
         height: 300,
         rowNum: 1000,
         pager: "#jqGridPager",
+        //caption:"Cell Edit Example",
+        forceFit : true,
+        //cellEdit: true,
+        cellsubmit: 'clientArray',
+
         onSelectRow: function (id) {
             if (id && id !== lastsel2) {
                 jQuery('#jqGrid').jqGrid('restoreRow', lastsel2);
                 jQuery('#jqGrid').jqGrid('editRow', id, true);
-                $("#monto").val(2);
                 lastsel2 = id;
             }
         },
@@ -309,6 +298,12 @@
                 }
             }
         },
+        afterSaveCell : function(rowid,name,val,iRow,iCol) {
+            console.log("Prueba");
+        },
+        afterEditCell: function (id,name,val,iRow,iCol) {
+            alert("alert1!");
+        }
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '1150');
