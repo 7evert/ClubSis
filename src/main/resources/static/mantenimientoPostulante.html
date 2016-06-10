@@ -292,23 +292,6 @@
                 } //if
             }
 
-//            $('.cbox').click(function () {
-//                var myGrid = $('#jqGrid');
-//                var selectedRowId = myGrid.jqGrid('getGridParam', 'selrow');
-//                var cellValue = myGrid.jqGrid('getCell', selectedRowId, 'columnName');
-//                console.log("cbox");
-//                console.log(cellValue);
-//                var condicionMultiple = $('.cbox').prop('checked');
-////                var condicionMultiple2 = $("#jqg_jqGrid_" + $(this.id).val()).prop('checked');
-//                console.log(condicionMultiple);
-////                console.log(condicionMultiple2);
-//                if (condicionMultiple == true || cellValue == false) {
-//                    $("#btnEliminarMultiples").css("visibility", "visible");
-//                }
-//                else
-//                    $("#btnEliminarMultiples").css("visibility", "hidden");
-//            });
-
             $('#btnEliminarMultiples').click(function () {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");

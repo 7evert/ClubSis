@@ -194,11 +194,41 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
+        formatter : {
+            date : {
+                srcformat: 'Y-m-d'
+            },
+        },
+        formatter : {
+            date: {
+                monthNames: [
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+                ],
+                AmPm: ["am", "pm", "AM", "PM"],
+                srcformat: 'm-d-Y',
+                newformat: 'd/m/Y',
+                parseRe: /[Tt\\\/:_;.,\t\s-]/,
+                masks: {
+                    ISO8601Long: "Y-m-d H:i:s",
+                    ISO8601Short: "Y-m-d",
+                    ShortDate: "n/j/Y",
+                    LongDate: "l, F d, Y",
+                    FullDateTime: "l, F d, Y g:i:s A",
+                    MonthDay: "F d",
+                    ShortTime: "g:i A",
+                    LongTime: "g:i:s A",
+                    SortableDateTime: "Y-m-d\\TH:i:s",
+                    UniversalSortableDateTime: "Y-m-d H:i:sO",
+                    YearMonth: "F, Y"
+                },
+            },
+        },
         colModel: [
             {index: 'id', name: 'id', align: 'center', width: 75},
             {index: 'estado', name: 'estado', align: 'center', width: 90},
-            {index: 'fechaReserva', name: 'fechaReserva', align: 'center', width: 150},
-            {index: 'fechaFinal', name: 'fechaFinal', align: 'center', width: 150},
+            {index: 'fechaReserva', name: 'fechaReserva',width: 150, align: 'center',formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "d/m/Y" }, },
+            {index: 'fechaFinal', name: 'fechaFinal', align: 'center', width: 150,formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "d/m/Y" },},
             {index: 'bungalow.id', name: 'bungalow.id', align: 'center', width: 100},
             {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
