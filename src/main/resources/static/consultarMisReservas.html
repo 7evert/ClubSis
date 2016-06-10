@@ -233,7 +233,7 @@
             {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Estado', 'Fecha Inicio', 'Fecha Fin', 'Bungalow','Acciones',
+            'N° Reserva', 'Estado', 'Fecha Inicio', 'Fecha Fin', 'Bungalow','Acciones',
         ],
         viewrecords: true,
         height: 400,
@@ -262,6 +262,43 @@
                                         if (!response.error) {
                                             Notificaciones.hideAll();
                                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                                            $('#jqGrid').trigger('reloadGrid');
+                                            setTimeout(function () {
+                                                location.href = "consultarMisReservas.html"
+                                            }, 1000);
+                                        } else {
+                                            Noty.hideAll();
+                                            Noty.showError(response.mensaje, false, 3000);
+                                        }
+                                    });
+                            $noty.close();
+                        }},
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
+            });
+
+            $('.icono-facturaion').click(function () {
+                var idReserva = $(this).attr('data-idReserva-Facturacion');
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea facturar la reserva?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Facturar Reserva', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            Notificaciones.showNoty("Facturación exitosa", Notificaciones.type.SUCCESS);
+                            $.post('/api/reservasbungalow/facturar',
+                                    {idReservaBungalow: idReserva},
+                                    function (response) {
+                                        if (!response.error) {
+                                            Notificaciones.hideAll();
+                                            Notificaciones.showNoty("Facturación exitosa", Notificaciones.type.SUCCESS);
                                             $('#jqGrid').trigger('reloadGrid');
                                             setTimeout(function () {
                                                 location.href = "consultarMisReservas.html"
