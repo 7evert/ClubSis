@@ -10,6 +10,7 @@ import com.clubsis.repository.producto.ProveedorRepository;
 import com.clubsis.repository.producto.OrdenCompraRepository;
 import com.clubsis.repository.producto.ProductoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -91,6 +92,17 @@ public class ServicioProducto {
         Producto_Sede stockAnterior = producto_sedeRepository.findOne(id);
         stockAnterior.setStock(stock);
         return producto_sedeRepository.saveAndFlush(stockAnterior);
+    }
+
+    public List<Producto_Sede> mostrarStockPorProducto(Integer idProducto){
+        List<Producto_Sede> stocks = producto_sedeRepository.findAll();
+        List<Producto_Sede> resultado = new ArrayList<Producto_Sede>();
+        for (Producto_Sede item : stocks) {
+            if(item.getProducto().getId()==idProducto){
+                resultado.add(item);
+            }
+        }
+        return resultado;
     }
 
     //OrdenCompra
