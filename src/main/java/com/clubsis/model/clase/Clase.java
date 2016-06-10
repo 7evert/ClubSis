@@ -35,10 +35,6 @@ public class Clase {
     @JsonIgnore
     private Set<Horario> horarios = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "clase")
-    @JsonIgnore
-    private Set<Pago> pagos = new HashSet<>();
-
     @ManyToOne
     //@JsonIgnore
     private Academia academia;
@@ -46,7 +42,7 @@ public class Clase {
     protected Clase() {
     }
 
-    public Clase(Integer nivel, Double precioCiclo, String rangoEdad, Double precioMes, Integer capacidad, EstadoClase estadoClase, String profesor, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios, Set<Pago> pagos, Academia academia) {
+    public Clase(Integer nivel, Double precioCiclo, String rangoEdad, Double precioMes, Integer capacidad, EstadoClase estadoClase, String profesor, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios,Academia academia) {
         this.nivel = nivel;
         this.precioCiclo = precioCiclo;
         this.rangoEdad = rangoEdad;
@@ -57,7 +53,6 @@ public class Clase {
         this.ciclo = ciclo;
         this.registros = registros;
         this.horarios = horarios;
-        this.pagos = pagos;
         this.academia = academia;
     }
 

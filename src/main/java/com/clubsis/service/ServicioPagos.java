@@ -81,20 +81,20 @@ public class ServicioPagos {
         else if(tipoPago==TipoPago.BUNGALOW){
             ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
             Pago nuevoPago = new Pago(null,null,monto,reservaBungalow.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,reservaBungalow.getBungalow(),null,null,null);
+                    tipoPago,null,socio,null,reservaBungalow,null,null,null);
             return pagoRepository.saveAndFlush(nuevoPago);
 
         }
         else if(tipoPago==TipoPago.CLASE){
             RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
             Pago nuevoPago = new Pago(null,null,monto,registroClase.getClase().getCiclo().getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,null,registroClase.getClase(),null,null);
+                    tipoPago,null,socio,null,null,registroClase,null,null);
             return pagoRepository.saveAndFlush(nuevoPago);
         }
         else if(tipoPago==TipoPago.INSTALACION){
             ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
             Pago nuevoPago= new Pago(null,null,monto,reservaInstalacion.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,null,null,reservaInstalacion.getInstalacion(),null);
+                    tipoPago,null,socio,null,null,null,reservaInstalacion,null);
             return pagoRepository.saveAndFlush(nuevoPago);
         }
         else if(tipoPago==TipoPago.MULTA){
@@ -125,15 +125,15 @@ public class ServicioPagos {
             }
             else if(tipoPago==TipoPago.BUNGALOW){
                 ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
-                if(item.getBungalow().getId()==reservaBungalow.getBungalow().getId())   return item;
+                if(item.getReservaBungalow().getId()==reservaBungalow.getId())   return item;
             }
             else if(tipoPago==TipoPago.CLASE){
                 RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
-                if(item.getClase().getId()==registroClase.getClase().getId())   return item;
+                if(item.getRegistroClase().getId()==registroClase.getId())   return item;
             }
             else if(tipoPago==TipoPago.INSTALACION){
                 ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
-                if(item.getInstalacion().getId()==reservaInstalacion.getInstalacion().getId())   return item;
+                if(item.getReservaInstalacion().getId()==reservaInstalacion.getId())   return item;
             }
         }
         return null;
