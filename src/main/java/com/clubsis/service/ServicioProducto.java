@@ -1,6 +1,7 @@
 package com.clubsis.service;
 
 import com.clubsis.model.producto.*;
+import com.clubsis.model.sede.Sede;
 import com.clubsis.repository.producto.Producto_SedeRepository;
 import com.clubsis.repository.sede.SedeRepository;
 import org.springframework.beans.BeanUtils;
@@ -55,7 +56,12 @@ public class ServicioProducto {
     }
 
     public Producto crearProducto(Producto producto){
-        return productoRepository.saveAndFlush(producto);
+        List<Sede> sedes = sedeRepository.findAll();
+        Producto nuevoProducto=productoRepository.saveAndFlush(producto);
+        for (Sede item : sedes) {
+            crearStock(producto.getId(),item.getId());
+        }
+        return nuevoProducto;
     }
 
     public Producto buscarProducto(Integer id){

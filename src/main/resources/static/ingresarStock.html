@@ -90,6 +90,10 @@
         app2.controller('IngresoStockController', function ($scope, $http) {
             console.log("Get Controller");
 
+            $http.get('/api/productos/'+getID()).success(function (data3) {
+                $("#idProducto").html("Registrar Ingreso de Stock: " + data3.nombre);
+            });
+
             $http.get('/api/sedes').success(function (data1) {
                 var sedesElem = $("#sede");
                 for (var i = 0; i < data1.length; i++){
@@ -116,7 +120,10 @@
                     });
 
                 }
+            });
 
+            $("#cancelar").click(function () {
+                location.href = "administrarProducto.html";
             });
 
             function validarDatos() {
