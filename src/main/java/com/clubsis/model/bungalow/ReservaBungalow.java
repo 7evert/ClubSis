@@ -1,6 +1,7 @@
 package com.clubsis.model.bungalow;
 
 import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,7 +15,9 @@ public class ReservaBungalow {
     @Id
     @GeneratedValue
     private Integer id;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaReserva;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaFinal;
     private EstadoReservaBungalow estado;
 
