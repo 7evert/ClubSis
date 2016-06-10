@@ -65,7 +65,7 @@
 </head>
 <body ng-controller="BungalowController">
 
-<div id="headerAdministrador"></div>
+<div id="headerUsuario"></div>
 <div class="container">
     <div>
         <h3>
@@ -101,7 +101,7 @@
                     <div class="col-md-8">
                         <!--<select class="form-control" id="estado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados"></select>-->
                         <select class="form-control" id="estado">
-                            <option value="-1">Elegir</option>
+                            <option value="-1">ELEGIR</option>
                             <option value="0">CREADO</option>
                             <option value="1">DISPONIBLE</option>
                             <option value="2">INHABILITADO</option>
@@ -120,20 +120,11 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
+                    <label for="stockInicial" class="col-md-4 control-label">Rengo de Precio: </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
                     </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
+                    <label for="stockFinal" class="col-md-2 control-label">-</label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
                     </div>
@@ -157,10 +148,7 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow
         </div>
     </form>
 </div>
@@ -188,8 +176,7 @@
     var funciones = {};
     function contieneCadenaItem(item,est) {
         var ver = true;
-        console.log(item.estado);
-        console.log(est);
+
         var valEst = "";
         if(est == 0){
             valEst = "CREADO";
