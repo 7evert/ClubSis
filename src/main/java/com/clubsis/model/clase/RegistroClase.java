@@ -25,9 +25,9 @@ public class RegistroClase {
 
     // Observación: no hay relación con Socio
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Persona> personas = new HashSet<Persona>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Persona persona ;
 
     @OneToOne(mappedBy = "registroClase")
     @JsonIgnore
@@ -36,11 +36,11 @@ public class RegistroClase {
     protected RegistroClase() {
     }
 
-    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Set<Persona> personas,Pago pago) {
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona,Pago pago) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
         this.clase = clase;
-        this.personas = personas;
+        this.persona = persona;
         this.setPago(pago);
     }
 
@@ -76,12 +76,12 @@ public class RegistroClase {
         this.clase = clase;
     }
 
-    public Set<Persona> getPersonas() {
-        return personas;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     public Pago getPago() {
