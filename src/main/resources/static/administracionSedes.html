@@ -90,6 +90,19 @@
         }
         var funciones = {};
 
+        function actualizarGrilla(id,sede){//#jqGrid
+            if(sede)
+                $(id).jqGrid('setRowData', sede.id, sede);
+            jQuery("#jqGrid").trigger('reloadGrid');
+            var rowIds = $(id).jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estado'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+        }
     </script>
     <script type="text/javascript">
         function mostrarMensaje(message) {
@@ -182,9 +195,14 @@
                                     $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
                                         console.log("Inhabilitado: " + dataInhabilitadaSede.nombre);
                                         nroExito++;
+                                        actualizarGrilla("#jqGrid",dataInhabilitadaSede);
+                                        /*
+                                        $('#jqGrid').jqGrid('setRowData', dataInhabilitadaSede.id, dataInhabilitadaSede);
+                                        if (dataInhabilitadaSede['estado'] == "INHABILITADO")
+                                            $("#jqGrid").jqGrid('setRowData', dataInhabilitadaSede.id, false, "myAltRowClassEven");
                                         if(nroExito==selectedIDs.length){
-                                            jQuery("#jqGrid").trigger('reloadGrid');
-                                        }
+                                            //jQuery("#jqGrid").trigger('reloadGrid');
+                                        }*/
                                     }).error(function (data2) {
                                         mensaje = "No se pudo dehabilitar sede.";
                                     });
@@ -205,7 +223,8 @@
                     $("#modificar").addClass("hidden");
                     $("#cancelar").addClass("hidden");
                     limpiar();
-                    jQuery("#jqGrid").trigger('reloadGrid');
+                    actualizarGrilla("#jqGrid");
+                    //jQuery("#jqGrid").trigger('reloadGrid');
                 }
             });
 
@@ -222,7 +241,10 @@
                     };
                     $http.put('/api/sedes/' + dataSede.id, dataSede).success(function (datamodificadaSede) {
                         console.log("Modificado: " + datamodificadaSede);
-                        $('#jqGrid').jqGrid('setRowData', datamodificadaSede.id, datamodificadaSede);
+                        actualizarGrilla("#jqGrid",datamodificadaSede);
+                        /*$('#jqGrid').jqGrid('setRowData', datamodificadaSede.id, datamodificadaSede);
+                        if (datamodificadaSede['estado'] == "INHABILITADO")
+                            $("#jqGrid").jqGrid('setRowData', datamodificadaSede.id, false, "myAltRowClassEven");*/
                         /*location.href="administracionSedes.html"*/
                         funciones.idSedeAModificar = undefined;
                         $("#titulo").html("REGISTRO SEDES");
@@ -231,7 +253,7 @@
                         $("#modificar").addClass("hidden");
                         $("#cancelar").addClass("hidden");
                         limpiar();
-                        jQuery("#jqGrid").trigger('reloadGrid');
+                        //jQuery("#jqGrid").trigger('reloadGrid');
                     });
                 }
             });
@@ -251,14 +273,17 @@
                                 "administrador": sede.administrador,
                                 "estado": INHABILITADO
                             };
-                            jQuery("#jqGrid").trigger('reloadGrid');
+                            //jQuery("#jqGrid").trigger('reloadGrid');
                             $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
                                 console.log("Inhabilitado: " + dataInhabilitadaSede);
+                                actualizarGrilla("#jqGrid",dataInhabilitadaSede);
+                                /*$('#jqGrid').jqGrid('setRowData', dataInhabilitadaSede.id, dataInhabilitadaSede);
+                                if (dataInhabilitadaSede['estado'] == "INHABILITADO")
+                                    $("#jqGrid").jqGrid('setRowData', dataInhabilitadaSede.id, false, "myAltRowClassEven");*/
                             });
                             break;
                         }
                 });
-
             };
 
             $http.get('/api/sedes').success(function (data) {
@@ -314,7 +339,8 @@
                     console.log(data2);
                     limpiar();
                     llenarEngrilla(data2);
-                    jQuery("#jqGrid").trigger('reloadGrid');
+                    actualizarGrilla("#jqGrid");
+                    //jQuery("#jqGrid").trigger('reloadGrid');
                 });
             });
 

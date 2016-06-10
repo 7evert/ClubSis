@@ -32,8 +32,9 @@
     <script type="text/javascript">
         function getIDPostulanteySocio() {
             var href = this.location.href;
-            var str = href.match(/\?idPostulante\=(\d+)&idSocio\=(\d+)/);
-            return str ? [str[1], str[2]] : undefined;
+            var postulante = href.match(/\?idPostulante\=(\d+)/)[1];
+            var socio=(href.match(/idSocio\=(\d+)/)==null)?"1":href.match(/idSocio\=(\d+)/)[1];
+            return [postulante, socio];
         }
         function llenarDatosPostulante(data){
             $("#postulante").val(data.nombre+" "+data.apellidoPaterno);
@@ -63,7 +64,7 @@
         var idSocio,idPostulante;
         app3.controller('OpinionPostulante', function ($scope, $http) {
             var ids=getIDPostulanteySocio();
-            idSocio= ids ? ids[1] : ids;
+            idSocio= ids ? ids[1] : 1;
             idPostulante = ids ? ids[0] : ids;
             if(!idSocio || !idPostulante){
                 Notificaciones.showError("No se encuentra ni socio ni postulante");
