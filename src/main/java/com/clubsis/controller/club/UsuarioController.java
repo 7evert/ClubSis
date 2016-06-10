@@ -7,6 +7,7 @@ import com.clubsis.model.sede.Sede;
 import com.clubsis.service.ServicioMembresias;
 import com.clubsis.service.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -32,13 +33,18 @@ public class UsuarioController {
         return servicioUsuario.mostrarUsuarios();
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Usuario get(@PathVariable Integer id){
+        return servicioUsuario.buscarUsuario(id);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public void crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setContraseña(usuarioDTO.getContraseña());
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
         usuario.setEsActivo(usuarioDTO.getEsActivo());
-        //usuario.setRol(usuarioDTO.getRol());
+        usuario.setRol(usuarioDTO.getRol());
         Persona persona = new Persona();
         persona.setTipoDoc(usuarioDTO.getTipoDoc());
         persona.setNumDoc(usuarioDTO.getNumDoc());
@@ -50,6 +56,8 @@ public class UsuarioController {
         persona.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
         persona.setNombre(usuarioDTO.getNombre());
         persona.setTelefono(usuarioDTO.getTelefono());
+        persona.setNombreContactoEmergencia(usuarioDTO.getNombreContactoEmergencia());
+        persona.setTelefonoContactoEmergencia(usuarioDTO.getTelefonoContactoEmergencia());
 
         usuario.setPersona(persona);
 
@@ -62,5 +70,13 @@ public class UsuarioController {
         Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);
         usuario.getSedes().addAll(sedes);
         servicioUsuario.crearUsuario(usuario);
+    }
+
+    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+    public Integer eliminarUsuario(Model model, @RequestParam(value = "id") Integer idUsuario) {
+        Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);
+        usuario.setEsActivo(Boolean.FALSE);
+        servicioUsuario.actualizarUsuario(idUsuario,usuario);
+        return 1;
     }
 }
