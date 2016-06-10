@@ -229,7 +229,7 @@
             {index: 'estado', name: 'estado', align: 'center', width: 90},
             {index: 'fechaReserva', name: 'fechaReserva',width: 150, align: 'center',formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "d/m/Y" }, },
             {index: 'fechaFinal', name: 'fechaFinal', align: 'center', width: 150,formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "d/m/Y" },},
-            {index: 'bungalow.id', name: 'bungalow.id', align: 'center', width: 100},
+            {index: 'idBungalow', name: 'idBungalow',jsonmap: 'bungalow.id', align: 'center', width: 100},
             {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
@@ -272,8 +272,7 @@
                                         }
                                     });
                             $noty.close();
-                        }
-                        },
+                        }},
                         {
                             addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
                             $noty.close();
@@ -300,7 +299,8 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+
+        acciones = /*'<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+*/
+                '<a href="javascript:void(0)" class="btn btn-warning icono-facturaion" data-idReserva-Facturacion="' + rowdata['id'] + '" title="Facturación"><img src="img/Iconos/ver.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idReserva-eliminar="' + rowdata['id'] + '" title="Eliminar Reserva"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
