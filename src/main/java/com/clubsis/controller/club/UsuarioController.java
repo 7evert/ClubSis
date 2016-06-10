@@ -25,9 +25,6 @@ public class UsuarioController {
     @Autowired
     private ServicioUsuario servicioUsuario;
 
-    @Autowired
-    private ServicioMembresias servicioMembresias;
-
     @RequestMapping(method = RequestMethod.GET)
     public List<Usuario> list() {
         return servicioUsuario.mostrarUsuarios();
@@ -40,49 +37,20 @@ public class UsuarioController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
-        Usuario usuario = new Usuario();
-        usuario.setContraseña(usuarioDTO.getContraseña());
-        usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
-        usuario.setEsActivo(usuarioDTO.getEsActivo());
-        usuario.setRol(usuarioDTO.getRol());
-        Persona persona = new Persona();
-        persona.setTipoDoc(usuarioDTO.getTipoDoc());
-        persona.setNumDoc(usuarioDTO.getNumDoc());
-        persona.setApellidoMaterno(usuarioDTO.getApellidoMaterno());
-        persona.setApellidoPaterno(usuarioDTO.getApellidoPaterno());
-        persona.setCorreo(usuarioDTO.getCorreo());
-        persona.setDireccion(usuarioDTO.getDireccion());
-        persona.setEsTitular(usuarioDTO.getEsTitular());
-        persona.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
-        persona.setNombre(usuarioDTO.getNombre());
-        persona.setTelefono(usuarioDTO.getTelefono());
-        persona.setNombreContactoEmergencia(usuarioDTO.getNombreContactoEmergencia());
-        persona.setTelefonoContactoEmergencia(usuarioDTO.getTelefonoContactoEmergencia());
-
-        usuario.setPersona(persona);
-
-        servicioMembresias.crearPersona(persona);
-        servicioUsuario.crearUsuario(usuario);
+        servicioUsuario.crearUsuarioDesdeDTO(usuarioDTO);
     }
 
     @RequestMapping(value = "{idUsuario}/listaSedes", method = RequestMethod.POST)
     public void crearListaSedes(@PathVariable Integer idUsuario, @RequestBody Set<Sede> sedes) {
         Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);
-
-//        for (Sede sede : sedes) {
-//            sede.getUsuarios().add(usuario);
-//        }
-
         usuario.getSedes().addAll(sedes);
-
-        servicioUsuario.crearUsuario(usuario);
+        servicioUsuario.persistirUsuario(usuario);
     }
 
-    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
-    public Integer eliminarUsuario(Model model, @RequestParam(value = "id") Integer idUsuario) {
+    @RequestMapping(value = "/{idUsuario}/eliminarLogico", method = RequestMethod.POST)
+    public void eliminarUsuario(@PathVariable Integer idUsuario) {
         Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);
-        usuario.setEsActivo(Boolean.FALSE);
-        servicioUsuario.actualizarUsuario(idUsuario,usuario);
-        return 1;
+        usuario.setEsActivo(false);
+        servicioUsuario.persistirUsuario(usuario);
     }
 }
