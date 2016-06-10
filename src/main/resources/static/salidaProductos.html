@@ -84,18 +84,18 @@
         console.log(id);
         location.href = "edicionProducto.html?id=" + id;
     }
-    function accionEliminar() {
+    function accionVender() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
-            text: '¿Está seguro de que desea eliminar este producto ?',
+            text: '¿Desea realizar la venta por el monto de'+$("#monto").val()+' ?',
             type: 'warning',
             buttons: [
                 {
-                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Aceptar', onClick: function ($noty) {
                     Notificaciones.hideAll();
-                    funciones.eliminar(id);
-                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    funciones.registrarVenta(id);
+                    Notificaciones.showNoty("Venta exitosa", Notificaciones.type.SUCCESS);
                     $noty.close();
                 }
                 },
@@ -170,7 +170,7 @@
                     <select class="form-control col-xs-8" id="sede">
                     </select>
                 </div>
-                <a href="#" onclick="funciones.registrarVenta();return false;" class="control-label col-xs-2 btn btn-primary" id="btnRegistrar"
+                <a href="#" onclick="accionVender();return false;" class="control-label col-xs-2 btn btn-primary" id="btnRegistrar"
                    style="">Registrar
                     Venta </a>
             </div>
