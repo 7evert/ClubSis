@@ -165,8 +165,8 @@
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <input type="" class="btn btn-primary" id="btnRegistrar" value="Registrar" style="width:22%" >
-                <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
+                <input type="" class="btn btn-primary" id="btnGuardar" value="Guardar" style="width:22%" >
+                <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoUsuario.html';">
             </div>
         </div>
     </form>
@@ -182,31 +182,37 @@
     });
 
     var sedes;
+    var roles;
     var app = angular.module('app', []);
     app.controller('UsuarioController', function ($scope, $http) {
         $scope.usuarios=[];
-        var sedesSeleccionadas;
+        var idRolSeleccionado;
         $http.get('/api/usuarios/'+idUsuario).success(function (data) {
             $scope.usuarios = data;
-            sedesSeleccionadas=data.sedes;
-        });
-        $http.get('/api/sedes').success(function (data) {
-            sedes=data;
-            sedesElem=$("#sede");
-            for(var i=0;i<data.length;i++){
-                sedesElem.append($("<input>").attr({type: 'checkbox',id:"sede"+data[i].id,value:data[i].id ,name:data[i].nombre})).append(data[i].nombre).append('<br />');
-            }
-        });
-        var roles;
-        $http.get('/api/roles').success(function (data) {
-            roles=data;
-            rolesElem=$("#rol");
-            for(var i=0;i<data.length;i++){
-                rolesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
-            }
-            $("#rol").val(usuarios.rol.id);
-        });
+            idRolSeleccionado=data.rol.id;
 
+            var fecha = $scope.usuarios.persona.fechaNacimiento;
+            var dia = fecha.split("-");
+            fechaNacimiento = dia[2].split(' ')[0] + '/' + dia[1] + '/' + dia[0];
+            $scope.usuarios.persona.fechaNacimiento = fechaNacimiento;
+
+            $http.get('/api/sedes').success(function (data) {
+                sedes=data;
+                sedesElem=$("#sede");
+                for(var i=0;i<data.length;i++){
+                    sedesElem.append($("<input>").attr({type: 'checkbox',id:"sede"+data[i].id,value:data[i].id ,name:data[i].nombre})).append(data[i].nombre).append('<br />');
+                }
+                $http.get('/api/roles').success(function (data) {
+                    roles=data;
+                    rolesElem=$("#rol");
+                    for(var i=0;i<data.length;i++){
+                        rolesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
+                    }
+                    console.log(idRolSeleccionado);
+                    $("#rol").val(idRolSeleccionado);
+                });
+            });
+        });
         $("#btnGuardar").click(function () {
             var idRol=$("#rol").val();
             var rolSeleccionado;
@@ -241,30 +247,29 @@
                 fechaConvertida = mes + '/' + dia + '/' + anho;
             }
             var data = {
-                'nombreUsuario':$scope.nombreUsuario,
-                'contraseña': $scope.contrasenha,
-                'nombre': $scope.nombre,
-                'apellidoPaterno': $scope.apellidoPaterno,
-                'apellidoMaterno': $scope.apellidoMaterno,
-                'tipoDoc': $scope.tipoDoc,
-                'numDoc': $scope.numDoc,
+                'nombreUsuario':$scope.usuarios.nombreUsuario,
+                'nombre': $scope.usuarios.persona.nombre,
+                'apellidoPaterno': $scope.usuarios.persona.apellidoPaterno,
+                'apellidoMaterno': $scope.usuarios.persona.apellidoMaterno,
+                'tipoDoc': $scope.usuarios.persona.tipoDoc,
+                'numDoc': $scope.usuarios.persona.numDoc,
                 'fechaNacimiento': Date.parse(fechaConvertida),
-                'direccion': $scope.direccion,
-                'telefono': parseInt($scope.telefono),
-                'correo': $scope.correo,
+                'direccion': $scope.usuarios.persona.direccion,
+                'telefono': parseInt($scope.usuarios.persona.telefono),
+                'correo': $scope.usuarios.persona.correo,
                 'esTitular':false,
                 'esActivo':true,
                 'rol':rolSeleccionado,
                 'sede':sedesSeleccionadas,
-                'nombreContactoEmergencia':$scope.nombreContactoEmergencia,
-                'telefonoContactoEmergencia':$scope.telefonoContactoEmergencia,
+                'nombreContactoEmergencia':$scope.usuarios.persona.nombreContactoEmergencia,
+                'telefonoContactoEmergencia':$scope.usuarios.persona.telefonoContactoEmergencia,
             };
             console.log(data);
             if(validarDatos()){
-                $http.post('/api/usuarios', data).success(function (data) {
+                $http.put('/api/usuarios/'+idUsuario, data).success(function (data) {
                 })
                         .error(function (data) {
-                            Notificaciones.showError("Error al crear el usuario.");
+                            Notificaciones.showError("Error al editar el usuario.");
                         });
 
                 Notificaciones.showProcesando();
@@ -285,8 +290,6 @@
 
     function validarDatos() {
         var nombreUsuario = $("#nombreUsuario").val();
-        var contraseña = $("#contraseña").val();
-        var contraseñaConfirmacion = $("#contraseñaConfirmacion").val();
         var rol= $("#rol").val();
         var nombre= $("#nombre").val();
         var apellidoPaterno= $("#apellidoPaterno").val();
@@ -301,19 +304,6 @@
         if (!nombreUsuario) {
             Notificaciones.showError('Nombre de usuario requerido');
             $("#nombreUsuario").css("border-color", "red");
-            return false;
-        }else if (!contraseña) {
-            Notificaciones.showError('Contraseña requerida');
-            $("#contraseña").css("border-color", "red");
-            return false;
-        }else if (!contraseñaConfirmacion) {
-            Notificaciones.showError('Contraseña requerida');
-            $("#contraseñaConfirmacion").css("border-color", "red");
-            return false;
-        }else if (contraseña!=contraseñaConfirmacion) {
-            Notificaciones.showError('Las contraseñas no coinciden');
-            $("#contraseña").css("border-color", "red");
-            $("#contraseñaConfirmacion").css("border-color", "red");
             return false;
         }else if (rol==-1) {
             Notificaciones.showError('Rol requerido');
@@ -360,12 +350,6 @@
 
     $("#nombreUsuario").click(function () {
         $("#nombreUsuario").css("border-color", "#ccc");
-    });
-    $("#contraseña").click(function () {
-        $("#contraseña").css("border-color", "#ccc");
-    });
-    $("#contraseñaConfirmacion").click(function () {
-        $("#contraseñaConfirmacion").css("border-color", "#ccc");
     });
     $("#rol").click(function () {
         $("#rol").css("border-color", "#ccc");

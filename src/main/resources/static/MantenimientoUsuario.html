@@ -154,8 +154,8 @@
                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
                             //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
                             //Simplemente se le cambiara el estado
-                            $.post('/api/usuarios/eliminar',
-                                    {id:idUsuario},
+                            $.post('/api/usuarios/'+idUsuario+'/eliminarLogico',
+
                                     function (response) {
                                         if (!response.error) {
                                             Notificaciones.hideAll();

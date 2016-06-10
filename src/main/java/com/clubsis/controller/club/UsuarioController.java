@@ -39,6 +39,30 @@ public class UsuarioController {
     public void crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
         servicioUsuario.crearUsuarioDesdeDTO(usuarioDTO);
     }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {
+        Usuario usuario = new Usuario();
+        usuario.setContraseña(usuarioDTO.getContraseña());
+        usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        usuario.setEsActivo(usuarioDTO.getEsActivo());
+        usuario.setRol(usuarioDTO.getRol());
+        Persona persona = new Persona();
+        persona.setTipoDoc(usuarioDTO.getTipoDoc());
+        persona.setNumDoc(usuarioDTO.getNumDoc());
+        persona.setApellidoMaterno(usuarioDTO.getApellidoMaterno());
+        persona.setApellidoPaterno(usuarioDTO.getApellidoPaterno());
+        persona.setCorreo(usuarioDTO.getCorreo());
+        persona.setDireccion(usuarioDTO.getDireccion());
+        persona.setEsTitular(usuarioDTO.getEsTitular());
+        persona.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
+        persona.setNombre(usuarioDTO.getNombre());
+        persona.setTelefono(usuarioDTO.getTelefono());
+        persona.setNombreContactoEmergencia(usuarioDTO.getNombreContactoEmergencia());
+        persona.setTelefonoContactoEmergencia(usuarioDTO.getTelefonoContactoEmergencia());
+
+        usuario.setPersona(persona);
+        servicioUsuario.actualizarUsuario(id,usuario);
+    }
 
     @RequestMapping(value = "{idUsuario}/listaSedes", method = RequestMethod.POST)
     public void crearListaSedes(@PathVariable Integer idUsuario, @RequestBody Set<Sede> sedes) {
