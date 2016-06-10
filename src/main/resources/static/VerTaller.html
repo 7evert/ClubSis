@@ -101,7 +101,7 @@
             var id = getID();
             console.log(id);
             if(id==undefined){
-                //location.href="administrarProveedores1.html"
+                location.href="administrarTalleres2.html"
             }
             $http.get('/api/academias/'+id).success(function (data2, status) {
                 console.log(data2);
@@ -386,7 +386,8 @@
             <span>Leyenda: </span>
             <span class="icono-reprogramar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Horarios De La Clase|
             <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar|
+            <span class="icono-resultados"><img src="img/Iconos/añadir.png" class="icono"></span> Añadir Horario
         </div>
         <br>
 
@@ -444,7 +445,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Capacidad','Estado','Nivel', 'Precio Mes', 'Precio Ciclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
+        colNames:['Número','Capacidad','Estado','Nivel', 'Precio Mes', 'Precio Ciclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'capacidad', index:'capacidad',width:100},
@@ -497,7 +498,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'Si no muestra resultados, por favor seleccione una clase.',
-        colNames:['#','Día','Estado','Hora Inicio','Hora Fin','Instalación','Acciones'], //define column names
+        colNames:['Número','Día','Estado','Hora Inicio','Hora Fin','Instalación','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'dia', index:'dia', width:100},
@@ -533,7 +534,7 @@
         acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
                 '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Clase"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
-        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
+        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/añadir.png" class="icono"></a>';
         return acciones;
     }
     function acciones2(cellValue, options, rowdata, action) {
