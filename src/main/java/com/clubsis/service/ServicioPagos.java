@@ -202,6 +202,7 @@ public class ServicioPagos {
     public Pago realizarPago(Integer idPago){
         Pago pago= pagoRepository.findOne(idPago);
         pago.setEstadoPago(EstadoPago.PAGADO);
+        pago.setFechaPago( new Date());
         return pagoRepository.saveAndFlush(pago);
     }
 
