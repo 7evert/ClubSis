@@ -149,7 +149,11 @@
         });
 
         $scope.calcularMonto = function () {
-            
+            var montoTotal;
+            console.log("MOnto");
+            $scope.monto=20;
+            $("#monto").val("20");
+
         }
 
 
@@ -167,7 +171,7 @@
             <div id="escogerSede" class="form-group">
                 <!--<div class="control-label col-xs-5"></div>-->
                 <div id="montoTotal" class="col-xs-6 form group row">
-                    <label class="form-control-label">Monto S/.<span id="monto" class="form-control-static">0</span></label>
+                    <label  class="form-control-label">Monto S/.<span id="monto" ng-model="monto" class="form-control-static"></span></label>
                 </div>
                 <label class="control-label col-xs-2">Escoger Sede</span></label>
                 <div class="col-xs-2">
