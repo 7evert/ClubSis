@@ -109,6 +109,11 @@ public class ServicioPagos {
                 nuevoPago= new Pago(null,null,monto,fechaFinal,null,null,new Date(),EstadoPago.REGISTRADO,TipoPago.MULTA,null,
                         null,null,null,null,null,multa,null);
             }
+            else if(tipoPago==TipoPago.MERCHANDISING){
+                Date fecha = new Date();
+                nuevoPago= new Pago(null,null,monto,fecha,null,null,fecha,EstadoPago.REGISTRADO,TipoPago.MERCHANDISING,null,
+                        null,null,null,null,null,null,null);
+            }
             nuevoPago.setTipoCliente(tipoCliente);
             if(tipoCliente==TipoCliente.SOCIO) {
                 Socio socio=socioRepository.findOne(idCliente);
