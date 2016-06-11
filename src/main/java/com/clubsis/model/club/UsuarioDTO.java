@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class UsuarioDTO {
     private String nombreUsuario;
-    private String contraseña;
+    private String contrasenha;
     private Rol rol;
     private String nombre;
     private String apellidoPaterno;
@@ -24,6 +24,8 @@ public class UsuarioDTO {
     private TipoDocumento tipoDoc;
     private String numDoc;
     private Boolean esActivo;
+    private String nombreContactoEmergencia;
+    private String telefonoContactoEmergencia;
 
     public Boolean getEsActivo() {
         return esActivo;
@@ -32,15 +34,6 @@ public class UsuarioDTO {
     public void setEsActivo(Boolean esActivo) {
         this.esActivo = esActivo;
     }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-
 
     public String getNombre() {
         return nombre;
@@ -136,5 +129,29 @@ public class UsuarioDTO {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getNombreContactoEmergencia() {
+        return nombreContactoEmergencia;
+    }
+
+    public void setNombreContactoEmergencia(String nombreContactoEmergencia) {
+        this.nombreContactoEmergencia = nombreContactoEmergencia;
+    }
+
+    public String getTelefonoContactoEmergencia() {
+        return telefonoContactoEmergencia;
+    }
+
+    public void setTelefonoContactoEmergencia(String telefonoContactoEmergencia) {
+        this.telefonoContactoEmergencia = telefonoContactoEmergencia;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
     }
 }

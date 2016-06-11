@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -112,7 +113,7 @@ public class ServicioMembresias {
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getTipoDoc(),postulanteExistente.getNumDoc(), "",Boolean.TRUE,null,null,null,
+                postulanteExistente.getTipoDoc(),postulanteExistente.getNumDoc(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }
@@ -142,9 +143,9 @@ public class ServicioMembresias {
     }
 
     public Persona obtenerSocioPrincipal(Integer idSocio){
-        List<Persona> personas = personaRepository.findAll();
+        List<Persona> personas = new ArrayList<>(socioRepository.findOne(idSocio).getPersonas());
         for(Persona item:personas){
-            if(item.getSocio().getId()== idSocio && item.getEsTitular() ){
+            if(item.getEsTitular() ){
                 return item;
             }
         }

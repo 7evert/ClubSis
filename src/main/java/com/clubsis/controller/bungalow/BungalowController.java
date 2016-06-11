@@ -3,9 +3,11 @@ package com.clubsis.controller.bungalow;
 import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.bungalow.EstadoBungalow;
 import com.clubsis.model.bungalow.TipoBungalow;
+import com.clubsis.model.sede.EstadoInstalacion;
 import com.clubsis.model.sede.Sede;
 import com.clubsis.service.ServicioReservas;
 import com.clubsis.service.ServicioSedes;
+import com.clubsis.service.ServicioBungalow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,9 @@ public class BungalowController {
 
     @Autowired
     private ServicioSedes servicioSedes;
+
+    @Autowired
+    private ServicioBungalow servicioBungalow;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Bungalow> list() {
@@ -61,7 +66,10 @@ public class BungalowController {
         servicioReservas.actualizarBungalow(idBungalow,bungalow);
         return 1;
     }
-    //PPRUEBAS THE BLITZ
-    //The blitz es mi pastor
+
+    @RequestMapping(value = "/getEstadoBungalow",method = RequestMethod.GET)
+    public EstadoBungalow[] getEstadoBungalow(){
+        return servicioBungalow.getEstadoBungalow();
+    }
     // TODO: crear un método (o controlador entero?) para las reservas de un bungalow
 }

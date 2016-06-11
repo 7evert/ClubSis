@@ -174,13 +174,15 @@
                             data[nroSocios].nombreTit = dataPersona.nombre;
                         console.log(JSON.stringify(dataPersona));
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
-                        $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
+                        if(data[nroSocios].estado=="SUSPENDIDO")
+                            $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
                         nroSocios++;
                     }).error(function () {
                         data[nroSocios].nro = nroSocios + 1;
                         data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
-                        $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
+                        if(data[nroSocios].estado=="SUSPENDIDO")
+                            $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
                         nroSocios++;
                     })
                 }

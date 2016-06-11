@@ -122,10 +122,11 @@
         colModel: [
             {index: 'id', name: 'id', hidden: true, width: 45},
             {index: 'nombreUsuario', name: 'nombreUsuario', align: 'center', width: 400},
+            {index: 'rol', name: 'rol',jsonmap:'rol.nombre', align: 'center', width: 400},
             {index: 'Acciones', name: 'Acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'id', 'Nombre','Acciones'
+            'id', 'Nombre','Rol','Acciones'
         ],
         viewrecords: true,
         height: 400,
@@ -137,7 +138,7 @@
 
                 var idUsuario = $(this).attr('data-idUsuario-ver');
                 console.log("idUsuario " + $(this).attr('data-idUsuario-ver'));
-                window.location='UsuarioInformacion.html?id='+idRol;
+                window.location='VerUsuario.html?id='+idUsuario;
 
             });
             $('.icono-eliminar').click(function () {
@@ -154,8 +155,8 @@
                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
                             //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
                             //Simplemente se le cambiara el estado
-                            $.post('/api/usuarios/eliminar',
-                                    {id:idUsuario},
+                            $.post('/api/usuarios/'+idUsuario+'/eliminarLogico',
+
                                     function (response) {
                                         if (!response.error) {
                                             Notificaciones.hideAll();

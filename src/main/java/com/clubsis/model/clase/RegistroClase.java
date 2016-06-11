@@ -1,5 +1,6 @@
 package com.clubsis.model.clase;
 
+import com.clubsis.model.pago.Pago;
 import com.clubsis.model.persona.Persona;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,17 +25,23 @@ public class RegistroClase {
 
     // Observación: no hay relación con Socio
 
-    @ManyToOne
-    private Persona persona;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Persona persona ;
+
+    @OneToOne(mappedBy = "registroClase")
+    @JsonIgnore
+    private Pago pago;
 
     protected RegistroClase() {
     }
 
-    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona) {
+    public RegistroClase(Date fechaRegistro, EstadoRegistroClase estado, Clase clase, Persona persona,Pago pago) {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
         this.clase = clase;
         this.persona = persona;
+        this.setPago(pago);
     }
 
     public Integer getId() {
@@ -75,5 +82,13 @@ public class RegistroClase {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public Pago getPago() {
+        return pago;
+    }
+
+    public void setPago(Pago pago) {
+        this.pago = pago;
     }
 }

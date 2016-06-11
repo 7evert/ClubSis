@@ -1,8 +1,14 @@
 package com.clubsis.controller.bungalow;
 
+import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.bungalow.EstadoBungalow;
+import com.clubsis.model.bungalow.EstadoReservaBungalow;
 import com.clubsis.model.bungalow.ReservaBungalow;
+import com.clubsis.model.persona.Postulante;
+import com.clubsis.service.ServicioBungalow;
 import com.clubsis.service.ServicioReservas;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +49,27 @@ public class ReservaBungalowController {
     public ReservaBungalow delete(@PathVariable Integer id) {
         // TODO: eliminar un bungalow (llamar a un solo método del servicio que haga esto)
         return null;
+    }
+
+    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+    public Integer editarReservaBungalow(Model model, @RequestParam(value = "idReservaBungalow") Integer idReservaBungalow) {
+        ReservaBungalow reservaBungalow = servicioReservas.buscarReservaBungalow(idReservaBungalow);
+        reservaBungalow.setEstado(EstadoReservaBungalow.CANCELADA);
+        Bungalow bungalow = reservaBungalow.getBungalow();
+        bungalow.setEstado(EstadoBungalow.DISPONIBLE);
+        servicioReservas.actualizarBungalow(bungalow.getId(),bungalow);
+        servicioReservas.actualizarReservaBungalow(idReservaBungalow,reservaBungalow);
+        return 1;
+    }
+
+    @RequestMapping(value = "/facturar", method = RequestMethod.POST)
+    public Integer registrarIngresoReservaBungalow(Model model, @RequestParam(value = "idReservaBungalow") Integer idReservaBungalow) {
+        ReservaBungalow reservaBungalow = servicioReservas.buscarReservaBungalow(idReservaBungalow);
+        reservaBungalow.setEstado(EstadoReservaBungalow.FACTURADA);
+        Bungalow bungalow = reservaBungalow.getBungalow();
+        bungalow.setEstado(EstadoBungalow.INHABILITADO);
+        servicioReservas.actualizarBungalow(bungalow.getId(),bungalow);
+        servicioReservas.actualizarReservaBungalow(idReservaBungalow,reservaBungalow);
+        return 1;
     }
 }

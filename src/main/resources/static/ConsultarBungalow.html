@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -63,11 +64,10 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="BungalowController">
 
-<div id="headerAdministrador"></div>
-<div class="container" id="sedeID" ng-app='appSede'
-     ng-controller="SedeController">
+<div id="headerUsuario"></div>
+<div class="container">
     <div>
         <h3>
             LISTADO DE BUNGALOWS
@@ -89,9 +89,15 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
+                    <label for="tipo" class="col-md-4 control-label">Valoraión</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipoBungalow" name="tipoBungalow"ng-model="tipoBungalow">
+                        <select class="form-control" id="valoracion">
+                            <option value="-1">ELEGIR</option>
+                            <option value="0">1 estrella</option>
+                            <option value="1">2 estrellas</option>
+                            <option value="2">3 estrellas</option>
+                            <option value="3">4 estrellas</option>
+                            <option value="4">5 estrellas</option>
                         </select>
                     </div>
                 </div>
@@ -100,41 +106,19 @@
                 <div class="form-group">
                     <label for="tipo" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="estado">
-                            <option value="-1">Elegir</option>
-                            <option value="1">Disponible</option>
-                            <option value="2">Ocupado</option>
-                            <option value="3">En Mantenimiento</option>
-                        </select>
+                        <select class="form-control" id="estado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados" ></select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
+                    <label for="precioMenor" class="col-md-4 control-label">Rango de Precio: </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
+                        <input type="text" class="form-control" id="precioMenor" placeholder="Cantidad">
                     </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
+                    <label for="precioMayor" class="col-md-2  control-label"> -</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
+                        <input type="text" class="form-control" id="precioMayor" placeholder="Cantidad">
                     </div>
                 </div>
             </div>
@@ -144,7 +128,7 @@
                 <div class="form-group" style="margin-left: 110px;">
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    <a href="javascript:void(0)" onclick="funciones.buscar();return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
             </div>
         </div>
@@ -156,10 +140,7 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow
         </div>
     </form>
 </div>
@@ -184,32 +165,105 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
-    var addfilter = function () {
-        var festadoFilterGroup = new $.jqx.filter();
-        festadoFilterGroup.operator = 'or';
-        var filter_or_operator = 1;
-        //var filtervalue = $(estado).val();
-        var filtervalue = '0';
-        console.log("filtra esto");
-        var filterCondition = 'contains';
+    $('#select').val('ELEGIR');
+    $('#select').change();
 
-        var festadoFilter1 = festadoFilterGroup.createfilter('numericfilter', filtervalue, filterCondition);
+    var app=angular.module('app',[]);
+    app.controller('BungalowController', function ($scope, $http) {
+        $scope.estados = ["ELEGIR"];
+        $http.get('/api/bungalows/getEstadoBungalow').success(function (data) {
+            for(i = 0; i < data.length; i++){
+                $scope.estados.push(data[i]);
+            }
+        });
+    });
 
-        festadoFilterGroup.addfilter(filter_or_operator, festadoFilter1);
+    var funciones = {};
+    function contieneCadenaItem(item,est,valoracion,precioMenor,precioMayor,sedeVal) {
+        var ver = true;
 
-        $("#jqGrid").jqGrid('addfilter', 'piso', festadoFilterGroup);
+        console.log(item.sede);
+        console.log(sedeVal);
 
-        $("#jqGrid").jqGrid('applyfilters');
+        var valValoracion ="";
+        if(valoracion == 0){
+            valValoracion = "1 estrella";
+        }else if(valoracion == 1){
+            valValoracion = "2 estrellas";
+        }else if(valoracion == 2){
+            valValoracion = "3 estrellas";
+        }else if(valoracion == 3) {
+            valValoracion = "4 estrellas";
+        }else if(valoracion == 4) {
+            valValoracion = "5 estrellas";
+        }
+
+        if(est=="ELEGIR"){
+            est = item.estado;
+        }
+
+        if(valoracion == -1){
+            valValoracion = item.valoracion;
+        }
+        if(sedeVal == -1){
+            sedeVal = item.sede;
+        }
+
+        ver = (ver && (item.estado==est)  &&
+        (item.valoracion == valValoracion) &&
+        ((item.precio > precioMenor) &&
+        (item.precio < precioMayor)) && (sedeVal == item.sede)
+        );
+        return ver;
+    }
+
+    funciones.buscar = function () {
+        var precioMayor = $("#precioMayor").val();
+        if(!precioMayor){
+            precioMayor = "999999999";
+        }
+
+        precioMayor = parseInt(precioMayor);
+
+        var precioMenor = $("#precioMenor").val();
+        if(!precioMenor){
+            precioMenor = "-1";
+        }
+        precioMenor = parseInt(precioMenor);
+        if(precioMayor == "NaN" || precioMenor == "NaN"){
+            Notificaciones.showError('Ingrese números al rango de precios');
+        }else if(precioMenor <= precioMayor ){
+            var sede = $("#sede").val();
+
+            var estado = $("#estado").val();
+            estado = estado.substr(7);
+
+            var valoracion = $("#valoracion").val();
+
+            var ver;
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                ver = false;
+                if (contieneCadenaItem(rowData,estado,valoracion,precioMenor,precioMayor,sede)) {
+                    //showrow
+                    $("#" + rowId).show();
+                }
+                else {
+                    $("#" + rowId).hide();
+                    //hiderow
+                }
+            }
+        }else{
+            Notificaciones.showError('Ingrese un rango válido para los precios');
+        }
     }
 
     $("#jqGrid").jqGrid({
         url: '/api/bungalows', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
         filterable: true,
         sortable: true,
-        ready: function () {
-            console.log("no entra");
-            addfilter();
-        },
         autoshowfiltericon: true,
         mtype: "GET",
         styleUI: 'Bootstrap',
@@ -217,24 +271,23 @@
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
         colModel: [
-            {index: 'id', name: 'id', align: 'center', width: 75},
+            {index: 'id', name: 'id', align: 'center', width: 50},
+            {index: 'sede', name: 'sede',jsonmap : 'sede.nombre', align: 'center', width: 100},
             {index: 'precio', name: 'precio', align: 'center', width: 40},
-            {index: 'piso', name: 'piso', align: 'center', width: 150},
+            {index: 'piso', name: 'piso', align: 'center', width: 50},
             {index: 'valoracion', name: 'valoracion', align: 'center', width: 150},
-            {index: 'estado', name: 'estado', align: 'center', width: 150},
-            {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
+            {index: 'estado', name: 'estado', align: 'center', width: 200},
+            {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoracion','Estado', 'Acciones',
+            'N° Bungalow', 'Sede','Precio', 'Piso', 'Valoracion','Estado', 'Acciones',
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
-            console.log("we can say gg");
             var cantFilas = $("#jqGrid").getGridParam("reccount");
-            console.log(cantFilas);
             for (i = 1; i < cantFilas+cantFilas*4; i++) {
                 var rowData = $('#jqGrid').jqGrid('getRowData', i);
                 if (rowData.valoracion == "1")
@@ -252,7 +305,6 @@
             }
 
             $('.icono-ver').click(function () {
-//                alert("Ver bungalow");
                 var idBungalow = $(this).attr('data-idBungalow-ver');
                 console.log("Id bungalow ver: " + $(this).attr('data-idBungalow-ver'));
                 window.location = 'verBungalow.html?id=' + idBungalow;
@@ -267,34 +319,14 @@
                 $("#sede option").remove(); // Remove all <option> child tags.
                 $("#sede").append( // Append an object to the inside of the select box
                         $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
+                                .text("ELEGIR")
                                 .val(-1)
                 );
                 $.each(data, function (index, item) { // Iterates through a collection
                     $("#sede").append( // Append an object to the inside of the select box
                             $("<option></option>") // Yes you can do this.
                                     .text(item.nombre)
-                                    .val(item.id)
-                    );
-                });
-            })
-    );
-
-    <!--TipoBunaglow-->
-    $("tipoBungalow").click(
-            $.getJSON("/api/tiposbungalow", null, function (data) {
-                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
-                $("#tipoBungalow").append( // Append an object to the inside of the select box
-                        $("<option></option>") // Yes you can do this.
-                                .text("Elegir")
-                                .val(-1)
-                );
-                console.log(data);
-                $.each(data, function (index, item) { // Iterates through a collection
-                    $("#tipoBungalow").append( // Append an object to the inside of the select box
-                            $("<option></option>") // Yes you can do this.
-                                    .text(item.nombre)
-                                    .val(item.id)
+                                    .val(item.nombre)
                     );
                 });
             })
@@ -304,10 +336,7 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['id'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' /*+
-                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['id'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>'*/
-                ;
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>';
         return acciones;
     }
 </script>

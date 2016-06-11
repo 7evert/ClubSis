@@ -1,6 +1,9 @@
 package com.clubsis.model.bungalow;
 
+import com.clubsis.model.pago.Pago;
 import com.clubsis.model.persona.Socio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,7 +17,9 @@ public class ReservaBungalow {
     @Id
     @GeneratedValue
     private Integer id;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaReserva;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaFinal;
     private EstadoReservaBungalow estado;
 
@@ -28,16 +33,21 @@ public class ReservaBungalow {
     @ManyToOne
     private Socio socio;
 
+    @OneToOne(mappedBy = "reservaBungalow")
+    @JsonIgnore
+    private Pago pago;
+
     protected ReservaBungalow() {
     }
 
-    public ReservaBungalow(Date fechaReserva, Date fechaFinal, EstadoReservaBungalow estado, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow, Socio socio) {
+    public ReservaBungalow(Date fechaReserva, Date fechaFinal, EstadoReservaBungalow estado, Set<ServicioBungalow> serviciosBungalows, Bungalow bungalow, Socio socio,Pago pago) {
         this.fechaReserva = fechaReserva;
         this.fechaFinal = fechaFinal;
         this.estado = estado;
         this.serviciosBungalows = serviciosBungalows;
-        this.bungalow = bungalow;
+        this.setBungalow(bungalow);
         this.socio = socio;
+        this.setPago(pago);
     }
 
     public Integer getId() {
@@ -94,5 +104,13 @@ public class ReservaBungalow {
 
     public void setSocio(Socio socio) {
         this.socio = socio;
+    }
+
+    public Pago getPago() {
+        return pago;
+    }
+
+    public void setPago(Pago pago) {
+        this.pago = pago;
     }
 }

@@ -32,6 +32,8 @@ public class Persona {
     private String numDoc;
     private String telefono;
     private Boolean esTitular;
+    private String nombreContactoEmergencia;
+    private String telefonoContactoEmergencia;
 
     @JsonIgnore
     @OneToMany(fetch= FetchType.EAGER,mappedBy = "persona")
@@ -45,6 +47,7 @@ public class Persona {
     private Usuario usuario;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy ="persona")
+    @JsonIgnore
     private Set<RegistroClase> registroClases = new HashSet<RegistroClase>();
 
     public Persona() {
@@ -185,5 +188,21 @@ public class Persona {
 
     public void setRegistroClases(Set<RegistroClase> registroClases) {
         this.registroClases = registroClases;
+    }
+
+    public String getNombreContactoEmergencia() {
+        return nombreContactoEmergencia;
+    }
+
+    public void setNombreContactoEmergencia(String nombreContactoEmergencia) {
+        this.nombreContactoEmergencia = nombreContactoEmergencia;
+    }
+
+    public String getTelefonoContactoEmergencia() {
+        return telefonoContactoEmergencia;
+    }
+
+    public void setTelefonoContactoEmergencia(String telefonoContactoEmergencia) {
+        this.telefonoContactoEmergencia = telefonoContactoEmergencia;
     }
 }

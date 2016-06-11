@@ -88,6 +88,11 @@
     <script type="text/javascript">
         console.log("Inicio Controller");
         app2.controller('IngresoStockController', function ($scope, $http) {
+
+            var idError=getID();
+            if(idError==undefined)
+                href.location="administrarProducto.html";
+
             console.log("Get Controller");
 
             $http.get('/api/productos/'+getID()).success(function (data3) {

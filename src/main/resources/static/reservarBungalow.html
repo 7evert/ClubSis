@@ -180,8 +180,7 @@
 
         $scope.valoracion = {};
         $scope.piso = {};
-        <!--<select id="tipoDocumento" class="form-control" ng-model="tipoDocumento.valor" ng-options="template.value as template.name for template in tipoDocumento.valores">-->
-        //Esto deberia cargarse desde la BD pero no hay una tabla que guarde esto u.u
+
         $scope.valoracion.valores = [
             {'name': 'Elegir', 'value': '-1'},
             {'name': '1 estrella', 'value': '1'},
@@ -222,24 +221,82 @@
                 var anho = fechaPartida[2];
                 fechaConvertidaFin = mes + '/' + dia + '/' + anho;
             }
+            if(validaFechas()){
+                $scope.registrarReservaBungalow = function (){
+                    var dataReserva = {
+                        'estado': '0',
+                        'fechaReserva':Date.parse(fechaConvertidaReserva),
+                        'fechaFinal':Date.parse(fechaConvertidaFin),
+                        'socio':$scope.socio,
+                        'bungalow':$scope.bungalow,
+                    };
+                    $http.post('/api/reservasbungalow', dataReserva).success(function (dataReserva) {
 
-            $scope.registrarReservaBungalow = function (){
-                var dataReserva = {
-                    'estado': '1',
-                    'fechaReserva':Date.parse(fechaConvertidaReserva),
-                    'fechaFinal':Date.parse(fechaConvertidaFin),
-                    'socio':$scope.socio,
-                    'bungalow':$scope.bungalow,
-                };
-                $http.post('/api/reservasbungalow', dataReserva).success(function (dataReserva) {
-                    Notificaciones.hideAll();
-                    Notificaciones.showProcesando();
-                    setTimeout(function () {
-                        location.href = "ConsultarBungalow.html"
-                    }, 1000);
-                })
-            }();
+                    })
+                    var estadoBungalow = $scope.bungalow.estado;
+                    console.log($scope.bungalow.estado);
+                    if(estadoBungalow == "DISPONIBLE"){
+                        var dataBungalow={
+                            'id': idBungalow,
+                            'estado': '2',
+                            'descripcion': $scope.bungalow.descripcion,
+                            'precio': parseFloat($scope.bungalow.precio),
+                            'caracteristicas': $scope.bungalow.caracteristicas,
+                            'piso': $scope.bungalow.piso,
+                            'valoracion': $scope.bungalow.valoracion,
+                            'descripcion': $scope.bungalow.descripcion,
+                            'urlFoto': $scope.bungalow.urlFoto,
+                        }
+
+                        var idSede = $scope.bungalow.sede.id;
+                        var idTipoBungalow = $scope.bungalow.tipoBungalow.id;
+
+                        $http.put('/api/bungalows/' + idBungalow + '/' + idSede + '/' + idTipoBungalow,dataBungalow).success(function () {
+                            Notificaciones.showProcesando();
+                            Notificaciones.hideAll();
+                            setTimeout(function () {
+                                location.href = "ConsultarBungalow.html"
+                            }, 1000);
+                        })
+                    }else{
+                        Notificaciones.showError('Este Bungalow no se encuentra disponible');
+                    }
+
+                }();
+            }else{
+
+            }
         });
+
+        function validaFechas(){
+            if( ($("#fechaInicio").val() != "") && ($("#fechaFin").val() != "") ){
+                var fechaIni = $scope.fechaInicio;
+                var fechaFin = $scope.fechaFin;
+
+                var fechaPartida = fechaIni.split("/");
+                var diaIni = parseInt(fechaPartida[0]);
+                var mesIni = parseInt(fechaPartida[1]);
+                var anhoIni = parseInt(fechaPartida[2]);
+
+                var fechaSalida = fechaFin.split("/");
+                var diaFin = parseInt(fechaSalida[0]);
+                var mesFin = parseInt(fechaSalida[1]);
+                var anhoFin = parseInt(fechaSalida[2]);
+
+                var fechaIniConvertida = anhoIni*10000+mesIni*100+diaIni;
+                var fechaFinConvertida = anhoFin*10000+mesFin*100+diaFin;
+
+                if(fechaIniConvertida>fechaFinConvertida){
+                    Notificaciones.showError('El rango de fechas ingresado no válido');
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                Notificaciones.showError('No se a completado el campo de fechas');
+                return false;
+            }
+        }
     });
 
     function validarDatos() {
