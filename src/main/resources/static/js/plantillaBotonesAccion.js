@@ -40,13 +40,15 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
      */
     for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
-            var b = $('<button>').attr({
-                /*type: 'submit',*/
-                tabindex:"3",
-                value:accionesXElemento[tipoUsuario][j],
-                class:"btn btn-primary rght-box accionLista"
-            }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
-            b[0].onclick=funciones[j];
+            if((accionesXElemento[tipoUsuario[j]]!="Suspender")|| (accionesXElemento[tipoUsuario[j]]=="SUSPENDER" && divBotones[0].parentElement.getAttribute("estado")!="INHABILITADO")){
+                var b = $('<button>').attr({
+                    /*type: 'submit',*/
+                    tabindex: "3",
+                    value: accionesXElemento[tipoUsuario][j],
+                    class: "btn btn-primary rght-box accionLista"
+                }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
+                b[0].onclick = funciones[j];
+            }
         }
 }
 function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){

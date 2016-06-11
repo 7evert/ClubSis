@@ -425,9 +425,10 @@
     function retornaPanelBody2(databungalow) {
         var panel = $('<div></div>').attr({
             class: 'panel-body',
+            estado:databungalow.estado
         });
         var b = new Array();
-        b[0] = retornaImagenBungalow1(databungalow.url);
+        b[0] = retornaImagenBungalow1(databungalow.url,databungalow.estado);
         b[1] = retornaPanelInfo1(databungalow.id, databungalow.nombre, databungalow.sede, databungalow.isGratuito, databungalow.isPublico);
         b[2] = retornCaracteristicas1(databungalow.fechaInicio, databungalow.fechaFin, databungalow.fechaInicioInscripcion,
                 databungalow.fechaFinInscripcion, databungalow.tarifaEventos);
