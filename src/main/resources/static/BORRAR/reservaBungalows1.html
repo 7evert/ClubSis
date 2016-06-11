@@ -129,7 +129,7 @@
         var claseOculta = "hide";
         var claseVisible = "show"
     </script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel="stylesheet" href="../css/estilosRegBungalows.css">
 
     <script type="text/javascript">
         function getID() {
@@ -177,7 +177,7 @@
                 //DATABUNGALOWS=dataJSON;
                 if (!databungalow) {
                     alert("Bungalow No Disponible");
-                    location.href = "BORRAR/MantenimientoBungalows1.html";
+                    location.href = "MantenimientoBungalows1.html";
                 }
                 var imgsrcBung = ["img/Bungalows/TipoBungalows/1_Lorena.png",
                     "img/Bungalows/TipoBungalows/2_Club.png",
@@ -199,7 +199,7 @@
                     };
                     $http.post("/api/reservasbungalow", data).success(function (data2, status) {
                         alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es "+data2.id);
-                        location.href="BORRAR/MantenimientoBungalows1.html"
+                        location.href="MantenimientoBungalows1.html"
                     });
                 });
             });
@@ -246,10 +246,10 @@
             <div class="form-group">
                 <div class="col-xs-offset-4 col-xs-10">
                     <input type="" class="btn btn-primary" value="Detalles" style="width:22%"
-                           onclick="location.href='bungalow/BungalowInformacion.html';">
+                           onclick="location.href='../bungalow/BungalowInformacion.html';">
                     <input id="buttonReservar" type="" class="btn btn-primary" value="Reservar" style="width:22%">
                     <input type="" class="btn btn-primary" value="Cancelar" style="width:22%"
-                           onclick="location.href='bungalow/MantenimientoBungalows.html';">
+                           onclick="location.href='../bungalow/MantenimientoBungalows.html';">
                 </div>
             </div>
         </form>
@@ -257,7 +257,7 @@
         <div id="detallesBungalows" class="mitadDerecha">
             <div class="show">
                 <div id="imgBungalow" class="mitadDerecha">
-                    <img class="imgBungalow" src="img/Bungalows/TipoBungalows/2_Club.png">
+                    <img class="imgBungalow" src="../img/Bungalows/TipoBungalows/2_Club.png">
                 </div>
                 <div id="detallesBungalow" class="detallesTipoBungalows mitadDerecha">
                     <div><h3>Bungalow Club 3</h3></div>
@@ -282,7 +282,7 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
     $("#date-picker-DiaEntrada").datepicker("setDate", new Date());

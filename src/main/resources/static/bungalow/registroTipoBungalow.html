@@ -107,7 +107,7 @@
                 </br>
                 <a href="javascript:void(0)" class="btn btn-primary" style="position: absolute; right: 100px;"
                    id="btnRegistrar">Registrar</a>
-                <a href="bungalow/mantenimientoTipoBungalow.html" class="btn btn-primary" style="position: absolute; right: 15px;"
+                <a href="mantenimientoTipoBungalow.html" class="btn btn-primary" style="position: absolute; right: 15px;"
                    id="btnCancelar">Cancelar</a>
             </div>
             <div class="col-sm-6 col-lg-6">
@@ -143,8 +143,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
     var app = angular.module('app', []);
     app.controller('TipoBungalowController', function ($scope, $http) {
@@ -167,7 +167,7 @@
                         Notificaciones.hideAll();
                         Notificaciones.showProcesando();
                         setTimeout(function () {
-                            location.href = "bungalow/mantenimientoTipoBungalow.html"
+                            location.href = "mantenimientoTipoBungalow.html"
                         }, 1000);
                     })
                             .error(function (data) {

@@ -103,7 +103,7 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 95px;">
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
-                    <a href="bungalow/ConsultarBungalow.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="ConsultarBungalow.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -126,8 +126,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     $('#fechaInicio').datepicker({
@@ -255,7 +255,7 @@
                             Notificaciones.showProcesando();
                             Notificaciones.hideAll();
                             setTimeout(function () {
-                                location.href = "bungalow/ConsultarBungalow.html"
+                                location.href = "ConsultarBungalow.html"
                             }, 1000);
                         })
                     }else{
