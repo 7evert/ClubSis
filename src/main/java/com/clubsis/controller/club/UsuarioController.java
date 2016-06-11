@@ -36,8 +36,9 @@ public class UsuarioController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
-        servicioUsuario.crearUsuarioDesdeDTO(usuarioDTO);
+    public Usuario crearUsuarioDesdeDTO(@RequestBody UsuarioDTO usuarioDTO) {
+        return servicioUsuario.crearUsuarioDesdeDTO(usuarioDTO);
+
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {

@@ -41,7 +41,7 @@ public class ServicioUsuario {
         return usuarioRepository.saveAndFlush(usuarioExistente);
     }
 
-    public void crearUsuarioDesdeDTO(UsuarioDTO usuarioDTO) {
+    public Usuario crearUsuarioDesdeDTO(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setContrasenha(usuarioDTO.getContrasenha());
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
@@ -65,7 +65,7 @@ public class ServicioUsuario {
 
         personaRepository.saveAndFlush(persona);
         crearUsuario(usuario);
-
+    return usuario;
     }
 
     public void actualizarUsuarioDesdeDTO(Integer id,UsuarioDTO usuarioDTO){
