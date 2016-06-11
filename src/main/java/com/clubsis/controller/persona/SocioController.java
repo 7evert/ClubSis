@@ -7,6 +7,7 @@ import com.clubsis.model.persona.Socio;
 import com.clubsis.model.persona.Suspension;
 import com.clubsis.service.ServicioMembresias;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class SocioController {
         return personas;
     }
 
+    @Transactional
     @RequestMapping(value="/{idSocio}/personaasociada",method = RequestMethod.GET)
     public Persona mostrarPersonaAsociada(@PathVariable Integer idSocio){
         List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(idSocio).getPersonas());

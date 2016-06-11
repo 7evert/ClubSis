@@ -11,6 +11,7 @@ import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,6 +53,7 @@ public class ServicioMembresias {
     public void eliminarPersona(Integer id){
         personaRepository.delete(id);
     }
+
 
     //Socio
     public List<Socio> mostrarSocios(){return socioRepository.findAll();}
