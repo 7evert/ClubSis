@@ -67,7 +67,7 @@
                     console.log(JSON.stringify(data2));
                     Notificaciones.showNoty("Se multó al socio satisfactoriamente.", Notificaciones.type.SUCCESS);
                     setTimeout(function () {
-                        location.href = "../loginAdministrador.html"
+                        location.href = "../BORRAR/loginAdministrador.html"
                     }, 1200);
                 }).error(function (data2) {
                         Notificaciones.showError("No se pudo multar al socio.")
@@ -111,7 +111,7 @@
         <div class="col-xs-7">
             <div class="form-group" style="margin-left: 140px;">
                 <button ng-click="asignarMulta()" class="btn btn-primary">Registrar</button>
-                <a id="Cancelar" href="../loginUsuario.html" class="btn btn-primary">Cancelar</a>
+                <a id="Cancelar" href="../BORRAR/loginUsuario.html" class="btn btn-primary">Cancelar</a>
             </div>
         </div>
     </form>

@@ -163,7 +163,7 @@
             var idAcademia;
             console.log(id);
             if (id == undefined) {
-                location.href = "../VerTaller.html"
+                location.href = "VerTaller.html"
             }
             $http.get('/api/clases/' + id).success(function (data2, status) {
                 llenarDatosTaller(data2);

@@ -101,7 +101,7 @@
             var id = getID();
             console.log(id);
             if(id==undefined){
-                location.href="clase/administrarTalleres2.html"
+                location.href="administrarTalleres2.html"
             }
             $http.get('/api/academias/'+id).success(function (data2, status) {
                 console.log(data2);
@@ -316,7 +316,7 @@
     <div>
         <h3>
             RESULTADOS DEL TALLER SELECCIONADO
-            <a href="clase/consultarTalleres.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Regresar</a>
+            <a href="consultarTalleres.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Regresar</a>
         </h3>
     </div>
     <hr>
@@ -384,8 +384,8 @@
         <!--<br>-->
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-reprogramar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Horarios De La Clase|
-            <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Inscribirse
+            <span class="icono-reprogramar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver Horarios De La Clase|
+            <span class="icono-resultados"><img src="../img/Iconos/modificar.png" class="icono"></span> Inscribirse
             <!--<span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar-->
         </div>
         <br>
@@ -416,7 +416,7 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 
 
 
@@ -427,7 +427,7 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 
-<script src="js/Notificaciones.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
     var idhor = 0;
     var idcla = 0;
@@ -530,16 +530,16 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
-                '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Inscribirse"><img src="img/Iconos/modificar.png" class="icono"></a>';
+        acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="../img/Iconos/ver.png" class="icono" ></a>' +
+                '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Inscribirse"><img src="../img/Iconos/modificar.png" class="icono"></a>';
 //                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
 //                '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/modificar.png" class="icono"></a>';
         return acciones;
     }
     function acciones2(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Horario"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#" onclick="accionInhabilitarHorario();return false;"  id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Horario" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Horario"><img src="../img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#" onclick="accionInhabilitarHorario();return false;"  id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Horario" ><img src="../img/Iconos/eliminar.png" class="icono" ></a>';
 
         return acciones;
     }

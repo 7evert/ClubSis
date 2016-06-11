@@ -68,11 +68,11 @@ s
         if (!validarDatos()) {
             if ($("#user").val()=="admin" && $("#password").val()=="admin") {
                 Notificaciones.showProcesando();
-                window.location = "loginAdministrador.html";
+                window.location = "BORRAR/loginAdministrador.html";
             }
             else if($("#user").val()=="user" && $("#password").val()=="user") {
                 Notificaciones.showProcesando();
-                window.location = "loginUsuario.html";
+                window.location = "BORRAR/loginUsuario.html";
             }
             else {
                 alert("No existe el usuario/contraseña equivocado");
