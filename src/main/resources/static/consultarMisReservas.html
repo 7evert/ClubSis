@@ -141,8 +141,9 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Facturar Ingreso a Bungalow|
+            <span class="icono-editar"><img src="img/Iconos/modificar.png" class="icono"></span> Facturar Ingreso a Bungalow|
             <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Cancelar Reserva  a Bungalow
+            <span class="icono-resultados"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow
         </div>
     </form>
 </div>
@@ -225,7 +226,8 @@
         loadComplete: function () {
             $('.icono-ver').click(function () {
                 var idBungalow = $(this).attr('data-idReserva-ver');
-                window.location = 'verBungalow.html?id=' + idBungalow;
+                rowData = $("#jqGrid").jqGrid('getRowData', idBungalow);
+                window.location = 'verBungalow.html?id=' + rowData.idBungalow;
             });
 
             $('.icono-eliminar').click(function () {
@@ -319,8 +321,8 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = /*'<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+*/
-                '<a href="javascript:void(0)" class="btn btn-warning icono-facturaion" data-idReserva-Facturacion="' + rowdata['id'] + '" title="Facturación"><img src="img/Iconos/ver.png" class="icono"></a>' +
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+
+                '<a href="javascript:void(0)" class="btn btn-warning icono-facturaion" data-idReserva-Facturacion="' + rowdata['id'] + '" title="Facturación"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idReserva-eliminar="' + rowdata['id'] + '" title="Eliminar Reserva"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
