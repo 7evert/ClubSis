@@ -487,8 +487,8 @@
     function retornaMasCaracteristicas1(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
         var div = $('<div></div>');
         var b = new Array();
-        b[0] = $("<h4></h4>").html("Inicio de Inscripciones: " + ((inicioInscripciones!=null)?new Date(validateDateInAllBrowsers(inicioInscripciones)).ddmmyyyy():"Se publicará proximamente"));
-        b[1] = $("<h4></h4>").html("Fin de Inscripciones: " + ((finInscipciones!=null)?new Date(validateDateInAllBrowsers(finInscipciones)).ddmmyyyy():"Se publicará proximamente"));
+        b[0] = $("<h4></h4>").html("Inicio de Inscripciones: " + ((inicioInscripciones!=null)?new Date(validateDateInAllBrowsers(inicioInscripciones)).ddmmyyyy():"Se publicará próximamente"));
+        b[1] = $("<h4></h4>").html("Fin de Inscripciones: " + ((finInscipciones!=null)?new Date(validateDateInAllBrowsers(finInscipciones)).ddmmyyyy():"Se publicará próximamente"));
         b[2] = $("<h4></h4>").html("Fecha Inicio: " + new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
         b[3] = $("<h4></h4>").html("Fecha Fin: " + new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
         for (var j = 0; j < b.length; j++)
