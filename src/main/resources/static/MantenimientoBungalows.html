@@ -87,24 +87,16 @@
                 <div class="form-group">
                     <label for="tipo" class="col-md-4 control-label">Sede</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="sede">
-                            <option>Elegir</option>
-                            <option>Chosica</option>
-                            <option>Namekusein</option>
-                            <option>Planeta del gran Kaiosama</option>
-                            <option>Planeta Tierra</option>
+                        <select class="form-control" id="sede" name="sede" ng-model="sede">
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
+                    <label for="tipo" class="col-md-4 control-label">Tipo Bungalow</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipo">
-                            <option>Elegir</option>
-                            <option>Aseo personal</option>
-                            <option>Electrodoméstico</option>
+                        <select class="form-control" id="tipoBungalow" name="tipoBungalow" ng-model="tipoBungalow">
                         </select>
                     </div>
                 </div>
@@ -357,6 +349,45 @@
             });
         }
     });
+
+    <!--Sedes-->
+    $("sede").click(
+            $.getJSON("/api/sedes", null, function (data) {
+                console.log(data);
+                $("#sede option").remove(); // Remove all <option> child tags.
+                $("#sede").append( // Append an object to the inside of the select box
+                        $("<option></option>") // Yes you can do this.
+                                .text("ELEGIR")
+                                .val(-1)
+                );
+                $.each(data, function (index, item) { // Iterates through a collection
+                    $("#sede").append( // Append an object to the inside of the select box
+                            $("<option></option>") // Yes you can do this.
+                                    .text(item.nombre)
+                                    .val(item.nombre)
+                    );
+                });
+            })
+    );
+
+    $("tipoBungalow").click(
+            $.getJSON("/api/tiposbungalow", null, function (data) {
+                console.log(data);
+                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
+                $("#tipoBungalow").append( // Append an object to the inside of the select box
+                        $("<option></option>") // Yes you can do this.
+                                .text("ELEGIR")
+                                .val(-1)
+                );
+                $.each(data, function (index, item) { // Iterates through a collection
+                    $("#tipoBungalow").append( // Append an object to the inside of the select box
+                            $("<option></option>") // Yes you can do this.
+                                    .text(item.nombre)
+                                    .val(item.nombre)
+                    );
+                });
+            })
+    );
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
