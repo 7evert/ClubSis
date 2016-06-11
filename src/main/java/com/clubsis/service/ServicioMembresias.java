@@ -152,4 +152,15 @@ public class ServicioMembresias {
         return null;
     }
 
+    public void transferirMembresia(Integer idPrincipal , Integer idNuevo){
+        Persona socioPrincipal = personaRepository.findOne(idPrincipal);
+        Persona nuevoPrincipal = personaRepository.findOne(idNuevo);
+        socioPrincipal.setEsTitular(false);
+        nuevoPrincipal.setEsTitular(true);
+        personaRepository.saveAndFlush(socioPrincipal);
+        personaRepository.saveAndFlush(nuevoPrincipal);
+
+    }
+
+
 }
