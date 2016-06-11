@@ -194,6 +194,7 @@ public class ServicioPagos {
 
     public Pago anularPago(Integer idPago){
         Pago pago= pagoRepository.findOne(idPago);
+        pago.setFechaAnulacion(new Date() );
         pago.setEstadoPago(EstadoPago.ANULADO);
         return pagoRepository.saveAndFlush(pago);
     }
