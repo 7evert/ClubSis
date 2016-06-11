@@ -193,8 +193,8 @@
         function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
             $("#fechaInicio").html(new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
             $("#fechaFin").html(new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
+            $("#fechaInicioInscripcion").html((fechaInicioInscripcion!=null)?new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy():"Se publicará proximamente");
+            $("#fechaFinInscripcion").html((fechaFinInscripcion!=null)?new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy():"Se publicará proximamente");
         }
         function mostrarTarifas(tarifas){
             var b=new Array();

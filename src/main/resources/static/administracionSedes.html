@@ -115,13 +115,13 @@
                 "Descripción debe tener entre 1 y 255 caracteres.",
                 "Nombre del administrador debe tener entre 8 y 100 caracteres.",
                 "Teléfono solo puede tener numeros, *, # y -"
-            ]
+            ];//descripcion telefono y adminsitrador
             var ver = [];
             ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
             ver[1] = $("#direccion").val().length > 0 && $("#direccion").val().length < 100;
-            ver[2] = $("#telefono").val().length >= 7 && $("#telefono").val().length <= 15;
-            ver[3] = $("#descripcion").val().length > 0 && $("#descripcion").val().length < 255;
-            ver[4] = $("#administrador").val().length > 8 && $("#administrador").val().length < 100;
+            ver[2] = ($("#telefono").val()=="") || ($("#telefono").val().length >= 7 && $("#telefono").val().length <= 15);
+            ver[3] = ($("#descripcion").val()=="") || ($("#descripcion").val().length > 0 && $("#descripcion").val().length < 255);
+            ver[4] = ($("#administrador").val()=="") || ($("#administrador").val().length > 7 && $("#administrador").val().length < 100);
             ver[5] = $("#telefono").val().match(/[^0-9*#-]/) == null;
             for (var i = 0; i < ver.length; i++)
                 if (ver[i] == false) {

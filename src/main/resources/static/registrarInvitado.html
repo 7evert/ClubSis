@@ -211,7 +211,7 @@
                                 id: data3[i].id,
                                 idpersona: data3[i].persona.id,
                                 nombre: data3[i].persona.nombre,
-                                nroDoc: data3[i].persona.numeroDocumento,
+                                nroDoc: data3[i].persona.numDoc,
                                 tarifa: data3[i].tipo,
                                 costo: tarifasPrecios[data3[i].tipo]
                             };
@@ -350,9 +350,11 @@
 
             funciones.terminar=function() {
                 $http.post('/api/eventos/'+idsocio+'/'+idevento+'/costo').success(function (data) {
-                    Notificaciones.showNoty("Tu registro fue confirmado.")
+                    Notificaciones.showNoty("Tu registro fue exitoso.")
                     console.log(JSON.stringify(data));
-                    location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
+                    setTimeout(function(){
+                        location.href = "mantenimientoEventos.html";
+                    },1500);
                 });
             }
         });
