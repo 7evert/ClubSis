@@ -106,9 +106,9 @@
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
                             <option value="-1">Elegir</option>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Rechazada">Rechazada</option>
-                            <option value="Aprobada">Aprobada</option>
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="RECHAZADA">Rechazada</option>
+                            <option value="APROBADA">Aprobada</option>
                         </select>
                     </div>
                 </div>
@@ -381,6 +381,40 @@
         }
     });
 
+    function contieneCadenaItem(item,tipoDocumento,estado) {
+        var ver = true;
+        var elegir = false;
+        console.log(estado);
+        console.log(item.esAprobado);
+        ver = (ver && ((item.tipoDoc==tipoDocumento) || (item.esAprobado==estado) || elegir));
+        console.log(ver);
+        return ver;
+    }
+
+    $('#btnBuscar').click(function () {
+        var tipoDocumento = $('#tipoDocumento').val();
+        var estado = $('#estado').val();
+        console.log("Hola");
+        var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+        console.log(ids);
+        for (var i = 0; i < ids.length; i++) {
+            var rowId = ids[i];
+            var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+            console.log(rowData);
+            ver = false;
+            if (contieneCadenaItem(rowData,tipoDocumento,estado)) {
+                //showrow
+                $("#" + rowId).show();
+            }
+            else {
+                $("#" + rowId).hide();
+                //hiderow
+            }
+        }
+        Notificaciones.showProcesando();
+        Notificaciones.hideAll();
+    });
+
     $('#jqGrid').jqGrid('setGridWidth', '900');
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
@@ -390,12 +424,6 @@
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
-    //
-    //    function eliminados(cellValue, options, rowdata, action) {
-    //        var eliminados = '';
-    //        eliminados = '<input href="javascript:void(0)" class="eliminarMultiple" data-idPostulante-eliminarMultiple="' + rowdata['id'] + '" title="Ver Bungalow" type="checkbox" value="">';
-    //        return eliminados;
-    //    }
 
     $('#btnLimpiar').click(function () {
         $("#tipoDocumento").val(-1);
