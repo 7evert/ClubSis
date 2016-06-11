@@ -56,8 +56,8 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
         var b=$('<span>').attr({
             class: 'pull-right',
             id:'accionAgregar',
-            style:'width:108px;'
-        }).append('<input tabindex="3" value=\"'+accionAgregar[tipoUsuario]+'\" class="btn btn-primary rght-box accionLista" style="width:108px;margin-right:10px;">').appendTo("#topMostrar");
+            style:'width:90px;'
+        }).append('<a tabindex="3" value=\"'+accionAgregar[tipoUsuario]+'\" class="btn btn-primary rght-box accionLista" style="style:width:100px;margin-right:60px;"> Suspender</a>').appendTo("#topMostrar");
         b[0].onclick=agregar;
     }
 }

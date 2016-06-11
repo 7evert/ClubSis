@@ -39,6 +39,21 @@
         .inhabilitar{
             background-color: #fff866;
         }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
     </style>
     <script type="text/javascript">
         function validateDateInAllBrowsers(cad){
@@ -187,9 +202,7 @@
                     for(var i=0;i<lista.length;i++){
                         id=lista[i].getAttribute("value");
                         if(id!="all" && lista[i].checked){
-                            deshabilitarEvento(id);
-                            var boton=$("#"+id).find(".botonesAcciones").find("button[value='Suspender']");
-                            $(boton).remove();
+                            deshabilitarEvento(i);
                             lista[i].checked=false;
                             $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
                                 console.log("se deshabilito el evento "+data.nombre);
@@ -202,7 +215,6 @@
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
-                    var boton=event.target;
                     dataevento = $.grep(DATAEVENTOS, function (e) {
                         return e.id == getID(event.target);
                     })[0];
@@ -211,13 +223,12 @@
                     console.log(JSON.stringify(dataevento));
                     $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
                         deshabilitarEvento(data.id);
-                        $(boton).addClass("hidden");
                         console.log(data);
                     });
                 }
             });
 
-            var estados=[{v:0,n:"-"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"},{v:"INHABILITADO"}];
+            var estados=[{v:0,n:"Elegir"},{v:"CREADO"},{v:"ESPERA"},{v:"ENMARCHA"},{v:"FINALIZADO"},{v:"INHABILITADO"}];
             var estadosElem=$("#estado");
             for(var i=0;i<estados.length;i++)
                 estadosElem.append($("<option></option>").attr({value:estados[i].v}).html(estados[i].n||estados[i].v));
@@ -262,20 +273,31 @@
     <!--example link: http://www.trivago.pe/?iPathId=86439&iGeoDistanceItem=0&aDateRange[arr]=2016-05-08&aDateRange[dep]=2016-05-09&iRoomType=7&cpt=8643903&iViewType=0&bIsSeoPage=false&bIsSitemap=false    -->
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
     <div>
+        <div>
+            <h3>
+                ADMINISTRACIÓN DE EVENTOS
+                <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 830px;">Añadir
+                    Evento</a>
+                <a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Regresar</a>
+            </h3>
+        </div>
+        <hr>
+        <h4>CONSULTA DE EVENTOS</h4>
+
         <div class="form-group"><!--filtrado-->
-            <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;height:45px;">
-                CONSULTA DE EVENTOS
-                <button id="registrar" class="btn btn-primary pull-right" style="margin-right:20px;margin-top:5px;">Registrar</button>
-                <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
-            </h4>
+            <!--<h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;height:45px;">-->
+                <!--CONSULTA DE EVENTOS-->
+                <!--<button id="registrar" class="btn btn-primary pull-right">Registrar</button>-->
+                <!--&lt;!&ndash;    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>&ndash;&gt;-->
+            <!--</h4>-->
 
             <form class="form-horizontal">
                 <div class="row">
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
-                            <label for="tipo" id="admSede" class="col-md-4 control-label">Sede </label>
+                            <label for="admSede" id="admSede" class="col-md-4 control-label">Sede </label>
                             <div class="col-md-8">
-                                <select class="form-control" id="sede">
+                                <select class="form-control" id="sede" style="width: 105%;">
                                 </select>
                             </div>
                         </div>
@@ -284,17 +306,53 @@
                         <div class="form-group">
                             <label for="estado" class="col-md-4 control-label">Estado </label>
                             <div class="col-md-8">
-                                <select class="form-control" id="estado">
+                                <select class="form-control" id="estado" style="width: 105%;">
                                 </select>
                             </div>
                         </div>
                     </div>
+                    <!--<div class="col-sm-6 col-lg-5">-->
+                        <!--<div class="form-group">-->
+                            <!--<div class="col-md-12" style="visibility: hidden;">-->
+                                <!--<input type="text" class="form-control" placeholder="">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;<div class="form-group">-->
+                            <!--<label for="descripcion" class="col-md-12 control-label" style="visibility: hidden;">...</label>-->
+                        <!--</div>&ndash;&gt;-->
+                    <!--</div>-->
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Fecha Inicio </label>
+                            <div class="input-group input-append date col-md-8">
+                                <input id="date-picker-DiaEntrada" type="text"
+                                       class="date-picker form-control col-xs-6" style="margin-left: 14px; width: 95%;">
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
+                                        class="glyphicon glyphicon-calendar"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Fecha Fin </label>
+                            <div class="input-group input-append date col-md-8">
+                                <input id="date-picker-DiaSalida" type="text"
+                                       class="date-picker form-control col-xs-6" style="margin-left: 14px; width: 95%;">
+                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
+                                        class="glyphicon glyphicon-calendar"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
                             <label for="descripcion" class="col-md-4 control-label">Descripción </label>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" id="descripcion"
-                                       placeholder="Palabra clave de descripción de Evento">
+                                       placeholder="Palabra clave de descripción de Evento" style="width: 105%;">
                             </div>
                         </div>
                     </div>
@@ -308,41 +366,27 @@
                             <label for="descripcion" class="col-md-12 control-label" style="visibility: hidden;">...</label>
                         </div>-->
                     </div>
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Fecha Inicio </label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
-                                <label for="date-picker-DiaEntrada" class="input-group-addon btn">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
+                    <div class="col-sm-7 col-lg-7">
+                    </div>
+                    <div class="col-sm-5 col-lg-4">
+                        <div class="form-group" style="margin-right: 10px;float: right">
+                            <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"-->
+                               <!--style="visibility: visible">Eliminar</a>-->
+                            <!--style="visibility: hidden">Eliminar</a>-->
+                            <a href="javascript:void(0)" class="btn btn-primary" id="Buscar">Limpiar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="Limpiar">Buscar</a>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 col-lg-5">
-                        <div class="form-group">
-                            <label class="control-label col-md-4">Fecha Fin </label>
-                            <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaSalida" type="text"
-                                       class="date-picker form-control col-xs-6"/>
-                                <label for="date-picker-DiaSalida" class="input-group-addon btn"><span
-                                        class="glyphicon glyphicon-calendar"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-8 col-lg-8">
-                    </div>
-                    <div class="col-sm-2 col-lg-2">
-                        <div class="form-group">
-                            <button id="Buscar" class="btn btn-primary pull-right" style="margin-left: 20px;">Buscar</button>
-                            <button id="Limpiar" class="btn btn-primary pull-right">Limpiar</button>
-                            <!--Opcional-->
-                            <!--<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>-->
-                        </div>
-                    </div>
+                    <!--<div class="col-sm-7 col-lg-7">-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-5 col-lg-5">-->
+                        <!--<div class="form-group" style="margin-left: 60px;">-->
+                            <!--<button id="Buscar" class="btn btn-primary">Buscar</button>-->
+                            <!--<button id="Limpiar" class="btn btn-primary">Limpiar</button>-->
+                            <!--&lt;!&ndash;Opcional&ndash;&gt;-->
+                            <!--&lt;!&ndash;<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </form>
         </div>
@@ -350,10 +394,17 @@
 
     <div class="panel panel-primary"><!--listas-->
         <div id="topMostrar" class="panel-heading">
-            <span class="col-xs-9 titulo">Eventos</span>
+            <span class="col-xs-9 titulo">RESULTADO DE EVENTOS</span>
             <!--<span class="pull-right" id="accionAgregar">
                 <input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>
             </span><br>-->
+        </div>
+        <div class="col-sm-10 col-lg-12">
+            <div class="form-group" style="margin-left: 30px;">
+                <br>
+                <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
+                   style="visibility: visible;float: right;margin-right: 90px;">Eliminar</a>
+            </div>
         </div>
         <div id="listaBungalows" class="list-group list-group-flush">
             <!--      <a href="#" class="list-group-item hidden">
