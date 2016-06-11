@@ -22,8 +22,12 @@ public class ServicioInstalacion {
     private InstalacionRepository instalacionRepository;
 
     public List<Instalacion> mostrarInstalaciones(){
-        return instalacionRepository.findAll().stream().filter(instalacion -> instalacion.getEsActivo()).collect(Collectors.toList());
+        return instalacionRepository.findAll();
     }
+    public List<Instalacion> mostrarInstalacionesHabilitadas(){
+        return instalacionRepository.findAll().stream().filter(instalacion -> (instalacion.getEstado() == EstadoInstalacion.Habilitado)).collect(Collectors.toList());
+    }
+
     public Instalacion buscarInstalaciones(Integer id) {return instalacionRepository.findOne(id);}
     public Instalacion crearInstalacion(Instalacion instalacion) {return instalacionRepository.saveAndFlush(instalacion);}
 

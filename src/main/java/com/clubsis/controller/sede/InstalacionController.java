@@ -25,6 +25,11 @@ public class InstalacionController {
             return servicioInstalacion.mostrarInstalaciones() ;
         }
 
+    @RequestMapping(value="/getHabilitados",method = RequestMethod.GET)
+    public List<Instalacion> listFiltrados() {
+        return servicioInstalacion.mostrarInstalacionesHabilitadas();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Instalacion get(@PathVariable Integer id) {
         return servicioInstalacion.buscarInstalaciones(id);
@@ -42,7 +47,7 @@ public class InstalacionController {
     @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
     public Integer eliminarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
         Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
-        instalacion.setEsActivo(Boolean.FALSE);
+        instalacion.setEstado(EstadoInstalacion.Inhabilitado);
         servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
         return 1;
     }

@@ -52,6 +52,12 @@ public class UsuarioController {
         servicioUsuario.persistirUsuario(usuario);
     }
 
+    @RequestMapping(value = "{idUsuario}/getlistaSedes", method = RequestMethod.GET)
+    public Set<Sede> getListaSedes(@PathVariable Integer idUsuario) {
+       Usuario usuario=servicioUsuario.buscarUsuario(idUsuario);
+        return usuario.getSedes();
+    }
+
     @RequestMapping(value = "/{idUsuario}/eliminarLogico", method = RequestMethod.POST)
     public void eliminarUsuario(@PathVariable Integer idUsuario) {
         Usuario usuario = servicioUsuario.buscarUsuario(idUsuario);

@@ -2,7 +2,7 @@
         <html lang="en" ng-app="app">
         <head>
             <meta charset="UTF-8">
-            <title>Mantenimiento Instalaciones</title>
+            <title>Administración de Instalaciones</title>
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
 
             <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
@@ -42,6 +42,7 @@
             <h3>
                 ADMINISTRACIÓN DE INSTALACIONES
                 <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='registroInstalacion.html';">Registrar</a>
+                <a href="javascript:history.back()" class="btn btn-primary" id="btnRegresar">Regresar</a>
             </h3>
         </div>
             <div class="form-group">
@@ -136,17 +137,15 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 60px;">
                     <a href="javascript:void(0)" id="btnEliminarMultiples" class="btn btn-primary">Eliminar</a>
-                    <a href="javascript:void(0)" id="btnHabilitarMultiples" class="btn btn-primary">Habilitar</a>
-                    <a href="javascript:void(0)" id="btnDeshabilitarMultiples" class="btn btn-primary">Inhabilitar</a>
                 </div>
             </div>
             <br>
             <div class="leyenda">
                 <span>Leyenda: </span>
-                <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Instalación
-                <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Instalación
+                <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver
+                <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar
                 |
-                <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Instalación
+                <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
             </div>
         </div>
     </div>
@@ -181,7 +180,7 @@
             $("#Limpiar").click(function(){
                 $("#sedeFiltrado").val("Elegir");
                 $("#estadoFiltrado").val("");
-                $("#nombre").val("");
+                $("#nombreFiltrado").val("");
                 $("#date-picker-DiaEntrada").val("");
                 $("#date-picker-DiaSalida").val("");
                 $("#tipoFiltrado").val("Elegir");
@@ -302,68 +301,6 @@
             }
         });
 
-        $('#btnHabilitarMultiples').click(function () {
-            var grid = $("#jqGrid");
-            var rowKey = grid.getGridParam("selrow");
-
-            if (!rowKey)
-                Notificaciones.showError("No hay instalaciones seleccionada(s) a habilitar");
-            else {
-                var selectedIDs = grid.getGridParam("selarrrow");
-                var result = "";
-                var mensaje = "Han sido habilitadas las instalaciones seleccionadas satisfactoriamente.";
-                for (var i = 0; i < selectedIDs.length; i++) {
-                    var data = selectedIDs[i];
-                    console.log("Entro Eliminar x");
-                    $.post('/api/instalaciones/habilitar',
-                            {id: data},
-                            function (response) {
-                                if (!response.error) {
-
-                                } else {
-                                    Noty.hideAll();
-                                    mensaje = "No se pudo habilitar las instalaciones seleccionadas";
-                                }
-                            });
-                    result += selectedIDs[i] + ",";
-                }
-                Notificaciones.showNoty(mensaje);
-                setTimeout(function () {
-                    location.href = "MantenimientoInstalaciones.html"
-                }, 1000);
-            }
-        });
-        $('#btnDeshabilitarMultiples').click(function () {
-            var grid = $("#jqGrid");
-            var rowKey = grid.getGridParam("selrow");
-
-            if (!rowKey)
-                Notificaciones.showError("No hay instalaciones seleccionada(s) a deshabilitar");
-            else {
-                var selectedIDs = grid.getGridParam("selarrrow");
-                var result = "";
-                var mensaje = "Han sido deshabilitadas las instalaciones seleccionadas satisfactoriamente.";
-                for (var i = 0; i < selectedIDs.length; i++) {
-                    var data = selectedIDs[i];
-                    console.log("Entro Eliminar x");
-                    $.post('/api/instalaciones/inhabilitar',
-                            {id: data},
-                            function (response) {
-                                if (!response.error) {
-
-                                } else {
-                                    Noty.hideAll();
-                                    mensaje = "No se pudo deshabilitar las instalaciones seleccionadas";
-                                }
-                            });
-                    result += selectedIDs[i] + ",";
-                }
-                Notificaciones.showNoty(mensaje);
-                setTimeout(function () {
-                    location.href = "MantenimientoInstalaciones.html"
-                }, 1000);
-            }
-        });
 
         var rowIds = $("#jqGrid").jqGrid('getDataIDs');
         for (i = 0; i <= rowIds.length; i++) {//iterate over each row

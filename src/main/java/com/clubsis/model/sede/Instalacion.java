@@ -21,7 +21,6 @@ public class Instalacion {
     private String referencia;
     private Integer capacidad;
     private Double precioReserva;
-    private Boolean esActivo;
 
     private EstadoInstalacion estado;
 
@@ -46,7 +45,7 @@ public class Instalacion {
     protected Instalacion() {
     }
 
-    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, EstadoInstalacion estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo,Boolean esActivo) {
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, EstadoInstalacion estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.referencia = referencia;
@@ -58,7 +57,6 @@ public class Instalacion {
         this.horarios = horarios;
         this.reservas = reservas;
         this.tipo = tipo;
-        this.esActivo=esActivo;
     }
 
     public Integer getId() {
@@ -157,11 +155,4 @@ public class Instalacion {
         this.estado = estado;
     }
 
-    public Boolean getEsActivo() {
-        return esActivo;
-    }
-
-    public void setEsActivo(Boolean esActivo) {
-        this.esActivo = esActivo;
-    }
 }
