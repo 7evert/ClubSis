@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -79,24 +79,18 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Estado</label>
+                    <label for="descripcion" class="col-md-4 control-label">Bungalow</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="estado">
-                            <option value="-1">Elegir</option>
-                            <option value="0">CREADO</option>
-                            <option value="1">DISPONIBLE</option>
-                            <option value="2">INHABILITADO</option>
-                            <option value="3">ELIMINADO</option>
-                        </select>
+                        <input type="text" class="form-control" id="idBungalow"
+                               placeholder="Numero de Bungalow">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Bungalow</label>
+                    <label for="tipo" class="col-md-4 control-label">Estado</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Numero de Bungalow">
+                        <select class="form-control" id="estado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados" ></select>
                     </div>
                 </div>
             </div>
@@ -128,7 +122,7 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="javascript:void(0)" onclick="funciones.limpiar();return false;"  class="btn btn-primary"  id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" onclick="funciones.buscar();return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
             </div>
@@ -167,6 +161,145 @@
 <script src="js/principal.js"></script>
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
+    $('#fechaInicio').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    $('#fechaFin').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    function contieneCadenaItem(item,est,fechaInicio,fechaFin,numeroBungalow) {
+        var ver = true;
+
+        if(est=="ELEGIR"){
+            est = item.estado;
+        }
+
+        if(numeroBungalow == -1){
+            numeroBungalow = item.idBungalow;
+        }
+        /*************************************/
+        var fechaPartida = fechaInicio.split("/");
+        var diaIni = parseInt(fechaPartida[0]);
+        var mesIni = parseInt(fechaPartida[1]);
+        var anhoIni = parseInt(fechaPartida[2]);
+
+        var fechaSalida = fechaFin.split("/");
+        var diaFin = parseInt(fechaSalida[0]);
+        var mesFin = parseInt(fechaSalida[1]);
+        var anhoFin = parseInt(fechaSalida[2]);
+
+        var fechaIniConvertida = anhoIni*10000+mesIni*100+diaIni;
+        var fechaFinConvertida = anhoFin*10000+mesFin*100+diaFin;
+
+        /*************************************/
+
+        var fechaIniGrid = item.fechaReserva;
+        var fechaFinGrid = item.fechaFinal;
+
+        var fechaPartidaGrid = fechaIniGrid.split("/");
+        var diaIniGrid = parseInt(fechaPartidaGrid[0]);
+        var mesIniGrid = parseInt(fechaPartidaGrid[1]);
+        var anhoIniGrid = parseInt(fechaPartidaGrid[2]);
+
+        var fechaSalidaGrid = fechaFinGrid.split("/");
+        var diaFinGrid = parseInt(fechaSalidaGrid[0]);
+        var mesFinGrid = parseInt(fechaSalidaGrid[1]);
+        var anhoFinGrid = parseInt(fechaSalidaGrid[2]);
+
+        var fechaIniConvertidaGrid = anhoIniGrid*10000+mesIniGrid*100+diaIniGrid;
+        var fechaFinConvertidaGrid = anhoFinGrid*10000+mesFinGrid*100+diaFinGrid;
+
+        console.log(fechaIniConvertida);
+        console.log(fechaFinConvertida);
+
+
+        var valFechas = false;
+        if((fechaIniConvertida<=fechaIniConvertidaGrid) && (fechaFinConvertida>=fechaFinConvertidaGrid)){
+            console.log("Si valida");
+            valFechas = true;
+        }
+
+        console.log(item.estado);
+
+        ver = (ver && (item.estado==est) && valFechas && (item.idBungalow == numeroBungalow));
+        return ver;
+    }
+
+    var app=angular.module('app',[]);
+    app.controller('BungalowController', function ($scope, $http) {
+        $scope.estados = ["ELEGIR"];
+        $http.get('/api/reservasbungalow/getEstadoReservaBungalow').success(function (data) {
+            for(i = 0; i < data.length; i++){
+                $scope.estados.push(data[i]);
+            }
+        });
+    });
+
+    var funciones = {};
+    funciones.limpiar = function(){
+        $("#fechaInicio").val = "";
+        $("#fechaFin").val = "";
+        $("#idBungalow").val = "";
+    }
+    funciones.buscar = function () {
+        var estado = $("#estado").val();
+        estado = estado.substr(7);
+
+        var fechaIni = $("#fechaInicio").val();
+        var fechaFin = $("#fechaFin").val();
+
+        var numeroBungalow = $("#idBungalow").val();
+        if(!numeroBungalow) numeroBungalow = "-1";
+
+        numeroBungalow = parseInt(numeroBungalow);
+
+        console.log(fechaIni);
+
+        if( ($("#fechaInicio").val() != "") && ($("#fechaFin").val() != "") ){
+            var fechaPartida = fechaIni.split("/");
+            var diaIni = parseInt(fechaPartida[0]);
+            var mesIni = parseInt(fechaPartida[1]);
+            var anhoIni = parseInt(fechaPartida[2]);
+
+            var fechaSalida = fechaFin.split("/");
+            var diaFin = parseInt(fechaSalida[0]);
+            var mesFin = parseInt(fechaSalida[1]);
+            var anhoFin = parseInt(fechaSalida[2]);
+
+            var fechaIniConvertida = anhoIni*10000+mesIni*100+diaIni;
+            var fechaFinConvertida = anhoFin*10000+mesFin*100+diaFin;
+
+            if(fechaIniConvertida>fechaFinConvertida){
+                Notificaciones.showError('El rango de fechas ingresado no válido');
+                return true;
+            }
+        }else if(($("#fechaInicio").val() != "")&&($("#fechaFin").val() == "")){
+            fechaFin = "12/12/9999";
+        }else if(($("#fechaInicio").val() == "")&&($("#fechaFin").val() != "")){
+            fechaIni = "01/01/0001";
+        }else{
+            fechaFin = "12/12/9999";
+            fechaIni = "01/01/0001";
+        }
+
+        var ver;
+        var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+        for (var i = 0; i < ids.length; i++) {
+            var rowId = ids[i];
+            var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+            ver = false;
+        if (contieneCadenaItem(rowData,estado,fechaIni,fechaFin,numeroBungalow)) {
+              //showrow
+           $("#" + rowId).show();
+        }
+        else {
+           $("#" + rowId).hide();
+                //hiderow
+           }
+        }
+    }
 
     $("#jqGrid").jqGrid({
         url: '/api/reservasbungalow', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
@@ -307,17 +440,6 @@
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '900');
-
-
-    var app=angular.module('app',[]);
-    app.controller('BungalowController', function ($scope, $http) {
-        $scope.estados = [];
-        $http.get('/api/bungalows/getEstadoBungalow').success(function (data) {
-            console.log("llegue");
-            console.log(data);
-            $scope.estados = data;
-        });
-    });
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';

@@ -1,9 +1,6 @@
 package com.clubsis.service;
 
-import com.clubsis.model.bungalow.Bungalow;
-import com.clubsis.model.bungalow.EstadoBungalow;
-import com.clubsis.model.bungalow.ReservaBungalow;
-import com.clubsis.model.bungalow.TipoBungalow;
+import com.clubsis.model.bungalow.*;
 import com.clubsis.model.sede.Sede;
 import com.clubsis.repository.bungalow.BungalowRepository;
 import com.clubsis.repository.bungalow.ReservaBungalowRepository;
@@ -91,5 +88,9 @@ public class ServicioReservas {
 
     public TipoBungalow obtenerBungalow(Integer id){
         return tipoBungalowRepository.findOne(id);
+    }
+
+    public EstadoReservaBungalow[] getEstadoReservaBungalow(){
+        return EstadoReservaBungalow.values();
     }
 }

@@ -79,4 +79,9 @@ public class ReservaBungalowController {
         servicioReservas.actualizarReservaBungalow(idReservaBungalow,reservaBungalow);
         return 1;
     }
+
+    @RequestMapping(value = "/getEstadoReservaBungalow",method = RequestMethod.GET)
+    public EstadoReservaBungalow[] getEstadoBungalow(){
+        return servicioReservas.getEstadoReservaBungalow();
+    }
 }
