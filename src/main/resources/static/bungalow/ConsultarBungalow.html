@@ -126,7 +126,7 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="../loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" onclick="funciones.buscar();return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
@@ -140,7 +140,7 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow
+            <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver Bungalow
         </div>
     </form>
 </div>
@@ -161,8 +161,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     $('#select').val('ELEGIR');
@@ -336,7 +336,7 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="../img/Iconos/ver.png" class="icono"></a>';
         return acciones;
     }
 </script>

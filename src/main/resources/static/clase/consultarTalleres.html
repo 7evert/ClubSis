@@ -123,7 +123,7 @@
                 data2.estadoAcademia = 0;
                 $http.put("/api/academias/" + id, data2).success(function (data3, status) {
                     setTimeout(function () {
-                        location.href = "clase/administrarTalleres2.html"
+                        location.href = "administrarTalleres2.html"
                     }, 1000);
 //                    alert("Este academia ya no esta habilitado");
 //                    location.href = "administrarTalleres2.html";
@@ -180,7 +180,7 @@
     <br>
     <div class="leyenda">
         <span>Leyenda: </span>
-        <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller
+        <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver Taller
         <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
         <!--|-->
         <!--<span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller-->
@@ -202,8 +202,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
     $("#jqGrid").jqGrid({
         url: '/api/academias',
@@ -252,7 +252,7 @@
     });
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="edicionTaller();return false;" id="bt1" class="btn btn-warning" data-idTaller-modificar="' + rowdata['id'] + '" title="Ver Taller"><img src="img/Iconos/modificar.png" class="icono"></a>';
+        acciones = '<a href="#" onclick="edicionTaller();return false;" id="bt1" class="btn btn-warning" data-idTaller-modificar="' + rowdata['id'] + '" title="Ver Taller"><img src="../img/Iconos/modificar.png" class="icono"></a>';
 
         return acciones;
     }

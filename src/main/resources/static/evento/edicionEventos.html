@@ -28,8 +28,8 @@
     <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
     <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 
-    <script src="js/Notificaciones.js"></script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <script src="../js/Notificaciones.js"></script>
+    <link rel="stylesheet" href="../css/estilosRegBungalows.css">
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -204,7 +204,7 @@
                     //dataeventos=dataJSON;
                     if (!dataevento) {
                         Notificaciones.showError("Evento No Disponible");
-                        location.href = "MantenimientoEventos.html";
+                        location.href = "../MantenimientoEventos.html";
                     }
                     /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
                      fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
@@ -291,7 +291,7 @@
                     });
                     $("#Cancelar").click(function () {
                         Notificaciones.showNoty("Volviendo a Eventos");
-                        location.href = "MantenimientoEventos.html";
+                        location.href = "../MantenimientoEventos.html";
                     });
                     var TARIFAS;
                     $http.get('/api/tarifas').success(function (data) {
@@ -367,7 +367,7 @@
                     });
                 });
                 $("#admSede").click(function () {
-                    location.href = "sede/administracionSedes.html"
+                    location.href = "../sede/administracionSedes.html"
                 });
             });
         });
@@ -480,7 +480,7 @@
         <div id="BungTipo2" class="show">
             <img id="imagenEvent" class="imgBungalow"
                  style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;"
-                 src="img/Eventos/newYear.jpg">
+                 src="../img/Eventos/newYear.jpg">
         </div>
         <div id="Tarifas" class="rowchangeg"
              style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
@@ -510,7 +510,7 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>

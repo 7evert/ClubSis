@@ -241,7 +241,7 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 147px;">
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
-                    <a href="mantenimientoPostulante.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="../mantenimientoPostulante.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -262,8 +262,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script type="text/javascript">
@@ -332,7 +332,7 @@
                         Notificaciones.hideAll();
                         Notificaciones.showProcesando();
                         setTimeout(function () {
-                            location.href = "mantenimientoPostulante.html"
+                            location.href = "../mantenimientoPostulante.html"
                         }, 1000);
                     })
                             .error(function (data) {

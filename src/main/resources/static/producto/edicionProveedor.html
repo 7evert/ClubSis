@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>Edición Datos Taller</title>
+    <title>Edicion Proveedor</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -23,8 +23,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
-
+    <link rel="stylesheet" href="../css/estilosRegBungalows.css">
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -71,11 +70,7 @@
             color: #FF0000;
         }
     </style>
-
     <script type="text/javascript">
-        var idacademia = 0;
-        var idciclo = 0;
-
         function getID() {
             var href = this.location.href;
             var str = href.match(/\?id\=(\d+)/);
@@ -122,68 +117,53 @@
         }
     </script>
     <script type="text/javascript">
-        function llenarDatosTaller(data2) {
-            $("#nivel").val(data2.nivel);
-            $("#rangoEdad").val(data2.rangoEdad);
-            $("#precioMes").val(data2.precioMes);
-            $("#precioCiclo").val(data2.precioCiclo);
-            $("#capacidad").val(data2.capacidad);
-            $("#profesor").val(data2.profesor);
-            $("#estadoClase").val(data2.estadoClase);
-            /*
-             for(var i = 0; i < data2.length; i++){
-             $("#nivel").val(data2[i].nivel);
-             $("#rangoEdad").val(data2[i].rangoEdad);
-             $("#precioMes").val(data2[i].precioMes);
-             $("#precioCiclo").val(data2[i].precioCiclo);
-             $("#capacidad").val(data2[i].capacidad);
-             $("#profesor").val(data2[i].profesor);
-             $("#estadoProveedor").val(data2.estadoProveedor+0);}
-             */
+        function llenarDatosProveedor(data2) {
+
+            $("#nombreProv").val(data2.nombre);
+            $("#numRUC").val(data2.ruc);
+            $("#descripcion").val(data2.descripcion);
+            $("#telefono").val(data2.numContacto);
+            $("#direc").val(data2.direccion);
+            $("#estadoProveedor").val(data2.estadoProveedor);
+            console.log("Nombre:"+$("#nombreProv").val());
         }
-        function getDatosTaller(id, ciclo, academia) {
+        function getProveedor(id){
             return {
-                id: id,
-                nivel: $("#nivel").val(),
-                rangoEdad: $("#rangoEdad").val(),
-                precioMes: $("#precioMes").val(),
-                precioCiclo: $("#precioCiclo").val(),
-                capacidad: $("#capacidad").val(),
-                profesor: $("#profesor").val(),
-                estadoClase: $("#estadoClase").val(),
-                ciclo: {id: ciclo},
-                academia:{id:academia}
+                id:id,
+                nombre: $("#nombreProv").val(),
+                ruc: $("#numRUC").val(),
+                descripcion: $("#descripcion").val(),
+                numContacto: $("#telefono").val(),
+                direccion: $("#direc").val(),
+                estadoProveedor: $("#estadoProveedor").val()
             };
         }
-
+    </script>
+    <script type="text/javascript">
         var app2 = angular.module('app2', []);
-        app2.controller('edicionTallerController', function ($scope, $http) {
+        app2.controller('edicionProveedorController', function ($scope, $http) {
             var id = getID();
-            var idCiclo;
-            var idAcademia;
+            if(id==undefined)
+                href.location="administrarProveedores1.html";
             console.log(id);
-            if (id == undefined) {
-                location.href = "VerTaller.html"
+            if(id==undefined){
+                //location.href="administrarProveedores1.html"
             }
-            $http.get('/api/clases/' + id).success(function (data2, status) {
-                llenarDatosTaller(data2);
-                idCiclo = data2.ciclo ["id"];
-                idAcademia = data2.academia["id"];
+            $http.get('/api/proveedores/'+id).success(function (data2, status) {
+                llenarDatosProveedor(data2);
             });
-
-            $("#guardar").click(function () {
-                var data = getDatosTaller(id, idCiclo, idAcademia);
+            $("#guardar").click(function(){
+                var data=getProveedor(id);
                 console.log(JSON.stringify(data));
-
                 if(!validarDatos()){
-                    $http.put("/api/clases/"+data.id, data).success(function (data2, status) {
+                    $http.put("/api/proveedores/"+data.id, data).success(function (data2, status) {
                         //alert("Tu actualizacion fue exitosa");
                         Notificaciones.showProcesando();
                         Notificaciones.hideAll();
                         setTimeout(function () {
-                            location.href = "VerTaller.html?id=" + idAcademia
+                            location.href = "administrarProveedores1.html"
                         }, 1000);
-                        //location.href = "administrarProveedores1.html";
+                    //location.href = "administrarProveedores1.html";
                     }).error(function (data) {
                         //aca lo que se hara en caso falle
                         Notificaciones.showError("Error al editar proveedor");
@@ -191,133 +171,131 @@
                     });
 
                 }
+
             });
-            $("#cancelar").click(function () {
-                location.href = "VerTaller.html?id=" + idAcademia;
+            $("#cancelar").click(function(){
+                location.href = "administrarProveedores1.html";
             });
 
             function validarDatos() {
-                var nivel=$("#nivel").val();
-                var rangoEdad= $("#rangoEdad").val();
-                var precioMes = $("#precioMes").val();
-                var precioCiclo= $("#precioCiclo").val();
-                var profesor = $("#profesor").val();
-                var capacidad=$("#capacidad").val();
+                var nombre=$("#nombreProv").val();
+                var ruc= $("#numRUC").val();
+                var descripcion = $("#descripcion").val();
+                var numContacto= $("#telefono").val();
+                var direccion = $("#direc").val();
+                var estado=$("#estadoProveedor").val();
 
-                if(!nivel){
-                    console.log($("#nivel").val());
+                if(!nombre){
+                    console.log($("#nombreProv").val());
+                    console.log(nombre);
                     console.log("No hay nombre");
-                    Notificaciones.showError('Debe insertar un nivel');
-                    $("#nivel").css("border-color", "red");
+                    Notificaciones.showError('Nombre de proveedor requerido');
+                    $("#nombreProv").css("border-color", "red");
                     return true;
                 }
-                else if(!rangoEdad){
-                    Notificaciones.showError('Se necesita un rango de edad');
-                    $("#rangoEdad").css("border-color", "red");
+                else if(!ruc){
+                    Notificaciones.showError('RUC requerido');
+                    $("#numRUC").css("border-color", "red");
                     return true;
                 }
-                else if(!precioMes){
-                    Notificaciones.showError('Debe ingresar un precio por mes');
-                    $("#precioMes").css("border-color", "red");
+                else if(!descripcion){
+                    Notificaciones.showError('Descripción del rubro del proveedor requerido');
+                    $("#descripcion").css("border-color", "red");
                     return true;
                 }
-                else if(!precioCiclo){
-                    Notificaciones.showError('Debe ingresar un precio por ciclo');
-                    $("#precioCiclo").css("border-color", "red");
+                else if(!numContacto){
+                    Notificaciones.showError('Número de contacto requerido');
+                    $("#telefono").css("border-color", "red");
                     return true;
                 }
-                else if(!capacidad){
-                    Notificaciones.showError('Capacidad requerida');
-                    $("#capacidad").css("border-color", "red");
+                else if(!direccion){
+                    Notificaciones.showError('Dirección requerida');
+                    $("#direc").css("border-color", "red");
                     return true;
                 }
-                else if(!profesor){
-                    Notificaciones.showError('Nombre del profesor requerido');
-                    $("#profesor").css("border-color", "red");
+                else if(!estado){
+                    Notificaciones.showError('Estado requerido');
+                    $("#estadoProveedor").css("border-color", "red");
                     return true;
                 }
-
 
                 return false;
             }
-            $("#nivel").click(function () {
-                $("#nivel").css("border-color", "#ccc");
+
+            $("#nombreProv").click(function () {
+                $("#nombreProv").css("border-color", "#ccc");
             });
-            $("#rangoEdad").click(function () {
-                $("#rangoEdad").css("border-color", "#ccc");
+            $("#numRUC").click(function () {
+                $("#numRUC").css("border-color", "#ccc");
             });
-            $("#precioMes").click(function () {
-                $("#precioMes").css("border-color", "#ccc");
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
             });
-            $("#precioCiclo").click(function () {
-                $("#precioCiclo").css("border-color", "#ccc");
+            $("#telefono").click(function () {
+                $("#telefono").css("border-color", "#ccc");
             });
-            $("#profesor").click(function () {
-                $("#profesor").css("border-color", "#ccc");
-            });
-            $("#capacidad").click(function () {
-                $("#capacidad").css("border-color", "#ccc");
+            $("#direc").click(function () {
+                $("#direc").css("border-color", "#ccc");
             });
         });
     </script>
 </head>
-<body ng-controller="edicionTallerController">
+<body ng-controller="edicionProveedorController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Edición Datos del Taller</h2>
+    <h2>Edición Proveedor</h2>
     <hr>
-    <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
-        <div id="NivelTaller" class="form-group">
-            <label class="control-label col-xs-4">Nivel<span class="obligatorio"> *</span></label>
+        <form id="formEditarProveedor" class="form-horizontal mitadDerecha">
+        <div id="NombreProveedor" class="form-group">
+            <label class="control-label col-xs-4">Nombre Proveedor<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="nivel" type="text" class="form-control col-xs-8" maxlength="1" placeholder="Escriba el nivel..." required/>
+                <input id="nombreProv" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
-        <div id="rangoEdadTaller" class="form-group">
-            <label class="control-label col-xs-4">Rango Edad<span class="obligatorio"> *</span></label>
+        <div id="RUC" class="form-group">
+            <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="rangoEdad" type="text" class="form-control col-xs-8" maxlength="7" ng-model="ruc" placeholder="Escriba el rango de edad..."required/>
+                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="15" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Escriba el RUC..."required/>
             </div>
         </div>
-        <div id="precioCicloTaller" class="form-group">
-            <label class="control-label col-xs-4">Precio Ciclo<span class="obligatorio"> *</span></label>
+        <div id="Descripcion" class="form-group">
+            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="precioCiclo" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el precio por ciclo..." required/>
+                <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
             </div>
         </div>
-        <div id="precioMesTaller" class="form-group">
-            <label class="control-label col-xs-4">Precio Mes<span class="obligatorio"> *</span></label>
+        <div id="numContacto" class="form-group">
+            <label class="control-label col-xs-4">Número de Contacto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="precioMes" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el precio por mes" required/>
+                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Ingrese número de contacto..." required/>
             </div>
         </div>
-        <div id="capacidadTaller" class="form-group">
-            <label class="control-label col-xs-4">Capacidad<span class="obligatorio"> *</span></label>
+        <div id="Direccion" class="form-group">
+            <label class="control-label col-xs-4">Direccion<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="capacidad" type="text" class="form-control col-xs-8" maxlength="7" placeholder="Ingrese la capacidad..." required/>
-            </div>
-        </div>
-        <div id="profesorTaller" class="form-group">
-            <label class="control-label col-xs-4">Profesor<span class="obligatorio"> *</span></label>
-            <div class="input-group col-xs-8">
-                <input id="profesor" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese el profesor del taller..." required/>
+                <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una dirección..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoClase" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
-            <div class="col-md-8">
-                <select class="form-control" id="estadoClase"  required>
+            <label for="estadoProveedor" class="control-label col-xs-4">Estado<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <select class="form-control" id="estadoProveedor"  required>
                     <option>INHABILITADO</option>
                     <option>HABILITADO</option>
                 </select>
             </div>
         </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <span class="obligatorio" style="margin-left: 168px;">(*) Estos campos son obligatorios</span>
+                </div>
+            </div>
         <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input id="guardar" type="button" class="btn btn-primary" value="Guardar" style="width:22%" >
-                <input id="cancelar" type="button" class="btn btn-primary" value="Cancelar" style="width:22%" >
+            <div class="col-xs-offset-8 col-xs-8">
+                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:25%" >
+                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:25%" >
             </div>
         </div>
     </form>
@@ -333,8 +311,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>
