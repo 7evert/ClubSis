@@ -156,16 +156,19 @@
         $http.get('/api/usuarios/'+idUsuario).success(function (data) {
             $scope.usuarios=data;
             console.log(data);
-            var sedes=$scope.usuarios.sedes;
-            console.log(sedes);
-            var cadenaSedes="";
-            var i;
-            for(i=0;i<sedes.length-1;i++){
+            console.log(idUsuario);
+            $http.get('/api/usuarios/'+idUsuario+'/getlistaSedes').success(function (data) {
+                var sedes=data;
+                console.log(sedes);
+                var cadenaSedes = "";
+                var i;
+                for (i = 0; i < sedes.length - 1; i++) {
+                    cadenaSedes.concat(sedes[i].nombre);
+                    cadenaSedes.concat(", ");
+                }
                 cadenaSedes.concat(sedes[i].nombre);
-                cadenaSedes.concat(", ");
-            }
-            cadenaSedes.concat(sedes[i].nombre);
-            $("sede").text(cadenaSedes);
+                $("sede").text(cadenaSedes);
+            });
         });
     });
     $("select, input").attr("disabled", true);
