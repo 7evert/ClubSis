@@ -148,6 +148,10 @@
                 sedesElem.append($("<option></option>").attr({value: data1[i].id}).html(data1[i].nombre));
         });
 
+        $scope.calcularMonto = function () {
+            
+        }
+
 
     });
 </script>
@@ -171,7 +175,7 @@
                     </select>
                 </div>
                 <a href="#" onclick="accionVender();return false;" class="control-label col-xs-2 btn btn-primary" id="btnRegistrar"
-                   style="">Registrar
+                   style="margin-left: 30px;">Registrar
                     Venta </a>
             </div>
         </h3>
@@ -218,6 +222,7 @@
         <div id="jqGridPager"></div>
     </div>
     <br>
+    <button ng-click="calcularMonto()" href="javascript:void(0)" class="btn btn-primary"style="margin-left: 1027px;">Calcular Monto</button>
     </form>
 </div>
 <br>

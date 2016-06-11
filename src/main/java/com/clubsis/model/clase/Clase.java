@@ -16,7 +16,7 @@ public class Clase {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer nivel;
+    private Nivel nivel;
     private String rangoEdad;
     private Double precioCiclo;
     private Double precioMes;
@@ -42,14 +42,14 @@ public class Clase {
     protected Clase() {
     }
 
-    public Clase(Integer nivel, Double precioCiclo, String rangoEdad, Double precioMes, Integer capacidad, EstadoClase estadoClase, String profesor, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios,Academia academia) {
+    public Clase(Nivel nivel, String rangoEdad, Double precioCiclo, Double precioMes, Integer capacidad, String profesor, EstadoClase estadoClase, Ciclo ciclo, Set<RegistroClase> registros, Set<Horario> horarios, Academia academia) {
         this.nivel = nivel;
-        this.precioCiclo = precioCiclo;
         this.rangoEdad = rangoEdad;
+        this.precioCiclo = precioCiclo;
         this.precioMes = precioMes;
         this.capacidad = capacidad;
-        this.estadoClase = estadoClase;
         this.profesor = profesor;
+        this.estadoClase = estadoClase;
         this.ciclo = ciclo;
         this.registros = registros;
         this.horarios = horarios;
@@ -64,11 +64,11 @@ public class Clase {
         this.id = id;
     }
 
-    public Integer getNivel() {
+    public Nivel getNivel() {
         return nivel;
     }
 
-    public void setNivel(Integer nivel) {
+    public void setNivel(Nivel nivel) {
         this.nivel = nivel;
     }
 
