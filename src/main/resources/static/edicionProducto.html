@@ -156,7 +156,7 @@
                         Notificaciones.showProcesando();
                         Notificaciones.hideAll();
                         setTimeout(function () {
-                            location.href = "administrarProducto.html"
+                            location.href = "producto/administrarProducto.html"
                         }, 1000);
                     }).error(function (data) {
                         Notificaciones.showError("Error al editar proveedor");
@@ -166,7 +166,7 @@
 
             });
             $("#cancelar").click(function(){
-                location.href = "administrarProducto.html";
+                location.href = "producto/administrarProducto.html";
             });
 
             function validarDatos() {

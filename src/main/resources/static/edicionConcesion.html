@@ -162,7 +162,7 @@
                         Notificaciones.showProcesando();
                         Notificaciones.hideAll();
                         setTimeout(function () {
-                            location.href = "administrarConcesiones.html"
+                            location.href = "sede/administrarConcesiones.html"
                         }, 1000);
                     }).error(function (data) {
                         Notificaciones.showError("Error al editar concesión");
@@ -172,7 +172,7 @@
 
             });
             $("#cancelar").click(function(){
-                location.href = "administrarConcesiones.html";
+                location.href = "sede/administrarConcesiones.html";
             });
 
             function validarDatos() {

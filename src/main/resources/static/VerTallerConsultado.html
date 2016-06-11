@@ -101,7 +101,7 @@
             var id = getID();
             console.log(id);
             if(id==undefined){
-                location.href="administrarTalleres2.html"
+                location.href="clase/administrarTalleres2.html"
             }
             $http.get('/api/academias/'+id).success(function (data2, status) {
                 console.log(data2);

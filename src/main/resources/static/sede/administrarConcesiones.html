@@ -188,7 +188,7 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE CONCESIONES
-            <a href=registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 405px;">Añadir
+            <a href=../registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 405px;">Añadir
                 Concesión </a>
             <button ng-click="eliminarConcesion()" href="javascript:void(0)" class="btn btn-primary">Eliminar Concesión</button>
         </h3>
@@ -236,9 +236,9 @@
     <br>
     <div class="leyenda">
         <span>Leyenda: </span>
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Concesión
+        <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Concesión
         |
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Concesión
+        <span class="icono-resultados"><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar Concesión
     </div>
     </form>
 </div>
@@ -257,8 +257,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
@@ -314,8 +314,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionConcesion(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionConcesion(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="../img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="../img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

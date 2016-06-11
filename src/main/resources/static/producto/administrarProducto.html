@@ -3,7 +3,7 @@
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
-    <title>ClubSis - Mantenimientos Proveedores</title>
+    <title>ClubSis - Mantenimiento Productos</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
@@ -68,19 +68,22 @@
         .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
-<body ng-controller="ProveedorController">
+<body ng-controller="ProductoController">
 <script type="text/javascript">
-    function edicionProveedor(event){
+    function edicionProducto(event){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "edicionProveedor.html?id=" + id;
+        console.log(id);
+        location.href = "edicionProducto.html?id=" + id;
+    }
+    function ingresarStock(event) {
+        var id = event.target.parentNode.getAttribute("data-idEvento-ingresar");
+        location.href = "ingresarStock.html?id=" + id;
     }
     function accionEliminar(event) {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
-        console.log("Accion:");
-        console.log(id);
         $.noty.closeAll();
         noty({
-            text: '¿Está seguro de que desea eliminar al proveedor?',
+            text: '¿Está seguro de que desea eliminar este producto ?',
             type: 'warning',
             buttons: [
                 {
@@ -108,42 +111,31 @@
 <script type="text/javascript">
     var app = angular.module('app', []);
     var funciones={};
-    app.controller('ProveedorController', function ($scope, $http) {
-        $http.get('/api/proveedores').success(function (data) {
-//            alert("2");
-            //    api/tarifaeventos
-            //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
+    app.controller('ProductoController', function ($scope, $http) {
+        $http.get('/api/productos').success(function (data) {
             console.log(data);
-
         })
-
         funciones.eliminar=(function (id) {
-            console.log("Quieres eliminar?");
-            //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-            console.log(id);
-            $http.get('/api/proveedores/' + id).success(function (data2, status) {
-                    console.log(data2);
-                    data2.estadoProveedor = 0;
-                    $http.put("/api/proveedores/" + data2.id, data2).success(function (data3, status) {
-                        setTimeout(function () {
-                            location.href = "administrarProveedores1.html"
-                        }, 1000);
-                        //alert("Este proveedor ya no esta habilitado");
-//                        location.href = "administrarProveedores1.html";
-                    });
+            $http.get('/api/productos/' + id).success(function (data2, status) {
+                data2.estadoProducto = 0;
+                $http.put("/api/productos/" + data2.id, data2).success(function (data3, status) {
+                    setTimeout(function () {
+                        location.href = "administrarProducto.html"
+                    }, 1000);
+                });
             });
         })
 
-        $scope.eliminarProveedores =function (){
+        $scope.eliminarProductos =function (){
             var grid = $("#jqGrid");
             var rowKey = grid.getGridParam("selrow");
 
             if (!rowKey)
-                Notificaciones.showError('No hay proveedor seleccionado');
+                Notificaciones.showError('No hay producto seleccionado');
             else {
                 $.noty.closeAll();
                 noty({
-                    text: '¿Está seguro de que desea eliminar este proveedor ?',
+                    text: '¿Está seguro de que desea eliminar este producto ?',
                     type: 'warning',
                     buttons: [
                         {
@@ -152,21 +144,23 @@
                             var selectedIDs = grid.getGridParam("selarrrow");
                             var result = "";
                             console.log(selectedIDs);
+                            var mensaje= "Se registro los pagos seleccionados satisfactoriamente.";
                             for (var i = 0; i < selectedIDs.length; i++) {
                                 var id= selectedIDs[i];
-                                $http.get('/api/proveedores/'+ id).success(function (data,status ) {
+
+                                $http.get('/api/productos/'+ id).success(function (data,status ) {
                                     result += selectedIDs[i] + ",";
                                     flag=true
                                     console.log(JSON.stringify(data));
-                                    data.estadoProveedor = 0;
-                                    $http.put("/api/proveedores/" + data.id, data).success(function (data3, status) {
+                                    data.estadoProducto = 0;
+                                    $http.put("/api/productos/" + data.id, data).success(function (data3, status) {
                                         setTimeout(function () {
-                                            location.href = "administrarProveedores1.html"
+                                            location.href = "administrarProducto.html"
                                         }, 1000);
                                     });
                                 }).error(function (data2) {
                                     console.log(JSON.stringify(data));
-                                    Notificaciones.showError('No se pudo eliminar los proveedores seleccionados');
+                                    Notificaciones.showError('No se pudo eliminar los productos seleccionados');
                                 });
 
                                 console.log(result);
@@ -195,10 +189,10 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE PROVEEDORES
-            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 400px;">Añadir
-                Proveedor</a>
-            <button ng-click="eliminarProveedores()" href="javascript:void(0)" class="btn btn-primary">Eliminar Proveedor</button>
+            ADMINISTRACIÓN DE PRODUCTOS
+            <a href=../registrarProducto.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 453px;">Añadir
+                Producto </a>
+            <button ng-click="eliminarProductos()" href="javascript:void(0)" class="btn btn-primary">Eliminar Producto</button>
         </h3>
 
     </div>
@@ -236,7 +230,7 @@
     <!--</div>-->
     <!--</div>-->
     <!--</div>-->
-    <h4>LISTA DE PROVEEDORES REGISTRADOS</h4>
+    <h4>LISTA DE PRODUCTOS REGISTRADOS</h4>
     <div class="rowchangeg" style="width: 1000px; margin-left: 0px; ">
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -244,9 +238,9 @@
     <br>
     <div class="leyenda">
         <span>Leyenda: </span>
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Proveedor
-        |
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Proveedor
+        <span class="icono-ingresar"><img src="../img/Iconos/flecha-arriba.png" class="icono"></span> Registrar Ingreso de Stock |
+        <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Producto |
+        <span class="icono-resultados"><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
     </div>
     </form>
 </div>
@@ -265,26 +259,26 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
-        url: '/api/proveedores',
+        url: '/api/productos',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Número','Nombre del Proveedor','RUC','Descripción','Número de Contacto','Dirección','Estado Proveedor', 'Acciones'], //define column names
+        colNames:['Número','Nombre','Descripción','Precio Unitario (S/.)','Estado Producto', 'Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', align:'center', key: true, width:50},
             {name:'nombre', index:'nombre', align:'center', width:150},
-            {name:'ruc', index:'ruc', align:'center', width:100},
-            {name:'descripcion', index:'descripcion',width:300},
-            {name:'numContacto', index:'numContacto',align:'center', width:110},
-            {name:'direccion', index:'direccion', width:220},
-            {name:'estadoProveedor', index:'estadoProveedor', align:'center', width:100},
+            {name:'descripcion', index:'descripcion', width:220},
+            //{name:'fechaInicio', index:'fechaInicio',width:300},
+            //{name:'fechaVencimiento', index:'fechaVencimiento',align:'center', width:110},
+            {name:'precioVentaUnitario', index:'precioVentaUnitario',align:'center', width:100},
+            {name:'estadoProducto', index:'estadoProducto', align:'center', width:100},
             {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -296,11 +290,10 @@
             for (i = 0; i <= rowIds.length; i++) {//iterate over each row
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
                 //set background style if ColumnValue == true
-                if (rowData['estadoProveedor'] == "INHABILITADO") {
+                if (rowData['estadoProducto'] == "INHABILITADO") {
                     $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
-                } //if
+                }
             }
-            //console.log("salio");
         },
         multiselect:true
     });
@@ -322,8 +315,9 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionProveedor(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones ='<a href="#" onclick="ingresarStock(event);return false;"  id="bt3" class="btn btn-warning" data-idEvento-ingresar="' + rowdata['id'] + '" title="Ingresar Stock"><img src="../img/Iconos/flecha-arriba.png" class="icono"></a>' +
+                '<a href="#" onclick="edicionProducto(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Producto"><img src="../img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Producto" ><img src="../img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

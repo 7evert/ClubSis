@@ -67,7 +67,7 @@
                     console.log(JSON.stringify(data2));
                     Notificaciones.showNoty("Se multó al socio satisfactoriamente.", Notificaciones.type.SUCCESS);
                     setTimeout(function () {
-                        location.href = "loginAdministrador.html"
+                        location.href = "../loginAdministrador.html"
                     }, 1200);
                 }).error(function (data2) {
                         Notificaciones.showError("No se pudo multar al socio.")
@@ -111,7 +111,7 @@
         <div class="col-xs-7">
             <div class="form-group" style="margin-left: 140px;">
                 <button ng-click="asignarMulta()" class="btn btn-primary">Registrar</button>
-                <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+                <a id="Cancelar" href="../loginUsuario.html" class="btn btn-primary">Cancelar</a>
             </div>
         </div>
     </form>
@@ -121,12 +121,12 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/Notificaciones.js"></script>
 </body>
 </html>
