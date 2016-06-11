@@ -101,7 +101,7 @@
             var id = getID();
             console.log(id);
             if(id==undefined){
-                //location.href="administrarProveedores1.html"
+                location.href="administrarTalleres2.html"
             }
             $http.get('/api/academias/'+id).success(function (data2, status) {
                 console.log(data2);
@@ -218,14 +218,14 @@
 
     function edicionHorario(idAcademia, idclase){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "inscribirTaller.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+        location.href = "inscribirTaller.html?id=" + id + "&idClase=" + id + "&idAcademia=" +idAcademia;
 
 
     }
 
     function añadirHorario(idAcademia, idclase){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
-        location.href = "añadirHorarioClase.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+        location.href = "añadirHorarioClase.html?id=" + id + "&idClase=" + id + "&idAcademia=" +idAcademia;
 
 
     }
@@ -444,7 +444,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Capacidad','Estado','Nivel', 'Precio Mes', 'Precio Ciclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
+        colNames:['Número','Capacidad','Estado','Nivel', 'Precio Mes', 'Precio Ciclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'capacidad', index:'capacidad',width:100},
@@ -497,7 +497,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'Si no muestra resultados, por favor seleccione una clase.',
-        colNames:['#','Día','Estado','Hora Inicio','Hora Fin','Instalación'], //define column names
+        colNames:['Número','Día','Estado','Hora Inicio','Hora Fin','Instalación'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'dia', index:'dia', width:100},

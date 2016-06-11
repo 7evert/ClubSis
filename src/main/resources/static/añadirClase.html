@@ -81,45 +81,7 @@
             var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
-        function mostraridEvento(id){
-            $("#idEvento").html("Evento Numero "+id);
-        }
-        function mostrarNombre(nombre){
-            $("#nombre").html(nombre);
-        }
-        Date.prototype.ddmmyyyy = function() {
-            var yyyy = this.getFullYear().toString();
-            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-            var dd  = this.getDate().toString();
-            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
-        };
-        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
-            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
-            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
-        }
-        function mostrarTarifas(tarifas){
-            var b=new Array();
-            var tarifasul=$("#tarifas");
-            for(var i=0;i<tarifas.length;i++)
-                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
-            for(var j=0;j<b.length;j++)
-                tarifasul.append(b[j]);
-        }
-        function mostrarRegYDescripcion(reglamento, descripcion){
-            $("#reglamento").html("Reglamento: "+reglamento);
-            $("#descripcion").html("Descripcion: <br>"+descripcion);
-        }
-        function mostrarImagen(url){
-            $("#imgEvento").attr({src:url});
-        }
-        function mostrarEstGratYPub(estado,isGratuito,isPublico){
-            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
-        }
-        function mostrarSede(sede){
-            $("#sede").html(sede.nombre);
-        }
+
     </script>
     <script type="text/javascript">
 //        function llenarDatosTaller(data2) {
@@ -200,13 +162,94 @@
                 console.log(idAcademia);
                 var data = getDatosTaller(idCiclo, idAcademia);
                 console.log(JSON.stringify(data));
-                $http.post("/api/clases/", data).success(function (data2, status) {
-                    alert("Tu clase se añadió correctamente");
-                    location.href = "VerTaller.html?id=" + idAcademia;
-                });
+//                $http.post("/api/clases/", data).success(function (data2, status) {
+//                    //alert("Tu clase se añadió correctamente");
+//                    location.href = "VerTaller.html?id=" + idAcademia;
+//                });
+
+                if(!validarDatos()){
+                    $http.post("/api/clases/", data).success(function (data2, status) {
+                        //alert("Tu actualizacion fue exitosa");
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + idAcademia
+                        }, 1000);
+                        //location.href = "administrarProveedores1.html";
+                    }).error(function (data) {
+                        //aca lo que se hara en caso falle
+                        Notificaciones.showError("Error al editar proveedor");
+                        console.log("fallo");
+                    });
+
+                }
             });
             $("#cancelar").click(function () {
                 location.href = "VerTaller.html?id=" + idAcademia;
+            });
+
+            function validarDatos() {
+                var nivel=$("#nivel").val();
+                var rangoEdad= $("#rangoEdad").val();
+                var precioMes = $("#precioMes").val();
+                var precioCiclo= $("#precioCiclo").val();
+                var profesor = $("#profesor").val();
+                var capacidad=$("#capacidad").val();
+
+                if(!nivel){
+                    console.log($("#nivel").val());
+                    console.log("No hay nombre");
+                    Notificaciones.showError('Debe insertar un nivel');
+                    $("#nivel").css("border-color", "red");
+                    return true;
+                }
+                else if(!rangoEdad){
+                    Notificaciones.showError('Se necesita un rango de edad');
+                    $("#rangoEdad").css("border-color", "red");
+                    return true;
+                }
+                else if(!precioMes){
+                    Notificaciones.showError('Debe ingresar un precio por mes');
+                    $("#precioMes").css("border-color", "red");
+                    return true;
+                }
+                else if(!precioCiclo){
+                    Notificaciones.showError('Debe ingresar un precio por ciclo');
+                    $("#precioCiclo").css("border-color", "red");
+                    return true;
+                }
+                else if(!capacidad){
+                    Notificaciones.showError('Capacidad requerida');
+                    $("#capacidad").css("border-color", "red");
+                    return true;
+                }
+                else if(!profesor){
+                    Notificaciones.showError('Nombre del profesor requerido');
+                    $("#profesor").css("border-color", "red");
+                    return true;
+                }
+
+
+                return false;
+            }
+
+            $("#nivel").click(function () {
+                $("#nivel").css("border-color", "#ccc");
+            });
+            $("#rangoEdad").click(function () {
+                $("#rangoEdad").css("border-color", "#ccc");
+            });
+            $("#precioMes").click(function () {
+                $("#precioMes").css("border-color", "#ccc");
+            });
+            $("#precioCiclo").click(function () {
+                $("#precioCiclo").css("border-color", "#ccc");
+            });
+            $("#profesor").click(function () {
+                $("#profesor").css("border-color", "#ccc");
+            });
+            $("#capacidad").click(function () {
+                $("#capacidad").css("border-color", "#ccc");
             });
         });
     </script>
@@ -228,7 +271,7 @@
         <div id="rangoEdadTaller" class="form-group">
             <label class="control-label col-xs-4">Rango Edad<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="rangoEdad" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el rango de edad..."required/>
+                <input id="rangoEdad" type="text" class="form-control col-xs-8"  placeholder="Escriba el rango de edad..."required/>
             </div>
         </div>
         <div id="precioCicloTaller" class="form-group">
@@ -266,8 +309,8 @@
         </div>
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
-                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
-                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%" >
+                <input id="guardar" type="button" class="btn btn-primary" value="Guardar" style="width:22%" >
+                <input id="cancelar" type="button" class="btn btn-primary" value="Cancelar" style="width:22%" >
             </div>
         </div>
     </form>
@@ -278,7 +321,13 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>

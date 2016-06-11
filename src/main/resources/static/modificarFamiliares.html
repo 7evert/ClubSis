@@ -117,11 +117,11 @@
             ver[i++] = $("#apellidoMaterno").val().length < 50 && $("#apellidoMaterno").val().length > 0;
             ver[i++] = $("#tipoDocumento").val() != 0;
             ver[i++] = ($("#numeroDocumento").val() % 1 === 0) && parseInt($("#numeroDocumento").val()) >= 0;
-            ver[i++] = $("#direccion").val().length < 50 && $("#direccion").val().length > 0;
-            ver[i++] = $("#correo").val().length < 30 && $("#correo").val().length > 0;
-            ver[i++] = $("#telefono").val().match(/[^0-9*#-]/) == null;
-            ver[i++] = !isNaN(Date.parse($("#date-picker-FechaNacimiento")[0].value));
-            ver[i++] = Date.parse($("#date-picker-FechaNacimiento")[0].value) - new Date() <= -(24 * 60 * 60 * 1000);
+            ver[i++] = ($("#direccion").val()=="") || ($("#direccion").val().length < 50 && $("#direccion").val().length > 0);
+            ver[i++] = ($("#correo").val()=="") || ($("#correo").val().length < 30 && $("#correo").val().length > 0);
+            ver[i++] = ($("#telefono").val()=="") || ($("#telefono").val().match(/[^0-9*#-]/) == null);
+            ver[i++] = ($("#date-picker-FechaNacimiento").val()=="") || (!isNaN(Date.parse($("#date-picker-FechaNacimiento")[0].value)));
+            ver[i++] = ($("#date-picker-FechaNacimiento").val()=="") || (Date.parse($("#date-picker-FechaNacimiento")[0].value) - new Date() <= -(24 * 60 * 60 * 1000));
             for (var j = 0; j < i; j++)
                 if (ver[j] == false) {
                     mostrarMensaje(mensajes[j]);
@@ -202,9 +202,9 @@
                 <div class="form-group">
                     <label for="esTitular" class="col-md-4 control-label">Es Titular</label>
                     <div class="col-md-8">
-                        <select id="esTitular" class="form-control">
+                        <select id="esTitular" disabled class="form-control">
                             <option value="1">Titular</option>
-                            <option value="0" selected>No Titular</option>
+                            <option value="0">No Titular</option>
                         </select>
                     </div>
                 </div>

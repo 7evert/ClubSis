@@ -1,11 +1,14 @@
 package com.clubsis.model.pago;
 
 import com.clubsis.model.bungalow.Bungalow;
+import com.clubsis.model.bungalow.ReservaBungalow;
 import com.clubsis.model.clase.Clase;
+import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Multa;
 import com.clubsis.model.evento.Evento;
 import com.clubsis.model.persona.Socio;
 import com.clubsis.model.sede.Instalacion;
+import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -41,14 +44,14 @@ public class Pago {
     @ManyToOne(fetch = FetchType.EAGER)
     private Evento evento;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Bungalow bungalow;
+    @OneToOne
+    private ReservaBungalow reservaBungalow;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Clase clase;
+    @OneToOne
+    private RegistroClase registroClase;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Instalacion instalacion;
+    @OneToOne
+    private ReservaInstalacion reservaInstalacion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Multa multa;
@@ -56,7 +59,8 @@ public class Pago {
     protected Pago() {
     }
 
-    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion, Socio socio, Evento evento, Bungalow bungalow, Clase clase, Instalacion instalacion,Multa multa) {
+    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion,
+                Socio socio, Evento evento, ReservaBungalow reservaBungalow, RegistroClase registroClase, ReservaInstalacion reservaInstalacion,Multa multa) {
         this.descripcion=descripcion;
         this.mora = mora;
         this.montoTotal = montoTotal;
@@ -69,9 +73,9 @@ public class Pago {
         this.valoracion = valoracion;
         this.socio = socio;
         this.evento = evento;
-        this.bungalow = bungalow;
-        this.clase = clase;
-        this.instalacion = instalacion;
+        this.reservaBungalow = reservaBungalow;
+        this.registroClase = registroClase;
+        this.reservaInstalacion = reservaInstalacion;
         this.multa=multa;
     }
 
@@ -171,28 +175,28 @@ public class Pago {
         this.evento = evento;
     }
 
-    public Bungalow getBungalow() {
-        return bungalow;
+    public ReservaBungalow getReservaBungalow() {
+        return reservaBungalow;
     }
 
-    public void setBungalow(Bungalow bungalow) {
-        this.bungalow = bungalow;
+    public void setReservaBungalow(ReservaBungalow reservaBungalow) {
+        this.reservaBungalow = reservaBungalow;
     }
 
-    public Clase getClase() {
-        return clase;
+    public RegistroClase getRegistroClase() {
+        return registroClase;
     }
 
-    public void setClase(Clase clase) {
-        this.clase = clase;
+    public void setRegistroClase(RegistroClase registroClase) {
+        this.registroClase = registroClase;
     }
 
-    public Instalacion getInstalacion() {
-        return instalacion;
+    public ReservaInstalacion getReservaInstalacion() {
+        return reservaInstalacion;
     }
 
-    public void setInstalacion(Instalacion instalacion) {
-        this.instalacion = instalacion;
+    public void setReservaInstalacion(ReservaInstalacion reservaInstalacion) {
+        this.reservaInstalacion = reservaInstalacion;
     }
 
     public String getDescripcion() {

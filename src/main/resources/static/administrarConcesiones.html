@@ -70,11 +70,11 @@
 </head>
 <body ng-controller="ConcesionController">
 <script type="text/javascript">
-    function edicionConcesion(){
+    function edicionConcesion(event){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         location.href = "edicionConcesion.html?id=" + id;
     }
-    function accionEliminar() {
+    function accionEliminar(event) {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
@@ -125,6 +125,58 @@
             });
         })
 
+        $scope.eliminarConcesion =function (){
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError('No hay concesión seleccionada');
+            else {
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea eliminar esta concesión ?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            var selectedIDs = grid.getGridParam("selarrrow");
+                            var result = "";
+                            console.log(selectedIDs);
+                            for (var i = 0; i < selectedIDs.length; i++) {
+                                var id= selectedIDs[i];
+                                $http.get('/api/concesiones/'+ id).success(function (data,status ) {
+                                    result += selectedIDs[i] + ",";
+                                    flag=true
+                                    console.log(JSON.stringify(data));
+                                    data.estadoConcesion = 0;
+                                    $http.put("/api/concesiones/" + data.id, data).success(function (data3, status) {
+                                        setTimeout(function () {
+                                            location.href = "administrarConcesiones.html"
+                                        }, 1000);
+                                    });
+                                }).error(function (data2) {
+                                    console.log(JSON.stringify(data));
+                                    Notificaciones.showError('No se pudo eliminar las concesiones seleccionadas');
+                                });
+
+                                console.log(result);
+                                result += selectedIDs[i] + ",";
+                            }
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
+            }
+        }
+
 
     });
 </script>
@@ -136,8 +188,9 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE CONCESIONES
-            <a href=registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+            <a href=registrarConcesion.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 405px;">Añadir
                 Concesión </a>
+            <button ng-click="eliminarConcesion()" href="javascript:void(0)" class="btn btn-primary">Eliminar Concesión</button>
         </h3>
 
     </div>
@@ -240,7 +293,8 @@
                     $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
                 }
             }
-        }
+        },
+        multiselect:true
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '1150');
@@ -260,8 +314,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionConcesion();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionConcesion(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Concesión"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Concesión" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

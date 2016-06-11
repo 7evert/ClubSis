@@ -40,14 +40,10 @@ public class Bungalow {
     @JsonIgnore
     private Set<Sorteo> sorteos;
 
-    @OneToMany(mappedBy = "bungalow")
-    @JsonIgnore
-    private Set<Pago> pagos;
-
     protected Bungalow() {
     }
 
-    public Bungalow(EstadoBungalow estado, Double precio, Integer piso, String caracteristicas, String urlFoto, Integer valoracion, String descripcion, Sede sede, Set<ReservaBungalow> reservaBungalowSet, Set<Sorteo> sorteos, Set<Pago> pagos, TipoBungalow tipoBungalow) {
+    public Bungalow(EstadoBungalow estado, Double precio, Integer piso, String caracteristicas, String urlFoto, Integer valoracion, String descripcion, Sede sede, Set<ReservaBungalow> reservaBungalowSet, Set<Sorteo> sorteos, TipoBungalow tipoBungalow) {
         this.estado = estado;
         this.precio = precio;
         this.piso = piso;
@@ -58,7 +54,6 @@ public class Bungalow {
         this.sede = sede;
         this.reservaBungalowSet = reservaBungalowSet;
         this.sorteos = sorteos;
-        this.pagos = pagos;
         this.tipoBungalow = tipoBungalow;
     }
 

@@ -18,13 +18,16 @@
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
+
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
 
         .center .ui-jqgrid {
-            width: 1100px; margin-left: auto; margin-right: auto;
+            width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .ui-jqgrid-resize-ltr {
@@ -58,6 +61,7 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
         .centered1 {
             margin-right: 0px;
         }
@@ -65,28 +69,33 @@
         .centered2 {
             margin-right: 510px;
         }
-        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
+
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body ng-controller="ProductoController">
 <script type="text/javascript">
-    function edicionProducto(){
+    function edicionProducto() {
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         console.log(id);
         location.href = "edicionProducto.html?id=" + id;
     }
-    function accionEliminar() {
+    function accionVender() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
-            text: '¿Está seguro de que desea eliminar este producto ?',
+            text: '¿Desea realizar la venta por el monto de'+$("#monto").val()+' ?',
             type: 'warning',
             buttons: [
                 {
-                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Aceptar', onClick: function ($noty) {
                     Notificaciones.hideAll();
-                    funciones.eliminar(id);
-                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    funciones.registrarVenta(id);
+                    Notificaciones.showNoty("Venta exitosa", Notificaciones.type.SUCCESS);
                     $noty.close();
                 }
                 },
@@ -106,21 +115,38 @@
 
 <script type="text/javascript">
     var app = angular.module('app', []);
-    var funciones={};
+    var funciones = {};
     app.controller('ProductoController', function ($scope, $http) {
-        $http.get('/api/productos').success(function (data) {
-            console.log(data);
+
+        funciones.registrarVenta = (function (id) {
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                //console.log(celda);
+                if (rowData.cantidad != '') {
+                    console.log(rowData.id + " " + rowData.cantidad);
+                    //luego del siguiente get, estos valores cambian, por eso los guardo
+                    idProd=rowData.id;
+                    venta=rowData.cantidad;
+                    idSede=$("#sede").val();
+                    $http.get('/api/stocks/'+rowData.id+'/'+idSede).success(function (data) {
+                        var nuevoStock=data.stock-venta;
+                        console.log(nuevoStock);
+                        //COMO OBTENER EL NUEVO STOCK??/
+                        $http.put('/api/stocks/'+idProd+'/'+idSede+'/'+nuevoStock).success(function (data3, status){
+                            console.log(data3);
+                        });
+                    })
+                }
+            }
         })
-        funciones.eliminar=(function (id) {
-            $http.get('/api/productos/' + id).success(function (data2, status) {
-                data2.estadoProducto = 0;
-                $http.put("/api/productos/" + data2.id, data2).success(function (data3, status) {
-                    setTimeout(function () {
-                        location.href = "administrarProducto.html"
-                    }, 1000);
-                });
-            });
-        })
+
+        $http.get('/api/sedes').success(function (data1) {
+            var sedesElem = $("#sede");
+            for (var i = 0; i < data1.length; i++)
+                sedesElem.append($("<option></option>").attr({value: data1[i].id}).html(data1[i].nombre));
+        });
 
 
     });
@@ -133,12 +159,26 @@
     <div>
         <h3>
             SALIDA DE PRODUCTOS
-            <a href=registrarProducto.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
-                Producto </a>
+            <hr>
+            <div id="escogerSede" class="form-group">
+                <!--<div class="control-label col-xs-5"></div>-->
+                <div id="montoTotal" class="col-xs-6 form group row">
+                    <label class="form-control-label">Monto S/.<span id="monto" class="form-control-static">0</span></label>
+                </div>
+                <label class="control-label col-xs-2">Escoger Sede</span></label>
+                <div class="col-xs-2">
+                    <select class="form-control col-xs-8" id="sede">
+                    </select>
+                </div>
+                <a href="#" onclick="accionVender();return false;" class="control-label col-xs-2 btn btn-primary" id="btnRegistrar"
+                   style="">Registrar
+                    Venta </a>
+            </div>
         </h3>
 
     </div>
-    <hr>
+    <br><br>
+
     <!--<h4>CONSULTA DE PROVEEDORES</h4>-->
 
     <!--<form class="form-horizontal">-->
@@ -178,12 +218,6 @@
         <div id="jqGridPager"></div>
     </div>
     <br>
-    <div class="leyenda">
-        <span>Leyenda: </span>
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
-        |
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
-    </div>
     </form>
 </div>
 <br>
@@ -205,6 +239,7 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     var lastsel2;
+
     $("#jqGrid").jqGrid({
         url: '/api/productos',
         mtype: "GET",
@@ -212,29 +247,42 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Número','Nombre','Descripción','Precio Unitario (S/.)','Estado Producto', 'Cantidad'], //define column names
-        colModel:[
-            {name:'id', index:'id', align:'center', key: true, width:50},
-            {name:'nombre', index:'nombre', align:'center', width:150},
-            {name:'descripcion', index:'descripcion', width:220},
+        colNames: ['Número', 'Nombre', 'Descripción', 'Precio Unitario (S/.)', 'Estado Producto', 'Cantidad'], //define column names
+        colModel: [
+            {name: 'id', index: 'id', align: 'center', key: true, width: 50},
+            {name: 'nombre', index: 'nombre', align: 'center', width: 150},
+            {name: 'descripcion', index: 'descripcion', width: 220},
             //{name:'fechaInicio', index:'fechaInicio',width:300},
             //{name:'fechaVencimiento', index:'fechaVencimiento',align:'center', width:110},
-            {name:'precioVentaUnitario', index:'precioVentaUnitario',align:'center', width:100},
-            {name:'estadoProducto', index:'estadoProducto', align:'center', width:100},
-            {editable:true,width:70,editoptions:{onkeypress:'return event.charCode >= 48 && event.charCode <= 57'}},
+            {name: 'precioVentaUnitario', index: 'precioVentaUnitario', align: 'center', width: 100},
+            {name: 'estadoProducto', index: 'estadoProducto', align: 'center', width: 100},
+            {
+                name: 'cantidad',
+                index: 'Cantidad',
+                align: 'center',
+                editable: true,
+                width: 70,
+                editoptions: {onkeypress: 'return event.charCode >= 48 && event.charCode <= 57'}
+            },
         ],
+        editurl: "clientArray",
         viewrecords: true,
         height: 300,
         rowNum: 1000,
         pager: "#jqGridPager",
-        onSelectRow: function(id){
-            if(id && id!==lastsel2){
-                jQuery('#jqGrid').jqGrid('restoreRow',lastsel2);
-                jQuery('#jqGrid').jqGrid('editRow',id,true);
-                lastsel2=id;
+        //caption:"Cell Edit Example",
+        forceFit : true,
+        //cellEdit: true,
+        cellsubmit: 'clientArray',
+
+        onSelectRow: function (id) {
+            if (id && id !== lastsel2) {
+                jQuery('#jqGrid').jqGrid('restoreRow', lastsel2);
+                jQuery('#jqGrid').jqGrid('editRow', id, true);
+                lastsel2 = id;
             }
         },
-        loadComplete:function(){
+        loadComplete: function () {
             var rowIds = $("#jqGrid").jqGrid('getDataIDs');
             for (i = 0; i <= rowIds.length; i++) {//iterate over each row
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
@@ -243,6 +291,12 @@
                     $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
                 }
             }
+        },
+        afterSaveCell : function(rowid,name,val,iRow,iCol) {
+            console.log("Prueba");
+        },
+        afterEditCell: function (id,name,val,iRow,iCol) {
+            alert("alert1!");
         }
     });
 
@@ -269,8 +323,8 @@
 
     }
 
-    jQuery("#bt1").click( function() {
-        jQuery("#jqGrid").jqGrid('editRow',"13");
+    jQuery("#bt1").click(function () {
+        jQuery("#jqGrid").jqGrid('editRow', "13");
         console.log(data);
         this.disabled = 'true';
     });

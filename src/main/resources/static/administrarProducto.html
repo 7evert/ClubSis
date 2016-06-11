@@ -70,12 +70,16 @@
 </head>
 <body ng-controller="ProductoController">
 <script type="text/javascript">
-    function edicionProducto(){
+    function edicionProducto(event){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         console.log(id);
         location.href = "edicionProducto.html?id=" + id;
     }
-    function accionEliminar() {
+    function ingresarStock(event) {
+        var id = event.target.parentNode.getAttribute("data-idEvento-ingresar");
+        location.href = "ingresarStock.html?id=" + id;
+    }
+    function accionEliminar(event) {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
@@ -173,9 +177,6 @@
                         }
                     ]
                 });
-
-                //alert(mensaje);
-                //window.location="administrarProducto.html";
             }
         }
 
@@ -189,7 +190,7 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE PRODUCTOS
-            <a href=registrarProducto.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+            <a href=registrarProducto.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 453px;">Añadir
                 Producto </a>
             <button ng-click="eliminarProductos()" href="javascript:void(0)" class="btn btn-primary">Eliminar Producto</button>
         </h3>
@@ -237,8 +238,8 @@
     <br>
     <div class="leyenda">
         <span>Leyenda: </span>
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
-        |
+        <span class="icono-ingresar"><img src="img/Iconos/flecha-arriba.png" class="icono"></span> Registrar Ingreso de Stock |
+        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto |
         <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
     </div>
     </form>
@@ -314,8 +315,9 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionProducto();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Producto" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones ='<a href="#" onclick="ingresarStock(event);return false;"  id="bt3" class="btn btn-warning" data-idEvento-ingresar="' + rowdata['id'] + '" title="Ingresar Stock"><img src="img/Iconos/flecha-arriba.png" class="icono"></a>' +
+                '<a href="#" onclick="edicionProducto(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Producto" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

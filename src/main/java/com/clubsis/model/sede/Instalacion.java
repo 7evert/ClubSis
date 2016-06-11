@@ -43,14 +43,10 @@ public class Instalacion {
     @ManyToOne
     private TipoInstalacion tipo;
 
-    @OneToMany(mappedBy = "instalacion")
-    @JsonIgnore
-    private Set<Pago> pago;
-
     protected Instalacion() {
     }
 
-    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, EstadoInstalacion estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo, Set<Pago> pago,Boolean esActivo) {
+    public Instalacion(String nombre, String caracteristicas, String referencia, Integer capacidad, Double precioReserva, EstadoInstalacion estado, Sede sede, Set<ReservaInstalacion> reservaInstalacionSet, Set<Horario> horarios, Set<ReservaInstalacion> reservas, TipoInstalacion tipo,Boolean esActivo) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.referencia = referencia;
@@ -62,7 +58,6 @@ public class Instalacion {
         this.horarios = horarios;
         this.reservas = reservas;
         this.tipo = tipo;
-        this.pago = pago;
         this.esActivo=esActivo;
     }
 
@@ -152,14 +147,6 @@ public class Instalacion {
 
     public void setTipo(TipoInstalacion tipo) {
         this.tipo = tipo;
-    }
-
-    public Set<Pago> getPago() {
-        return pago;
-    }
-
-    public void setPago(Set<Pago> pago) {
-        this.pago = pago;
     }
 
     public EstadoInstalacion getEstado() {

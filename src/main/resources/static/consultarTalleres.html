@@ -145,33 +145,33 @@
         </h3>
     </div>
     <hr>
-    <h4>BÚSQUEDA DE TALLERES</h4>
+    <!--<h4>BÚSQUEDA DE TALLERES</h4>-->
 
-    <form class="form-horizontal">
-    <div class="row">
-
-
-
-    <div class="col-sm-6 col-lg-5">
-    <div class="form-group">
-    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-    <div class="col-md-8">
-    <input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">
-    </div>
-    </div>
-    </div>
+    <!--<form class="form-horizontal">-->
+    <!--<div class="row">-->
 
 
-    <div class="col-sm-7 col-lg-7">
-    </div>
-    <div class="col-sm-5 col-lg-5">
-    <div class="form-group" style="margin-left: 110px;">
-    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
-    </div>
-    </div>
-    </div>
+
+    <!--<div class="col-sm-6 col-lg-5">-->
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="col-sm-7 col-lg-7">-->
+    <!--</div>-->
+    <!--<div class="col-sm-5 col-lg-5">-->
+    <!--<div class="form-group" style="margin-left: 110px;">-->
+    <!--<a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
     <h4>LISTA DE TALLERES</h4>
     <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
         <table id="jqGrid"></table>
@@ -212,7 +212,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Nombre','Descripción','Estado','Acciones'], //define column names
+        colNames:['Número','Nombre','Descripción','Estado','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'nombre', index:'nombre', width:100},
