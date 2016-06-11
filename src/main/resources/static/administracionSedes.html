@@ -292,14 +292,14 @@
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', 'Estado',"Acciones"],
+                    colNames: ['Nro.', 'Nombre', 'Dirección', 'Telefóno', 'Descripción', 'Estado',"Acciones"],
                     colModel: [
                         {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
-                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center',sortable:true},
-                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center',sortable:true},
-                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center',sortable:true},
-                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center',sortable:true},
-                        {name: 'estado', index: 'Estado', width: 10, hidden:true,editable: false, align: 'center',sortable:true},
+                        {name: 'nombre', index: 'Nombre', width: 150, editable: false, align: 'center',sortable:true},
+                        {name: 'direccion', index: 'Dirección', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'telefono', index: 'Teléfono', width: 100, editable: false, align: 'center',sortable:true},
+                        {name: 'descripcion', index: 'Descripción', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'estado', index: 'Estado', width: 120,editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true
@@ -411,9 +411,10 @@
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 60px;">
+                <div class="form-group" style="margin-left: 95px;">
                     <input id="modificar" class="hidden btn btn-primary" type="" class="btn btn-primary"
                            value="Modificar" style="width:22%">
                     <input id="cancelar" class="hidden btn btn-primary" type="" class="btn btn-primary"
@@ -427,15 +428,10 @@
         <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div class="form-group" style="width:100%;">
-                <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%">
+                <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%;margin-top:10px;">
             </div>
         </div>
         <br>
-        <div class="form-group">
-            <div class="col-md-12">
-                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
-            </div>
-        </div>
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Mostrar Sede|

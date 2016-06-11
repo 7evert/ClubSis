@@ -187,7 +187,9 @@
                     for(var i=0;i<lista.length;i++){
                         id=lista[i].getAttribute("value");
                         if(id!="all" && lista[i].checked){
-                            deshabilitarEvento(i);
+                            deshabilitarEvento(id);
+                            var boton=$("#"+id).find(".botonesAcciones").find("button[value='Suspender']");
+                            $(boton).remove();
                             lista[i].checked=false;
                             $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
                                 console.log("se deshabilito el evento "+data.nombre);
@@ -200,6 +202,7 @@
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
+                    var boton=event.target;
                     dataevento = $.grep(DATAEVENTOS, function (e) {
                         return e.id == getID(event.target);
                     })[0];
@@ -208,6 +211,7 @@
                     console.log(JSON.stringify(dataevento));
                     $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
                         deshabilitarEvento(data.id);
+                        $(boton).addClass("hidden");
                         console.log(data);
                     });
                 }
@@ -261,7 +265,7 @@
         <div class="form-group"><!--filtrado-->
             <h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;height:45px;">
                 CONSULTA DE EVENTOS
-                <button id="registrar" class="btn btn-primary pull-right">Registrar</button>
+                <button id="registrar" class="btn btn-primary pull-right" style="margin-right:20px;margin-top:5px;">Registrar</button>
                 <!--    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>-->
             </h4>
 
@@ -308,10 +312,9 @@
                         <div class="form-group">
                             <label class="control-label col-md-4">Fecha Inicio </label>
                             <div class="input-group input-append date col-md-8">
-                                <input id="date-picker-DiaEntrada" type="text"
-                                       class="date-picker form-control col-xs-6"/>
-                                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
-                                        class="glyphicon glyphicon-calendar"></span>
+                                <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
+                                <label for="date-picker-DiaEntrada" class="input-group-addon btn">
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                 </label>
                             </div>
                         </div>
@@ -330,12 +333,12 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-7 col-lg-7">
+                    <div class="col-sm-8 col-lg-8">
                     </div>
-                    <div class="col-sm-5 col-lg-5">
-                        <div class="form-group" style="margin-left: 60px;">
-                            <button id="Buscar" class="btn btn-primary">Buscar</button>
-                            <button id="Limpiar" class="btn btn-primary">Limpiar</button>
+                    <div class="col-sm-2 col-lg-2">
+                        <div class="form-group">
+                            <button id="Buscar" class="btn btn-primary pull-right" style="margin-left: 20px;">Buscar</button>
+                            <button id="Limpiar" class="btn btn-primary pull-right">Limpiar</button>
                             <!--Opcional-->
                             <!--<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>-->
                         </div>

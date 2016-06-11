@@ -139,8 +139,8 @@
         function completarFechas(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
             $("#date-picker-DiaEntrada").datepicker("setDate", new Date(validateDateInAllBrowsers(fechaInicio)));
             $("#date-picker-DiaSalida").datepicker("setDate", new Date(validateDateInAllBrowsers(fechaFin)));
-            $("#date-picker-InicioInscripcion").datepicker("setDate", new Date(validateDateInAllBrowsers(inicioInscripciones)));
-            $("#date-picker-FinInscripcion").datepicker("setDate", new Date(validateDateInAllBrowsers(finInscipciones)));
+            $("#date-picker-InicioInscripcion").datepicker("setDate", inicioInscripciones?new Date(validateDateInAllBrowsers(inicioInscripciones)):"");
+            $("#date-picker-FinInscripcion").datepicker("setDate", finInscipciones?new Date(validateDateInAllBrowsers(finInscipciones)):"");
         }
         function completarCapacidad(capacidad) {
             $("#capacidad").attr({value: capacidad});
@@ -300,25 +300,18 @@
                         jQuery("#jqGrid").jqGrid({
                             datatype: "local",
                             height: 50 * (data.legth + 1),
-                            colNames: ['ID', 'idTar', 'Tarifa', 'Usar Tarifa', 'Precio'],
+                            colNames: ['Nro', 'idTar', 'Tarifa', 'Usar Tarifa', 'Precio'],
                             colModel: [
-                                {name: 'id', index: 'Tipo', width: 90, sorttype: "int"},
-                                {name: 'idTar', index: 'idTar', width: 90, sorttype: "int"},
-                                {name: 'nombre', index: 'nombre', width: 150, editable: false},
-                                {
-                                    name: 'UsarTar',
-                                    index: 'UsarTar',
-                                    width: 60,
-                                    editable: true,
-                                    edittype: "checkbox",
-                                    editoptions: {value: "Yes:No"}
-                                },
+                                {name: 'id', index: 'Nro', width: 90, sorttype: "int", align: 'center'},
+                                {name: 'idTar', index: 'idTar', width: 90, sorttype: "int", align: 'center'},
+                                {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+                                {name: 'UsarTar',index: 'UsarTar',width: 60,editable: true,edittype: "checkbox",editoptions: {value: "Yes:No"}, align: 'center'},
                                 {
                                     name: 'precio',
                                     index: 'precio',
                                     width: 120,
                                     editable: true,
-                                    editoptions: {size: "20", maxlength: "30"}
+                                    editoptions: {size: "20", maxlength: "30"}, align: 'center'
                                 }
                             ],
                             onSelectRow: function (id) {
@@ -408,8 +401,8 @@
             <label class="control-label col-md-4">Inicio<span class="obligatorio">*</span></label>
             <div class="input-group input-append date col-md-8">
                 <input id="date-picker-DiaEntrada" type="text" class="date-picker form-control col-xs-6"/>
-                <label for="date-picker-DiaEntrada" class="input-group-addon btn"><span
-                        class="glyphicon glyphicon-calendar"></span>
+                <label for="date-picker-DiaEntrada" class="input-group-addon btn">
+                    <span class="glyphicon glyphicon-calendar"></span>
                 </label>
             </div>
         </div>
