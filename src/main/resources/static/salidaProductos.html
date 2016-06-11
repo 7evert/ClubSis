@@ -88,7 +88,7 @@
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         $.noty.closeAll();
         noty({
-            text: '¿Desea realizar la venta por el monto de'+$("#monto").val()+' ?',
+            text: '¿Desea realizar la venta por el monto de S/. ' + $("#monto").val()+' ?',
             type: 'warning',
             buttons: [
                 {
@@ -114,6 +114,7 @@
 </script>
 
 <script type="text/javascript">
+
     var app = angular.module('app', []);
     var funciones = {};
     app.controller('ProductoController', function ($scope, $http) {
@@ -131,12 +132,19 @@
                     venta=rowData.cantidad;
                     idSede=$("#sede").val();
                     $http.get('/api/stocks/'+rowData.id+'/'+idSede).success(function (data) {
-                        var nuevoStock=data.stock-venta;
-                        console.log(nuevoStock);
-                        //COMO OBTENER EL NUEVO STOCK??/
-                        $http.put('/api/stocks/'+idProd+'/'+idSede+'/'+nuevoStock).success(function (data3, status){
-                            console.log(data3);
-                        });
+                        if(parseInt(data.stock) < parseInt(venta)){
+                            Notificaciones.showError("La cantidad de stock del producto n° " + rowData.id);
+//                            $('#jqGrid tr').bind('click', function(e) {
+//                                $(e.currentTarget).children('td, th').css('background-color','#000');
+//                            })
+                        }else {
+                            var nuevoStock = data.stock - venta;
+                            console.log(nuevoStock);
+                            //COMO OBTENER EL NUEVO STOCK??/
+                            $http.put('/api/stocks/' + idProd + '/' + idSede + '/' + nuevoStock).success(function (data3, status) {
+                                console.log(data3);
+                            });
+                        }
                     })
                 }
             }
@@ -149,15 +157,26 @@
         });
 
         $scope.calcularMonto = function () {
-            var montoTotal;
-            console.log("MOnto");
-            $scope.monto=20;
-            $("#monto").val("20");
+            var montoTotal=0;
+            var cantFilas = $("#jqGrid").getGridParam("reccount");
+            console.log(cantFilas);
+            for (i = 1; i <= cantFilas; i++) {
+                var rowData = $('#jqGrid').jqGrid('getRowData', i);
+                if(rowData.cantidad == "") rowData.cantidad = 0;
+                montoTotal=montoTotal + parseInt(rowData.precioVentaUnitario)*parseInt(rowData.cantidad);
+                console.log("Monto total "+i+": "+ montoTotal);
+                console.log(rowData.precioVentaUnitario);
+                console.log(rowData.cantidad);
+            }
+            $scope.monto=montoTotal;
+            $("#monto").val($scope.monto);
+            console.log(montoTotal);
 
         }
 
 
     });
+
 </script>
 <div id="headerAdministrador"></div>
 <div class="container">
@@ -171,7 +190,7 @@
             <div id="escogerSede" class="form-group">
                 <!--<div class="control-label col-xs-5"></div>-->
                 <div id="montoTotal" class="col-xs-6 form group row">
-                    <label  class="form-control-label">Monto S/.<span id="monto" ng-model="monto" class="form-control-static"></span></label>
+                    <label  class="form-control-label">Monto S/.<span id="monto" class="form-control-static">{{monto}}</span></label>
                 </div>
                 <label class="control-label col-xs-2">Escoger Sede</span></label>
                 <div class="col-xs-2">
@@ -283,7 +302,6 @@
         forceFit : true,
         //cellEdit: true,
         cellsubmit: 'clientArray',
-
         onSelectRow: function (id) {
             if (id && id !== lastsel2) {
                 jQuery('#jqGrid').jqGrid('restoreRow', lastsel2);
@@ -311,6 +329,52 @@
 
     $('#jqGrid').jqGrid('setGridWidth', '1150');
 
+//    $( "#target" ).keypress(function() {
+//        console.log( "Handler for .keypress() called." );
+//    });
+
+//    $( "#jqGrid" ).click(function() {
+//        alert( "Vivian" );
+//        $("#jqGrid").keypress(function(e) {
+//            if(e.which == 13) {
+//                alert("Enter");
+//            }
+//            });
+//    });
+//
+//    $( ".editable" ).click(function() {
+//        alert( "Handler for .click() called." );
+//    });
+
+//    $('input').bind("enterKey",function(e){
+//        //do stuff here
+//        alert("Hola enter");
+//    });
+//    $('input').keyup(function(e){
+//        if(e.keyCode == 13)
+//        {
+//            $(this).trigger("enterKey");
+//        }
+//    });
+//
+//    $(".input").keypress(function(e) {
+//        alert( "Handler for .click() called." );
+//        if(e.which == 13) {
+//            alert("Vivian");
+//            var montoTotal=0;
+//            var cantFilas = $("#jqGrid").getGridParam("reccount");
+//            console.log(cantFilas);
+//            for (i = 1; i <= cantFilas; i++) {
+//                var rowData = $('#jqGrid').jqGrid('getRowData', i);
+//                if(rowData.cantidad == "") rowData.cantidad = 0;
+//                montoTotal=montoTotal + parseInt(rowData.precioVentaUnitario)*parseInt(rowData.cantidad);
+//                console.log("Monto total "+i+": "+ montoTotal);
+//                console.log(rowData.precioVentaUnitario);
+//                console.log(rowData.cantidad);
+//            }
+//            $scope.monto=montoTotal;
+//        }
+//    });
 
     $.extend(true, $.jgrid.edit, {
         recreateForm: true,
