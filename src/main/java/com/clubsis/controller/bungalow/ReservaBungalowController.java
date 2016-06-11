@@ -4,8 +4,10 @@ import com.clubsis.model.bungalow.Bungalow;
 import com.clubsis.model.bungalow.EstadoBungalow;
 import com.clubsis.model.bungalow.EstadoReservaBungalow;
 import com.clubsis.model.bungalow.ReservaBungalow;
+import com.clubsis.model.pago.TipoPago;
 import com.clubsis.model.persona.Postulante;
 import com.clubsis.service.ServicioBungalow;
+import com.clubsis.service.ServicioPagos;
 import com.clubsis.service.ServicioReservas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -23,6 +25,9 @@ public class ReservaBungalowController {
     @Autowired
     private ServicioReservas servicioReservas;
 
+    @Autowired
+    private ServicioPagos servicioPagos;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<ReservaBungalow> list() {
         return servicioReservas.mostrarReservasBungalow();
@@ -36,7 +41,9 @@ public class ReservaBungalowController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ReservaBungalow create(@RequestBody ReservaBungalow reservaBungalow) {
-        return servicioReservas.crearReservaBungalow(reservaBungalow);
+        ReservaBungalow reservaBungalowData = servicioReservas.crearReservaBungalow(reservaBungalow);
+        servicioPagos.crearPago(reservaBungalowData.getSocio().getId(), reservaBungalowData.getId(), TipoPago.BUNGALOW,reservaBungalowData.getBungalow().getPrecio());
+        return reservaBungalowData;
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
