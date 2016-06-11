@@ -434,7 +434,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div align="left" style="position:relative;top:0px;">
+                                <div class="form-group" style="position:relative;top:0px;">
+                                    <span class="obligatorio pull-left">(*) Estos campos son obligatorios</span>
                                     <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
                                 </div>
                                 <!--<div class="form-group">
@@ -526,10 +527,10 @@
         colModel: [
             {name: 'nro', index: 'nro', width: 30, editable: false, align: 'center'},
             {name: 'id', index: 'id', hidden: true, width: 10, editable: false, align: 'center'},
-            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 10, editable: false, align: 'center'},
+            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 0, editable: false, align: 'center'},
             {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
             {name: 'nroDoc', index: 'Nro. Doc.', width: 60, editable: false, align: 'center'},
-            {name: 'tarifa', index: 'Tipo', width: 60, editable: false, align: 'center'},
+            {name: 'tarifa', index: 'Tipo', width: 80, editable: false, align: 'center'},
             {name: 'costo', index: 'Costo', width: 60, editable: false, align: 'center'},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones1}
         ],

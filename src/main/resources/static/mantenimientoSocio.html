@@ -130,7 +130,10 @@
             /****************************/
         }
         funciones.limpiar = function () {
+            $("#nroCarne").val("");
             $("#nombre").val("");
+            $("#estado").val(0);
+            $("#tipomembresia").val(0);
         }
     </script>
     <script type="text/javascript">
@@ -146,17 +149,17 @@
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.', 'ID', 'Carnet', 'Membresia', 'Estado', 'Titular', "Acciones"],
+                    colNames: ['Nro.', 'ID', 'Carnet', 'Membresía', 'Estado', 'Titular', "Acciones"],
                     colModel: [
                         {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
                         {name: 'id', index: 'ID', width: 90, editable: false, hidden: true, align: 'center'},
                         {name: 'codigoCarnet', index: 'Carnet', width: 150, editable: false, align: 'center',sortable:true},
-                        {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'tiponombre', index: 'Membresía', width: 260, editable: false, align: 'center',sortable:true},
                         {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center',sortable:true},
                         {name: 'nombreTit', index: 'Nombre Titular', width: 220, editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
-                    ],
-                    multiselect: true
+                    ]
+                    //,multiselect: true
                 });
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
@@ -168,10 +171,10 @@
 
                 for (var i = 0; i < data.length; i++) {
                     $http.get('/api/socios/' + data[i].id + '/personaasociada').success(function (dataPersona) {
+                        //data[nroSocios]=dataPersona.socio;
                         data[nroSocios].nro = nroSocios + 1;
                         data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
-                        if (dataPersona)
-                            data[nroSocios].nombreTit = dataPersona.nombre;
+                        data[nroSocios].nombreTit = dataPersona.nombre;
                         console.log(JSON.stringify(dataPersona));
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
                         if(data[nroSocios].estado=="SUSPENDIDO")
@@ -220,7 +223,7 @@
                     if($(event.target).val()!="")
                         funciones.buscar();
                     else {
-                        Notificaciones.showError("Debe Ingresar un Numero de Carne");
+                        Notificaciones.showError("Debe Ingresar un Número de Carne");
                         funciones.buscar();
                     }
                 }
@@ -259,7 +262,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Numero de Carne:</label>
+                    <label for="nombre" class="col-md-4 control-label">Número de Carne:</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nroCarne" placeholder="" autofocus="autofocus">
                     </div>
@@ -267,7 +270,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipomembresia" class="col-md-4 control-label">Membresia</label>
+                    <label for="tipomembresia" class="col-md-4 control-label">Membresía</label>
                     <div class="col-md-8">
                         <select class="form-control" id="tipomembresia">
                             <option value="0">Elegir</option>
