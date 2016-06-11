@@ -57,7 +57,7 @@ public class Sede {
 
     @ManyToMany(mappedBy = "sedes")
     @JsonIgnore
-    private Set<Usuario> usuarios;
+    private Set<Usuario> usuarios = new HashSet<>();
 
     protected Sede() {
     }
