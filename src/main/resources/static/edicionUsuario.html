@@ -46,7 +46,12 @@
                     <input  ng-model="usuarios.nombreUsuario" id="nombreUsuario" type="text" class="form-control col-xs-8" placeholder="Nombre del usuario"/>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="control-label col-xs-4">Contraseña<span class="obligatorio">*</span></label>
+                <div class="input-group col-xs-8">
+                    <input  ng-model="usuarios.contrasenha" id="contrasenha"  type="text" class="form-control col-xs-8" placeholder="Contraseña del usuario"/>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="control-label col-xs-4">Rol<span class="obligatorio">*</span></label>
                 <div class="input-group col-xs-8">
@@ -248,6 +253,7 @@
             }
             var data = {
                 'nombreUsuario':$scope.usuarios.nombreUsuario,
+                'contrasenha': $scope.usuarios.contrasenha,
                 'nombre': $scope.usuarios.persona.nombre,
                 'apellidoPaterno': $scope.usuarios.persona.apellidoPaterno,
                 'apellidoMaterno': $scope.usuarios.persona.apellidoMaterno,
@@ -290,6 +296,7 @@
 
     function validarDatos() {
         var nombreUsuario = $("#nombreUsuario").val();
+        var contrasenha=$("#contrasenha").val();
         var rol= $("#rol").val();
         var nombre= $("#nombre").val();
         var apellidoPaterno= $("#apellidoPaterno").val();
@@ -299,11 +306,15 @@
         var fechaNacimiento= $("#fechaNacimiento").val();
         var nombreContactoEmergencia=$("#nombreContactoEmergencia").val();
         var telefonoContactoEmergencia=$("#telefonoContactoEmergencia").val();
-
+        var contrasenha=$("#contrasenha").val();
 
         if (!nombreUsuario) {
             Notificaciones.showError('Nombre de usuario requerido');
             $("#nombreUsuario").css("border-color", "red");
+            return false;
+        }else if (!contrasenha) {
+            Notificaciones.showError('Contraseña requerida');
+            $("#contrasenha").css("border-color", "red");
             return false;
         }else if (rol==-1) {
             Notificaciones.showError('Rol requerido');
@@ -350,6 +361,9 @@
 
     $("#nombreUsuario").click(function () {
         $("#nombreUsuario").css("border-color", "#ccc");
+    });
+    $("#contrasenha").click(function () {
+        $("#contrasenha").css("border-color", "#ccc");
     });
     $("#rol").click(function () {
         $("#rol").css("border-color", "#ccc");

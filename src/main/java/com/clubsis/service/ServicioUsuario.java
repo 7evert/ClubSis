@@ -43,7 +43,7 @@ public class ServicioUsuario {
 
     public void crearUsuarioDesdeDTO(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
-        usuario.setContraseña(usuarioDTO.getContraseña());
+        usuario.setContrasenha(usuarioDTO.getContrasenha());
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
         usuario.setEsActivo(usuarioDTO.getEsActivo());
         usuario.setRol(usuarioDTO.getRol());
@@ -65,5 +65,32 @@ public class ServicioUsuario {
 
         personaRepository.saveAndFlush(persona);
         crearUsuario(usuario);
+
+    }
+
+    public void actualizarUsuarioDesdeDTO(Integer id,UsuarioDTO usuarioDTO){
+        Usuario usuarioExistente=buscarUsuario(id);
+        usuarioExistente.setContrasenha(usuarioDTO.getContrasenha());
+        usuarioExistente.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        usuarioExistente.setEsActivo(usuarioDTO.getEsActivo());
+        usuarioExistente.setRol(usuarioDTO.getRol());
+
+        Persona personaExistente=usuarioExistente.getPersona();
+        personaExistente.setTipoDoc(usuarioDTO.getTipoDoc());
+        personaExistente.setNumDoc(usuarioDTO.getNumDoc());
+        personaExistente.setApellidoMaterno(usuarioDTO.getApellidoMaterno());
+        personaExistente.setApellidoPaterno(usuarioDTO.getApellidoPaterno());
+        personaExistente.setCorreo(usuarioDTO.getCorreo());
+        personaExistente.setDireccion(usuarioDTO.getDireccion());
+        personaExistente.setEsTitular(usuarioDTO.getEsTitular());
+        personaExistente.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
+        personaExistente.setNombre(usuarioDTO.getNombre());
+        personaExistente.setTelefono(usuarioDTO.getTelefono());
+        personaExistente.setNombreContactoEmergencia(usuarioDTO.getNombreContactoEmergencia());
+        personaExistente.setTelefonoContactoEmergencia(usuarioDTO.getTelefonoContactoEmergencia());
+
+        personaRepository.saveAndFlush(personaExistente);
+        usuarioRepository.saveAndFlush(usuarioExistente);
+
     }
 }

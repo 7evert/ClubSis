@@ -3,7 +3,6 @@ package com.clubsis.model.club;
 import com.clubsis.model.persona.Persona;
 import com.clubsis.model.privilegio.Rol;
 import com.clubsis.model.sede.Sede;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -17,7 +16,7 @@ public class Usuario {
     @Id
     @GeneratedValue
     private Integer id;
-    private String contraseña;
+    private String contrasenha;
     private Integer dni;
     private Boolean esActivo;
 
@@ -36,8 +35,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String contraseña, Integer dni, Boolean esActivo, String nombreUsuario, Persona persona, Rol rol, Set<Sede> sedes) {
-        this.contraseña = contraseña;
+    public Usuario(String contrasenha, Integer dni, Boolean esActivo, String nombreUsuario, Persona persona, Rol rol, Set<Sede> sedes) {
+        this.setContrasenha(contrasenha);
         this.dni = dni;
         this.esActivo = esActivo;
         this.nombreUsuario = nombreUsuario;
@@ -52,14 +51,6 @@ public class Usuario {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
     }
 
     public Integer getDni() {
@@ -108,5 +99,13 @@ public class Usuario {
 
     public void setSedes(Set<Sede> sedes) {
         this.sedes = sedes;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
     }
 }

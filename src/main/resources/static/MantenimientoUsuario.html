@@ -122,10 +122,11 @@
         colModel: [
             {index: 'id', name: 'id', hidden: true, width: 45},
             {index: 'nombreUsuario', name: 'nombreUsuario', align: 'center', width: 400},
+            {index: 'rol', name: 'rol',jsonmap:'rol.nombre', align: 'center', width: 400},
             {index: 'Acciones', name: 'Acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'id', 'Nombre','Acciones'
+            'id', 'Nombre','Rol','Acciones'
         ],
         viewrecords: true,
         height: 400,

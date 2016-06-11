@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class UsuarioDTO {
     private String nombreUsuario;
-    private String contraseña;
+    private String contrasenha;
     private Rol rol;
     private String nombre;
     private String apellidoPaterno;
@@ -33,14 +33,6 @@ public class UsuarioDTO {
 
     public void setEsActivo(Boolean esActivo) {
         this.esActivo = esActivo;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
     }
 
     public String getNombre() {
@@ -153,5 +145,13 @@ public class UsuarioDTO {
 
     public void setTelefonoContactoEmergencia(String telefonoContactoEmergencia) {
         this.telefonoContactoEmergencia = telefonoContactoEmergencia;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
     }
 }
