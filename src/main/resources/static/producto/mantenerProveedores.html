@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ClubSis-Lista de Ofertas</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <title>ClubSis-Mantenimiento Proveedores</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
-    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
-    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
-    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+    <link rel='stylesheet' href='../css/estilosListaBungalows.css'/>
+    <link rel='stylesheet' href='../css/estilosPlantillaBotonesAcciones.css'/>
 </head>
 <body>
-<div id="headerAdministrador"></div>
+<div id="headerUsuario"></div>
 <div class="container">
     <!--example link: http://www.trivago.pe/?iPathId=86439&iGeoDistanceItem=0&aDateRange[arr]=2016-05-08&aDateRange[dep]=2016-05-09&iRoomType=7&cpt=8643903&iViewType=0&bIsSeoPage=false&bIsSitemap=false    -->
     <!--acciones:            Agregar       Anular               MOdificar             Reservar           -->
@@ -33,55 +34,70 @@
             <span>Hacer Click en Cualquiera para mostrar los botones por cada tipo de Usuario, luego se borrara es solo para verificar</span>
         </div>
         <div id="topMostrar" class="panel-heading">
-            <span class="col-xs-9 titulo">Lista de Ofertas</span>
+            <span class="col-xs-9 titulo">Proveeders</span>
+            <!--<span class="pull-right" id="accionAgregar">
+                <input type="submit" tabindex="3" value="+ Agregar" class="btn btn-primary"/>
+            </span><br>-->
         </div>
         <div id="listaBungalows" class="list-group list-group-flush">
-            <!--<a href="#" class="list-group-item">
+            <!--
+            <a href="#" class="list-group-item hidden">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="panel-info" style="padding-left: 2em;">
-                            <p><h1><strong>Oferta Nro. 12348172</strong></h1></p>
-                            <p><h1><strong>2 Bungalows King x 1</strong></h1></p>
+                        <div class="panel-more1 imagenBungalow">
+                            <img src="img/bungalows/TipoBungalows/1_Lorena.png" />
                         </div>
-                        <div class="panel-more1" style="padding-left: 2em;">
-
-                            <div>
-                                <h4>
-                                    <strong>Fecha Inicio: 18/03/2016</strong>
-                                    <span class="invisible">sdkja</span>
-                                    <strong>Fecha Fin: 24/05/2016</strong>
-                                </h4>
-                            </div><br>
-                            <p>
-                                <strong>Descripcion</strong><br>
-                                <span>
-                                    Esta oferta,te permite poder alquilar 2 Bungalows por el precio de 1, sin cargos extras.
-                                    <br>
-                                    Porcentaje de Descuento es del 60%.
+                        <div class="panel-info" style="padding-left: 2em;">
+                            <p><h1><strong>Bungalow Lorena</strong></h1></p>
+                            <p></p>
+                            <p>Sedes disponibles:<br/>
+                                <span class="bg-info">
+                                    Chorrillos
+                                </span>&nbsp;
+                                <span class="bg-info">
+                                    Playa
+                                </span>&nbsp;
+                                <span class="bg-info">
+                                    Santa Anita
                                 </span>
                             </p>
-                            <p><strong>Requisitos</strong><br>
-                                Tipo de Pago: Efectivo(con 1 semana de anticipacion)
-                            </p>
+                            <h3>Capacidad</h3>
+                            <h2>6 Personas</h2>
+                        </div>
+                        <div class="panel-more1" style="padding-left: 2em;">
+                            <p><h1>Precio: S/. 80.00</h1></p>
+                            <div>
+                                <p><h2>Caracteristicas:</h2></p>
+                                <ul>
+                                    <li><span>1 Habitacion Personal</span></li>
+                                    <li><span>2 Camarotes</span></li>
+                                    <li><span>1 Cocina</span></li>
+                                    <li><span>1 Sala</span></li>
+                                    <li><span>1 Baño</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="social-box rght-box">
+                            <label class="accionLista"><label>Modificar</label></label>&nbsp;
+                            <label class="accionLista"><label>Anular</label></label>&nbsp;
+                            <label class="accionLista"><label>Reservar</label></label>&nbsp;
                         </div>
                     </div>
                 </div>
             </a>
             <a href="#" id="botonMostrarMas" class="list-group-item">
                 <h1>Mostrar Mas</h1>
-            </a>-->
+            </a>
+            -->
         </div>
     </div>
 </div>
 <div id="footer"></div>
-<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
-<script src="js/principal.js"></script>
-<script type="text/javascript" src="js/generarElementoBungalow.js"></script>
-<script type="text/javascript" src="js/generarElementoOferta.js"></script>
-<script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="../js/principal.js"></script>
+<script type="text/javascript" src="../js/generarElementoProveeder.js"></script>
+<script type="text/javascript" src="../js/buttonsProveeders.js"></script>
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
     window.onload=function(){
@@ -90,29 +106,14 @@
         /** y cambien solo las variables imagen titulo,sedes, caracteristicas, precio**/
         /**la plantilla estatica se encuentra comentada en esta misma pagina**/
         /********* DENTRO DE : div id="listaBungalows" *************/
-        llenarListaOfertas();
+        llenarListaBungalows();
 
         /**************** de acuerdo al usuario que se coloque se cambian los botones****/
         /*******tener en cuenta que debe estar  :
          *un #top-mostrar para el  boton agregar(unico x pagina)
          *un .panel-body que debera pertenecer a cada elemento de la listapara poder agregar los botones**/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/
-        var accionesXElemento=[
-            /*ver,editar,eliminar,reservar,registrar*/
-            //["Reservar","Anular","Modificar"],//usuario:SuperAdministrador
-            ["Ver","Editar","Eliminar","Registrar"],//ADIMINISTRADOR
-            //["Reservar","Anular","Modificar"],//usuario:Administradio
-            ["Ver","Registrar"]];//usuario:Socio
-
-        function Ver(){event.preventDefault();}
-        function Editar(){event.preventDefault();}
-        function Eliminar(){event.preventDefault();}
-        function Registrar(){/*location.href="reservaInstalacion.html"*/;event.preventDefault();}
-
-        function Agregar(){/*location.href="reservaInstalacion.html";*/event.preventDefault();}
-        var funciones=[Ver,Editar,Eliminar,Registrar];
-
-        cambiarDeUsuario(administrador,Agregar,funciones);
+        cambiarDeUsuario(administrador);
 
         /***Para mostrar la lista de  5 en 5************/
         /*******mas detalles en js/plantillaBotonesAccion.js**********/

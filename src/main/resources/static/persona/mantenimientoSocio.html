@@ -20,7 +20,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-    <script src="js/Notificaciones.js"></script>
+    <script src="../js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -160,9 +160,9 @@
                 });
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
-                    acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
-                            '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/sancionar.png" class="icono"/>'
+                    acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="../img/Iconos/ver.png" class="icono"/>' +
+                            '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="../img/Iconos/modificar.png" class="icono"/>' +
+                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="../img/Iconos/sancionar.png" class="icono"/>'
                     return acciones;
                 }
 
@@ -351,7 +351,7 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="../loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="#" onclick="funciones.buscar();return false;" class="btn btn-primary"
                        id="btnBuscar">Buscar</a>
@@ -369,9 +369,9 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Socio|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio|
-            <span class="icono-resultados"><img src="img/Iconos/sancionar.png" class="icono"></span> Sancionar Socio
+            <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver Socio|
+            <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Socio|
+            <span class="icono-resultados"><img src="../img/Iconos/sancionar.png" class="icono"></span> Sancionar Socio
         </div>
     </form>
 </div>
@@ -392,6 +392,6 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 </body>
 </html>

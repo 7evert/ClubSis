@@ -63,18 +63,18 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            ADMINISTRACIÓN DE PRODUCTOS
-            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;">Añadir Producto</a>
+            ADMINISTRACIÓN DE CONCESIONARIOS
+            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 390px;">Añadir Concesionario</a>
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE PRODUCTO</h4>
+    <h4>CONSULTA DE CONCESIONARIO</h4>
 
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Sede</label>
+                    <label for="sede" class="col-md-4 control-label">Sede</label>
                     <div class="col-md-8">
                         <select class="form-control" id="sede">
                             <option>Elegir</option>
@@ -88,63 +88,27 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
+                    <label for="nombre" class="col-md-4 control-label">RUC</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipo">
-                            <option>Elegir</option>
-                            <option>Aseo personal</option>
-                            <option>Electrodoméstico</option>
-                        </select>
+                        <input type="text" class="form-control" id="ruc" placeholder="RUC del concesionario">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="proveedor" class="col-md-4 control-label">Proveedor</label>
+                    <label for="nombre" class="col-md-4 control-label">Razon Social</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="proveedor">
-                            <option>Elegir</option>
-                            <option>Gloria</option>
-                            <option>Coca-Cola</option>
-                            <option>Backus</option>
-                        </select>
+                        <input type="text" class="form-control" id="nombre" placeholder="Razon social del concesionario">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
-                    </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
-                    </div>
-                </div>
+            <div class="col-sm-6 col-lg-12">
             </div>
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="../loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
@@ -158,10 +122,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
+            <span class=""><img src="../img/Iconos/ver.png" class="icono"></span> Ver Concesionario|
+            <span class=""><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Concesionario
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class=""><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar Concesionario
         </div>
     </form>
 </div>
@@ -175,7 +139,7 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
@@ -187,15 +151,11 @@
         emptyrecords: 'No se encontraron resultados',
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
-            {label: 'idProducto', name: 'idProducto', key: true, hidden: true, width: 75},
+            {label: 'idConcesionario', name: 'idProducto', key: true, hidden: true, width: 75},
             {label: 'N°', name: 'OrderID', align: 'center', width: 40},
-            {label: 'Producto', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Tipo de Producto', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Proveedor', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Sede', name: 'CustomerID', align: 'center', width: 150},
-            {label: 'Stock Mínimo', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Stock Máximo', name: 'OrderID', align: 'center', width: 100},
-            {label: 'Stock Actual', name: 'OrderID', align: 'center', width: 100},
+            {label: 'RUC', name: 'OrderID', align: 'center', width: 70},
+            {label: 'Concesionario', name: 'CustomerID', align: 'center', width: 170},
+            {label: 'Sede', name: 'CustomerID', align: 'center', width: 170},
             {label: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -209,9 +169,9 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="' + rowdata['idProducto'] + '" title="Ver Producto"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idProducto'] + '" title="Modificar Producto"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idProducto'] + '" title="Eliminar Producto"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idConcesionario-ver="' + rowdata['idConcesionario'] + '" title="Ver Concesionario"><img src="../img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idConcesionario-modificar="' + rowdata['idConcesionario'] + '" title="Modificar Concesionario"><img src="../img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning" data-idConcesionario-eliminar="' + rowdata['idConcesionario'] + '" title="Eliminar Concesionario"><img src="../img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
 </script>

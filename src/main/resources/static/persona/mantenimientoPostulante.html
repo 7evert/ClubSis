@@ -79,7 +79,7 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE SOLICITUD DE POSTULANTE
-            <a href="registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
+            <a href="../registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
                 Postulante</a>
         </h3>
     </div>
@@ -155,7 +155,7 @@
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
                        style="visibility: visible">Eliminar</a>
                     <!--style="visibility: hidden">Eliminar</a>-->
-                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="../loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
@@ -169,10 +169,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Postulante|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Postulante|
-            <span class="icono-reprogramar"><img src="img/Iconos/opinion.png" class="icono"></span> Registrar Opinión|
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Postulante
+            <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver Postulante|
+            <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Postulante|
+            <span class="icono-reprogramar"><img src="../img/Iconos/opinion.png" class="icono"></span> Registrar Opinión|
+            <span class="icono-resultados"><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar Postulante
         </div>
     </form>
 </div>
@@ -193,8 +193,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
     ////    Aun no se usa pero luego ya puede ser usada para el filtrado el angular module con sus funciones
     var funciones={};
@@ -384,10 +384,10 @@
     $('#jqGrid').jqGrid('setGridWidth', '900');
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idPostulante-ver="' + rowdata['id'] + '" title="Ver Postulante"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-opinion" data-idPostulante-Opinion="' + rowdata['id'] + '" title="Registrar Opinion"><img src="img/Iconos/opinion.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idPostulante-ver="' + rowdata['id'] + '" title="Ver Postulante"><img src="../img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="../img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-opinion" data-idPostulante-Opinion="' + rowdata['id'] + '" title="Registrar Opinion"><img src="../img/Iconos/opinion.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="../img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
     //

@@ -204,7 +204,7 @@
                     //dataeventos=dataJSON;
                     if (!dataevento) {
                         Notificaciones.showError("Evento No Disponible");
-                        location.href = "../MantenimientoEventos.html";
+                        location.href = "MantenimientoEventos.html";
                     }
                     /*{id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",
                      fechaInicio:"31/12/2015",fechaFin:"1/1/2016",inicioInscripciones:"1/12/2015",finInscipciones:"29/12/2015",
@@ -291,7 +291,7 @@
                     });
                     $("#Cancelar").click(function () {
                         Notificaciones.showNoty("Volviendo a Eventos");
-                        location.href = "../MantenimientoEventos.html";
+                        location.href = "MantenimientoEventos.html";
                     });
                     var TARIFAS;
                     $http.get('/api/tarifas').success(function (data) {

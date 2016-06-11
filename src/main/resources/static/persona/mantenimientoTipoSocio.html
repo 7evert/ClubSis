@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
     <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
-    <script src="js/Notificaciones.js"></script>
+    <script src="../js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -158,8 +158,8 @@
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
 
-                    acciones = '<a href="#" onclick="funciones.verTipoSocio(event);return false;" class="btn btn-warning" data-idTipoSocio-ver="' + rowdata['id'] + '" title="Ver Tipo de Socio"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                            '<a href="#" onclick="funciones.mostrarModificarTipoSocio(event);return false;" class="btn btn-warning" data-idTipoSocio-modificar="' + rowdata['id'] + '" title="Modificar Tipo de Socio"><img src="img/Iconos/modificar.png" class="icono"></a>'
+                    acciones = '<a href="#" onclick="funciones.verTipoSocio(event);return false;" class="btn btn-warning" data-idTipoSocio-ver="' + rowdata['id'] + '" title="Ver Tipo de Socio"><img src="../img/Iconos/ver.png" class="icono"></a>' +
+                            '<a href="#" onclick="funciones.mostrarModificarTipoSocio(event);return false;" class="btn btn-warning" data-idTipoSocio-modificar="' + rowdata['id'] + '" title="Modificar Tipo de Socio"><img src="../img/Iconos/modificar.png" class="icono"></a>'
                     return acciones;
                 }
                 DATATIPOSOCIOS=data;
@@ -324,7 +324,7 @@
                     <a href="#" onclick="funciones.registrarTipoSocio(event);return false;" class="btn btn-primary" id="btnRegistrar">Registrar</a>
                     <a href="#" onclick="funciones.modificarTipoSocio(event);return false;" class="btn btn-primary" id="btnModificar">Modificar</a>
                     <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="#" onclick="location.href='loginUsuario.html'" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <a href="#" onclick="location.href='../loginUsuario.html'" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -336,8 +336,8 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class=""><img src="img/Iconos/ver.png" class="icono"></span> Ver Tipo de Socio|
-            <span class=""><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Tipo de Socio|
+            <span class=""><img src="../img/Iconos/ver.png" class="icono"></span> Ver Tipo de Socio|
+            <span class=""><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Tipo de Socio|
         </div>
     </form>
 </div>
@@ -356,6 +356,6 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 </body>
 </html>

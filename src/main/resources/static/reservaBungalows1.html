@@ -177,7 +177,7 @@
                 //DATABUNGALOWS=dataJSON;
                 if (!databungalow) {
                     alert("Bungalow No Disponible");
-                    location.href = "MantenimientoBungalows1.html";
+                    location.href = "BORRAR/MantenimientoBungalows1.html";
                 }
                 var imgsrcBung = ["img/Bungalows/TipoBungalows/1_Lorena.png",
                     "img/Bungalows/TipoBungalows/2_Club.png",
@@ -199,7 +199,7 @@
                     };
                     $http.post("/api/reservasbungalow", data).success(function (data2, status) {
                         alert("Tu reserva fue hecha exitosamente. Tu numero de reserva es "+data2.id);
-                        location.href="mantenimientoBungalows1.html"
+                        location.href="BORRAR/MantenimientoBungalows1.html"
                     });
                 });
             });
@@ -249,7 +249,7 @@
                            onclick="location.href='bungalow/BungalowInformacion.html';">
                     <input id="buttonReservar" type="" class="btn btn-primary" value="Reservar" style="width:22%">
                     <input type="" class="btn btn-primary" value="Cancelar" style="width:22%"
-                           onclick="location.href='MantenimientoBungalows.html';">
+                           onclick="location.href='bungalow/MantenimientoBungalows.html';">
                 </div>
             </div>
         </form>

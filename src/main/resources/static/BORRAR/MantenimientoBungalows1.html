@@ -10,8 +10,8 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
     <title>Title</title>
-    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
-    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
+    <link rel='stylesheet' href='../css/estilosListaBungalows.css'/>
+    <link rel='stylesheet' href='../css/estilosPlantillaBotonesAcciones.css'/>
     <script type="text/javascript">
         var DATABUNGALOWS;
         /* datos generales */
@@ -27,7 +27,7 @@
         function Eliminar(e){location.href="loginUsuario.html?id="+getID(e.target);event.preventDefault();}
         function Reservar(e){location.href="reservaBungalows1.html?id="+getID(e.target);event.preventDefault();}
 
-        function Agregar(e){location.href="registroBungalow.html";event.preventDefault();}
+        function Agregar(e){location.href="../registroBungalow.html";event.preventDefault();}
         var funciones=[Ver,Reservar,Editar,Eliminar];
 
         //json HARDCODEADO
@@ -194,9 +194,9 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
-<script src="js/principal.js"></script>
-<script type="text/javascript" src="js/generarElementoBungalow.js"></script>
-<script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+<script src="../js/principal.js"></script>
+<script type="text/javascript" src="../js/generarElementoBungalow.js"></script>
+<script type="text/javascript" src="../js/plantillaBotonesAccion.js"></script>
 <script type="text/javascript">
     /*******************LEAN LOS COMENTARIOS ************************/
     $(".date-picker").datepicker();

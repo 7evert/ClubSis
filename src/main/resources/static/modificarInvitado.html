@@ -82,7 +82,7 @@
             var idEvento = ids?ids[1]:ids;
             var codSocio;
             if(idInvitado==undefined){
-                location.href="MantenimientoEventos.html"
+                location.href="evento/MantenimientoEventos.html"
             }
             $http.get('/api/invitados/'+idInvitado).success(function (data2, status) {
                 dataInvitado=data2;

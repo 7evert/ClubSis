@@ -11,10 +11,10 @@
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
     <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'/>
-    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
-    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
-    <script type="text/javascript" src="js/generarElementoInstalaciones.js"></script>
-    <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
+    <link rel='stylesheet' href='../css/estilosListaBungalows.css'/>
+    <link rel='stylesheet' href='../css/estilosPlantillaBotonesAcciones.css'/>
+    <script type="text/javascript" src="../js/generarElementoInstalaciones.js"></script>
+    <script type="text/javascript" src="../js/plantillaBotonesAccion.js"></script>
     <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
     <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -29,8 +29,8 @@
     <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
     <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
     <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-    <script src="js/principal.js"></script>
-    <script src="js/Notificaciones.js"></script>
+    <script src="../js/principal.js"></script>
+    <script src="../js/Notificaciones.js"></script>
 
 
 
@@ -41,7 +41,7 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE TIPO INSTALACIÓN
-            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='registrarTipoInstalacion.html';">Registrar</a>
+            <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar" style="margin-left: 480px;" onclick="location.href='../registrarTipoInstalacion.html';">Registrar</a>
         </h3>
     </div>
     <div class="form-group">
@@ -99,9 +99,9 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Tipo Instalación
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Tipo Instalación
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Tipo Instalación
+            <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver Tipo Instalación
+            <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Tipo Instalación
+            <span class="icono-resultados"><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar Tipo Instalación
         </div>
     </div>
 </div>
@@ -238,9 +238,9 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="javascript:void(0)"  ng-click="handleClick()" class="btn btn-warning icono-ver" data-idTipoInstalacion-ver="' + rowdata['id'] + '" title="Ver Tipo Instalación"><img src="img/Iconos/ver.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idTipoInstalacion-modificar="' + rowdata['id'] + '" title="Modificar Tipo Instalación"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idTipoInstalacion-eliminar="' + rowdata['id'] + '" title="Eliminar Tipo Instalación"><img src="img/Iconos/eliminar.png" class="icono"></a>';
+        acciones = '<a href="javascript:void(0)"  ng-click="handleClick()" class="btn btn-warning icono-ver" data-idTipoInstalacion-ver="' + rowdata['id'] + '" title="Ver Tipo Instalación"><img src="../img/Iconos/ver.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idTipoInstalacion-modificar="' + rowdata['id'] + '" title="Modificar Tipo Instalación"><img src="../img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idTipoInstalacion-eliminar="' + rowdata['id'] + '" title="Eliminar Tipo Instalación"><img src="../img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
     //Filtrado

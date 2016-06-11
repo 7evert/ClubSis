@@ -19,10 +19,10 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-    <link rel='stylesheet' href='css/estilosListaBungalows.css'/>
-    <link rel='stylesheet' href='css/estilosPlantillaBotonesAcciones.css'/>
-    <script type="text/javascript" src="js/plantillaBotonesAccion.js"></script>
-    <script src="js/Notificaciones.js"></script>
+    <link rel='stylesheet' href='../css/estilosListaBungalows.css'/>
+    <link rel='stylesheet' href='../css/estilosPlantillaBotonesAcciones.css'/>
+    <script type="text/javascript" src="../js/plantillaBotonesAccion.js"></script>
+    <script src="../js/Notificaciones.js"></script>
 
     <style type="text/css">
         input[type='checkbox'].textboxbigger {
@@ -84,7 +84,7 @@
         }
 
         function Agregar(e) {
-            location.href = "registrarEvento.html";
+            location.href = "../registrarEvento.html";
             event.preventDefault();
         }
 
@@ -226,7 +226,7 @@
                 for(var i=0;i<data.length;i++)
                     sedesElem.append($("<option></option>").attr({value:data[i].id}).html(data[i].nombre));
                 $("#admSede").click(function(){
-                    location.href="sede/administracionSedes.html"
+                    location.href="../sede/administracionSedes.html"
                 });
             });
 
@@ -414,8 +414,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script type="text/javascript" src="js/generarElementoBungalow.js"></script>
+<script src="../js/principal.js"></script>
+<script type="text/javascript" src="../js/generarElementoBungalow.js"></script>
 <script type="text/javascript">
     /*
      {id:"0",imgsrc:"img/Eventos/newYear.jpg",nombre:"Feliz Año Nuevo 2016",sede:"Chorrillos",empresa:"Nestle",

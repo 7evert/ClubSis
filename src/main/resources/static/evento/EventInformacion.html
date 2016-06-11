@@ -232,7 +232,7 @@
                 })[0];
                 if (!dataevento) {
                     Notificaciones.showError("Evento No Disponible");
-                    location.href = "../MantenimientoEventos.html";
+                    location.href = "MantenimientoEventos.html";
                 }
                 if(dataevento.estado=="INHABILITADO"){
                     $("#Participar").addClass("hidden");
@@ -337,7 +337,7 @@
             <div class="col-xs-offset-1 col-xs-10" style="margin-top:30px;">
                 <input id="Participar" type="" class="btn btn-primary" value="Participar" style="width:22%">
                 <input id="Editar" type="" class="btn btn-primary" value="Editar" style="width:22%">
-                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='../MantenimientoEventos.html';">
+                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoEventos.html';">
             </div>
         </div>
 
