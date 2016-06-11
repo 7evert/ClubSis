@@ -288,22 +288,28 @@
                 'telefonoContactoEmergencia': $scope.telefonoContactoEmergencia,
             };
             console.log(data);
+            console.log(sedesSeleccionadas);
+            console.log(data.sede);
             if (validarDatos()) {
-                $http.post('/api/usuarios', data).success(function (data) {
+                var idUsuario;
+                $http.post('/api/usuarios', data).success(function (respuesta) {
+                    idUsuario=respuesta.id;
+                    console.log(idUsuario);
+                    $http.post('/api/usuarios/'+idUsuario+'/listaSedes', sedesSeleccionadas).success(function (respuesta) {
+                    })
+                            .error(function (respuesta) {
+                                Notificaciones.showError("Error al crear el usuario.");
+                            });
                 })
-                        .error(function (data) {
+                        .error(function (respuesta) {
                             Notificaciones.showError("Error al crear el usuario.");
                         });
-                /*
-                $http.post('/api/usuarios/'+idUsuario+'/listaSedes', sedesSeleccionadas).success(function (data) {
-                })
-                        .error(function (data) {
-                            Notificaciones.showError("Error al crear el usuario.");
-                        });
-                        */
+
+
+
                 Notificaciones.showProcesando();
                 Notificaciones.hideAll();
-                window.location = "mantenimientoUsuario.html";
+                //window.location = "mantenimientoUsuario.html";
             }
         });
     });
