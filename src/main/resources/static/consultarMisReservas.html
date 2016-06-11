@@ -65,7 +65,7 @@
 </head>
 <body ng-controller="BungalowController">
 
-<div id="headerAdministrador"></div>
+<div id="headerUsuario"></div>
 <div class="container">
     <div>
         <h3>
@@ -77,24 +77,6 @@
 
     <form class="form-horizontal">
         <div class="row">
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Sede</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="sede" name="sede" ng-model="sede">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="tipoBungalow" name="tipoBungalow"ng-model="tipoBungalow">
-                        </select>
-                    </div>
-                </div>
-            </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
                     <label for="tipo" class="col-md-4 control-label">Estado</label>
@@ -111,31 +93,34 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="descripcion" class="col-md-4 control-label">Bungalow</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
+                               placeholder="Numero de Bungalow">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5">
+            <div class="col-sm-6 col-lg-12">
                 <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
+                    <label for="nombre" class="col-md-2 control-label">Rango de fechas</label>
+                    <div class="col-xs-offset-0 col-xs-3" align="center">
+                        <div class="input-group input-append date col-md-7">
+                            <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                            <label for="fechaInicio" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
                     </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
+                    <label for="hastaLabel" class="col-md-2 control-label">hasta</label>
+                    <div class="col-xs-offset-0 col-xs-3" align="center">
+                        <div class="input-group input-append date col-md-7">
+                            <input ng-model=fechaFin id="fechaFin" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                            <label for="fechaFin" class="input-group-addon btn"><span
+                                    class="glyphicon glyphicon-calendar"></span>
+                            </label>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
@@ -156,10 +141,9 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class="icono-editar"><img src="img/Iconos/modificar.png" class="icono"></span> Facturar Ingreso a Bungalow|
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Cancelar Reserva  a Bungalow
+            <span class="icono-resultados"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow
         </div>
     </form>
 </div>
@@ -229,11 +213,11 @@
             {index: 'estado', name: 'estado', align: 'center', width: 90},
             {index: 'fechaReserva', name: 'fechaReserva',width: 150, align: 'center',formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "d/m/Y" }, },
             {index: 'fechaFinal', name: 'fechaFinal', align: 'center', width: 150,formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "d/m/Y" },},
-            {index: 'bungalow.id', name: 'bungalow.id', align: 'center', width: 100},
+            {index: 'idBungalow', name: 'idBungalow',jsonmap: 'bungalow.id', align: 'center', width: 100},
             {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Estado', 'Fecha Inicio', 'Fecha Fin', 'Bungalow','Acciones',
+            'N° Reserva', 'Estado', 'Fecha Inicio', 'Fecha Fin', 'Bungalow','Acciones',
         ],
         viewrecords: true,
         height: 400,
@@ -242,7 +226,8 @@
         loadComplete: function () {
             $('.icono-ver').click(function () {
                 var idBungalow = $(this).attr('data-idReserva-ver');
-                window.location = 'verBungalow.html?id=' + idBungalow;
+                rowData = $("#jqGrid").jqGrid('getRowData', idBungalow);
+                window.location = 'verBungalow.html?id=' + rowData.idBungalow;
             });
 
             $('.icono-eliminar').click(function () {
@@ -272,8 +257,44 @@
                                         }
                                     });
                             $noty.close();
+                        }},
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
                         }
-                        },
+                        }
+                    ]
+                });
+            });
+
+            $('.icono-facturaion').click(function () {
+                var idReserva = $(this).attr('data-idReserva-Facturacion');
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea facturar la reserva?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Facturar Reserva', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            Notificaciones.showNoty("Facturación exitosa", Notificaciones.type.SUCCESS);
+                            $.post('/api/reservasbungalow/facturar',
+                                    {idReservaBungalow: idReserva},
+                                    function (response) {
+                                        if (!response.error) {
+                                            Notificaciones.hideAll();
+                                            Notificaciones.showNoty("Facturación exitosa", Notificaciones.type.SUCCESS);
+                                            $('#jqGrid').trigger('reloadGrid');
+                                            setTimeout(function () {
+                                                location.href = "consultarMisReservas.html"
+                                            }, 1000);
+                                        } else {
+                                            Noty.hideAll();
+                                            Noty.showError(response.mensaje, false, 3000);
+                                        }
+                                    });
+                            $noty.close();
+                        }},
                         {
                             addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
                             $noty.close();
@@ -301,6 +322,7 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
         acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+
+                '<a href="javascript:void(0)" class="btn btn-warning icono-facturaion" data-idReserva-Facturacion="' + rowdata['id'] + '" title="Facturación"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idReserva-eliminar="' + rowdata['id'] + '" title="Eliminar Reserva"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
