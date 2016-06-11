@@ -2,6 +2,7 @@ package com.clubsis.controller.club;
 
 import com.clubsis.model.club.Multa;
 import com.clubsis.model.pago.Pago;
+import com.clubsis.model.pago.TipoCliente;
 import com.clubsis.model.pago.TipoPago;
 import com.clubsis.service.ServicioMultas;
 import com.clubsis.service.ServicioPagos;
@@ -42,7 +43,7 @@ public class MultaController{
     @RequestMapping(value="/{idSocio}/{idMulta}" ,method = RequestMethod.POST)
     public Pago crearPago(@PathVariable Integer idSocio, @PathVariable Integer idMulta){
         Multa multa =servicioMultas.buscarMulta(idMulta);
-        return servicioPagos.crearPago(idSocio,idMulta, TipoPago.MULTA,multa.getCosto());
+        return servicioPagos.crearPago(idSocio, TipoCliente.SOCIO,idMulta, TipoPago.MULTA,multa.getCosto());
     }
 
 }

@@ -65,50 +65,61 @@ public class ServicioPagos {
     //Pago
     public List<Pago> mostrarPagos(){ return pagoRepository.findAll(); }
     public Pago buscarPago(Integer id) {return pagoRepository.findOne(id);}
-    public Pago crearPago(Integer idSocio , Integer idServicio , TipoPago tipoPago , Double monto){
-        Socio socio=socioRepository.findOne(idSocio);
-        Pago pagoExistente= buscarPagoExistente(socio,idServicio,tipoPago);
+
+    public Pago crearPago(Integer idCliente ,TipoCliente tipoCliente ,Integer idServicio , TipoPago tipoPago , Double monto){
+        Pago pagoExistente= buscarPagoExistente(idCliente,tipoCliente,idServicio,tipoPago);
+
         if(pagoExistente!=null){//Actualizar pago en caso exista
             pagoExistente.setMontoTotal(monto);
+            if(monto==0)    pagoExistente.setEstadoPago(EstadoPago.ANULADO);
+            else    pagoExistente.setEstadoPago(EstadoPago.REGISTRADO);
             return pagoRepository.saveAndFlush(pagoExistente);
         }
-        else if(tipoPago==TipoPago.EVENTO){
-            Evento evento= eventoRepository.findOne(idServicio);
-            Pago nuevoPago = new Pago(null,null,monto,evento.getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,tipoPago,
-                    null,socio,evento,null,null,null,null);
-            return pagoRepository.saveAndFlush(nuevoPago);
-        }
-        else if(tipoPago==TipoPago.BUNGALOW){
-            ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
-            Pago nuevoPago = new Pago(null,null,monto,reservaBungalow.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,reservaBungalow,null,null,null);
-            return pagoRepository.saveAndFlush(nuevoPago);
 
+        else {
+            Pago nuevoPago=null;
+            if(tipoPago==TipoPago.EVENTO){
+                Evento evento= eventoRepository.findOne(idServicio);
+                nuevoPago = new Pago(null,null,monto,evento.getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,tipoPago,
+                        null,null,evento,null,null,null,null,null);
+            }
+            else if(tipoPago==TipoPago.BUNGALOW){
+                ReservaBungalow reservaBungalow = reservaBungalowRepository.findOne(idServicio);
+                nuevoPago = new Pago(null,null,monto,reservaBungalow.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
+                        tipoPago,null,null,null,reservaBungalow,null,null,null,null);
+
+            }
+            else if(tipoPago==TipoPago.CLASE){
+                RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
+                nuevoPago = new Pago(null,null,monto,registroClase.getClase().getCiclo().getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,
+                        tipoPago,null,null,null,null,registroClase,null,null,null);
+            }
+            else if(tipoPago==TipoPago.INSTALACION){
+                ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
+                nuevoPago= new Pago(null,null,monto,reservaInstalacion.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
+                        tipoPago,null,null,null,null,null,reservaInstalacion,null,null);
+            }
+            else if(tipoPago==TipoPago.MULTA){
+                Date fechaFinal = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fechaFinal);
+                calendar.add(Calendar.DATE,7);
+                fechaFinal.setTime(calendar.getTime().getTime());
+                Multa multa=multaRepository.findOne(idServicio);
+                nuevoPago= new Pago(null,null,monto,fechaFinal,null,null,new Date(),EstadoPago.REGISTRADO,TipoPago.MULTA,null,
+                        null,null,null,null,null,multa,null);
+            }
+            nuevoPago.setTipoCliente(tipoCliente);
+            if(tipoCliente==TipoCliente.SOCIO) {
+                Socio socio=socioRepository.findOne(idCliente);
+                nuevoPago.setSocio(socio);
+            }
+            else if(tipoCliente==TipoCliente.EMPRESA){
+                //EMPRESA NO EXISTE TODAVIA , EN CONSTRUCCION
+            }
+            if(monto!=0)    return pagoRepository.saveAndFlush(nuevoPago);
+            else return null;
         }
-        else if(tipoPago==TipoPago.CLASE){
-            RegistroClase registroClase= registroClaseRepository.findOne(idServicio);
-            Pago nuevoPago = new Pago(null,null,monto,registroClase.getClase().getCiclo().getFechaInicio(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,null,registroClase,null,null);
-            return pagoRepository.saveAndFlush(nuevoPago);
-        }
-        else if(tipoPago==TipoPago.INSTALACION){
-            ReservaInstalacion reservaInstalacion= reservaInstalacionRepository.findOne(idServicio);
-            Pago nuevoPago= new Pago(null,null,monto,reservaInstalacion.getFechaReserva(),null,null,new Date(),EstadoPago.REGISTRADO,
-                    tipoPago,null,socio,null,null,null,reservaInstalacion,null);
-            return pagoRepository.saveAndFlush(nuevoPago);
-        }
-        else if(tipoPago==TipoPago.MULTA){
-            Date fechaFinal = new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fechaFinal);
-            calendar.add(Calendar.DATE,7);
-            fechaFinal.setTime(calendar.getTime().getTime());
-            Multa multa=multaRepository.findOne(idServicio);
-            Pago nuevoPago= new Pago(null,null,monto,fechaFinal,null,null,new Date(),EstadoPago.REGISTRADO,TipoPago.MULTA,null,
-                    socio,null,null,null,null,multa);
-            return pagoRepository.saveAndFlush(nuevoPago);
-        }
-        return null;
     }
 
     public Pago actualizarPago(Integer id, Pago pago){
@@ -117,8 +128,17 @@ public class ServicioPagos {
         return pagoRepository.saveAndFlush(pagoExistente);
     }
 
-    public Pago buscarPagoExistente(Socio socio, Integer idServicio,TipoPago tipoPago){
-        List<Pago> pagos = new ArrayList<>(socio.getPagos());
+    public Pago buscarPagoExistente(Integer idCliente,TipoCliente tipoCliente, Integer idServicio,TipoPago tipoPago){
+        List<Pago> pagos;
+        if(tipoCliente==TipoCliente.SOCIO){
+            Socio socio=socioRepository.findOne(idCliente);
+            pagos = new ArrayList<>(socio.getPagos());
+        }
+        else if(tipoCliente==TipoCliente.EMPRESA){
+            //EMPRESA NO EXISTE TODAVIA , EN CONSTRUCCION
+            pagos=null;
+        }
+        else return null;
         for(Pago item:pagos){
             if(tipoPago==TipoPago.EVENTO && item.getEvento()!=null){
                 if(item.getEvento().getId()==idServicio)    return item;
@@ -149,7 +169,7 @@ public class ServicioPagos {
         calendar.add(Calendar.DATE,7);
         fechaFinal.setTime(calendar.getTime().getTime());
         Double pago= socio.getTipo().getCostoInicial()+socio.getTipo().getCostoMembresia();
-        Pago nuevoPago = new Pago(null,null,pago,fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,socio,null,null,null,null,null);
+        Pago nuevoPago = new Pago(null,null,pago,fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,socio,null,null,null,null,null,TipoCliente.SOCIO);
         pagoRepository.saveAndFlush(nuevoPago);
         return nuevoPago;
     }
@@ -159,7 +179,7 @@ public class ServicioPagos {
         List<CuotaExtraordinaria> respuesta=new ArrayList<CuotaExtraordinaria>();
         for(Socio item:socios){
             CuotaExtraordinaria nuevaCuota= new CuotaExtraordinaria(replica.getNombre(),replica.getDescripcion(),
-                    replica.getMonto(),replica.getFechaInicio(),replica.getFechaFin(),EstadoCuotaExtraordinaria.REGISTRADA,
+                    replica.getMonto(),replica.getFechaInicio(),replica.getFechaFin(),EstadoCuotaExtraordinaria.REGISTRADO,
                     item,replica.getClub());
             cuotaExtraordinariaRepository.saveAndFlush(nuevaCuota);
             respuesta.add(nuevaCuota);
@@ -175,7 +195,7 @@ public class ServicioPagos {
 
     public CuotaExtraordinaria anularCuotaExtraordinaria(Integer idCuota){
         CuotaExtraordinaria cuota= cuotaExtraordinariaRepository.findOne(idCuota);
-        cuota.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.ANULADA);
+        cuota.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.ANULADO);
         return cuotaExtraordinariaRepository.saveAndFlush(cuota);
     }
 
@@ -187,7 +207,7 @@ public class ServicioPagos {
 
     public CuotaExtraordinaria pagarCuotaExtraordinaria(Integer idCuota){
         CuotaExtraordinaria cuota= cuotaExtraordinariaRepository.findOne(idCuota);
-        cuota.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.PAGADA);
+        cuota.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.PAGADO);
         return cuotaExtraordinariaRepository.saveAndFlush(cuota);
     }
 
@@ -203,7 +223,8 @@ public class ServicioPagos {
         for(Socio item:socios){
             if(item.getEstado()!= EstadoSocio.ACTIVO)   continue; //SOLO PAGARA MEMBRESIA UN SOCIO ACTIVO
             TipoSocio tipoSocio= item.getTipo();
-            Pago nuevoPago = new Pago(null,null,tipoSocio.getCostoMembresia(),fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,TipoPago.MEMBRESIA,null,item,null,null,null,null,null);
+            Pago nuevoPago = new Pago(null,null,tipoSocio.getCostoMembresia(),fechaFinal,null,null,new Date(), EstadoPago.REGISTRADO,
+                    TipoPago.MEMBRESIA,null,item,null,null,null,null,null,TipoCliente.SOCIO);
             pagoRepository.saveAndFlush(nuevoPago);
         }
     }
@@ -221,8 +242,8 @@ public class ServicioPagos {
         }
         List<CuotaExtraordinaria> cuotas=cuotaExtraordinariaRepository.findAll();
         for(CuotaExtraordinaria item:cuotas){
-            if(item.getFechaFin().before(new Date()) && item.getEstadoCuotaExtraordinaria()==EstadoCuotaExtraordinaria.REGISTRADA){
-                item.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.VENCIDA);
+            if(item.getFechaFin().before(new Date()) && item.getEstadoCuotaExtraordinaria()==EstadoCuotaExtraordinaria.REGISTRADO){
+                item.setEstadoCuotaExtraordinaria(EstadoCuotaExtraordinaria.VENCIDO);
                 cuotaExtraordinariaRepository.saveAndFlush(item);
             }
 

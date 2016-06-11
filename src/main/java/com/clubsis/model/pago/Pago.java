@@ -35,7 +35,7 @@ public class Pago {
     private Date fechaPago;
     private EstadoPago estadoPago;
     private TipoPago tipoPago;
-
+    private TipoCliente tipoCliente;
     private String valoracion;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -60,7 +60,7 @@ public class Pago {
     }
 
     public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion,
-                Socio socio, Evento evento, ReservaBungalow reservaBungalow, RegistroClase registroClase, ReservaInstalacion reservaInstalacion,Multa multa) {
+                Socio socio, Evento evento, ReservaBungalow reservaBungalow, RegistroClase registroClase, ReservaInstalacion reservaInstalacion,Multa multa,TipoCliente tipoCliente) {
         this.descripcion=descripcion;
         this.mora = mora;
         this.montoTotal = montoTotal;
@@ -77,6 +77,7 @@ public class Pago {
         this.registroClase = registroClase;
         this.reservaInstalacion = reservaInstalacion;
         this.multa=multa;
+        this.tipoCliente=tipoCliente;
     }
 
     public Integer getId() {
@@ -213,5 +214,13 @@ public class Pago {
 
     public void setMulta(Multa multa) {
         this.multa = multa;
+    }
+
+    public TipoCliente getTipoCliente() {
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(TipoCliente tipoCliente) {
+        this.tipoCliente = tipoCliente;
     }
 }

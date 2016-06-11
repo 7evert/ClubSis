@@ -2,6 +2,7 @@ package com.clubsis.controller.evento;
 
 import com.clubsis.model.evento.EstadoEvento;
 import com.clubsis.model.evento.Evento;
+import com.clubsis.model.pago.TipoCliente;
 import com.clubsis.model.pago.TipoPago;
 import com.clubsis.model.sede.Sede;
 import com.clubsis.service.ServicioPagos;
@@ -62,7 +63,7 @@ public class EventoController {
     @RequestMapping(value="/{idSocio}/{idEvento}/costo",method = RequestMethod.POST)
     public Double costo(@PathVariable Integer idSocio,@PathVariable Integer idEvento){
         Double monto = servicioEvento.PagoEvento(idEvento,idSocio);
-        servicioPagos.crearPago(idSocio,idEvento, TipoPago.EVENTO,monto);
+        servicioPagos.crearPago(idSocio, TipoCliente.SOCIO,idEvento, TipoPago.EVENTO,monto);
         return monto;
     }
 
