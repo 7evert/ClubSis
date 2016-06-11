@@ -40,7 +40,7 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
      */
     for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
-            if((accionesXElemento[tipoUsuario[j]]!="Suspender")|| (accionesXElemento[tipoUsuario[j]]=="SUSPENDER" && divBotones[0].parentElement.getAttribute("estado")!="INHABILITADO")){
+            if((accionesXElemento[tipoUsuario][j]!="Suspender")|| (accionesXElemento[tipoUsuario][j]=="Suspender" && divBotones[i].parentElement.getAttribute("estado")!="INHABILITADO")){
                 var b = $('<button>').attr({
                     /*type: 'submit',*/
                     tabindex: "3",

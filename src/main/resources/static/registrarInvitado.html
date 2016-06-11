@@ -434,6 +434,9 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div align="left" style="position:relative;top:0px;">
+                                    <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
+                                </div>
                                 <!--<div class="form-group">
                                     <label class="col-xs-5 control-label">Ingreso Invitado</label>
                                     <div class="col-xs-7">
@@ -470,9 +473,6 @@
                             </div>
 
                             <!---------------------------------- ----------------------------------------------------->
-                            <div align="left" style="position:relative;top:0px;">
-                                <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
-                            </div>
                             <div align="left" style="position:relative;top:60px;left:15%;">
                                 <input id="terminar" class="btn btn-primary" value="Pagar" style="width:30%">
                                 <input id="cancelar" class="btn btn-primary" value="Eventos" style="width:30%">
@@ -524,13 +524,13 @@
         height: 200,
         colNames: ['Nro', 'Id', 'Id Persona', 'Nombre', 'Nro. Doc.', 'Tipo', 'Costo', 'Acciones'],
         colModel: [
-            {name: 'nro', index: 'nro', width: 30, editable: false},
-            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
-            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 10, editable: false},
-            {name: 'nombre', index: 'nombre', width: 150, editable: false},
-            {name: 'nroDoc', index: 'Nro. Doc.', width: 60, editable: false},
-            {name: 'tarifa', index: 'Tipo', width: 60, editable: false},
-            {name: 'costo', index: 'Costo', width: 60, editable: false},
+            {name: 'nro', index: 'nro', width: 30, editable: false, align: 'center'},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false, align: 'center'},
+            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 10, editable: false, align: 'center'},
+            {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+            {name: 'nroDoc', index: 'Nro. Doc.', width: 60, editable: false, align: 'center'},
+            {name: 'tarifa', index: 'Tipo', width: 60, editable: false, align: 'center'},
+            {name: 'costo', index: 'Costo', width: 60, editable: false, align: 'center'},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones1}
         ],
         multiselect: true
@@ -548,12 +548,12 @@
         height: 200,
         colNames: ['Nro', 'Id', 'Nombre', 'Nro. Doc.', 'Tipo', 'Costo', 'Acciones'],
         colModel: [
-            {name: 'nro', index: 'nro', width: 30, editable: false},
-            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
-            {name: 'nombre', index: 'nombre', width: 150, editable: false},
-            {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false},
-            {name: 'tarifa', index: 'Tipo', width: 60, editable: false},
-            {name: 'costo', index: 'Costo', width: 60, editable: false},
+            {name: 'nro', index: 'nro', width: 30, editable: false, align: 'center'},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false, align: 'center'},
+            {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+            {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false, align: 'center'},
+            {name: 'tarifa', index: 'Tipo', width: 60, editable: false, align: 'center'},
+            {name: 'costo', index: 'Costo', width: 60, editable: false, align: 'center'},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones}
         ],
         multiselect: true
