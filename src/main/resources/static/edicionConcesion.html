@@ -144,6 +144,9 @@
         var app2 = angular.module('app2', []);
         app2.controller('edicionConcesionController', function ($scope, $http) {
             var id = getID();
+            if(id==undefined)
+                href.location="administrarConcesiones.html";
+
             console.log(id);
             if(id==undefined){
                 //location.href="administrarProveedores1.html"
