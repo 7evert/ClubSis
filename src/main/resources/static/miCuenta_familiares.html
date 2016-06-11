@@ -146,6 +146,7 @@
                     data[i].nro = nroFamiliares;
                     data[i].nombreCompleto = data[i].nombre + " " + data[i].apellidoPaterno;
                     data[i].dni=data[i].numDoc;
+                    data[i].esTitular=(data[i].esTitular==true)?"Sí":"No";
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
                 }
             });

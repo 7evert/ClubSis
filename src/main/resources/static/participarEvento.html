@@ -186,7 +186,9 @@
         function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
             $("#fechaInicio").html(new Date(validateDateInAllBrowsers(fechaInicio)).ddmmyyyy());
             $("#fechaFin").html(new Date(validateDateInAllBrowsers(fechaFin)).ddmmyyyy());
-            if(fechaInicioInscripcion&&fechaFinInscripcion) {
+            $("#fechaInicioInscripcion").html((fechaInicioInscripcion!=null)?new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy():"Se publicará proximamente");
+            $("#fechaFinInscripcion").html((fechaFinInscripcion!=null)?new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy():"Se publicará proximamente");
+            /*if(fechaInicioInscripcion&&fechaFinInscripcion) {
                 $("#fechaInicioInscripcion").html(new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
                 $("#fechaFinInscripcion").html(new Date(validateDateInAllBrowsers(fechaFinInscripcion)).ddmmyyyy());
             }else if(fechaInicioInscripcion){
@@ -195,7 +197,7 @@
                 $("#fechaInicioInscripcion").parent().html("Estaran Disponibles a partir de "+new Date(validateDateInAllBrowsers(fechaInicioInscripcion)).ddmmyyyy());
             }else{
                 $("#fechaFinInscripcion").parent().html("Pronto se publicarán las fechas de Inscripción");
-            }
+            }*/
         }
         function mostrarTarifas(tarifas){
             var b=new Array();
@@ -237,7 +239,6 @@
                 }
                 if(dataevento.estado=="INHABILITADO"){
                     $("#Participar").addClass("hidden");
-                    $("#Confirmar").addClass("hidden");
                     Notificaciones.showError("El evento está Inhabilitado");
                     location.href="EventInformacion.html?id="+getID();
                 }
@@ -341,7 +342,6 @@
             </div>
             <div class="col-xs-offset-1 col-xs-10" style="margin-top:30px;">
                 <input id="Participar" type="" class="btn btn-primary" value="Invitar" style="width:22%">
-                <input id="confirmar" type="" class="btn btn-primary" value="Confirmar" style="width:22%">
                 <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='mantenimientoEventos.html';">
             </div>
         </div>
