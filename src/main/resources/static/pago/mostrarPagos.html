@@ -67,11 +67,11 @@
     </script>
     <script type="text/javascript">
 
-        var appCuotasExtraordinaria = angular.module('appCuotasExtraordinaria', []);
+        var appPagos = angular.module('appPagos', []);
         var persona,nombreSocio;
-        appCuotasExtraordinaria.controller('CuotaExtraordinariaController', function ($scope, $http) {
+        appPagos.controller('PagoController', function ($scope, $http) {
 
-            $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+            $http.get('/api/pagos').then(function (respuesta) {
                 datosUrl=respuesta.data;
 
 
@@ -84,15 +84,16 @@
                     emptyrecords: 'No se encontraron resultados',
                     //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
                     colModel: [
-                        { label: 'Código Cuota', name: 'id', key: true,align :'center', width: 75},
-                        { label: 'Código Carnet', name: 'socio.codigoCarnet',align :'center', width: 75},
-                        { label: 'Nombre', name: 'nombre', align: 'center', width: 100 },
-                        { label: 'Descripcion', name: 'descripcion', align: 'center', width: 100 },
-                        { label: 'Importe (S/.)', name: 'monto', align: 'center', width: 150 },
-                        { label: 'Estado', name: 'estadoCuotaExtraordinaria', align: 'center', width: 100 },
-                        { label:'Fecha Inicio', name: 'fechaInicio', align: 'center', width: 100 },
-                        { label:'Fecha Fin', name: 'fechaFin', align: 'center', width: 100 },
-                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                        { label: 'Código de Pago', name: 'id', align: 'center', key: true,width: 85},
+                        { label: 'Código de Carnet', name: 'socio.codigoCarnet', align: 'center', width: 85 },
+                        { label: 'Tipo Pago', name: 'tipoPago', align: 'center', width: 75 },
+                        { label: 'Importe (S/.)', name: 'montoTotal', align: 'center', width: 80 },
+                        { label: 'Estado', name: 'estadoPago', align: 'center', width: 100 },
+                        { label: 'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
+                        { label: 'Fecha de Pago', name: 'fechaPago', align: 'center', width: 80 },
+                        { label: 'Fecha de anulación', name: 'fechaAnulacion', align: 'center', width: 100 },
+                        { label: 'Fecha de Registro', name: 'fechaRegistro', align: 'center', width: 100 },
+                        //{ label: 'Ver', name: 'acciones', width: 50, align: 'center', formatter: acciones},
                     ],
                     viewrecords: true,
                     height: "auto",
@@ -105,15 +106,15 @@
 
             $scope.estado.valores = [
                 {'name': 'TODOS', 'value': 'TODOS'},
-                {'name': 'REGISTRADA', 'value': 'REGISTRADA'},
-                {'name': 'VENCIDA', 'value': 'VENCIDA'},
-                {'name': 'PAGADA', 'value': 'PAGADA'},
-                {'name': 'ANULADA', 'value': 'ANULADA'}
+                {'name': 'REGISTRADO', 'value': 'REGISTRADO'},
+                {'name': 'VENCIDO', 'value': 'VENCIDO'},
+                {'name': 'PAGADO', 'value': 'PAGADO'},
+                {'name': 'ANULADO', 'value': 'ANULADO'}
             ];
             $scope.estado.valor = $scope.estado.valores[0].value;
             $("#btnBuscar").click(function (){
-                $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
-                    datosUrl=respuesta.data;
+                $http.get('/api/pagos').then(function (respuesta) {
+                    datosUrl = respuesta.data;
                 });
 
                 var datosFiltr,codigoFilt,estadoFilt;
@@ -127,7 +128,7 @@
                 estadoFilt=$scope.estado.valor;
                 if(estadoFilt!="TODOS"){
                     datosFiltr= $.grep(datosUrl, function (element, index) {
-                        return element.estadoCuotaExtraordinaria == estadoFilt;
+                        return element.estadoPago == estadoFilt;
                     });
                     datosUrl=datosFiltr;
                 }
@@ -137,22 +138,23 @@
             });
         });
     </script>
-
+    <script type="text/javascript">
+    </script>
 </head>
 <body>
 <div id="headerAdministrador"></div>
-<div class="container" ng-app="appCuotasExtraordinaria" ng-controller="CuotaExtraordinariaController">
+<div class="container" ng-app="appPagos" ng-controller="PagoController">
     <h2>Pagos</h2>
     <hr>
-    <h4>CONSULTA DE CUOTAS</h4>
+    <h4>CONSULTA DE PAGOS</h4>
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="formFiltrado">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Código Socio</label>
+                    <label class="col-md-4 control-label">Código Carnet</label>
                     <div class="col-md-8">
-                        <input type="text" ng-model="ngCodigo" class="form-control" placeholder="Código del Socio">
+                        <input type="text" ng-model="ngCodigo" class="form-control" placeholder="Codigo de Carnet del Socio">
                     </div>
                 </div>
             </div>
@@ -166,25 +168,29 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
-                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                <div class="form-group" style="margin-left: 105px;">
+                    <a href="../loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <button onclick="limpiarF()" class="btn btn-primary" id="btnLimpiar">Limpiar</button>
+                    <button ng-click="fitrado()" class="btn btn-primary" id="btnBuscar">Buscar</button>
                 </div>
             </div>
         </div>
         </form>
-        <h4>LISTA DE CUOTAS EXTRAORDINARIAS</h4>
-        <h5>Listado de las cuotas extraordinarias:</h5>
+
+    <form class="form-horizontal">
+        <h4>LISTA DE PAGOS</h4>
+        <h5>Listado de los pagos:</h5>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>
         <br>
 
+    </form>
 </div>
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -192,7 +198,7 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script type="text/javascript">
 
     //$('#jqGrid').jqGrid('setGridWidth', '900');

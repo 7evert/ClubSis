@@ -11,7 +11,7 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
-    <script src="js/Notificaciones.js"></script>
+    <script src="../js/Notificaciones.js"></script>
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -297,7 +297,7 @@
                 funciones.terminar();
             });
             $("#cancelar").click(function () {
-                location.href = "evento/MantenimientoEventos.html";
+                location.href = "MantenimientoEventos.html";
             });
 
 
@@ -353,7 +353,7 @@
                     Notificaciones.showNoty("Tu registro fue exitoso.")
                     console.log(JSON.stringify(data));
                     setTimeout(function(){
-                        location.href = "evento/MantenimientoEventos.html";
+                        location.href = "MantenimientoEventos.html";
                     },1500);
                 });
             }
@@ -498,9 +498,9 @@
                             <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
                             <div style="float:right;">
                                 <span>Leyenda: </span>
-                                <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver|
-                                <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar|
-                                <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+                                <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Ver|
+                                <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar|
+                                <span class="icono-resultados"><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar
                             </div>
                         </div>
                     </div>
@@ -515,7 +515,7 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script type="text/javascript">
 
     var lastsel2;
@@ -537,8 +537,8 @@
     });
     function acciones1(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="verFamiliar(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Familiar"><img src="img/Iconos/ver.png" class="icono"/>' +
-                '<a href="#" onclick="eliminarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Familiar"><img src="img/Iconos/eliminar.png" class="icono"/>';
+        acciones = '<a href="#" onclick="verFamiliar(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Familiar"><img src="../img/Iconos/ver.png" class="icono"/>' +
+                '<a href="#" onclick="eliminarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Familiar"><img src="../img/Iconos/eliminar.png" class="icono"/>';
         return acciones;
     }
 
@@ -560,9 +560,9 @@
     });
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-        acciones = '<a href="#" onclick="verInvitado(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="img/Iconos/ver.png" class="icono"/>' +
-                '<a  href="#" onclick="modificarInvitado(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                '<a href="#" onclick="eliminarInvitado(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="img/Iconos/eliminar.png" class="icono"/>';
+        acciones = '<a href="#" onclick="verInvitado(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Ver Invitado"><img src="../img/Iconos/ver.png" class="icono"/>' +
+                '<a  href="#" onclick="modificarInvitado(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Invitado"><img src="../img/Iconos/modificar.png" class="icono"/>' +
+                '<a href="#" onclick="eliminarInvitado(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Invitado"><img src="../img/Iconos/eliminar.png" class="icono"/>';
         return acciones;
     }
 </script>

@@ -20,7 +20,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel="stylesheet" href="../css/estilosRegBungalows.css">
 
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
@@ -117,7 +117,7 @@
         <div class="form-group">
             <div class="col-xs-offset-4 col-xs-8">
                 <input type="button" id="btnRegistrar" value="Guardar" class="btn btn-primary" style="width:25%"/>
-                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'clase/administrarTalleres2.html';"/>
+                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarTalleres2.html';"/>
                 <!input type="submit" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores.html';"/>
             </div>
         </div>
@@ -136,8 +136,8 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
-<script src="js/Notificaciones.js"></script>
+<script src="../js/principal.js"></script>
+<script src="../js/Notificaciones.js"></script>
 <script type="text/javascript">
     var app = angular.module('app', []);
 
@@ -191,7 +191,7 @@
                             Notificaciones.showProcesando();
                             Notificaciones.hideAll();
                             setTimeout(function () {
-                                location.href = "clase/administrarTalleres2.html"
+                                location.href = "administrarTalleres2.html"
                             }, 1000);
                         })
                                 .error(function (data) {

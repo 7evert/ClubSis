@@ -18,7 +18,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-    <script src="js/Notificaciones.js"></script>
+    <script src="../js/Notificaciones.js"></script>
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -135,9 +135,9 @@
                 });
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
-                    acciones = '<a href="#" onclick="funciones.verFamiliar(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Familiar"><img src="img/Iconos/ver.png" class="icono"/>' +
-                            '<a  href="#" onclick="funciones.modificarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Familiar"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a href="#" onclick="funciones.eliminarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Familiar"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                    acciones = '<a href="#" onclick="funciones.verFamiliar(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Familiar"><img src="../img/Iconos/ver.png" class="icono"/>' +
+                            '<a  href="#" onclick="funciones.modificarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Familiar"><img src="../img/Iconos/modificar.png" class="icono"/>' +
+                            '<a href="#" onclick="funciones.eliminarFamiliar(event);return false;" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Familiar"><img src="../img/Iconos/eliminar.png" class="icono"/>';
                     return acciones;
                 }
 
@@ -177,9 +177,9 @@
     <br>
     <div class="form-group leyenda">
         <span>Leyenda: </span>
-        <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Mostrar Familiar|
-        <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Familiar|
-        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Familiar
+        <span class="icono-editar"><img src="../img/Iconos/ver.png" class="icono"></span> Mostrar Familiar|
+        <span class="icono-reprogramar"><img src="../img/Iconos/modificar.png" class="icono"></span> Modificar Familiar|
+        <span class="icono-resultados"><img src="../img/Iconos/eliminar.png" class="icono"></span> Eliminar Familiar
     </div>
 </div>
 <div id="footer"></div>
@@ -193,7 +193,7 @@
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
-<script src="js/principal.js"></script>
+<script src="../js/principal.js"></script>
 <script type="text/javascript">
     /*
      $("#jqGrid").jqGrid({
