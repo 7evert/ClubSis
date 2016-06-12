@@ -98,6 +98,11 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <a href="javascript:void(0)" class="btn btn-primary" id="btnGuardar">Guardar</a>
                 <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoInstalaciones.html';">
@@ -182,7 +187,6 @@
                     'estado': $scope.instalaciones.estado,
                     'sede':sedeSeleccionada,
                     'tipo':tipoSeleccionado,
-                    'esActivo':true,
                 };
             if(validarDatos()) {
                 $http.put('/api/instalaciones/' + idInstalacion, data).success(function (data) {

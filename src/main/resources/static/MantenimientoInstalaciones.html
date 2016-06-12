@@ -74,7 +74,9 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Estado</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" id="estadoFiltrado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados">
+                                    <select class="form-control" id="estadoFiltrado" class="form-control">
+                                        <option value="Elegir" selected="selected">Elegir</option>
+                                        <option ng-repeat="estado in estados" value="{{estado}}">{{estado}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -175,11 +177,13 @@
                     })
                 })
             })
+
             $http.get('/api/instalaciones').success(function (data) {
+
             });
             $("#Limpiar").click(function(){
                 $("#sedeFiltrado").val("Elegir");
-                $("#estadoFiltrado").val("");
+                $("#estadoFiltrado").val("Elegir");
                 $("#nombreFiltrado").val("");
                 $("#date-picker-DiaEntrada").val("");
                 $("#date-picker-DiaSalida").val("");
@@ -331,7 +335,11 @@
             var sede=$("#sedeFiltrado").val();
             var tipo=$("#tipoFiltrado").val();
             var estado=$("#estadoFiltrado").val();
-            var estado=estado.substring(estado.indexOf(":")+1);
+            console.log(estado);
+            if(estado!="Elegir"){
+                estado=estado.substring(estado.indexOf(":")+1);
+            }
+
             var nombre=$("#nombreFiltrado").val();
             var ids=$("#jqGrid").jqGrid('getDataIDs');
             for(var i=0;i<ids.length;i++){
@@ -341,7 +349,7 @@
                 ver=true;
                 if((sede!='Elegir') && (rowData.sede!=sede)) ver=false;
                 if((tipo!="Elegir") && (rowData.tipo!=tipo)) ver=false;
-                if((estado!='?') && (rowData.estado!=estado)) ver=false;
+                if((estado!='Elegir') && (rowData.estado!=estado)) ver=false;
                 if(nombre && (rowData.nombre.indexOf(nombre)<0)) ver=false;
 
                 if(ver){

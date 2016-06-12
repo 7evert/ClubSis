@@ -55,6 +55,12 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-xs-offset-4 col-xs-10">
                 <input type="" class="btn btn-primary" id="btnRegistrar" value="Registrar" style="width:22%" >
                 <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoTipoInstalacion.html';">
@@ -77,16 +83,19 @@
     $(".date-picker").datepicker();
     var app = angular.module('app', []);
     app.controller('TipoInstalacionController', function ($scope, $http) {
+        var estados;
+        $http.get('/api/instalaciones/getEstadoInstalacion').success(function (data) {
+            estados=data;
+        })
 
         $("#btnRegistrar").click(function () {
 
             var data = {
                 'nombre': $scope.nombre,
                 'caracteristicas': $scope.caracteristicas,
-                'esActivo':true,
+                'estado':estados[1],
             };
 
-            console.log(data);
             if(validarDatos()){
                 $http.post('/api/tipoInstalaciones', data).success(function (data) {
 

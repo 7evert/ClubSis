@@ -1,5 +1,6 @@
 package com.clubsis.model.sede;
 
+import com.clubsis.model.bungalow.EstadoBungalow;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ public class TipoInstalacion {
     private Integer id;
     private String nombre;
     private String caracteristicas;
-    private Boolean esActivo;
+    private EstadoInstalacion estado;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipo")
     @JsonIgnore
@@ -45,19 +46,19 @@ public class TipoInstalacion {
         this.caracteristicas = caracteristicas;
     }
 
-    public Boolean getEsActivo() {
-        return esActivo;
-    }
-
-    public void setEsActivo(Boolean esActivo) {
-        this.esActivo = esActivo;
-    }
-
     public Set<Instalacion> getInstalaciones() {
         return instalaciones;
     }
 
     public void setInstalaciones(Set<Instalacion> instalaciones) {
         this.instalaciones = instalaciones;
+    }
+
+    public EstadoInstalacion getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoInstalacion estado) {
+        this.estado = estado;
     }
 }

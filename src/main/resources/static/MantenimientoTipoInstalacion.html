@@ -68,7 +68,17 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-sm-6 col-lg-5">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Estado</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="estadoFiltrado" class="form-control">
+                                <option value="Elegir" selected="selected">Elegir</option>
+                                <option ng-repeat="estado in estados" value="{{estado}}">{{estado}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-sm-7 col-lg-7">
                 </div>
@@ -114,12 +124,17 @@
 
     var app=angular.module('app',[]);
     app.controller('TipoInstalacionController', function ($scope, $http) {
+        $scope.estados=[];
         $http.get('/api/tipoInstalaciones').success(function (data) {
+            $http.get('/api/instalaciones/getEstadoInstalacion').success(function (data) {
+                $scope.estados=data;
+            })
         });
 
         $("#Limpiar").click(function(){
             $("#nombreFiltrado").val("");
             $("#caracteristicasFiltrado").val("");
+            $("#estadoFiltrado").val("Elegir");
         });
     });
 
@@ -136,10 +151,11 @@
             {index: 'id', name: 'id', hidden: true, width: 45},
             {index: 'nombre', name: 'nombre', align: 'center', width: 400},
             {index: 'caracteristicas', name: 'caracteristicas', align: 'center', width: 600},
+            {index: 'estado', name: 'estado', align: 'center', width: 200},
             {index: 'Acciones', name: 'Acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'id', 'Nombre','Características','Acciones'
+            'id', 'Nombre','Características','Estado','Acciones'
         ],
         viewrecords: true,
         height: 400,
@@ -231,7 +247,14 @@
                     }, 1000);
                 }
             });
-
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estado'] == 'Inhabilitado') {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
         }
     });
 
@@ -251,6 +274,11 @@
         var ver;
         var nombre=$("#nombreFiltrado").val();
         var caracteristicas=$("#caracteristicasFiltrado").val();
+        var estado=$("#estadoFiltrado").val();
+        if(estado!="Elegir"){
+            estado=estado.substring(estado.indexOf(":")+1);
+        }
+
         var ids=$("#jqGrid").jqGrid('getDataIDs');
         for(var i=0;i<ids.length;i++){
             var rowId=ids[i];
@@ -259,6 +287,7 @@
             ver=true;
             if(nombre && (rowData.nombre.indexOf(nombre)<0)) ver=false;
             if(caracteristicas && (rowData.caracteristicas.indexOf(caracteristicas)<0)) ver=false;
+            if((estado!='Elegir') && (rowData.estado!=estado)) ver=false;
             if(ver){
                 $("#"+rowId).show();
             }else{
@@ -310,6 +339,11 @@
     hr {
         margin-top: 0px;
         margin-bottom: 10px;
+    }
+    .myAltRowClassEven {
+        background: #999999;
+        border-color: #79B7E7;
+        color: #ffffff;
     }
 </style>
 </body>

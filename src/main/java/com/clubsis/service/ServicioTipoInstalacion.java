@@ -18,13 +18,7 @@ public class ServicioTipoInstalacion {
     private TipoInstalacionRepository tipoinstalacionRepository;
 
     public List<TipoInstalacion> mostrarTipoInstalaciones(){
-        List<TipoInstalacion> tipoInstalaciones=tipoinstalacionRepository.findAll();
-        List<TipoInstalacion> tipoInstalacionesFiltradas = new ArrayList<TipoInstalacion>();
-        for(TipoInstalacion tipo : tipoInstalaciones){
-            if(tipo.getEsActivo())
-                tipoInstalacionesFiltradas.add(tipo);
-        }
-        return tipoInstalacionesFiltradas;
+        return tipoinstalacionRepository.findAll();
     }
     public TipoInstalacion buscarTipoInstalaciones(Integer id) {return tipoinstalacionRepository.findOne(id);}
     public TipoInstalacion crearTipoInstalacion(TipoInstalacion tipoInstalacion) {return tipoinstalacionRepository.saveAndFlush(tipoInstalacion);}

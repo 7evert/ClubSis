@@ -1,5 +1,6 @@
 package com.clubsis.controller.sede;
 
+import com.clubsis.model.sede.EstadoInstalacion;
 import com.clubsis.model.sede.TipoInstalacion;
 import com.clubsis.service.ServicioTipoInstalacion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class TipoInstalacionController {
     @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
     public Integer eliminarTipoInstalacion(Model model, @RequestParam(value = "id") Integer idTipoInstalacion) {
         TipoInstalacion tipoInstalacion = servicioTipoInstalacion.buscarTipoInstalaciones(idTipoInstalacion);
-        tipoInstalacion.setEsActivo(Boolean.FALSE);
+        tipoInstalacion.setEstado(EstadoInstalacion.Inhabilitado);
         servicioTipoInstalacion.actualizarTipoInstalacion(idTipoInstalacion,tipoInstalacion);
         return 1;
     }

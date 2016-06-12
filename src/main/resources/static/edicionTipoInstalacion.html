@@ -36,7 +36,7 @@
 <body ng-controller="TipoInstalacionController">
 <div class="container">
     <div id="headerAdministrador"></div>
-    <h2>Edición del tipo instalación</h2>
+    <h2>Edición del tipo de instalación</h2>
     <hr>
     <form id="formEdicionTipoInstalacion" class="form-horizontal mitadDerecha">
         <div id="nombreTipoInstalacion" class="form-group">
@@ -50,6 +50,18 @@
             <label class="control-label col-xs-4">Características</label>
             <div class="input-group col-xs-8">
                 <input ng-model="tipoInstalaciones.caracteristicas" id="caracteristicas" type="text" class="form-control col-xs-8"  placeholder="Características del tipo instalación" />
+            </div>
+        </div>
+        <div id="escogerEstadoTipoInstalacion" class="form-group">
+            <label class="control-label col-xs-4">Estado<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <select class="form-control col-xs-8" id="estado" data-ng-model="tipoInstalaciones.estado" data-ng-options="estado for (id, estado) in estados">
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
             </div>
         </div>
         <div class="form-group">
@@ -77,9 +89,16 @@
     var app = angular.module('app', []);
     app.controller('TipoInstalacionController', function ($scope, $http) {
         $scope.tipoInstalaciones=[];
-
+        $scope.estados=[];
+        var idEstado;
         $http.get('/api/tipoInstalaciones/'+idTipoInstalacion).success(function (data) {
             $scope.tipoInstalaciones=data;
+            idEstado=data.estado;
+            console.log(idEstado);
+            $http.get('/api/instalaciones/getEstadoInstalacion').success(function (data) {
+                $scope.estados=data;
+                $("#estado").val(idEstado);
+            })
         });
 
 
@@ -88,7 +107,7 @@
                     'id':idTipoInstalacion,
                     'nombre': $scope.tipoInstalaciones.nombre,
                     'caracteristicas': $scope.tipoInstalaciones.caracteristicas,
-                    'esActivo': $scope.tipoInstalaciones.esActivo,
+                    'estado': $scope.tipoInstalaciones.estado,
                 };
             console.log(data);
             if(validarDatos()) {
