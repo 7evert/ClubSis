@@ -47,4 +47,9 @@ public class MembresiaController {
         // TODO: reincorporar o suspender a un socio
     }
 
+    @RequestMapping(value = "/{idPrincipal}/{idNuevo}",method = RequestMethod.PUT)
+    public void transferirMembresia(@PathVariable Integer idPrincipal,@PathVariable Integer idNuevo){
+        servicioMembresias.transferirMembresia(idPrincipal,idNuevo);
+    }
+
 }
