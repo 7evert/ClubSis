@@ -246,12 +246,12 @@
         $scope.piso.valor = $scope.piso.valores[0].value;
 
         $scope.bungalow = [];
-        //Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
+        //Traigo $http.geta todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
         $http.get('/api/bungalows/' + idBungalow).success(function (data) {
             $scope.bungalow = data;
             $("#sede").val(data.sede.id);
             $("#tipoBungalow").val(data.tipoBungalow.id);
-            var strValoracion = "string:" + data.valoracion
+            var strValoracion = "string:" + data.valoracion;
             $("#valoracion").val(strValoracion);
             var strPiso = "string:" + data.piso;
             $("#piso").val(strPiso);

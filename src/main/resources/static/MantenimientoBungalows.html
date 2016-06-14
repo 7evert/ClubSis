@@ -210,7 +210,7 @@
             {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoración', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
+            'N°', 'Precio', 'Piso', 'Valoración', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
@@ -227,7 +227,6 @@
                 } //if
             }
             var cantFilas = $("#jqGrid").getGridParam("reccount");
-            console.log(cantFilas);
             for (i = 1; i < cantFilas+cantFilas*4; i++) {
                 var rowData = $('#jqGrid').jqGrid('getRowData', i);
                 if (rowData.valoracion == "1")
@@ -353,7 +352,7 @@
     <!--Sedes-->
     $("sede").click(
             $.getJSON("/api/sedes", null, function (data) {
-                console.log(data);
+
                 $("#sede option").remove(); // Remove all <option> child tags.
                 $("#sede").append( // Append an object to the inside of the select box
                         $("<option></option>") // Yes you can do this.
@@ -372,7 +371,7 @@
 
     $("tipoBungalow").click(
             $.getJSON("/api/tiposbungalow", null, function (data) {
-                console.log(data);
+
                 $("#tipoBungalow option").remove(); // Remove all <option> child tags.
                 $("#tipoBungalow").append( // Append an object to the inside of the select box
                         $("<option></option>") // Yes you can do this.
@@ -393,6 +392,8 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
+        var idBungalow = rowdata['id'];
+
         acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idBungalow-ver="' + rowdata['id'] + '" title="Ver Bungalow"><img src="img/Iconos/ver.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-modificar" data-idBungalow-modificar="' + rowdata['id'] + '" title="Modificar Bungalow"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idBungalow-eliminar="' + rowdata['id'] + '" title="Eliminar Bungalow"><img src="img/Iconos/eliminar.png" class="icono"></a>';

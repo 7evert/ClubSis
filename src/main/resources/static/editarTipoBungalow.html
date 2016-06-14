@@ -169,10 +169,10 @@
         //    CREADO, DISPONIBLE, INHABILITADO, ELIMINADO
         $scope.estado.valores = [
             {'name': 'Elegir', 'value': '-1'},
-            {'name': 'CREADO', 'value': '0'},
-            {'name': 'DISPONIBLE', 'value': '1'},
-            {'name': 'INHABILITADO', 'value': '2'},
-            {'name': 'ELIMINADO', 'value': '3'}
+            //{'name': 'CREADO', 'value': '0'},
+            {'name': 'DISPONIBLE', 'value': '0'},
+            {'name': 'INHABILITADO', 'value': '1'},
+            //{'name': 'ELIMINADO', 'value': '3'}
         ];
 
         $scope.estado.valor = $scope.estado.valores[0].value;
@@ -183,10 +183,8 @@
             $("#nombre").val(data.nombre);
             $("#capacidad").val(data.capacidad);
 
-            if(data.estado == 'CREADO') data.estado = 0;
-            else if(data.estado == 'DISPONIBLE') data.estado = 1;
-            else if(data.estado == 'INHABILITADO') data.estado = 2;
-            else if(data.estado == 'ELIMINADO') data.estado = 3;
+            if(data.estado == 'DISPONIBLE') data.estado = 0;
+            else if(data.estado == 'INHABILITADO') data.estado = 1;
 
             $scope.tipoBungalow = data;
 

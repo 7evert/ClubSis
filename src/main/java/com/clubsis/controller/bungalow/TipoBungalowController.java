@@ -1,10 +1,8 @@
 package com.clubsis.controller.bungalow;
 
-import com.clubsis.model.bungalow.Bungalow;
-import com.clubsis.model.bungalow.EstadoBungalow;
-import com.clubsis.model.bungalow.EstadoTipoBungalow;
-import com.clubsis.model.bungalow.TipoBungalow;
-import com.clubsis.service.ServicioReservas;
+import com.clubsis.model.bungalow.*;
+import com.clubsis.service.*;
+import com.clubsis.service.ServicioBungalow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +18,8 @@ import java.util.List;
 public class TipoBungalowController {
     @Autowired
     private ServicioReservas servicioReservas;
+    @Autowired
+    private ServicioBungalow servicioBungalow;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<TipoBungalow> list() {
@@ -56,5 +56,10 @@ public class TipoBungalowController {
         tipoBungalow.setEstado(EstadoTipoBungalow.INHABILITADO); //Lo deshabilitamos de la base de datos
         servicioReservas.actualizarTipoBungalow(idTipoBungalow,tipoBungalow);
         return 1;
+    }
+
+    @RequestMapping(value = "/getEstadoTipoBungalow",method = RequestMethod.GET)
+    public EstadoTipoBungalow[] getEstadoBungalow(){
+        return servicioBungalow.getEstadoTipoBungalow();
     }
 }

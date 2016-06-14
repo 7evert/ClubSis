@@ -63,7 +63,7 @@ public class ReservaBungalowController {
         ReservaBungalow reservaBungalow = servicioReservas.buscarReservaBungalow(idReservaBungalow);
         reservaBungalow.setEstado(EstadoReservaBungalow.CANCELADA);
         Bungalow bungalow = reservaBungalow.getBungalow();
-        bungalow.setEstado(EstadoBungalow.DISPONIBLE);
+        bungalow.setEstado(EstadoBungalow.HABILITADO);
         servicioReservas.actualizarBungalow(bungalow.getId(),bungalow);
         servicioReservas.actualizarReservaBungalow(idReservaBungalow,reservaBungalow);
         return 1;

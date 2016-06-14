@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
@@ -65,7 +65,7 @@
         .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
-<body>
+<body ng-controller="BungalowController">
 <div id="headerAdministrador"></div>
 <div class="container">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
@@ -85,81 +85,45 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Sede</label>
+                    <label for="tipo" class="col-md-4 control-label">Nombre</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="sede">
-                            <option>Elegir</option>
-                            <option>Chosica</option>
-                            <option>Namekusein</option>
-                            <option>Planeta del gran Kaiosama</option>
-                            <option>Planeta Tierra</option>
-                        </select>
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre de tipo bungalow">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipo" class="col-md-4 control-label">Tipo</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="tipo">
-                            <option>Elegir</option>
-                            <option>Aseo personal</option>
-                            <option>Electrodoméstico</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="proveedor" class="col-md-4 control-label">Proveedor</label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="proveedor">
-                            <option>Elegir</option>
-                            <option>Gloria</option>
-                            <option>Coca-Cola</option>
-                            <option>Backus</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion"
-                               placeholder="Palabra clave de descripción del producto">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="stockInicial" class="col-md-4 control-label">Stock desde</label>
+                    <label for="capacity" class="col-md-4 control-label">Capacidad</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockInicial" placeholder="Cantidad">
+                        <input type="text" class="form-control" id="capacidadMinima" placeholder="Capacidad">
                     </div>
-                    <label for="stockFinal" class="col-md-2 control-label">hasta</label>
+                    <label for="capacity" class="col-md-2  control-label"> - </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" id="stockFinal" placeholder="Cantidad">
+                        <input type="text" class="form-control" id="capacidadMaxima" placeholder="Capacidad">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombre" class="col-md-4 control-label">Estado</label>
+                    <div class="col-md-8">
+                        <!--<select class="form-control" id="estado" data-ng-model="estado" data-ng-options="estado for (id, estado) in estados" ></select>-->
+                        <select class="form-control" id="estadoFiltrado">
+                            <option value="-1" selected="true">ELEGIR</option>
+                            <option ng-repeat="estado in estados" value="{{estado}}">{{estado}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 20px;">
+                <div class="form-group" style="margin-left: 150px;">
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
                        style="visibility: visible">Eliminar</a>
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    <a href="javascript:void(0)" onclick="funciones.buscar();return false;" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
             </div>
         </div>
@@ -171,10 +135,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Bungalow
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Bungalow
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
         </div>
     </form>
 </div>
@@ -188,6 +152,8 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
@@ -197,18 +163,76 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
+    var app=angular.module('app',[]);
+    app.controller('BungalowController', function ($scope, $http) {
+        $scope.estados =[];
+        $http.get('/api/tiposbungalow/getEstadoTipoBungalow').success(function (data) {
+            for(i = 0; i < data.length; i++){
+                $scope.estados.push(data[i]);
+            }
+        });
+    });
+
+    //Filtrado:
+    var funciones = {};
+    function contieneCadenaItem(item,capacidadMaxima,capacidadMinima,estado,nombre) {
+        var ver = true;
+
+        if(!((capacidadMaxima >= item.capacidad) && (item.capacidad >= capacidadMinima))) ver = false;
+
+        if(estado == "-1") ver = ver && true;
+        else if(estado != item.estado) ver = false;
+
+        if(nombre && item.nombre.indexOf(nombre)<0)  ver = false;
+        return ver;
+    }
+
+    funciones.buscar = function () {
+        var capacidadMaxima = $("#capacidadMaxima").val();
+        var capacidadMinima = $("#capacidadMinima").val();
+
+        if(!capacidadMinima) capacidadMinima = "-1";
+        capacidadMinima = parseInt(capacidadMinima);
+
+        if(!capacidadMaxima) capacidadMaxima = "999999999";
+        capacidadMaxima = parseInt(capacidadMaxima);
+
+        var estado = $("#estadoFiltrado").val();
+
+        var nombre = $("#nombre").val();
+        if(capacidadMaxima < capacidadMinima ){
+            Notificaciones.showError('Ingrese un rango válido para la capacidad');
+        }else{
+            var ver;
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                ver = false;
+                if (contieneCadenaItem(rowData,capacidadMaxima,capacidadMinima,estado,nombre)) {
+                    //showrow
+                    $("#" + rowId).show();
+                }
+                else {
+                    $("#" + rowId).hide();
+                    //hiderow
+                }
+            }
+        }
+    }
+
+
     $("#jqGrid").jqGrid({
-        url: '/api/tiposbungalow', //Aqui va el metodo que me permitira obtener el JSON desde backend la ruta
+        url: '/api/tiposbungalow',
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
         loadonce: true,
         emptyrecords: 'No se encontraron resultados',
-
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+        
         colModel: [
-            {index: 'id', name: 'id', align: 'center', hidden:true, width: 75},
+            {index: 'id', name: 'id', align: 'center', width: 50},
             {index: 'nombre', name: 'nombre', align: 'center', width: 130},
             {index: 'caracteristicas', name: 'caracteristicas', align: 'center', width: 300},
             {index: 'capacidad', name: 'capacidad', align: 'center', width: 70},
@@ -216,7 +240,7 @@
             {index: 'Acciones', name: 'acciones', width: 100, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'idTipoBungalow', 'Nombre', 'Características', 'Capacidad', 'Estado', 'Acciones'
+            'N°', 'Nombre', 'Características', 'Capacidad', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
@@ -306,8 +330,6 @@
                             addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
                             Notificaciones.hideAll();
                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
-                            //Llamada AJAX con la cual modificare por detrás en tiempo real el dato que voy a eliminar
-                            //Simplemente se le cambiara el estado
                             $.post('/api/tiposbungalow/eliminar',
                                     {idTipoBungalow: idTipoBungalow},
                                     function (response) {

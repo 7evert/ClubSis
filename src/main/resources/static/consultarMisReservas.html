@@ -61,6 +61,8 @@
         .centered2 {
             margin-right: 510px;
         }
+
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
 <body ng-controller="BungalowController">
@@ -357,6 +359,15 @@
         rowNum: 20,
         pager: "#jqGridPager",
         loadComplete: function () {
+
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                if (rowData['estado'] == "CANCELADA") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                }
+            }
+
             $('.icono-ver').click(function () {
                 var idBungalow = $(this).attr('data-idReserva-ver');
                 rowData = $("#jqGrid").jqGrid('getRowData', idBungalow);
@@ -443,6 +454,7 @@
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
+        //console.log(idBungalow);
         acciones = '<a href="javascript:void(0)" class="btn btn-warning icono-ver" data-idReserva-ver="' + rowdata['id'] + '" title="Ver Reserva"><img src="img/Iconos/ver.png" class="icono"></a>'+
                 '<a href="javascript:void(0)" class="btn btn-warning icono-facturaion" data-idReserva-Facturacion="' + rowdata['id'] + '" title="Facturación"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idReserva-eliminar="' + rowdata['id'] + '" title="Eliminar Reserva"><img src="img/Iconos/eliminar.png" class="icono"></a>';
