@@ -202,7 +202,9 @@
                     for(var i=0;i<lista.length;i++){
                         id=lista[i].getAttribute("value");
                         if(id!="all" && lista[i].checked){
-                            deshabilitarEvento(i);
+                            deshabilitarEvento(id);
+                            var boton=$("#"+id).find(".botonesAcciones").find("button[value='Suspender']");
+                            $(boton).remove();
                             lista[i].checked=false;
                             $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
                                 console.log("se deshabilito el evento "+data.nombre);
@@ -215,6 +217,7 @@
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
+                    var boton=event.target;
                     dataevento = $.grep(DATAEVENTOS, function (e) {
                         return e.id == getID(event.target);
                     })[0];
@@ -223,6 +226,7 @@
                     console.log(JSON.stringify(dataevento));
                     $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
                         deshabilitarEvento(data.id);
+                        $(boton).remove();
                         console.log(data);
                     });
                 }
@@ -276,7 +280,7 @@
         <div>
             <h3>
                 ADMINISTRACIÓN DE EVENTOS
-                <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 830px;">Añadir
+                <a href="registrarEvento.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 830px;">Añadir
                     Evento</a>
                 <a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Regresar</a>
             </h3>
@@ -373,8 +377,8 @@
                             <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"-->
                                <!--style="visibility: visible">Eliminar</a>-->
                             <!--style="visibility: hidden">Eliminar</a>-->
-                            <a href="javascript:void(0)" class="btn btn-primary" id="Buscar">Limpiar</a>
-                            <a href="javascript:void(0)" class="btn btn-primary" id="Limpiar">Buscar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="Limpiar">Limpiar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="Buscar">Buscar</a>
                         </div>
                     </div>
                     <!--<div class="col-sm-7 col-lg-7">-->
