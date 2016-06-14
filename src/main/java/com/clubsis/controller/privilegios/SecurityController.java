@@ -22,5 +22,5 @@ public class SecurityController {
     public List<Integer> obtenerRol(@RequestBody String cadena){
         return servicioRol.obtenerValores(cadena);
     }
-    
+
 }
