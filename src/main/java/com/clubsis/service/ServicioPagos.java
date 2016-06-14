@@ -218,7 +218,7 @@ public class ServicioPagos {
         return cuotaExtraordinariaRepository.saveAndFlush(cuota);
     }
 
-    //TODO: Agregar Observaciones 
+    //TODO: Agregar Observaciones
 
     //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
     @Scheduled(cron="0 0 0 1 * ?")// primer dia de cada mes
