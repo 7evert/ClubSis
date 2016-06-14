@@ -31,7 +31,7 @@ public class Permiso {
     public Permiso(String nombre, String descripcion, Integer valor, Set<Rol> roles) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.valor = valor;
+        this.setValor(valor);
         this.roles = roles;
     }
 
@@ -65,5 +65,13 @@ public class Permiso {
 
     public void setRoles(Set<Rol> roles) {
         this.roles = roles;
+    }
+
+    public Integer getValor() {
+        return valor;
+    }
+
+    public void setValor(Integer valor) {
+        this.valor = valor;
     }
 }

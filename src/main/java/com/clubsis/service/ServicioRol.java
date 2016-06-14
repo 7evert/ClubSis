@@ -24,7 +24,7 @@ public class ServicioRol {
     @Autowired
     private PermisoRepository permisoRepository;
 
-    private Permiso perExistente;
+    private Permiso perExistente; // QUE ES ESTO
 
     public Rol buscarRol(Integer id) {return rolRepository.findOne(id);}
 
@@ -40,7 +40,15 @@ public class ServicioRol {
     }
 
     public List<Integer> obtenerValores(String cadena){
-
+        String[] palabras = cadena.split("-");
+        List<Integer> respuesta= new ArrayList<>();
+        List<Permiso> permisos= permisoRepository.findAll();
+        for(int i=1; i < palabras.length;i++){
+            for(Permiso item:permisos){
+               if( item.getNombre()==palabras[0] && item.getDescripcion()==palabras[i])
+                   respuesta.add(item.getValor());
+            }
+        }
         return null;
     }
 
