@@ -5,7 +5,8 @@ $(function() {
     $('#formulario-login').submit(function(event) {
         event.preventDefault();
         alert("Estoy submiteando");
-        var datos = 'username=' + $('#username').val() + '&password=' + $('#password').val() + '&submit=Login';
+        //var datos = $('#formulario-login').serialize();
+        var datos = 'username=' + $('#username').val() + '&password=' + $('#password').val();
         console.log(datos);
         $.ajax({
             data: datos,

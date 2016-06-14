@@ -42,7 +42,7 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/", "/index.html").permitAll()
                 .anyRequest().authenticated()
-                .and()
+                .and().httpBasic().and()
             .exceptionHandling()
                 // poner un authenticationEntryPoint causa que ya no se redirija automáticamente a la página del login
                 .authenticationEntryPoint(new AuthenticationEntryPoint() {
@@ -54,7 +54,7 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
                 .and()
             .formLogin()
                 .loginPage("/mi-login.html")
-                .defaultSuccessUrl("/")
+                //.defaultSuccessUrl("/")
                 .permitAll()
                 .successHandler(new SimpleUrlAuthenticationSuccessHandler() {
                     @Override
