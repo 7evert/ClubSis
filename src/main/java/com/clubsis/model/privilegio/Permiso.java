@@ -18,6 +18,7 @@ public class Permiso {
     private Integer id;
     private String nombre;
     private String descripcion;
+    private Integer valor;
 
     @ManyToMany(mappedBy = "permisos")
     @JsonIgnore
@@ -27,9 +28,10 @@ public class Permiso {
     protected Permiso() {
     }
 
-    public Permiso(String nombre, String descripcion, Set<Rol> roles) {
+    public Permiso(String nombre, String descripcion, Integer valor, Set<Rol> roles) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.valor = valor;
         this.roles = roles;
     }
 
