@@ -22,8 +22,6 @@ import java.io.IOException;
  * Created by Sebastian on 13-Jun-16.
  */
 
-// Basado en http://www.codesandnotes.be/2014/10/31/restful-authentication-using-spring-security-on-spring-boot-and-jquery-as-a-web-client/
-
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
@@ -37,10 +35,10 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-                .antMatchers("/common/**").permitAll()
+                /*.antMatchers("/common/**").permitAll()
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/", "/index.html").permitAll()
+                .antMatchers("/", "/index.html").permitAll()*/
                 .anyRequest().authenticated()
                 .and().httpBasic().and()
             .exceptionHandling()
@@ -53,7 +51,6 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
                 })
                 .and()
             .formLogin()
-                .loginPage("/mi-login.html")
                 //.defaultSuccessUrl("/")
                 .permitAll()
                 .successHandler(new SimpleUrlAuthenticationSuccessHandler() {
