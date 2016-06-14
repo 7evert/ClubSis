@@ -4,6 +4,8 @@
     <!--<div id="head"></div>-->
     <meta charset="UTF-8">
     <title>ClubSis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
@@ -12,6 +14,16 @@
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
+        .icono {
+            width: 18px;
+        }
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+        }
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
             background: #008D34;
         }
@@ -31,8 +43,8 @@
             border-color: #ededed;
         }
 
-        .icono{
-            width: 19px;
+        .   {
+            width: 20px;
         }
 
         h4{
@@ -50,26 +62,110 @@
             margin-bottom: 10px;
         }
     </style>
+
+    <script type="text/javascript">
+        var datosUrl;
+    </script>
+
+    <script type="text/javascript">
+
+        var appHistorialPagos = angular.module('appHistorialPagos', []);
+        var idSocio;
+        appHistorialPagos.controller('PagoController', function ($scope, $http) {
+            $http.get('/api/pagos').then(function (respuesta) {
+                //datosUrl=respuesta.data;
+                //Hasta tener el id del socio logeado se usara el 1
+
+                idSocio=1;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.socio.id == idSocio;
+                });
+                $("#jqGrid").jqGrid({
+
+                    data: datosUrl,
+                    mtype: "GET",
+                    styleUI : 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        { label: 'Codigo Pago', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Tipo pago', name: 'tipoPago', align: 'center', width: 100 },
+                        { label: 'Importe (S/.)', name: 'montoTotal', align: 'center', width: 150 },
+                        { label: 'Estado', name: 'estadoPago', align: 'center', width: 100 },
+                        { label:'Fecha Vencimiento', name: 'fechaVencimiento', align: 'center', width: 100 },
+                        { label:'Fecha Pago', name: 'fechaPago', align: 'center', width: 100 },
+                        { label:'Fecha Anulacion', name: 'fechaAnulacion', align: 'center', width: 100 },
+                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: "auto",
+                    width: 900,
+                    rowNum: 10,
+                    pager: "#jqGridPager"
+                });
+            })
+            $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+                //datosUrl=respuesta.data;
+                //Hasta tener el id del socio logeado se usara el 1
+                idSocio=1;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.socio.id == idSocio;
+                });
+                $("#jqGrid1").jqGrid({
+
+                    data: datosUrl,
+                    mtype: "GET",
+                    styleUI : 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        { label: 'Codigo Cuota', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Nombre', name: 'nombre', align: 'center', width: 100 },
+                        { label: 'Descripcion', name: 'descripcion', align: 'center', width: 100 },
+                        { label: 'Importe (S/.)', name: 'monto', align: 'center', width: 150 },
+                        { label: 'Estado', name: 'estadoCuotaExtraordinaria', align: 'center', width: 100 },
+                        { label:'Fecha Inicio', name: 'fechaInicio', align: 'center', width: 100 },
+                        { label:'Fecha Fin', name: 'fechaFin', align: 'center', width: 100 },
+                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: "auto",
+                    width: 900,
+                    rowNum: 10,
+                    pager: "#jqGridPager1"
+                });
+            })
+        });
+    </script>
 </head>
 <body>
 <div id="headerUsuario"></div>
-<div class="container">
+<div class="container" ng-app="appHistorialPagos" ng-controller="PagoController">
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
-    <h3>HISTORIAL DE PAGOS</h3>
+    <h2>Historial de pagos</h2>
     <hr>
-    <h4>BOLETAS DE PAGOS</h4>
+    <h4>PAGOS DE SERVICIOS</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>
         <br>
-        <div class="leyenda">
-            <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Pago
+        <!--<div class="leyenda">-->
+            <!--<span>Leyenda: </span>-->
+            <!--<span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Pago-->
+        <!--</div>-->
+    <h4>PAGOS EXTRAORDINARIOS</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid1"></table>
+            <div id="jqGridPager1"></div>
         </div>
-    </form>
+        <br>
 </div>
 <div id="footer"></div>
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -79,31 +175,6 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="js/principal.js"></script>
 <script type="text/javascript">
-
-    $("#jqGrid").jqGrid({
-        url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-        mtype: "GET",
-        styleUI : 'Bootstrap',
-        datatype: "jsonp",
-        gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
-        colModel: [
-            { label: 'idCuota', name: 'idCuota', key: true, hidden: true, width: 75},
-            { label: 'Número', name: 'OrderID', align: 'center', width: 150 },
-            { label: 'Importe', name: 'Freight', align: 'center', width: 150 },
-            { label: 'Estado', name: 'CustomerID', align: 'center', width: 150 },
-            { label:'Fecha Vencimiento', name: 'OrderDate', align: 'center', width: 100 },
-            { label:'Fecha Pago', name: 'OrderDate', align: 'center', width: 100 },
-            { label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
-        ],
-        viewrecords: true,
-        height: 280,
-        rowNum: 10,
-        pager: "#jqGridPager"
-    });
-
-    $('#jqGrid').jqGrid('setGridWidth', '900');
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';

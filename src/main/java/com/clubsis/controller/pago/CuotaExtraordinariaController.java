@@ -25,13 +25,23 @@ public class CuotaExtraordinariaController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public CuotaExtraordinaria create(@RequestBody CuotaExtraordinaria cuota){
-        return servicioPagos.crearCuotaExtraordinaria(cuota);
+    public List<CuotaExtraordinaria> create(@RequestBody CuotaExtraordinaria cuota){
+        return servicioPagos.crearCuotasExtraordinarias(cuota);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public CuotaExtraordinaria update(@PathVariable Integer id, @RequestBody CuotaExtraordinaria cuota){
         return servicioPagos.actualizarCuotaExtraordinaria(id,cuota);
+    }
+
+    @RequestMapping(value = "/{id}/anular", method = RequestMethod.POST)
+    public CuotaExtraordinaria anularCuotaExtraordinaria(@PathVariable Integer id){
+        return servicioPagos.anularCuotaExtraordinaria(id);
+    }
+
+    @RequestMapping(value = "/{id}/pagar", method = RequestMethod.POST)
+    public CuotaExtraordinaria pagarCuotaExtraordinaria(@PathVariable Integer id){
+        return servicioPagos.pagarCuotaExtraordinaria(id);
     }
 
 }

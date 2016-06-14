@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app2">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Añadir Horario Nuevo</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var idacademia = 0;
+        var idciclo = 0;
+
+        //        function getID() {
+        //            var href = this.location.href;
+        //            var str = href.match(/\?id\=(\d+)/);
+        //            return str ? str[1] : str;
+        //        }
+
+        function getIDSocioYEvento() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)&idClase\=(\d+)&idAcademia\=(\d+)/);
+            return str ? [str[1], str[2], str[3]] : undefined;
+        }
+
+        function mostraridEvento(id){
+            $("#idEvento").html("Evento Numero "+id);
+        }
+        function mostrarNombre(nombre){
+            $("#nombre").html(nombre);
+        }
+        Date.prototype.ddmmyyyy = function() {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = this.getDate().toString();
+            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
+        };
+        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
+            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
+            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
+            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
+            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
+        }
+        function mostrarTarifas(tarifas){
+            var b=new Array();
+            var tarifasul=$("#tarifas");
+            for(var i=0;i<tarifas.length;i++)
+                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
+            for(var j=0;j<b.length;j++)
+                tarifasul.append(b[j]);
+        }
+        function mostrarRegYDescripcion(reglamento, descripcion){
+            $("#reglamento").html("Reglamento: "+reglamento);
+            $("#descripcion").html("Descripcion: <br>"+descripcion);
+        }
+        function mostrarImagen(url){
+            $("#imgEvento").attr({src:url});
+        }
+        function mostrarEstGratYPub(estado,isGratuito,isPublico){
+            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
+        }
+        function mostrarSede(sede){
+            $("#sede").html(sede.nombre);
+        }
+
+    </script>
+    <script type="text/javascript">
+        var idCiclo;
+        var idAcademia;
+
+//        function llenarDatosTaller(data2) {
+//            $("#dia").val(data2.dia);
+//            $("#horaInicio").val(data2.horaInicio);
+//            $("#horaFin").val(data2.horaFin);
+//            $("#estadoHorario").val(data2.estadoHorario);
+//            $("#instalacion").val(data2.instalacion["id"]);
+//
+//            /*
+//             for(var i = 0; i < data2.length; i++){
+//             $("#nivel").val(data2[i].nivel);
+//             $("#rangoEdad").val(data2[i].rangoEdad);
+//             $("#precioMes").val(data2[i].precioMes);
+//             $("#precioCiclo").val(data2[i].precioCiclo);
+//             $("#capacidad").val(data2[i].capacidad);
+//             $("#profesor").val(data2[i].profesor);
+//             $("#estadoProveedor").val(data2.estadoProveedor+0);}
+//             */
+//        }
+        function getDatosTaller(id) {
+            return {
+
+                dia: $("#dia").val(),
+                rangoEdad: $("#rangoEdad").val(),
+                horaInicio: $("#horaInicio").val(),
+                horaFin: $("#horaFin").val(),
+                estadoHorario: $("#estadoHorario").val(),
+                instalacion: {id: $("#instalacion").val()},
+                clase: {id: id}
+            };
+        }
+
+        var app2 = angular.module('app2', []);
+        app2.controller('edicionTallerController', function ($scope, $http) {
+
+            var ids, id, idClac, idAcad;
+            ids = getIDSocioYEvento();
+            id = ids ? ids[0] : ids;
+            idClac = ids ? ids[1] : ids;
+            idAcad = ids ? ids[2] : ids;
+
+            console.log(id);
+            if (id == undefined) {
+                location.href = "VerTaller.html"
+            }
+//            $http.get('/api/horarios/' + id).success(function (data2, status) {
+//                llenarDatosTaller(data2);
+//
+//            });
+
+            $("#guardar").click(function () {
+                var data = getDatosTaller(id);
+                console.log(JSON.stringify(data));
+
+                if(!validarDatos()){
+                    $http.post("/api/horarios", data).success(function (data2, status) {
+                        //alert("Tu actualizacion fue exitosa");
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + idAcad
+                        }, 1000);
+                        //location.href = "administrarProveedores1.html";
+                    }).error(function (data) {
+                        //aca lo que se hara en caso falle
+                        Notificaciones.showError("Error al editar horario");
+                        console.log("fallo");
+                    });
+
+                }
+            });
+            $("#cancelar").click(function () {
+                location.href = "VerTaller.html?id=" + idAcad;
+            });
+
+            function validarDatos() {
+                var dia=$("#dia").val();
+                var horaInicio= $("#horaInicio").val();
+                var horaFin = $("#horaFin").val();
+                var instalacion= $("#instalacion").val();
+
+
+                if(!dia){
+                    console.log($("#dia").val());
+                    Notificaciones.showError('Debe insertar un dia');
+                    $("#dia").css("border-color", "red");
+                    return true;
+                }
+                else if(!horaInicio){
+                    Notificaciones.showError('Se necesita una hora de inicio');
+                    $("#horaInicio").css("border-color", "red");
+                    return true;
+                }
+                else if(!horaFin){
+                    Notificaciones.showError('Se necesita una hora de fin');
+                    $("#horaFin").css("border-color", "red");
+                    return true;
+                }
+                else if(!instalacion){
+                    Notificaciones.showError('Debe ingresar el ID de la instalación');
+                    $("#instalacion").css("border-color", "red");
+                    return true;
+                }
+
+
+
+                return false;
+            }
+            $("#dia").click(function () {
+                $("#dia").css("border-color", "#ccc");
+            });
+            $("#horaInicio").click(function () {
+                $("#horaInicio").css("border-color", "#ccc");
+            });
+            $("#horaFin").click(function () {
+                $("#horaFin").css("border-color", "#ccc");
+            });
+            $("#instalacion").click(function () {
+                $("#instalacion").css("border-color", "#ccc");
+            });
+
+        });
+    </script>
+</head>
+<body ng-controller="edicionTallerController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <h2>Agregar Nuevo Horario</h2>
+    <hr>
+    <form id="formEditarDatosTaller" class="form-horizontal mitadDerecha">
+        <div id="HorarioDia" class="form-group">
+            <label class="control-label col-xs-4">Día<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="dia" type="text" class="form-control col-xs-8" maxlength="20" placeholder="Escriba el día..." required/>
+            </div>
+        </div>
+        <div id="HoraInicioHorario" class="form-group">
+            <label class="control-label col-xs-4">Hora Inicio<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="horaInicio" type="time" class="form-control col-xs-8" maxlength="30" ng-model="ruc" placeholder="Escriba la hora de inicio..."required/>
+            </div>
+        </div>
+        <div id="HoraFinHorario" class="form-group">
+            <label class="control-label col-xs-4">Hora Fin<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="horaFin" type="time" class="form-control col-xs-8" maxlength="30" placeholder="Ingrese la hora de fin..." required/>
+            </div>
+        </div>
+        <div id="InstalacionHorario" class="form-group">
+            <label class="control-label col-xs-4">ID Instalación<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="instalacion" type="text" class="form-control col-xs-8" maxlength="5" placeholder="Ingrese el codigo de la instalacion..." required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="estadoHorario" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
+            <div class="col-md-8">
+                <select class="form-control" id="estadoHorario"  required>
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-10">
+                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
+                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%" >
+            </div>
+        </div>
+    </form>
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>

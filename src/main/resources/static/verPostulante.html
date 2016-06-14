@@ -64,7 +64,7 @@
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
     <div>
         <h3>
-            REGISTRO DE SOLICITUD DE POSTULANTE AL CLUB
+            INFORMACIÓN DEL POSTULANTE AL CLUB
         </h3>
     </div>
     <hr>
@@ -76,11 +76,11 @@
                 <div class="form-group">
                     <label for="tipoDocumento" class="col-md-5 control-label">Tipo de Documento</label>
                     <div class="col-md-6">
-                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDocumento">
+                        <select class="form-control" id="tipoDocumento" ng-model="postulantes.tipoDoc">
                             <option value="-1" ng-selected="selected">Elegir</option>
                             <option value="DNI">DNI</option>
-                            <option value="Pasaporte">Pasaporte</option>
-                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                            <option value="PASAPORTE">Pasaporte</option>
+                            <option value="CARNET">Carnet de extranjería</option>
                         </select>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label for="numeroDocumento" class="col-md-4 control-label">N° de Documento</label>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" ng-model="postulantes.numeroDocumento" id="numeroDocumento"
+                        <input type="text" class="form-control" ng-model="postulantes.numDoc" id="numeroDocumento"
                                placeholder="Numero de documento">
                     </div>
                 </div>
@@ -156,7 +156,7 @@
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="telefonoCasa" class="col-md-5 control-label">Telefono de casa</label>
+                    <label for="telefonoCasa" class="col-md-5 control-label">Teléfono de casa</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="postulantes.telefonoCasa" id="telefonoCasa"
                                placeholder="Numero de teléfono de casa">
@@ -174,7 +174,7 @@
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="form-group">
-                    <label for="telefonoTrabajo" class="col-md-5 control-label">Telefono de trabajo</label>
+                    <label for="telefonoTrabajo" class="col-md-5 control-label">Teléfono de trabajo</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" ng-model="postulantes.telefonoTrabajo" id="telefonoTrabajo"
                                placeholder="Numero de teléfono de trabajo">
@@ -234,6 +234,42 @@
                     <a href="mantenimientoPostulante.html" class="btn btn-primary" id="btnCancelar" style="margin-left: 50px;">Cancelar</a>
                 </div>
             </div>
+<!------------------------------------ -->
+            <div id="observaciones">
+                <div class="col-sm-12 col-lg-12">
+                    <h3>Observaciones de Otros socios:</h3>
+                </div>
+                <!--<div class="col-sm-6 col-lg-5">
+                    <div class="form-group">
+                        <label for="opinion1" class="col-md-4 control-label">Código de Socio:</label>
+                        <div class="col-md-7">
+                            <label type="text" class="control-label" id="opinion1">
+                                Be that girl wathc dancig w¡queeen <br>
+                                holiday..... hey sooooo i cna<br>
+                                some come us the best<br>
+                                the never secaond never lasts wake me up one september ends<br>
+                                when my fathers .... seven years then wake me up....
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="opinion2" class="col-md-5 control-label">Código de Socio:</label>
+                        <div class="col-md-6">
+                            <label type="text" class="control-label" id="opinion2">
+                                wake me up when september ends.....<br>
+                                yoyoyo ..... the last second never last ....<br>
+                                beteria........<br>
+                                ring the angels bells again....<br>
+                                as my memories the never focus what i last... wake me up <br>
+                                when september ends....
+                            </label>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+<!------------------------------------ -->
         </div>
     </form>
 </div>
@@ -245,6 +281,7 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
@@ -257,6 +294,23 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script type="text/javascript">
+    function crearObservaciones(nro,nombre,data){
+        var index=(nro+1)%2;
+        var lengs=[[5,6],[[4,7],[5,6]]];
+        var form=$("<div>").attr({"class":"form-group"});
+        var observaciones=$("<div>").attr({
+            "class":"col-sm-6 col-lg-"+lengs[0][index]//6 5
+        }).append(form);
+        var b=new Array();
+        b[0]=$("<label>").attr({"for":"opinion"+nro,"class":"col-md-"+lengs[1][index][0]+" control-label"}).html(nombre);//4 7
+        b[1]=$("<div>").attr({"class":"col-md-"+lengs[1][index][1]}).append($("<label>").attr({"type":"text","class":"control-label","id":"opinion"+nro}).html(data));
+        for(var j=0;j<b.length;j++)
+            form.append(b[j]);
+        $("#observaciones").append(observaciones);
+        return observaciones;
+    }
+</script>
+<script type="text/javascript">
     $(".date-picker").datepicker();
 
     var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
@@ -267,12 +321,28 @@
         $scope.postulantes = [];
         //Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
         $http.get('/api/postulantes/' + idPostulante).success(function (data) {
+            console.log(data);
             $scope.postulantes = data;
             var fecha = $scope.postulantes.fechaNacimiento;
             var dia = fecha.split("-");
             fechaNacimiento = dia[2].split(' ')[0] + '/' + dia[1] + '/' + dia[0];
             console.log(fechaNacimiento);
             $scope.postulantes.fechaNacimiento = fechaNacimiento;
+        });
+        $http.get('api/sociopostulantes/'+idPostulante+'/retornar').success(function(observaciones){
+            $http.get('api/sociopostulantes/'+idPostulante+'/socios').success(function(socios){
+                var actual=0;
+                for(var i=0;i<socios.length;i++) {
+                    $http.get('/api/socios/' + socios[i].id + '/personas').success(function (dataPersonas) {
+                        var socio=socios[actual];var observacion=observaciones[actual];
+                        var dataTitular = $.grep(dataPersonas, function (e) {
+                            return e.id == (e.esTitular == true);
+                        })[0];
+                        actual++;
+                        crearObservaciones(actual, dataTitular?(dataTitular.nombre+" "+dataTitular.apellidoPaterno):("Socio "+socio.codigoCarnet), observacion);
+                    });
+                }
+            });
         });
     });
     //como estamos en el ver Postulante dissableamos todos los campos posibles

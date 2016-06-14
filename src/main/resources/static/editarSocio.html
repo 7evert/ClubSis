@@ -17,7 +17,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
+    <script src="js/Notificaciones.js"></script>
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <style>
@@ -29,6 +29,9 @@
             padding-top: 2px;
             padding-bottom: 2px;
             margin-top: 0px;
+        }
+        .obligatorio {
+            color: #FF0000;
         }
     </style>
     <script type="text/javascript">
@@ -61,7 +64,7 @@
             return true;
         }
         function mostrarMensaje(data) {
-            alert("Se modifica exitosamente");
+            Notificaciones.showNoty("La modificación se realizó satisfactóriamente.");
         }
         function cancelar() {
             location.href = "verSocio.html?idSocio=" + getID();
@@ -79,18 +82,20 @@
 
                     funciones.modificarSocio = function () {
                         verificarDatos();
+                        var f=null;
+                        if($("#fechaInscripcion").value) {
+                            var from = $("#fechaInscripcion").value.split("/");
+                            f = new Date(from[2], from[1] - 1, from[0]);
+                        }
                         var dataSocio = {
                             "id": $("#codigoSocio").val(),
                             "estado": $("#estado").val(),
                             "codigoCarnet": $("#codigocarnet").val(),
-                            "fechaInscripcion": Date.parse($("#fechaInscripcion").val()),
-                            "tipo": {
-                                "id": parseInt($("#tipoMembresia").val())
-                            }
+                            "fechaInscripcion":f
                         };
                         console.log('/api/socios/' + getID() + '/actualizar');
                         console.log(JSON.stringify(dataSocio));
-                        $http.put('/api/socios/' + getID() + '/actualizar', dataSocio).success(function (data) {
+                        $http.post('/api/socios/' + getID() + '/' + parseInt($("#tipoMembresia").val()) +'/actualizar', dataSocio).success(function (data) {
                             mostrarMensaje(data);
                             location.href = "verSocio.html?idSocio=" + getID();
                         });
@@ -114,7 +119,7 @@
     <form class="form-horizontal">
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="codigoSocio" class="col-md-5 control-label">Código de Socio</label>
+                <label for="codigoSocio" class="col-md-5 control-label">Código del Socio<span class="obligatorio">*</span></label>
                 <div class="col-md-6">
                     <input id="codigoSocio" disabled class="form-control">
                     </input>
@@ -123,7 +128,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="estado" class="col-md-4 control-label">Estado</label>
+                <label for="estado" class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>
                 <div class="col-md-7">
                     <select id="estado" class="form-control">
                         <option value="SUSPENDIDO">SUSPENDIDO</option>
@@ -134,7 +139,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label for="codigocarnet" class="col-md-5 control-label">Codigo Carnet</label>
+                <label for="codigocarnet" class="col-md-5 control-label">Codigo Carnet<span class="obligatorio">*</span></label>
                 <div class="col-md-6">
                     <input id="codigocarnet" disabled class="form-control"/>
                 </div>
@@ -142,7 +147,7 @@
         </div>
         <div class="col-sm-6 col-lg-5">
             <div class="form-group">
-                <label for="tipoMembresia" class="col-md-4 control-label">Tipo de Membresia</label>
+                <label for="tipoMembresia" class="col-md-4 control-label">Membresia<span class="obligatorio">*</span></label>
                 <div class="col-md-7">
                     <select id="tipoMembresia" class="form-control">
                     </select>
@@ -151,7 +156,7 @@
         </div>
         <div class="col-sm-6 col-lg-6">
             <div class="form-group">
-                <label class="control-label col-md-5">Inicio</label>
+                <label class="control-label col-md-5">Fecha de Registro<span class="obligatorio">*</span></label>
                 <div class="col-md-6">
                     <input id="fechaInscripcion" disabled class="form-control"/>
                 </div>
@@ -159,7 +164,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
+                <span class="obligatorio" style="margin-left: 260px;">(<span class="obligatorio">*</span>) Estos campos son obligatorios.</span>
             </div>
         </div>
 
@@ -184,6 +189,12 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
 <script src="js/principal.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();

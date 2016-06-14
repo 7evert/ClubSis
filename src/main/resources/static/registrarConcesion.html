@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Registrar Proveedor</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body ng-controller="ConcesionController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <h2>Registrar Concesión</h2>
+    <hr>
+    <form id="formRegistrarConcesiones" class="form-horizontal mitadDerecha">
+        <div id="RazonSocial" class="form-group">
+            <label class="control-label col-xs-4">Razón Social<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="razon" type="text" class="form-control col-xs-8" ng-model="razon" maxlength="50" placeholder="Escriba el nombre..." required/>
+            </div>
+        </div>
+        <div id="RUC" class="form-group">
+            <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="11" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Escriba el RUC..." required/>
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: -15px;">
+            <label for="fechaInicio" class="col-md-4 control-label">Inicio Concesión<span class="obligatorio">*</span></label>
+            <div class="input-group input-append date col-md-8">
+                <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6" placeholder="dd / mm / yyyy"/>
+                <label for="fechaInicio" class="input-group-addon btn"><span
+                        class="glyphicon glyphicon-calendar"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: -15px;">
+            <label for="fechaFin" class="col-md-4 control-label">Fin Concesión<span class="obligatorio">*</span></label>
+            <div class="input-group input-append date col-md-8">
+                <input ng-model=fechaFin id="fechaFin" type="text" class="date-picker form-control col-xs-6" placeholder="dd / mm / yyyy"/>
+                <label for="fechaFin" class="input-group-addon btn"><span
+                        class="glyphicon glyphicon-calendar"></span>
+                </label>
+            </div>
+        </div>
+        <div id="Servicio" class="form-group">
+            <label class="control-label col-xs-4">Servicio<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <textarea id="servi" rows="5" class="form-control col-xs-8" ng-model="servicio" placeholder="Por ejemplo: Alimentos y Bebidas..." required/></textarea>
+            </div>
+        </div>
+        <div id="Nombre de Administrador" class="form-group" style="margin-left:-15px;">
+            <label class="control-label col-xs-4">Nombre de administrador<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="admin" type="text" class="form-control col-xs-8" ng-model="admin" placeholder="Ingrese el nombre del administrador..." required/>
+            </div>
+        </div>
+        <div id="numContacto" class="form-group">
+            <label class="control-label col-xs-4">Número de Contacto<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <input id="telefono" type="text" class="form-control col-xs-8" ng-model="numContacto" maxlength="9" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  placeholder="Ingrese número de contacto..." required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="estadoConcesion" class="control-label col-xs-4">Estado<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <select class="form-control" id="estadoConcesion">
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 168px;">(*) Estos campos son obligatorios</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-8 col-xs-8">
+                <input type="button" id="btnRegistrar" value="Guardar" class="btn btn-primary" style="width:25%"/>
+                <input type="button" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarConcesiones.html';"/>
+                <!input type="submit" value="Cancelar" class="btn btn-primary" style="width:25%" onclick="location.href= 'administrarProveedores.html';"/>
+            </div>
+        </div>
+
+    </form>
+
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+    $('#fechaInicio').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+    $('#fechaFin').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+    var app = angular.module('app', []);
+    app.controller('ConcesionController', function ($scope, $http) {
+
+        $("#btnRegistrar").click(function () {
+            $scope.registrarConcesion = function () {
+                var fechaInicio="";
+                var fechaFin="";
+
+                function convertirFecha(fecha) {
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    return mes + '/' + dia + '/' + anho;
+                }
+                if($("#fechaInicio").val() != "") {
+                    console.log($("#fechaInicio").val());
+                    fechaInicio = convertirFecha($("#fechaInicio").val());
+                    console.log(fechaInicio);
+                }
+                if($("#fechaFin").val() != "") {
+                    fechaFin = convertirFecha($("#fechaFin").val());
+                }
+                var data = {
+                    'razonSocial': $scope.razon,
+                    'ruc': $scope.ruc,
+                    //'fechaInicio':fechaInicio,
+                    //'fechaVencimiento':fechaFin,
+                    'servicios': $("#servi").val(),
+                    'telefono': $("#telefono").val(),
+                    'administrador': $("#admin").val(),
+                    'estadoConcesion':$("#estadoConcesion").val()
+                };
+
+                if(!validarDatos()) {
+                    console.log(data);
+                    $http.post('/api/concesiones', data).success(function (data) {
+                                Notificaciones.showProcesando();
+                                Notificaciones.hideAll();
+                                setTimeout(function () {
+                                    location.href = "administrarConcesiones.html"
+                                }, 1000);
+                            })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al registrar concesión");
+                            });
+                }
+            }();
+        });
+
+        function validarDatos() {
+            var nombre=$scope.razon;
+            var ruc= $scope.ruc;
+            var fechaInicio =  $("#fechaInicio").val();
+            var fechaFin =  $("#fechaFin").val();
+            var servicio = $("#servi").val();
+            var numContacto= $("#telefono").val();
+            var admin = $("#admin").val();
+            var estadoProveedor =$("#estadoProveedor").val();
+
+            if(!nombre){
+                Notificaciones.showError('Razón Social requerida');
+                $("#razon").css("border-color", "red");
+                return true;
+            }
+            else if(!ruc){
+                Notificaciones.showError('RUC requerido');
+                $("#numRUC").css("border-color", "red");
+                return true;
+            }
+            else if(!fechaInicio) {
+                Notificaciones.showError('Fecha de inicio de la concesión requerida');
+                $("#fechaInicio").css("border-color", "red");
+                return true;
+            }
+            else if(!fechaFin){
+                Notificaciones.showError('Fecha de fin de la concesión requerida');
+                $("#fechaFin").css("border-color", "red");
+                return true;
+            }
+            else if(!servicio){
+                Notificaciones.showError('Servicio de la concesión requerido');
+                $("#servi").css("border-color", "red");
+                return true;
+            }
+            else if(!admin){
+                Notificaciones.showError('Nombre del administrador requerido');
+                $("#admin").css("border-color", "red");
+                return true;
+            }
+            else if(!numContacto){
+                Notificaciones.showError('Número de contacto requerido');
+                $("#telefono").css("border-color", "red");
+                return true;
+            }
+
+
+            return false;
+        }
+
+        $("#razon").click(function () {
+            $("#razon").css("border-color", "#ccc");
+        });
+        $("#numRUC").click(function () {
+            $("#numRUC").css("border-color", "#ccc");
+        });
+        $("#fechaInicio").click(function () {
+            $("#fechaInicio").css("border-color", "#ccc");
+        });
+        $("#fechaFin").click(function () {
+            $("#fechaFin").css("border-color", "#ccc");
+        });
+        $("#servicio").click(function () {
+            $("#servicio").css("border-color", "#ccc");
+        });
+        $("#telefono").click(function () {
+            $("#telefono").css("border-color", "#ccc");
+        });
+        $("#admin").click(function () {
+            $("#admin").css("border-color", "#ccc");
+        });
+    });
+    //    });
+</script>
+</body>
+</html>

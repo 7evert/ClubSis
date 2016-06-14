@@ -22,6 +22,11 @@
             color: azure;
             background-color: #008D34;
         }
+
+        .center .ui-jqgrid {
+            width: 1100px; margin-left: auto; margin-right: auto;
+        }
+
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
@@ -49,6 +54,16 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
+
     </style>
 </head>
 <body ng-controller="AcademiaController">
@@ -61,7 +76,26 @@
         var id = event.target.parentNode.getAttribute("data-idTaller-eliminar");
         console.log("Accion:");
         console.log(id);
-        funciones.eliminar(id);
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea inhabilitar el taller?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    funciones.eliminar(id);
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
     }
 </script>
 
@@ -79,9 +113,7 @@
             //    api/tarifaeventos
             //DATAEVENTOS=data;//eso deberia ser pero como no tengo link
             console.log(data);
-
         })
-
         funciones.eliminar=(function (id) {
             console.log("Quieres eliminar?");
             //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
@@ -90,8 +122,11 @@
                 console.log(data2);
                 data2.estadoAcademia = 0;
                 $http.put("/api/academias/" + id, data2).success(function (data3, status) {
-                    alert("Este academia ya no esta habilitado");
-                    location.href = "administrarTalleres2.html";
+                    setTimeout(function () {
+                        location.href = "administrarTalleres2.html"
+                    }, 1000);
+//                    alert("Este academia ya no esta habilitado");
+//                    location.href = "administrarTalleres2.html";
                 });
             });
         })
@@ -113,43 +148,43 @@
     <!--<h4>CONSULTA DE TALLERES</h4>-->
 
     <!--<form class="form-horizontal">-->
-        <!--<div class="row">-->
+    <!--<div class="row">-->
 
 
 
-            <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+    <!--<div class="col-sm-6 col-lg-5">-->
+    <!--<div class="form-group">-->
+    <!--<label for="nombre" class="col-md-4 control-label">Nombre</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="text" class="form-control" id="nombre" placeholder="Nombre del taller...">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
 
 
-            <!--<div class="col-sm-7 col-lg-7">-->
-            <!--</div>-->
-            <!--<div class="col-sm-5 col-lg-5">-->
-                <!--<div class="form-group" style="margin-left: 110px;">-->
-                    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
-                    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <h4>LISTA DE TALLERES</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
-            <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
-        </div>
-        <br>
-        <div class="leyenda">
-            <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
-            <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
-            <!--|-->
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
-        </div>
+    <!--<div class="col-sm-7 col-lg-7">-->
+    <!--</div>-->
+    <!--<div class="col-sm-5 col-lg-5">-->
+    <!--<div class="form-group" style="margin-left: 110px;">-->
+    <!--<a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>-->
+    <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <h4>LISTA DE TALLERES</h4>
+    <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br>
+    <div class="leyenda">
+        <span>Leyenda: </span>
+        <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Taller|
+        <!--<span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Taller-->
+        <!--|-->
+        <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Taller
+    </div>
     </form>
 </div>
 <br>
@@ -162,9 +197,14 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
-
     $("#jqGrid").jqGrid({
         url: '/api/academias',
         mtype: "GET",
@@ -172,7 +212,7 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Nombre','Descripcion','Estado','Acciones'], //define column names
+        colNames:['Número','Nombre','Descripción','Estado','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'nombre', index:'nombre', width:100},
@@ -185,13 +225,21 @@
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
-            console.log("salio");
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoAcademia'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+            //console.log("salio");
         }
+//        loadComplete:function(){
+//            console.log("salio");
+//        }
     });
-
     $('#jqGrid').jqGrid('setGridWidth', '900');
-
-
     $.extend(true, $.jgrid.edit, {
         recreateForm: true,
         beforeShowForm: function ($form) {
@@ -202,16 +250,12 @@
             });
         }
     });
-
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-
         acciones = '<a href="#" onclick="edicionTaller();return false;" id="bt1" class="btn btn-warning" data-idTaller-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
                 '<a href="#" onclick="accionEliminar();return false;" id="bt2"  class="btn btn-warning" data-idTaller-eliminar="' + rowdata['id'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
-
     }
-
     jQuery("#bt1").click( function() {
         jQuery("#jqGrid").jqGrid('editRow',"13");
         console.log(data);

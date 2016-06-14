@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -59,6 +60,11 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
     <script type="text/javascript">
         const INHABILITADO = "INHABILITADO";
@@ -84,25 +90,38 @@
         }
         var funciones = {};
 
+        function actualizarGrilla(id,sede){//#jqGrid
+            if(sede)
+                $(id).jqGrid('setRowData', sede.id, sede);
+            jQuery("#jqGrid").trigger('reloadGrid');
+            var rowIds = $(id).jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estado'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+        }
     </script>
     <script type="text/javascript">
         function mostrarMensaje(message) {
-            alert(message);
+            Notificaciones.showError(message);
         }
         function verificarDatos() {
-            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres",
-                "Direccion debe tener entre 1 y 100 caracteres",
-                "Telefono debe tener entre 7 a 15 caracteres",
-                "Descripcion debe tener entre 1 y 255 caracteres",
-                "Administrador debe tener entre 8 y 100 caracteres",
-                "Telefono solo puede tener numeros, *, # y -"
-            ]
+            var mensajes = ["Nombre debe tener entre 1 y 50 caracteres.",
+                "Dirección debe tener entre 1 y 100 caracteres.",
+                "Teléfono debe tener entre 7 a 15 caracteres",
+                "Descripción debe tener entre 1 y 255 caracteres.",
+                "Nombre del administrador debe tener entre 8 y 100 caracteres.",
+                "Teléfono solo puede tener numeros, *, # y -"
+            ];//descripcion telefono y adminsitrador
             var ver = [];
             ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
             ver[1] = $("#direccion").val().length > 0 && $("#direccion").val().length < 100;
-            ver[2] = $("#telefono").val().length >= 7 && $("#telefono").val().length <= 15;
-            ver[3] = $("#descripcion").val().length > 0 && $("#descripcion").val().length < 255;
-            ver[4] = $("#administrador").val().length > 8 && $("#administrador").val().length < 100;
+            ver[2] = ($("#telefono").val()=="") || ($("#telefono").val().length >= 7 && $("#telefono").val().length <= 15);
+            ver[3] = ($("#descripcion").val()=="") || ($("#descripcion").val().length > 0 && $("#descripcion").val().length < 255);
+            ver[4] = ($("#administrador").val()=="") || ($("#administrador").val().length > 7 && $("#administrador").val().length < 100);
             ver[5] = $("#telefono").val().match(/[^0-9*#-]/) == null;
             for (var i = 0; i < ver.length; i++)
                 if (ver[i] == false) {
@@ -118,8 +137,14 @@
                 $http.get('/api/sedes/').success(function (data) {
                     for (var i = 0; i < data.length; i++)
                         if (data[i].id == idSede) {
-                            console.log("SedeObtuvida: " + data[i]);
-                            //mostrarSede(data[i]);
+                            funciones.idSedeVer=idSede;
+                            console.log("SedeObtenida: " + data[i]);
+                            llenarDatosEnLabels(data[i]);
+                            $("select.form-control, input.form-control").attr("disabled", true);
+                            $("#registrar").addClass("hidden");
+                            $("#limpiar").addClass("hidden");
+                            $("#modificar").addClass("hidden");
+                            $("#cancelar").removeClass("hidden");
                             break;
                         }
                 });
@@ -131,6 +156,7 @@
                         if (data[i].id == idSede) {
                             console.log("sedeObtuvida: " + data[i]);
                             $("#titulo").html("Modificacion de Sede");
+                            $("select.form-control, input.form-control").attr("disabled", false);
                             $("#registrar").addClass("hidden");
                             $("#limpiar").addClass("hidden");
                             $("#modificar").removeClass("hidden");
@@ -146,7 +172,7 @@
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
@@ -169,11 +195,16 @@
                                     $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
                                         console.log("Inhabilitado: " + dataInhabilitadaSede.nombre);
                                         nroExito++;
+                                        actualizarGrilla("#jqGrid",dataInhabilitadaSede);
+                                        /*
+                                        $('#jqGrid').jqGrid('setRowData', dataInhabilitadaSede.id, dataInhabilitadaSede);
+                                        if (dataInhabilitadaSede['estado'] == "INHABILITADO")
+                                            $("#jqGrid").jqGrid('setRowData', dataInhabilitadaSede.id, false, "myAltRowClassEven");
                                         if(nroExito==selectedIDs.length){
-                                            jQuery("#jqGrid").trigger('reloadGrid');
-                                        }
+                                            //jQuery("#jqGrid").trigger('reloadGrid');
+                                        }*/
                                     }).error(function (data2) {
-                                        mensaje = "No se pudo dehabilitar sede";
+                                        mensaje = "No se pudo dehabilitar sede.";
                                     });
                                     break;
                                 }
@@ -182,15 +213,18 @@
                 }
             });
             $("#cancelar").click(function () {
-                if (funciones.idSedeAModificar) {
+                if (funciones.idSedeAModificar || funciones.idSedeVer) {
                     funciones.idSedeAModificar = undefined;
+                    funciones.idSedeVer=undefined;
                     $("#titulo").html("REGISTRO SEDES");
+                    $("select.form-control, input.form-control").attr("disabled", false);
                     $("#registrar").removeClass("hidden");
                     $("#limpiar").removeClass("hidden");
                     $("#modificar").addClass("hidden");
                     $("#cancelar").addClass("hidden");
                     limpiar();
-                    jQuery("#jqGrid").trigger('reloadGrid');
+                    actualizarGrilla("#jqGrid");
+                    //jQuery("#jqGrid").trigger('reloadGrid');
                 }
             });
 
@@ -207,7 +241,10 @@
                     };
                     $http.put('/api/sedes/' + dataSede.id, dataSede).success(function (datamodificadaSede) {
                         console.log("Modificado: " + datamodificadaSede);
-                        $('#jqGrid').jqGrid('setRowData', datamodificadaSede.id, datamodificadaSede);
+                        actualizarGrilla("#jqGrid",datamodificadaSede);
+                        /*$('#jqGrid').jqGrid('setRowData', datamodificadaSede.id, datamodificadaSede);
+                        if (datamodificadaSede['estado'] == "INHABILITADO")
+                            $("#jqGrid").jqGrid('setRowData', datamodificadaSede.id, false, "myAltRowClassEven");*/
                         /*location.href="administracionSedes.html"*/
                         funciones.idSedeAModificar = undefined;
                         $("#titulo").html("REGISTRO SEDES");
@@ -216,7 +253,7 @@
                         $("#modificar").addClass("hidden");
                         $("#cancelar").addClass("hidden");
                         limpiar();
-                        jQuery("#jqGrid").trigger('reloadGrid');
+                        //jQuery("#jqGrid").trigger('reloadGrid');
                     });
                 }
             });
@@ -236,14 +273,17 @@
                                 "administrador": sede.administrador,
                                 "estado": INHABILITADO
                             };
-                            jQuery("#jqGrid").trigger('reloadGrid');
+                            //jQuery("#jqGrid").trigger('reloadGrid');
                             $http.put('/api/sedes/' + sede.id, dataSede).success(function (dataInhabilitadaSede) {
                                 console.log("Inhabilitado: " + dataInhabilitadaSede);
+                                actualizarGrilla("#jqGrid",dataInhabilitadaSede);
+                                /*$('#jqGrid').jqGrid('setRowData', dataInhabilitadaSede.id, dataInhabilitadaSede);
+                                if (dataInhabilitadaSede['estado'] == "INHABILITADO")
+                                    $("#jqGrid").jqGrid('setRowData', dataInhabilitadaSede.id, false, "myAltRowClassEven");*/
                             });
                             break;
                         }
                 });
-
             };
 
             $http.get('/api/sedes').success(function (data) {
@@ -252,13 +292,14 @@
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.', 'Nombre', 'Direccion', 'Telefono', 'Descripcion', "Acciones"],
+                    colNames: ['Nro.', 'Nombre', 'Dirección', 'Telefóno', 'Descripción', 'Estado',"Acciones"],
                     colModel: [
-                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
-                        {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
-                        {name: 'direccion', index: 'direccion', width: 260, editable: false, align: 'center'},
-                        {name: 'telefono', index: 'telefono', width: 220, editable: false, align: 'center'},
-                        {name: 'descripcion', index: 'descripcion', width: 220, editable: false, align: 'center'},
+                        {name: 'id', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
+                        {name: 'nombre', index: 'Nombre', width: 150, editable: false, align: 'center',sortable:true},
+                        {name: 'direccion', index: 'Dirección', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'telefono', index: 'Teléfono', width: 100, editable: false, align: 'center',sortable:true},
+                        {name: 'descripcion', index: 'Descripción', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'estado', index: 'Estado', width: 120,editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
                     ],
                     multiselect: true
@@ -273,6 +314,15 @@
 
                 for (var i = 0; i < data.length; i++)
                     jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+
+                var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+                for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                    rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                    //set background style if ColumnValue == true
+                    if (rowData['estado'] == "INHABILITADO") {
+                        $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                    } //if
+                }
             });
 
             $("#registrar").click(function () {
@@ -285,15 +335,17 @@
                     "administrador": $("#administrador").val()
                 }
                 $http.post('/api/sedes/', data).success(function (data2, status) {
-                    alert("registro Exitoso de la Sede " + data2.id);
+                    Notificaciones.showNoty("registro Exitoso de la Sede " + data2.id);
                     console.log(data2);
                     limpiar();
                     llenarEngrilla(data2);
-                    jQuery("#jqGrid").trigger('reloadGrid');
+                    actualizarGrilla("#jqGrid");
+                    //jQuery("#jqGrid").trigger('reloadGrid');
                 });
             });
 
             $("#limpiar").click(function () {
+                $("select.form-control, input.form-control").attr("disabled", false);
                 limpiar();
             });
         });
@@ -309,33 +361,33 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="nombre" placeholder="Descripcion de Sede">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre de Sede">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
+                    <label for="direccion" class="col-md-4 control-label">Dirección<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="direccion" placeholder="Direccion de Sede">
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección de Sede">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripción</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
+                        <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <label for="telefono" class="col-md-4 control-label">Teléfono</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="telefono" placeholder="solo numeros">
+                        <input type="text" class="form-control" id="telefono" placeholder="Solo números">
                     </div>
                 </div>
             </div>
@@ -349,7 +401,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Estado</label>
+                    <label class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
                             <option value="HABILITADO">HABILITADO</option>
@@ -359,9 +411,10 @@
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
+                <span class="obligatorio" style="margin-left: 260px;">(*) Estos campos son obligatorios</span>
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 60px;">
+                <div class="form-group" style="margin-left: 95px;">
                     <input id="modificar" class="hidden btn btn-primary" type="" class="btn btn-primary"
                            value="Modificar" style="width:22%">
                     <input id="cancelar" class="hidden btn btn-primary" type="" class="btn btn-primary"
@@ -375,8 +428,15 @@
         <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div class="form-group" style="width:100%;">
-                <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%">
+                <input id="deshabilitar" class="btn btn-primary" type="" class="btn btn-primary" value="Deshabilitar" style="position:relative;left:85%;width:12%;margin-top:10px;">
             </div>
+        </div>
+        <br>
+        <div class="leyenda">
+            <span>Leyenda: </span>
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Mostrar Sede|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Sede|
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Sede
         </div>
     </form>
 </div>
@@ -386,6 +446,11 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
 </body>
 </html>

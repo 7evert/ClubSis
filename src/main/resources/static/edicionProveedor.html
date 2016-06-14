@@ -24,7 +24,52 @@
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
     <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
 
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
     <script type="text/javascript">
         function getID() {
             var href = this.location.href;
@@ -73,12 +118,14 @@
     </script>
     <script type="text/javascript">
         function llenarDatosProveedor(data2) {
+
             $("#nombreProv").val(data2.nombre);
             $("#numRUC").val(data2.ruc);
             $("#descripcion").val(data2.descripcion);
             $("#telefono").val(data2.numContacto);
             $("#direc").val(data2.direccion);
-            $("#estadoProveedor").val(data2.estadoProveedor+0);
+            $("#estadoProveedor").val(data2.estadoProveedor);
+            console.log("Nombre:"+$("#nombreProv").val());
         }
         function getProveedor(id){
             return {
@@ -88,7 +135,7 @@
                 descripcion: $("#descripcion").val(),
                 numContacto: $("#telefono").val(),
                 direccion: $("#direc").val(),
-                estadoProveedor: parseInt($("#estadoProveedor").val())
+                estadoProveedor: $("#estadoProveedor").val()
             };
         }
     </script>
@@ -96,6 +143,8 @@
         var app2 = angular.module('app2', []);
         app2.controller('edicionProveedorController', function ($scope, $http) {
             var id = getID();
+            if(id==undefined)
+                href.location="administrarProveedores1.html";
             console.log(id);
             if(id==undefined){
                 //location.href="administrarProveedores1.html"
@@ -104,17 +153,89 @@
                 llenarDatosProveedor(data2);
             });
             $("#guardar").click(function(){
-
-
                 var data=getProveedor(id);
                 console.log(JSON.stringify(data));
-                $http.put("/api/proveedores/"+data.id, data).success(function (data2, status) {
-                    alert("Tu actualizacion fue exitosa");
-                    location.href = "administrarProveedores1.html";
-                });
+                if(!validarDatos()){
+                    $http.put("/api/proveedores/"+data.id, data).success(function (data2, status) {
+                        //alert("Tu actualizacion fue exitosa");
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "administrarProveedores1.html"
+                        }, 1000);
+                    //location.href = "administrarProveedores1.html";
+                    }).error(function (data) {
+                        //aca lo que se hara en caso falle
+                        Notificaciones.showError("Error al editar proveedor");
+                        console.log("fallo");
+                    });
+
+                }
+
             });
             $("#cancelar").click(function(){
                 location.href = "administrarProveedores1.html";
+            });
+
+            function validarDatos() {
+                var nombre=$("#nombreProv").val();
+                var ruc= $("#numRUC").val();
+                var descripcion = $("#descripcion").val();
+                var numContacto= $("#telefono").val();
+                var direccion = $("#direc").val();
+                var estado=$("#estadoProveedor").val();
+
+                if(!nombre){
+                    console.log($("#nombreProv").val());
+                    console.log(nombre);
+                    console.log("No hay nombre");
+                    Notificaciones.showError('Nombre de proveedor requerido');
+                    $("#nombreProv").css("border-color", "red");
+                    return true;
+                }
+                else if(!ruc){
+                    Notificaciones.showError('RUC requerido');
+                    $("#numRUC").css("border-color", "red");
+                    return true;
+                }
+                else if(!descripcion){
+                    Notificaciones.showError('Descripción del rubro del proveedor requerido');
+                    $("#descripcion").css("border-color", "red");
+                    return true;
+                }
+                else if(!numContacto){
+                    Notificaciones.showError('Número de contacto requerido');
+                    $("#telefono").css("border-color", "red");
+                    return true;
+                }
+                else if(!direccion){
+                    Notificaciones.showError('Dirección requerida');
+                    $("#direc").css("border-color", "red");
+                    return true;
+                }
+                else if(!estado){
+                    Notificaciones.showError('Estado requerido');
+                    $("#estadoProveedor").css("border-color", "red");
+                    return true;
+                }
+
+                return false;
+            }
+
+            $("#nombreProv").click(function () {
+                $("#nombreProv").css("border-color", "#ccc");
+            });
+            $("#numRUC").click(function () {
+                $("#numRUC").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+            $("#telefono").click(function () {
+                $("#telefono").css("border-color", "#ccc");
+            });
+            $("#direc").click(function () {
+                $("#direc").css("border-color", "#ccc");
             });
         });
     </script>
@@ -124,54 +245,57 @@
 <div class="container">
     <!--------------------------------------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------->
-    <h2>Edicion Proveedor</h2>
+    <h2>Edición Proveedor</h2>
     <hr>
         <form id="formEditarProveedor" class="form-horizontal mitadDerecha">
         <div id="NombreProveedor" class="form-group">
-            <label class="control-label col-xs-4">Nombre Proveedor</label>
+            <label class="control-label col-xs-4">Nombre Proveedor<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="nombreProv" type="text" class="form-control col-xs-8" placeholder="Escriba el nombre..." required/>
+                <input id="nombreProv" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Escriba el nombre..." required/>
             </div>
         </div>
         <div id="RUC" class="form-group">
-            <label class="control-label col-xs-4">RUC</label>
+            <label class="control-label col-xs-4">RUC<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" placeholder="Escriba el RUC..."required/>
+                <input id="numRUC" type="text" class="form-control col-xs-8" ng-model="ruc" maxlength="15" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Escriba el RUC..."required/>
             </div>
         </div>
         <div id="Descripcion" class="form-group">
-            <label class="control-label col-xs-4">Descripción</label>
+            <label class="control-label col-xs-4">Descripción<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
                 <textarea id="descripcion" name="Descripcion" rows="5" class="form-control col-xs-8" placeholder="Especifique el rubro..." required/></textarea>
             </div>
         </div>
         <div id="numContacto" class="form-group">
-            <label class="control-label col-xs-4"># Contacto</label>
+            <label class="control-label col-xs-4">Número de Contacto<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" placeholder="Ingrese # de contacto..." required/>
+                <input id="telefono" type="text" class="form-control col-xs-8" maxlength="50" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Ingrese número de contacto..." required/>
             </div>
         </div>
         <div id="Direccion" class="form-group">
-            <label class="control-label col-xs-4">Direccion</label>
+            <label class="control-label col-xs-4">Direccion<span class="obligatorio"> *</span></label>
             <div class="input-group col-xs-8">
-                <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una direccion..." required/>
+                <input id="direc" type="text" class="form-control col-xs-8" placeholder="Ingrese una dirección..." required/>
             </div>
         </div>
         <div class="form-group">
-            <label for="estadoProveedor" class="col-md-4 control-label">Estado</label>
-            <div class="col-md-8">
-                <select class="form-control" id="estadoProveedor" ng-model="estadoProveedor" required>
-                    <option value="0">INHABILITADO</option>
-                    <option value="1">HABILITADO</option>
+            <label for="estadoProveedor" class="control-label col-xs-4">Estado<span class="obligatorio"> *</span></label>
+            <div class="input-group col-xs-8">
+                <select class="form-control" id="estadoProveedor"  required>
+                    <option>INHABILITADO</option>
+                    <option>HABILITADO</option>
                 </select>
             </div>
         </div>
-
-
+            <div class="form-group">
+                <div class="col-md-12">
+                    <span class="obligatorio" style="margin-left: 168px;">(*) Estos campos son obligatorios</span>
+                </div>
+            </div>
         <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-10">
-                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:22%" >
-                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:22%" >
+            <div class="col-xs-offset-8 col-xs-8">
+                <input id="guardar" type="" class="btn btn-primary" value="Guardar" style="width:25%" >
+                <input id="cancelar" type="" class="btn btn-primary" value="Cancelar" style="width:25%" >
             </div>
         </div>
     </form>
@@ -182,7 +306,13 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>

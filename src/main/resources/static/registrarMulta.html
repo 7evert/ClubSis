@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <title>Title</title>
+    <style type="text/css">
+        h4{
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr{
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+    <script type="text/javascript">
+        $('.number').keypress(function(event) {
+            if (event.which != 46 && (event.which < 47 || event.which > 59))
+            {
+                event.preventDefault();
+                if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
+                    event.preventDefault();
+                }
+            }
+        });
+        function verificarDatos(){
+            var nombre=$("#nombre").val();;
+            var descripcion = $("#descripcion").val();;
+            var monto= $("#monto").val();;
+
+            if(!nombre){
+                Notificaciones.showError('Nombre de multa requerido');
+                $("#nombre").css("border-color", "red");
+                return true;
+            }
+            else if(!descripcion){
+                Notificaciones.showError('Descripción de multa requerido');
+                $("#descripcion").css("border-color", "red");
+                return true;
+            }
+            else if(!monto){
+                Notificaciones.showError('Monto de la multa requerido');
+                $("#monto").css("border-color", "red");
+                if(parseFloat(monto)<0){
+                    Notificaciones.showError('Monto de la multa inválido');
+                }
+                return true;
+            }
+            return false;
+        }
+
+        </script>
+    <script type="text/javascript">
+        var appMultas = angular.module('appMultas', []);
+        var socioResp,persona;
+        appMultas.controller('MultaController', function ($scope, $http) {
+            $scope.registrarMulta =function (){
+                if(verificarDatos())return;
+                var data = {
+                    //por preguntar
+                    "nombre": $scope.ngNombre,
+                    "descripcion": $scope.descripcion,
+                    "costo": parseFloat($scope.monto)
+                };
+
+                $http.post('/api/multas', data).success(function (data2 ) {
+                    //happy end
+                    //$scope.PostDataResponse = data;
+                    console.log(JSON.stringify(data2));
+                    Notificaciones.showNoty("Tu registro de nueva multa se realizó exitosamente.", Notificaciones.type.SUCCESS);
+                    setTimeout(function () {
+                        location.href = "registrarMulta.html"
+                    }, 1200);
+                })
+                        .error(function (data2) {
+                            console.log(JSON.stringify(data2));
+                            Notificaciones.showError("No se pudo registrar la multa.");
+                        });
+            };
+            $("#nombre").click(function () {
+                $("#nombre").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
+            });
+            $("#monto").click(function () {
+                $("#monto").css("border-color", "#ccc");
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container" ng-app="appMultas" ng-controller="MultaController">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <h2>Penalidades</h2>
+    <hr>
+    <h4>REGISTRO DE MULTA</h4>
+    {{hola}}
+    <form class="form-horizontal col-sm-7 col-sm-offset-1" role="form">
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Nombre Multa<span class="obligatorio">*</span></label>
+            <div class="col-xs-7">
+                <input type="text" id="nombre"  maxlength="50" ng-model="ngNombre" placeholder="Nombre de la multa" class="form-control "/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Descripcion<span class="obligatorio">*</span></label>
+            <div class="col-xs-7">
+                <input type="text" id="descripcion" maxlength="50" ng-model="descripcion" placeholder="Descripcion" class="form-control "/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">Monto<span class="obligatorio">*</span></label>
+            <div class="col-xs-7">
+                <input type="text" id="monto" ng-model="monto" placeholder="" class="number form-control"/>
+            </div>
+        </div>
+        <div class="col-sm-5 col-lg-5">
+        </div>
+        <div class="col-sm-5 col-lg-5" style="margin-left: 100px;">
+            <button ng-click="registrarMulta()" class="btn btn-primary">Registrar</button>
+            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script src="js/principal.js"></script>
+</body>
+</html>

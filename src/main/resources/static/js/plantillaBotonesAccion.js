@@ -40,13 +40,15 @@ function agregarBotonesAListas(accionesXElemento,funciones,tipoUsuario){
      */
     for(var i=0;i<divBotones.length;i++)
         for (var j = 0; j < nroAcciones; j++) {
-            var b = $('<button>').attr({
-                /*type: 'submit',*/
-                tabindex:"3",
-                value:accionesXElemento[tipoUsuario][j],
-                class:"btn btn-primary rght-box accionLista"
-            }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
-            b[0].onclick=funciones[j];
+            if((accionesXElemento[tipoUsuario][j]!="Suspender")|| (accionesXElemento[tipoUsuario][j]=="Suspender" && divBotones[i].parentElement.getAttribute("estado")!="INHABILITADO")){
+                var b = $('<button>').attr({
+                    /*type: 'submit',*/
+                    tabindex: "3",
+                    value: accionesXElemento[tipoUsuario][j],
+                    class: "btn btn-primary rght-box accionLista"
+                }).html(accionesXElemento[tipoUsuario][j]).appendTo(divBotones[i]);
+                b[0].onclick = funciones[j];
+            }
         }
 }
 function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
@@ -54,8 +56,8 @@ function agregarBotonAgregar(accionAgregar,agregar,tipoUsuario){
         var b=$('<span>').attr({
             class: 'pull-right',
             id:'accionAgregar',
-            style:'width:108px;'
-        }).append('<input tabindex="3" value="Registrar" class="btn btn-primary rght-box accionLista" style="width:108px;">').appendTo("#topMostrar");
+            style:'width:90px;'
+        }).append('<a tabindex="3" value=\"'+accionAgregar[tipoUsuario]+'\" class="btn btn-primary rght-box accionLista" style="style:width:100px;margin-right:60px;"> Suspender</a>').appendTo("#topMostrar");
         b[0].onclick=agregar;
     }
 }

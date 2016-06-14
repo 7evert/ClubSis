@@ -1,9 +1,11 @@
 package com.clubsis.controller.sede;
 
 
+import com.clubsis.model.sede.EstadoInstalacion;
 import com.clubsis.model.sede.Instalacion;
 import com.clubsis.service.ServicioInstalacion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +38,32 @@ public class InstalacionController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Instalacion update(@PathVariable Integer id, @RequestBody Instalacion instalacion) {
         return servicioInstalacion.actualizarInstalacion(id, instalacion);
+    }
+    @RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+    public Integer eliminarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
+        Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
+        instalacion.setEsActivo(Boolean.FALSE);
+        servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
+        return 1;
+    }
+    @RequestMapping(value = "/habilitar", method = RequestMethod.POST)
+    public Integer habilitarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
+        Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
+        instalacion.setEstado(EstadoInstalacion.Habilitado);
+        servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
+        return 1;
+    }
+    @RequestMapping(value = "/inhabilitar", method = RequestMethod.POST)
+    public Integer inhabilitarInstalacion(Model model, @RequestParam(value = "id") Integer idInstalacion) {
+        Instalacion instalacion = servicioInstalacion.buscarInstalaciones(idInstalacion);
+        instalacion.setEstado(EstadoInstalacion.Inhabilitado);
+        servicioInstalacion.actualizarInstalacion(idInstalacion,instalacion);
+        return 1;
+    }
+
+    @RequestMapping(value = "/getEstadoInstalacion", method = RequestMethod.GET)
+    public EstadoInstalacion[] getEstadoInstalacion() {
+        return servicioInstalacion.getEstadoInstalacion();
     }
 
 

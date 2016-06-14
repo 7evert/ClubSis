@@ -1,13 +1,10 @@
 package com.clubsis.model.persona;
 
-import com.clubsis.model.club.Usuario;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import sun.util.PreHashedMap;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -26,22 +23,22 @@ public class Socio {
     private Date fechaInscripcion;
     private EstadoSocio estado;
     //@Column(columnDefinition = "integer auto_increment")
-    private Integer codigoCarnet;
+    private String codigoCarnet;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Invitado> invitados =new HashSet<Invitado>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "socio")
+    @JsonIgnore
     private Set<Persona> personas =new HashSet<Persona>();
 
     @JsonIgnore
-    @OneToMany(mappedBy="id.socio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Socio_Postulante> postulantes=new HashSet<Socio_Postulante>();
+    @OneToMany(mappedBy="socio",fetch = FetchType.EAGER)
+    private Set<SocioPostulante> postulantes=new HashSet<SocioPostulante>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
     private Set<Pago> pagos =new HashSet<Pago>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "socio")
@@ -56,17 +53,13 @@ public class Socio {
     @JsonIgnore
     private Set<ReservaInstalacion> reservasInstalacion = new HashSet<>();
 
-    @OneToMany(mappedBy = "socio")
-    @JsonIgnore
-    private Set<PagoMembresia> pagosMembresia = new HashSet<>();
-
     @ManyToOne
     private TipoSocio tipo;
 
     protected Socio() {
     }
 
-    public Socio(Date fechaInscripcion, EstadoSocio estado, Integer codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<Socio_Postulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, Set<PagoMembresia> pagosMembresia, TipoSocio tipo) {
+    public Socio(Date fechaInscripcion, EstadoSocio estado, String codigoCarnet, Set<Invitado> invitados, Set<Persona> personas, Set<SocioPostulante> postulantes, Set<Pago> pagos, Set<CuotaExtraordinaria> cuotasExtraordinarias, Set<Suspension> suspensiones, Set<ReservaInstalacion> reservasInstalacion, TipoSocio tipo) {
         this.fechaInscripcion = fechaInscripcion;
         this.estado = estado;
         this.codigoCarnet = codigoCarnet;
@@ -77,7 +70,6 @@ public class Socio {
         this.cuotasExtraordinarias = cuotasExtraordinarias;
         this.suspensiones = suspensiones;
         this.reservasInstalacion = reservasInstalacion;
-        this.pagosMembresia = pagosMembresia;
         this.tipo = tipo;
     }
 
@@ -105,11 +97,11 @@ public class Socio {
         this.estado = estado;
     }
 
-    public Integer getCodigoCarnet() {
+    public String getCodigoCarnet() {
         return codigoCarnet;
     }
 
-    public void setCodigoCarnet(Integer codigoCarnet) {
+    public void setCodigoCarnet(String codigoCarnet) {
         this.codigoCarnet = codigoCarnet;
     }
 
@@ -129,11 +121,11 @@ public class Socio {
         this.personas = personas;
     }
 
-    public Set<Socio_Postulante> getPostulantes() {
+    public Set<SocioPostulante> getPostulantes() {
         return postulantes;
     }
 
-    public void setPostulantes(Set<Socio_Postulante> postulantes) {
+    public void setPostulantes(Set<SocioPostulante> postulantes) {
         this.postulantes = postulantes;
     }
 
@@ -167,14 +159,6 @@ public class Socio {
 
     public void setReservasInstalacion(Set<ReservaInstalacion> reservasInstalacion) {
         this.reservasInstalacion = reservasInstalacion;
-    }
-
-    public Set<PagoMembresia> getPagosMembresia() {
-        return pagosMembresia;
-    }
-
-    public void setPagosMembresia(Set<PagoMembresia> pagosMembresia) {
-        this.pagosMembresia = pagosMembresia;
     }
 
     public TipoSocio getTipo() {

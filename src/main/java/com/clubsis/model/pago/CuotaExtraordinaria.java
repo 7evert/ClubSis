@@ -23,12 +23,11 @@ public class CuotaExtraordinaria {
     private String nombre;
     private String descripcion;
     private Double monto;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaInicio;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date fechaFin;
-    private Boolean isActivo;
-    private EstadoCuotaExtraordinaria estadoCuotaExtraordinaria; // no habrá isActivo
+    private EstadoCuotaExtraordinaria estadoCuotaExtraordinaria;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
@@ -39,13 +38,12 @@ public class CuotaExtraordinaria {
     protected CuotaExtraordinaria() {
     }
 
-    public CuotaExtraordinaria(String nombre, String descripcion, Double monto, Date fechaInicio, Date fechaFin, Boolean isActivo, EstadoCuotaExtraordinaria estadoCuotaExtraordinaria, Socio socio, Club club) {
+    public CuotaExtraordinaria(String nombre, String descripcion, Double monto, Date fechaInicio, Date fechaFin, EstadoCuotaExtraordinaria estadoCuotaExtraordinaria, Socio socio, Club club) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.monto = monto;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.isActivo = isActivo;
         this.estadoCuotaExtraordinaria = estadoCuotaExtraordinaria;
         this.socio = socio;
         this.club = club;
@@ -97,14 +95,6 @@ public class CuotaExtraordinaria {
 
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public Boolean getActivo() {
-        return isActivo;
-    }
-
-    public void setActivo(Boolean activo) {
-        isActivo = activo;
     }
 
     public EstadoCuotaExtraordinaria getEstadoCuotaExtraordinaria() {

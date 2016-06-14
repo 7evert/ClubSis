@@ -2,26 +2,21 @@ package com.clubsis.service;
 
 import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
-import com.clubsis.model.evento.Evento;
 import com.clubsis.model.pago.CuotaExtraordinaria;
 import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.clubsis.repository.club.UsuarioRepository;
-import com.clubsis.repository.pago.PagoMembresiaRepository;
 import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.RegistrationBean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Blitz on 18/05/2016.
@@ -35,9 +30,6 @@ public class ServicioMembresias {
     private PostulanteRepository postulanteRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private SocioRepository socioRepository;
 
     @Autowired
@@ -45,9 +37,6 @@ public class ServicioMembresias {
 
     @Autowired
     private TipoSocioRepository tipoSocioRepository ;
-
-    @Autowired
-    private PagoMembresiaRepository pagoMembresiaRepository;
 
     //Persona
     public List<Persona> mostrarPersonas(){ return personaRepository.findAll(); }
@@ -64,16 +53,6 @@ public class ServicioMembresias {
     public void eliminarPersona(Integer id){
         personaRepository.delete(id);
     }
-    //Usuario
-    public List<Usuario> mostrarUsuarios(){ return usuarioRepository.findAll(); }
-    public Usuario buscarUsuario(Integer id) {return usuarioRepository.findOne(id);}
-    public Usuario crearUsuario(Usuario usuario) {return usuarioRepository.saveAndFlush(usuario);}
-
-    public Usuario actualizarUsuario(Integer id, Usuario usuario){
-        Usuario usuarioExistente =usuarioRepository.findOne(id);
-        BeanUtils.copyProperties(usuario,usuarioExistente);
-        return usuarioRepository.saveAndFlush(usuarioExistente);
-    }
 
 
     //Socio
@@ -83,19 +62,18 @@ public class ServicioMembresias {
         return socioRepository.saveAndFlush(socio);
     }
 
-    public Socio actualizarSocio(Integer id, Socio socio){
+    /*comitea*/
+    public Socio actualizarSocio(Integer id, Integer idTipo, Socio socio){
         Socio socioExistente= socioRepository.findOne(id);
-        BeanUtils.copyProperties(socio,socioExistente);
+        TipoSocio tipo = tipoSocioRepository.findOne(idTipo);
+        socioExistente.setTipo(tipo);
+        socioExistente.setFechaInscripcion(socio.getFechaInscripcion());
+        socioExistente.setCodigoCarnet(socio.getCodigoCarnet());
+        socioExistente.setEstado(socio.getEstado());
         return socioRepository.saveAndFlush(socioExistente);
     }
 
-    public List<Socio> buscarSocioPorCodigo(String codigo){
-        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "jpa" );
-        EntityManager entitymanager = emfactory.createEntityManager();
-        Query query = entitymanager.createQuery("Select e " + "from Socio e " + "where e.codigoCarnet= " + codigo);
-        List<Socio> list = (List<Socio>)query.getResultList();
-        return list;
-    }
+
     //Tipo Socio
     public List<TipoSocio> mostrarTiposSocios(){return tipoSocioRepository.findAll();}
     public TipoSocio buscarTipoSocio(Integer id) {return  tipoSocioRepository.findOne(id);}
@@ -111,10 +89,6 @@ public class ServicioMembresias {
     public List<Suspension> mostrarSuspensiones(){return suspensionRepository.findAll();}
     public Suspension buscarSuspension(Integer id) {return suspensionRepository.findOne(id);}
     public Suspension crearSuspension(Suspension suspension){
-        //Solo la suspension muestra al socio
-        //Socio nuevoSocio = socioRepository.findOne(suspension.getSocio().getId());
-        //nuevoSocio.getSuspensiones().add(suspension);
-        //socioRepository.saveAndFlush(nuevoSocio);
         return suspensionRepository.saveAndFlush(suspension);
     }
 
@@ -126,11 +100,12 @@ public class ServicioMembresias {
 
     //MEMBRESIA
 
-    public TipoSocio seleccionarTipoSocio(double ingreso){
+    public TipoSocio seleccionarTipoSocio(){
         List<TipoSocio> tiposSocio = tipoSocioRepository.findAll();
         TipoSocio resultado=null;
         for(TipoSocio item: tiposSocio){
-            if(item.getIngresoMinimo()<=ingreso) resultado=item;
+            System.out.print(item.getNombre());
+            if(item.getNombre().equals("NORMAL")) resultado=item; //Tipo membresia por defecto
         }
         return resultado;
     }
@@ -140,18 +115,19 @@ public class ServicioMembresias {
         Persona nuevaPersona = new Persona(
                 postulanteExistente.getNombre(),postulanteExistente.getApellidoPaterno(),postulanteExistente.getApellidoMaterno(),
                 postulanteExistente.getFechaNacimiento(),postulanteExistente.getDireccion(),postulanteExistente.getCorreo(),
-                postulanteExistente.getNumeroDocumento(), "",Boolean.TRUE,null,null,null,
+                postulanteExistente.getTipoDoc(),postulanteExistente.getNumDoc(), postulanteExistente.getCelular(),Boolean.TRUE,null,null,null,
                 new HashSet<RegistroClase>());
         return nuevaPersona;
     }
 
     public Socio socioMembresia(Postulante postulanteExistente){
-        TipoSocio tipo = seleccionarTipoSocio(postulanteExistente.getIngresosMensuales());
+        TipoSocio tipo = seleccionarTipoSocio();
+        String codigoCarnet= UUID.randomUUID().toString().replaceAll("-", "");
         Socio nuevoSocio = new Socio(
-                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO,postulanteExistente.getId(),new HashSet<Invitado>()
-                ,new HashSet<Persona>(),new HashSet<Socio_Postulante>(),new HashSet<Pago>()
+                postulanteExistente.getFechaPostulacion(),EstadoSocio.ACTIVO, codigoCarnet.substring(0,12),new HashSet<Invitado>()
+                ,new HashSet<Persona>(),new HashSet<SocioPostulante>(),new HashSet<Pago>()
                 ,new HashSet<CuotaExtraordinaria>(),new HashSet<Suspension>(),
-                new HashSet<ReservaInstalacion>(),new HashSet<PagoMembresia>(),tipo);
+                new HashSet<ReservaInstalacion>(),tipo);
         return nuevoSocio;
     }
 
@@ -164,13 +140,18 @@ public class ServicioMembresias {
         Socio nuevoSocio = socioMembresia(postulanteExistente);
         nuevaPersona.setSocio(socioRepository.saveAndFlush(nuevoSocio));
         personaRepository.saveAndFlush(nuevaPersona);
-        // Solo la persona muestra a que socio esta asociada
-        //nuevoSocio.getPersonas().add(nuevaPersona);
-        //socioRepository.saveAndFlush(nuevoSocio);
         postulanteRepository.saveAndFlush(postulanteExistente);
         return nuevoSocio;
     }
 
-
+    public Persona obtenerSocioPrincipal(Integer idSocio){
+        List<Persona> personas = new ArrayList<>(socioRepository.findOne(idSocio).getPersonas());
+        for(Persona item:personas){
+            if(item.getEsTitular() ){
+                return item;
+            }
+        }
+        return null;
+    }
 
 }

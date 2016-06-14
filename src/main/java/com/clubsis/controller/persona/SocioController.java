@@ -1,18 +1,17 @@
 package com.clubsis.controller.persona;
 
 import com.clubsis.model.pago.Pago;
-import com.clubsis.model.pago.PagoMembresia;
 import com.clubsis.model.persona.*;
+import com.clubsis.model.persona.Persona;
+import com.clubsis.model.persona.Socio;
+import com.clubsis.model.persona.Suspension;
 import com.clubsis.service.ServicioMembresias;
-import org.omg.CORBA.Request;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.RepositoryQuery;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Blitz on 20/05/2016.
@@ -40,12 +39,10 @@ public class SocioController {
         return servicioMembresias.crearSocio(socio);
     }
 
-
-    @RequestMapping(value = "/{id}/actualizar", method = RequestMethod.PUT)
-    public Socio update(@PathVariable Integer id, @RequestBody Socio socio){
-        Socio socioExistente = servicioMembresias.buscarSocio(id);
-        socio.setTipo(socioExistente.getTipo());
-        return servicioMembresias.actualizarSocio(id,socio);
+    /*ahora?*/
+    @RequestMapping(value = "/{id}/{idTipo}/actualizar", method = RequestMethod.POST)
+    public Socio update(@PathVariable Integer id,@PathVariable Integer idTipo, @RequestBody Socio socio){
+        return servicioMembresias.actualizarSocio(id,idTipo,socio);
     }
 
     @RequestMapping(value="/{id}/inhabilitar",method = RequestMethod.PUT)
@@ -56,16 +53,11 @@ public class SocioController {
         socio.setCodigoCarnet(socioExistente.getCodigoCarnet());
         socio.setInvitados(socioExistente.getInvitados());
         socio.setFechaInscripcion(socioExistente.getFechaInscripcion());
-        return servicioMembresias.actualizarSocio(id,socio);
+        return servicioMembresias.actualizarSocio(id,socio.getTipo().getId(),socio);
     }
     @RequestMapping(value = "/{id}/pagos", method = RequestMethod.GET)
     public List<Pago> mostrarPagos(@PathVariable Integer id) {
         return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagos());
-    }
-
-    @RequestMapping(value = "/{id}/pagosMembresia", method = RequestMethod.GET)
-    public List<PagoMembresia> mostrarPagosMembresia(@PathVariable Integer id) {
-        return new ArrayList<>(servicioMembresias.buscarSocio(id).getPagosMembresia());
     }
 
     @RequestMapping(value = "/{id}/suspensiones", method = RequestMethod.GET)
@@ -79,12 +71,18 @@ public class SocioController {
         return personas.get(0);
     }
 
+    @RequestMapping(value = "/{id}/socioPrincipal", method = RequestMethod.GET)
+    public Persona mostrarSocioPrincipal(@PathVariable Integer id) {
+        return servicioMembresias.obtenerSocioPrincipal(id);
+    }
+
     @RequestMapping(value="/{idSocio}/personas",method = RequestMethod.GET)
     public List<Persona> mostrarPersonas(@PathVariable Integer idSocio){
         List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(idSocio).getPersonas());
         return personas;
     }
 
+    @Transactional
     @RequestMapping(value="/{idSocio}/personaasociada",method = RequestMethod.GET)
     public Persona mostrarPersonaAsociada(@PathVariable Integer idSocio){
         List<Persona> personas = new ArrayList<>(servicioMembresias.buscarSocio(idSocio).getPersonas());

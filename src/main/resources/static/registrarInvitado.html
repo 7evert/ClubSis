@@ -11,6 +11,7 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <script src="js/Notificaciones.js"></script>
     <style type="text/css">
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
@@ -41,6 +42,9 @@
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
+        }
+        .obligatorio {
+            color: #FF0000;
         }
     </style>
     <script type="text/javascript">
@@ -87,21 +91,21 @@
         }
 
         function mostrarMensaje(message) {
-            alert(message);
+            Notificaciones.showError(message);
         }
         function verificarDatos() {
             var mensajes = ["Nombre debe tener entre 1 y 50 letras",
                 "Apellido Paterno debe tener entre 1 y 50 letras",
                 "Apellido Materno debe tener entre 1 y 50 letras",
-                "Debe elegir algun tipo de documento",
-                "Numero de Documento debe ser un numero entero entre 8 y 25 numeros"
+                "Debe elegir Tipo de Documento",
+                "Numero de Documento debe ser un numero entero menor a 10 digitos"
             ];
             var ver = [], i = 0;
             ver[i++] = $("#nombre").val().length < 50 && $("#nombre").val().length > 0;
             ver[i++] = $("#apellidoPat").val().length < 50 && $("#apellidoPat").val().length > 0;
             ver[i++] = $("#apellidoMat").val().length < 50 && $("#apellidoMat").val().length > 0;
             ver[i++] = $("#tipoDoc").val() != 0;
-            ver[i++] = ($("#nroDoc").val() % 1 === 0) && parseInt($("#nroDoc").val()) >= 0 && ($("#nroDoc").val() / Math.pow(10, 7) > 1) && ($("#nroDoc").val() / Math.pow(10, 25) < 1);
+            ver[i++] = ($("#nroDoc").val() % 1 === 0) && parseInt($("#nroDoc").val()) >= 0 && ($("#nroDoc").val() / Math.pow(10, 10) < 1);
             /*ver[i++]=isNaN(Date.parse($("#date-picker-TiempoInicio")[0].value))==false;
              ver[i++]=isNaN(Date.parse($("#date-picker-TiempoFin")[0].value))==false;
              ver[i++]=Date.parse($("#date-picker-TiempoInicio")[0].value)<=Date.parse($("#date-picker-TiempoFin")[0].value);*/
@@ -114,7 +118,7 @@
             return true;
         }
         function mensajeAsociado(dataAsociado) {
-            console.log("se asocia correctamente")
+            console.log("El registro del Socio "+dataAsociado.nombre+" fue exitoso");
         }
     </script>
     <script type="text/javascript">
@@ -131,7 +135,7 @@
 
             funciones.eliminarInvitado = function (event, idInvEvento) {
                 $http.delete('/api/invitadoeventos/' + idInvEvento + '/eliminar').success(function (data) {
-                    console.log("eliminado " + idInvEvento);
+                    //console.log("eliminado " + idInvEvento);
                     $('#jqGrid').jqGrid('delRowData', idInvEvento);
                     nroInv--;
                 });
@@ -139,7 +143,7 @@
 
             funciones.eliminarAsociado = function (event, id) {
                 $http.delete('/api/personaeventos/' + id + '/eliminar').success(function (data) {
-                    mostrarMensaje("eliminado Entrada Socio " + id);
+                    //mostrarMensaje("eliminado Entrada Socio " + id);
                     $('#jqGrid1').jqGrid('delRowData', id);
                     nroSocios--;
                 });
@@ -158,8 +162,8 @@
                         if (data3[i].eventos && data3[i].eventos.id == idevento) {
                             for (var j = 0; j < data.length; j++) {
                                 if (data3[i].tarifaeventos.id == data[j].id) {
-                                    $("#tipoTarifa").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre + " -> S/." + data3[i].precio));
-                                    $("#tipoTarifa1").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre + " -> S/." + data3[i].precio));
+                                    $("#tipoTarifa").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre + " - S/." + data3[i].precio));
+                                    $("#tipoTarifa1").append($("<option></option>").attr({value: data[j].nombre}).html(data[j].nombre + " - S/." + data3[i].precio));
                                     tarifasPrecios[data[j].nombre] = data3[i].precio;
                                 }
                             }
@@ -193,7 +197,7 @@
             $http.get('/api/socios/' + idsocio + '/personas').success(function (dataFamiliares) {
                 var elemMiembros = $("#asociado");
                 for (var i = 0; i < dataFamiliares.length; i++)
-                    elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].id + " " + dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
+                    elemMiembros.append($("<option></option>").attr({value: dataFamiliares[i].id}).html(dataFamiliares[i].nombre + " " + dataFamiliares[i].apellidoPaterno));
             });
 
             funciones.obteniendoPersonas = function () {
@@ -207,7 +211,7 @@
                                 id: data3[i].id,
                                 idpersona: data3[i].persona.id,
                                 nombre: data3[i].persona.nombre,
-                                nroDoc: data3[i].persona.numeroDocumento,
+                                nroDoc: data3[i].persona.numDoc,
                                 tarifa: data3[i].tipo,
                                 costo: tarifasPrecios[data3[i].tipo]
                             };
@@ -219,7 +223,7 @@
 
             $("#addGuest").click(function (event) {
                 if (!$("#formAsociado").hasClass("hidden") || $("#formInvitado").hasClass("hidden")) {
-                    mostrarMensaje("El formulario de Invitado debe estar visible");
+                    mostrarMensaje("Presione el boton \"Formulario Invitado\" para agregar los datos de Invitado");
                     return;
                 }
                 $(event.target).prop("disabled", true);
@@ -245,14 +249,14 @@
                     $http.post('/api/invitadoeventos/' + dataInvitado.id + "/" + idevento + "/eventos", data).success(function (datosinvitadoevento, status) {
                         limpiarFormulario();
                         nroInv++;
-                        alert("Se registro al invitado exitosamente");
+                        Notificaciones.showNoty("El registro del invitado fue exitoso");
                         var data = {
                             nro: nroInv,
                             id: datosinvitadoevento.id,
                             nombre: dataInvitado.nombres,
                             nroDoc: dataInvitado.numeroDocumento,
-                            tarifa: dataInvitadoevento.tipo,
-                            costo: tarifasPrecios[dataInvitadoevento.tipo]
+                            tarifa: datosinvitadoevento.tipo,
+                            costo: tarifasPrecios[datosinvitadoevento.tipo]
                         };
                         //console.log(data);
                         jQuery("#jqGrid").addRowData(data.id, data);
@@ -268,8 +272,7 @@
             $("#eliminar").click(function (event) {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
-                if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                if (!rowKey);
                 else {
                     selectedIDs = grid.getGridParam("selarrrow");
                     for (var j = 0; j < selectedIDs.length; j++) {
@@ -277,10 +280,21 @@
                         funciones.eliminarInvitado(event, idInvEvento);
                     }
                 }
+                var grid = $("#jqGrid1");
+                var rowKey = grid.getGridParam("selrow");
+                if (!rowKey)
+                    Notificaciones.showError("Seleccionar en las listas las personas que ya no participaran");
+                else {
+                    selectedIDs = grid.getGridParam("selarrrow");
+                    for (var j = 0; j < selectedIDs.length; j++) {
+                        idInvEvento = selectedIDs[j];
+                        funciones.eliminarAsociado(event, idInvEvento);
+                    }
+                }
             });
 
             $("#terminar").click(function () {
-                location.href = "generarPagoEvento.html?idSocio=" + idsocio + "&idEvento=" + idevento;
+                funciones.terminar();
             });
             $("#cancelar").click(function () {
                 location.href = "MantenimientoEventos.html";
@@ -298,7 +312,7 @@
 
             $("#addSocio").click(function (event) {
                 if (!$("#formInvitado").hasClass("hidden") || $("#formAsociado").hasClass("hidden")) {
-                    mostrarMensaje("El formulario de Asociado debe estar visible");
+                    mostrarMensaje("Presione el boton \"Formulario Asociado\" para agregar a un Asociado");
                     return;
                 }
                 $(event.target).prop("disabled", true);
@@ -332,8 +346,17 @@
                 }).error(function () {
                     $(event.target).prop("disabled", false);
                 });
-
             });
+
+            funciones.terminar=function() {
+                $http.post('/api/eventos/'+idsocio+'/'+idevento+'/costo').success(function (data) {
+                    Notificaciones.showNoty("Tu registro fue exitoso.")
+                    console.log(JSON.stringify(data));
+                    setTimeout(function(){
+                        location.href = "mantenimientoEventos.html";
+                    },1500);
+                });
+            }
         });
     </script>
 </head>
@@ -345,14 +368,17 @@
             <div class="container">
                 <h2 id="Titulo">Registro al Evento</h2>
                 <hr>
-                <input id="mostrarFormInvitado" class="btn btn-primary" value="Formulario Invitado" style="width:20%">
-                <input id="mostrarFormAsociado" class="btn btn-primary" value="Formulario Asociado" style="width:20%">
+                <input id="mostrarFormInvitado" class="btn btn-primary" value="Formulario Invitado" style="width:15%;margin-left:10%;">
+                <input id="mostrarFormAsociado" class="btn btn-primary" value="Formulario Asociado" style="width:15%;">
                 <div class="row">
                     <div>
                         <form class="form-horizontal col-sm-5 col-sm-offset-1" role="form" style="position:relative;top:20px;">
-                            <div id="formInvitado">
+                            <div id="formInvitado"  style="position:relative;top:10px;">
+                                <div>
+                                    <label style="font-size:17pt;">Datos del Invitado</label>
+                                </div>
                                 <div class="form-group">
-                                    <label class="col-xs-5 control-label">Nombre(s)</label>
+                                    <label class="col-xs-5 control-label">Nombre(s)<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
                                         <input id="nombre" type="text" name="nombre" maxlength="30"
                                                autofocus="autofocus"
@@ -361,7 +387,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-5 control-label">Apellido Paterno</label>
+                                    <label class="col-xs-5 control-label">Apellido Paterno<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
                                         <input id="apellidoPat" type="text" name="apellPat" maxlength="30"
                                                autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
@@ -369,7 +395,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-5 control-label">Apellidos Materno</label>
+                                    <label class="col-xs-5 control-label">Apellidos Materno<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
                                         <input id="apellidoMat" type="text" name="apellMat" maxlength="30"
                                                autofocus="autofocus" tabindex="1" autocomplete="off" placeholder=""
@@ -377,13 +403,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-5 control-label">Tipo de Documento</label>
+                                    <label class="col-xs-5 control-label">Tipo de Documento<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
-                                        <select class="form-control" id="tipoDoc" ng-model="postulantes.tipoDocumento">
-                                            <option value="0" ng-selected="selected">Elegir</option>
+                                        <select class="input-group form-control" id="tipoDoc">
+                                            <option value="0">Elegir</option>
                                             <option value="DNI">DNI</option>
-                                            <option value="Pasaporte">Pasaporte</option>
-                                            <option value="Carnet de extranjería">Carnet de extranjería</option>
+                                            <option value="PASAPORTE">Pasaporte</option>
+                                            <option value="CARNET">Carnet de extranjería</option>
                                         </select>
                                     </div>
                                     <!--<div class="col-xs-7">
@@ -394,7 +420,7 @@
                                     </div>-->
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-5 control-label">N° de Documento</label>
+                                    <label class="col-xs-5 control-label">N° de Documento<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
                                         <input id="nroDoc" type="text" name="dni" maxlength="15" autofocus="autofocus"
                                                tabindex="1" autocomplete="off" placeholder=""
@@ -402,13 +428,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-5 control-label">Tipo</label>
+                                    <label class="col-xs-5 control-label">Tipo de Entrada<span class="obligatorio">*</span></label>
                                     <div class="col-xs-7">
-                                        <select class="form-control" id="tipoTarifa">
+                                        <select class="input-group form-control" id="tipoTarifa">
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="position:relative;top:0px;">
+                                    <span class="obligatorio pull-left">(*) Estos campos son obligatorios</span>
+                                    <input id="addGuest" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
+                                </div>
+                                <!--<div class="form-group">
                                     <label class="col-xs-5 control-label">Ingreso Invitado</label>
                                     <div class="col-xs-7">
                                         <select class="form-control" id="ingresoInv">
@@ -416,22 +446,14 @@
                                             <option value="1">Si</option>
                                         </select>
                                     </div>
-                                </div>
-                                <!--
-                                <div class="form-group">
-                                    <label class="col-xs-5 control-label">Confirmar contraseña</label>
-                                    <div class="col-xs-7">
-                                        <input id="password" type="password" name="clave" maxlength="15"
-                                               autofocus="autofocus"
-                                               tabindex="2" placeholder="Password" class="form-control validate[required]"/>
-                                    </div>
                                 </div>-->
-                                <div class="col-xs-offset-5 col-xs-9">
-                                    <input id="addGuest" class="btn btn-primary" value="Añadir" style="width:30%">
-                                </div>
                             </div>
                             <!------------------------------------------------------- -->
-                            <div class="hidden" id="formAsociado" style="position:relative;top:20px;">
+                            <div class="hidden" id="formAsociado" style="position:relative;top:10px;">
+                                <div>
+                                    <label style="font-size:17pt;">Datos del Socio</label>
+                                    <input id="addSocio" class="btn btn-primary pull-right" value="Agregar" style="width:20%">
+                                </div>
                                 <div class="form-group">
                                     <label class="col-xs-5 control-label">Asociado</label>
                                     <div class="col-xs-7">
@@ -446,15 +468,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xs-offset-5 col-xs-9">
+                                <!--<div class="col-xs-offset-5 col-xs-9">
                                     <input id="addSocio" class="btn btn-primary" value="Añadir" style="width:30%">
-                                </div>
+                                </div>-->
                             </div>
 
                             <!---------------------------------- ----------------------------------------------------->
-                            <div align="left" style="position:relative;top:60px;">
-                                <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
-                                <input id="terminar" class="btn btn-primary" value="Confirmar" style="width:30%">
+                            <div align="left" style="position:relative;top:60px;left:15%;">
+                                <input id="terminar" class="btn btn-primary" value="Pagar" style="width:30%">
                                 <input id="cancelar" class="btn btn-primary" value="Eventos" style="width:30%">
                             </div>
                         </form>
@@ -470,6 +491,18 @@
                         <div class="rowchangeg" style="width: 400px; margin-left: auto; margin-right: auto;">
                             <table id="jqGrid"></table>
                             <div id="jqGridPager"></div>
+                        </div>
+                        <br>
+
+                        <br>
+                        <div class="leyenda"style=" margin-left:30px;">
+                            <input id="eliminar" class="btn btn-primary" value="Eliminar" style="width:30%">
+                            <div style="float:right;">
+                                <span>Leyenda: </span>
+                                <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver|
+                                <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar|
+                                <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -492,13 +525,13 @@
         height: 200,
         colNames: ['Nro', 'Id', 'Id Persona', 'Nombre', 'Nro. Doc.', 'Tipo', 'Costo', 'Acciones'],
         colModel: [
-            {name: 'nro', index: 'nro', width: 30, editable: false},
-            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
-            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 10, editable: false},
-            {name: 'nombre', index: 'nombre', width: 150, editable: false},
-            {name: 'nroDoc', index: 'Nro. Doc.', width: 60, editable: false},
-            {name: 'tarifa', index: 'Tipo', width: 60, editable: false},
-            {name: 'costo', index: 'Costo', width: 60, editable: false},
+            {name: 'nro', index: 'nro', width: 30, editable: false, align: 'center'},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false, align: 'center'},
+            {name: 'idpersona', index: 'Id Persona', hidden: true, width: 0, editable: false, align: 'center'},
+            {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+            {name: 'nroDoc', index: 'Nro. Doc.', width: 60, editable: false, align: 'center'},
+            {name: 'tarifa', index: 'Tipo', width: 80, editable: false, align: 'center'},
+            {name: 'costo', index: 'Costo', width: 60, editable: false, align: 'center'},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones1}
         ],
         multiselect: true
@@ -516,12 +549,12 @@
         height: 200,
         colNames: ['Nro', 'Id', 'Nombre', 'Nro. Doc.', 'Tipo', 'Costo', 'Acciones'],
         colModel: [
-            {name: 'nro', index: 'nro', width: 30, editable: false},
-            {name: 'id', index: 'id', hidden: true, width: 10, editable: false},
-            {name: 'nombre', index: 'nombre', width: 150, editable: false},
-            {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false},
-            {name: 'tarifa', index: 'Tipo', width: 60, editable: false},
-            {name: 'costo', index: 'Costo', width: 60, editable: false},
+            {name: 'nro', index: 'nro', width: 30, editable: false, align: 'center'},
+            {name: 'id', index: 'id', hidden: true, width: 10, editable: false, align: 'center'},
+            {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
+            {name: 'nroDoc', index: 'nroDoc', width: 60, editable: false, align: 'center'},
+            {name: 'tarifa', index: 'Tipo', width: 60, editable: false, align: 'center'},
+            {name: 'costo', index: 'Costo', width: 60, editable: false, align: 'center'},
             {name: 'acciones', width: 120, align: 'center', formatter: acciones}
         ],
         multiselect: true
@@ -534,6 +567,12 @@
         return acciones;
     }
 </script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
 <script type="text/javascript">
     $(".date-picker").datepicker();
 </script>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Rol Información</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/principal.js"></script>
+
+</head>
+<body ng-controller="RolController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <form id="formVerRol" class="form-horizontal mitadDerecha">
+
+        <div id="nombreRol" class="form-group">
+            <label class="control-label col-xs-4">Nombre<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <input ng-model="roles.nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Administrador,Responsable de Bungalows,..."/>
+            </div>
+        </div>
+
+        <div id="DescripcionRol" class="form-group">
+            <label class="control-label col-xs-4">Descripción</label>
+            <div class="input-group col-xs-8">
+                <input ng-model="roles.descripcion" id="descripcion" type="text" class="form-control col-xs-8"  placeholder="Descripción" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-10">
+                <a href="MantenimientoRol.html" class="btn btn-primary" id="btnRegresar" style="margin-left: 50px;">Regresar</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="footer"></div>
+<script type="text/javascript">
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
+    var idRol = ruta.substring(ruta.lastIndexOf('=') + 1);
+    console.log(idRol);
+    $(".date-picker").datepicker();
+    var app = angular.module('app', []);
+    app.controller('RolController', function ($scope, $http) {
+        $scope.roles=[];
+        $http.get('/api/roles/'+idRol).success(function (data) {
+            $scope.roles=data;
+        });
+    });
+    $("select, input").attr("disabled", true);
+</script>
+</body>
+</html>

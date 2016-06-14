@@ -6,7 +6,7 @@
     <title>Administrar Talleres</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-ro1ute.min.js"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
@@ -18,20 +18,16 @@
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
-
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
         }
-
         .center .ui-jqgrid {
             width: 1100px; margin-left: auto; margin-right: auto;
         }
-
         .ui-jqgrid-resize-ltr {
             background-color: #008D34;
         }
-
         .btn-warning {
             padding-top: 2px;
             padding-bottom: 2px;
@@ -40,11 +36,9 @@
             background-color: #ededed;
             border-color: #ededed;
         }
-
         .icono {
             width: 19px;
         }
-
         h4 {
             background: #008D34;
             color: white;
@@ -54,71 +48,41 @@
             padding-bottom: 2px;
             margin-top: 0px;
         }
-
         hr {
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 
 
     <script type="text/javascript">
-
         function getID() {
             var href = this.location.href;
             var str = href.match(/\?id\=(\d+)/);
             return str ? str[1] : str;
         }
 
-        function mostraridEvento(id){
-            $("#idEvento").html("Evento Numero "+id);
-        }
-        function mostrarNombre(nombre){
-            $("#nombre").html(nombre);
-        }
-
-        Date.prototype.ddmmyyyy = function() {
-            var yyyy = this.getFullYear().toString();
-            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-            var dd  = this.getDate().toString();
-            return (dd[1]?dd:"0"+dd[0])+ "/"+(mm[1]?mm:"0"+mm[0])+"/"+yyyy ; // padding
-        };
-
-        function mostrarFechas(fechaInicio, fechaFin, fechaInicioInscripcion, fechaFinInscripcion){
-            $("#fechaInicio").html(new Date(fechaInicio).ddmmyyyy());
-            $("#fechaFin").html(new Date(fechaFin).ddmmyyyy());
-            $("#fechaInicioInscripcion").html(new Date(fechaInicioInscripcion).ddmmyyyy());
-            $("#fechaFinInscripcion").html(new Date(fechaFinInscripcion).ddmmyyyy());
-        }
-        function mostrarTarifas(tarifas){
-            var b=new Array();
-            var tarifasul=$("#tarifas");
-            for(var i=0;i<tarifas.length;i++)
-                b[i]=$("<li></li>").html(tarifas[i].nombre + ": S/" + tarifas[i].precio.toFixed(2));
-            for(var j=0;j<b.length;j++)
-                tarifasul.append(b[j]);
-        }
-        function mostrarRegYDescripcion(reglamento, descripcion){
-            $("#reglamento").html("Reglamento: "+reglamento);
-            $("#descripcion").html("Descripcion: <br>"+descripcion);
-        }
-        function mostrarImagen(url){
-            $("#imgEvento").attr({src:url});
-        }
-        function mostrarEstGratYPub(estado,isGratuito,isPublico){
-            $("#estGratYPub").html(estado+" - "+((isPublico)?"Publico":"Privado")+((isGratuito)?" y Gratuito":""));
-        }
-        function mostrarSede(sede){
-            $("#sede").html(sede.nombre);
-        }
     </script>
     <script type="text/javascript">
+        var idAcad = getID();
+        var idcic = 0;
+
         function llenarDatosTaller(data2) {
             $("#nombre").val(data2.nombre);
             //$("#urlFoto").val(data2.urlFoto);
             $("#descripcion").val(data2.descripcion);
             $("#estadoAcademia").val(data2.estadoAcademia);
-
         }
         function getTaller(id){
             return {
@@ -126,35 +90,123 @@
                 nombre: $("#nombre").val(),
                 urlFoto: $("#urlFoto").val(),
                 descripcion: $("#descripcion").val(),
-                estadoAcademia: parseInt($("#estadoAcademia").val())
+                estadoAcademia: $("#estadoAcademia").val()
             };
         }
     </script>
     <script type="text/javascript">
         var app2 = angular.module('app2', []);
+        var funciones={};
         app2.controller('edicionAcademiaController', function ($scope, $http) {
             var id = getID();
             console.log(id);
             if(id==undefined){
-                //location.href="administrarProveedores1.html"
+                location.href="administrarTalleres2.html"
             }
             $http.get('/api/academias/'+id).success(function (data2, status) {
                 console.log(data2);
                 llenarDatosTaller(data2);
             });
 
-            $("#guardar").click(function(){
+            $("#guardar").click(function () {
+                console.log("Entro");
                 var data=getTaller(id);
                 console.log(JSON.stringify(data));
-                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
-                    alert("Tu actualizacion fue exitosa");
-                    location.href = "VerTaller.html?id=" + id;
-                });
+                console.log("Entro 2");
+                if (!validarDatos()) {
+                    $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + id
+                        }, 1000);
+                    })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al academia");
+                                console.log("fallo");
+                            });
+                }
+
             });
-            $("#cancelar").click(function(){
-                location.href = "VerTaller.html";
+            $("#nuevo").click(function(){
+                var data=getTaller(id);
+//                console.log(JSON.stringify(data));
+//                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+//                    alert("Tu actualizacion fue exitosa");
+                location.href = "añadirClase.html?id=" + id;
+            });
+
+            funciones.eliminar=(function (id) {
+                var ref = getID();
+                console.log("Quieres eliminar?");
+                //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+                console.log(id);
+                $http.get('/api/clases/' + id).success(function (data2, status) {
+                    console.log(data2);
+                    data2.estadoClase= 0;
+                    $http.put("/api/clases/" + data2.id, data2).success(function (data3, status) {
+                        //alert("Esta clase ya no esta habilitada");
+                        location.href = "VerTaller.html?id=" + ref;
+
+                    });
+                });
+            })
+
+            funciones.eliminarHorario=(function (id) {
+                var ref = getID();
+                console.log("Quieres eliminar?");
+                //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+                console.log(id);
+                $http.get('/api/horarios/' + id).success(function (data2, status) {
+                    console.log(data2);
+                    data2.estadoHorario= 0;
+                    $http.put("/api/horarios/" + data2.id, data2).success(function (data3, status) {
+                        //alert("Esta clase ya no esta habilitada");
+                        //location.href = "VerTaller.html?id=" + ref;
+                    });
+                });
+                Horarios();
+
+            })
+
+            function validarDatos() {
+                var nombre = $("#nombre").val();
+                var descripcion = $("#descripcion").val();
+                var estadoAcademia = $("#estadoAcademia").val();
+
+                if (!nombre) {
+                    //alert("No hay nombre");
+                    console.log("No hay nombre");
+                    Notificaciones.showError('Nombre de taller requerido');
+                    $("#nombre").css("border-color", "red");
+                    return true;
+                }
+                else if (!descripcion) {
+                    Notificaciones.showError('Descripción del taller requerido');
+                    $("#descripcion").css("border-color", "red");
+                    return true;
+                }
+
+
+                return false;
+            }
+
+            $("#nombre").click(function () {
+                $("#nombre").css("border-color", "#ccc");
+            });
+            $("#descripcion").click(function () {
+                $("#descripcion").css("border-color", "#ccc");
             });
         });
+
+
+
+
+        //            $("#cancelar").click(function(){
+        //                location.href = "VerTaller.html?id=" + id;
+        //            });
+
     </script>
 </head>
 <body ng-controller="edicionAcademiaController">
@@ -163,11 +215,91 @@
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         location.href = "edicionDatosTaller.html?id=" + id;
     }
+
+    function edicionHorario(idAcademia, idclase){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "edicionTaller.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+
+
+    }
+
+    function añadirHorario(idAcademia, idclase){
+        var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
+        location.href = "añadirHorarioClase.html?id=" + id + "&idClase=" + idclase + "&idAcademia=" +idAcademia;
+
+
+    }
+
     function accionEliminar() {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         console.log("Accion:");
         console.log(id);
         funciones.eliminar(id);
+    }
+    function añadirDatosTaller(){
+        var data=getTaller(id);
+//                console.log(JSON.stringify(data));
+//                $http.put("/api/academias/"+data.id, data).success(function (data2, status) {
+//                    alert("Tu actualizacion fue exitosa");
+        location.href = "añadirClase.html?id=" + id;
+    }
+
+
+    function accionInhabilitar() {
+            var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+            console.log("Accion:");
+            console.log(id);
+
+
+            $.noty.closeAll();
+            noty({
+                text: '¿Está seguro de que desea inhabilitar la clase?',
+                type: 'warning',
+                buttons: [
+                    {
+                        addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                        Notificaciones.hideAll();
+                        funciones.eliminar(id);
+                        Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                        $noty.close();
+                    }
+                    },
+                    {
+                        addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                        $noty.close();
+                    }
+                    }
+                ]
+            });
+
+    }
+
+    function accionInhabilitarHorario() {
+        var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
+        console.log("Accion:");
+        console.log(id);
+
+
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea inhabilitar el horario?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    funciones.eliminarHorario(id);
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
     }
 </script>
 <script type="text/javascript">
@@ -177,6 +309,7 @@
 
 <div id="headerAdministrador"></div>
 <div class="container">
+
     <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
     <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
     pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
@@ -187,33 +320,33 @@
         </h3>
     </div>
     <hr>
-    <h4>CONSULTA DE TALLER SELECCIONADO</h4>
+    <h4>EDICIÓN DEL TALLER SELECCIONADO</h4>
 
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombre</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombre<span class="obligatorio"> *</span></label>
                     <div class="col-md-8">
                         <input type="text" id="nombre" class="form-control col-xs-8" ng-model="nombre" placeholder="Escriba el nombre..." required/>
                     </div>
                 </div>
             </div>
             <!--<div class="col-sm-6 col-lg-5">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="urlFoto" class="col-md-4 control-label">URL</label>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<input type="text" id="urlFoto" class="form-control col-xs-8" ng-model="urlFoto" placeholder="Escriba el nombre..." required/>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label for="urlFoto" class="col-md-4 control-label">URL</label>-->
+            <!--<div class="col-md-8">-->
+            <!--<input type="text" id="urlFoto" class="form-control col-xs-8" ng-model="urlFoto" placeholder="Escriba el nombre..." required/>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="estadoAcademia" class="col-md-4 control-label">Estado</label>
+                    <label for="estadoAcademia" class="col-md-4 control-label">Estado<span class="obligatorio"> *</span></label>
                     <div class="col-md-8">
-                        <select class="form-control" ng-model="estadoAcademia" id="estadoAcademia">
-                            <option value="0">INHABILITADO</option>
-                            <option value="1">HABILITADO</option>
+                        <select class="form-control" id="estadoAcademia"  required>
+                            <option>INHABILITADO</option>
+                            <option>HABILITADO</option>
                         </select>
                     </div>
                 </div>
@@ -221,7 +354,7 @@
 
             <div class="col-sm-12 col-lg-10">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+                    <label for="descripcion" class="col-md-2 control-label">Descripción<span class="obligatorio"> *</span></label>
                     <div class="col-md-10">
                         <textarea id="descripcion" ng-model="descripcion" class="form-control" rows="4"></textarea>
                     </div>
@@ -231,38 +364,46 @@
             </div>
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
-                    <a href="javascript:void(0)" class="btn btn-primary" id="guardar">Actualizar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" class="btn btn-primary" id="guardar">Actualizar</a>
                 </div>
             </div>
 
         </div>
-        <h4>DATOS DEL TALLER SELECCIONADO</h4>
+        <h4>CLASES DEL TALLER SELECCIONADO</h4>
 
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>
         <br>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 110px;">
+                <a href="#" onclick="añadirDatosTaller();return false;" class="btn btn-primary" id="nuevo">Agregar Nueva Clase</a>
+            </div>
+        </div>
+        <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+            <span class="icono-reprogramar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Horarios De La Clase|
+            <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Inhabilitar|
+            <span class="icono-resultados"><img src="img/Iconos/añadir.png" class="icono"></span> Añadir Horario
         </div>
         <br>
 
-        <h4>HORARIOS DEL TALLER SELECCIONADO</h4>
-
+        <h4>HORARIOS DE LA CLASE SELECCIONADA</h4>
+        <p>Para poder ver los horarios, seleccione una clase del taller.</p>
+        <br>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid1"></table>
             <div id="jqGridPager1"></div>
         </div>
         <br>
+
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Editar|
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Editar|
+            <span class="icono-resultados"><img src="img/Iconos/modificar.png" class="icono"></span> Inhabilitar
         </div>
     </form>
 </div>
@@ -277,7 +418,25 @@
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
 <script src="js/principal.js"></script>
+
+
+
+
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
+    var idhor = 0;
+    var idcla = 0;
+
+
+//    function idhorario(horario){
+//        idhor = horario;
+//    }
     var id = getID();
     $("#jqGrid").jqGrid({
         url: '/api/infoAcademia/' + id,
@@ -286,175 +445,105 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
+        colNames:['Número','Capacidad','Estado','Nivel', 'Precio Mes', 'Precio Ciclo', 'Profesor', 'Rango Edad','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
             {name:'capacidad', index:'capacidad',width:100},
             {name:'estadoClase', index:'estadoClase', width:100},
             {name:'nivel', index:'nivel', width:100},
-            {name:'precioCiclo', index:'precioCiclo', width:100},
-            {name:'precioMes', index:'precioMes', width:100},
+            {name:'precioCiclo', index:'precioCiclo', width:80},
+            {name:'precioMes', index:'precioMes', width:80},
             {name:'profesor', index:'profesor', width:100},
             {name:'rangoEdad', index:'rangoEdad', width:100},
-            {name: 'acciones', width: 50, align: 'center', formatter: acciones},
+            {name: 'acciones', width: 120, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
         height: 100,
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
-            console.log("salio");
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoClase'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+            //console.log("salio");
         }
     });
-
     $('#jqGrid').jqGrid('setGridWidth', '900');
 
+    function Horarios() {
+        var idclass = event.target.parentNode.getAttribute("data-idEvento-horario");
+        console.log(idclass);
+        idcic = idclass;
+        if (idclass > 0)
+        {idcla = idclass;
+        idcic = idclass;
+        }
+        console.log(idcla);
+        $('#jqGrid1').jqGrid('clearGridData');
+        //jQuery('#jqGrid1').trigger('reloadGrid');
+        $('#jqGrid1').setGridParam({url: '/api/infoClase/' + idcla,page:1});
+        $('#jqGrid1').jqGrid('setGridWidth', '900');
+        jQuery('#jqGrid1').trigger('reloadGrid');
+    }
 
     $("#jqGrid1").jqGrid({
-        url: '/api/infoAcademia/' + id,
+        url: '/api/infoClase/' + idcla,
         mtype: "GET",
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
-        emptyrecords: 'No se encontraron resultados',
-        colNames:['#','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names
+        emptyrecords: 'Si no muestra resultados, por favor seleccione una clase.',
+        colNames:['Número','Día','Estado','Hora Inicio','Hora Fin','Instalación','Acciones'], //define column names
         colModel:[
             {name:'id', index:'id', key: true, width:50},
-            {name:'horarios[dia]', index:'horarios[0].dia', width:100},
+            {name:'dia', index:'dia', width:100},
             {name:'estadoHorario', index:'estadoHorario',width:100},
             {name:'horaInicio', index:'horaInicio', width:100},
             {name:'horaFin', index:'horaFin', width:100},
-            {name:'Ciclo', index:'Ciclo', width:100},
-            {name:'Instalación', index:'Instalación', width:100},
-            {name: 'acciones', width: 50, align: 'center', formatter: acciones2},
+            {name:'instalacion.nombre', index:'instalacion.nombre', width:100},
+            {name: 'acciones', width: 80, align: 'center', formatter: acciones2},
         ],
         viewrecords: true,
-        height: 100,
+        height: 80,
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
-            console.log("salio");
+            var rowIds = $("#jqGrid1").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid1").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoHorario'] == "INHABILITADO") {
+                    $("#jqGrid1").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+            //console.log("salio");
         }
     });
-
     $('#jqGrid1').jqGrid('setGridWidth', '900');
+
+
+
 
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
-
-        acciones = '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones ='<a href="#" onclick="Horarios();return false;" id="bt0"  class="btn btn-warning" data-idEvento-horario="' + rowdata['id'] + '" title="Ver Horarios de clase" ><img src="img/Iconos/ver.png" class="icono" ></a>' +
+                '<a href="#" onclick="edicionDatosTaller();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Clase"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionInhabilitar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Clase" ><img src="img/Iconos/eliminar.png" class="icono" ></a>' +
+        '<a href="#" onclick="añadirHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Añadir Horario"><img src="img/Iconos/añadir.png" class="icono"></a>';
         return acciones;
-
     }
-
     function acciones2(cellValue, options, rowdata, action) {
         var acciones = '';
+        acciones = '<a href="#" onclick="edicionHorario(idAcad, idcic);return false;" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Horario"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#" onclick="accionInhabilitarHorario();return false;"  id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Inhabilitar Horario" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
 
-        acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
-
     }
 </script>
-<!--<script type="text/javascript">-->
-
-<!--//    var app2 = angular.module('app2', []);-->
-<!--//    app2.controller('edicionAcademiaController', function ($scope, $http) {-->
-<!--//        var id = getID();-->
-<!--//        console.log(id);-->
-<!--//        if(id==undefined){-->
-            <!--//location.href="administrarProveedores1.html"-->
-        <!--}-->
-
-
-
-<!--//    $("#jqGrid").jqGrid({-->
-<!--//        url: '/api/infoAcademia/' + id,-->
-<!--//        mtype: "GET",-->
-<!--//        styleUI: 'Bootstrap',-->
-<!--//        datatype: "json",-->
-<!--//        gridview: true,-->
-<!--//        emptyrecords: 'No se encontraron resultados',-->
-        <!--colNames:['Id','Capacidad','Estado','Nivel', 'PrecioMes', 'PrecioCiclo', 'Profesor', 'Rango Edad','Acciones'], //define column names-->
-        <!--colModel:[-->
-            <!--{name:'id', index:'id', key: true, width:50},-->
-            <!--{name:'nombre', index:'nombre', width:100},-->
-            <!--{name:'capacidad', index:'capacidad',width:100},-->
-            <!--{name:'estadoClase', index:'estadoClase', width:100},-->
-            <!--{name:'nivel', index:'nivel', width:100},-->
-            <!--{name:'precioCiclo', index:'precioCiclo', width:100},-->
-            <!--{name:'precioMes', index:'precioMes', width:100},-->
-            <!--{name:'rangoEdad', index:'rangoEdad', width:100},-->
-            <!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
-        <!--],-->
-<!--//        viewrecords: true,-->
-<!--//        height: 300,-->
-<!--//        rowNum: 1000,-->
-<!--//        pager: "#jqGridPager",-->
-<!--//        loadComplete:function(){-->
-<!--//            console.log("salio");-->
-<!--//        }-->
-<!--//    });-->
-<!--//-->
-<!--//    $('#jqGrid').jqGrid('setGridWidth', '900');-->
-
-<!--//    $("#jqGrid1").jqGrid({-->
-<!--//        url: '/api/infoAcademia/' + id,-->
-<!--//        mtype: "GET",-->
-<!--//        styleUI: 'Bootstrap',-->
-<!--//        datatype: "json",-->
-<!--//        gridview: true,-->
-<!--//        emptyrecords: 'No se encontraron resultados',-->
-        <!--colNames:['Id','Dia','Estado','Hora Inicio','Hora Fin','Ciclo' ,'Instalación','Acciones'], //define column names-->
-        <!--colModel:[-->
-            <!--{name:'id', index:'id', key: true, width:50},-->
-            <!--{name:'dia', index:'dia', width:100},-->
-            <!--{name:'estadoHorario', index:'estadoHorario',width:100},-->
-            <!--{name:'horaInicio', index:'horaInicio', width:100},-->
-            <!--{name:'horaFin', index:'horaFin', width:100},-->
-            <!--{name:'Ciclo', index:'Ciclo', width:100},-->
-            <!--{name:'Instalación', index:'Instalación', width:100},-->
-            <!--{name: 'acciones', width: 50, align: 'center', formatter: acciones},-->
-        <!--],-->
-<!--//        viewrecords: true,-->
-<!--//        height: 300,-->
-<!--//        rowNum: 1000,-->
-<!--//        pager: "#jqGridPager",-->
-<!--//        loadComplete:function(){-->
-<!--//            console.log("salio");-->
-<!--//        }-->
-<!--//    });-->
-<!--//-->
-<!--//    $('#jqGrid1').jqGrid('setGridWidth', '900');-->
-
-
-<!--//    $.extend(true, $.jgrid.edit, {-->
-<!--//        recreateForm: true,-->
-<!--//        beforeShowForm: function ($form) {-->
-<!--//            $form.closest(".ui-jqdialog").position({-->
-<!--//                of: window, // or any other element-->
-<!--//                my: "center center",-->
-<!--//                at: "center center"-->
-<!--//            });-->
-<!--//        }-->
-<!--//    });-->
-
-    <!--function acciones(cellValue, options, rowdata, action) {-->
-        <!--var acciones = '';-->
-
-        <!--acciones = '<a href="edicionTaller.html" id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['idSocio'] + '" title="Modificar Taller"><img src="img/Iconos/modificar.png" class="icono"></a>' +-->
-                <!--'<a href="javascript:void(0)" id="bt2"  class="btn btn-warning" data-idEvento-eliminar="' + rowdata['idSocio'] + '" title="Eliminar Taller" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';-->
-        <!--return acciones;-->
-
-    <!--}-->
-
-    <!--jQuery("#bt1").click( function() {-->
-        <!--jQuery("#jqGrid").jqGrid('editRow',"13");-->
-        <!--console.log(data);-->
-        <!--this.disabled = 'true';-->
-    <!--});-->
-
-<!--</script>-->
 </body>
 </html>

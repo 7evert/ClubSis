@@ -20,7 +20,7 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
-
+    <script src="js/Notificaciones.js"></script>
     <title>Title</title>
     <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
     <style type="text/css">
@@ -64,96 +64,181 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
+        }
     </style>
     <script type="text/javascript">
-        var funciones={};
-        funciones.verSocio=function(event){
-            var idSocio=event.target.parentNode.getAttribute("data-idevento-ver");;
-            location.href="verSocio.html?idSocio="+idSocio;
+        var funciones = {};
+        funciones.verSocio = function (event) {
+            var idSocio = event.target.parentNode.getAttribute("data-idevento-ver");
+            ;
+            location.href = "verSocio.html?idSocio=" + idSocio;
         }
-        funciones.modificarSocio=function(event){
-            var idSocio=event.target.parentNode.getAttribute("data-idevento-modificar");;
-            location.href="editarSocio.html?id="+idSocio;
+        funciones.modificarSocio = function (event) {
+            var idSocio = event.target.parentNode.getAttribute("data-idevento-modificar");
+            ;
+            location.href = "editarSocio.html?id=" + idSocio;
         }
-        funciones.sancionarSocio=function(event){
-            var idSocio=event.target.parentNode.getAttribute("data-idevento-sancionar");;
-            location.href="registrarMulta.html?id="+idSocio;
+        funciones.sancionarSocio = function (event) {
+            var idSocio = event.target.parentNode.getAttribute("data-idevento-sancionar");
+            ;
+            location.href = "asignarMulta.html?id=" + idSocio;
         }
-        function mostrarSuspencion(socio){
-            console.log("se deshabilito correctamente al socio "+socio.id);
+        function mostrarSuspencion(socio) {
+            console.log("se deshabilito correctamente al socio " + socio.id);
+        }
+        function contieneCadenaItem(item,carne, cad,est,tipo) {
+            var palabras = cad.split(" ");
+            var ver = false;
+            if(cad=="")ver=true;
+            else
+                for (var i = 0; i < palabras.length; i++)
+                    ver = (ver || (item.nombreTit.indexOf(palabras[i]) >= 0));
+            ver = (ver && (tipo==0 || item.tiponombre==tipo) && (est==0 || item.estado==est) && (carne=="" || carne==item.codigoCarnet));
+            return ver;
+        }
+        function llenarCampos(tipoSocios) {
+            var elemtipoSocios = $("#tipomembresia");
+            for (var i = 0; i < tipoSocios.length; i++)
+                elemtipoSocios.append($("<option></option>").attr({value: tipoSocios[i].nombre}).html(tipoSocios[i].nombre));
+        }
+        funciones.buscar = function () {
+            var carne=$("#nroCarne").val();
+            var str = $("#nombre").val();
+            var est = $("#estado").val();
+            var tipo = $("#tipomembresia").val();
+            /****************************************/
+            var ver;
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var rowId = ids[i];
+                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                ver = false;
+                if (contieneCadenaItem(rowData, carne,str,est,tipo)) {
+                    //showrow
+                    $("#" + rowId).show();
+                }
+                else {
+                    $("#" + rowId).hide();
+                    //hiderow
+                }
+            }
+            /****************************/
+        }
+        funciones.limpiar = function () {
+            $("#nroCarne").val("");
+            $("#nombre").val("");
+            $("#estado").val(0);
+            $("#tipomembresia").val(0);
         }
     </script>
     <script type="text/javascript">
-        var nroSocios=0;
+        var nroSocios = 0;
         var app2 = angular.module('app2', []);
         app2.controller('mantenimientoSocioController', function ($scope, $http) {
+            $http.get('/api/tiposocios/').success(function (tipoSocios) {
+                llenarCampos(tipoSocios);
+            });
             $http.get('/api/socios/').success(function (data) {
                 var lastsel2;
                 jQuery("#jqGrid").jqGrid({
                     datatype: "local",
                     styleUI: 'Bootstrap',
                     height: 50 * (data.legth + 1),
-                    colNames: ['Nro.','ID', 'Carnet', 'Membresia', 'Estado', 'Titular', "Acciones"],
+                    colNames: ['Nro.', 'ID', 'Carnet', 'Membresía', 'Estado', 'Titular', "Acciones"],
                     colModel: [
-                        {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center'},
-                        {name: 'id', index: 'ID', width: 90, editable:false,hidden:true, align: 'center'},
-                        {name: 'codigoCarnet',index: 'Carnet',width: 150,editable: false,align: 'center'},
-                        {name: 'tiponombre', index: 'Membresia', width: 260, editable: false, align: 'center'},
-                        {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center'},
-                        {name: 'nombreTit', index: 'Titular', width: 220, editable: false, align: 'center'},
+                        {name: 'nro', index: 'Nro.', width: 90, sorttype: "int", align: 'center',sortable:true},
+                        {name: 'id', index: 'ID', width: 90, editable: false, hidden: true, align: 'center'},
+                        {name: 'codigoCarnet', index: 'Carnet', width: 150, editable: false, align: 'center',sortable:true},
+                        {name: 'tiponombre', index: 'Membresía', width: 260, editable: false, align: 'center',sortable:true},
+                        {name: 'estado', index: 'Estado', width: 220, editable: false, align: 'center',sortable:true},
+                        {name: 'nombreTit', index: 'Nombre Titular', width: 220, editable: false, align: 'center',sortable:true},
                         {name: 'acciones', width: 120, align: 'center', formatter: acciones}
-                    ],
-                    multiselect: true
+                    ]
+                    //,multiselect: true
                 });
                 function acciones(cellValue, options, rowdata, action) {
                     var acciones = '';
                     acciones = '<a href="#" onclick="funciones.verSocio(event);return false;" class="btn btn-warning" data-idEvento-ver="' + rowdata['id'] + '" title="Mostrar Socio"><img src="img/Iconos/ver.png" class="icono"/>' +
                             '<a  href="#" onclick="funciones.modificarSocio(event);return false;" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/modificar.png" class="icono"/>' +
-                            '<a href="#" onclick="funciones.SuspenderSocio(event);return false;" class="btn btn-warning" data-idEvento-suspender="' + rowdata['id'] + '" title="Eliminar Socio"><img src="img/Iconos/eliminar.png" class="icono"/>';
+                            '<a  href="#" onclick="funciones.sancionarSocio(event);return false;" class="btn btn-warning" data-idEvento-sancionar="' + rowdata['id'] + '" title="Sancionar Socio"><img src="img/Iconos/sancionar.png" class="icono"/>'
                     return acciones;
                 }
+
                 for (var i = 0; i < data.length; i++) {
-                    $http.get('/api/socios/'+data[i].id+'/personaasociada').success(function (dataPersona){
-                        data[nroSocios].nro=nroSocios+1;
-                        data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
-                        if(dataPersona)
-                            data[nroSocios].nombreTit=dataPersona.nombre;
+                    $http.get('/api/socios/' + data[i].id + '/personaasociada').success(function (dataPersona) {
+                        //data[nroSocios]=dataPersona.socio;
+                        data[nroSocios].nro = nroSocios + 1;
+                        data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
+                        data[nroSocios].nombreTit = dataPersona.nombre;
                         console.log(JSON.stringify(dataPersona));
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
+                        if(data[nroSocios].estado=="SUSPENDIDO")
+                            $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
                         nroSocios++;
-                    }).error(function(){
-                        data[nroSocios].nro=nroSocios+1;
-                        data[nroSocios].tiponombre=data[nroSocios].tipo?data[nroSocios].tipo.nombre:"";
+                    }).error(function () {
+                        data[nroSocios].nro = nroSocios + 1;
+                        data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
                         jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
+                        if(data[nroSocios].estado=="SUSPENDIDO")
+                            $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
                         nroSocios++;
                     })
                 }
-                funciones.SuspenderSocio=function(event){
-                    var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
-                    var dataSocio= {"id":idSocio};
-                    $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
-                        mostrarSuspencion(socio);
-                    });
-                }
+
+                /*funciones.SuspenderSocio=function(event){
+                 var idSocio=event.target.parentNode.getAttribute("data-idevento-suspender");
+                 var dataSocio= {"id":idSocio};
+                 $http.put('/api/socios/'+idSocio+'/inhabilitar',dataSocio).success(function (socio){
+                 mostrarSuspencion(socio);
+                 location.reload();
+                 });
+                 }*/
             });
-            funciones.eliminar=function() {
+            funciones.eliminar = function () {
                 var grid = $("#jqGrid");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey)
-                    alert("No hay postulante seleccionado");
+                    Notificaciones.showError("No hay postulante seleccionado");
                 else {
                     var selectedIDs = grid.getGridParam("selarrrow");
                     var result = "";
                     var nroExito = 0;
                     for (var j = 0; j < selectedIDs.length; j++) {
                         var idSocio = selectedIDs[j];
-                        $http.delete('/api/socios/'+idSocio+'/inhabilitar').success(function (data) {
+                        $http.put('/api/socios/' + idSocio + '/inhabilitar').success(function (data) {
                             mostrarSuspencion(data);
+                            location.reload();
                         });
                     }
                 }
             }
+            $("#nroCarne")[0].addEventListener('keypress', function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    if($(event.target).val()!="")
+                        funciones.buscar();
+                    else {
+                        Notificaciones.showError("Debe Ingresar un Número de Carne");
+                        funciones.buscar();
+                    }
+                }
+            });
+            $("#nombre")[0].addEventListener('keypress', function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    if($(event.target).val()!="")
+                        funciones.buscar();
+                    else {
+                        Notificaciones.showError("Debe Ingresar un Nombre");
+                        funciones.buscar();
+                    }
+                }
+            });
         });
     </script>
 </head>
@@ -166,8 +251,8 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE SOCIOS
-            <a href="registroSocio.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 570px;">Añadir
-                Socio</a>
+            <!--<a href="registroSocio.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 570px;">Añadir
+                Socio</a>-->
         </h3>
     </div>
     <hr>
@@ -177,34 +262,37 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoSocio" class="col-md-4 control-label">Tipo de Socio</label>
+                    <label for="nombre" class="col-md-4 control-label">Número de Carne:</label>
                     <div class="col-md-8">
-                        <select class="form-control" id="tipoSocio">
-                            <option>Elegir</option>
-                            <option>Normal</option>
-                            <option>Vitalicio</option>
-                            <option>Eterno</option>
+                        <input type="text" class="form-control" id="nroCarne" placeholder="" autofocus="autofocus">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="tipomembresia" class="col-md-4 control-label">Membresía</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="tipomembresia">
+                            <option value="0">Elegir</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="estado" class="col-md-4 control-label">Estado</label>
+                    <label for="estado" class="col-md-4 control-label">Estado :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="estado">
-                            <option>Elegir</option>
-                            <option>Activo</option>
-                            <option>Inactivo</option>
-                            <option>Sancionado</option>
-                            <option>Expulsado</option>
+                            <option value="0">Elegir</option>
+                            <option value="SUSPENDIDO">SUSPENDIDO</option>
+                            <option value="ACTIVO">ACTIVO</option>
                         </select>
                     </div>
                 </div>
-            </div>
+            </div><!--
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento</label>
+                    <label for="tipoDocumento" class="col-md-4 control-label">Tipo documento :</label>
                     <div class="col-md-8">
                         <select class="form-control" id="tipoDocumento">
                             <option>Elegir</option>
@@ -217,48 +305,48 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nroDocumento" class="col-md-4 control-label">N° de documento</label>
+                    <label for="nroDocumento" class="col-md-4 control-label">N° de documento :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nroDocumento" placeholder="DNI del socio">
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="nombre" class="col-md-4 control-label">Nombres</label>
+                    <label for="nombre" class="col-md-4 control-label">Nombres :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="nombre" placeholder="Nombres del socio">
                     </div>
                 </div>
-            </div>
+            </div><!--
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido paterno</label>
+                    <label for="apellidoPaterno" class="col-md-4 control-label">Apellido Paterno :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoPaterno"
-                               placeholder="Apellido parteno del socio">
+                               placeholder="Apellido Paterno del socio">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido materno</label>
+                    <label for="apellidoMaterno" class="col-md-4 control-label">Apellido Materno :</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="apellidoMaterno"
                                placeholder="Apellido materno del socio">
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
-                    <label for="titular" class="col-md-4 control-label">¿Es titular?</label>
+                <!--<div class="form-group">
+                    <label for="titular" class="col-md-4 control-label">¿Es titular? :</label>
                     <div class="radio col-md-3">
                         <label><input type="radio" name="optradio">Si</label>
                     </div>
                     <div class="radio col-md-3">
                         <label><input type="radio" name="optradio">No</label>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="col-sm-6 col-lg-12">
             </div>
@@ -267,26 +355,26 @@
             <div class="col-sm-5 col-lg-5">
                 <div class="form-group" style="margin-left: 110px;">
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
+                    <a href="#" onclick="funciones.limpiar();return false;" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
+                    <a href="#" onclick="funciones.buscar();return false;" class="btn btn-primary"
+                       id="btnBuscar">Buscar</a>
                 </div>
             </div>
         </div>
         <h4>RESULTADOS DE BUSQUEDA</h4>
-        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+        <div class="rowchangeg" style="width: 1100px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
-            <div class="form-group" style="margin-left: 110px;">
-                <a href="#" onclick="funciones.eliminar();return false;" class="btn btn-primary" id="Suspender">Suspender</a>
-            </div>
+            <!--<div class="form-group" style="width:100%;">
+                <a href="#" onclick="funciones.eliminar();return false;" class="btn btn-primary" id="Suspender" style="position:relative;left:85%;width:12%">Suspender</a>
+            </div>-->
         </div>
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Socio|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio
-            |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Socio
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Socio|
+            <span class="icono-resultados"><img src="img/Iconos/sancionar.png" class="icono"></span> Sancionar Socio
         </div>
     </form>
 </div>
@@ -300,6 +388,13 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
 <script src="js/principal.js"></script>
 </body>
 </html>

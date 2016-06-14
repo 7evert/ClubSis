@@ -1,6 +1,6 @@
 package com.clubsis.model.privilegio;
 
-import com.clubsis.model.club.Club;
+import com.clubsis.model.club.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,22 +14,28 @@ public class Rol {
     @Id
     @GeneratedValue
     private Integer id;
+    private String nombre;
     private String descripcion;
+    private Boolean esActivo;
 
-    @ManyToOne
-    private Club club;
-
-    @OneToMany(fetch= FetchType.EAGER, mappedBy= "rol")
+    @OneToMany(mappedBy = "rol")
     @JsonIgnore
+    private Set<Usuario> usuarios;
+
+    @ManyToMany
     private Set<Permiso> permisos;
 
     protected Rol() {
     }
 
-    public Rol(Integer id, String descripcion) {
-        this.id = id;
+    public Rol(String nombre, String descripcion, Boolean esActivo, Set<Usuario> usuarios, Set<Permiso> permisos) {
+        this.nombre = nombre;
         this.descripcion = descripcion;
+        this.esActivo = esActivo;
+        this.usuarios = usuarios;
+        this.permisos = permisos;
     }
+
 
     public Integer getId() {
         return id;
@@ -39,12 +45,36 @@ public class Rol {
         this.id = id;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Boolean getEsActivo() {
+        return esActivo;
+    }
+
+    public void setEsActivo(Boolean esActivo) {
+        this.esActivo = esActivo;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     public Set<Permiso> getPermisos() {

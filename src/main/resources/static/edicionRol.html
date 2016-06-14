@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Rol Edicion</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <style type="text/css">
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+    <script src="js/principal.js"></script>
+    <script src="js/Notificaciones.js"></script>
+</head>
+<body ng-controller="RolController">
+<div class="container">
+    <div id="headerAdministrador"></div>
+    <h2>Edición de Rol</h2>
+    <hr>
+    <form id="formEdicionRol" class="form-horizontal mitadDerecha">
+        <div id="nombreRol" class="form-group">
+            <label class="control-label col-xs-4">Nombre<span class="obligatorio">*</span></label>
+            <div class="input-group col-xs-8">
+                <input ng-model="roles.nombre" id="nombre" type="text" class="form-control col-xs-8" placeholder="Administrador,Responsable de Bungalows,..."/>
+            </div>
+        </div>
+
+        <div id="DescripcionRol" class="form-group">
+            <label class="control-label col-xs-4">Descripción</label>
+            <div class="input-group col-xs-8">
+                <input ng-model="roles.descripcion" id="descripcion" type="text" class="form-control col-xs-8"  placeholder="Descripción" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-10">
+                <a href="javascript:void(0)" class="btn btn-primary" id="btnGuardar">Guardar</a>
+                <input type="" class="btn btn-primary" value="Cancelar" style="width:22%" onclick="location.href='MantenimientoRol.html';">
+            </div>
+        </div>
+    </form>
+    <!--
+    <div id="detallesBungalows" class="mitadDerecha">
+        <div id="BungTipo2" class="show">
+            <img class="imgInstalacion" style="width:70%; height:70%;float:none;position:relative;left:100px;top:-40px;" src="/img/Instalaciones/campoFutbolSintectico.jpg">
+        </div>
+        <div></div>
+    </div>
+    -->
+</div>
+<div id="footer"></div>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'), parent.document.URL.length);
+    var idRol = ruta.substring(ruta.lastIndexOf('=') + 1);
+
+    var app = angular.module('app', []);
+    app.controller('RolController', function ($scope, $http) {
+        $scope.roles=[];
+
+        $http.get('/api/roles/'+idRol).success(function (data) {
+            $scope.roles=data;
+        });
+
+
+        $("#btnGuardar").click(function () {
+                var data = {
+                    'id':idRol,
+                    'nombre': $scope.roles.nombre,
+                    'descripcion': $scope.roles.descripcion,
+                    'esActivo': $scope.roles.esActivo,
+                };
+            console.log(data);
+            if(validarDatos()) {
+                $http.put('/api/roles/' + idRol, data).success(function (data) {
+
+                    Notificaciones.showProcesando();
+                    Notificaciones.hideAll();
+                    window.location = "mantenimientoRol.html";
+
+                })
+                        .error(function (data) {
+                            Notificaciones.showError("Error al crear el rol.");
+                            console.log("fallo");
+                        });
+            }
+            });
+
+    });
+
+
+    function validarDatos() {
+        var nombre = $("#nombre").val();
+        var descripcion = $("#descripcion").val();
+
+        if (!nombre) {
+            Notificaciones.showError('Nombre requerido');
+            $("#nombre").css("border-color", "red");
+            return false;
+        }
+        return true;
+    }
+
+
+    $("#nombre").click(function () {
+        $("#nombre").css("border-color", "#ccc");
+    });
+
+
+
+
+</script>
+</body>
+</html>

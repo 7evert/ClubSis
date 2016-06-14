@@ -124,20 +124,31 @@ public class ServicioClases {
     }
 
     //MAS FUNCIONES
-    public Ciclo obtenerCicloActual(){
-        List<Ciclo> ciclos=cicloRepository.findAll();
-        for (Ciclo item: ciclos) {
-            if(item.getEstadoCiclo()==EstadoCiclo.HABILITADO) return item;
+    public Ciclo obtenerCicloActual() {
+        List<Ciclo> ciclos = cicloRepository.findAll();
+        for (Ciclo item : ciclos) {
+            if (item.getEstadoCiclo() == EstadoCiclo.HABILITADO) return item;
         }
         return null;
     }
 
-    public List<Clase> mostrarClasesCiclo(Integer idAcademia){
-        Ciclo cicloAct= obtenerCicloActual();
-        List<Clase> clases= claseRepository.findAll();
+    public List<Clase> mostrarClasesCiclo(Integer idAcademia) {
+        Ciclo cicloAct = obtenerCicloActual();
+        List<Clase> clases = claseRepository.findAll();
         List<Clase> respuesta = new ArrayList<Clase>();
-        for(Clase item:clases){
-            if(item.getCiclo().getId()==cicloAct.getId() && item.getAcademia().getId()==idAcademia){
+        for (Clase item : clases) {
+            if (item.getCiclo().getId() == cicloAct.getId() && item.getAcademia().getId() == idAcademia) {
+                respuesta.add(item);
+            }
+        }
+        return respuesta;
+    }
+
+    public List<Horario> mostrarHorariosClase(Integer idClase) {
+        List<Horario> horarios = horarioRepository.findAll();
+        List<Horario> respuesta = new ArrayList<Horario>();
+        for (Horario item : horarios) {
+            if (idClase == item.getClase().getId()) {
                 respuesta.add(item);
             }
         }

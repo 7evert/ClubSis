@@ -1,11 +1,12 @@
 package com.clubsis.model.evento;
-import com.clubsis.model.persona.*;
+
+import com.clubsis.model.pago.Pago;
+import com.clubsis.model.persona.Empresa;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Fetch;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,14 +21,14 @@ public class Evento {
     @GeneratedValue
     private Integer id;
     private String descripcion;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaInicio;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaFin;
     private EstadoEvento estado;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaInicioInscripcion;
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date fechaFinInscripcion;
     private String url;
     private Integer isGratuito;
@@ -46,6 +47,10 @@ public class Evento {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private Set<Pago> pagos = new HashSet<Pago>(0);
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
     private Set<InvitadoEvento> invitadoeventos = new HashSet<InvitadoEvento>(0);
 
     @JsonIgnore
@@ -59,7 +64,7 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<InvitadoEvento> invitadoeventos, Set<PersonaEvento> personaeventos, Sede sede) {
+    public Evento(String descripcion, Date fechaInicio, Date fechaFin, EstadoEvento estado, Date fechaInicioInscripcion, Date fechaFinInscripcion, String url, Integer isGratuito, Integer isPublico, String nombre, Integer capacidad, double descuento, Set<Empresa> empresas, Set<TarifaEvento> tarifaxEventos, Set<Pago> pagos, Set<InvitadoEvento> invitadoeventos, Set<PersonaEvento> personaeventos, Sede sede) {
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -74,6 +79,7 @@ public class Evento {
         this.descuento = descuento;
         this.empresas = empresas;
         this.tarifaxEventos = tarifaxEventos;
+        this.pagos = pagos;
         this.invitadoeventos = invitadoeventos;
         this.personaeventos = personaeventos;
         this.sede = sede;
@@ -197,6 +203,14 @@ public class Evento {
 
     public void setTarifaxEventos(Set<TarifaEvento> tarifaxEventos) {
         this.tarifaxEventos = tarifaxEventos;
+    }
+
+    public Set<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(Set<Pago> pagos) {
+        this.pagos = pagos;
     }
 
     public Set<InvitadoEvento> getInvitadoeventos() {

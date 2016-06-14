@@ -18,6 +18,7 @@ public class TipoBungalow {
     private String nombre;
     private String caracteristicas;
     private Integer capacidad;
+    private EstadoTipoBungalow estado;
 
     @OneToMany(mappedBy = "tipoBungalow")
     @JsonIgnore
@@ -73,4 +74,11 @@ public class TipoBungalow {
         this.capacidad = capacidad;
     }
 
+    public EstadoTipoBungalow getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoTipoBungalow estado) {
+        this.estado = estado;
+    }
 }

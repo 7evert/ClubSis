@@ -53,6 +53,10 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+
+        .obligatorio {
+            color: #FF0000;
+        }
     </style>
 </head>
 <body ng-controller="VerBungalowController">
@@ -73,7 +77,16 @@
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="sede" class="col-md-4 control-label">Sede</label>
+                    <label for="sede" class="col-md-4 control-label">Estado<span class="obligatorio">*</span></label>
+                    <div class="col-md-8">
+                        <select id="estado" class="form-control" ng-model="estado.valor"
+                                ng-options="template.value as template.name for template in estado.valores"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="sede" class="col-md-4 control-label">Sede<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select class="form-control" id="sede" name="sede" ng-model="bugalow.sede.id">
                         </select>
@@ -82,7 +95,8 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="tipoBungalow" class="col-md-4 control-label">Tipo de Bungalow</label>
+                    <label for="tipoBungalow" class="col-md-4 control-label">Tipo de Bungalow<span
+                            class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select class="form-control" id="tipoBungalow" name="tipoBungalow"
                                 ng-model="bugalow.tipoBungalow.id">
@@ -92,7 +106,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="valoracion" class="col-md-4 control-label">Valoración</label>
+                    <label for="valoracion" class="col-md-4 control-label">Valoración<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select id="valoracion" class="form-control" ng-model="valoracion.valor"
                                 ng-options="template.value as template.name for template in valoracion.valores">
@@ -102,7 +116,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="piso" class="col-md-4 control-label">Piso</label>
+                    <label for="piso" class="col-md-4 control-label">Piso<span class="obligatorio">*</span></label>
                     <div class="col-md-8">
                         <select id="piso" class="form-control" ng-model="piso.valor"
                                 ng-options="template.value as template.name for template in piso.valores">
@@ -112,7 +126,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="precio" class="col-md-4 control-label">Precio</label>
+                    <label for="precio" class="col-md-4 control-label">Precio<span class="obligatorio">*</span></label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" ng-model="bungalow.precio" id="precio"
                                placeholder="Precio">
@@ -122,7 +136,8 @@
             </div>
             <div class="col-sm-12 col-lg-10">
                 <div class="form-group">
-                    <label for="caracteristicas" class="col-md-2 control-label">Caracteristicas</label>
+                    <label for="caracteristicas" class="col-md-2 control-label">Características<span
+                            class="obligatorio">*</span></label>
                     <div class="col-md-10">
                         <textarea id="caracteristicas" ng-model="bungalow.caracteristicas" class="form-control"
                                   rows="4"></textarea>
@@ -144,6 +159,11 @@
                     <div class="col-md-10">
                         <input id="urlFoto" ng-model="bungalow.urlFoto" class="form-control">
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <span class="obligatorio" style="margin-left: 180px;">(*) Estos campos son  </span>
                 </div>
             </div>
             <div class="col-sm-7 col-lg-7">
@@ -218,6 +238,7 @@
     app.controller('VerBungalowController', function ($scope, $http) {
         $scope.valoracion = {};
         $scope.piso = {};
+        $scope.estado = {};
         <!--<select id="tipoDocumento" class="form-control" ng-model="tipoDocumento.valor" ng-options="template.value as template.name for template in tipoDocumento.valores">-->
         //Esto deberia cargarse desde la BD pero no hay una tabla que guarde esto u.u
         $scope.valoracion.valores = [
@@ -234,9 +255,18 @@
             {'name': 'Piso 2', 'value': '2'},
             {'name': 'Piso 3', 'value': '3'}
         ];
+        //    CREADO, DISPONIBLE, INHABILITADO, ELIMINADO
+        $scope.estado.valores = [
+            {'name': 'Elegir', 'value': '-1'},
+            {'name': 'CREADO', 'value': '0'},
+            {'name': 'DISPONIBLE', 'value': '1'},
+            {'name': 'INHABILITADO', 'value': '2'},
+            {'name': 'ELIMINADO', 'value': '3'}
+        ];
 
         $scope.valoracion.valor = $scope.valoracion.valores[0].value;
         $scope.piso.valor = $scope.piso.valores[0].value;
+        $scope.estado.valor = $scope.estado.valores[0].value;
 
         $scope.bungalow = [];
         //Traigo a todos los postulantes con esta funcion get que me obtiene solo un postulante con un ID dado
@@ -249,6 +279,18 @@
             $("#valoracion").val(strValoracion);
             var strPiso = "string:" + data.piso;
             $("#piso").val(strPiso);
+            var numEstado;
+            if (data.estado == "CREADO")
+                numEstado = 0;
+            else if (data.estado == "DISPONIBLE")
+                numEstado = 1;
+            else if (data.estado == "INHABILITADO")
+                numEstado = 2;
+            else if (data.estado == "ELIMINADO")
+                numEstado = 3;
+            console.log(numEstado);
+            $("#estado").val("string:"+numEstado);
+//            $("#urlFoto").val(data.urlFoto);
             console.log($scope.bungalow);
         });
 
@@ -263,11 +305,15 @@
                 console.log(valorPiso);
                 valorPiso = valorPiso.substring(valorPiso.lastIndexOf(':') + 1);
                 valorPiso = parseInt(valorPiso);
+
+                var estadoBungalow = $('#estado').val();
+                estadoBungalow = estadoBungalow.substring(estadoBungalow.lastIndexOf(':') + 1);
+                estadoBungalow = parseInt(estadoBungalow);
                 var data = {
                     //por preguntar
                     //idSuspension: null,
-                    'id' : idBungalow,
-                    'estado': 1,
+                    'id': idBungalow,
+                    'estado': estadoBungalow,
                     'descripcion': $scope.bungalow.descripcion,
                     'precio': parseFloat($scope.bungalow.precio),
                     'caracteristicas': $scope.bungalow.caracteristicas,
@@ -277,19 +323,85 @@
                     'urlFoto': $scope.bungalow.urlFoto,
                 };
                 console.log(data);
-                $http.put('/api/bungalows/' + idBungalow + '/' + $("#tipoBungalow").val() + '/' + $("#sede").val(), data).success(function (data) {
-                    Notificaciones.showProcesando();
-                    Notificaciones.hideAll();
-                    setTimeout(function () {
-                        location.href = "mantenimientoBungalows.html"
-                    }, 1000);
-                })
-                        .error(function (data) {
-                            //aca lo que se hara en caso falle
-                            Notificaciones.showError("Error al crear bungalow");
-                        });
+                if (!validarDatos()) {
+                    $http.put('/api/bungalows/' + idBungalow + '/' + $("#tipoBungalow").val() + '/' + $("#sede").val(), data).success(function (data) {
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "mantenimientoBungalows.html"
+                        }, 1000);
+                    })
+                            .error(function (data) {
+                                //aca lo que se hara en caso falle
+                                Notificaciones.showError("Error al crear bungalow");
+                            });
+                }
             }();
         });
+    });
+
+    function validarDatos() {
+        var sede = $("#sede").val();
+        var tipoBungalow = $("#tipoBungalow").val();
+        var valoracion = $("#valoracion").val();
+        valoracion = valoracion.substring(valoracion.lastIndexOf(':') + 1);
+        var piso = $("#piso").val();
+        piso = piso.substring(piso.lastIndexOf(':') + 1);
+        var precio = $("#precio").val();
+        var caracteristicas = $("#caracteristicas").val();
+
+        if (sede == -1) {
+            Notificaciones.showError('Sede requerida');
+            $("#sede").css("border-color", "red");
+            return true;
+        } else if (tipoBungalow == -1) {
+            Notificaciones.showError('Tipo de bungalow requerido');
+            $("#tipoBungalow").css("border-color", "red");
+            return true;
+        } else if (valoracion == -1) {
+            Notificaciones.showError('Valoración requerida');
+            $("#valoracion").css("border-color", "red");
+            return true;
+        }
+        else if (piso == -1) {
+            Notificaciones.showError('Piso requerido');
+            $("#piso").css("border-color", "red");
+            return true;
+        }
+        else if (!precio || parseInt(precio) < 0) {
+            if (parseInt(precio) < 0) {
+                Notificaciones.showError('El precio no puede ser un valor negativo.');
+                $("#precio").css("border-color", "red");
+                return true;
+            }
+            Notificaciones.showError('Precio requerido');
+            $("#precio").css("border-color", "red");
+            return true;
+        } else if (!caracteristicas) {
+            Notificaciones.showError('Características del bungalow requerido');
+            $("#caracteristicas").css("border-color", "red");
+            return true;
+        }
+        return false;
+    }
+
+    $("#sede").click(function () {
+        $("#sede").css("border-color", "#ccc");
+    });
+    $("#tipoBungalow").click(function () {
+        $("#tipoBungalow").css("border-color", "#ccc");
+    });
+    $("#valoracion").click(function () {
+        $("#valoracion").css("border-color", "#ccc");
+    });
+    $("#piso").click(function () {
+        $("#piso").css("border-color", "#ccc");
+    });
+    $("#precio").click(function () {
+        $("#precio").css("border-color", "#ccc");
+    });
+    $("#caracteristicas").click(function () {
+        $("#caracteristicas").css("border-color", "#ccc");
     });
 </script>
 </body>

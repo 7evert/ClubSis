@@ -61,6 +61,8 @@
         .centered2 {
             margin-right: 510px;
         }
+
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
 <body>
@@ -130,7 +132,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="descripcion" class="col-md-4 control-label">Descripcion</label>
+                    <label for="descripcion" class="col-md-4 control-label">Descripción</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="descripcion"
                                placeholder="Palabra clave de descripción del producto">
@@ -152,14 +154,16 @@
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
+                <div class="form-group" style="margin-left: 20px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
+                       style="visibility: visible">Eliminar</a>
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
                 </div>
             </div>
         </div>
-        <h4>RESULTADOS DE BUSQUEDA</h4>
+        <h4>RESULTADOS DE BÚSQUEDA</h4>
         <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -167,10 +171,10 @@
         <br>
         <div class="leyenda">
             <span>Leyenda: </span>
-            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Producto|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Producto
+            <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Bungalow|
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Bungalow
             |
-            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Producto
+            <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Bungalow
         </div>
     </form>
 </div>
@@ -199,44 +203,37 @@
         styleUI: 'Bootstrap',
         datatype: "json",
         gridview: true,
+        loadonce: true,
         emptyrecords: 'No se encontraron resultados',
-//    @Id
-//    @GeneratedValue
-//    private Integer id;
-//    private EstadoBungalow estado; //libre, en mantenimiento, ocupado, no irá en el formulario
-//    private Double precio;
-//    private String caracteristicas;
-//    private Integer piso;
-//    private Integer valoracion;
-//    private String urlFoto;
-//    private String descripcion;
-//
-//    @ManyToOne
-//    private TipoBungalow tipoBungalow; // necesario (composición)
-//
-//    @ManyToOne
-//    private Sede sede; // necesaria (composición)
-//
-//    @OneToMany(mappedBy = "bungalow")
-//    @JsonIgnore
-//    private Set<ReservaBungalow> reservaBungalowSet; // no es necesario al inicio (vacío)
+
         //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
         colModel: [
             {index: 'id', name: 'id', align: 'center', width: 75},
-            {index: 'precio', name: 'precio', align: 'center', width: 40},
-            {index: 'piso', name: 'piso', align: 'center', width: 150},
+            {index: 'precio', name: 'precio', align: 'center', width: 60},
+            {index: 'piso', name: 'piso', align: 'center', width: 70},
             {index: 'valoracion', name: 'valoracion', align: 'center', width: 150},
-//            {index: 'tipoBungalow.id', name: 'tipoBungalow.id', align: 'center', width: 150},
+            {index: 'tipoBungalow.nombre', name: 'tipoBungalow.nombre', align: 'center', width: 150},
+            {index: 'sede.nombre', name: 'sede.nombre', align: 'center', width: 150},
+            {index: 'estado', name: 'estado', align: 'center', width: 150},
             {index: 'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones}
         ],
         colNames: [
-            'N° Bungalow', 'Precio', 'Piso', 'Valoracion', 'Acciones',
+            'N° Bungalow', 'Precio', 'Piso', 'Valoración', 'Tipo de Bungalow', 'Sede', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
+        multiselect: true,
         pager: "#jqGridPager",
         loadComplete: function () {
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estado'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
             for (i = 1; i < cantFilas+cantFilas*4; i++) {
@@ -251,16 +248,41 @@
                     rowData.valoracion = '4 estrellas';
                 else if (rowData.valoracion == "5")
                     rowData.valoracion = '5 estrellas';
-
-//                if (rowData.tipoBungalow.id == "1")
-//                    rowData.tipoBungalow.id = 'Gold King';
-//                else if (rowData.tipoBungalow.id == "2")
-//                    rowData.tipoBungalow.id = 'Silver King';
-//                else if (rowData.tipoBungalow.id == "3")
-//                    rowData.tipoBungalow.id = 'Bronze King';
-
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
+
+            $('#btnEliminarMultiples').click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    Notificaciones.showError("No hay bungalow seleccionado(s) a eliminar");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje = "Han sido eliminados los bungalows seleccionados satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data = selectedIDs[i];
+                        console.log("Entro Eliminar x");
+                        $.post('/api/bungalows/eliminar',
+                                {idBungalow: data},
+                                function (response) {
+                                    if (!response.error) {
+
+                                    } else {
+                                        Noty.hideAll();
+                                        mensaje = "No se pudo rechazar los bungalows seleccionados";
+                                    }
+                                });
+                        result += selectedIDs[i] + ",";
+                    }
+                    Notificaciones.showNoty(mensaje);
+                    setTimeout(function () {
+                        location.href = "mantenimientoBungalows.html"
+                    }, 1000);
+                }
+            });
+
             $('.icono-modificar').click(function () {
 //                alert("Modificando bungalow");
                 var idBungalow = $(this).attr('data-idBungalow-modificar');

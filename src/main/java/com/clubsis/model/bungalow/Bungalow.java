@@ -1,6 +1,7 @@
 package com.clubsis.model.bungalow;
 
 import com.clubsis.model.club.Sorteo;
+import com.clubsis.model.pago.Pago;
 import com.clubsis.model.sede.Sede;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,7 @@ public class Bungalow {
     private String urlFoto;
     private String descripcion;
 
+    private EstadoBungalow estadoBungalow;
     @ManyToOne
     private TipoBungalow tipoBungalow; // necesario (composición)
 
@@ -41,18 +43,18 @@ public class Bungalow {
     protected Bungalow() {
     }
 
-    public Bungalow(EstadoBungalow estado, Double precio, String caracteristicas, Integer piso, Integer valoracion, String urlFoto, String descripcion, TipoBungalow tipoBungalow, Sede sede, Set<ReservaBungalow> reservaBungalowSet, Set<Sorteo> sorteos) {
+    public Bungalow(EstadoBungalow estado, Double precio, Integer piso, String caracteristicas, String urlFoto, Integer valoracion, String descripcion, Sede sede, Set<ReservaBungalow> reservaBungalowSet, Set<Sorteo> sorteos, TipoBungalow tipoBungalow) {
         this.estado = estado;
         this.precio = precio;
-        this.caracteristicas = caracteristicas;
         this.piso = piso;
-        this.valoracion = valoracion;
+        this.caracteristicas = caracteristicas;
         this.urlFoto = urlFoto;
+        this.valoracion = valoracion;
         this.descripcion = descripcion;
-        this.tipoBungalow = tipoBungalow;
         this.sede = sede;
         this.reservaBungalowSet = reservaBungalowSet;
         this.sorteos = sorteos;
+        this.tipoBungalow = tipoBungalow;
     }
 
     public Integer getId() {

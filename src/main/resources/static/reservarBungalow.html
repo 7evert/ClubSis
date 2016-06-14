@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <link rel="stylesheet" href="webjars/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body ng-controller="BungalowController">
+<div id="headerAdministrador"></div>
+<div class="container">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <div>
+        <h3>
+            REGISTRO DE RESERVA DE BUNGALOW
+        </h3>
+    </div>
+    <hr>
+    <h4>DATOS DE RESERVA</h4>
+
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="col-xs-offset-0 col-xs-6" align="center">
+                <label for="fechaInicio" class="col-md-3 control-label">Fecha Inicio<span class="obligatorio">*</span></label>
+                <div class="input-group input-append date col-md-7">
+                    <input ng-model=fechaInicio id="fechaInicio" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                    <label for="fechaInicio" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-xs-offset-0 col-xs-3" align="center">
+                <label for="fechaFin" class="col-md-5 control-label">Fecha Fin<span class="obligatorio">*</span></label>
+                <div class="input-group input-append date col-md-7">
+                    <input ng-model=fechaFin id="fechaFin" type="text" class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                    <label for="fechaFin" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <span class="obligatorio" style="margin-left: 180px;">(*) Estos campos son obligatorios</span>
+                </div>
+            </div>
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 95px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnRegistrar">Registrar</a>
+                    <a href="ConsultarBungalow.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+
+    $('#fechaInicio').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    $('#fechaFin').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    $("tipoBungalow").click(
+            $.getJSON("/api/tiposbungalow", null, function (data) {
+                $("#tipoBungalow option").remove(); // Remove all <option> child tags.
+                $("#tipoBungalow").append( // Append an object to the inside of the select box
+                        $("<option></option>") // Yes you can do this.
+                                .text("Elegir")
+                                .val(-1)
+                );
+                console.log(data);
+                $.each(data, function (index, item) { // Iterates through a collection
+                    $("#tipoBungalow").append( // Append an object to the inside of the select box
+                            $("<option></option>") // Yes you can do this.
+                                    .text(item.nombre)
+                                    .val(item.id)
+                    );
+                });
+            })
+    );
+
+    var ruta = parent.document.URL.substring(parent.document.URL.indexOf('?'),parent.document.URL.length);
+    var idBungalow = ruta.substring(ruta.lastIndexOf('=')+1);
+    var idSocio = '1';
+    var app = angular.module('app', []);
+    app.controller('BungalowController', function ($scope, $http) {
+        $scope.socio=[];
+
+//        $http.get('/api/socios/'+idSocio).success(function (data) {
+//            $scope.socio = data;
+//            console.log(data);
+//        });
+
+        $scope.bungalow=[];
+        $http.get('/api/bungalows/'+idBungalow).success(function (data) {
+            $scope.bungalow = data;
+            $http.get('/api/socios/'+idSocio).success(function (data) {
+                $scope.socio = data;
+                console.log(data);
+            });
+        });
+
+        $scope.valoracion = {};
+        $scope.piso = {};
+
+        $scope.valoracion.valores = [
+            {'name': 'Elegir', 'value': '-1'},
+            {'name': '1 estrella', 'value': '1'},
+            {'name': '2 estrellas', 'value': '2'},
+            {'name': '3 estrellas', 'value': '3'},
+            {'name': '4 estrellas', 'value': '4'},
+            {'name': '5 estrellas', 'value': '5'}
+        ];
+        $scope.piso.valores = [
+            {'name': 'Elegir', 'value': '-1'},
+            {'name': 'Piso 1', 'value': '1'},
+            {'name': 'Piso 2', 'value': '2'},
+            {'name': 'Piso 3', 'value': '3'}
+        ];
+
+        $scope.valoracion.valor = $scope.valoracion.valores[0].value;
+        $scope.piso.valor = $scope.piso.valores[0].value;
+
+        $("#btnRegistrar").click(function () {
+            var fechaConvertidaReserva = "";
+            if($("#fechaInicio").val() != "") {
+                var fecha = $scope.fechaInicio;
+                console.log(fecha);
+                var fechaPartida = fecha.split("/");
+                var dia = fechaPartida[0];
+                var mes = fechaPartida[1];
+                var anho = fechaPartida[2];
+                fechaConvertidaReserva = mes + '/' + dia + '/' + anho;
+            }
+
+            var fechaConvertidaFin = "";
+            if($("#fechaFin").val() != "") {
+                var fecha = $scope.fechaFin;
+                console.log(fecha);
+                var fechaPartida = fecha.split("/");
+                var dia = fechaPartida[0];
+                var mes = fechaPartida[1];
+                var anho = fechaPartida[2];
+                fechaConvertidaFin = mes + '/' + dia + '/' + anho;
+            }
+            if(validaFechas()){
+                $scope.registrarReservaBungalow = function (){
+                    var dataReserva = {
+                        'estado': '0',
+                        'fechaReserva':Date.parse(fechaConvertidaReserva),
+                        'fechaFinal':Date.parse(fechaConvertidaFin),
+                        'socio':$scope.socio,
+                        'bungalow':$scope.bungalow,
+                    };
+                    $http.post('/api/reservasbungalow', dataReserva).success(function (dataReserva) {
+
+                    })
+                    var estadoBungalow = $scope.bungalow.estado;
+                    console.log($scope.bungalow.estado);
+                    if(estadoBungalow == "DISPONIBLE"){
+                        var dataBungalow={
+                            'id': idBungalow,
+                            'estado': '2',
+                            'descripcion': $scope.bungalow.descripcion,
+                            'precio': parseFloat($scope.bungalow.precio),
+                            'caracteristicas': $scope.bungalow.caracteristicas,
+                            'piso': $scope.bungalow.piso,
+                            'valoracion': $scope.bungalow.valoracion,
+                            'descripcion': $scope.bungalow.descripcion,
+                            'urlFoto': $scope.bungalow.urlFoto,
+                        }
+
+                        var idSede = $scope.bungalow.sede.id;
+                        var idTipoBungalow = $scope.bungalow.tipoBungalow.id;
+
+                        $http.put('/api/bungalows/' + idBungalow + '/' + idSede + '/' + idTipoBungalow,dataBungalow).success(function () {
+                            Notificaciones.showProcesando();
+                            Notificaciones.hideAll();
+                            setTimeout(function () {
+                                location.href = "ConsultarBungalow.html"
+                            }, 1000);
+                        })
+                    }else{
+                        Notificaciones.showError('Este Bungalow no se encuentra disponible');
+                    }
+
+                }();
+            }else{
+
+            }
+        });
+
+        function validaFechas(){
+            if( ($("#fechaInicio").val() != "") && ($("#fechaFin").val() != "") ){
+                var fechaIni = $scope.fechaInicio;
+                var fechaFin = $scope.fechaFin;
+
+                var fechaPartida = fechaIni.split("/");
+                var diaIni = parseInt(fechaPartida[0]);
+                var mesIni = parseInt(fechaPartida[1]);
+                var anhoIni = parseInt(fechaPartida[2]);
+
+                var fechaSalida = fechaFin.split("/");
+                var diaFin = parseInt(fechaSalida[0]);
+                var mesFin = parseInt(fechaSalida[1]);
+                var anhoFin = parseInt(fechaSalida[2]);
+
+                var fechaIniConvertida = anhoIni*10000+mesIni*100+diaIni;
+                var fechaFinConvertida = anhoFin*10000+mesFin*100+diaFin;
+
+                if(fechaIniConvertida>fechaFinConvertida){
+                    Notificaciones.showError('El rango de fechas ingresado no válido');
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                Notificaciones.showError('No se a completado el campo de fechas');
+                return false;
+            }
+        }
+    });
+
+    function validarDatos() {
+        var sede = $("#sede").val();
+        var tipoBungalow = $("#tipoBungalow").val();
+        var valoracion = $("#valoracion").val();
+        valoracion = valoracion.substring(valoracion.lastIndexOf(':') + 1);
+        var piso = $("#piso").val();
+        piso = piso.substring(piso.lastIndexOf(':') + 1);
+        var precio = $("#precio").val();
+        var caracteristicas = $("#caracteristicas").val();
+
+        if (sede == -1) {
+            Notificaciones.showError('Sede requerida');
+            $("#sede").css("border-color", "red");
+            return true;
+        } else if (tipoBungalow == -1) {
+            Notificaciones.showError('Tipo de bungalow requerido');
+            $("#tipoBungalow").css("border-color", "red");
+            return true;
+        }else if (valoracion == -1) {
+            Notificaciones.showError('Valoración requerida');
+            $("#valoracion").css("border-color", "red");
+            return true;
+        }
+        else if (piso == -1) {
+            Notificaciones.showError('Piso requerido');
+            $("#piso").css("border-color", "red");
+            return true;
+        }
+        else if (!precio || parseInt(precio)<0) {
+            if(parseInt(precio)<0){
+                Notificaciones.showError('El precio no puede ser un valor negativo.');
+                $("#precio").css("border-color", "red");
+                return true;
+            }
+            Notificaciones.showError('Precio requerido');
+            $("#precio").css("border-color", "red");
+            return true;
+        }else if (!caracteristicas) {
+            Notificaciones.showError('Características del bungalow requerido');
+            $("#caracteristicas").css("border-color", "red");
+            return true;
+        }
+        return false;
+    }
+
+    $("#sede").click(function () {
+        $("#sede").css("border-color", "#ccc");
+    });
+    $("#tipoBungalow").click(function () {
+        $("#tipoBungalow").css("border-color", "#ccc");
+    });
+    $("#valoracion").click(function () {
+        $("#valoracion").css("border-color", "#ccc");
+    });
+    $("#piso").click(function () {
+        $("#piso").css("border-color", "#ccc");
+    });
+    $("#precio").click(function () {
+        $("#precio").css("border-color", "#ccc");
+    });
+    $("#caracteristicas").click(function () {
+        $("#caracteristicas").css("border-color", "#ccc");
+    });
+    //    });
+</script>
+</body>
+</html>

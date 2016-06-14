@@ -36,13 +36,7 @@ public class ServicioReservas {
     // Bungalow
 
     public List<Bungalow> mostrarBungalows() {
-        List<Bungalow> bungalows = bungalowRepository.findAll();
-        List<Bungalow> bungalowsFiltrados = new ArrayList<Bungalow>();
-        for(Bungalow item : bungalows){
-            if(item.getEstado().toString().contentEquals("DISPONIBLE"))
-                bungalowsFiltrados.add(item);
-        }
-        return bungalowsFiltrados;
+        return bungalowRepository.findAll();
     }
 
     public Bungalow crearBungalow(Bungalow bungalow) {
@@ -53,10 +47,20 @@ public class ServicioReservas {
         return bungalowRepository.findOne(id);
     }
 
+    public ReservaBungalow buscarReservaBungalow(Integer id) {
+        return reservaBungalowRepository.findOne(id);
+    }
+
     public Bungalow actualizarBungalow(Integer id, Bungalow bungalow) {
         Bungalow bungalowExistente = bungalowRepository.findOne(id);
         BeanUtils.copyProperties(bungalow, bungalowExistente);
         return bungalowRepository.saveAndFlush(bungalowExistente);
+    }
+
+    public ReservaBungalow actualizarReservaBungalow(Integer id, ReservaBungalow reservaBungalow) {
+        ReservaBungalow reservaBungalowExistente = reservaBungalowRepository.findOne(id);
+        BeanUtils.copyProperties(reservaBungalow, reservaBungalowExistente);
+        return reservaBungalowRepository.saveAndFlush(reservaBungalowExistente);
     }
 
     // TipoBungalow
@@ -69,6 +73,12 @@ public class ServicioReservas {
         return tipoBungalowRepository.saveAndFlush(tipoBungalow);
     }
 
+    public TipoBungalow actualizarTipoBungalow(Integer id, TipoBungalow tipoBungalow) {
+        TipoBungalow bungalowExistente = tipoBungalowRepository.findOne(id);
+        tipoBungalow.setId(id);
+        BeanUtils.copyProperties(tipoBungalow, bungalowExistente);
+        return tipoBungalowRepository.saveAndFlush(bungalowExistente);
+    }
     // ReservaBungalow
 
     public List<ReservaBungalow> mostrarReservasBungalow() {

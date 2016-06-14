@@ -19,21 +19,21 @@ public class Horario {
     @GeneratedValue
     private Integer id;
     private String dia; // lunes, martes...
-    private Date horaInicio;
-    private Date horaFin;
+    private String horaInicio;
+    private String horaFin;
     private EstadoHorario estadoHorario;
 
     @ManyToOne
     private Instalacion instalacion;
 
     @ManyToOne
-    @JsonIgnore
+    //@JsonIgnore
     private Clase clase;
 
     protected Horario() {
     }
 
-    public Horario(String dia, Date horaInicio, Date horaFin, EstadoHorario estadoHorario, Clase clase, Instalacion instalacion) {
+    public Horario(String dia, String horaInicio, String horaFin, EstadoHorario estadoHorario, Clase clase, Instalacion instalacion) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -58,19 +58,19 @@ public class Horario {
         this.dia = dia;
     }
 
-    public Date getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Date horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
 

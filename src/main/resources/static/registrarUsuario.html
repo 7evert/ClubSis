@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de usuario</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+    <style type="text/css">
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+    <script src="js/principal.js"></script>
+    <script src="js/Notificaciones.js"></script>
+
+</head>
+<body ng-controller="UsuarioController">
+<div id="headerAdministrador"></div>
+
+<div class="container">
+    <h2>Registro Usuario</h2>
+    <hr>
+    <form class="form-horizontal mitadDerecha">
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label col-xs-4">Nombre de usuario<span class="obligatorio">*</span></label>
+                <div class="input-group col-xs-8">
+                    <input ng-model="nombreUsuario" id="nombreUsuario" type="text" class="form-control col-xs-8"
+                           placeholder="Nombre del usuario"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Contraseña<span class="obligatorio">*</span></label>
+                <div class="input-group col-xs-8">
+                    <input ng-model="contrasenha" id="contrasenha" type="text" class="form-control col-xs-8"
+                           placeholder="Contraseña del usuario"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-4">Confirmar contraseña<span class="obligatorio">*</span></label>
+                <div class="input-group col-xs-8">
+                    <input id="contraseñaConfirmacion" type="text" class="form-control col-xs-8"
+                           placeholder="Repita la contraseña ingresada"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-4">Rol<span class="obligatorio">*</span></label>
+                <div class="input-group col-xs-8">
+                    <select id="rol" class="form-control col-xs-8">
+                        <option value="-1" selected>Elegir</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-4">Sede<span class="obligatorio">*</span></label>
+                <div id="sede" class="input-group col-xs-8">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre" class="col-xs-4 control-label">Nombres<span class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="nombre" id="nombre"
+                           placeholder="Nombre completo" maxlength="50">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoPaterno" class="col-xs-4 control-label">Apellido Paterno<span
+                        class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="apellidoPaterno" id="apellidoPaterno"
+                           placeholder="Apellido paterno" maxlength="50">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoMaterno" class="col-xs-4 control-label">Apellido Materno<span
+                        class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="apellidoMaterno" id="apellidoMaterno"
+                           placeholder="Apellido Materno" maxlength="50">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-4 control-label">Tipo de documento<span class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <select ng-model="tipoDoc" id="tipoDoc" class="form-control col-xs-8">
+                        <option value="-1" selected>Elegir</option>
+                        <option value="DNI">DNI</option>
+                        <option value="PASAPORTE">Pasaporte</option>
+                        <option value="CARNET">Carnet</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-4 control-label">Número de documento<span class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="numDoc" id="numDoc"
+                           placeholder="Numero de Documento" maxlength="8">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaNacimiento" class="col-xs-4 control-label">Fecha de Nacimiento<span
+                        class="obligatorio">*</span></label>
+                <div class="input-group input-append date col-xs-8">
+                    <input ng-model=fechaNacimiento id="fechaNacimiento" type="text"
+                           class="date-picker form-control col-xs-6 col-md-7" placeholder="dd/mm/yyyy"/>
+                    <label for="fechaNacimiento" class="input-group-addon btn"><span
+                            class="glyphicon glyphicon-calendar"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono" class="col-xs-4 control-label">Teléfono</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="telefono" id="telefono"
+                           placeholder="Numero de teléfono" maxlength="10">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="correo" class="col-xs-4 control-label">Correo</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="correo" id="correo"
+                           placeholder="Correo del usuario" maxlength="50">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="direccion" class="col-xs-4 control-label">Dirección</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="direccion" id="direccion"
+                           placeholder="Dirección de vivienda" maxlength="140">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nombreContactoEmergencia" class="col-xs-4 control-label">Nombre de contacto de
+                    emergencia<span class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="nombreContactoEmergencia"
+                           id="nombreContactoEmergencia"
+                           placeholder="Nombre de contacto de emergencia" maxlength="140">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="telefonoContactoEmergencia" class="col-xs-4 control-label">Teléfono de contacto de
+                    emergencia<span class="obligatorio">*</span></label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="telefonoContactoEmergencia"
+                           id="telefonoContactoEmergencia"
+                           placeholder="Teléfono de contacto de emergencia" maxlength="140">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <div class="col-md-12">
+                <span class="obligatorio">(*) Estos campos son obligatorios</span>
+            </div>
+        </div>
+        <div class="col-sm-7 col-lg-7">
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-10">
+                <input type="" class="btn btn-primary" id="btnRegistrar" value="Registrar" style="width:22%">
+                <input type="" class="btn btn-primary" id="btnCancelar" value="Cancelar" style="width:22%"
+                       onclick="location.href='MantenimientoInstalaciones.html';">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="footer"></div>
+
+<script type="text/javascript">
+    // $(".date-picker").datepicker();
+
+    $('#fechaNacimiento').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    var sedes;
+    var app = angular.module('app', []);
+    app.controller('UsuarioController', function ($scope, $http) {
+
+        $http.get('/api/sedes').success(function (data) {
+            sedes = data;
+            sedesElem = $("#sede");
+            for (var i = 0; i < data.length; i++) {
+                sedesElem.append($("<input>").attr({
+                    type: 'checkbox',
+                    id: "sede" + data[i].id,
+                    value: data[i].id,
+                    name: data[i].nombre
+                })).append(data[i].nombre).append('<br />');
+            }
+        });
+        var roles;
+        $http.get('/api/roles').success(function (data) {
+            roles = data;
+            rolesElem = $("#rol");
+            for (var i = 0; i < data.length; i++) {
+                rolesElem.append($("<option></option>").attr({value: data[i].id}).html(data[i].nombre));
+            }
+        });
+
+        $("#btnRegistrar").click(function () {
+            var idRol = $("#rol").val();
+            var rolSeleccionado;
+            for (var i = 0; i < roles.length; i++)
+                if (roles[i].id == idRol) {
+                    rolSeleccionado = roles[i];
+                    break;
+                }
+
+            var sedesSeleccionadas = [];
+            console.log(sedes);
+            var j = 0;
+            $("input:checkbox:checked").each(function () {
+                console.log(this.value);
+                for (var i = 0; i < sedes.length; i++) {
+                    if (sedes[i].id == this.value) {
+                        sedesSeleccionadas[j] = sedes[i];
+                        j++;
+                        break;
+                    }
+                }
+            });
+
+
+            var fechaConvertida = "";
+            var fecha = $("#fechaNacimiento").val();
+            if (fecha) {
+                var fechaPartida = fecha.split('/');
+                var dia = fechaPartida[0];
+                var mes = fechaPartida[1];
+                var anho = fechaPartida[2];
+                fechaConvertida = mes + '/' + dia + '/' + anho;
+            }
+            var data = {
+                'nombreUsuario': $scope.nombreUsuario,
+                'contrasenha': $scope.contrasenha,
+                'nombre': $scope.nombre,
+                'apellidoPaterno': $scope.apellidoPaterno,
+                'apellidoMaterno': $scope.apellidoMaterno,
+                'tipoDoc': $scope.tipoDoc,
+                'numDoc': $scope.numDoc,
+                'fechaNacimiento': Date.parse(fechaConvertida),
+                'direccion': $scope.direccion,
+                'telefono': parseInt($scope.telefono),
+                'correo': $scope.correo,
+                'esTitular': false,
+                'esActivo': true,
+                'rol': rolSeleccionado,
+                'sede': sedesSeleccionadas,
+                'nombreContactoEmergencia': $scope.nombreContactoEmergencia,
+                'telefonoContactoEmergencia': $scope.telefonoContactoEmergencia,
+            };
+            console.log(data);
+            console.log(sedesSeleccionadas);
+            console.log(data.sede);
+            if (validarDatos()) {
+                var idUsuario;
+                $http.post('/api/usuarios', data).success(function (respuesta) {
+                    idUsuario=respuesta.id;
+                    console.log(idUsuario);
+                    $http.post('/api/usuarios/'+idUsuario+'/listaSedes', sedesSeleccionadas).success(function (respuesta) {
+                    })
+                            .error(function (respuesta) {
+                                Notificaciones.showError("Error al crear el usuario.");
+                            });
+                })
+                        .error(function (respuesta) {
+                            Notificaciones.showError("Error al crear el usuario.");
+                        });
+
+
+
+                Notificaciones.showProcesando();
+                Notificaciones.hideAll();
+                //window.location = "mantenimientoUsuario.html";
+            }
+        });
+    });
+
+    function validarSede() {
+        var numSedes = 0;
+        numSedes = $("input:checkbox:checked").size();
+        console.log(numSedes);
+        if (numSedes == 0) return false;
+        else return true;
+
+    }
+
+    function validarDatos() {
+        var nombreUsuario = $("#nombreUsuario").val();
+        var contraseña = $("#contrasenha").val();
+        var contraseñaConfirmacion = $("#contraseñaConfirmacion").val();
+        var rol = $("#rol").val();
+        var nombre = $("#nombre").val();
+        var apellidoPaterno = $("#apellidoPaterno").val();
+        var apellidoMaterno = $("#apellidoMaterno").val();
+        var tipoDoc = $("#tipoDoc").val();
+        var numDoc = $("#numDoc").val();
+        var fechaNacimiento = $("#fechaNacimiento").val();
+        var nombreContactoEmergencia = $("#nombreContactoEmergencia").val();
+        var telefonoContactoEmergencia = $("#telefonoContactoEmergencia").val();
+
+
+        if (!nombreUsuario) {
+            Notificaciones.showError('Nombre de usuario requerido');
+            $("#nombreUsuario").css("border-color", "red");
+            return false;
+        } else if (!contraseña) {
+            Notificaciones.showError('Contraseña requerida');
+            $("#contrasenha").css("border-color", "red");
+            return false;
+        } else if (!contraseñaConfirmacion) {
+            Notificaciones.showError('Contraseña requerida');
+            $("#contraseñaConfirmacion").css("border-color", "red");
+            return false;
+        } else if (contraseña != contraseñaConfirmacion) {
+            Notificaciones.showError('Las contraseñas no coinciden');
+            $("#contrasenha").css("border-color", "red");
+            $("#contraseñaConfirmacion").css("border-color", "red");
+            return false;
+        } else if (rol == -1) {
+            Notificaciones.showError('Rol requerido');
+            $("#rol").css("border-color", "red");
+            return false;
+        } else if (!validarSede()) {
+            Notificaciones.showError('Sede requerida');
+            return false;
+        } else if (!nombre) {
+            Notificaciones.showError('Nombre requerido');
+            $("#nombre").css("border-color", "red");
+            return false;
+        } else if (!apellidoPaterno) {
+            Notificaciones.showError('Apellido paterno requerido');
+            $("#apellidoPaterno").css("border-color", "red");
+            return false;
+        } else if (!apellidoMaterno) {
+            Notificaciones.showError('Apellido materno requerido');
+            $("#apellidoMaterno").css("border-color", "red");
+            return false;
+        } else if (tipoDoc == -1) {
+            Notificaciones.showError('Tipo de documento requerido');
+            $("#tipoDoc").css("border-color", "red");
+            return false;
+        } else if (!numDoc) {
+            Notificaciones.showError('Número de documento requerido');
+            $("#numDoc").css("border-color", "red");
+            return false;
+        } else if (!fechaNacimiento) {
+            Notificaciones.showError('Fecha de nacimiento requerida');
+            $("#fechaNacimiento").css("border-color", "red");
+            return false;
+        } else if (!nombreContactoEmergencia) {
+            Notificaciones.showError('Nombre de contacto de emergencia requerido');
+            $("#nombreContactoEmergencia").css("border-color", "red");
+            return false;
+        } else if (!telefonoContactoEmergencia) {
+            Notificaciones.showError('Teléfono de contacto de emergencia requerido');
+            $("#telefonoContactoEmergencia").css("border-color", "red");
+            return false;
+        }
+        return true;
+    }
+
+    $("#nombreUsuario").click(function () {
+        $("#nombreUsuario").css("border-color", "#ccc");
+    });
+    $("#contrasenha").click(function () {
+        $("#contrasenha").css("border-color", "#ccc");
+    });
+    $("#contraseñaConfirmacion").click(function () {
+        $("#contraseñaConfirmacion").css("border-color", "#ccc");
+    });
+    $("#rol").click(function () {
+        $("#rol").css("border-color", "#ccc");
+    });
+    $("#nombre").click(function () {
+        $("#nombre").css("border-color", "#ccc");
+    });
+    $("#apellidoPaterno").click(function () {
+        $("#apellidoPaterno").css("border-color", "#ccc");
+    });
+    $("#apellidoMaterno").click(function () {
+        $("#apellidoMaterno").css("border-color", "#ccc");
+    });
+    $("#tipoDoc").click(function () {
+        $("#tipoDoc").css("border-color", "#ccc");
+    });
+    $("#numDoc").click(function () {
+        $("#numDoc").css("border-color", "#ccc");
+    });
+    $("#fechaNacimiento").click(function () {
+        $("#fechaNacimiento").css("border-color", "#ccc");
+    });
+    $("#nombreContactoEmergencia").click(function () {
+        $("#nombreContactoEmergencia").css("border-color", "#ccc");
+    });
+    $("#telefonoContactoEmergencia").click(function () {
+        $("#telefonoContactoEmergencia").css("border-color", "#ccc");
+    });
+
+</script>
+</body>
+</html>

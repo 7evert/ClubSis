@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>ClubSis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='webjars/jqgrid/4.7.0/css/ui.jqgrid.css'/>
+    <title>Title</title>
+    <!--Estilos nuevos creados se pueden mover a otro lado, a otro css nuevo-->
+    <style type="text/css">
+        .icono {
+            width: 18px;
+        }
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+        }
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr{
+            background: #008D34;
+        }
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+        .ui-jqgrid-resize-ltr{
+            background-color: #008D34;
+        }
+        .btn-warning{
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .   {
+            width: 20px;
+        }
+
+        h4{
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr{
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        var datosUrl;
+    </script>
+    <script type="text/javascript">
+
+        var appRegistroPago = angular.module('appRegistroPago', []);
+        var idSocio;
+        appRegistroPago.controller('PagoController', function ($scope, $http) {
+            $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+                //datosUrl=respuesta.data;
+                //Hasta tener el id del socio logeado se usara el 1
+
+                idSocio=1;
+                var datosUrl= $.grep(respuesta.data, function (element, index) {
+                    return element.estadoCuotaExtraordinaria == "REGISTRADA";
+                });
+
+                $("#jqGrid").jqGrid({
+
+                    data: datosUrl,
+                    mtype: "GET",
+                    styleUI : 'Bootstrap',
+                    datatype: "local",
+                    gridview: true,
+                    emptyrecords: 'No se encontraron resultados',
+                    //Aqui hay que guiarse de la tabla de la base de datos que va a tener la tabla Productos
+                    colModel: [
+                        { label: 'Código Cuota', name: 'id', key: true,align :'center', width: 75},
+                        { label: 'Código Carnet', name: 'socio.codigoCarnet',align :'center', width: 75},
+                        { label: 'Nombre', name: 'nombre', align: 'center', width: 100 },
+                        { label: 'Descripcion', name: 'descripcion', align: 'center', width: 100 },
+                        { label: 'Importe (S/.)', name: 'monto', align: 'center', width: 150 },
+                        { label: 'Estado', name: 'estadoCuotaExtraordinaria', align: 'center', width: 100 },
+                        { label:'Fecha Inicio', name: 'fechaInicio', align: 'center', width: 100 },
+                        { label:'Fecha Fin', name: 'fechaFin', align: 'center', width: 100 },
+                        //{ label:'Acciones', name: 'acciones', width: 150, align: 'center', formatter: acciones},
+                    ],
+                    viewrecords: true,
+                    height: "auto",
+                    multiselect:true,
+                    width: 900,
+                    rowNum: 10,
+                    pager: "#jqGridPager"
+                });
+            })
+            $scope.registrarPagos =function (){
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    Notificaciones.showError("No hay cuota seleccionado");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje= "Se registro los pagos seleccionados satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data= selectedIDs[i];
+                        $http.post('/api/cuotasExtraordinarias/'+ data+'/pagar').success(function (data ) {
+                            result += selectedIDs[i] + ",";
+                            Notificaciones.showNoty("Se registro exitosamente los pagos seleccionados", Notificaciones.type.SUCCESS);
+                        }).error(function (data2) {
+                            console.log(JSON.stringify(data));
+                            Notificaciones.showError("No se pudo registrar los pagos seleccionados");
+                        });
+                        result += selectedIDs[i] + ",";
+                    }
+                    setTimeout(function () {
+                        location.href = "registroCuotaExtraordinaria.html"
+                    }, 1200);
+                }
+            }
+            $scope.estado = {};
+
+            $scope.estado.valores = [
+                {'name': 'TODOS', 'value': 'TODOS'},
+                {'name': 'REGISTRADA', 'value': 'REGISTRADA'},
+                {'name': 'VENCIDA', 'value': 'VENCIDA'},
+                {'name': 'PAGADA', 'value': 'PAGADA'},
+                {'name': 'ANULADA', 'value': 'ANULADA'}
+            ];
+            $scope.estado.valor = $scope.estado.valores[0].value;
+            $("#btnBuscar").click(function (){
+                $http.get('/api/cuotasExtraordinarias').then(function (respuesta) {
+                    datosUrl=respuesta.data;
+                });
+
+                var datosFiltr,codigoFilt,estadoFilt;
+                codigoFilt=$scope.ngCodigo;
+                if(codigoFilt){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.socio.codigoCarnet == codigoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                estadoFilt=$scope.estado.valor;
+                if(estadoFilt!="TODOS"){
+                    datosFiltr= $.grep(datosUrl, function (element, index) {
+                        return element.estadoCuotaExtraordinaria == estadoFilt;
+                    });
+                    datosUrl=datosFiltr;
+                }
+                $('#jqGrid').jqGrid('clearGridData');
+                $('#jqGrid').setGridParam({data:datosUrl});
+                $('#jqGrid').trigger( 'reloadGrid' );
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="headerAdministrador"></div>
+<div class="container" ng-app="appRegistroPago" ng-controller="PagoController">
+    <!--Aqui irá su codigo intermedio para que hagan sus modificaciones de las pestañas el headerUsuario ya tiene-->
+    <!--el banner de opciones de menu para el usuario, esto lo pueden utilizar para hacer sus vistas es una plantilla
+    pueden generar otro javascript un archivo .js para que puedan usar sus javascripts en sus htmls, sean ordenados-->
+    <h2>Registro de Pago Extraordinario</h2>
+    <hr>
+    <h4>FILTRO DE BÚSQUEDA</h4>
+    <form class="form-horizontal" id="formFiltrado">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Código Carnet</label>
+                    <div class="col-md-8">
+                        <input type="text" ng-model="ngCodigo" class="form-control" placeholder="Codigo de Carnet del Socio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="estado" class="col-md-4 control-label">Estado del Pago</label>
+                    <div class="col-md-8">
+                        <select id="estado" class="form-control" ng-model="estado.valor"
+                                ng-options="template.value as template.name for template in estado.valores">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 105px;">
+                    <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
+                    <button onclick="limpiarF()" class="btn btn-primary" id="btnLimpiar">Limpiar</button>
+                    <button ng-click="fitrado()" class="btn btn-primary" id="btnBuscar">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal">
+        <h4>RESULTADOS DE BÚSQUEDA</h4>
+        <div class="rowchangeg" style="width: 900px; margin-left: auto; margin-right: auto;">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+        <br>
+        <div class="col-sm-7 col-lg-7">
+        </div>
+        <div class="col-sm-5 col-lg-5">
+            <div class="form-group" style="margin-left: 180px;">
+                <button ng-click="registrarPagos()" href="javascript:void(0)" class="btn btn-primary">Grabar</button>
+                <a href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/i18n/grid.locale-en.js"></script>
+<script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
+<script src="js/principal.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+
+    function acciones(cellValue, options, rowdata, action) {
+        var acciones = '';
+
+        acciones = '<a href="javascript:void(0)" class="btn btn-warning" data-idEvento-ver="'  +rowdata['idProducto']+ '" title="Ver Pago"><img src="img/Iconos/ver.png" class="icono"></a>';
+        return acciones;
+    };
+    function limpiarF() {
+        document.getElementById("formFiltrado").reset();
+    };
+
+</script>
+</body>
+</html>

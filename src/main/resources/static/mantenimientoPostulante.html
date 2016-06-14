@@ -61,6 +61,12 @@
         .centered2 {
             margin-right: 510px;
         }
+
+        .myAltRowClassEven {
+            background: #999999;
+            border-color: #79B7E7;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -73,8 +79,8 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE SOLICITUD DE POSTULANTE
-                <a href="registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
-                    Postulante</a>
+            <a href="registroPostulante.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 295px;">Añadir
+                Postulante</a>
         </h3>
     </div>
     <hr>
@@ -145,7 +151,10 @@
             <div class="col-sm-7 col-lg-7">
             </div>
             <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 110px;">
+                <div class="form-group" style="margin-left: 30px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"
+                       style="visibility: visible">Eliminar</a>
+                    <!--style="visibility: hidden">Eliminar</a>-->
                     <a href="loginUsuario.html" class="btn btn-primary" id="btnCancelar">Cancelar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnLimpiar">Limpiar</a>
                     <a href="javascript:void(0)" class="btn btn-primary" id="btnBuscar">Buscar</a>
@@ -161,9 +170,8 @@
         <div class="leyenda">
             <span>Leyenda: </span>
             <span class="icono-editar"><img src="img/Iconos/ver.png" class="icono"></span> Ver Postulante|
-            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar
-            Postulante
-            |
+            <span class="icono-reprogramar"><img src="img/Iconos/modificar.png" class="icono"></span> Modificar Postulante|
+            <span class="icono-reprogramar"><img src="img/Iconos/opinion.png" class="icono"></span> Registrar Opinión|
             <span class="icono-resultados"><img src="img/Iconos/eliminar.png" class="icono"></span> Eliminar Postulante
         </div>
     </form>
@@ -189,6 +197,7 @@
 <script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
     ////    Aun no se usa pero luego ya puede ser usada para el filtrado el angular module con sus funciones
+    var funciones={};
     var app = angular.module('appMantenimientoPostulante', []);
     app.controller('MantenimientoPostulanteController', function ($scope, $http) {
         $scope.postulantes = [];
@@ -204,8 +213,12 @@
                 $scope.postulantes = data;
             });
         }
+        funciones.getIDSocio=function () {
+            var href = window.location.href;
+            var str = href.match(/\?id\=(\d+)/);
+            return str ? str[1] : str;
+        }
     });
-
 
     $('.icono-modificar').click(function () {
         var idPostulante = $(this).attr('data-idPostulante-eliminar');
@@ -224,26 +237,30 @@
         colModel: [
             {label: 'id', name: 'id', hidden: true, width: 75},
             {index: 'nombre', name: 'nombre', align: 'center', width: 90},
-            {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 70},
-            {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 70},
-            {index: 'tipoDocumento', sortable: true, name: 'tipoDocumento', align: 'center', width: 95},
-            {index: 'numeroDocumento', name: 'numeroDocumento', align: 'center', width: 70},
+            {index: 'apellidoPaterno', name: 'apellidoPaterno', align: 'center', width: 90},
+            {index: 'apellidoMaterno', name: 'apellidoMaterno', align: 'center', width: 90},
+            {index: 'tipoDoc', sortable: true, name: 'tipoDoc', align: 'center', width: 110},
+            {index: 'numDoc', name: 'numDoc', align: 'center', width: 75},
             {index: 'celular', name: 'celular', align: 'center', width: 70},
             {index: 'profesion', name: 'profesion', align: 'center', width: 70},
-            {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 70},
-            {index: 'acciones', name: 'acciones', width: 80, align: 'center', formatter: acciones}
+            {index: 'esAprobado', name: 'esAprobado', align: 'center', width: 90},
+            {index: 'esActivo', name: 'esActivo', align: 'center', width: 70},
+            {index: 'acciones', name: 'acciones', width: 120, align: 'center', formatter: acciones},
+//            {index: 'eliminados', name: 'eliminados', width: 20, align: 'center', formatter: eliminados}
         ],
         colNames: [
-            'idPostulante', 'Nombres', 'Apellido Paterno', 'Apellido Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado', 'Acciones'
+            'idPostulante', 'Nombres', 'Ap. Paterno', 'Ap. Materno', 'Tipo de Documento', 'N° Documento', 'Celular', 'Profesión', 'Estado Postulante', 'Estado', 'Acciones'
         ],
         viewrecords: true,
         height: 400,
         rowNum: 20,
+        multiselect: true,
         pager: "#jqGridPager",
         loadComplete: function () {
+
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
-            for (i = 1; i < cantFilas+cantFilas*4; i++) {
+            for (i = 1; i < cantFilas + cantFilas * 4; i++) {
                 var rowData = $('#jqGrid').jqGrid('getRowData', i);
                 console.log(rowData);
                 //0: Pendiente 1:Rechazada 2:Aprobada
@@ -255,14 +272,65 @@
                     rowData.esAprobado = 'Aprobada';
                 if (rowData.celular == "")
                     rowData.celular = '-';
+                if (rowData.esActivo == "true")
+                    rowData.esActivo = 'HABILITADO';
+                else if (rowData.esActivo == "false")
+                    rowData.esActivo = 'INHABILITADO';
+                if (rowData.tipoDoc == "PASAPORTE")
+                    rowData.tipoDoc = 'Pasaporte';
+                else if (rowData.tipoDoc == "CARNET")
+                    rowData.tipoDoc = 'Carnet de extranjería';
                 $('#jqGrid').jqGrid('setRowData', i, rowData);
             }
+
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['esActivo'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+
+            $('#btnEliminarMultiples').click(function () {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey)
+                    Notificaciones.showError("No hay solicitudes de postulantes seleccionado(s) a eliminar");
+                else {
+                    var selectedIDs = grid.getGridParam("selarrrow");
+                    var result = "";
+                    var mensaje = "Han sido eliminados las solicitudes de postulantes seleccionadas satisfactoriamente.";
+                    for (var i = 0; i < selectedIDs.length; i++) {
+                        var data = selectedIDs[i];
+                        console.log("Entro Eliminar x");
+                        $.post('/api/postulantes/eliminar',
+                                {idPostulante: data},
+                                function (response) {
+                                    if (!response.error) {
+
+                                    } else {
+                                        Noty.hideAll();
+                                        mensaje = "No se pudo rechazar las solicitudes de postulantes seleccionadas";
+                                    }
+                                });
+                        result += selectedIDs[i] + ",";
+                    }
+                    Notificaciones.showNoty(mensaje);
+                    setTimeout(function () {
+                        location.href = "mantenimientoPostulante.html"
+                    }, 1000);
+                }
+            });
+
             //var funcionesAngular = angular.element(document.getElementById('MantenimientoPostulanteID')).scope();
             $('.icono-ver').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-ver');
                 window.location = 'verPostulante.html?id=' + idPostulante;
 
             });
+
             $('.icono-eliminar').click(function () {
                 var idPostulante = $(this).attr('data-idPostulante-eliminar');
                 $.noty.closeAll();
@@ -282,7 +350,7 @@
                                         if (!response.error) {
                                             Notificaciones.hideAll();
                                             Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
-                                            $('#grid').trigger('reloadGrid');
+                                            $('#jqGrid').trigger('reloadGrid');
                                             setTimeout(function () {
                                                 location.href = "mantenimientoPostulante.html"
                                             }, 1000);
@@ -306,6 +374,10 @@
                 var idPostulante = $(this).attr('data-idPostulante-modificar');
                 window.location = 'editarPostulante.html?id=' + idPostulante;
             });
+            $('.icono-opinion').click(function () {
+                var idPostulante = $(this).attr('data-idPostulante-Opinion');
+                window.location = 'registrarOpinionPostulante.html?idPostulante=' + idPostulante + '&idSocio=' + funciones.getIDSocio();
+            });
         }
     });
 
@@ -314,9 +386,16 @@
         var acciones = '';
         acciones = '<a href="javascript:void(0)" ng-click="handleClick()" class="btn btn-warning icono-ver" data-idPostulante-ver="' + rowdata['id'] + '" title="Ver Postulante"><img src="img/Iconos/ver.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-modificar" data-idPostulante-modificar="' + rowdata['id'] + '" title="Modificar Postulante"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="javascript:void(0)" ng-click="clickHandler();" class="btn btn-warning icono-opinion" data-idPostulante-Opinion="' + rowdata['id'] + '" title="Registrar Opinion"><img src="img/Iconos/opinion.png" class="icono"></a>' +
                 '<a href="javascript:void(0)" class="btn btn-warning icono-eliminar" data-idPostulante-eliminar="' + rowdata['id'] + '" title="Eliminar Postulante"><img src="img/Iconos/eliminar.png" class="icono"></a>';
         return acciones;
     }
+    //
+    //    function eliminados(cellValue, options, rowdata, action) {
+    //        var eliminados = '';
+    //        eliminados = '<input href="javascript:void(0)" class="eliminarMultiple" data-idPostulante-eliminarMultiple="' + rowdata['id'] + '" title="Ver Bungalow" type="checkbox" value="">';
+    //        return eliminados;
+    //    }
 
     $('#btnLimpiar').click(function () {
         $("#tipoDocumento").val(-1);

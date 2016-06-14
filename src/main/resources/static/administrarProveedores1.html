@@ -18,7 +18,6 @@
         .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
             background: #008D34;
         }
-
         .ui-jqgrid-sortable {
             color: azure;
             background-color: #008D34;
@@ -59,19 +58,46 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .centered1 {
+            margin-right: 0px;
+        }
+
+        .centered2 {
+            margin-right: 510px;
+        }
+        .myAltRowClassEven { background: #999999; border-color: #79B7E7; color: #ffffff; }
     </style>
 </head>
 <body ng-controller="ProveedorController">
 <script type="text/javascript">
-    function edicionProveedor(){
+    function edicionProveedor(event){
         var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
         location.href = "edicionProveedor.html?id=" + id;
     }
-    function accionEliminar() {
+    function accionEliminar(event) {
         var id = event.target.parentNode.getAttribute("data-idEvento-eliminar");
         console.log("Accion:");
         console.log(id);
-        funciones.eliminar(id);
+        $.noty.closeAll();
+        noty({
+            text: '¿Está seguro de que desea eliminar al proveedor?',
+            type: 'warning',
+            buttons: [
+                {
+                    addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                    Notificaciones.hideAll();
+                    funciones.eliminar(id);
+                    Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
     }
 </script>
 <script type="text/javascript">
@@ -96,15 +122,69 @@
             //var id = event.target.parentNode.getAttribute("data-idEvento-modificar");
             console.log(id);
             $http.get('/api/proveedores/' + id).success(function (data2, status) {
-                console.log(data2);
-                data2.estadoProveedor = 0;
-                $http.put("/api/proveedores/" + data2.id, data2).success(function (data3, status) {
-                    alert("Este proveedor ya no esta habilitado");
-                    location.href = "administrarProveedores1.html";
-                });
+                    console.log(data2);
+                    data2.estadoProveedor = 0;
+                    $http.put("/api/proveedores/" + data2.id, data2).success(function (data3, status) {
+                        setTimeout(function () {
+                            location.href = "administrarProveedores1.html"
+                        }, 1000);
+                        //alert("Este proveedor ya no esta habilitado");
+//                        location.href = "administrarProveedores1.html";
+                    });
             });
         })
 
+        $scope.eliminarProveedores =function (){
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+
+            if (!rowKey)
+                Notificaciones.showError('No hay proveedor seleccionado');
+            else {
+                $.noty.closeAll();
+                noty({
+                    text: '¿Está seguro de que desea eliminar este proveedor ?',
+                    type: 'warning',
+                    buttons: [
+                        {
+                            addClass: 'btn btn-primary boton-1 centered1', text: 'Eliminar', onClick: function ($noty) {
+                            Notificaciones.hideAll();
+                            var selectedIDs = grid.getGridParam("selarrrow");
+                            var result = "";
+                            console.log(selectedIDs);
+                            for (var i = 0; i < selectedIDs.length; i++) {
+                                var id= selectedIDs[i];
+                                $http.get('/api/proveedores/'+ id).success(function (data,status ) {
+                                    result += selectedIDs[i] + ",";
+                                    flag=true
+                                    console.log(JSON.stringify(data));
+                                    data.estadoProveedor = 0;
+                                    $http.put("/api/proveedores/" + data.id, data).success(function (data3, status) {
+                                        setTimeout(function () {
+                                            location.href = "administrarProveedores1.html"
+                                        }, 1000);
+                                    });
+                                }).error(function (data2) {
+                                    console.log(JSON.stringify(data));
+                                    Notificaciones.showError('No se pudo eliminar los proveedores seleccionados');
+                                });
+
+                                console.log(result);
+                                result += selectedIDs[i] + ",";
+                            }
+                            Notificaciones.showNoty("Eliminación exitosa", Notificaciones.type.SUCCESS);
+                            $noty.close();
+                        }
+                        },
+                        {
+                            addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                            $noty.close();
+                        }
+                        }
+                    ]
+                });
+            }
+        }
 
     });
 </script>
@@ -116,8 +196,9 @@
     <div>
         <h3>
             ADMINISTRACIÓN DE PROVEEDORES
-            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 445px;">Añadir
+            <a href=registrarProveedor.html class="btn btn-primary" id="btnRegistrar" style="margin-left: 400px;">Añadir
                 Proveedor</a>
+            <button ng-click="eliminarProveedores()" href="javascript:void(0)" class="btn btn-primary">Eliminar Proveedor</button>
         </h3>
 
     </div>
@@ -179,7 +260,13 @@
 <script src="webjars/jqgrid/4.7.0/js/jquery.jqGrid.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="webjars/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
 <script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script type="text/javascript">
 
     $("#jqGrid").jqGrid({
@@ -189,15 +276,15 @@
         datatype: "json",
         gridview: true,
         emptyrecords: 'No se encontraron resultados',
-        colNames:['Id','Nombre del Proveedor','RUC','Descripcion','# Contacto','Direccion','Estado Proveedor', 'Acciones'], //define column names
+        colNames:['Número','Nombre del Proveedor','RUC','Descripción','Número de Contacto','Dirección','Estado Proveedor', 'Acciones'], //define column names
         colModel:[
-            {name:'id', index:'id', key: true, width:50},
-            {name:'nombre', index:'nombre', width:150},
-            {name:'ruc', index:'ruc', width:100},
-            {name:'descripcion', index:'descripcion',width:350},
-            {name:'numContacto', index:'numContacto', width:100},
+            {name:'id', index:'id', align:'center', key: true, width:50},
+            {name:'nombre', index:'nombre', align:'center', width:150},
+            {name:'ruc', index:'ruc', align:'center', width:100},
+            {name:'descripcion', index:'descripcion',width:300},
+            {name:'numContacto', index:'numContacto',align:'center', width:110},
             {name:'direccion', index:'direccion', width:220},
-            {name:'estadoProveedor', index:'estadoProveedor', width:100},
+            {name:'estadoProveedor', index:'estadoProveedor', align:'center', width:100},
             {name: 'acciones', width: 80, align: 'center', formatter: acciones},
         ],
         viewrecords: true,
@@ -205,8 +292,17 @@
         rowNum: 1000,
         pager: "#jqGridPager",
         loadComplete:function(){
-            console.log("salio");
-        }
+            var rowIds = $("#jqGrid").jqGrid('getDataIDs');
+            for (i = 0; i <= rowIds.length; i++) {//iterate over each row
+                rowData = $("#jqGrid").jqGrid('getRowData', rowIds[i]);
+                //set background style if ColumnValue == true
+                if (rowData['estadoProveedor'] == "INHABILITADO") {
+                    $("#jqGrid").jqGrid('setRowData', rowIds[i], false, "myAltRowClassEven");
+                } //if
+            }
+            //console.log("salio");
+        },
+        multiselect:true
     });
 
     $('#jqGrid').jqGrid('setGridWidth', '1150');
@@ -226,8 +322,8 @@
     function acciones(cellValue, options, rowdata, action) {
         var acciones = '';
 
-        acciones = '<a href="#" onclick="edicionProveedor();return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
-                '<a href="#"onclick="accionEliminar();return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
+        acciones = '<a href="#" onclick="edicionProveedor(event);return false;"  id="bt1" class="btn btn-warning" data-idEvento-modificar="' + rowdata['id'] + '" title="Modificar Proveedor"><img src="img/Iconos/modificar.png" class="icono"></a>' +
+                '<a href="#"onclick="accionEliminar(event);return false;"  id="bt2" class="btn btn-warning" data-idEvento-eliminar="' + rowdata['id'] + '" title="Eliminar Proveedor" ><img src="img/Iconos/eliminar.png" class="icono" ></a>';
         return acciones;
 
     }

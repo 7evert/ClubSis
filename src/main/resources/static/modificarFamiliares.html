@@ -19,6 +19,14 @@
     <script type="text/javascript"
             src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
     </script>
+
+    <script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+    <script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+
+    <script src="js/Notificaciones.js"></script>
     <style type="text/css">
         h4 {
             background: #008D34;
@@ -59,16 +67,16 @@
             location.href = "miCuenta_familiares.html?id=" + idSocio;
         };
         function mostrarMensaje(s){
-            alert(s);
+            Notificaciones.showError(s);
         }
         function mostrarMensajeExitoso(data) {
-            alert("se registro exitosamente al familiar " + data.nombre);
+            Notificaciones.showNoty("se registro exitosamente al familiar " + data.nombre);
         }
         function llenarCampos(data, titular,familiar) {
             $("#socio").val(data.codigoCarnet);
-            $("#titular").val(titular.nombre + " " + titular.apellidoPaterno);
-            $("#tipoDocumento").val(familiar.tipoDocumento);//$("#tipoDocumento").val(data.tipoDocumento);
-            $("#numeroDocumento").val(familiar.numeroDocumento);
+            $("#titular").val(titular?titular.nombre + " " + titular.apellidoPaterno:"");
+            $("#tipoDocumento").val(familiar.tipoDoc);//$("#tipoDocumento").val(data.tipoDocumento);
+            $("#numeroDocumento").val(familiar.numDoc);
             $("#nombre").val(familiar.nombre);
             $("#apellidoPaterno").val(familiar.apellidoPaterno);
             $("#apellidoMaterno").val(familiar.apellidoMaterno);
@@ -109,11 +117,11 @@
             ver[i++] = $("#apellidoMaterno").val().length < 50 && $("#apellidoMaterno").val().length > 0;
             ver[i++] = $("#tipoDocumento").val() != 0;
             ver[i++] = ($("#numeroDocumento").val() % 1 === 0) && parseInt($("#numeroDocumento").val()) >= 0;
-            ver[i++] = $("#direccion").val().length < 50 && $("#direccion").val().length > 0;
-            ver[i++] = $("#correo").val().length < 30 && $("#correo").val().length > 0;
-            ver[i++] = $("#telefono").val().match(/[^0-9*#-]/) == null;
-            ver[i++] = !isNaN(Date.parse($("#date-picker-FechaNacimiento")[0].value));
-            ver[i++] = Date.parse($("#date-picker-FechaNacimiento")[0].value) - new Date() <= -(24 * 60 * 60 * 1000);
+            ver[i++] = ($("#direccion").val()=="") || ($("#direccion").val().length < 50 && $("#direccion").val().length > 0);
+            ver[i++] = ($("#correo").val()=="") || ($("#correo").val().length < 30 && $("#correo").val().length > 0);
+            ver[i++] = ($("#telefono").val()=="") || ($("#telefono").val().match(/[^0-9*#-]/) == null);
+            ver[i++] = ($("#date-picker-FechaNacimiento").val()=="") || (!isNaN(Date.parse($("#date-picker-FechaNacimiento")[0].value)));
+            ver[i++] = ($("#date-picker-FechaNacimiento").val()=="") || (Date.parse($("#date-picker-FechaNacimiento")[0].value) - new Date() <= -(24 * 60 * 60 * 1000));
             for (var j = 0; j < i; j++)
                 if (ver[j] == false) {
                     mostrarMensaje(mensajes[j]);
@@ -142,11 +150,11 @@
                 });
             });
             funciones.modificarFamiliar= function () {
-                verificarDatos();
+                if(!verificarDatos())return;
                 var persona = {
                     "id":idFamiliar,
-                    "tipoDocumento": $("#tipoDocumento").val(),
-                    "numeroDocumento": parseInt($("#numeroDocumento").val()),
+                    "tipoDoc": $("#tipoDocumento").val(),
+                    "numDoc": parseInt($("#numeroDocumento").val()),
                     "nombre": $("#nombre").val(),
                     "apellidoPaterno": $("#apellidoPaterno").val(),
                     "apellidoMaterno": $("#apellidoMaterno").val(),
@@ -169,14 +177,14 @@
 <body ng-controller="modificacionFamiliar">
 <div id="headerUsuario"></div>
 <div class="container">
-    <h3>MODIFICACION DE FAMILIAR DEL SOCIO</h3>
+    <h3>MODIFICACIÓN DE FAMILIAR DEL SOCIO</h3>
     <hr>
     <h4>DATOS DEL FAMILIAR DEL SOCIO</h4>
     <form class="form-horizontal">
         <div class="row">
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="socio" class="col-md-4 control-label">Socio</label>
+                    <label for="socio" class="col-md-4 control-label">Carne Socio</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="socio" disabled>
                     </div>
@@ -194,9 +202,9 @@
                 <div class="form-group">
                     <label for="esTitular" class="col-md-4 control-label">Es Titular</label>
                     <div class="col-md-8">
-                        <select id="esTitular" class="form-control">
-                            <option value="0">Titular</option>
-                            <option value="1">No Titular</option>
+                        <select id="esTitular" disabled class="form-control">
+                            <option value="1">Titular</option>
+                            <option value="0">No Titular</option>
                         </select>
                     </div>
                 </div>
@@ -248,7 +256,7 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="direccion" class="col-md-4 control-label">Direccion</label>
+                    <label for="direccion" class="col-md-4 control-label">Dirección</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="direccion" placeholder="Precio">
                     </div>
@@ -264,14 +272,13 @@
             </div>
             <div class="col-sm-6 col-lg-5">
                 <div class="form-group">
-                    <label for="telefono" class="col-md-4 control-label">Telefono</label>
+                    <label for="telefono" class="col-md-4 control-label">Teléfono</label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="telefono" placeholder="....">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-5">
-                <div class="form-group">
+            <div class="form-group col-sm-6 col-lg-5" style="margin-left:10px;">
                     <label class="control-label col-md-4">Fecha de Nacimiento</label>
                     <div class="input-group input-append date col-md-8">
                         <input id="date-picker-FechaNacimiento" type="text"
@@ -280,12 +287,11 @@
                                 class="glyphicon glyphicon-calendar"></span>
                         </label>
                     </div>
-                </div>
             </div>
-            <div class="col-sm-7 col-lg-7">
+            <div class="col-sm-6 col-lg-6">
             </div>
-            <div class="col-sm-5 col-lg-5">
-                <div class="form-group" style="margin-left: 95px;">
+            <div class="col-sm-6 col-lg-6">
+                <div class="form-group" style="width:100%;">
                     <a href="#" onclick="funciones.modificarFamiliar();return false;" class="btn btn-primary">Modificar Familiar</a>
                     <a href="#" onclick="funciones.mostrarFamiliar();return false;" class="btn btn-primary">Mostrar Familiar</a>
                     <a href="#" onclick="funciones.mostrarFamiliares();return false;" class="btn btn-primary">Lista Familiares</a>

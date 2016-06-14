@@ -28,7 +28,6 @@ public class SedeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Sede> list() {
-        List<Sede> lstSedes = servicioSedes.mostrarSedes();
         return servicioSedes.mostrarSedes();
     }
 

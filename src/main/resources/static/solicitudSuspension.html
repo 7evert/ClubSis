@@ -14,6 +14,31 @@
     <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
     <title>Title</title>
     <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
         h4{
             background: #008D34;
             color: white;
@@ -28,46 +53,100 @@
             margin-top: 0px;
             margin-bottom: 10px;
         }
+        .obligatorio {
+            color: #FF0000;
+        }
     </style>
     <script type="text/javascript">
+        function verificarDatos(){
+            var ver=[];
 
+            var fechainicio= $("#date-picker-TiempoInicio").val();
+            if(!fechainicio){
+                Notificaciones.showError("Le fecha de Inicio no es válida");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
+            }
+            var today= new Date().getTime();
+            fechainicio = fechainicio.split("/");
+            fechainicio = new Date(fechainicio[2], fechainicio[1] - 1, fechainicio[0]).getTime();
+            if((today - fechainicio) > 0){
+                Notificaciones.showError("La fecha de Inicio debe ser futura");
+                $("#date-picker-TiempoInicio").css("border-color", "red");
+                return false;
+            }
+            var fechafin=$("#date-picker-TiempoFin").val();
+            if(fechafin)
+                fechafin = fechafin.split("/");
+                fechafin = new Date(fechafin[2], fechafin[1] - 1, fechafin[0]).getTime();
+                if((fechainicio - fechafin) > 0){
+                    Notificaciones.showError("Le fecha de Fin no es válida");
+                    $("#date-picker-TiempoFin").css("border-color", "red");
+                    return false;
+                }
+            return true;
+        }
         var app3 = angular.module('app3', []);
         var socioResp,persona;
         app3.controller('SuspensionController', function ($scope, $http) {
             $http.get('/api/socios/1').then(function (respuesta) {
                 socioResp=respuesta.data;
             });
-            $http.get('/api/socios/1/personas').then(function (respuesta) {
+            $http.get('/api/socios/1/personaasociada').then(function (respuesta) {
                 persona=respuesta.data;
                 $scope.ngSocio=persona.nombre+" "+persona.apellidoPaterno;
             });
-
-            $scope.enviarSolicitud =function (){
-
-                var data = {
+            $("#btnsolicitud").click(function (){
+                if(!verificarDatos())return;
+                var fechaInicioConvertida="",fechaFinConvertida="";
+                if($("#date-picker-TiempoInicio").val() != "") {
+                    var fecha = $("#date-picker-TiempoInicio").val();
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    fechaInicioConvertida = mes + '/' + dia + '/' + anho;
+                }
+                if($("#date-picker-TiempoFin").val() != "") {
+                    var fecha = $("#date-picker-TiempoFin").val();
+                    var fechaPartida = fecha.split("/");
+                    var dia = fechaPartida[0];
+                    var mes = fechaPartida[1];
+                    var anho = fechaPartida[2];
+                    fechaFinConvertida = mes + '/' + dia + '/' + anho;
+                }
+                    var data = {
                         //por preguntar
-                    "estado": 0,
-                    "fechaSolicitud": "",
-                    "fechaRespuesta": "",
-                    "fechaAnulacion": "",
-                    "fechaInicio": Date.parse($("#date-picker-TiempoInicio")[0].value),
-                    "fechaFin": Date.parse($("#date-picker-TiempoFin")[0].value),
-                    "motivoSuspension": $scope.motivo,
-                    "socio": socioResp
-                };
+                        "estado": 0,
+                        "fechaSolicitud": "",
+                        "fechaRespuesta": "",
+                        "fechaAnulacion": "",
+                        "fechaInicio": Date.parse(fechaInicioConvertida),
+                        "fechaFin": Date.parse(fechaFinConvertida),
+                        "motivoSuspension": $scope.motivo,
+                        "socio": socioResp
+                    };
+                    $http.post('/api/suspensiones', data).success(function (data2) {
+                                Notificaciones.showNoty("Se registro exitosamente su solicitud de suspensión", Notificaciones.type.SUCCESS);
 
-                $http.post('/api/suspensiones', data).success(function (data2 ) {
-                    //happy end
-                    //$scope.PostDataResponse = data;
-                    console.log(JSON.stringify(data2));
-                    alert("Tu registro de suspension fue hecha exitosamente.");
-                    window.location="loginUsuario.html"
-                })
-                        .error(function (data2) {
-                            console.log(JSON.stringify(data2));
-                            alert("Tu registro de suspension no se pudo realizar.");
-                        });
-            };
+                                setTimeout(function () {
+                                  location.href = "solicitudSuspension.html"
+                                }, 1200);
+                            })
+                            .error(function (data2) {
+                                Notificaciones.showError("Tu registro de suspension no se pudo realizar.");
+                                console.log("fallo");
+                            });
+            });
+            $("#motivo").click(function () {
+                $("#motivo").css("border-color", "#ccc");
+            });
+            $("#date-picker-TiempoInicio").click(function () {
+                $("#date-picker-TiempoInicio").css("border-color", "#ccc");
+            });
+            $("#date-picker-TiempoFin").click(function () {
+                $("#date-picker-TiempoFin").css("border-color", "#ccc");
+            });
         });
     </script>
 
@@ -86,17 +165,17 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">Motivo</label>
+            <label class="col-xs-5 control-label">Motivo<span class="obligatorio">*</span></label>
             <div class="col-xs-7">
-                <textarea class="form-control" ng-model="motivo" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>
+                <textarea class="form-control" ng-model="motivo" id="motivo" maxlength="250" rows="5" placeholder="Ingresar los motivos..." ></textarea>
                 <!--<input type="text" name="motivo" maxlength="30" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="" class="form-control validate[required]"/>-->
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-5" >Fecha de Inicio</label>
+            <label class="control-label col-xs-5" >Fecha de Inicio<span class="obligatorio">*</span></label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoInicio" ng-model="fechaIni" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-TiempoInicio" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
@@ -106,16 +185,26 @@
             <label class="control-label col-xs-5">Fecha de Fin</label>
             <div class="col-xs-7 date">
                 <div class="input-group input-append date">
-                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6" required/>
+                    <input id="date-picker-TiempoFin" ng-model="fechaFin" type="text" class="date-picker form-control col-xs-6"/>
                     <label for="date-picker-TiempoFin" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"></span>
                     </label>
                 </div>
             </div>
         </div>
-        <div class="col-xs-offset-5 col-xs-9">
-            <button ng-click="enviarSolicitud()" class="btn btn-primary">Enviar Solicitud</button>
-            <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+        <div class="form-group">
+            <div class="col-md-12">
+                <span class="obligatorio" style="margin-left: 280px;">(*) Estos campos son obligatorios</span>
+            </div>
         </div>
+        <div class="col-xs-5">
+        </div>
+        <div class="col-xs-7">
+            <div class="form-group" style="margin-left: 140px;">
+                <a id="btnsolicitud" class="btn btn-primary">Enviar Solicitud</a>
+                <a id="Cancelar" href="loginUsuario.html" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+
     </form>
 
 </div>
@@ -123,9 +212,18 @@
 <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/principal.js"></script>
+
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/Notificaciones.js"></script>
 <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    $(".date-picker").datepicker();
+    $(".date-picker").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 </script>
 
 </body>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app2">
+<head>
+    <!--<div id="head"></div>-->
+    <meta charset="UTF-8">
+    <title>Inscripcion Taller</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/Logos/ClubSisIcon.ico">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <!--<link rel="stylesheet" href="css/estiloLogin.css">-->
+
+
+    <link rel="stylesheet" href="webjars/jquery-ui/1.11.4/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" href="css/estilosRegBungalows.css">
+
+    <style type="text/css">
+        .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+            background: #008D34;
+        }
+
+        .ui-jqgrid-sortable {
+            color: azure;
+            background-color: #008D34;
+        }
+
+        .ui-jqgrid-resize-ltr {
+            background-color: #008D34;
+        }
+
+        .btn-warning {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-right: 2px;
+            padding-left: 2px;
+            background-color: #ededed;
+            border-color: #ededed;
+        }
+
+        .icono {
+            width: 19px;
+        }
+
+        h4 {
+            background: #008D34;
+            color: white;
+            padding-left: 30px;
+            margin-left: 0px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            margin-top: 0px;
+        }
+
+        hr {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .obligatorio {
+            color: #FF0000;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var idacademia = 0;
+        var idciclo = 0;
+
+        //        function getID() {
+        //            var href = this.location.href;
+        //            var str = href.match(/\?id\=(\d+)/);
+        //            return str ? str[1] : str;
+        //        }
+
+        function getIDSocioYEvento() {
+            var href = this.location.href;
+            var str = href.match(/\?id\=(\d+)&idClase\=(\d+)&idAcademia\=(\d+)/);
+            return str ? [str[1], str[2], str[3]] : undefined;
+        }
+
+
+
+    </script>
+    <script type="text/javascript">
+        var idCiclo;
+        var idAcademia;
+        var preciomes, preciociclo;
+
+        function llenarDatosTaller(data2) {
+            $("#codigoclase").val(data2.id);
+            $("#nombreacademia").val(data2.academia["nombre"]);
+            $("#costo").val(data2.precioCiclo);
+
+
+        }
+
+        function llenarDatosPersona(data2) {
+            var prueba;
+            $("#nombreper").val(data2.nombre);
+            $("#dniper").val(data2.numDoc);
+            prueba = data2.nombre;
+            console.log(prueba);
+            if(prueba == undefined){
+
+                Notificaciones.showError('Este ID no tiene existencias.');
+                //$("#dia").css("border-color", "red");
+                $("#nombreper").val(vacio);
+                $("#dniper").val(vacio);
+
+            }
+
+        }
+        function getDatosTaller(id, ciclo) {
+            return {
+                id: id,
+                dia: $("#dia").val(),
+                rangoEdad: $("#rangoEdad").val(),
+                horaInicio: $("#horaInicio").val(),
+                horaFin: $("#horaFin").val(),
+                estadoHorario: $("#estadoHorario").val(),
+                instalacion: {id: $("#instalacion").val()},
+                clase: {id: ciclo}
+            };
+        }
+
+        var app2 = angular.module('app2', []);
+        app2.controller('edicionTallerController', function ($scope, $http) {
+            var buscarid;
+            var ids, id, idClac, idAcad;
+
+            var vacio = "";
+            ids = getIDSocioYEvento();
+            id = ids ? ids[0] : ids;
+            idClac = ids ? ids[1] : ids;
+            idAcad = ids ? ids[2] : ids;
+
+            console.log(id);
+            console.log(idClac);
+            if (id == undefined) {
+                //location.href = "VerTaller.html"
+            }
+            $http.get('/api/clases/' + idClac).success(function (data2, status) {
+                llenarDatosTaller(data2);
+
+
+            });
+
+            $("#guardar").click(function () {
+                var data = getDatosTaller(id, idClac);
+                console.log(JSON.stringify(data));
+
+                if(!validarDatos()){
+                    $http.put("/api/horarios/"+data.id, data).success(function (data2, status) {
+                        //alert("Tu actualizacion fue exitosa");
+                        Notificaciones.showProcesando();
+                        Notificaciones.hideAll();
+                        setTimeout(function () {
+                            location.href = "VerTaller.html?id=" + idAcad
+                        }, 1000);
+                        //location.href = "administrarProveedores1.html";
+                    }).error(function (data) {
+                        //aca lo que se hara en caso falle
+                        Notificaciones.showError("Error al editar horario");
+                        console.log("fallo");
+                    });
+
+                }
+            });
+            $("#cancelar").click(function () {
+                location.href = "VerTallerConsultado.html?id=" + idAcad;
+            });
+            $("#buscar").click(function () {
+ //               var prueba;
+                buscarid = $("#buscarper").val();
+//                console.log(buscarid);
+                $http.get('/api/personas/' + buscarid).success(function (data2, status) {
+                    llenarDatosPersona(data2);
+//                    prueba = data2.nombre;
+
+
+//                    console.log("llegamos");
+//                    console.log(data2);
+                });
+
+
+
+            });
+
+            $("#inscribir").click(function () {
+                if(!validarDatos()){
+                    $.noty.closeAll();
+                    noty({
+                        text: '¿Está seguro de que desea inscribir a esa persona?',
+                        type: 'warning',
+                        buttons: [
+                            {
+                                addClass: 'btn btn-primary boton-1 centered1', text: 'Inscribir', onClick: function ($noty) {
+                                Notificaciones.hideAll();
+                                //funciones.eliminarHorario(id);
+
+                                Notificaciones.showNoty("Inscripción exitosa.", Notificaciones.type.SUCCESS);
+                                setTimeout(salir(),4000);
+
+                                $noty.close();
+                            }
+                            },
+                            {
+                                addClass: 'btn btn-primary boton-1 centered2', text: 'Cancelar', onClick: function ($noty) {
+                                $noty.close();
+                            }
+                            }
+                        ]
+                    });
+                }
+            });
+
+            function salir() {
+                location.href = "VerTallerConsultado.html?id=" + idAcad;
+            }
+
+            function validarDatos() {
+                var nombreper=$("#nombreper").val();
+                if(!nombreper){
+                    console.log($("#nombreper").val());
+                    Notificaciones.showError('No existe persona a inscribir.');
+                    $("#nombreper").css("border-color", "red");
+                    $("#dniper").css("border-color", "red");
+                    return true;
+                }
+
+                return false;
+            }
+            $("#nombreper").click(function () {
+                $("#nombreper").css("border-color", "#ccc");
+                $("#dniper").css("border-color", "#ccc");
+            });
+
+
+        });
+    </script>
+</head>
+<body ng-controller="edicionTallerController">
+<div id="headerUsuario"></div>
+<div class="container">
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+    <h4>BUSQUEDA DE PERSONA A INSCRIBIR</h4>
+    <form id="formDatosSocio" class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="buscarper" class="col-md-4 control-label">Código<span class="obligatorio"> *</span></label>
+                    <div class="col-md-8">
+                        <input type="text" id="buscarper" class="form-control col-xs-8"  placeholder="Escriba el ID a buscar..." required/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-7 col-lg-7">
+            </div>
+            <div class="col-sm-5 col-lg-5">
+                <div class="form-group" style="margin-left: 110px;">
+                    <a href="javascript:void(0)" class="btn btn-primary" class="btn btn-primary" id="buscar">Buscar</a>
+                </div>
+            </div>
+
+        </div>
+
+        <h4>RESULTADOS DE LA PERSONA</h4>
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombreper" class="col-md-4 control-label">Nombre<span class="obligatorio"> *</span></label>
+                    <div class="col-md-8">
+                        <input type="text" id="nombreper" class="form-control col-xs-8" readonly  placeholder="Nombre de la Persona" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="dniper" class="col-md-4 control-label">DNI<span class="obligatorio"> *</span></label>
+                    <div class="col-md-8">
+                        <input type="text" id="dniper" class="form-control col-xs-8" readonly  placeholder="DNI de la Persona" required/>
+                    </div>
+                </div>
+            </div></div>
+        <h4>DATOS DEL TALLER A INSCRIBIRSE</h4>
+        <div class="row">
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="codigoclase" class="col-md-4 control-label">Codigo Clase</label>
+                    <div class="col-md-8">
+                        <input id="codigoclase" type="text" class="form-control col-xs-8" readonly maxlength="10" placeholder="Academia" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="nombreacademia" class="col-md-4 control-label">Nombre Academia</label>
+                    <div class="col-md-8">
+                        <input id="nombreacademia" type="text" class="form-control col-xs-8" readonly maxlength="10" placeholder="Academia" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-5">
+                <div class="form-group">
+                    <label for="costo" class="col-md-4 control-label">Total Pago</label>
+                    <div class="col-md-8">
+                        <input id="costo" type="text" class="form-control col-xs-8" maxlength="4" readonly placeholder="Monto a pagar" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-10">
+                    <input id="inscribir" type="button" class="btn btn-primary" value="Inscribir" style="width:22%" >
+                    <input id="cancelar" type="button" class="btn btn-primary" value="Cancelar" style="width:22%" >
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <!--------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------->
+</div>
+<div id="footer"></div>
+<script src="webjars/jquery/2.2.3/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/jquery.noty.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/top.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topLeft.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/layouts/topRight.js"></script>
+<script src="webjars/noty/2.3.8/js/noty/themes/default.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/Notificaciones.js"></script>
+<script type="text/javascript">
+    $(".date-picker").datepicker();
+</script>
+</body>
+</html>
