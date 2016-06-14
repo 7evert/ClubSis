@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app2">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script type="text/javascript">
+        var app2 = angular.module('app2', []);
+        app2.controller('AdministracionBungalow', function ($scope, $http) {
+            var arregloValues = ["user",location.href, "modificarBungalow", "reservarBungallow"];
+            var cad = arregloValues.join();
+            $http.post('/api/securityExample', cad).success(function (data) {
+                ;
+                ;//
+            }).error(function (data) {
+
+            });
+        })
+        ;
+    </script>
+
+</head>
+<body ng-controller="AdministracionBungalow">
+<button value="modificarBungallow">modificarBungallow</button>
+<button value="reservarBungallow">reservarBungallow</button>
+</body>
+</html>
