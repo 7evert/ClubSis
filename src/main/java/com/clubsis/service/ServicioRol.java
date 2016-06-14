@@ -38,4 +38,10 @@ public class ServicioRol {
     public List<Rol> mostrarRoles(){
         return rolRepository.findAll().stream().filter(rol -> rol.getEsActivo()).collect(Collectors.toList());
     }
+
+    public List<Integer> obtenerValores(String cadena){
+
+        return null;
+    }
+
 }
