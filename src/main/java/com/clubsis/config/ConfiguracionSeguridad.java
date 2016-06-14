@@ -24,6 +24,13 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http
+            .authorizeRequests()
+                .antMatchers("/webjars/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/mi-login.html")
+                .permitAll();
     }
 }

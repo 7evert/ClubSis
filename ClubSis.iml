@@ -103,5 +103,6 @@
     <orderEntry type="library" name="Maven: org.webjars:jqgrid:4.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bower:noty:2.3.8" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:fancybox:2.1.5" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars:js-cookie:2.1.0" level="project" />
   </component>
 </module>
