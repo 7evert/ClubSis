@@ -1,5 +1,7 @@
 package com.clubsis.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +16,14 @@ import java.security.Principal;
 @RequestMapping("/api/hola")
 public class HolaController {
 
+//    @RequestMapping(value = "/mensaje", method = RequestMethod.GET)
+//    public HolaRespuesta hola(Principal principal) {
+//        return new HolaRespuesta("Hola " + principal.getName());
+//    }
+
     @RequestMapping(value = "/mensaje", method = RequestMethod.GET)
-    public HolaRespuesta hola(Principal principal) {
-        return new HolaRespuesta("Hola " + principal.getName());
+    public ResponseEntity<HolaRespuesta> hola(Principal principal) {
+        return new ResponseEntity<HolaRespuesta>(new HolaRespuesta("Hola " + principal.getName()), HttpStatus.OK);
     }
 
     public static class HolaRespuesta {

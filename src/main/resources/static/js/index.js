@@ -8,9 +8,14 @@ $(function() {
     }).done(function(data, textStatus, jqXHR) {
         $("#mi-mensaje").html(data.message);
     }).fail(function(jqXHR, textStatus, errorThrown){
-        alert("MASCAPOOOOOOOOOO, NO ESTÁS AUTENTICADO");
-        var preLoginInfo = JSON.stringify({method: 'GET', url: '/'});
-        Cookies.set('restsecurity.pre.login.request', preLoginInfo);
-        window.location = '/login.html';
+        if (jqXHR.status === 401) {
+            alert("Redirigiendo a mi-login.html...");
+            var preLoginInfo = JSON.stringify({method: 'GET', url: '/'});
+            Cookies.set('restsecurity.pre.login.request', preLoginInfo);
+            window.location = '/mi-login.html';
+        }
+        else {
+            alert("Mascapo, tenemos un problema...");
+        }
     });
 });
