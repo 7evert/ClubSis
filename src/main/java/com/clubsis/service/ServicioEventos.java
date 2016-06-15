@@ -36,6 +36,9 @@ public class ServicioEventos {
     @Autowired
     private TarifaEventoRepository tarifaEventoRepository;
 
+    @Autowired
+    private ServicioPagos servicioPagos;
+
     //Evento
     public List<Evento> mostrarEventos() {
         return eventoRepository.findAll();
@@ -56,7 +59,7 @@ public class ServicioEventos {
     public Evento actualizarEvento(Integer id, Evento evento){
         Boolean valido= true;
         Evento eventoExistente = eventoRepository.findOne(id);
-        //Si se cambia de gratuito a no gratuito
+        //Si se cambia a gratuito
         if(evento.getIsGratuito()==1 && eventoExistente.getIsGratuito()==0){
             //se verifica si hay invitados
             List<InvitadoEvento> invitadoEventos=invitadoxEventoRepository.findAll();
@@ -67,6 +70,7 @@ public class ServicioEventos {
                     break;
                 }
             }
+            servicioPagos.anularPago(id);
         }else if(evento.getIsGratuito()==0 && eventoExistente.getIsGratuito()==1){
             //se verifica si hay invitados
             List<InvitadoEvento> invitadoEventos=invitadoxEventoRepository.findAll();

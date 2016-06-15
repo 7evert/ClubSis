@@ -70,6 +70,8 @@ public class ServicioPagos {
         Pago pagoExistente= buscarPagoExistente(socio,idServicio,tipoPago);
         if(pagoExistente!=null){//Actualizar pago en caso exista
             pagoExistente.setMontoTotal(monto);
+            if(monto == 0) pagoExistente.setEstadoPago(EstadoPago.ANULADO);
+            else pagoExistente.setEstadoPago(EstadoPago.REGISTRADO);
             return pagoRepository.saveAndFlush(pagoExistente);
         }
         else if(tipoPago==TipoPago.EVENTO){
@@ -108,6 +110,7 @@ public class ServicioPagos {
                     socio,null,null,null,null,multa);
             return pagoRepository.saveAndFlush(nuevoPago);
         }
+
         return null;
     }
 
@@ -230,7 +233,16 @@ public class ServicioPagos {
 
     }
 
-
+    public void pagosEventoAnulado(Integer idEvento){
+        Evento eventoAnulado=eventoRepository.findOne(idEvento);
+        List<Pago> pagos=new ArrayList<>(eventoAnulado.getPagos());
+        for(Pago item:pagos){
+            item.setMontoTotal(0.0);
+            item.setEstadoPago(EstadoPago.ANULADO);
+            item.setFechaAnulacion(new Date());
+            pagoRepository.saveAndFlush(item);
+        }
+    }
 
 
 }
