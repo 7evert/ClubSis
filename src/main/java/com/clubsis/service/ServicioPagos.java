@@ -220,6 +220,18 @@ public class ServicioPagos {
 
     //TODO: Agregar Observaciones
 
+
+    public void pagosEventoAnulado(Integer idEvento){
+        Evento eventoAnulado=eventoRepository.findOne(idEvento);
+        List<Pago> pagos=new ArrayList<>(eventoAnulado.getPagos());
+        for(Pago item:pagos){
+            item.setMontoTotal(0.0);
+            item.setEstadoPago(EstadoPago.ANULADO);
+            item.setFechaAnulacion(new Date());
+            pagoRepository.saveAndFlush(item);
+        }
+    }
+
     //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
     @Scheduled(cron="0 0 0 1 * ?")// primer dia de cada mes
     public void crearPagosMembresia(){
