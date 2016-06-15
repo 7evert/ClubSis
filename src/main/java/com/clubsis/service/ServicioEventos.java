@@ -33,6 +33,9 @@ public class ServicioEventos {
     @Autowired
     private TarifaxEventoRepository tarifaxEventoRepository;
 
+    @Autowired
+    private TarifaEventoRepository tarifaEventoRepository;
+
     //Evento
     public List<Evento> mostrarEventos() {
         return eventoRepository.findAll();
@@ -40,10 +43,42 @@ public class ServicioEventos {
 
     public Evento buscarEvento(Integer id){return eventoRepository.findOne(id);}
 
-    public Evento crearEvento(Evento evento){ return eventoRepository.save(evento);}
+    public Evento crearEvento(Evento evento){
+        //si el evento es gratuito automaticamente se le asocia una relación con la tarifa gratuita
+        if (evento.getIsGratuito() == 1 ){
+            Tarifa tarifa = tarifaEventoRepository.findOne(1);
+            TarifaEvento tarifaEvento = new TarifaEvento(0,evento,tarifa);
+            tarifaxEventoRepository.saveAndFlush(tarifaEvento);
+        }
+        return eventoRepository.saveAndFlush(evento);
+    }
 
     public Evento actualizarEvento(Integer id, Evento evento){
+        Boolean valido= true;
         Evento eventoExistente = eventoRepository.findOne(id);
+        //Si se cambia de gratuito a no gratuito
+        if(evento.getIsGratuito()==1 && eventoExistente.getIsGratuito()==0){
+            //se verifica si hay invitados
+            List<InvitadoEvento> invitadoEventos=invitadoxEventoRepository.findAll();
+            for(int i=0; i<invitadoEventos.size();i++){
+                InvitadoEvento invitadoEvento = invitadoEventos.get(i);
+                if(invitadoEvento.getEvento().getId()==evento.getId()){
+                    valido=false;
+                    break;
+                }
+            }
+        }else if(evento.getIsGratuito()==0 && eventoExistente.getIsGratuito()==1){
+            //se verifica si hay invitados
+            List<InvitadoEvento> invitadoEventos=invitadoxEventoRepository.findAll();
+            for(int i=0; i<invitadoEventos.size();i++){
+                InvitadoEvento invitadoEvento = invitadoEventos.get(i);
+                if(invitadoEvento.getEvento().getId()==evento.getId()){
+                    valido=false;
+                    break;
+                }
+            }
+        }
+        if(!valido) return null;
         BeanUtils.copyProperties(evento, eventoExistente);
         return eventoRepository.saveAndFlush(eventoExistente);
     }

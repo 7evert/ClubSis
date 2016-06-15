@@ -15,7 +15,7 @@ public class TarifaEvento {
     private double precio;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "evento_id")
     private Evento eventos;
 

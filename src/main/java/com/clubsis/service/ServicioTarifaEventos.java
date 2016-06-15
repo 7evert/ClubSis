@@ -36,4 +36,12 @@ public class ServicioTarifaEventos {
     public void eliminarTarifaEvento(Integer id){
         tarifaxEventoRepository.delete(id);
     }
+
+    public void eliminarTodas(Integer idEvento){
+        List<TarifaEvento> tarifaEventos= tarifaxEventoRepository.findAll();
+        for(int i=0; i<tarifaEventos.size();i++){
+            TarifaEvento tarifaEvento = tarifaEventos.get(i);
+            if(tarifaEvento.getEventos().getId()==idEvento) eliminarTarifaEvento(tarifaEvento.getId());
+        }
+    }
 }

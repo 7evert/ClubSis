@@ -60,4 +60,6 @@ public class TarifaxEventoController {
        servicioTarifaxEventos.eliminarTarifaEvento(id);
     }
 
+    @RequestMapping(value="/{id}/eliminarTodos",method= RequestMethod.DELETE)
+    public void deleteAll(@PathVariable Integer id) { servicioTarifaxEventos.eliminarTodas(id);}
 }
