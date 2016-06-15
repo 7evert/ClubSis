@@ -121,22 +121,53 @@
             console.log(data2);
             $("#razon").val(data2.razonSocial);
             $("#numRUC").val(data2.ruc);
+            //$("#fechaInicio").datepicker("setDate", new Date(validateDateInAllBrowsers(data2.fechaInicio)));
+            //$("#fechaFin").datepicker("setDate", new Date(validateDateInAllBrowsers(data2.fechaVencimiento)));
             $("#servi").val(data2.servicios);
             $("#telefono").val(data2.telefono);
             $("#admin").val(data2.administrador);
             $("#estadoConcesion").val(data2.estadoConcesion);
         }
+
+        function validateDateInAllBrowsers(cad) {
+            return cad ? cad.replace(" ", "T") + "Z" : cad;
+        }
+
+        function convertirFecha(fecha) {
+            var fechaPartida = fecha.split("/");
+            var dia = fechaPartida[0];
+            var mes = fechaPartida[1];
+            var anho = fechaPartida[2];
+            return mes + '/' + dia + '/' + anho;
+        }
+
         function getConcesion(id){
+            var fechaInicio="";
+            var fechaFin="";
+            fechaInicio = convertirFecha($("#fechaInicio").val());
+            fechaFin = convertirFecha($("#fechaFin").val());
+            console.log(fechaInicio);
+            console.log(fechaFin);
             return {
-                id:id,
-                razonSocial: $("#razon").val(),
-                ruc: $("#numRUC").val(),
-                //'fechaInicio':fechaInicio,
-                //'fechaVencimiento':fechaFin,
-                servicios: $("#servi").val(),
-                telefono: $("#telefono").val(),
-                administrador: $("#admin").val(),
-                estadoConcesion:$("#estadoConcesion").val()
+
+                'razonSocial': $("#razon").val(),
+                'ruc': $("#numRUC").val(),
+                'fechaInicio':Date.parse(fechaInicio),
+                'fechaVencimiento':Date.parse(fechaFin),
+                'servicios': $("#servi").val(),
+                'telefono': $("#telefono").val(),
+                'administrador': $("#admin").val(),
+                'estadoConcesion':$("#estadoConcesion").val()
+
+//                id:id,
+//                razonSocial: $("#razon").val(),
+//                ruc: $("#numRUC").val(),
+//                fechaInicio:Date.parse(fechaInicio),
+//                fechaVencimiento:Date.parse(fechaFin),
+//                servicios: $("#servi").val(),
+//                telefono: $("#telefono").val(),
+//                administrador: $("#admin").val(),
+//                estadoConcesion:$("#estadoConcesion").val()
             };
         }
     </script>
@@ -144,25 +175,23 @@
         var app2 = angular.module('app2', []);
         app2.controller('edicionConcesionController', function ($scope, $http) {
             var id = getID();
-            if(id==undefined)
-                href.location="administrarConcesiones.html";
 
-            console.log(id);
             if(id==undefined){
-                //location.href="administrarProveedores1.html"
+                location.href="administrarProveedores1.html"
             }
             $http.get('/api/concesiones/'+id).success(function (data2, status) {
                 llenarDatosConcesion(data2);
             });
             $("#guardar").click(function(){
-                var data=getConcesion(id);
                 if(!validarDatos()){
+                    var data=getConcesion(id);
                     console.log("Guardando Put");
+                    console.log(data);
                     $http.put("/api/concesiones/"+data.id, data).success(function (data2, status) {
                         Notificaciones.showProcesando();
                         Notificaciones.hideAll();
                         setTimeout(function () {
-                            location.href = "administrarConcesiones.html"
+                            //location.href = "administrarConcesiones.html"
                         }, 1000);
                     }).error(function (data) {
                         Notificaciones.showError("Error al editar concesión");

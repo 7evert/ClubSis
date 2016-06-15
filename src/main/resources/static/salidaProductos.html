@@ -133,7 +133,7 @@
                     idSede=$("#sede").val();
                     $http.get('/api/stocks/'+rowData.id+'/'+idSede).success(function (data) {
                         if(parseInt(data.stock) < parseInt(venta)){
-                            Notificaciones.showError("La cantidad de stock del producto n° " + rowData.id);
+                            Notificaciones.showError("La cantidad de stock disponible del producto n° " + rowData.id+" es "+data.stock);
 //                            $('#jqGrid tr').bind('click', function(e) {
 //                                $(e.currentTarget).children('td, th').css('background-color','#000');
 //                            })
@@ -160,8 +160,11 @@
             var montoTotal=0;
             var cantFilas = $("#jqGrid").getGridParam("reccount");
             console.log(cantFilas);
+            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
             for (i = 1; i <= cantFilas; i++) {
-                var rowData = $('#jqGrid').jqGrid('getRowData', i);
+                var rowId = ids[i-1];
+                var rowData = $('#jqGrid').jqGrid('getRowData', rowId);
+                console.log("rowId: "+rowData.id);
                 if(rowData.cantidad == "") rowData.cantidad = 0;
                 montoTotal=montoTotal + parseInt(rowData.precioVentaUnitario)*parseInt(rowData.cantidad);
                 console.log("Monto total "+i+": "+ montoTotal);

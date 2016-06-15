@@ -90,8 +90,9 @@
         app2.controller('IngresoStockController', function ($scope, $http) {
 
             var idError=getID();
-            if(idError==undefined)
-                href.location="administrarProducto.html";
+            console.log("ID: "+ idError);
+            if(idError==null)
+                location.href="administrarProducto.html";
 
             console.log("Get Controller");
 

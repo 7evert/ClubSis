@@ -139,7 +139,7 @@
         app2.controller('edicionProductoController', function ($scope, $http) {
             var id = getID();
             if(id==undefined)
-                href.location="administrarProducto.html";
+                location.href="administrarProducto.html";
 
             console.log(id);
             if(id==undefined){

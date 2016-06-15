@@ -196,8 +196,8 @@
                 var data = {
                     'razonSocial': $scope.razon,
                     'ruc': $scope.ruc,
-                    //'fechaInicio':fechaInicio,
-                    //'fechaVencimiento':fechaFin,
+                    'fechaInicio':Date.parse(fechaInicio),
+                    'fechaVencimiento':Date.parse(fechaFin),
                     'servicios': $("#servi").val(),
                     'telefono': $("#telefono").val(),
                     'administrador': $("#admin").val(),
