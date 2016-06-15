@@ -272,7 +272,18 @@ public class ServicioPagos {
 
     }
 
-
+    //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
+    @Scheduled(cron="0 0 0 * * ?")// cada dia
+    public void calcularMoras(){
+        List<Pago> pagos=pagoRepository.findAll();
+        for(Pago item:pagos){
+            if(item.getFechaVencimiento().before(new Date()) && item.getEstadoPago()==EstadoPago.VENCIDO){
+                if(item.getMora()==null) item.setMora(0.0);
+                item.setMora(item.getMora()+1.0);     //LA MORA SERA FIJA Y DE 1 SOL POR DIA SOLO PARA PROBAR
+                pagoRepository.saveAndFlush(item);
+            }
+        }
+    }
 
 
 }
