@@ -207,8 +207,9 @@
             for(var j=0;j<b.length;j++)
                 tarifasul.append(b[j]);
         }
-        function mostrarRegYDescripcion(descripcion){
+        function mostrarRegYDescripcion(descripcion,descuento){
             $("#descripcion").html((descripcion)?descripcion:"...");
+            $("#descuento").html((descuento)?(" (Dscto. para socios: "+descuento+"%)"):"");
         }
         function mostrarImagen(url){
             $("#imgEvento").attr({src:url});
@@ -246,7 +247,7 @@
                 mostrarNombre(dataevento.nombre);
                 mostrarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
                 //mostrarTarifas(dataevento.tarifaEventos);
-                mostrarRegYDescripcion(dataevento.descripcion);
+                mostrarRegYDescripcion(dataevento.descripcion,dataevento.descuento);
                 mostrarImagen(dataevento.url);
                 mostrarEstGratYPub(dataevento.estado,dataevento.isGratuito, dataevento.isPublico);
                 mostrarSede(dataevento.sede);
@@ -350,8 +351,8 @@
             <div id="BungTipo2" class="show">
                 <img id="imgEvento" class="imgBungalow" style="width:70%; height:70%;float:none;padding-left:50px" src="img/Eventos/newYear.jpg">
             </div>
-            <div id="Tarifas" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;">
-                <div><h1>Tarifas</h1></div>
+            <div id="Tarifas" class="rowchangeg" style="width: 100%; margin-left: auto; margin-right: auto; position:relative;left:80px;top:20px;">
+                <div style="margin-bottom:10px;"><h1 style="display:inline;">Tarifas</h1><span style="display:inline;" id="descuento"></span></div>
                 <table id="jqGrid"></table>
                 <div id="jqGridPager"></div>
             </div>

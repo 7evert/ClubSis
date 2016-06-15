@@ -171,23 +171,45 @@
 
                 for (var i = 0; i < data.length; i++) {
                     $http.get('/api/socios/' + data[i].id + '/personaasociada').success(function (dataPersona) {
+                        var socio = dataPersona.socio;
                         //data[nroSocios]=dataPersona.socio;
-                        data[nroSocios].nro = nroSocios + 1;
-                        data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
-                        data[nroSocios].nombreTit = dataPersona.nombre;
+                        idSocios.push(socio.id);
+                        socio.nro = nroSocios + 1;
+                        socio.tiponombre = socio.tipo ? socio.tipo.nombre : "";
+                        socio.nombreTit = dataPersona.nombre;
                         console.log(JSON.stringify(dataPersona));
-                        jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
-                        if(data[nroSocios].estado=="SUSPENDIDO")
-                            $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
+                        jQuery("#jqGrid").addRowData(socio.id, socio);
+                        if (socio.estado == "SUSPENDIDO")
+                            $("#jqGrid").jqGrid('setRowData', socio.id, false, "myAltRowClassEven");
                         nroSocios++;
+                        nroIter++;
+                        if (nroIter == data.length) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (idSocios.indexOf(data[i].id) < 0) {
+                                    data[i].nro = nroSocios + 1;
+                                    data[i].tiponombre = data[i].tipo ? data[i].tipo.nombre : "";
+                                    jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+                                    if (data[i].estado == "SUSPENDIDO")
+                                        $("#jqGrid").jqGrid('setRowData', data[i].id, false, "myAltRowClassEven");
+                                    nroSocios++;
+                                }
+                            }
+                        }
                     }).error(function () {
-                        data[nroSocios].nro = nroSocios + 1;
-                        data[nroSocios].tiponombre = data[nroSocios].tipo ? data[nroSocios].tipo.nombre : "";
-                        jQuery("#jqGrid").addRowData(data[nroSocios].id, data[nroSocios]);
-                        if(data[nroSocios].estado=="SUSPENDIDO")
-                            $("#jqGrid").jqGrid('setRowData', data[nroSocios].id, false, "myAltRowClassEven");
-                        nroSocios++;
-                    })
+                        nroIter++;
+                        if (nroIter == data.length) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (idSocios.indexOf(data[i].id) < 0) {
+                                    data[i].nro = nroSocios + 1;
+                                    data[i].tiponombre = data[i].tipo ? data[i].tipo.nombre : "";
+                                    jQuery("#jqGrid").addRowData(data[i].id, data[i]);
+                                    if (data[i].estado == "SUSPENDIDO")
+                                        $("#jqGrid").jqGrid('setRowData', data[i].id, false, "myAltRowClassEven");
+                                    nroSocios++;
+                                }
+                            }
+                        }
+                    });
                 }
 
                 /*funciones.SuspenderSocio=function(event){

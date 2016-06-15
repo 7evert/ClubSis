@@ -86,12 +86,13 @@
                 "La fecha de Salida debe ser una fecha válida",//3
                 "La fecha de Inicio de Inscripción debe ser una fecha válida",//4
                 "La fecha fin de Inscripción debe ser una fecha válida",//5
-                "La capacidad debe ser un número entero",//6
+                "La capacidad debe ser un número de 8 cifras como máximo",//6
                 "Las fechas deben ser posteriores al dia de hoy",//7
                 "La fecha de fin de Inscripción debe ser a después de fecha inicio Inscripción",//8
                 "La fecha inicio debe ser después de fecha fin de Inscripción",//9
                 "fecha fin debe ser después de fecha inicio",//10
-                "Todas las tarifas deben ser mayores a 0"//11
+                "El decuento debe ser un numero mayor o igual a 0 y menor a 100",//11
+                "Todas las tarifas deben ser mayores a 0"//12
             ];
             var ver = [];
             ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
@@ -101,18 +102,18 @@
             ver[4] = $("#date-picker-InicioInscripcion")[0].value == "" || isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value)) == false;
             ver[5] = $("#date-picker-FinInscripcion")[0].value == "" || isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value)) == false;
             ver[6] = ($("#capacidad").val() == "") || ($("#capacidad").val() % 1 === 0 && ($("#capacidad").val() / Math.pow(10, 8) < 1) && $("#capacidad").val() > 0);
-            ;
             ver[7] = (Date.parse($("#date-picker-InicioInscripcion")[0].value) - new Date() > -(24 * 60 * 60 * 1000)) || ($("#date-picker-InicioInscripcion")[0].value == "" && (Date.parse($("#date-picker-DiaEntrada")[0].value) - new Date() > -(24 * 60 * 60 * 1000)));
             ver[8] = $("#date-picker-FinInscripcion")[0].value == "" || $("#date-picker-InicioInscripcion")[0].value == "" || Date.parse($("#date-picker-InicioInscripcion")[0].value) <= Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9] = $("#date-picker-FinInscripcion")[0].value == "" || Date.parse($("#date-picker-DiaEntrada")[0].value) >= Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[10] = Date.parse($("#date-picker-DiaSalida")[0].value) >= Date.parse($("#date-picker-DiaEntrada")[0].value);
-            ver[11] = true;
+            ver[11]= ($("#descuento").val() == "") || (parseFloat($("#descuento").val())!=NaN && parseFloat($("#descuento").val())>=0 && parseFloat($("#descuento").val())<100);
+            ver[12] = true;
             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
             for (var i = 0, vez = 0; i < ids.length; i++) {
                 var rowId = ids[i];
                 var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
                 if (rowData.UsarTar == "Yes") {
-                    ver[11] = ver[11] && (isNaN(parseFloat(rowData.precio)) == false && (parseFloat(rowData.precio) > 0));
+                    ver[12] = ver[12] && (isNaN(parseFloat(rowData.precio)) == false && (parseFloat(rowData.precio) > 0));
                 }
             }
             for (var i = 0; i < ver.length; i++)
@@ -175,7 +176,8 @@
                     "descripcion": $("#descripcion").val(),
                     "isGratuito": parseInt($("#isGratuito").val()),
                     "isPublico": parseInt($("#isPublico").val()),
-                    "capacidad": parseInt($("#capacidad").val())
+                    "capacidad": parseInt($("#capacidad").val()),
+                    "descuento":parseFloat($("#descuento").val())
                 };
                 idSede = $("#sede").val();
                 console.log(JSON.stringify(data));
@@ -338,6 +340,12 @@
             <label class="control-label col-xs-4">Descripción</label>
             <div class="input-group col-xs-8">
                 <input id="descripcion" type="text" class="form-control col-xs-8" placeholder="describir el evento"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-4">Descuento</label>
+            <div class="input-group col-xs-8">
+                <input id="descuento" type="text" class="form-control col-xs-8" placeholder="%"/>
             </div>
         </div>
         <div class="form-group">

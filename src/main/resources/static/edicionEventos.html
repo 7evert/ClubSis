@@ -91,11 +91,12 @@
                 "La fecha de Salida debe ser una fecha válida",//3
                 "La fecha de Inicio de Inscripción debe ser una fecha válida",//4
                 "La fecha fin de Inscripción debe ser una fecha válida",//5
-                "La capacidad debe ser un número entero",//6
+                "La capacidad debe ser un número de 8 cifras como máximo",//6
                 "La fecha de fin de Inscripción debe ser a después de fecha inicio Inscripción",//7
                 "La fecha inicio debe ser después de fecha fin de Inscripción",//8
                 "fecha fin debe ser después de fecha inicio",//9
-                "Todas las tarifas deben ser mayores a 0"//10
+                "El decuento debe ser un numero mayor o igual a 0 y menor a 100",//10
+                "Todas las tarifas deben ser mayores a 0"//11
             ];
             var ver = [];
             ver[0] = $("#nombre").val().length > 0 && $("#nombre").val().length < 50;
@@ -105,17 +106,17 @@
             ver[4] = $("#date-picker-InicioInscripcion")[0].value == "" || isNaN(Date.parse($("#date-picker-InicioInscripcion")[0].value)) == false;
             ver[5] = $("#date-picker-FinInscripcion")[0].value == "" || isNaN(Date.parse($("#date-picker-FinInscripcion")[0].value)) == false;
             ver[6] = ($("#capacidad").val() == "") || ($("#capacidad").val() % 1 === 0 && ($("#capacidad").val() / Math.pow(10, 8) < 1) && $("#capacidad").val() > 0);
-            ;
             ver[7] = $("#date-picker-FinInscripcion")[0].value == "" || $("#date-picker-InicioInscripcion")[0].value == "" || Date.parse($("#date-picker-InicioInscripcion")[0].value) <= Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[8] = $("#date-picker-FinInscripcion")[0].value == "" || Date.parse($("#date-picker-DiaEntrada")[0].value) >= Date.parse($("#date-picker-FinInscripcion")[0].value);
             ver[9] = Date.parse($("#date-picker-DiaSalida")[0].value) >= Date.parse($("#date-picker-DiaEntrada")[0].value);
-            ver[10] = true;
+            ver[10] = ($("#descuento").val() == "") || (parseFloat($("#descuento").val()) != NaN && parseFloat($("#descuento").val()) >= 0 && parseFloat($("#descuento").val())<100);
+            ver[11] = true;
             var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
             for (var i = 0, vez = 0; i < ids.length; i++) {
                 var rowId = ids[i];
                 var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
                 if (rowData.UsarTar == "Yes") {
-                    ver[11] = ver[11] && (isNaN(parseFloat(rowData.precio)) == false && (parseFloat(rowData.precio) > 0));
+                    ver[12] = ver[12] && (isNaN(parseFloat(rowData.precio)) == false && (parseFloat(rowData.precio) > 0));
                 }
             }
             for (var i = 0; i < ver.length; i++)
@@ -139,14 +140,15 @@
         function completarFechas(fechaInicio, fechaFin, inicioInscripciones, finInscipciones) {
             $("#date-picker-DiaEntrada").datepicker("setDate", new Date(validateDateInAllBrowsers(fechaInicio)));
             $("#date-picker-DiaSalida").datepicker("setDate", new Date(validateDateInAllBrowsers(fechaFin)));
-            $("#date-picker-InicioInscripcion").datepicker("setDate", inicioInscripciones?new Date(validateDateInAllBrowsers(inicioInscripciones)):"");
-            $("#date-picker-FinInscripcion").datepicker("setDate", finInscipciones?new Date(validateDateInAllBrowsers(finInscipciones)):"");
+            $("#date-picker-InicioInscripcion").datepicker("setDate", inicioInscripciones ? new Date(validateDateInAllBrowsers(inicioInscripciones)) : "");
+            $("#date-picker-FinInscripcion").datepicker("setDate", finInscipciones ? new Date(validateDateInAllBrowsers(finInscipciones)) : "");
         }
         function completarCapacidad(capacidad) {
             $("#capacidad").attr({value: capacidad});
         }
-        function completarRegYDescripcion(descripcion) {
+        function completarRegYDescripcion(descripcion, descuento) {
             $("#descripcion").attr({value: descripcion});
+            $("#descuento").attr({value: descuento});
         }
 
         function completarImagen(imgsrcEvent) {
@@ -181,7 +183,10 @@
     <script type="text/javascript">
         var dataeventos, dataevento;
         app2.controller('EdicionEventoController', function ($scope, $http) {
-            var estados = [/*{v: "CREADO"}, {v: "ESPERA"}, {v: "ENMARCHA"}, {v: "FINALIZADO"}, */{v: "INHABILITADO",n:"INHABILITAR"}];
+            var estados = [/*{v: "CREADO"}, {v: "ESPERA"}, {v: "ENMARCHA"}, {v: "FINALIZADO"}, */{
+                v: "INHABILITADO",
+                n: "INHABILITAR"
+            }];
             var estadosElem = $("#estado");
             for (var i = 0; i < estados.length; i++)
                 estadosElem.append($("<option></option>").attr({value: estados[i].v}).html(estados[i].n || estados[i].v));
@@ -214,7 +219,7 @@
                     completarNombre(dataevento.nombre);
                     completarFechas(dataevento.fechaInicio, dataevento.fechaFin, dataevento.fechaInicioInscripcion, dataevento.fechaFinInscripcion);
                     completarCapacidad(dataevento.capacidad);
-                    completarRegYDescripcion(dataevento.descripcion);
+                    completarRegYDescripcion(dataevento.descripcion, dataevento.descuento);
                     completarImagen(dataevento.url);
                     estadosElem.append($("<option></option>").attr({value: dataevento.estado}).html(dataevento.estado));
                     seleccionarEstado(dataevento.estado);
@@ -237,7 +242,8 @@
                             "descripcion": $("#descripcion").val(),
                             "isGratuito": $("#isGratuito").val(),
                             "isPublico": $("#isPublico").val(),
-                            "capacidad": parseInt($("#capacidad").val())
+                            "capacidad": parseInt($("#capacidad").val()),
+                            "descuento": parseFloat($("#descuento").val())
                         };
                         console.log(JSON.stringify(data));
                         var idSede = dataevento.id;
@@ -245,49 +251,62 @@
                             Notificaciones.showNoty("Tu actualizacion fue exitosa");
                             location.href = "EventInformacion.html?id=" + data2.id;
                             if (data2.isGratuito == 1) {
-                                return;
-                            }
-                            var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
-                            for (var i = 0, vez = 0; i < ids.length; i++) {
-                                var rowId = ids[i];
-                                var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
-                                //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
-                                if (rowData.UsarTar == "Yes") {
-                                    vez++;
-                                    dataJSON = {
-                                        "id": parseInt(rowData.id),
-                                        "precio": parseFloat(rowData.precio),
-                                        "eventos": data2,
-                                        "tarifaEventos": $.grep(TARIFAS, function (d) {
-                                            return d.id == rowData.idTar;
-                                        })[0]
-                                    };
-                                    console.log("/api/tarifaeventos/" + rowData.idTar + "/actualizar");
-                                    console.log(JSON.stringify(dataJSON));
+                                var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+                                for (var i = 0, vez = 0; i < ids.length; i++) {
+                                    var rowId = ids[i];
+                                    var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
                                     if (rowData.idTar > 0) {
-                                        $http.put("/api/tarifaeventos/" + rowData.idTar + "/actualizar", dataJSON).success(function (data2, status) {
-                                            console.log("Acutualizo1");
-                                        });
-                                    } else {
-                                        dataJSON = {
-                                            "precio": parseFloat(rowData.precio)
-                                        };
-                                        $http.post("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
-                                            console.log("Registro");
+                                        $http.delete("/api/tarifaeventos/" + rowData.idTar + "/eliminar").success(function (data2, status) {
+                                            console.log("Se elimino");
                                         });
                                     }
-                                }/*
-                                 @RequestMapping(value="/{id}/actualizar",method = RequestMethod.PUT)
-                                 @RequestMapping(value="/{id}/eliminar",method= RequestMethod.DELETE)
+                                }
+                            } else {
+                                var ids = jQuery("#jqGrid").jqGrid('getDataIDs');
+                                for (var i = 0, vez = 0; i < ids.length; i++) {
+                                    var rowId = ids[i];
+                                    var rowData = jQuery('#jqGrid').jqGrid('getRowData', rowId);
+                                    //console.log(rowData.id + " " + rowData.nombre +" " + rowData.precio + " " + rowData.UsarTar);
+                                    if (rowData.UsarTar == "Yes") {
+                                        vez++;
+                                        dataJSON = {
+                                            "id": parseInt(rowData.id),
+                                            "precio": parseFloat(rowData.precio),
+                                            "eventos": data2,
+                                            "tarifaEventos": $.grep(TARIFAS, function (d) {
+                                                return d.id == rowData.idTar;
+                                            })[0]
+                                        };
+                                        console.log("/api/tarifaeventos/" + rowData.idTar + "/actualizar");
+                                        console.log(JSON.stringify(dataJSON));
+                                        if (rowData.idTar > 0) {
+                                            $http.put("/api/tarifaeventos/" + rowData.idTar + "/actualizar", dataJSON).success(function (data2, status) {
+                                                console.log("Acutualizo1");
+                                            });
+                                        } else {
+                                            dataJSON = {
+                                                "precio": parseFloat(rowData.precio)
+                                            };
+                                            $http.post("/api/tarifaeventos/" + rowData.id + "/" + data2.id + "/eventos", dataJSON).success(function (data2, status) {
+                                                console.log("Registro");
+                                            });
+                                        }
+                                    }
 
-                                 * */
-                                else if (rowData.idTar > 0) {
-                                    $http.delete("/api/tarifaeventos/" + rowData.idTar + "/eliminar").success(function (data2, status) {
-                                        console.log("Se elimino");
-                                    });
+                                    /*
+                                     @RequestMapping(value="/{id}/actualizar",method = RequestMethod.PUT)
+                                     @RequestMapping(value="/{id}/eliminar",method= RequestMethod.DELETE)
+
+                                     * */
+                                    else if (rowData.idTar > 0) {
+                                        $http.delete("/api/tarifaeventos/" + rowData.idTar + "/eliminar").success(function (data2, status) {
+                                            console.log("Se elimino");
+                                        });
+                                    }
                                 }
                             }
                         });
+
                     });
                     $("#Cancelar").click(function () {
                         Notificaciones.showNoty("Volviendo a Eventos");
@@ -305,7 +324,15 @@
                                 {name: 'id', index: 'Nro', width: 90, sorttype: "int", align: 'center'},
                                 {name: 'idTar', index: 'idTar', width: 90, sorttype: "int", align: 'center'},
                                 {name: 'nombre', index: 'nombre', width: 150, editable: false, align: 'center'},
-                                {name: 'UsarTar',index: 'UsarTar',width: 60,editable: true,edittype: "checkbox",editoptions: {value: "Yes:No"}, align: 'center'},
+                                {
+                                    name: 'UsarTar',
+                                    index: 'UsarTar',
+                                    width: 60,
+                                    editable: true,
+                                    edittype: "checkbox",
+                                    editoptions: {value: "Yes:No"},
+                                    align: 'center'
+                                },
                                 {
                                     name: 'precio',
                                     index: 'precio',
@@ -448,6 +475,12 @@
             <label class="control-label col-xs-4">Descripción</label>
             <div class="input-group col-xs-8">
                 <input id="descripcion" type="text" class="form-control col-xs-8" placeholder="describir el evento"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-4">Descuento</label>
+            <div class="input-group col-xs-8">
+                <input id="descuento" type="text" class="form-control col-xs-8" placeholder="%"/>
             </div>
         </div>
         <div class="form-group">

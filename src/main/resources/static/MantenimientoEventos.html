@@ -196,13 +196,15 @@
                             lista[i].checked=this.checked;
                 });
                 funciones.suspender=function(e){
-                        /*$("#Deshabilitar").click(function(event){*/
+                    /*$("#Deshabilitar").click(function(event){*/
                     var lista=$(".textboxbigger"),id;
                     lista[0].checked=false;
                     for(var i=0;i<lista.length;i++){
                         id=lista[i].getAttribute("value");
                         if(id!="all" && lista[i].checked){
-                            deshabilitarEvento(i);
+                            deshabilitarEvento(id);
+                            var boton=$("#"+id).find(".botonesAcciones").find("button[value='Suspender']");
+                            $(boton).remove();
                             lista[i].checked=false;
                             $http.post('/api/eventos/'+id+'/actualizar').success(function(data){
                                 console.log("se deshabilito el evento "+data.nombre);
@@ -215,6 +217,7 @@
                 funcion.Eliminar=function(event){
                     //location.href = "loginUsuario.html";
                     event.preventDefault();
+                    var boton=event.target;
                     dataevento = $.grep(DATAEVENTOS, function (e) {
                         return e.id == getID(event.target);
                     })[0];
@@ -223,6 +226,7 @@
                     console.log(JSON.stringify(dataevento));
                     $http.put('/api/eventos/'+dataevento.id,dataevento).success(function (data) {
                         deshabilitarEvento(data.id);
+                        $(boton).remove();
                         console.log(data);
                     });
                 }
@@ -276,7 +280,7 @@
         <div>
             <h3>
                 ADMINISTRACIÓN DE EVENTOS
-                <a href="registroBungalow.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 830px;">Añadir
+                <a href="registrarEvento.html" class="btn btn-primary" id="btnRegistrar" style="margin-left: 830px;">Añadir
                     Evento</a>
                 <a href="loginAdministrador.html" class="btn btn-primary" id="btnCancelar">Regresar</a>
             </h3>
@@ -286,9 +290,9 @@
 
         <div class="form-group"><!--filtrado-->
             <!--<h4 style="background: #008D34;color: white;padding-left: 30px;margin-left: 0px;padding-top: 2px;padding-bottom: 2px;margin-top: 0px;height:45px;">-->
-                <!--CONSULTA DE EVENTOS-->
-                <!--<button id="registrar" class="btn btn-primary pull-right">Registrar</button>-->
-                <!--&lt;!&ndash;    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>&ndash;&gt;-->
+            <!--CONSULTA DE EVENTOS-->
+            <!--<button id="registrar" class="btn btn-primary pull-right">Registrar</button>-->
+            <!--&lt;!&ndash;    <a href="javascript:void(0)" class="btn btn-primary pull-right">Buscar</a>&ndash;&gt;-->
             <!--</h4>-->
 
             <form class="form-horizontal">
@@ -312,14 +316,14 @@
                         </div>
                     </div>
                     <!--<div class="col-sm-6 col-lg-5">-->
-                        <!--<div class="form-group">-->
-                            <!--<div class="col-md-12" style="visibility: hidden;">-->
-                                <!--<input type="text" class="form-control" placeholder="">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<div class="form-group">-->
-                            <!--<label for="descripcion" class="col-md-12 control-label" style="visibility: hidden;">...</label>-->
-                        <!--</div>&ndash;&gt;-->
+                    <!--<div class="form-group">-->
+                    <!--<div class="col-md-12" style="visibility: hidden;">-->
+                    <!--<input type="text" class="form-control" placeholder="">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="form-group">-->
+                    <!--<label for="descripcion" class="col-md-12 control-label" style="visibility: hidden;">...</label>-->
+                    <!--</div>&ndash;&gt;-->
                     <!--</div>-->
                     <div class="col-sm-6 col-lg-5">
                         <div class="form-group">
@@ -371,21 +375,21 @@
                     <div class="col-sm-5 col-lg-4">
                         <div class="form-group" style="margin-right: 10px;float: right">
                             <!--<a href="javascript:void(0)" class="btn btn-primary" id="btnEliminarMultiples"-->
-                               <!--style="visibility: visible">Eliminar</a>-->
+                            <!--style="visibility: visible">Eliminar</a>-->
                             <!--style="visibility: hidden">Eliminar</a>-->
-                            <a href="javascript:void(0)" class="btn btn-primary" id="Buscar">Limpiar</a>
-                            <a href="javascript:void(0)" class="btn btn-primary" id="Limpiar">Buscar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="Limpiar">Limpiar</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="Buscar">Buscar</a>
                         </div>
                     </div>
                     <!--<div class="col-sm-7 col-lg-7">-->
                     <!--</div>-->
                     <!--<div class="col-sm-5 col-lg-5">-->
-                        <!--<div class="form-group" style="margin-left: 60px;">-->
-                            <!--<button id="Buscar" class="btn btn-primary">Buscar</button>-->
-                            <!--<button id="Limpiar" class="btn btn-primary">Limpiar</button>-->
-                            <!--&lt;!&ndash;Opcional&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>&ndash;&gt;-->
-                        <!--</div>-->
+                    <!--<div class="form-group" style="margin-left: 60px;">-->
+                    <!--<button id="Buscar" class="btn btn-primary">Buscar</button>-->
+                    <!--<button id="Limpiar" class="btn btn-primary">Limpiar</button>-->
+                    <!--&lt;!&ndash;Opcional&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="javascript:void(0)" class="btn btn-primary">Eliminar Marcados</a>&ndash;&gt;-->
+                    <!--</div>-->
                     <!--</div>-->
                 </div>
             </form>
