@@ -46,4 +46,8 @@ public class PagoController {
         return servicioPagos.realizarPago(id);
     }
 
+    @RequestMapping(value ="/{id}/{valoracion}",method=RequestMethod.POST)
+    public Pago calificarServicio(@PathVariable Integer id, @PathVariable Integer valoracion){
+        return servicioPagos.agregarValoracion(id,valoracion);
+    }
 }

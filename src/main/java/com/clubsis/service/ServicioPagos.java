@@ -218,7 +218,11 @@ public class ServicioPagos {
         return cuotaExtraordinariaRepository.saveAndFlush(cuota);
     }
 
-    //TODO: Agregar Observaciones
+    public Pago agregarValoracion(Integer idPago , Integer valoracion){
+        Pago servicioCalificado=pagoRepository.findOne(idPago);
+        servicioCalificado.setValoracion(valoracion);
+        return pagoRepository.saveAndFlush(servicioCalificado);
+    }
 
 
     public void pagosEventoAnulado(Integer idEvento){

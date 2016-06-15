@@ -36,7 +36,7 @@ public class Pago {
     private EstadoPago estadoPago;
     private TipoPago tipoPago;
     private TipoCliente tipoCliente;
-    private String valoracion;
+    private Integer valoracion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Socio socio;
@@ -59,7 +59,7 @@ public class Pago {
     protected Pago() {
     }
 
-    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, String valoracion,
+    public Pago(String descripcion,Double mora, Double montoTotal, Date fechaVencimiento, Date fechaAnulacion, Date fechaPago, Date fechaRegistro, EstadoPago estadoPago, TipoPago tipoPago, Integer valoracion,
                 Socio socio, Evento evento, ReservaBungalow reservaBungalow, RegistroClase registroClase, ReservaInstalacion reservaInstalacion,Multa multa,TipoCliente tipoCliente) {
         this.descripcion=descripcion;
         this.mora = mora;
@@ -120,11 +120,11 @@ public class Pago {
         this.tipoPago = tipoPago;
     }
 
-    public String getValoracion() {
+    public Integer getValoracion() {
         return valoracion;
     }
 
-    public void setValoracion(String valoracion) {
+    public void setValoracion(Integer valoracion) {
         this.valoracion = valoracion;
     }
 
