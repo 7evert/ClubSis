@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Blitz on 18/05/2016.
@@ -182,5 +179,20 @@ public class ServicioMembresias {
             }
         }
     }
+
+    //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
+    //@Scheduled(cron="0 */10 * * * *")// cada 10 minutos
+    @Scheduled(cron="0 0 0 * * ?")// cada dia
+    public void activarSuspensiones(){
+        List<Suspension> suspensiones=suspensionRepository.findAll();
+        for(Suspension item:suspensiones){
+            if(item.getFechaInicio().after(new Date()) && item.getEstado()==EstadoSuspension.ACEPTADA){
+                Socio socioSuspendido=item.getSocio();
+                socioSuspendido.setEstado(EstadoSocio.SUSPENDIDO);
+                socioRepository.saveAndFlush(socioSuspendido);
+            }
+        }
+    }
+
 
 }
