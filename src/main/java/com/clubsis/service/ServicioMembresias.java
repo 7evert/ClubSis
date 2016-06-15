@@ -3,13 +3,16 @@ package com.clubsis.service;
 import com.clubsis.model.clase.RegistroClase;
 import com.clubsis.model.club.Usuario;
 import com.clubsis.model.pago.CuotaExtraordinaria;
+import com.clubsis.model.pago.EstadoPago;
 import com.clubsis.model.pago.Pago;
+import com.clubsis.model.pago.TipoPago;
 import com.clubsis.model.persona.*;
 import com.clubsis.model.sede.ReservaInstalacion;
 import com.clubsis.repository.club.UsuarioRepository;
 import com.clubsis.repository.persona.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -162,5 +165,22 @@ public class ServicioMembresias {
 
     }
 
+    //@Scheduled(cron="*/10 * * * * *")// cada 10 segundos
+    //@Scheduled(cron="0 */10 * * * *")// cada 10 minutos
+    @Scheduled(cron="0 0 0 * * ?")// cada dia
+    public void membresiasDeudores(){
+        List<Socio> socios=socioRepository.findAll();
+        for(Socio item:socios){ //Se anulara la membresia si es que no esta al dia en sus pagos de membresia
+            if(item.getEstado()==EstadoSocio.ACTIVO){
+                List<Pago> pagos=new ArrayList<>(item.getPagos());
+                for(Pago itemPago:pagos){
+                    if(itemPago.getEstadoPago()== EstadoPago.VENCIDO && itemPago.getTipoPago()== TipoPago.MEMBRESIA){
+                        item.setEstado(EstadoSocio.SUSPENDIDO);
+                        socioRepository.saveAndFlush(item);
+                    }
+                }
+            }
+        }
+    }
 
 }
